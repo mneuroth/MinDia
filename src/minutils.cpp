@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/minutils.cpp,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2003/10/26 17:21:01  min
+ *	New Methods include: IsAbsPath(), ConvertToRelPath();
+ *	
  *	Revision 1.2  2003/10/03 23:00:41  min
  *	Bugfix in GetNoOfFiles() not only readonly files counting.
  *	
@@ -110,11 +113,16 @@ const int MAX_BUFFER_LENGTH =	512;
 	strcpy( sBuffer, sBuf );
   }
 
+  // function necassary because of linux gcc3.3
+  static char _mytolower( char ch )
+  {
+  	return tolower( ch );
+  }
 
   string string_tolower( const string & s )
   {
 	  string sTemp = s;
-      transform( sTemp.begin(), sTemp.end(), sTemp.begin(), tolower );
+      transform( sTemp.begin(), sTemp.end(), sTemp.begin(), _mytolower );
 	  return sTemp;
   }
 
@@ -175,10 +183,11 @@ const int MAX_BUFFER_LENGTH =	512;
 	  SplitPath( strFileName, sDrive, sDir, sFileName, sExt );
 
 	  // if actual drive != drive of path ? --> error
+#ifdef _WIN32
 	  if( sDrive.length()>0 )
 	  {
 		  string sActDrive;
-		  
+
 		  sActDrive += (char)(_getdrive()-1+'A');
 
 		  if( string_tolower( sActDrive ) == string_tolower( sDrive ) )
@@ -186,13 +195,14 @@ const int MAX_BUFFER_LENGTH =	512;
 			  return strFileName;
 		  }
 	  }
+#endif
 
 	  // pfad relativ machen
 	  if( IsAbsPath( sDir.c_str() ) )
 	  {
 		  char sBuffer[MAX_BUFFER_LENGTH];
 
-		  string sActPath = _getcwd( sBuffer, MAX_BUFFER_LENGTH );
+		  string sActPath = getcwd( sBuffer, MAX_BUFFER_LENGTH );
 		  sActPath += GetDirectorySeparator();
 		  string _sDrive;
 		  string sActDir;
@@ -206,8 +216,8 @@ const int MAX_BUFFER_LENGTH =	512;
 #endif
 
 		  // relative path = absolute path - (actual drive + actual directory)
-		  // ../../../f/g    = /a/f/g   /a/b/c/d  
-		  // ../../../../f/g = /x/f/g   /a/b/c/d  
+		  // ../../../f/g    = /a/f/g   /a/b/c/d
+		  // ../../../../f/g = /x/f/g   /a/b/c/d
 		  // ./d             = /a/b/c/d /a/b/c
 
 		  vector<string> aActDir = SplitPathInItems( sActDir );
@@ -215,7 +225,8 @@ const int MAX_BUFFER_LENGTH =	512;
 
 		  // subtract equal path-parts (from root)
 		  // (/a) = /f/g  /b/c/d
-		  for( int i=0; i<min(aActDir.size(),aPathDir.size()); i++ )
+		  int i = 0;
+		  for( i=0; i<(int)min(aActDir.size(),aPathDir.size()); i++ )
 		  {
 			  if( aActDir[i] != aPathDir[i] )
 			  {
@@ -226,7 +237,7 @@ const int MAX_BUFFER_LENGTH =	512;
 		  {
 			  aActDir.erase( aActDir.begin(), aActDir.begin()+i );
 			  aPathDir.erase( aPathDir.begin(), aPathDir.begin()+i );
-		  }		  
+		  }
 
 		  // count the directoreis and add the rest of the path
 		  // ../../../f/g
@@ -245,12 +256,12 @@ const int MAX_BUFFER_LENGTH =	512;
 			  s += ".";
 			  s += GetDirectorySeparator();
 		  }
-		  for( i=0; i<aActDir.size(); i++ )
+		  for( i=0; i<(int)aActDir.size(); i++ )
 		  {
 			  s += sCdUp;
 			  s += GetDirectorySeparator();
 		  }
-		  for( i=0; i<aPathDir.size(); i++ )
+		  for( i=0; i<(int)aPathDir.size(); i++ )
 		  {
 			  s += aPathDir[i];
 			  s += GetDirectorySeparator();
@@ -303,7 +314,17 @@ const int MAX_BUFFER_LENGTH =	512;
 	bool bFoundFile = false;
 	for( int i=strlen( sPath )-1; i>=0; i-- )
 	{
-		if( !bFoundExt && sPath[i]=='.' )
+		// ist the path something like that: '/abc/def/'
+		if( !bFoundExt && sPath[i]==FileUtilityObj::GetDirectorySeparator() )
+		{
+			bFoundExt = true;
+			bFoundFile = true;
+			// means: no extention and no filename found !
+			strcpy( sExtBuf, sBuffer );
+			strcpy( sNameBuf, sBuffer );
+			strcpy( sBuffer, "" );
+		}
+		if( !bFoundExt && !bFoundFile && sPath[i]=='.' )
 		{
 			bFoundExt = true;
 			_InsertChar( sBuffer, sPath[i] );
@@ -338,7 +359,7 @@ const int MAX_BUFFER_LENGTH =	512;
 	sDir = sDirBuf;
 	sFileName = sNameBuf;
 	sExt = sExtBuf;
-	//cout << "SPLIT: " << sDirBuf << " *** " << sNameBuf << " *** " << sExtBuf << endl;
+	//cout << "SPLIT: " << sPath << " --> " << sDirBuf << " *** " << sNameBuf << " *** " << sExtBuf << endl;
 	return true;
   }
 
