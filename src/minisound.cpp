@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/minisound.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -58,6 +61,9 @@ int mciGetErrorStringX( int iErrorNo, char * sBuffer, int iBufferLength )
 
 #ifdef __linux__
 
+#define DEBUG_OUT(x)	
+//#define DEBUG_OUT(x)	x
+
 #include "wavfile.h"
 #include "mp3file.h"
 
@@ -95,7 +101,7 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 {
 	if( strncmp( lpszCommand, _PLAY, strlen( _PLAY ) ) == 0 )
 	{
-		cout << _PLAY << endl;
+		DEBUG_OUT( cout << _PLAY << endl; )
 
 		int iFromPos = 0;
 		int iToPos = -1;
@@ -111,7 +117,7 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 				sscanf( lpszCommand, "play sound from %d", &iFromPos );
 			}
 
-			cout << "play pos " << iFromPos << " " << iToPos << endl;
+			DEBUG_OUT( cout << "play pos " << iFromPos << " " << iToPos << endl; )
 		}
 
 		if( g_bIsWavFile )
@@ -131,7 +137,7 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 	}
 	else if( strncmp( lpszCommand, _FADE_IN, strlen( _FADE_IN ) ) == 0 )
 	{
-		cout << _FADE_IN << endl;
+		DEBUG_OUT( cout << _FADE_IN << endl; )
 
 		int iFromPosInMS = 0;
 		int iLengthInMS = -1;
@@ -153,7 +159,7 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 	}
 	else if( strncmp( lpszCommand, _FADE_OUT, strlen( _FADE_OUT ) ) == 0 )
 	{
-		cout << _FADE_OUT << endl;
+		DEBUG_OUT( cout << _FADE_OUT << endl; )
 
 		int iFromPosInMS = 0;
 		int iLengthInMS = -1;
@@ -175,7 +181,7 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 	}
 	else if( strncmp( lpszCommand, _RESUME, strlen( _RESUME ) ) == 0 )
 	{
-		cout << _RESUME << endl;
+		DEBUG_OUT( cout << _RESUME << endl; )
 
 		if( g_bIsWavFile )
 		{
@@ -190,7 +196,7 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 	}
 	else if( strncmp( lpszCommand, _PAUSE, strlen( _PAUSE ) ) == 0 )
 	{
-		cout << _PAUSE << endl;
+		DEBUG_OUT( cout << _PAUSE << endl; )
 
 		if( g_bIsWavFile )
 		{
@@ -204,7 +210,7 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 	}
 	else if( strncmp( lpszCommand, _STOP, strlen( _STOP ) ) == 0 )
 	{
-		cout << _STOP << endl;
+		DEBUG_OUT( cout << _STOP << endl; )
 
 		if( g_bIsWavFile )
 		{
@@ -218,11 +224,11 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 	}
 	else if( strncmp( lpszCommand, _OPEN, strlen( _OPEN ) ) == 0 )
 	{
-		cout << _OPEN << endl;
+		DEBUG_OUT( cout << _OPEN << endl; )
 
 		char sBuf[512];
 		sscanf( lpszCommand, "open %s alias sound", sBuf );
-		cout << "file: " << sBuf << endl;
+		DEBUG_OUT( cout << "file: " << sBuf << endl; )
 
 		// is the file a wav or mp3 file?
 		// look for the extension (*.wav or *.mp3)
@@ -275,7 +281,7 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 	}
 	else if( strncmp( lpszCommand, _CLOSE, strlen( _CLOSE ) ) == 0 )
 	{
-		cout << _CLOSE << endl;
+		DEBUG_OUT( cout << _CLOSE << endl; )
 
 		if( g_bIsWavFile )
 		{
@@ -291,10 +297,10 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 	{
 		char sBuf[512];
 
-//		cout << _STATUS << endl;
+//		DEBUG_OUT( cout << _STATUS << endl; )
 		if( strstr( lpszCommand, _SUB_POSITION ) != 0 )
 		{
-//			cout << "SUB: " << _SUB_POSITION << endl;
+//			DEBUG_OUT( cout << "SUB: " << _SUB_POSITION << endl; )
 
 			// ** + 10 for rounding errors ... (double --> int)
 			if( g_bIsWavFile )
@@ -308,11 +314,11 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 			}
 			strncpy( lpszReturnString, sBuf, cchReturn );
 
-//			cout << "return: " << lpszReturnString << endl;
+//			DEBUG_OUT( cout << "return: " << lpszReturnString << endl; )
 		}
 		else if( strstr( lpszCommand, _SUB_LENGTH ) != 0 )
 		{
-			cout << "SUB: " << _SUB_LENGTH << endl;
+			DEBUG_OUT( cout << "SUB: " << _SUB_LENGTH << endl; )
 
 			if( g_bIsWavFile )
 			{
@@ -325,11 +331,11 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 			}
 			strncpy( lpszReturnString, sBuf, cchReturn );
 
-			cout << "return: " << lpszReturnString << endl;
+			DEBUG_OUT( cout << "return: " << lpszReturnString << endl; )
 		}
 		else if( strstr( lpszCommand, _SUB_MODE ) != 0 )
 		{
-			cout << "SUB: " << _SUB_MODE << endl;
+			DEBUG_OUT( cout << "SUB: " << _SUB_MODE << endl; )
 
 			if( g_bIsWavFile )
 			{
@@ -363,17 +369,17 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 				}
 			}
 
-			cout << "return: " << lpszReturnString << endl;
+			DEBUG_OUT( cout << "return: " << lpszReturnString << endl; )
 		}
 		else
 		{
-			cout << "WARNING: sub command not handled ! " << lpszCommand << endl;
+			DEBUG_OUT( cout << "WARNING: sub command not handled ! " << lpszCommand << endl; )
 			return -2;
 		}
 	}
 	else
 	{
-		cout << "WARNING: command not handled ! --> " << lpszCommand << endl;
+		DEBUG_OUT( cout << "WARNING: command not handled ! --> " << lpszCommand << endl; )
 		return -1;
 	}
 
