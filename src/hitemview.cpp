@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/hitemview.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -389,8 +392,6 @@ void HItemView::contentsMouseMoveEvent( QMouseEvent * pEvent )
 							iOffset = 0;
 						}
 
-						int ii = *aIter + iOffset;
-
 						sltSelectItem( *aIter + iOffset, 0 );
 						sltDeleteAllSlectedItems();
 						++aIter;
@@ -508,7 +509,7 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 		// insert all droped image files at the found position 
 		if( QUriDrag::decode( pEvent, aStrList ) )
 		{
-			for( int i=0; i<aStrList.count(); i++ )
+			for( int i=0; i<(int)aStrList.count(); i++ )
 			{
 				const QString sTest = aStrList.at( i );
 				const char * s = (const char *)sTest;
