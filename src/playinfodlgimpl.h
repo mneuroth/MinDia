@@ -8,12 +8,15 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/playinfodlgimpl.h,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2004/02/20 20:11:07  min
+ *	Bugfixes and fullscreen button implemented.
+ *
  *	Revision 1.1.1.1  2003/08/15 16:38:22  min
  *	Initial checkin of MinDia Ver. 0.97.1
- *	
+ *
  *
  ***************************************************************************/
 /***************************************************************************
@@ -32,7 +35,11 @@
 #ifndef _PLAYINFODLGIMPL_H
 #define _PLAYINFODLGIMPL_H
 
+#ifndef ZAURUS
 #include "PlayInfoDlg.h"
+#else
+#include "ZPlayInfoDlg.h"
+#endif
 
 #include "iscript.h"
 #include "minhandle.h"

@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/playinfodlgimpl.cpp,v $
  *
- *  $Revision: 1.5 $
+ *  $Revision: 1.6 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.5  2004/04/09 15:20:54  min
+ *	removed inline for _FadeImage()
+ *
  *	Revision 1.4  2004/02/20 20:11:07  min
  *	Bugfixes and fullscreen button implemented.
  *	
@@ -42,7 +45,11 @@
 
 #include "appconfig.h"
 
+#ifndef ZAURUS
 #include "qtmtlock.h"
+#else
+class QtMTLock {};
+#endif
 
 #include "misctools.h"
 
@@ -274,7 +281,7 @@ int init_cache()
 {
 	for (int mask = 0; mask < 256; mask++) { 
 	  for (int farbe = 0; farbe < 256; farbe++) { 
-		oben[(mask << 8) + farbe]  = (farbe * (mask+1)) >> 8; 
+		oben[(mask << 8) + farbe]  = (farbe * (mask+1)) >> 8;
 		unten[(mask << 8) + farbe] = (farbe * (256-mask)) >> 8; 
 	  } 
 	} 
@@ -426,8 +433,10 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, co
 	m_pCanvasView->SetPopupMenu( new PlayInfoContextMenu( this, this ) );
 
 	m_pDisplayImage->setChecked( true );
+#ifndef ZAURUS
 	//m_pScaleExpand->setChecked( true );		// neu seit 15.2.2003
 	m_pScaleOriginal->setChecked( true );
+#endif
 
 	m_pCanvas->SetImagePtr( &m_aScaledImage );
 }
@@ -466,12 +475,14 @@ void PlayInfoDlgImpl::FullScreen()
 		PlayInfoDialogLayout->setMargin( 0 );
 
 		m_pDisplayImage->hide();
-		m_pClose->hide();
 		m_pRun->hide();
 		m_pPause->hide();
 		m_pStop->hide();
 		m_pFullScreen->hide();
+#ifndef ZAURUS
 		m_pScaleImageGroup->hide();
+		m_pClose->hide();
+#endif
 
 		delete m_pButtonLayout;
 		m_pButtonLayout = 0;
@@ -501,8 +512,10 @@ void PlayInfoDlgImpl::RestoreSize()
 
 		// anscheinend werden auch Sub-Layouts zerstoert
 		// wenn der Eltern-Layout-Container zerstoert wird !
-		m_pLeftContainer = new QVBoxLayout( 0, 0, 6, "m_pLeftContainer"); 
-		m_pButtonContainer = new QHBoxLayout( 0, 1, 1, "m_pButtonContainer"); 
+#ifndef ZAURUS
+// TODO !!!
+		m_pLeftContainer = new QVBoxLayout( 0, 0, 6, "m_pLeftContainer");
+		m_pButtonContainer = new QHBoxLayout( 0, 1, 1, "m_pButtonContainer");
 		m_pButtonContainer->addWidget( m_pRun );
 		m_pButtonContainer->addWidget( m_pPause );
 		m_pButtonContainer->addWidget( m_pStop );
@@ -511,25 +524,29 @@ void PlayInfoDlgImpl::RestoreSize()
 		m_pLeftContainer->addWidget( m_pDisplayImage );
 
 		m_pButtonLayout->addLayout( m_pLeftContainer );
+#endif
 	    QSpacerItem* spacer1 = new QSpacerItem( 19, 15, QSizePolicy::Expanding, QSizePolicy::Minimum );
 	    m_pButtonLayout->addItem( spacer1 );
+#ifndef ZAURUS
 		m_pButtonLayout->addWidget( m_pScaleImageGroup );
 	    QSpacerItem* spacer2 = new QSpacerItem( 16, 16, QSizePolicy::Expanding, QSizePolicy::Minimum );
 	    m_pButtonLayout->addItem( spacer2 );
 	    m_pButtonLayout->addWidget( m_pClose );
-
+#endif
 		// ** see PlayInfoDlg.cpp for the values **
 	    PlayInfoDialogLayout->setSpacing( 2 );	// 6
 		PlayInfoDialogLayout->setMargin( 2 );	// 11
 	    PlayInfoDialogLayout->addLayout( m_pButtonLayout );
 
 		m_pDisplayImage->show();
-		m_pClose->show();
 		m_pRun->show();
 		m_pPause->show();
 		m_pStop->show();
 		m_pFullScreen->show();
+#ifndef ZAURUS
 		m_pScaleImageGroup->show();
+		m_pClose->show();
+#endif
 
 		//m_pCanvasView->setLineWidth( 2 );
 		m_pCanvasView->setFrameShadow( QFrame::Sunken );
@@ -1044,6 +1061,7 @@ void PlayInfoDlgImpl::sltFadeInTimer()
 
 void PlayInfoDlgImpl::sltSaveActImage( const QString & sImageFormat )
 {
+#ifndef ZAURUS
 	QString sExt( "*." );
 	sExt += sImageFormat;
 
@@ -1053,6 +1071,7 @@ void PlayInfoDlgImpl::sltSaveActImage( const QString & sImageFormat )
 	{
 		/*bool bOk =*/ m_aActImage.save( sFileName, (const char *)sImageFormat );
 	}
+#endif
 }
 
 void PlayInfoDlgImpl::sltDispImageToggled( bool /*bState*/ )
@@ -1119,6 +1138,7 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
 		m_aScaleTime.Start();
 		if( !aImage.isNull() )
 		{
+#ifndef ZAURUS
 			if( m_pScaleOriginal->isChecked() )
 			{
 				aScaledImage = aImage;
@@ -1138,6 +1158,10 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
 				aScaledImage = aImage.smoothScale( aFrameRect.width(), aFrameRect.height() );
 				// Performance remark: 548x360 --> 1024x768 takes ca. 110ms
 			}
+#else
+			aScaledImage = aImage.smoothScale( aFrameRect.width(), aFrameRect.height() );
+			//aScaledImage = aImage;
+#endif
 		}
 		else
 		{
@@ -1145,7 +1169,7 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
 		}
 		m_aScaleTime.Stop();
 		// ** for performance tests...
-		//cout << "scale= " << m_aScaleTime.GetAverageTimeInMS() << endl; 
+		//cout << "scale= " << m_aScaleTime.GetAverageTimeInMS() << endl;
 	}
 	else
 	{

@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/doccontroler.cpp,v $
  *
- *  $Revision: 1.8 $
+ *  $Revision: 1.9 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.8  2004/04/09 15:19:02  min
+ *	Added image cache for movie support.
+ *	
  *	Revision 1.7  2004/03/19 13:32:46  min
  *	Bugfix for the script command GetDocName(), saving presentation name in a local member variable
  *	
@@ -561,7 +564,10 @@ void DocumentAndControler::sltPlayPresentation()
 
 void DocumentAndControler::sltStopPresentation()
 {
-	m_pTimer->stop();
+	if( m_pTimer )
+	{
+		m_pTimer->stop();
+	}
 
 	// ** stop the presentation
 	GetPresentation().StopPlay();
@@ -578,7 +584,10 @@ void DocumentAndControler::sltStopPresentation()
 
 void DocumentAndControler::sltPausePresentation()
 {
-	m_pTimer->stop();
+	if( m_pTimer )
+	{
+		m_pTimer->stop();
+	}
 
 	// ** suspend the presentation
 	GetPresentation().PausePlay();
@@ -678,7 +687,10 @@ void DocumentAndControler::sltAddGraphicOperation()
 
 void DocumentAndControler::sltTimerEvent()
 {
-	m_pTimer->stop();
+	if( m_pTimer )
+	{
+		m_pTimer->stop();
+	}
 
 	// process next slide
 	double dTimerInSeconds = 0;
@@ -708,7 +720,10 @@ void DocumentAndControler::sltTimerEvent()
 			sltUpdateStatusBar();
 		}
 
-		m_pTimer->start( iTimer, /*single shot*/TRUE );
+		if( m_pTimer )
+		{
+			m_pTimer->start( iTimer, /*single shot*/TRUE );
+		}
 	}
 
 	//sltUpdateStatusBar();

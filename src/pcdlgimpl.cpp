@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/pcdlgimpl.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:22  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -94,9 +97,11 @@ void ProjectorControlDlgImpl::DoDialogEnable( bool bEnable )
 	}
 
 	// ** close-, status- and test-button is always active
+#ifndef ZAURUS
 	m_pCloseButton->setEnabled( true );
 	m_pTestButton->setEnabled( true );
 	m_pStatusButton->setEnabled( true );
+#endif
 }
 
 
