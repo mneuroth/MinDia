@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diapresentation.cpp,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2003/10/26 17:36:05  min
+ *	MakeRelativePaths() added.
+ *	
  *	Revision 1.2  2003/08/15 19:38:32  min
  *	debug comments deleted
  *	
@@ -278,6 +281,7 @@ void DiaPresentation::MakeRelativePaths()
 	m_sName = FileUtilityObj::ConvertToRelPath( m_sName.c_str() );
 	m_aDiaContainer.MakeRelativePaths();
 	m_aSoundInfoContainer.MakeRelativePaths();
+	m_aObjectChanged.SetChanged();
 }
 
 double DiaPresentation::GetOffsetForSound() const

@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mp3file.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/10/26 17:28:55  min
+ *	Implemented function to calculate mp3-file length for linux.
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -261,8 +264,10 @@ double Mp3File::getTotalPlayTimeInSeconds()
 		{
 			m_iLengthInSeconds = aMP3Header.intLength;
 		}
-	
-		m_iLengthInSeconds = 0;
+		else
+		{
+			m_iLengthInSeconds = 0;
+		}
 	}
 	return (double)m_iLengthInSeconds;
 }

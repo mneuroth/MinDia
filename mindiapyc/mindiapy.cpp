@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/mindiapyc/mindiapy.cpp,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2003/10/26 17:31:45  min
+ *	Bugfix.
+ *	
  *	Revision 1.2  2003/10/03 23:02:43  min
  *	Scripts in own directory moved, better error-handling (defining own exception handler)
  *	
@@ -160,6 +163,9 @@ void IGeneralScriptVMImpl::InitVM( int argc, char** argv )
 	// ok, this call is important ! otherwies external modules will not be found...
 	PySys_SetArgv( argc, argv );
 
+	// ** register mindia-functions at the python interpreter
+	initmindiapyc();
+
 	// update the search path, so that all the scripts will be found
 	int ok = PyRun_SimpleString("import sys, traceback\n");
 	// loop through the paths you want to add
@@ -173,14 +179,10 @@ void IGeneralScriptVMImpl::InitVM( int argc, char** argv )
 	ok = PyRun_SimpleString("import mindiapyc\n");
 	//ok = PyRun_SimpleString("import mindiapy\n");
 	sprintf( sBuffer, 
-		     "def my_error_handler(type,value,tracebk):\n    list = traceback.format_tb(tracebk, None) + traceback.format_exception_only(type, value)\n    s = \"Error in script:\\n\" + ''.join(list[:-1]) + list[-1]\n    mindiapyc.PrintLn(s)\n    del tracebk\n\nsys.excepthook = my_error_handler", 
-			 hScriptFcn->GetScriptDirecotry() );
+		     "def my_error_handler(type,value,tracebk):\n    list = traceback.format_tb(tracebk, None) + traceback.format_exception_only(type, value)\n    s = \"Error in script:\\n\" + ''.join(list[:-1]) + list[-1]\n    mindiapyc.PrintLn(s)\n    del tracebk\n\nsys.excepthook = my_error_handler" );
 	ok = PyRun_SimpleString( sBuffer );
 
 	//Py_VerboseFlag = 2;
-
-	// ** register mindia-functions at the python interpreter
-	initmindiapyc();
 
 //	PyObject * p = PyImport_ImportModule( "Tkinter" );
 #endif
