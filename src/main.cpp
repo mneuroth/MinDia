@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/main.cpp,v $
  *
- *  $Revision: 1.5 $
+ *  $Revision: 1.6 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.5  2004/01/18 23:42:05  min
+ *	Windows only: get path .mindia.ini from registry.
+ *	
  *	Revision 1.4  2003/11/09 14:25:45  min
  *	gendev project added
  *	
@@ -402,6 +405,10 @@ int main( int argc, char** argv )
 		{
 			QString sSize = s.right( s.length()-3 );
 			iPosY = sSize.toInt();
+		}
+		else if( s == "-en" )
+		{
+			sLanguage = "en";
 		}
 		else if( s == "-de" )
 		{
