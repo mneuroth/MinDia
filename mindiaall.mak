@@ -108,9 +108,12 @@ make_bindist:	make_bindist_help
 #
 make_cddist:	make_bindist_help
 	-$(MKDIR) $(BINDIST_DIR)\lib
-	-$(COPY) $(PYTHON_DIR)\..\lib\site-packages\*.pyd $(BINDIST_DIR)\lib
-	-$(COPY) $(PYTHON_DIR)\..\lib\site-packages\*.py $(BINDIST_DIR)\lib
+	-$(COPY) $(PYTHON_DIR)\..\lib\site-packages\libsip.dll $(BINDIST_DIR)\lib
+	-$(COPY) $(PYTHON_DIR)\..\lib\site-packages\libqt*.pyd $(BINDIST_DIR)\lib
+	-$(COPY) $(PYTHON_DIR)\..\lib\site-packages\qt*.py $(BINDIST_DIR)\lib
 	-$(COPY) $(PYTHON_DIR)\..\lib\*.py $(BINDIST_DIR)\lib
+	-$(COPY) $(PYTHON_DIR)\..\PCbuild\*.py $(BINDIST_DIR)\lib
+	-$(COPY) $(PYTHON_DIR)\..\PCbuild\*.pyd $(BINDIST_DIR)\lib
 	-$(COPY) $(PYTHON_DIR)\python.exe $(BINDIST_DIR)
 	
 
