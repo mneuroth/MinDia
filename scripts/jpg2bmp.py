@@ -85,6 +85,8 @@ def convert_jpeg2bmp( sNameIn, sNameOut, iWidth = 800, iHeight = 600 ):
     # convert a jpeg image into a bmp image
     im = Image.open( sNameIn )
     x,y = im.size
+    if iHeight==-1:
+         iHeight = iWidth * y / x
     if x < y:
         iHeight,iWidth = iWidth,iHeight	  
     if iWidth!=0 and iHeight!=0 :
