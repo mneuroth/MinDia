@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/doccontroler.cpp,v $
  *
- *  $Revision: 1.4 $
+ *  $Revision: 1.5 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.4  2003/10/26 22:38:48  min
+ *	calculate home directory for linux
+ *	
  *	Revision 1.3  2003/10/26 17:35:01  min
  *	Saved more values in the ini-file.
  *	
@@ -57,6 +60,7 @@ const string g_sLastFilesKey = "datafile";
 #ifdef __linux__
 #define _OFFSET_INI_FILE_PATH "~/"
 #else
+#include <windows.h>
 #define _OFFSET_INI_FILE_PATH ""
 #endif
 
@@ -68,10 +72,37 @@ const char * c_sProjectorTypeKey	= "projector_id";
 
 string GetPathToIniFile()
 {
+	string sPath;
 #ifdef __linux__
-	string sPath = getenv( "HOME" );
+	const char * s = getenv( "HOME" );
+	if( s )
+	{
+		sPath += s;
+	}
 	return sPath+"/";
 #else
+	// HKEY_CURRENT_USER.Software.mindia.inifile
+	HKEY hKey;
+	if( RegOpenKeyEx( HKEY_CURRENT_USER, "Software", 0, KEY_ALL_ACCESS, &hKey ) == ERROR_SUCCESS )
+	{
+		HKEY hKeyMindia;
+		if( RegOpenKeyEx( hKey, "mindia", 0, KEY_ALL_ACCESS, &hKeyMindia ) == ERROR_SUCCESS )
+		{
+			char sBuffer[512];
+			DWORD dwLength = 512;
+			DWORD dwType = REG_SZ;
+
+			RegQueryValueEx( hKeyMindia, "inifile", NULL, &dwType, (LPBYTE)sBuffer, &dwLength );
+
+			sPath = sBuffer;
+
+			RegCloseKey( hKeyMindia );
+		}
+
+		RegCloseKey( hKey );
+
+		return sPath+"\\";
+	}
 	return _OFFSET_INI_FILE_PATH;
 #endif
 }
@@ -91,9 +122,9 @@ DocumentAndControler::DocumentAndControler( bool bIgnoreComSettings,
   m_aCom( bIgnoreComSettings, bSimulation, iProjectorType, pLoggingChannel, &m_aIniDB ),
   m_aSoundPlayer( &m_aIniDB ),
   m_aPresentation( this, "newpresentation.dia", &m_aIniDB, pLoggingChannel, pOutputWindowProxy ),
+  m_pLoggingChannel( pLoggingChannel ),
   m_pTimer( 0 ),
   m_iLastFoundPos( -1 ),
-  m_pLoggingChannel( pLoggingChannel ),
   m_pOutputWindowProxy( pOutputWindowProxy )
 {
 	m_aPresentation.SetProjectorCom( &m_aCom );
@@ -139,7 +170,6 @@ void DocumentAndControler::ReadIniValues()
 	MiniIniDB &	aIniDB = GetIniDB();
 
 	char sBuffer[256];
-	char sResult[256];
 
 	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sSimulationKey );
 	if( aIniDB.HasKey( sBuffer ) )
