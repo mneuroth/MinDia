@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/zaurus/zmindia.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:22  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -66,6 +69,8 @@ using namespace std;
 #include <qpe/fileselector.h>
 #include <qpe/config.h>
 
+#include <qpe/qcopenvelope_qws.h>
+
 #include <qaction.h>
 #include <qpushbutton.h>
 #include <qmultilineedit.h>
@@ -105,6 +110,12 @@ static int u_id = 1;
 static int get_unique_id()
 {
     return u_id++;
+}
+
+static void SetScreenSaverInterval( int iTimeInSeconds )
+{
+	QCopEnvelope e( "QPE/System", "setScreenSaverInterval(int)" );
+	e << iTimeInSeconds;
 }
 
 static void copyDocLnk(const DocLnk &source, DocLnk &target)
@@ -355,6 +366,9 @@ void ZMinDia::sltPlayStart()
 	if( m_aDocContrl.IsEditModus() || m_aDocContrl.IsPauseModus() )
 	{
 		m_aDocContrl.Play();
+
+		// disable the screen saver for the length of the slide show
+		SetScreenSaverInterval((int)(m_aDocContrl.GetPresentation().GetTotalTime())+15);
 	}
 }
 
@@ -656,6 +670,12 @@ void ZMinDia::sltShowWarningMessage( const QString & sMessage )
 
 void ZMinDia::sltModusIsSwitched()
 {
+}
+
+void ZMinDia::sltPlayFinished()
+{
+	// reset the screen saver interval to a reasonable value (60s)
+	SetScreenSaverInterval( 60 );
 }
 
 void ZMinDia::sltSelectItem( int iIndex, int /*iDissolveTimeInMS*/ )
