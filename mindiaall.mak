@@ -11,6 +11,8 @@ compile:	make_run$(WITH_PYTHON)
 
 install:	make_install$(WITH_PYTHON)
 
+uninstall:	make_uninstall$(WITH_PYTHON)
+
 clean:		make_clean$(WITH_PYTHON)
 
 swig:		make_swig
@@ -45,6 +47,10 @@ make_run_with_python: 			minsrv_dll mindiapyc_dll mindia_exe gendev_dll
 make_install:					minsrv_install mindia_install gendev_install post_install
 
 make_install_with_python:		minsrv_install mindiapyc_install mindia_install gendev_install post_install
+
+make_uninstall:					minsrv_uninstall mindia_uninstall gendev_uninstall post_uninstall
+
+make_uninstall_with_python:		minsrv_uninstall mindiapyc_uninstall mindia_uninstall gendev_uninstall post_uninstall
 
 make_clean:						minsrv_clean mindia_clean bindist_clean gendev_clean
 
@@ -175,6 +181,11 @@ minsrv_install:		minsrv_dll
 	-$(LN_SYMB) $(INSTALL_DLL_DIR)/libminsrv.so.1.0.0 $(INSTALL_DLL_DIR)/libminsrv.so
 	-$(LN_SYMB) $(INSTALL_DLL_DIR)/libminsrv.so.1.0.0 $(INSTALL_DLL_DIR)/libminsrv.so.1
 
+minsrv_uninstall:
+	-$(DEL) $(INSTALL_DLL_DIR)/libminsrv.so.1.0.0
+	-$(DEL) $(INSTALL_DLL_DIR)/libminsrv.so
+	-$(DEL) $(INSTALL_DLL_DIR)/libminsrv.so.1
+
 mindia_install:		mindia_exe
 	$(COPY) mindia $(INSTALL_EXE_DIR)
 	-$(MKDIR) $(INSTALL_SHARE_DIR)
@@ -182,16 +193,49 @@ mindia_install:		mindia_exe
 	$(COPY) *.qm $(INSTALL_SHARE_DIR)
 	$(COPY) *.html $(INSTALL_SHARE_DIR)
 	$(COPY) scripts/*.py $(INSTALL_SHARE_DIR)/scripts
+	$(COPY) README $(INSTALL_SHARE_DIR)
+	$(COPY) INSTALL $(INSTALL_SHARE_DIR)
+	$(COPY) HISTORY $(INSTALL_SHARE_DIR)
+	$(COPY) COPYING $(INSTALL_SHARE_DIR)
+	$(COPY) BUGS $(INSTALL_SHARE_DIR)
+	$(COPY) AUTHORS $(INSTALL_SHARE_DIR)
 
-mindiapyc_install:
+mindia_uninstall:	
+	-$(DEL) $(INSTALL_EXE_DIR)/mindia
+	-$(DEL) -f $(INSTALL_SHARE_DIR)/*.qm
+	-$(DEL) -f $(INSTALL_SHARE_DIR)/*.html 
+	-$(DEL) -f $(INSTALL_SHARE_DIR)/scripts/*.py
+	-$(DEL) -f $(INSTALL_SHARE_DIR)/README
+	-$(DEL) -f $(INSTALL_SHARE_DIR)/INSTALL
+	-$(DEL) -f $(INSTALL_SHARE_DIR)/HISTORY
+	-$(DEL) -f $(INSTALL_SHARE_DIR)/COPYING
+	-$(DEL) -f $(INSTALL_SHARE_DIR)/BUGS
+	-$(DEL) -f $(INSTALL_SHARE_DIR)/AUTHORS
+	-$(RMDIR) $(INSTALL_SHARE_DIR)/scripts
+	-$(RMDIR) $(INSTALL_SHARE_DIR)
+
+mindiapyc_install:	mindiapyc_dll
 	$(COPY) libmindiapyc.so.1.0.0 $(INSTALL_DLL_DIR)
 	-$(LN_SYMB) $(INSTALL_DLL_DIR)/libmindiapyc.so.1.0.0 $(INSTALL_DLL_DIR)/libmindiapyc.so
 	-$(LN_SYMB) $(INSTALL_DLL_DIR)/libmindiapyc.so.1.0.0 $(INSTALL_DLL_DIR)/libmindiapyc.so.1
+
+mindiapyc_uninstall:
+	-$(DEL) $(INSTALL_DLL_DIR)/libmindiapyc.so.1.0.0 
+	-$(DEL) $(INSTALL_DLL_DIR)/libmindiapyc.so
+	-$(DEL) $(INSTALL_DLL_DIR)/libmindiapyc.so.1
 
 gendev_install:		gendev_dll
 	$(COPY) libgendev.so.1.0.0 $(INSTALL_DLL_DIR)
 	-$(LN_SYMB) $(INSTALL_DLL_DIR)/libgendev.so.1.0.0 $(INSTALL_DLL_DIR)/libgendev.so
 	-$(LN_SYMB) $(INSTALL_DLL_DIR)/libgendev.so.1.0.0 $(INSTALL_DLL_DIR)/libgendev.so.1
 
+gendev_uninstall:
+	-$(DEL) $(INSTALL_DLL_DIR)/libgendev.so.1.0.0
+	-$(DEL) $(INSTALL_DLL_DIR)/libgendev.so
+	-$(DEL) $(INSTALL_DLL_DIR)/libgendev.so.1
+
 post_install:
 	ldconfig
+
+post_uninstall:
+	echo done.
