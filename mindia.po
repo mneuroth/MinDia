@@ -39,16 +39,12 @@ msgstr ""
 msgid "AboutExtDlg::&Close"
 msgstr ""
 
-#: AboutExtDlg.cpp:58
-msgid "AboutExtDlg::&Contributions"
-msgstr ""
-
 #: AboutExtDlg.cpp:71
 msgid "AboutExtDlg::&License"
 msgstr ""
 
 #: AboutExtDlg.cpp:36
-msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.1 from 22.6.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
+msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.2 from 11.11.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
 msgstr ""
 
 #: AboutExtDlg.cpp:46
@@ -65,6 +61,10 @@ msgstr ""
 
 #: AboutExtDlg.cpp:20
 msgid "AboutExtDlg::About MinDia"
+msgstr ""
+
+#: AboutExtDlg.cpp:58
+msgid "AboutExtDlg::C&ontributions"
 msgstr ""
 
 #: ComLoggingDlg.cpp:36
@@ -363,31 +363,31 @@ msgstr ""
 msgid "DiaInfoDlgImpl::Yes"
 msgstr ""
 
-#: doccontroler.cpp:236
+#: doccontroler.cpp:339
 msgid "DocumentAndControler::Error reading file !"
 msgstr ""
 
-#: doccontroler.cpp:164
+#: doccontroler.cpp:267
 msgid "DocumentAndControler::Error reading file \""
 msgstr ""
 
-#: doccontroler.cpp:183
+#: doccontroler.cpp:286
 msgid "DocumentAndControler::Error saving file \""
 msgstr ""
 
-#: doccontroler.cpp:221
+#: doccontroler.cpp:324
 msgid "DocumentAndControler::Path of file has changed !"
 msgstr ""
 
-#: doccontroler.cpp:463
+#: doccontroler.cpp:566
 msgid "DocumentAndControler::Text not found !"
 msgstr ""
 
-#: doccontroler.cpp:171
+#: doccontroler.cpp:274
 msgid "DocumentAndControler::reading was ok !"
 msgstr ""
 
-#: doccontroler.cpp:190
+#: doccontroler.cpp:293
 msgid "DocumentAndControler::saving was ok !"
 msgstr ""
 
@@ -519,591 +519,599 @@ msgstr ""
 msgid "LicenseDlg::License"
 msgstr ""
 
-#: mindiawindow.cpp:1291
+#: mindiawindow.cpp:1300
 msgid "MinDiaWindow:: *** count: "
 msgstr ""
 
-#: mindiawindow.cpp:1285
+#: mindiawindow.cpp:1294
 msgid "MinDiaWindow:: *** next: "
 msgstr ""
 
-#: mindiawindow.cpp:1281
+#: mindiawindow.cpp:1290
 msgid "MinDiaWindow:: min"
 msgstr ""
 
-#: mindiawindow.cpp:1285
+#: mindiawindow.cpp:1294
 msgid "MinDiaWindow:: s"
 msgstr ""
 
-#: mindiawindow.cpp:384
+#: mindiawindow.cpp:388
 msgid "MinDiaWindow::&About..."
 msgstr ""
 
-#: mindiawindow.cpp:337
+#: mindiawindow.cpp:341
 msgid "MinDiaWindow::&Configuration..."
 msgstr ""
 
-#: mindiawindow.cpp:261
+#: mindiawindow.cpp:265
 msgid "MinDiaWindow::&Copy"
 msgstr ""
 
-#: mindiawindow.cpp:272
+#: mindiawindow.cpp:276
 msgid "MinDiaWindow::&Delete"
 msgstr ""
 
-#: mindiawindow.cpp:315
+#: mindiawindow.cpp:319
 msgid "MinDiaWindow::&Dissolve time..."
 msgstr ""
 
-#: mindiawindow.cpp:190
+#: mindiawindow.cpp:191
 msgid "MinDiaWindow::&Edit"
 msgstr ""
 
-#: mindiawindow.cpp:317
+#: mindiawindow.cpp:321
 msgid "MinDiaWindow::&Fade in test"
 msgstr ""
 
-#: mindiawindow.cpp:189
+#: mindiawindow.cpp:190
 msgid "MinDiaWindow::&File"
 msgstr ""
 
-#: mindiawindow.cpp:275
+#: mindiawindow.cpp:279
 msgid "MinDiaWindow::&Find..."
 msgstr ""
 
-#: mindiawindow.cpp:194
+#: mindiawindow.cpp:195
 msgid "MinDiaWindow::&Help"
 msgstr ""
 
-#: mindiawindow.cpp:388
+#: mindiawindow.cpp:392
 msgid "MinDiaWindow::&Help..."
 msgstr ""
 
-#: mindiawindow.cpp:207
+#: mindiawindow.cpp:210
 msgid "MinDiaWindow::&Import XML..."
 msgstr ""
 
-#: mindiawindow.cpp:246
+#: mindiawindow.cpp:250
 msgid "MinDiaWindow::&Import/Export"
 msgstr ""
 
-#: mindiawindow.cpp:386
+#: mindiawindow.cpp:390
 msgid "MinDiaWindow::&License..."
 msgstr ""
 
-#: mindiawindow.cpp:344
+#: mindiawindow.cpp:348
 msgid "MinDiaWindow::&Logging..."
 msgstr ""
 
-#: mindiawindow.cpp:360
+#: mindiawindow.cpp:364
 msgid "MinDiaWindow::&Modify item..."
 msgstr ""
 
-#: mindiawindow.cpp:197
+#: mindiawindow.cpp:198
 msgid "MinDiaWindow::&New"
 msgstr ""
 
-#: mindiawindow.cpp:199
+#: mindiawindow.cpp:200
 msgid "MinDiaWindow::&Open..."
 msgstr ""
 
-#: mindiawindow.cpp:263
+#: mindiawindow.cpp:267
 msgid "MinDiaWindow::&Paste"
 msgstr ""
 
-#: mindiawindow.cpp:298
+#: mindiawindow.cpp:302
 msgid "MinDiaWindow::&Pause"
 msgstr ""
 
-#: mindiawindow.cpp:191
+#: mindiawindow.cpp:192
 msgid "MinDiaWindow::&Play"
 msgstr ""
 
-#: mindiawindow.cpp:356
+#: mindiawindow.cpp:360
 msgid "MinDiaWindow::&Plot comments..."
 msgstr ""
 
-#: mindiawindow.cpp:217
+#: mindiawindow.cpp:220
 msgid "MinDiaWindow::&Print..."
 msgstr ""
 
-#: mindiawindow.cpp:255
+#: mindiawindow.cpp:259
 msgid "MinDiaWindow::&Redo"
 msgstr ""
 
-#: mindiawindow.cpp:203
+#: mindiawindow.cpp:204
 msgid "MinDiaWindow::&Save"
 msgstr ""
 
-#: mindiawindow.cpp:252
+#: mindiawindow.cpp:256
 msgid "MinDiaWindow::&Undo"
 msgstr ""
 
-#: mindiawindow.cpp:309
+#: mindiawindow.cpp:313
 msgid "MinDiaWindow::A&dd sound comment"
 msgstr ""
 
-#: mindiawindow.cpp:384
+#: mindiawindow.cpp:388
 msgid "MinDiaWindow::About"
 msgstr ""
 
-#: mindiawindow.cpp:269
+#: mindiawindow.cpp:273
 msgid "MinDiaWindow::Add &dia"
 msgstr ""
 
-#: mindiawindow.cpp:312
+#: mindiawindow.cpp:316
 msgid "MinDiaWindow::Add &graphic operation"
 msgstr ""
 
-#: mindiawindow.cpp:269
+#: mindiawindow.cpp:273
 msgid "MinDiaWindow::Add dia at current position"
 msgstr ""
 
-#: mindiawindow.cpp:312
+#: mindiawindow.cpp:316
 msgid "MinDiaWindow::Add graphic operation"
 msgstr ""
 
-#: mindiawindow.cpp:309
+#: mindiawindow.cpp:313
 msgid "MinDiaWindow::Add sound comment"
 msgstr ""
 
-#: mindiawindow.cpp:267
+#: mindiawindow.cpp:271
 msgid "MinDiaWindow::Append d&ia"
 msgstr ""
 
-#: mindiawindow.cpp:267
+#: mindiawindow.cpp:271
 msgid "MinDiaWindow::Append dia"
 msgstr ""
 
-#: mindiawindow.cpp:259
+#: mindiawindow.cpp:263
 msgid "MinDiaWindow::C&ut"
 msgstr ""
 
-#: mindiawindow.cpp:1609
+#: mindiawindow.cpp:1618
 msgid "MinDiaWindow::Can't close the application, because the presentation is still playing !"
 msgstr ""
 
-#: mindiawindow.cpp:337
+#: mindiawindow.cpp:341
 msgid "MinDiaWindow::Configuration"
 msgstr ""
 
-#: mindiawindow.cpp:261
+#: mindiawindow.cpp:265
 msgid "MinDiaWindow::Copy"
 msgstr ""
 
-#: mindiawindow.cpp:259
+#: mindiawindow.cpp:263
 msgid "MinDiaWindow::Cut"
 msgstr ""
 
-#: mindiawindow.cpp:358
+#: mindiawindow.cpp:362
 msgid "MinDiaWindow::D&yn. graphic operations..."
 msgstr ""
 
-#: mindiawindow.cpp:272
+#: mindiawindow.cpp:276
 msgid "MinDiaWindow::Delete"
 msgstr ""
 
-#: mindiawindow.cpp:358
+#: mindiawindow.cpp:362
 msgid "MinDiaWindow::Dynamic graphic operations"
 msgstr ""
 
-#: mindiawindow.cpp:219
+#: mindiawindow.cpp:222
 msgid "MinDiaWindow::E&xit"
 msgstr ""
 
-#: mindiawindow.cpp:209
+#: mindiawindow.cpp:212
 msgid "MinDiaWindow::E&xport XML..."
 msgstr ""
 
-#: mindiawindow.cpp:192
+#: mindiawindow.cpp:193
 msgid "MinDiaWindow::E&xtras"
 msgstr ""
 
-#: mindiawindow.cpp:315
+#: mindiawindow.cpp:319
 msgid "MinDiaWindow::Edit dissolve time"
 msgstr ""
 
-#: mindiawindow.cpp:1436
+#: mindiawindow.cpp:1445
 msgid "MinDiaWindow::Enter new dissolve time"
 msgstr ""
 
-#: mindiawindow.cpp:219
+#: mindiawindow.cpp:222
 msgid "MinDiaWindow::Exit"
 msgstr ""
 
-#: mindiawindow.cpp:211
+#: mindiawindow.cpp:214
 msgid "MinDiaWindow::Expo&rt..."
 msgstr ""
 
-#: mindiawindow.cpp:913
+#: mindiawindow.cpp:922
 msgid "MinDiaWindow::Export as XML"
 msgstr ""
 
-#: mindiawindow.cpp:209
+#: mindiawindow.cpp:212
 msgid "MinDiaWindow::Export data as XML file"
 msgstr ""
 
-#: mindiawindow.cpp:211
+#: mindiawindow.cpp:214
 msgid "MinDiaWindow::Export data"
 msgstr ""
 
-#: mindiawindow.cpp:213
+#: mindiawindow.cpp:216
 msgid "MinDiaWindow::Export dyn. &graphics..."
 msgstr ""
 
-#: mindiawindow.cpp:933
+#: mindiawindow.cpp:942
 msgid "MinDiaWindow::Export dynamic graphic data"
 msgstr ""
 
-#: mindiawindow.cpp:921
+#: mindiawindow.cpp:930
 msgid "MinDiaWindow::Export to XML was aborted"
 msgstr ""
 
-#: mindiawindow.cpp:319
+#: mindiawindow.cpp:323
 msgid "MinDiaWindow::Fade &out test"
 msgstr ""
 
-#: mindiawindow.cpp:317
+#: mindiawindow.cpp:321
 msgid "MinDiaWindow::Fade in test"
 msgstr ""
 
-#: mindiawindow.cpp:319
+#: mindiawindow.cpp:323
 msgid "MinDiaWindow::Fade out test"
 msgstr ""
 
-#: mindiawindow.cpp:171
+#: mindiawindow.cpp:172
 msgid "MinDiaWindow::File Operations"
 msgstr ""
 
-#: mindiawindow.cpp:277
+#: mindiawindow.cpp:281
 msgid "MinDiaWindow::Find &next"
 msgstr ""
 
-#: mindiawindow.cpp:277
+#: mindiawindow.cpp:281
 msgid "MinDiaWindow::Find next"
 msgstr ""
 
-#: mindiawindow.cpp:1405
+#: mindiawindow.cpp:1414
 msgid "MinDiaWindow::Find"
 msgstr ""
 
-#: mindiawindow.cpp:388
+#: mindiawindow.cpp:392
 msgid "MinDiaWindow::Help for mindia"
 msgstr ""
 
-#: mindiawindow.cpp:215
+#: mindiawindow.cpp:218
 msgid "MinDiaWindow::Import d&yn. graphics..."
 msgstr ""
 
-#: mindiawindow.cpp:207
+#: mindiawindow.cpp:210
 msgid "MinDiaWindow::Import data from a XML file"
 msgstr ""
 
-#: mindiawindow.cpp:943
+#: mindiawindow.cpp:952
 msgid "MinDiaWindow::Import dynamic graphic data"
 msgstr ""
 
-#: mindiawindow.cpp:247
+#: mindiawindow.cpp:251
 msgid "MinDiaWindow::Las&t files"
 msgstr ""
 
-#: mindiawindow.cpp:386
+#: mindiawindow.cpp:390
 msgid "MinDiaWindow::License"
 msgstr ""
 
-#: mindiawindow.cpp:861
+#: mindiawindow.cpp:863
 msgid "MinDiaWindow::Loading aborted"
 msgstr ""
 
-#: mindiawindow.cpp:344
+#: mindiawindow.cpp:348
 msgid "MinDiaWindow::Logging"
 msgstr ""
 
-#: mindiawindow.cpp:1121
+#: mindiawindow.cpp:208
+msgid "MinDiaWindow::Make &relative paths"
+msgstr ""
+
+#: mindiawindow.cpp:208
+msgid "MinDiaWindow::Make absolute paths to reative paths"
+msgstr ""
+
+#: mindiawindow.cpp:1130
 msgid "MinDiaWindow::MinDia - Error"
 msgstr ""
 
-#: mindiawindow.cpp:840
+#: mindiawindow.cpp:842
 msgid "MinDiaWindow::MinDia - Question"
 msgstr ""
 
-#: mindiawindow.cpp:1609
+#: mindiawindow.cpp:1618
 msgid "MinDiaWindow::MinDia - Warning"
 msgstr ""
 
-#: mindiawindow.cpp:103
+#: mindiawindow.cpp:104
 msgid "MinDiaWindow::MinDia"
 msgstr ""
 
-#: mindiawindow.cpp:360
+#: mindiawindow.cpp:364
 msgid "MinDiaWindow::Modify item"
 msgstr ""
 
-#: mindiawindow.cpp:197
+#: mindiawindow.cpp:198
 msgid "MinDiaWindow::New"
 msgstr ""
 
-#: mindiawindow.cpp:955
+#: mindiawindow.cpp:964
 msgid "MinDiaWindow::No"
 msgstr ""
 
-#: mindiawindow.cpp:908
+#: mindiawindow.cpp:917
 msgid "MinDiaWindow::Not implemented yet !"
 msgstr ""
 
-#: mindiawindow.cpp:174
+#: mindiawindow.cpp:175
 msgid "MinDiaWindow::Open File"
 msgstr ""
 
-#: mindiawindow.cpp:201
+#: mindiawindow.cpp:202
 msgid "MinDiaWindow::Open an existing file for edit (script-events are not executed)"
 msgstr ""
 
-#: mindiawindow.cpp:199
+#: mindiawindow.cpp:200
 msgid "MinDiaWindow::Open an existing file"
 msgstr ""
 
-#: mindiawindow.cpp:201
+#: mindiawindow.cpp:202
 msgid "MinDiaWindow::Open for &edit..."
 msgstr ""
 
-#: mindiawindow.cpp:874
+#: mindiawindow.cpp:876
 msgid "MinDiaWindow::Open for edit"
 msgstr ""
 
-#: mindiawindow.cpp:867
+#: mindiawindow.cpp:869
 msgid "MinDiaWindow::Open"
 msgstr ""
 
-#: mindiawindow.cpp:193
+#: mindiawindow.cpp:194
 msgid "MinDiaWindow::P&lugins"
 msgstr ""
 
-#: mindiawindow.cpp:263
+#: mindiawindow.cpp:267
 msgid "MinDiaWindow::Paste"
 msgstr ""
 
-#: mindiawindow.cpp:178
+#: mindiawindow.cpp:179
 msgid "MinDiaWindow::Pause play"
 msgstr ""
 
-#: mindiawindow.cpp:298
+#: mindiawindow.cpp:302
 msgid "MinDiaWindow::Pause"
 msgstr ""
 
-#: mindiawindow.cpp:362
+#: mindiawindow.cpp:366
 msgid "MinDiaWindow::Pla&y infos..."
 msgstr ""
 
-#: mindiawindow.cpp:339
+#: mindiawindow.cpp:343
 msgid "MinDiaWindow::Pla&yer configuration..."
 msgstr ""
 
-#: mindiawindow.cpp:362
+#: mindiawindow.cpp:366
 msgid "MinDiaWindow::Play infos"
 msgstr ""
 
-#: mindiawindow.cpp:356
+#: mindiawindow.cpp:360
 msgid "MinDiaWindow::Plot comments"
 msgstr ""
 
-#: mindiawindow.cpp:348
+#: mindiawindow.cpp:352
 msgid "MinDiaWindow::Presentation &data..."
 msgstr ""
 
-#: mindiawindow.cpp:350
+#: mindiawindow.cpp:354
 msgid "MinDiaWindow::Presentation &events..."
 msgstr ""
 
-#: mindiawindow.cpp:348
+#: mindiawindow.cpp:352
 msgid "MinDiaWindow::Presentation data"
 msgstr ""
 
-#: mindiawindow.cpp:350
+#: mindiawindow.cpp:354
 msgid "MinDiaWindow::Presentation events"
 msgstr ""
 
-#: mindiawindow.cpp:217
+#: mindiawindow.cpp:220
 msgid "MinDiaWindow::Print data"
 msgstr ""
 
-#: mindiawindow.cpp:346
+#: mindiawindow.cpp:350
 msgid "MinDiaWindow::Pro&jector control..."
 msgstr ""
 
-#: mindiawindow.cpp:346
+#: mindiawindow.cpp:350
 msgid "MinDiaWindow::Projector control dialog"
 msgstr ""
 
-#: mindiawindow.cpp:841
+#: mindiawindow.cpp:843
 msgid "MinDiaWindow::Really create a new document and loose all changes ?"
 msgstr ""
 
-#: mindiawindow.cpp:255
+#: mindiawindow.cpp:259
 msgid "MinDiaWindow::Redo last operation"
 msgstr ""
 
-#: mindiawindow.cpp:300
+#: mindiawindow.cpp:304
 msgid "MinDiaWindow::S&top"
 msgstr ""
 
-#: mindiawindow.cpp:205
+#: mindiawindow.cpp:206
 msgid "MinDiaWindow::Save &as..."
 msgstr ""
 
-#: mindiawindow.cpp:175
+#: mindiawindow.cpp:176
 msgid "MinDiaWindow::Save File"
 msgstr ""
 
-#: mindiawindow.cpp:881
+#: mindiawindow.cpp:883
 msgid "MinDiaWindow::Save as"
 msgstr ""
 
-#: mindiawindow.cpp:205
+#: mindiawindow.cpp:206
 msgid "MinDiaWindow::Save data as"
 msgstr ""
 
-#: mindiawindow.cpp:203
+#: mindiawindow.cpp:204
 msgid "MinDiaWindow::Save data"
 msgstr ""
 
-#: mindiawindow.cpp:889
+#: mindiawindow.cpp:891
 msgid "MinDiaWindow::Save was aborted"
 msgstr ""
 
-#: mindiawindow.cpp:265
+#: mindiawindow.cpp:269
 msgid "MinDiaWindow::Select &all"
 msgstr ""
 
-#: mindiawindow.cpp:265
+#: mindiawindow.cpp:269
 msgid "MinDiaWindow::Select all"
 msgstr ""
 
-#: mindiawindow.cpp:352
+#: mindiawindow.cpp:356
 msgid "MinDiaWindow::So&und data..."
 msgstr ""
 
-#: mindiawindow.cpp:901
+#: mindiawindow.cpp:910
 msgid "MinDiaWindow::Sorry, printing not implemented yet !"
 msgstr ""
 
-#: mindiawindow.cpp:354
+#: mindiawindow.cpp:358
 msgid "MinDiaWindow::Sou&nd comments..."
 msgstr ""
 
-#: mindiawindow.cpp:354
+#: mindiawindow.cpp:358
 msgid "MinDiaWindow::Sound comments"
 msgstr ""
 
-#: mindiawindow.cpp:352
+#: mindiawindow.cpp:356
 msgid "MinDiaWindow::Sound data"
 msgstr ""
 
-#: mindiawindow.cpp:296
+#: mindiawindow.cpp:300
 msgid "MinDiaWindow::Sta&rt"
 msgstr ""
 
-#: mindiawindow.cpp:306
+#: mindiawindow.cpp:310
 msgid "MinDiaWindow::Start &at selected"
 msgstr ""
 
-#: mindiawindow.cpp:303
+#: mindiawindow.cpp:307
 msgid "MinDiaWindow::Start &from selected"
 msgstr ""
 
-#: mindiawindow.cpp:306
+#: mindiawindow.cpp:310
 msgid "MinDiaWindow::Start at selected position (just start at position)"
 msgstr ""
 
-#: mindiawindow.cpp:303
+#: mindiawindow.cpp:307
 msgid "MinDiaWindow::Start from selected position (goto position and start)"
 msgstr ""
 
-#: mindiawindow.cpp:177
+#: mindiawindow.cpp:178
 msgid "MinDiaWindow::Start play"
 msgstr ""
 
-#: mindiawindow.cpp:296
+#: mindiawindow.cpp:300
 msgid "MinDiaWindow::Start"
 msgstr ""
 
-#: mindiawindow.cpp:179
+#: mindiawindow.cpp:180
 msgid "MinDiaWindow::Stop play"
 msgstr ""
 
-#: mindiawindow.cpp:300
+#: mindiawindow.cpp:304
 msgid "MinDiaWindow::Stop"
 msgstr ""
 
-#: mindiawindow.cpp:776
+#: mindiawindow.cpp:778
 msgid "MinDiaWindow::This program is released under the GPL Version 2:\n\n"
 msgstr ""
 
-#: mindiawindow.cpp:252
+#: mindiawindow.cpp:256
 msgid "MinDiaWindow::Undo last operation"
 msgstr ""
 
-#: mindiawindow.cpp:928
+#: mindiawindow.cpp:937
 msgid "MinDiaWindow::Use scripts to export the presentation-data for other applications."
 msgstr ""
 
-#: mindiawindow.cpp:955
+#: mindiawindow.cpp:964
 msgid "MinDiaWindow::Write changed data ?"
 msgstr ""
 
-#: mindiawindow.cpp:955
+#: mindiawindow.cpp:964
 msgid "MinDiaWindow::Yes"
 msgstr ""
 
-#: mindiawindow.cpp:1437
+#: mindiawindow.cpp:1446
 msgid "MinDiaWindow::dissolve time [s]:"
 msgstr ""
 
-#: mindiawindow.cpp:452
+#: mindiawindow.cpp:454
 msgid "MinDiaWindow::message"
 msgstr ""
 
-#: mindiawindow.cpp:453
+#: mindiawindow.cpp:455
 msgid "MinDiaWindow::modus"
 msgstr ""
 
-#: mindiawindow.cpp:339
+#: mindiawindow.cpp:343
 msgid "MinDiaWindow::mp3 player configuration"
 msgstr ""
 
-#: mindiawindow.cpp:1274
+#: mindiawindow.cpp:1283
 msgid "MinDiaWindow::play"
 msgstr ""
 
-#: mindiawindow.cpp:1406
+#: mindiawindow.cpp:1415
 msgid "MinDiaWindow::search for:"
 msgstr ""
 
-#: mindiawindow.cpp:454
+#: mindiawindow.cpp:456
 msgid "MinDiaWindow::time"
 msgstr ""
 
-#: mindiawindow.cpp:1276
+#: mindiawindow.cpp:1285
 msgid "MinDiaWindow::total time: "
 msgstr ""
 
-#: playinfodlgimpl.cpp:76
+#: playinfodlgimpl.cpp:78
 msgid "PlayInfoContextMenu::&Close"
 msgstr ""
 
-#: playinfodlgimpl.cpp:133
+#: playinfodlgimpl.cpp:135
 msgid "PlayInfoContextMenu::&Full screen"
 msgstr ""
 
-#: playinfodlgimpl.cpp:129
+#: playinfodlgimpl.cpp:131
 msgid "PlayInfoContextMenu::&Normal"
 msgstr ""
 
-#: playinfodlgimpl.cpp:71
+#: playinfodlgimpl.cpp:73
 msgid "PlayInfoContextMenu::Dissolve &Start/Stop"
 msgstr ""
 
-#: playinfodlgimpl.cpp:72
+#: playinfodlgimpl.cpp:74
 msgid "PlayInfoContextMenu::Save &image..."
 msgstr ""
 
@@ -1143,7 +1151,7 @@ msgstr ""
 msgid "PlayInfoDialog::Scale image"
 msgstr ""
 
-#: playinfodlgimpl.cpp:930
+#: playinfodlgimpl.cpp:932
 msgid "PlayInfoDlgImpl::Save as"
 msgstr ""
 
@@ -1343,35 +1351,35 @@ msgstr ""
 msgid "QObject::<script>"
 msgstr ""
 
-#: soundinfo.cpp:600
+#: soundinfo.cpp:617
 msgid "QObject::Plot comments"
 msgstr ""
 
-#: soundinfo.cpp:369
+#: soundinfo.cpp:386
 msgid "QObject::Sound comments"
 msgstr ""
 
-#: soundinfo.cpp:626
+#: soundinfo.cpp:643
 msgid "QObject::comment"
 msgstr ""
 
-#: diapresentation.cpp:986
+#: diapresentation.cpp:1036
 msgid "QObject::no=%d/%d ** op=%s ** timer=%6.1lf s --> cmd=\"%s\""
 msgstr ""
 
-#: diapresentation.cpp:984
+#: diapresentation.cpp:1034
 msgid "QObject::no=%d/%d op=%s tmr=%6.1lfs->cmd=\"%s\""
 msgstr ""
 
-#: soundinfo.cpp:616
+#: soundinfo.cpp:633
 msgid "QObject::start index"
 msgstr ""
 
-#: soundinfo.cpp:621
+#: soundinfo.cpp:638
 msgid "QObject::stop index"
 msgstr ""
 
-#: soundinfo.cpp:385
+#: soundinfo.cpp:402
 msgid "QObject::time pos. [ms]"
 msgstr ""
 
@@ -1467,47 +1475,47 @@ msgstr ""
 msgid "ScriptDlg::[]"
 msgstr ""
 
-#: scriptdlgimpl.cpp:170
+#: scriptdlgimpl.cpp:171
 msgid "ScriptDlgImpl::Can not read script file "
 msgstr ""
 
-#: scriptdlgimpl.cpp:144
+#: scriptdlgimpl.cpp:145
 msgid "ScriptDlgImpl::Can not write script file "
 msgstr ""
 
-#: scriptdlgimpl.cpp:54
+#: scriptdlgimpl.cpp:55
 msgid "ScriptDlgImpl::Cancel"
 msgstr ""
 
-#: scriptdlgimpl.cpp:54
+#: scriptdlgimpl.cpp:55
 msgid "ScriptDlgImpl::No"
 msgstr ""
 
-#: scriptdlgimpl.cpp:245
+#: scriptdlgimpl.cpp:246
 msgid "ScriptDlgImpl::Script *"
 msgstr ""
 
-#: scriptdlgimpl.cpp:53
+#: scriptdlgimpl.cpp:54
 msgid "ScriptDlgImpl::Script was changed, save file now ?"
 msgstr ""
 
-#: scriptdlgimpl.cpp:249
+#: scriptdlgimpl.cpp:250
 msgid "ScriptDlgImpl::Script"
 msgstr ""
 
-#: scriptdlgimpl.cpp:169
+#: scriptdlgimpl.cpp:170
 msgid "ScriptDlgImpl::Warning"
 msgstr ""
 
-#: scriptdlgimpl.cpp:54
+#: scriptdlgimpl.cpp:55
 msgid "ScriptDlgImpl::Yes"
 msgstr ""
 
-#: scriptdlgimpl.cpp:91
+#: scriptdlgimpl.cpp:92
 msgid "ScriptDlgImpl::script done."
 msgstr ""
 
-#: scriptdlgimpl.cpp:95
+#: scriptdlgimpl.cpp:96
 msgid "ScriptDlgImpl::script error !"
 msgstr ""
 

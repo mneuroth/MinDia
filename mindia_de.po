@@ -39,9 +39,9 @@ msgstr "&Über"
 msgid "AboutExtDlg::&Close"
 msgstr "&Schließen"
 
-#: AboutExtDlg.cpp:58
-msgid "AboutExtDlg::&Contributions"
-msgstr "&Beiträge"
+# #: AboutExtDlg.cpp:58
+# msgid "AboutExtDlg::&Contributions"
+# msgstr "&Beiträge"
 
 #: AboutExtDlg.cpp:71
 msgid "AboutExtDlg::&License"
@@ -71,9 +71,13 @@ msgstr "&Lizenz"
 # msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.1 from 19.6.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
 # msgstr "<center><b>MinDia</b>\n<br><br>\nVer. 0.97.1 vom 19.6.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nDieses Programm ist gedacht zur Erstellung, Modifizierung und Durchführung eines Multimedia-Dia-Vortrags mit dem Computer.<br><br>\nDas Programm unterstützt auch die direkte Ansteuerung von Rollei Dia-Projektoren <br> (<i>Rolleivision 35 twin digital P</i> und <i>Rollei twin MSC 3x0 P</i>).</center>"
 
+# #: AboutExtDlg.cpp:36
+# msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.1 from 22.6.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
+# msgstr "<center><b>MinDia</b>\n<br><br>\nVer. 0.97.1 vom 22.6.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nDieses Programm ist gedacht zur Erstellung, Modifizierung und Durchführung eines Multimedia-Dia-Vortrags mit dem Computer.<br><br>\nDas Programm unterstützt auch die direkte Ansteuerung von Rollei Dia-Projektoren <br> (<i>Rolleivision 35 twin digital P</i> und <i>Rollei twin MSC 3x0 P</i>).</center>"
+
 #: AboutExtDlg.cpp:36
-msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.1 from 22.6.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
-msgstr "<center><b>MinDia</b>\n<br><br>\nVer. 0.97.1 vom 22.6.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nDieses Programm ist gedacht zur Erstellung, Modifizierung und Durchführung eines Multimedia-Dia-Vortrags mit dem Computer.<br><br>\nDas Programm unterstützt auch die direkte Ansteuerung von Rollei Dia-Projektoren <br> (<i>Rolleivision 35 twin digital P</i> und <i>Rollei twin MSC 3x0 P</i>).</center>"
+msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.2 from 11.11.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
+msgstr "<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.2 vom 11.11.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nDieses Programm ist gedacht zur Erstellung, Modifizierung und Durchführung eines Multimedia-DiaVortrages mit dem Computer.<br><br>\nDas Programm unterstützt auch die direkte Ansteuerung von Rollei Dia-Projektoren <br> (<i>Rolleivision 35 twin digital P</i> und <i>Rollei twin MSC 3x0 P</i>).\n</center>"
 
 #: AboutExtDlg.cpp:46
 msgid "AboutExtDlg::<br>\nMichael Neuroth, \n<a href=\"mailto:mindia@users.sourceforge.net\">mindia@users.sourceforge.net</a>"
@@ -85,7 +89,7 @@ msgstr ""
 
 #: AboutExtDlg.cpp:56
 msgid "AboutExtDlg::<br>\nMinDia would not existing without this software:\n<ul>\n<li><b>Qt</b> from Trolltech</li>\n</ul>\n<p>\nMinDia is using code from this projects:\n<ul>\n<li><b>minicom</b>: com-port support for linux --> sysdep.h, sysdep1.c</li>\n<li><b>kwav</b>: wav-file import, wav-file playing for linux --> wavfile.h, wavfile.cpp (modified)</li>\n<li><b>jpgd</b>: Small JPEG Decoder Library v0.93b for jpg-image support for Windows</li>\n<li><b>Python</b>: the script-language for this application</li>\n<li><b>SWIG</b>: for python (and other script languages) bindings</li>\n</ul>\n<p>\nOther usefull programs to create a multimedia slide show:\n<ul>\n<li><b>xsane</b>: for scanning images</li>\n<li><b>cdparanoia</b>: for wav-file generation from audio cd's (Linux)</li>\n<li><b>LAME</b>: for mp3-file encoding from wav-files</li>\n<li><b>CDex</b>: for wav- and mp3-file creation from audiao cd's (Windows)</li>\n<li><b>madplay</b>: a command-line mp3-player (Linux)</li>\n</ul>"
-msgstr "<br>MinDia würde ohne die folgende Software nicht existieren:\n<ul>\n<li><b>Qt</b> von Trolltech</li>\n</ul>\n<p>\nMinDia verwendet Quellcode aus den folgenden Projekten:\n<ul>\n<li><b>minicom</b>: Com-Port Unterstützung für Linux --> sysdep.h, sysdep1.c</li>\n<li><b>kwav</b>: wav-Datei Import, wav-Datei abspielen für Linux --> wavfile.h, wavfile.cpp (modifiziert)</li>\n<b>jpgd</b>: Small JPEG Decoder Library v0.93b für jpg-Bilder Unterstützung für Windows</li>\n<li><b>Python</b>: die Script-Sprache für diese Applikation</li>\n<li><b>SWIG</b>: für die Python (und andere Script-Sprachen) Anbindung</li>\n</ul>\n<p>\nWeitere nützliche Programme zur Erstellung eines Multimedia-Dia-Vortrages:\n<ul>\n<li><b>xsane</b>: zum Einscannen von Bildern</li>\n<li><b>cdparanoia</b>: zur Erzeugung von wav-Dateien aus Audio-CD's</li>\n</ul>"
+msgstr "<br>MinDia würde ohne die folgende Software nicht existieren:\n<ul>\n<li><b>Qt</b> von Trolltech</li>\n</ul>\n<p>MinDia verwendet Quellcode aus den folgenden Projekten:\n<ul><li><b>minicom</b>: Com-Port Unterstützung für Linux --> sysdep.h, sysdep1.c</li><li><b>kwav</b>: wav-Datei Import, wav-Datei abspielen für Linux --> wavfile.h, wavfile.cpp (modifiziert)</li><li><b>jpgd</b>: Small JPEG Decoder Library v0.93b für jpg-Bilder Unterstützung für Windows</li><li><b>Python</b>: die Script-Sprache für diese Applikation</li><li><b>SWIG</b>: für die Python (und andere Script-Sprachen) Anbindung</li></ul><p>\nWeitere nützliche Programme zur Erstellung eines Multimedia-Dia-Vortrages:\n<ul>\n<li><b>xsane</b>: zum Einscannen von Bildern</li><li><b>cdparanoia</b>: zur Erzeugung von wav-Dateien aus Audio-CD's</li><li><b>LAME</b>: zur Erzeugung von mp3-Dateien aus wav-Dateien</li>\n<li><b>CDex</b>: zur Erzeugung von wav- and mp3-Dateien aus Audio-CD's (Windows)</li>\n<li><b>madplay</b>: ein Kommandozeilen mp3-Spieler (Linux)</li></ul>"
 
 #: AboutExtDlg.cpp:48
 msgid "AboutExtDlg::A&uthor"
@@ -98,6 +102,10 @@ msgstr "Über MinDia"
 # #: AboutExtDlg.cpp:33
 # msgid "AboutExtDlg::TextLabel1"
 # msgstr "nix"
+
+#: AboutExtDlg.cpp:58
+msgid "AboutExtDlg::C&ontributions"
+msgstr "&Beiträge"
 
 #: ComLoggingDlg.cpp:36
 msgid "ComLoggingDialog::&Close"
@@ -395,31 +403,31 @@ msgstr "Schreibe geänderte Daten ?"
 msgid "DiaInfoDlgImpl::Yes"
 msgstr "Ja"
 
-#: doccontroler.cpp:236
+#: doccontroler.cpp:339
 msgid "DocumentAndControler::Error reading file !"
 msgstr "Fehler beim Lesen der Datei !"
 
-#: doccontroler.cpp:164
+#: doccontroler.cpp:267
 msgid "DocumentAndControler::Error reading file \""
 msgstr "Fehler beim Lesen der Datei \""
 
-#: doccontroler.cpp:183
+#: doccontroler.cpp:286
 msgid "DocumentAndControler::Error saving file \""
 msgstr "Fehler beim Schreiben der Datei \""
 
-#: doccontroler.cpp:221
+#: doccontroler.cpp:324
 msgid "DocumentAndControler::Path of file has changed !"
 msgstr "Pfad der Datei wurde geändert !"
 
-#: doccontroler.cpp:463
+#: doccontroler.cpp:566
 msgid "DocumentAndControler::Text not found !"
 msgstr "Text wurde nicht gefunden !"
 
-#: doccontroler.cpp:171
+#: doccontroler.cpp:274
 msgid "DocumentAndControler::reading was ok !"
 msgstr "lesen war erfolgreich !"
 
-#: doccontroler.cpp:190
+#: doccontroler.cpp:293
 msgid "DocumentAndControler::saving was ok !"
 msgstr "speichern war erfolgreich !"
 
@@ -555,87 +563,87 @@ msgstr "&Schließen"
 msgid "LicenseDlg::License"
 msgstr "Lizenz"
 
-#: mindiawindow.cpp:1291
+#: mindiawindow.cpp:1300
 msgid "MinDiaWindow:: *** count: "
 msgstr " *** Anzahl: "
 
-#: mindiawindow.cpp:1285
+#: mindiawindow.cpp:1294
 msgid "MinDiaWindow:: *** next: "
 msgstr " *** nächste: "
 
-#: mindiawindow.cpp:1281
+#: mindiawindow.cpp:1290
 msgid "MinDiaWindow:: min"
 msgstr " min"
 
-#: mindiawindow.cpp:1285
+#: mindiawindow.cpp:1294
 msgid "MinDiaWindow:: s"
 msgstr " s"
 
-#: mindiawindow.cpp:384
+#: mindiawindow.cpp:388
 msgid "MinDiaWindow::&About..."
 msgstr "&Über..."
 
-#: mindiawindow.cpp:337
+#: mindiawindow.cpp:341
 msgid "MinDiaWindow::&Configuration..."
 msgstr "&Konfiguration..."
 
-#: mindiawindow.cpp:261
+#: mindiawindow.cpp:265
 msgid "MinDiaWindow::&Copy"
 msgstr "&Kopieren"
 
-#: mindiawindow.cpp:272
+#: mindiawindow.cpp:276
 msgid "MinDiaWindow::&Delete"
 msgstr "&Löschen"
 
-#: mindiawindow.cpp:315
+#: mindiawindow.cpp:319
 msgid "MinDiaWindow::&Dissolve time..."
 msgstr "&Überblendzeit..."
 
-#: mindiawindow.cpp:190
+#: mindiawindow.cpp:191
 msgid "MinDiaWindow::&Edit"
 msgstr "&Bearbeiten"
 
-#: mindiawindow.cpp:317
+#: mindiawindow.cpp:321
 msgid "MinDiaWindow::&Fade in test"
 msgstr "&Fade in Test"
 
-#: mindiawindow.cpp:189
+#: mindiawindow.cpp:190
 msgid "MinDiaWindow::&File"
 msgstr "&Datei"
 
-#: mindiawindow.cpp:275
+#: mindiawindow.cpp:279
 msgid "MinDiaWindow::&Find..."
 msgstr "&Finde Text..."
 
-#: mindiawindow.cpp:194
+#: mindiawindow.cpp:195
 msgid "MinDiaWindow::&Help"
 msgstr "&Hilfe"
 
-#: mindiawindow.cpp:388
+#: mindiawindow.cpp:392
 msgid "MinDiaWindow::&Help..."
 msgstr "&Hilfe"
 
-#: mindiawindow.cpp:207
+#: mindiawindow.cpp:210
 msgid "MinDiaWindow::&Import XML..."
 msgstr "&Importiere XML..."
 
-#: mindiawindow.cpp:246
+#: mindiawindow.cpp:250
 msgid "MinDiaWindow::&Import/Export"
 msgstr "&Importieren/Exportieren"
 
-#: mindiawindow.cpp:386
+#: mindiawindow.cpp:390
 msgid "MinDiaWindow::&License..."
 msgstr "&Lizenz..."
 
-#: mindiawindow.cpp:344
+#: mindiawindow.cpp:348
 msgid "MinDiaWindow::&Logging..."
 msgstr "&Logging..."
 
-#: mindiawindow.cpp:360
+#: mindiawindow.cpp:364
 msgid "MinDiaWindow::&Modify item..."
 msgstr "&Modifiziere Eintrag..."
 
-#: mindiawindow.cpp:197
+#: mindiawindow.cpp:198
 msgid "MinDiaWindow::&New"
 msgstr "&Neu"
 
@@ -643,23 +651,23 @@ msgstr "&Neu"
 # msgid "MinDiaWindow::&Ok"
 # msgstr "&Ok"
 
-#: mindiawindow.cpp:199
+#: mindiawindow.cpp:200
 msgid "MinDiaWindow::&Open..."
 msgstr "&Öffnen..."
 
-#: mindiawindow.cpp:263
+#: mindiawindow.cpp:267
 msgid "MinDiaWindow::&Paste"
 msgstr "&Einfügen"
 
-#: mindiawindow.cpp:298
+#: mindiawindow.cpp:302
 msgid "MinDiaWindow::&Pause"
 msgstr "&Pause"
 
-#: mindiawindow.cpp:191
+#: mindiawindow.cpp:192
 msgid "MinDiaWindow::&Play"
 msgstr "&Abspielen"
 
-#: mindiawindow.cpp:356
+#: mindiawindow.cpp:360
 msgid "MinDiaWindow::&Plot comments..."
 msgstr "K&ommentare zu den Dias..."
 
@@ -667,67 +675,67 @@ msgstr "K&ommentare zu den Dias..."
 # msgid "MinDiaWindow::&Plugins"
 # msgstr "&Plugins"
 
-#: mindiawindow.cpp:217
+#: mindiawindow.cpp:220
 msgid "MinDiaWindow::&Print..."
 msgstr "&Drucken..."
 
-#: mindiawindow.cpp:255
+#: mindiawindow.cpp:259
 msgid "MinDiaWindow::&Redo"
 msgstr "&Wiederherstellen"
 
-#: mindiawindow.cpp:203
+#: mindiawindow.cpp:204
 msgid "MinDiaWindow::&Save"
 msgstr "&Speichern"
 
-#: mindiawindow.cpp:252
+#: mindiawindow.cpp:256
 msgid "MinDiaWindow::&Undo"
 msgstr "&Rückgängig"
 
-#: mindiawindow.cpp:309
+#: mindiawindow.cpp:313
 msgid "MinDiaWindow::A&dd sound comment"
 msgstr "Musik &Kommentar hinzufügen"
 
-#: mindiawindow.cpp:384
+#: mindiawindow.cpp:388
 msgid "MinDiaWindow::About"
 msgstr "Über"
 
-#: mindiawindow.cpp:269
+#: mindiawindow.cpp:273
 msgid "MinDiaWindow::Add &dia"
 msgstr "&Dia hinzufügen"
 
-#: mindiawindow.cpp:312
+#: mindiawindow.cpp:316
 msgid "MinDiaWindow::Add &graphic operation"
 msgstr "&Grafik Operation hinzufügen"
 
-#: mindiawindow.cpp:269
+#: mindiawindow.cpp:273
 msgid "MinDiaWindow::Add dia at current position"
 msgstr "Dia an der aktuellen Position hinzufügen"
 
-#: mindiawindow.cpp:312
+#: mindiawindow.cpp:316
 msgid "MinDiaWindow::Add graphic operation"
 msgstr "Grafik Operation hinzufügen"
 
-#: mindiawindow.cpp:309
+#: mindiawindow.cpp:313
 msgid "MinDiaWindow::Add sound comment"
 msgstr "Musik Kommentar hinzufügen"
 
-#: mindiawindow.cpp:267
+#: mindiawindow.cpp:271
 msgid "MinDiaWindow::Append d&ia"
 msgstr "D&ia anhängen"
 
-#: mindiawindow.cpp:267
+#: mindiawindow.cpp:271
 msgid "MinDiaWindow::Append dia"
 msgstr "Dia am Ende hinzufügen"
 
-#: mindiawindow.cpp:259
+#: mindiawindow.cpp:263
 msgid "MinDiaWindow::C&ut"
 msgstr "A&usschneiden"
 
-#: mindiawindow.cpp:1609
+#: mindiawindow.cpp:1618
 msgid "MinDiaWindow::Can't close the application, because the presentation is still playing !"
 msgstr "Programm kann nicht geschlossen werde, da noch eine Präsentation läuft !"
 
-#: mindiawindow.cpp:337
+#: mindiawindow.cpp:341
 msgid "MinDiaWindow::Configuration"
 msgstr "Konfiguration"
 
@@ -735,383 +743,391 @@ msgstr "Konfiguration"
 # msgid "MinDiaWindow::ControlProjector"
 # msgstr "Projektor kontrollieren"
 
-#: mindiawindow.cpp:261
+#: mindiawindow.cpp:265
 msgid "MinDiaWindow::Copy"
 msgstr "Kopieren"
 
-#: mindiawindow.cpp:259
+#: mindiawindow.cpp:263
 msgid "MinDiaWindow::Cut"
 msgstr "Ausschneiden"
 
-#: mindiawindow.cpp:358
+#: mindiawindow.cpp:362
 msgid "MinDiaWindow::D&yn. graphic operations..."
 msgstr "D&yn. Grafik Operationen..."
 
-#: mindiawindow.cpp:272
+#: mindiawindow.cpp:276
 msgid "MinDiaWindow::Delete"
 msgstr "Löschen"
 
-#: mindiawindow.cpp:358
+#: mindiawindow.cpp:362
 msgid "MinDiaWindow::Dynamic graphic operations"
 msgstr "Dynamische Grafik Operationen bearbeiten"
 
-#: mindiawindow.cpp:219
+#: mindiawindow.cpp:222
 msgid "MinDiaWindow::E&xit"
 msgstr "&Beenden"
 
-#: mindiawindow.cpp:209
+#: mindiawindow.cpp:212
 msgid "MinDiaWindow::E&xport XML..."
 msgstr "E&xportiere XML..."
 
-#: mindiawindow.cpp:192
+#: mindiawindow.cpp:193
 msgid "MinDiaWindow::E&xtras"
 msgstr "E&xtras"
 
-#: mindiawindow.cpp:315
+#: mindiawindow.cpp:319
 msgid "MinDiaWindow::Edit dissolve time"
 msgstr "Modifiziere Überblendzeit"
 
-#: mindiawindow.cpp:1436
+#: mindiawindow.cpp:1445
 msgid "MinDiaWindow::Enter new dissolve time"
 msgstr "Eingabe der neuen Überblendzeit"
 
-#: mindiawindow.cpp:219
+#: mindiawindow.cpp:222
 msgid "MinDiaWindow::Exit"
 msgstr "Beenden"
 
-#: mindiawindow.cpp:211
+#: mindiawindow.cpp:214
 msgid "MinDiaWindow::Expo&rt..."
 msgstr "Expo&rtieren..."
 
-#: mindiawindow.cpp:913
+#: mindiawindow.cpp:922
 msgid "MinDiaWindow::Export as XML"
 msgstr "Exportiere als XML"
 
-#: mindiawindow.cpp:209
+#: mindiawindow.cpp:212
 msgid "MinDiaWindow::Export data as XML file"
 msgstr "Exportiere Daten als XML-Datei"
 
-#: mindiawindow.cpp:211
+#: mindiawindow.cpp:214
 msgid "MinDiaWindow::Export data"
 msgstr "Daten exportieren"
 
-#: mindiawindow.cpp:213
+#: mindiawindow.cpp:216
 msgid "MinDiaWindow::Export dyn. &graphics..."
 msgstr "Exportiere dyn. &Grafiken..."
 
-#: mindiawindow.cpp:933
+#: mindiawindow.cpp:942
 msgid "MinDiaWindow::Export dynamic graphic data"
 msgstr "Exportiere dynamische Grafik Daten in eine Datei"
 
-#: mindiawindow.cpp:921
+#: mindiawindow.cpp:930
 msgid "MinDiaWindow::Export to XML was aborted"
 msgstr "Exportieren als XML wurde abgebrochen"
 
-#: mindiawindow.cpp:319
+#: mindiawindow.cpp:323
 msgid "MinDiaWindow::Fade &out test"
 msgstr "Fade &out Test"
 
-#: mindiawindow.cpp:317
+#: mindiawindow.cpp:321
 msgid "MinDiaWindow::Fade in test"
 msgstr "Fade in Test"
 
-#: mindiawindow.cpp:319
+#: mindiawindow.cpp:323
 msgid "MinDiaWindow::Fade out test"
 msgstr "Fade out Test"
 
-#: mindiawindow.cpp:171
+#: mindiawindow.cpp:172
 msgid "MinDiaWindow::File Operations"
 msgstr "Datei Operationen"
 
-#: mindiawindow.cpp:277
+#: mindiawindow.cpp:281
 msgid "MinDiaWindow::Find &next"
 msgstr "Finde &nächste"
 
-#: mindiawindow.cpp:277
+#: mindiawindow.cpp:281
 msgid "MinDiaWindow::Find next"
 msgstr "Finde nächsten"
 
-#: mindiawindow.cpp:1405
+#: mindiawindow.cpp:1414
 msgid "MinDiaWindow::Find"
 msgstr "Suchen"
 
-#: mindiawindow.cpp:388
+#: mindiawindow.cpp:392
 msgid "MinDiaWindow::Help for mindia"
 msgstr "Hilfe für mindia"
 
-#: mindiawindow.cpp:215
+#: mindiawindow.cpp:218
 msgid "MinDiaWindow::Import d&yn. graphics..."
 msgstr "Importiere d&ynamische Grafiken..."
 
-#: mindiawindow.cpp:207
+#: mindiawindow.cpp:210
 msgid "MinDiaWindow::Import data from a XML file"
 msgstr "Importiere Daten aus einer XML-Datei"
 
-#: mindiawindow.cpp:943
+#: mindiawindow.cpp:952
 msgid "MinDiaWindow::Import dynamic graphic data"
 msgstr "Importiere dynamische Grafik-Daten aus einer Datei"
 
-#: mindiawindow.cpp:247
+#: mindiawindow.cpp:251
 msgid "MinDiaWindow::Las&t files"
 msgstr "Zule&tzt geöffnete Dateien"
 
-#: mindiawindow.cpp:386
+#: mindiawindow.cpp:390
 msgid "MinDiaWindow::License"
 msgstr "Lizenz"
 
-#: mindiawindow.cpp:861
+#: mindiawindow.cpp:863
 msgid "MinDiaWindow::Loading aborted"
 msgstr "Lesen abgebrochen"
 
-#: mindiawindow.cpp:344
+#: mindiawindow.cpp:348
 msgid "MinDiaWindow::Logging"
 msgstr "Logging"
 
-#: mindiawindow.cpp:1121
+#: mindiawindow.cpp:208
+msgid "MinDiaWindow::Make &relative paths"
+msgstr "Erzeuge &relative Pfade"
+
+#: mindiawindow.cpp:208
+msgid "MinDiaWindow::Make absolute paths to reative paths"
+msgstr "Alle absoulten Pfade in relative Pfade umwandeln"
+
+#: mindiawindow.cpp:1130
 msgid "MinDiaWindow::MinDia - Error"
 msgstr "MinDia - Error"
 
-#: mindiawindow.cpp:840
+#: mindiawindow.cpp:842
 msgid "MinDiaWindow::MinDia - Question"
 msgstr "MinDia - Frage"
 
-#: mindiawindow.cpp:1609
+#: mindiawindow.cpp:1618
 msgid "MinDiaWindow::MinDia - Warning"
 msgstr "MinDia - Warnung"
 
-#: mindiawindow.cpp:103
+#: mindiawindow.cpp:104
 msgid "MinDiaWindow::MinDia"
 msgstr "MinDia"
 
-#: mindiawindow.cpp:360
+#: mindiawindow.cpp:364
 msgid "MinDiaWindow::Modify item"
 msgstr "Modifiziere Eintrag"
 
-#: mindiawindow.cpp:197
+#: mindiawindow.cpp:198
 msgid "MinDiaWindow::New"
 msgstr "Neu"
 
-#: mindiawindow.cpp:955
+#: mindiawindow.cpp:964
 msgid "MinDiaWindow::No"
 msgstr "Nein"
 
-#: mindiawindow.cpp:908
+#: mindiawindow.cpp:917
 msgid "MinDiaWindow::Not implemented yet !"
 msgstr "Noch nicht implementiert !"
 
-#: mindiawindow.cpp:174
+#: mindiawindow.cpp:175
 msgid "MinDiaWindow::Open File"
 msgstr "Öffne Datei"
 
-#: mindiawindow.cpp:201
+#: mindiawindow.cpp:202
 msgid "MinDiaWindow::Open an existing file for edit (script-events are not executed)"
 msgstr "Öffne eine existierende Datei zum Modifizieren (Skript-Ereignisse werden nicht ausgeführt)"
 
-#: mindiawindow.cpp:199
+#: mindiawindow.cpp:200
 msgid "MinDiaWindow::Open an existing file"
 msgstr "Öffne eine existierende Datei"
 
-#: mindiawindow.cpp:201
+#: mindiawindow.cpp:202
 msgid "MinDiaWindow::Open for &edit..."
 msgstr "Öffnen zum &Modifizieren..."
 
-#: mindiawindow.cpp:874
+#: mindiawindow.cpp:876
 msgid "MinDiaWindow::Open for edit"
 msgstr "Öffne Datei zum Modifizieren"
 
-#: mindiawindow.cpp:867
+#: mindiawindow.cpp:869
 msgid "MinDiaWindow::Open"
 msgstr "Öffnen"
 
-#: mindiawindow.cpp:193
+#: mindiawindow.cpp:194
 msgid "MinDiaWindow::P&lugins"
 msgstr ""
 
-#: mindiawindow.cpp:263
+#: mindiawindow.cpp:267
 msgid "MinDiaWindow::Paste"
 msgstr "Einfügen"
 
-#: mindiawindow.cpp:178
+#: mindiawindow.cpp:179
 msgid "MinDiaWindow::Pause play"
 msgstr "Pause"
 
-#: mindiawindow.cpp:298
+#: mindiawindow.cpp:302
 msgid "MinDiaWindow::Pause"
 msgstr "Pause"
 
-#: mindiawindow.cpp:362
+#: mindiawindow.cpp:366
 msgid "MinDiaWindow::Pla&y infos..."
 msgstr "&Abspiel Infos..."
 
-#: mindiawindow.cpp:339
+#: mindiawindow.cpp:343
 msgid "MinDiaWindow::Pla&yer configuration..."
 msgstr "Pla&yer Einstellungen..."
 
-#: mindiawindow.cpp:362
+#: mindiawindow.cpp:366
 msgid "MinDiaWindow::Play infos"
 msgstr "Abspiel Informationen (virtuelle Leinwand)"
 
-#: mindiawindow.cpp:356
+#: mindiawindow.cpp:360
 msgid "MinDiaWindow::Plot comments"
 msgstr "Plot Kommentare"
 
-#: mindiawindow.cpp:348
+#: mindiawindow.cpp:352
 msgid "MinDiaWindow::Presentation &data..."
 msgstr "Präsentations&daten..."
 
-#: mindiawindow.cpp:350
+#: mindiawindow.cpp:354
 msgid "MinDiaWindow::Presentation &events..."
 msgstr "Präsentations&ereignisse"
 
-#: mindiawindow.cpp:348
+#: mindiawindow.cpp:352
 msgid "MinDiaWindow::Presentation data"
 msgstr "Präsentationsdaten"
 
-#: mindiawindow.cpp:350
+#: mindiawindow.cpp:354
 msgid "MinDiaWindow::Presentation events"
 msgstr "Präsentationsereignisse"
 
-#: mindiawindow.cpp:217
+#: mindiawindow.cpp:220
 msgid "MinDiaWindow::Print data"
 msgstr "Ausdrucken"
 
-#: mindiawindow.cpp:346
+#: mindiawindow.cpp:350
 msgid "MinDiaWindow::Pro&jector control..."
 msgstr "Pro&jektor kontrollieren..."
 
-#: mindiawindow.cpp:346
+#: mindiawindow.cpp:350
 msgid "MinDiaWindow::Projector control dialog"
 msgstr "Projektor kontrollieren"
 
-#: mindiawindow.cpp:841
+#: mindiawindow.cpp:843
 msgid "MinDiaWindow::Really create a new document and loose all changes ?"
 msgstr "Wirklich ein neues Dokument erzeugen und alle Änderungen verwerfen ?"
 
-#: mindiawindow.cpp:255
+#: mindiawindow.cpp:259
 msgid "MinDiaWindow::Redo last operation"
 msgstr "Wiederhole letzte Operation"
 
-#: mindiawindow.cpp:300
+#: mindiawindow.cpp:304
 msgid "MinDiaWindow::S&top"
 msgstr "S&top"
 
-#: mindiawindow.cpp:205
+#: mindiawindow.cpp:206
 msgid "MinDiaWindow::Save &as..."
 msgstr "Speichern &als..."
 
-#: mindiawindow.cpp:175
+#: mindiawindow.cpp:176
 msgid "MinDiaWindow::Save File"
 msgstr "Speichere Datei"
 
-#: mindiawindow.cpp:881
+#: mindiawindow.cpp:883
 msgid "MinDiaWindow::Save as"
 msgstr "Speichern unter"
 
-#: mindiawindow.cpp:205
+#: mindiawindow.cpp:206
 msgid "MinDiaWindow::Save data as"
 msgstr "Speichere Datei unter"
 
-#: mindiawindow.cpp:203
+#: mindiawindow.cpp:204
 msgid "MinDiaWindow::Save data"
 msgstr "Speichere Datei"
 
-#: mindiawindow.cpp:889
+#: mindiawindow.cpp:891
 msgid "MinDiaWindow::Save was aborted"
 msgstr "Speichern wurde abgebrochen"
 
-#: mindiawindow.cpp:265
+#: mindiawindow.cpp:269
 msgid "MinDiaWindow::Select &all"
 msgstr "&Alles auswählen"
 
-#: mindiawindow.cpp:265
+#: mindiawindow.cpp:269
 msgid "MinDiaWindow::Select all"
 msgstr "Alles auswählen"
 
-#: mindiawindow.cpp:352
+#: mindiawindow.cpp:356
 msgid "MinDiaWindow::So&und data..."
 msgstr "M&usik Daten..."
 
-#: mindiawindow.cpp:901
+#: mindiawindow.cpp:910
 msgid "MinDiaWindow::Sorry, printing not implemented yet !"
 msgstr "Leider ist der Ausdruck noch nicht implementiert !"
 
-#: mindiawindow.cpp:354
+#: mindiawindow.cpp:358
 msgid "MinDiaWindow::Sou&nd comments..."
 msgstr "Kommentare &zur Musik..."
 
-#: mindiawindow.cpp:354
+#: mindiawindow.cpp:358
 msgid "MinDiaWindow::Sound comments"
 msgstr "Musik Kommentare"
 
-#: mindiawindow.cpp:352
+#: mindiawindow.cpp:356
 msgid "MinDiaWindow::Sound data"
 msgstr "Musik Daten"
 
-#: mindiawindow.cpp:296
+#: mindiawindow.cpp:300
 msgid "MinDiaWindow::Sta&rt"
 msgstr "Sta&rt"
 
-#: mindiawindow.cpp:306
+#: mindiawindow.cpp:310
 msgid "MinDiaWindow::Start &at selected"
 msgstr "Starte &mit Auswahl"
 
-#: mindiawindow.cpp:303
+#: mindiawindow.cpp:307
 msgid "MinDiaWindow::Start &from selected"
 msgstr "Starte &von Auswahl"
 
-#: mindiawindow.cpp:306
+#: mindiawindow.cpp:310
 msgid "MinDiaWindow::Start at selected position (just start at position)"
 msgstr "Starte abspielen mit ausgewählter Position (einfach von Position starten)"
 
-#: mindiawindow.cpp:303
+#: mindiawindow.cpp:307
 msgid "MinDiaWindow::Start from selected position (goto position and start)"
 msgstr "Starte abspielen von ausgewählter Position (gehe zur Position und starte)"
 
-#: mindiawindow.cpp:177
+#: mindiawindow.cpp:178
 msgid "MinDiaWindow::Start play"
 msgstr "Starte abspielen"
 
-#: mindiawindow.cpp:296
+#: mindiawindow.cpp:300
 msgid "MinDiaWindow::Start"
 msgstr "Start"
 
-#: mindiawindow.cpp:179
+#: mindiawindow.cpp:180
 msgid "MinDiaWindow::Stop play"
 msgstr "Stoppe abspielen"
 
-#: mindiawindow.cpp:300
+#: mindiawindow.cpp:304
 msgid "MinDiaWindow::Stop"
 msgstr "Stop"
 
-#: mindiawindow.cpp:776
+#: mindiawindow.cpp:778
 msgid "MinDiaWindow::This program is released under the GPL Version 2:\n\n"
 msgstr "Dieses Programm ist unter der GPL Version 2 veröffentlicht:\n\n"
 
-#: mindiawindow.cpp:252
+#: mindiawindow.cpp:256
 msgid "MinDiaWindow::Undo last operation"
 msgstr "Rückgängig machen der letzten Operation"
 
-#: mindiawindow.cpp:928
+#: mindiawindow.cpp:937
 msgid "MinDiaWindow::Use scripts to export the presentation-data for other applications."
 msgstr "Verwende Skripte für den Export der Präsentationsdaten für andere Anwendungen."
 
-#: mindiawindow.cpp:955
+#: mindiawindow.cpp:964
 msgid "MinDiaWindow::Write changed data ?"
 msgstr "Schreibe geänderte Daten ?"
 
-#: mindiawindow.cpp:955
+#: mindiawindow.cpp:964
 msgid "MinDiaWindow::Yes"
 msgstr "Ja"
 
-#: mindiawindow.cpp:1437
+#: mindiawindow.cpp:1446
 msgid "MinDiaWindow::dissolve time [s]:"
 msgstr "Überblendzeit [s]:"
 
-#: mindiawindow.cpp:452
+#: mindiawindow.cpp:454
 msgid "MinDiaWindow::message"
 msgstr "Nachricht"
 
-#: mindiawindow.cpp:453
+#: mindiawindow.cpp:455
 msgid "MinDiaWindow::modus"
 msgstr "Modus"
 
@@ -1119,43 +1135,43 @@ msgstr "Modus"
 # msgid "MinDiaWindow::not implemented yet (sltExportDoc)"
 # msgstr "noch nicht implementiert (sltExportDoc)"
 
-#: mindiawindow.cpp:339
+#: mindiawindow.cpp:343
 msgid "MinDiaWindow::mp3 player configuration"
 msgstr "mp3 Player Einstellungen"
 
-#: mindiawindow.cpp:1274
+#: mindiawindow.cpp:1283
 msgid "MinDiaWindow::play"
 msgstr "Play"
 
-#: mindiawindow.cpp:1406
+#: mindiawindow.cpp:1415
 msgid "MinDiaWindow::search for:"
 msgstr "Suche nach:"
 
-#: mindiawindow.cpp:454
+#: mindiawindow.cpp:456
 msgid "MinDiaWindow::time"
 msgstr "Zeit"
 
-#: mindiawindow.cpp:1276
+#: mindiawindow.cpp:1285
 msgid "MinDiaWindow::total time: "
 msgstr "ges. Spielzeit: "
 
-#: playinfodlgimpl.cpp:76
+#: playinfodlgimpl.cpp:78
 msgid "PlayInfoContextMenu::&Close"
 msgstr "&Schließen"
 
-#: playinfodlgimpl.cpp:133
+#: playinfodlgimpl.cpp:135
 msgid "PlayInfoContextMenu::&Full screen"
 msgstr "&Vollbildschirm"
 
-#: playinfodlgimpl.cpp:129
+#: playinfodlgimpl.cpp:131
 msgid "PlayInfoContextMenu::&Normal"
 msgstr "&Normal"
 
-#: playinfodlgimpl.cpp:71
+#: playinfodlgimpl.cpp:73
 msgid "PlayInfoContextMenu::Dissolve &Start/Stop"
 msgstr "Überblenden &Start/Stop"
 
-#: playinfodlgimpl.cpp:72
+#: playinfodlgimpl.cpp:74
 msgid "PlayInfoContextMenu::Save &image..."
 msgstr "B&ild speichern..."
 
@@ -1195,7 +1211,7 @@ msgstr "Abspiel Info"
 msgid "PlayInfoDialog::Scale image"
 msgstr "Bild skalieren"
 
-#: playinfodlgimpl.cpp:930
+#: playinfodlgimpl.cpp:932
 msgid "PlayInfoDlgImpl::Save as"
 msgstr "Speichern unter"
 
@@ -1407,35 +1423,35 @@ msgstr "&Ok"
 msgid "QObject::<script>"
 msgstr "<Skript>"
 
-#: soundinfo.cpp:600
+#: soundinfo.cpp:617
 msgid "QObject::Plot comments"
 msgstr "Dia-Plot Kommentare"
 
-#: soundinfo.cpp:369
+#: soundinfo.cpp:386
 msgid "QObject::Sound comments"
 msgstr "Musik Kommentare"
 
-#: soundinfo.cpp:626
+#: soundinfo.cpp:643
 msgid "QObject::comment"
 msgstr "Kommentar"
 
-#: diapresentation.cpp:986
+#: diapresentation.cpp:1036
 msgid "QObject::no=%d/%d ** op=%s ** timer=%6.1lf s --> cmd=\"%s\""
 msgstr "nr=%d/%d ** op=%s ** timer=%6.1lf s --> cmd=\"%s\""
 
-#: diapresentation.cpp:984
+#: diapresentation.cpp:1034
 msgid "QObject::no=%d/%d op=%s tmr=%6.1lfs->cmd=\"%s\""
 msgstr "nr=%d/%d op=%s tmr=%6.1lfs->cmd=\"%s\""
 
-#: soundinfo.cpp:616
+#: soundinfo.cpp:633
 msgid "QObject::start index"
 msgstr "Start Index"
 
-#: soundinfo.cpp:621
+#: soundinfo.cpp:638
 msgid "QObject::stop index"
 msgstr "Stop Index"
 
-#: soundinfo.cpp:385
+#: soundinfo.cpp:402
 msgid "QObject::time pos. [ms]"
 msgstr "Zeitpunkt [ms]"
 
@@ -1531,47 +1547,47 @@ msgstr "Skript:"
 msgid "ScriptDlg::[]"
 msgstr "[]"
 
-#: scriptdlgimpl.cpp:170
+#: scriptdlgimpl.cpp:171
 msgid "ScriptDlgImpl::Can not read script file "
 msgstr "Skript-Datei kann nicht gelesen werden: "
 
-#: scriptdlgimpl.cpp:144
+#: scriptdlgimpl.cpp:145
 msgid "ScriptDlgImpl::Can not write script file "
 msgstr "Skript-Datei kann nicht geschrieben werden: "
 
-#: scriptdlgimpl.cpp:54
+#: scriptdlgimpl.cpp:55
 msgid "ScriptDlgImpl::Cancel"
 msgstr "Abbrechen"
 
-#: scriptdlgimpl.cpp:54
+#: scriptdlgimpl.cpp:55
 msgid "ScriptDlgImpl::No"
 msgstr "Nein"
 
-#: scriptdlgimpl.cpp:245
+#: scriptdlgimpl.cpp:246
 msgid "ScriptDlgImpl::Script *"
 msgstr "Skript *"
 
-#: scriptdlgimpl.cpp:53
+#: scriptdlgimpl.cpp:54
 msgid "ScriptDlgImpl::Script was changed, save file now ?"
 msgstr "Skript wurde verändert, speichere Datei ?"
 
-#: scriptdlgimpl.cpp:249
+#: scriptdlgimpl.cpp:250
 msgid "ScriptDlgImpl::Script"
 msgstr "Skript"
 
-#: scriptdlgimpl.cpp:169
+#: scriptdlgimpl.cpp:170
 msgid "ScriptDlgImpl::Warning"
 msgstr "Warnung"
 
-#: scriptdlgimpl.cpp:54
+#: scriptdlgimpl.cpp:55
 msgid "ScriptDlgImpl::Yes"
 msgstr "Ja"
 
-#: scriptdlgimpl.cpp:91
+#: scriptdlgimpl.cpp:92
 msgid "ScriptDlgImpl::script done."
 msgstr "Skript beendet."
 
-#: scriptdlgimpl.cpp:95
+#: scriptdlgimpl.cpp:96
 msgid "ScriptDlgImpl::script error !"
 msgstr "Skript Fehler !"
 
