@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -455,9 +458,9 @@ void MinDiaWindow::CreateMenus()
 
 void MinDiaWindow::CreateChildWidgets()
 {
-	const int iInitWidth = 600;
+	const int iInitWidth = 795;
 	const int iInitHeight1 = 260;
-	const int iInitHeight2 = 245;
+	const int iInitHeight2 = 260;
 
 	// *** create now all the widgets
 	m_pHBox			= new QHBox( this );
@@ -465,13 +468,11 @@ void MinDiaWindow::CreateChildWidgets()
 	m_pTargetBox	= new QVBox( m_pHBox );
 	m_pSourceBox	= new QVBox( m_pHBox );
 
-// min todo --> Groesse richtig setzen
 	m_pSlideView	= new HItemView( m_pTargetBox, iInitWidth, iInitHeight1, this, m_pControler, &m_pControler->GetPresentation() );
 	m_pTimeLineView	= new TimeLineView( m_pTargetBox, iInitWidth, iInitHeight2, this, m_pControler, &m_pControler->GetPresentation() );
 
-// min todo --> ggf. optionale Anzeige als Text-Tabelle --> QTableView
+	// TODO --> ggf. optionale Anzeige als Text-Tabelle --> QTableView
 
-// min todo --> Groesse richtig setzen
 /*
 	m_pDiaPultView	= new IconItemView( m_pSourceBox, 200, iInitHeight1 );
 	m_pDiaPultView->setSizeHint( QSize( 100, 100 ) );
