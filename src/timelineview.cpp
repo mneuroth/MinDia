@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/timelineview.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:22  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -32,8 +35,6 @@
 #include "diapresentation.h"
 #include "EnterValueDlg.h"
 #include "dyntextdlgimpl.h"
-#include <qlabel.h>
-#include <qlineedit.h>
 
 #include "misctools.h"
 
@@ -44,6 +45,9 @@
 #include <qevent.h>
 #include <qdragobject.h>
 #include <qurl.h>
+#include <qlabel.h>
+#include <qcheckbox.h>
+#include <qlineedit.h>
 
 // *******************************************************************
 
@@ -70,8 +74,7 @@ void MyDynamicToolTip::maybeTip( const QPoint &pos )
 	}
 
 	QString sText;
-	int iIndexDummy;
-    QRect aRect( ((TimeLineView*)parentWidget())->GetTipRect( pos, sText, iIndexDummy ) );
+    QRect aRect( ((TimeLineView*)parentWidget())->GetTipRect( pos, &sText ) );
     if( !aRect.isValid() )
 	{
 		return;
@@ -90,6 +93,7 @@ void MyDynamicToolTip::maybeTip( const QPoint &pos )
 #define MODIFY_SOUNDCOMMENTS	2
 #define MODIFY_PLOTCOMMENTS		3
 #define MODIFY_ADDDYNTEXT		4
+#define MODIFY_MODIFYDYNTEXT	5
 
 const double g_dFactor = 10.0;		// one pixel is one tenth of a second !
 const int g_iRampSize= 60;
@@ -108,6 +112,7 @@ TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget 
 	m_pContextMenu->insertItem( tr( "&Plot comments..." ), MODIFY_PLOTCOMMENTS );
 	m_pContextMenu->insertSeparator();
 	m_pContextMenu->insertItem( tr( "&Add dyn. text..." ), MODIFY_ADDDYNTEXT );
+	m_pContextMenu->insertItem( tr( "&Modify dyn. text..." ), MODIFY_MODIFYDYNTEXT );
 	//connect( m_pContextMenu, SIGNAL( aboutToShow() ), this, SLOT( sltShowContextMenu() ) );
 	connect( m_pContextMenu, SIGNAL( activated(int) ), this, SLOT( sltContextMenuActivated(int) ) );
 
@@ -119,6 +124,8 @@ TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget 
 	m_aSizeHint			= QSize( 600, 260 );
 
 	m_pDiaPres			= pDoc;
+
+	m_pParent			= pMainWin;
 
 	m_iLastActPlayPos		= 0;
 	m_iSelectedItemStartPos	= 0;
@@ -310,6 +317,11 @@ void TimeLineView::sltContextMenuActivated( int iMenuIndex )
 
 					emit sigViewDataChanged();
 				}
+			}
+			break;
+		case MODIFY_MODIFYDYNTEXT:
+			{
+				ShowModifyDynObjectDialog( m_iSelectedDynTextIndex );
 			}
 			break;
 	}
@@ -562,7 +574,7 @@ void TimeLineView::ShowGraphicOperations()
 	}
 }
 
-QRect TimeLineView::GetTipRect( const QPoint & aPoint, QString & sText, int & iIndex )
+QRect TimeLineView::GetTipRect( const QPoint & aPoint, QString * psText, int * piIndex )
 {
 	MusicCommentItemContainer::const_iterator aIter = m_aDynGrapOpContainer.begin();
 
@@ -570,14 +582,20 @@ QRect TimeLineView::GetTipRect( const QPoint & aPoint, QString & sText, int & iI
 	{
 		MusicCommentItem aItem = *aIter;
 
-		int x = aPoint.x() + contentsX();
-		int y = aPoint.y() + contentsY();
+		int x = aPoint.x();
+		int y = aPoint.y();
 
 		if( (x > aItem.first.second->x()) && (x < aItem.first.second->x()+30 ) &&
 			(y > aItem.first.second->y()) && (y < aItem.first.second->y()+30 ) )
 		{
-			sText = aItem.second.first;
-			iIndex = aItem.second.second;
+			if( psText )
+			{
+				*psText = aItem.second.first;
+			}
+			if( piIndex )
+			{
+				*piIndex = aItem.second.second;
+			}
 
 			return QRect( aPoint.x(), aPoint.y(), 20, 30 );
 		}
@@ -667,68 +685,12 @@ void TimeLineView::contentsMousePressEvent( QMouseEvent * pEvent )
 		// check for touched dynamic text objects
 		int iIndexOut = 0;
 		QString sText;
-		QRect aRect = GetTipRect( pEvent->pos(), sText, iIndexOut );
+		QRect aRect = GetTipRect( pEvent->pos(), &sText, &iIndexOut );
 	    if( aRect.isValid() )
 		{
 			if( (pEvent->state() & QEvent::ShiftButton) == QEvent::ShiftButton )
 			{
-				// ** change data of the dynamic text with a dialog **
-				DynContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
-
-				minHandle<DynText> hItem = aDynGrOpContainer[ iIndexOut ];
-
-				DynamicTextDlgImpl aDlg( hItem->font(), this, "enter_dynamic_text", /*modal*/TRUE );
-//remove vector
-				aDlg.m_pText->setText( QString( hItem->text() ) );
-				aDlg.m_pText->setFocus();
-				aDlg.m_pFontName->setText( hItem->font().family() );
-				QString sTemp;
-				sTemp = sTemp.setNum( hItem->font().pointSize() );
-				aDlg.m_pFontSize->setText( sTemp );
-				sTemp = sTemp.setNum( hItem->x() );
-				aDlg.m_pPosX->setText( sTemp );
-				sTemp = sTemp.setNum( hItem->y() );
-				aDlg.m_pPosY->setText( sTemp );
-				QColor aColor = hItem->color();
-				aDlg.m_pSelectFontcolor->setPalette( QPalette( aColor ) );
-
-				double dStart, dDelta;
-				hItem->GetDefaultData( dStart, dDelta );
-
-				sTemp = sTemp.setNum( /*hItem->GetStartTime()*/dStart );
-				aDlg.m_pShowAtTime->setText( sTemp );
-				sTemp = sTemp.setNum( dDelta );
-				aDlg.m_pShowTime->setText( sTemp );
-
-				int iRet = aDlg.exec();
-
-				if( iRet == 2 )
-				{
-					// delete the selected item !
-					aDynGrOpContainer.erase( aDynGrOpContainer.begin()+iIndexOut );
-
-					aDynGrOpContainer.SetChanged();
-
-					emit sigViewDataChanged();
-				}
-				else if( iRet == 1 )
-				{
-					hItem->setText( aDlg.m_pText->text() );
-					hItem->setFont( aDlg.GetFont() );
-					hItem->setX( aDlg.m_pPosX->text().toInt() );
-					hItem->setY( aDlg.m_pPosY->text().toInt() );
-					QColor aColor = aDlg.m_pSelectFontcolor->backgroundColor();
-					hItem->setColor( aColor );
-
-					dStart = aDlg.m_pShowAtTime->text().toDouble();
-					dDelta = aDlg.m_pShowTime->text().toDouble();
-
-					hItem->ChangeDefaultData( dStart, dDelta );
-
-					aDynGrOpContainer.SetChanged();
-
-					emit sigViewDataChanged();
-				}
+				ShowModifyDynObjectDialog( iIndexOut );
 			}
 			else
 			{
@@ -743,7 +705,17 @@ void TimeLineView::contentsMousePressEvent( QMouseEvent * pEvent )
 	{
 		// ** handle popup menu...
 		m_aLastMousePos = pEvent->pos();
+
+		// if mouse was clicked on a dynamic text,
+		// enable the item to allow the modification of the dynamic text
+		int iTemp = m_iSelectedDynTextIndex;	// save info of the selected item
+		QRect aRect = GetTipRect( pEvent->pos(), 0, &m_iSelectedDynTextIndex );
+		m_pContextMenu->setItemEnabled( MODIFY_MODIFYDYNTEXT, aRect.isValid() );
+				
 		m_pContextMenu->exec( pEvent->globalPos() );
+
+		// restore info
+		m_iSelectedDynTextIndex = iTemp;
 	}
 }
 
@@ -831,6 +803,13 @@ void TimeLineView::contentsMouseMoveEvent( QMouseEvent * pEvent )
 		// ** data was changed with mouse-move
 		m_bMouseMovedWhilePressed = true;
 
+		// select the slide for this text item
+		int iIndex = GetItemForPosX( pEvent->x() );
+		if( iIndex>=0 )
+		{
+			sltSelectItem( iIndex, 0 );
+		}
+
 		// ** update view **
 		sltUpdateView();
 	}
@@ -864,9 +843,7 @@ void TimeLineView::contentsMouseMoveEvent( QMouseEvent * pEvent )
 			}
 
 			// check for touched dynamic text objects
-			int iIndexOut = 0;
-			QString sText;
-			QRect aRect = GetTipRect( pEvent->pos(), sText, iIndexOut );
+			QRect aRect = GetTipRect( pEvent->pos() );
 			if( aRect.isValid() )
 			{
 				setCursor( SizeHorCursor );
@@ -938,7 +915,7 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
 
 		if( QUriDrag::decode( pEvent, aStrList ) )
 		{
-			for( int i=0; i<aStrList.count(); i++ )
+			for( int i=0; i<(int)aStrList.count(); i++ )
 			{
 				const QString sTest = aStrList.at(i);
 				s = (const char *)sTest;
@@ -996,5 +973,105 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
 		s = (const char *)sFullName;
 		bOk = aImage.load( sFullName );
 	}
+}
+
+void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
+{
+	// ** change data of the dynamic text with a dialog **
+	DynContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
+
+	minHandle<DynText> hItem = aDynGrOpContainer[ iIndexOut ];
+
+	DynamicTextDlgImpl aDlg( hItem, this, m_pParent, "enter_dynamic_text", /*modal*/TRUE );
+//remove vector
+	aDlg.m_pText->setText( QString( hItem->text() ) );
+	aDlg.m_pText->setFocus();
+	aDlg.m_pFontName->setText( hItem->font().family() );
+	QString sTemp;
+	sTemp = sTemp.setNum( hItem->font().pointSize() );
+	aDlg.m_pFontSize->setText( sTemp );
+	sTemp = sTemp.setNum( hItem->x() );
+	aDlg.m_pPosX->setText( sTemp );
+	sTemp = sTemp.setNum( hItem->y() );
+	aDlg.m_pPosY->setText( sTemp );
+	QColor aColor = hItem->color();
+	aDlg.m_pSelectFontcolor->setPalette( QPalette( aColor ) );
+	double xRel,yRel;
+	if( hItem->GetRelativePos( xRel, yRel ) )
+	{
+		aDlg.SetRelPos( xRel, yRel );
+	}
+
+	double dStart, dDelta;
+	hItem->GetDefaultData( dStart, dDelta );
+
+	sTemp = sTemp.setNum( /*hItem->GetStartTime()*/dStart );
+	aDlg.m_pShowAtTime->setText( sTemp );
+	sTemp = sTemp.setNum( dDelta );
+	aDlg.m_pShowTime->setText( sTemp );
+
+	int iRet = aDlg.exec();
+
+	if( iRet == 2 )
+	{
+		// delete the selected item !
+		aDynGrOpContainer.erase( aDynGrOpContainer.begin()+iIndexOut );
+
+		aDynGrOpContainer.SetChanged();
+
+		emit sigViewDataChanged();
+	}
+	else if( iRet == 1 )
+	{
+		hItem->setText( aDlg.m_pText->text() );
+		hItem->setFont( aDlg.GetFont() );
+		if( aDlg.m_pRelPos->isChecked() )
+		{
+			hItem->SetRelativePos( aDlg.GetRelX(), aDlg.GetRelY() );
+		}
+		else
+		{
+			hItem->setX( aDlg.m_pPosX->text().toInt() );
+			hItem->setY( aDlg.m_pPosY->text().toInt() );
+			hItem->SetRelativePos( -1.0, -1.0 );
+		}
+		QColor aColor = aDlg.m_pSelectFontcolor->backgroundColor();
+		hItem->setColor( aColor );
+
+		dStart = aDlg.m_pShowAtTime->text().toDouble();
+		dDelta = aDlg.m_pShowTime->text().toDouble();
+
+		hItem->ChangeDefaultData( dStart, dDelta );
+
+		if( aDlg.m_pAttributesForAll->isChecked() )
+		{
+			aDynGrOpContainer.SetAttributesForAllItems( hItem );
+		}
+
+		aDynGrOpContainer.SetChanged();
+
+
+		emit sigViewDataChanged();
+	}
+}
+
+int TimeLineView::GetItemForPosX( int x )
+{
+	int iCount = 0;
+	MyItemContainer::const_iterator aIter = m_aItemContainer.begin();
+
+	while( aIter != m_aItemContainer.end() )
+	{
+		minHandle<TimeLineItem> hItem = *aIter;
+
+		if( hItem->IsSelected( x, hItem->GetPositionY() ) )
+		{
+			return iCount;
+		}		
+
+		++iCount;
+		++aIter;
+	}
+	return -1;
 }
 

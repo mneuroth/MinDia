@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/timelineview.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:22  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -89,7 +92,7 @@ public:
 
 	void SetPlayMark( double dActPlayTime );
 
-    QRect GetTipRect( const QPoint & aPoint, QString & sText, int & iIndex );
+    QRect GetTipRect( const QPoint & aPoint, QString * psText = 0, int * piIndex = 0 );
 
 public slots:
 	// ** helper methods **
@@ -114,6 +117,8 @@ private:
 	void ShowMusicComments();
 	void ShowMusicTracks();
 	void ShowGraphicOperations();
+	void ShowModifyDynObjectDialog( int iIndexOut );
+	int  GetItemForPosX( int x );
 
 	// ** data **
 	QPopupMenu *				m_pContextMenu;
@@ -134,9 +139,10 @@ private:
 	MusicCommentItemContainer	m_aDynGrapOpContainer;		// container for the dynamic graphic operations items
 
 	// ** reference to data **
-	DiaPresentation *			m_pDiaPres;				// !!! NO OWNER !!!
+	DiaPresentation *			m_pDiaPres;					// !!! NO OWNER !!!
 
 	// ** temp data **
+	QWidget	*					m_pParent;
 	int							m_iLastActPlayPos;
 	int							m_iSelectedItemStartPos;
 	bool						m_bDissolveSelected;
@@ -144,7 +150,7 @@ private:
 	minHandle<TimeLineItem>		m_hSelectedItem;
 	int							m_iSelectedItemNo;
 	bool						m_bMouseMovedWhilePressed;
-	int							m_iSelectedDynTextIndex;
+	int							m_iSelectedDynTextIndex;	// temp info for shift and context menu
 };
 
 #endif
