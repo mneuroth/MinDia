@@ -1,80 +1,68 @@
-<!DOCTYPE UI><UI>
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>AboutExtDlg</class>
-<widget>
-    <class>QDialog</class>
-    <property stdset="1">
-        <name>name</name>
+<widget class="QDialog">
+    <property name="name">
         <cstring>AboutExtDlg</cstring>
     </property>
-    <property>
-        <name>geometry</name>
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
             <width>444</width>
-            <height>372</height>
+            <height>375</height>
         </rect>
     </property>
-    <property>
-        <name>caption</name>
+    <property name="caption">
         <string>About MinDia</string>
     </property>
-    <property>
-        <name>sizeGripEnabled</name>
+    <property name="sizeGripEnabled">
         <bool>true</bool>
     </property>
     <vbox>
-        <property>
-            <name>margin</name>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
             <number>11</number>
         </property>
-        <property>
-            <name>spacing</name>
+        <property name="spacing">
             <number>6</number>
         </property>
-        <widget>
-            <class>QTabWidget</class>
-            <property stdset="1">
-                <name>name</name>
+        <widget class="QTabWidget">
+            <property name="name">
                 <cstring>m_pTabWidget</cstring>
             </property>
-            <widget>
-                <class>QWidget</class>
-                <property stdset="1">
-                    <name>name</name>
+            <widget class="QWidget">
+                <property name="name">
                     <cstring>About</cstring>
                 </property>
-                <attribute>
-                    <name>title</name>
+                <attribute name="title">
                     <string>&amp;About</string>
                 </attribute>
                 <vbox>
-                    <property>
-                        <name>margin</name>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
                         <number>11</number>
                     </property>
-                    <property>
-                        <name>spacing</name>
+                    <property name="spacing">
                         <number>6</number>
                     </property>
-                    <widget>
-                        <class>QTextView</class>
-                        <property stdset="1">
-                            <name>name</name>
+                    <widget class="QTextView">
+                        <property name="name">
                             <cstring>m_pAboutEdit</cstring>
                         </property>
-                        <property>
-                            <name>font</name>
+                        <property name="font">
                             <font>
                             </font>
                         </property>
-                        <property>
-                            <name>text</name>
+                        <property name="text">
                             <string>&lt;br&gt;
 &lt;center&gt;
 &lt;b&gt;MinDia&lt;/b&gt;
 &lt;br&gt;&lt;br&gt;
-ver. 0.97.2 from 31.1.2004
+ver. 0.97.3 from 21.2.2004
 &lt;br&gt;&lt;br&gt;
 Copyright 2001-2004 by Michael Neuroth
 &lt;br&gt;&lt;br&gt;
@@ -87,33 +75,28 @@ The programm supports also the direct control of Rollei dia-projectors &lt;br&gt
                     </widget>
                 </vbox>
             </widget>
-            <widget>
-                <class>QWidget</class>
-                <property stdset="1">
-                    <name>name</name>
+            <widget class="QWidget">
+                <property name="name">
                     <cstring>Autor</cstring>
                 </property>
-                <attribute>
-                    <name>title</name>
+                <attribute name="title">
                     <string>A&amp;uthor</string>
                 </attribute>
                 <vbox>
-                    <property>
-                        <name>margin</name>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
                         <number>11</number>
                     </property>
-                    <property>
-                        <name>spacing</name>
+                    <property name="spacing">
                         <number>6</number>
                     </property>
-                    <widget>
-                        <class>QTextView</class>
-                        <property stdset="1">
-                            <name>name</name>
+                    <widget class="QTextView">
+                        <property name="name">
                             <cstring>m_pAuthorEdit</cstring>
                         </property>
-                        <property>
-                            <name>text</name>
+                        <property name="text">
                             <string>&lt;br&gt;
 Michael Neuroth, 
 &lt;a href="mailto:mindia@users.sourceforge.net"&gt;mindia@users.sourceforge.net&lt;/a&gt;</string>
@@ -121,33 +104,28 @@ Michael Neuroth,
                     </widget>
                 </vbox>
             </widget>
-            <widget>
-                <class>QWidget</class>
-                <property stdset="1">
-                    <name>name</name>
+            <widget class="QWidget">
+                <property name="name">
                     <cstring>Contributions</cstring>
                 </property>
-                <attribute>
-                    <name>title</name>
+                <attribute name="title">
                     <string>C&amp;ontributions</string>
                 </attribute>
                 <vbox>
-                    <property>
-                        <name>margin</name>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
                         <number>11</number>
                     </property>
-                    <property>
-                        <name>spacing</name>
+                    <property name="spacing">
                         <number>6</number>
                     </property>
-                    <widget>
-                        <class>QTextView</class>
-                        <property stdset="1">
-                            <name>name</name>
+                    <widget class="QTextView">
+                        <property name="name">
                             <cstring>m_pContributionsEdit</cstring>
                         </property>
-                        <property>
-                            <name>text</name>
+                        <property name="text">
                             <string>&lt;br&gt;
 MinDia would not existing without this software:
 &lt;ul&gt;
@@ -175,115 +153,95 @@ Other usefull programs to create a multimedia slide show:
                     </widget>
                 </vbox>
             </widget>
-            <widget>
-                <class>QWidget</class>
-                <property stdset="1">
-                    <name>name</name>
+            <widget class="QWidget">
+                <property name="name">
                     <cstring>License</cstring>
                 </property>
-                <attribute>
-                    <name>title</name>
+                <attribute name="title">
                     <string>&amp;License</string>
                 </attribute>
                 <vbox>
-                    <property>
-                        <name>margin</name>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
                         <number>11</number>
                     </property>
-                    <property>
-                        <name>spacing</name>
+                    <property name="spacing">
                         <number>6</number>
                     </property>
-                    <widget>
-                        <class>QTextView</class>
-                        <property stdset="1">
-                            <name>name</name>
+                    <widget class="QTextView">
+                        <property name="name">
                             <cstring>m_pLicenseEdit</cstring>
                         </property>
-                        <property>
-                            <name>font</name>
+                        <property name="font">
                             <font>
                                 <family>Courier</family>
                             </font>
                         </property>
-                        <property>
-                            <name>text</name>
+                        <property name="text">
                             <string></string>
                         </property>
                     </widget>
                 </vbox>
             </widget>
         </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
+        <widget class="QLayoutWidget">
+            <property name="name">
                 <cstring>Layout5</cstring>
             </property>
             <hbox>
-                <property>
-                    <name>margin</name>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
                     <number>0</number>
                 </property>
-                <property>
-                    <name>spacing</name>
+                <property name="spacing">
                     <number>6</number>
                 </property>
                 <spacer>
-                    <property>
-                        <name>name</name>
+                    <property name="name">
                         <cstring>Horizontal Spacing2</cstring>
                     </property>
-                    <property>
-                        <name>orientation</name>
+                    <property name="orientation">
                         <enum>Horizontal</enum>
                     </property>
-                    <property>
-                        <name>sizeType</name>
+                    <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property>
-                        <name>sizeHint</name>
+                    <property name="sizeHint">
                         <size>
                             <width>20</width>
                             <height>20</height>
                         </size>
                     </property>
                 </spacer>
-                <widget>
-                    <class>QPushButton</class>
-                    <property stdset="1">
-                        <name>name</name>
+                <widget class="QPushButton">
+                    <property name="name">
                         <cstring>buttonOk</cstring>
                     </property>
-                    <property>
-                        <name>text</name>
+                    <property name="text">
                         <string>&amp;Close</string>
                     </property>
-                    <property>
-                        <name>autoDefault</name>
+                    <property name="autoDefault">
                         <bool>true</bool>
                     </property>
-                    <property>
-                        <name>default</name>
+                    <property name="default">
                         <bool>true</bool>
                     </property>
                 </widget>
                 <spacer>
-                    <property>
-                        <name>name</name>
+                    <property name="name">
                         <cstring>Spacer12</cstring>
                     </property>
-                    <property>
-                        <name>orientation</name>
+                    <property name="orientation">
                         <enum>Horizontal</enum>
                     </property>
-                    <property>
-                        <name>sizeType</name>
+                    <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property>
-                        <name>sizeHint</name>
+                    <property name="sizeHint">
                         <size>
                             <width>20</width>
                             <height>20</height>
@@ -302,4 +260,5 @@ Other usefull programs to create a multimedia slide show:
         <slot>accept()</slot>
     </connection>
 </connections>
+<layoutdefaults spacing="6" margin="11"/>
 </UI>
