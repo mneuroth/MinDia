@@ -2,10 +2,10 @@ change history of MinDia
 ========================
 
 ------------------------------------------------------------------------------
-27. 1.2004  Version 0.97.2 released
+31. 1.2004  Version 0.97.2 released
 
             new features:
-			  * english documentation
+              * english documentation
               * new menu point: "Make relative paths"
               * example slide show available (example_nz.dia)
               * demo device driver (to control other slide projector hardware)
@@ -19,11 +19,13 @@ change history of MinDia
               * location of ini file is now os standard 
                 (User-HOME under linux, registry under windows)
               * more values are saved and restored from .mindia.ini file
+              * disable drag&drop while presentation is running
+              * handle simulation flag from configuration dialog correct
             linux version only
               * configure script improved (tmake/qmake detection)
               * calculation of the length of mp3-files now implemented
             windows version only
-              *	installation program available (using Inno Setup from Jordan Russel)
+              * installation program available (using Inno Setup from Jordan Russel)
               * jpeg-image support uses now mmx (speed optimizations)
 
 ------------------------------------------------------------------------------
