@@ -70,7 +70,7 @@ Player for Zaurus</string>
             </property>
             <property stdset="1">
                 <name>text</name>
-                <string>Version 0.97.3b (12.3.2004)</string>
+                <string>Version 0.97.3c (4.4.2004)</string>
             </property>
             <property stdset="1">
                 <name>alignment</name>

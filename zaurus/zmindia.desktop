@@ -5,3 +5,4 @@ Icon=Zmindia
 Type=Application
 Name=ZMinDia
 Name[de]=ZMinDia
+Display=640x480/144dpi,480x640/144dpi,240x320
