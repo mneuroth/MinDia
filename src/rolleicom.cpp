@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/rolleicom.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/08/15 19:38:32  min
+ *	debug comments deleted
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:22  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -890,7 +893,7 @@ bool RolleiCom::SendCmdTwin( const string & sMsg, bool bExpectReturnValue )
 	{
 		// Bugfix: 15.2.2003 synchronize access to Com-Port
 		// now the synchronious stop-cmd can not interfere with cmd-thread command handling
-		minLock aLock( *m_pComPortSync );
+		//todo, problems with linux: minLock aLock( *m_pComPortSync );
 			
 		// ** send every character of the cmd as a single character
 		for( int i=0; i<(int)sMsg.length(); i++ )
@@ -953,7 +956,7 @@ bool RolleiCom::SendCmdMSC( const string & sMsg, bool bExpectReturnValue )
 	{
 		// Bugfix: 15.2.2003 synchronize access to Com-Port
 		// now the synchronious stop-cmd can not interfere with cmd-thread command handling
-		minLock aLock( *m_pComPortSync );
+		//todo, problems with linux: minLock aLock( *m_pComPortSync );
 
 		// ** maybe needed: check the projector if he is ready to accept commands
 		//bool bReady = CheckReady();
@@ -1031,7 +1034,7 @@ bool RolleiCom::ReceiveEcho( const string & sMsgCharacter, string & sEcho )
 	{
 		// Bugfix: 15.2.2003 synchronize access to Com-Port
 		// now the synchronious stop-cmd can not interfere with cmd-thread command handling
-		minLock aLock( *m_pComPortSync );
+		//todo, problems with linux: minLock aLock( *m_pComPortSync );
 
 		if( m_pData->Read( sEcho, 1 ) )
 		{
@@ -1116,7 +1119,7 @@ string RolleiCom::GetMsg( int iCount )
 		{
 			// Bugfix: 15.2.2003 synchronize access to Com-Port
 			// now the synchronious stop-cmd can not interfere with cmd-thread command handling
-			minLock aLock( *m_pComPortSync );
+			//todo, problems with linux: minLock aLock( *m_pComPortSync );
 
 			if( m_pData->Read( sRet, iCount ) )
 			{
@@ -1390,7 +1393,7 @@ char RolleiCom::GetStatus( bool /*bSync*/ )
 			{
 				// Bugfix: 15.2.2003 synchronize access to Com-Port
 				// now the synchronious stop-cmd can not interfere with cmd-thread command handling
-				minLock aLock( *m_pComPortSync );
+				//todo, problems with linux: minLock aLock( *m_pComPortSync );
 
 				bool bOk = m_pData->Write( "ß" );
 				if( bOk )
