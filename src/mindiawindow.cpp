@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.cpp,v $
  *
- *  $Revision: 1.6 $
+ *  $Revision: 1.7 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.6  2004/01/29 21:29:06  min
+ *	Bugfix: clear tooltip if a new message for the statusbar arrives
+ *	
  *	Revision 1.5  2004/01/28 19:11:37  min
  *	Plugins menuitem changed
  *	
@@ -99,7 +102,7 @@
 	
 	@author		Michael Neuroth
 	@version	1.0
-	@date		2001-2003
+	@date		2001-2004
 
 	./COPYING  
 
@@ -114,6 +117,9 @@ const unsigned long c_ulAutoStartTimeout	= 100;
 // ***********************************************************************
 
 string GetMinDiaSharedDirectory();
+
+// ** this function is defined in main.cpp */
+QApplication * GetApplication();
 
 // ***********************************************************************
 
@@ -443,6 +449,8 @@ void MinDiaWindow::CreateMenus()
 	// *** submenu: help ***
     QAction * helpAboutAction = new QAction( tr( "About" ), tr( "&About..." ), CTRL+Key_F1, this, "about" );
     connect( helpAboutAction, SIGNAL( activated() ), this, SLOT( sltShowAbout() ) );
+    QAction * helpAboutQtAction = new QAction( tr( "About Qt" ), tr( "About &Qt..." ), 0, this, "about_qt" );
+    connect( helpAboutQtAction, SIGNAL( activated() ), GetApplication(), SLOT( aboutQt() ) );
     //QAction * helpLicenseAction = new QAction( tr( "License" ), tr( "&License..." ), 0, this, "license" );
     //connect( helpLicenseAction, SIGNAL( activated() ), this, SLOT( sltShowLicense() ) );
     QAction * helpAction = new QAction( tr( "Help for mindia" ), tr( "&Help..." ), Key_F1, this, "help" );
@@ -452,6 +460,7 @@ void MinDiaWindow::CreateMenus()
 	m_pHelp->insertSeparator();
 	//helpLicenseAction->addTo( m_pHelp );
     helpAboutAction->addTo( m_pHelp );
+	helpAboutQtAction->addTo( m_pHelp );
 
 
 	// *** connect signals to slots ***
