@@ -8,7 +8,7 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/zaurus/zmindia.cpp,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
  *	Revision 1.2  2004/02/26 22:16:04  min
@@ -99,6 +99,7 @@ class QtMTLock {};
 #include "configplayerdlgimpl.h"
 #include "pcdlgimpl.h"
 #include "diainfodlgimpl.h"
+#include "playinfodlgimpl.h"
 #include "SaveAsDlg.h"
 #include "AboutDlg.h"
 
@@ -144,6 +145,14 @@ static string GetNextFreeID()
 	return sBuffer;
 }
 
+static int GetPercentageWidth( int iMaxWidth, double dPercent )
+{
+	int iRet = (int)(dPercent*((double)iMaxWidth)/100.0);
+//cout << "Percentage: " << iRet << " " << iMaxWidth << " " << dPercent << endl;
+	return iRet;
+}
+
+
 /*
  *  Constructs a ZMinDia which is a child of 'parent', with the
  *  name 'name' and widget flags set to 'f'
@@ -152,6 +161,7 @@ ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
     : QMainWindow( parent, name, fl ),
 	  m_aDocContrl( /*bIgnoreComSettings*/false, /*bSimulation*/true, RolleiCom::TWIN_DIGITAL_P, this, 0, this ),
 	  m_pDiaInfo( 0 ),
+	  m_pPlayInfo( 0 ),
 	  m_pFileSelector( 0 ),
 	  m_sScriptExtention( "text/plain" ),	// "text/mindia"
 	  m_iActRow( 0 )
@@ -205,6 +215,10 @@ ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
 
     aAction = new QAction( tr( "Dia info..." ), QString::null, 0, this, 0 );
     connect( aAction, SIGNAL( activated() ), this, SLOT( sltDiaInfo() ) );
+    aAction->addTo( pFile );
+
+    aAction = new QAction( tr( "Play info..." ), QString::null, 0, this, 0 );
+    connect( aAction, SIGNAL( activated() ), this, SLOT( sltPlayInfo() ) );
     aAction->addTo( pFile );
 
 	pFile->insertSeparator();
@@ -265,11 +279,16 @@ ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
     //m_pOutput->setReadOnly( TRUE );
     //m_pOutput->setEnabled( FALSE );
 	m_pOutput->setSelectionMode( QTable::Single );
-	m_pOutput->setColumnWidth( 0, 75 );
-	m_pOutput->setColumnWidth( 1, 30 );
-	m_pOutput->setColumnWidth( 2, 30 );
-	m_pOutput->setColumnWidth( 3, 60 );
-	m_pOutput->setColumnWidth( 4, 60 );
+//	m_pOutput->setColumnWidth( 0, GetPercentageWidth(m_pOutput->width(),30.0) );
+//	m_pOutput->setColumnWidth( 1, GetPercentageWidth(m_pOutput->width(),15.0) );
+//	m_pOutput->setColumnWidth( 2, GetPercentageWidth(m_pOutput->width(),15.0) );
+//	m_pOutput->setColumnWidth( 3, GetPercentageWidth(m_pOutput->width(),20.0) );
+//	m_pOutput->setColumnWidth( 4, GetPercentageWidth(m_pOutput->width(),20.0) );
+//	m_pOutput->setColumnWidth( 0, 75 );
+//	m_pOutput->setColumnWidth( 1, 30 );
+//	m_pOutput->setColumnWidth( 2, 30 );
+//	m_pOutput->setColumnWidth( 3, 60 );
+//	m_pOutput->setColumnWidth( 4, 60 );
 	m_pOutput->horizontalHeader()->setLabel( 0, tr( "Comment" ) );
 	m_pOutput->horizontalHeader()->setLabel( 1, tr( "Dissolve time [s]" ) );
 	m_pOutput->horizontalHeader()->setLabel( 2, tr( "Show time [s]" ) );
@@ -279,7 +298,7 @@ ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
     m_pLogging = new QMultiLineEdit( /*m_pSplitter*/m_pVBox, "m_pLogging" );
     m_pLogging->setReadOnly( TRUE );
 	// set the size of the logging field...
-	//m_pLogging->setMaximumSize( QSize( 240, 65 ) );
+//	m_pLogging->setMaximumSize( QSize( 240, 65 ) );
 	m_pLogging->setMaximumHeight( 65 );
 	m_pLogging->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed ) );
 
@@ -325,6 +344,10 @@ ZMinDia::~ZMinDia()
 	{
 		delete m_pDiaInfo;
 	}
+	if( m_pPlayInfo )
+	{
+		delete m_pPlayInfo;
+	}
 }
 
 void ZMinDia::updateFileSelector()
@@ -351,6 +374,8 @@ void ZMinDia::sltConfiguration()
 {
 	ConfigurationDlgImpl * pDlg = new ConfigurationDlgImpl( &m_aDocContrl, this, "configuredlg", /*bModal*/TRUE );
 
+	pDlg->adjustSize();
+
 	int iRet = pDlg->exec();
 
 	if( iRet == 1 )
@@ -365,6 +390,8 @@ void ZMinDia::sltConfiguration()
 void ZMinDia::sltPlayerConfiguration()
 {
 	ConfigPlayerDlgImpl * pDlg = new ConfigPlayerDlgImpl( m_aDocContrl.GetIniDB(), this, "playerconfiguredlg", /*bModal*/TRUE );
+
+	pDlg->adjustSize();
 
 	int iRet = pDlg->exec();
 
@@ -468,6 +495,11 @@ void ZMinDia::sltShowWorkspace()
     m_pButtonBar->show();
     m_pStack->raiseWidget( m_pVBox );
     m_pOutput->setFocus();
+	m_pOutput->setColumnWidth( 0, GetPercentageWidth(m_pOutput->width(),30.0) );
+	m_pOutput->setColumnWidth( 1, GetPercentageWidth(m_pOutput->width(),15.0) );
+	m_pOutput->setColumnWidth( 2, GetPercentageWidth(m_pOutput->width(),15.0) );
+	m_pOutput->setColumnWidth( 3, GetPercentageWidth(m_pOutput->width(),20.0) );
+	m_pOutput->setColumnWidth( 4, GetPercentageWidth(m_pOutput->width(),20.0) );
 }
 
 void ZMinDia::updateCaption( const QString & sName=QString::null )
@@ -617,6 +649,17 @@ void ZMinDia::sltProjectorControl()
 {
 	ProjectorControlDlgImpl * pDlg = new ProjectorControlDlgImpl( &(m_aDocContrl.GetDiaCom()), &(m_aDocContrl.GetPresentation()), this, "projector_control", /*bTrue*/true );
 
+	if( width()<300 )
+	{
+		pDlg->setFixedWidth(220);
+		pDlg->setFixedHeight(280);
+		pDlg->updateGeometry();
+	}
+	else
+	{
+		pDlg->adjustSize();
+	}
+
 	/*int iRet =*/ pDlg->exec();
 /*
 	if( iRet == 1 )
@@ -632,16 +675,61 @@ void ZMinDia::sltDiaInfo()
 	if( m_pDiaInfo==0 )
 	{
 		m_pDiaInfo = new DiaInfoDlgImpl( this, this, "dia_info", /*bModal*/FALSE );
+
+		if( width()<300 )
+		{
+			m_pDiaInfo->setFixedWidth(220);
+			//m_pDiaInfo->setFixedHeight(280);
+			m_pDiaInfo->updateGeometry();
+		}
+		else
+		{
+			m_pDiaInfo->adjustSize();
+		}
 	}
 
 	/*int iRet =*/ m_pDiaInfo->show();
+	m_pDiaInfo->raise();
 /*
 	if( iRet == 1 )
 	{
 		// ok, pressed
 	}
 */
-//	delete pDlg;
+//	delete m_pDiaInfo;
+}
+
+void ZMinDia::sltPlayInfo()
+{
+	if( m_pPlayInfo==0 )
+	{
+		m_pPlayInfo = new PlayInfoDlgImpl( &m_aDocContrl, this, "play_info", /*bModal*/FALSE );
+
+		if( width()<300 )
+		{
+			m_pPlayInfo->setFixedWidth(220);
+			//m_pPlayInfo->setFixedHeight(280);
+			m_pPlayInfo->updateGeometry();
+		}
+		else
+		{
+			//m_pPlayInfo->setFixedWidth(460);
+			//m_pPlayInfo->setFixedHeight(320);
+			m_pPlayInfo->updateGeometry();
+			//m_pPlayInfo->adjustSize();
+		}
+
+	}
+
+	/*int iRet =*/ m_pPlayInfo->show();
+	m_pPlayInfo->raise();
+/*
+	if( iRet == 1 )
+	{
+		// ok, pressed
+	}
+*/
+//	delete m_pPlayInfo;
 }
 
 void ZMinDia::sltUpdateOutput()
@@ -734,7 +822,7 @@ void ZMinDia::sltPlayFinished()
 	SetScreenSaverInterval( 60 );
 }
 
-void ZMinDia::sltSelectItem( int iIndex, int /*iDissolveTimeInMS*/ )
+void ZMinDia::sltSelectItem( int iIndex, int iDissolveTimeInMS )
 {
 	QTableSelection aSelect;
 	aSelect.init( iIndex, 0 );
@@ -743,6 +831,12 @@ void ZMinDia::sltSelectItem( int iIndex, int /*iDissolveTimeInMS*/ )
 	m_pOutput->clearSelection();
 	m_pOutput->addSelection( aSelect );
 	m_pOutput->ensureCellVisible( iIndex, 0 );
+
+	if( m_pPlayInfo && m_pPlayInfo->isVisible() )
+	{
+		minHandle<DiaInfo> hSelected = m_aDocContrl.GetPresentation().GetDiaAt( iIndex );
+		m_pPlayInfo->sltSetImage( hSelected->GetImageFile(), m_aDocContrl.IsPlayModus(), iDissolveTimeInMS );
+	}
 }
 
 int ZMinDia::GetSelectedRow() const
@@ -766,12 +860,18 @@ void ZMinDia::sltSelectionChanged( int iRow, int iCol )
 void ZMinDia::updateDiaInfoDialog( int iRow )
 {
 	m_iActRow = iRow;
-
+//cout << "updateDiaInfo " << iRow << endl;
 	minHandle<DiaInfo> hSelected = m_aDocContrl.GetPresentation().GetDiaAt( m_iActRow );
 
     if( m_pDiaInfo )
 	{
+//cout << "doit " << (void *)hSelected.GetPtr() << endl;
 		m_pDiaInfo->sltUpdateData( hSelected, true );
+	}
+
+	if( m_pPlayInfo && m_pPlayInfo->isVisible() )
+	{
+		m_pPlayInfo->sltSetImage( QImage( hSelected->GetImageFile() ) );
 	}
 }
 

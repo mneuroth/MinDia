@@ -8,7 +8,7 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/zaurus/zmindia.h,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
  *	Revision 1.2  2004/02/26 22:15:24  min
@@ -55,6 +55,7 @@ class QLabel;
 class QTimer;
 
 class DiaInfoDlgImpl;
+class PlayInfoDlgImpl;
 
 class ZMinDia : public QMainWindow, public minLoggingInterface
 {
@@ -97,6 +98,7 @@ private slots:
     void sltClearLogging();
     void sltProjectorControl();
     void sltDiaInfo();
+    void sltPlayInfo();
     void sltShowWorkspace();
     void sltStatusUpdateTimerEvent();
 
@@ -116,6 +118,7 @@ private:
 	DocumentAndControler	m_aDocContrl;
 
 	DiaInfoDlgImpl * 	m_pDiaInfo;
+	PlayInfoDlgImpl * 	m_pPlayInfo;
 
 	FileSelector *		m_pFileSelector;
 	QToolBar *			m_pMenu;
