@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/mindiapyc/mindiapy.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -127,11 +130,12 @@ int IGeneralScriptVMImpl::ExecuteScript( const string & sScript )
 	//cout << sScript.c_str() << endl;
 
 #ifdef _with_python
+	// *** old script execution mode
 	int iRet = PyRun_SimpleString( (char *)sScript.c_str() );
 	//cout << "Run iRet=" << iRet << endl;
+	return iRet;
 #endif
 
-	return iRet;
 }
 
 minClientHandle<IMinDiaScriptFcn> IGeneralScriptVMImpl::GetScriptFcn()
@@ -144,12 +148,30 @@ void IGeneralScriptVMImpl::InitVM( int argc, char** argv )
 	//cout << "InitVM" << endl;
 
 #ifdef _with_python
+
 	Py_SetProgramName( argv[0] );
 
 	Py_Initialize();
 
 	// ok, this call is important ! otherwies external modules will not be found...
 	PySys_SetArgv( argc, argv );
+
+	// update the search path, so that all the scripts will be found
+	int ok = PyRun_SimpleString("import sys, traceback\n");
+	// loop through the paths you want to add
+	char sBuffer[512];
+	minClientHandle<IGeneralScriptFcn>	hScriptFcn( g_IGeneralScriptFcnID );
+	sprintf( sBuffer, 
+		     "sys.path.insert(0,\"..\\%s\")\nsys.path.insert(0, \"%s\")\n\n", 
+			 hScriptFcn->GetScriptDirecotry(), hScriptFcn->GetScriptDirecotry() );
+	ok = PyRun_SimpleString( sBuffer );
+
+	ok = PyRun_SimpleString("import mindiapyc\n");
+	//ok = PyRun_SimpleString("import mindiapy\n");
+	sprintf( sBuffer, 
+		     "def my_error_handler(type,value,tracebk):\n    list = traceback.format_tb(tracebk, None) + traceback.format_exception_only(type, value)\n    s = \"Error in script:\\n\" + ''.join(list[:-1]) + list[-1]\n    mindiapyc.PrintLn(s)\n    del tracebk\n\nsys.excepthook = my_error_handler", 
+			 hScriptFcn->GetScriptDirecotry() );
+	ok = PyRun_SimpleString( sBuffer );
 
 	//Py_VerboseFlag = 2;
 
