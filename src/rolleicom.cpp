@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/rolleicom.cpp,v $
  *
- *  $Revision: 1.4 $
+ *  $Revision: 1.5 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.4  2003/10/26 17:42:24  min
+ *	Added patches from Olaf Schlachter for MSC 3x0 P. Added saving values to ini-file.
+ *	
  *	Revision 1.3  2003/08/17 09:52:30  min
  *	Bugfix: Syncronizing com port does not work under linux
  *
@@ -795,10 +798,25 @@ void RolleiCom::Start( int iComPortNo, int iBaudrate, int iParityMode, int iStop
 	m_iDataBits = iDataBits;
 	m_iFlowMode = iFlowMode;
 
+	UpdateComPort();
+
+	// ** start handler for asynchonious communication to projector
+	m_pCmdProcessor = new minCmdProcessor( this );
+	m_pCmdProcessor->Start();
+}
+
+void RolleiCom::UpdateComPort()
+{
+	if( m_pData )
+	{
+		delete m_pData;
+		m_pData = 0;
+	}
+
 	if( !IsSimulation() )
 	{
-		m_pData = new RolleiComHelperData( iComPortNo );
-		bool bOk = m_pData->SetComData( m_bIgnoreComSettings, iBaudrate, iParityMode, GetStopBitsStrg( iStopBits ), iDataBits, iFlowMode );
+		m_pData = new RolleiComHelperData( m_iComPortNo );
+		bool bOk = m_pData->SetComData( m_bIgnoreComSettings, m_iBaudrate, m_iParityMode, GetStopBitsStrg( m_iStopBits ), m_iDataBits, m_iFlowMode );
 		// in case of an error...
 		if( !bOk && m_pLoggingChannel && m_bDoLogging )
 		{
@@ -809,10 +827,6 @@ void RolleiCom::Start( int iComPortNo, int iBaudrate, int iParityMode, int iStop
 	{
 		m_pData = 0;
 	}
-
-	// ** start handler for asynchonious communication to projector
-	m_pCmdProcessor = new minCmdProcessor( this );
-	m_pCmdProcessor->Start();
 }
 
 void RolleiCom::Stop()
@@ -859,6 +873,8 @@ bool RolleiCom::IsSimulation() const
 void RolleiCom::SetSimulation( bool bSimulation )
 {
 	m_bIsSimulation = bSimulation;
+
+	UpdateComPort();
 }
 
 bool RolleiCom::IsLogging() const

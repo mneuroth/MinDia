@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/rolleicom.h,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/10/26 17:42:23  min
+ *	Added patches from Olaf Schlachter for MSC 3x0 P. Added saving values to ini-file.
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:22  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -143,6 +146,7 @@ protected:
 
 private:
 	void SetDefaultValues( int iProjectorType );
+	void UpdateComPort();
 
 	// ** data **
 	MiniIniDB *					m_pIniDB;				// no owner !
