@@ -43,6 +43,7 @@ HEADERS         = diainfodlgimpl.h \
 				  minhandle.h \
 				  minexception.h \
 				  misctools.h \
+				  appconfig.h \
 				  osdep2.h
 SOURCES         = diainfodlgimpl.cpp \
 				  playinfodlgimpl.cpp \
@@ -78,6 +79,7 @@ SOURCES         = diainfodlgimpl.cpp \
 				  dyngraphop.cpp \
 				  qtmtlock.cpp \
 				  misctools.cpp \
+				  appconfig.cpp \
                   main.cpp
 INTERFACES      = DiaInfoDlg.ui \
 				  PlayInfoDlg.ui \
