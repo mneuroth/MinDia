@@ -287,7 +287,7 @@ change history:
 					interface IDiaPresentation updated (for SoundFile-Infos)
 21. 6.2003	4h		working on a qt-python-gui for the script/function makecddist.py, implementing font and color dialog for dynamic text edit dialog, 
                     bugfixes for dynamic texts (edit and play from), dynamic texts can now be deleted
-15. 8.2003	2h		initial cvs checkin for ver. 0.97.1
+15. 8.2003	4h		initial cvs checkin for ver. 0.97.1, testing the release, upload to sourceforge
 
 // bessere mp3 Unterstuetzung unter linux --> Laenge der Datei bestimmen !
 // Performance Optimierungen
