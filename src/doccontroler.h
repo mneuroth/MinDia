@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/doccontroler.h,v $
  *
- *  $Revision: 1.4 $
+ *  $Revision: 1.5 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.4  2004/03/19 13:32:46  min
+ *	Bugfix for the script command GetDocName(), saving presentation name in a local member variable
+ *	
  *	Revision 1.3  2004/02/26 22:19:07  min
  *	Fixes to compile MinDia for the Zaurus.
  *	
@@ -101,6 +104,11 @@ public:
 	RolleiCom &			GetDiaCom();
 
 	DiaPresentation &	GetPresentation();
+
+	// returns the number of created images
+	int CreateImagesForMovie( const string & sOutputDirectory, const string & sFileNameOffset, 
+							  int iWidth, int iHeight,
+							  double dStartMS, double dStopMS, double dDeltaMS );
 
 	// ** implements the DiaCallback-Interface **
 	virtual void TriggerDissolveActDiaNo( int iNo, const char * sScript, const char * sFileName, double dDissolveTime );

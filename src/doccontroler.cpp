@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/doccontroler.cpp,v $
  *
- *  $Revision: 1.7 $
+ *  $Revision: 1.8 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.7  2004/03/19 13:32:46  min
+ *	Bugfix for the script command GetDocName(), saving presentation name in a local member variable
+ *	
  *	Revision 1.6  2004/02/26 22:19:07  min
  *	Fixes to compile MinDia for the Zaurus.
  *	
@@ -49,6 +52,9 @@
 #include "writexml.h"
 #ifndef ZAURUS
 #include "qtmtlock.h"
+#include <qpainter.h>
+#include <qimage.h>
+#include <qapplication.h>
 #else
 class QtMTLock {};
 #endif
@@ -949,3 +955,128 @@ void DocumentAndControler::ExecuteScript( bool bDissolve, const char * sScript, 
 #endif // ZAURUS
 }
 
+QApplication * GetApplication();
+
+static void ClearImageCache( QImageCache & aImageCache )
+{
+#ifndef ZAURUS
+	aImageCache.clear();
+#endif
+}
+
+#include <qprogressdialog.h>
+
+static bool InitImageCache( QImageCache & aImageCache, const DiaPresentation & aPresentation, int iWidth, int iHeight )
+{
+#ifndef ZAURUS
+	QProgressDialog aProgress( QObject::tr("creating image cache"), QObject::tr("Cancel"), aPresentation.GetDiaCount(), 0, "progress", TRUE );
+
+	aProgress.show();
+	aProgress.setProgress( 0 );
+
+	ClearImageCache( aImageCache );
+	
+	for( int i=0; i<aPresentation.GetDiaCount(); i++ )
+	{
+		minHandle<DiaInfo> hDia = aPresentation.GetDiaAt( i );
+
+		if( strlen( hDia->GetImageFile() )>0 )
+		{
+			QImage aImage( hDia->GetImageFile() );
+			aImage = aImage.smoothScale( iWidth, iHeight );
+			aImageCache[hDia->GetImageFile()] = aImage;
+		}
+		else
+		{
+			// add an empty image
+			QImage aEmptyImage( iWidth, iHeight, 32 );
+			aEmptyImage.fill( ~0 );
+
+			aImageCache[""] = aEmptyImage;
+		}
+
+		aProgress.setProgress( i+1 );
+		GetApplication()->processEvents();
+		if( aProgress.wasCanceled() )
+		{
+			return false;
+		}
+	}
+	
+	aProgress.setProgress( aPresentation.GetDiaCount() );
+	
+	return true;
+#endif
+}
+
+int DocumentAndControler::CreateImagesForMovie( 
+		const string & sOutputDirectory, 
+		const string & sFileNameOffset, 
+		int iWidth, 
+		int iHeight, 
+		double dStartMS, 
+		double dStopMS, 
+		double dDeltaMS )
+{
+#ifndef ZAURUS
+	// 1600x1200 = 1,3333333 = 4:3
+	// 540 x 360 = 1,5
+	QImageCache aImageCache;
+	QPixmap aPixmap( iWidth, iHeight );
+	QPainter aPainter;
+
+	//QCanvas::drawArea()
+	//QImage aImage = aPixmap.convertToImage();
+
+	int iCount = 0;
+	if( InitImageCache( aImageCache, GetPresentation(), iWidth, iHeight ) )
+	{		
+		QProgressDialog aProgress( QObject::tr("creating images for movie"), QObject::tr("Cancel"), (int)dStopMS, 0, "progress", TRUE );
+
+		aProgress.show();
+		aProgress.setProgress( 0 );
+
+		string sLastFileName;
+		double dTimeMS = dStartMS;
+		while( dTimeMS < dStopMS )
+		{
+			bool bForcePainting = true;
+			char sBuffer[512];
+			sprintf( sBuffer, "%s/%s%05d.jpg", sOutputDirectory.c_str(), sFileNameOffset.c_str(), iCount );
+
+			if( GetPresentation().IsNextSlideChanging( dTimeMS, dDeltaMS ) )
+			{
+				aPixmap.fill();
+				aPainter.begin( &aPixmap );
+				GetPresentation().PaintSlideForTime( aImageCache, aPainter, dTimeMS );
+				aPainter.end();
+
+				/*bool bOk =*/ aPixmap.save(sBuffer,"JPEG",100);
+
+				sLastFileName = sBuffer;
+			}
+			else
+			{
+				// use last generated file for new movie image
+				FileUtilityObj::_CopyFile( sLastFileName.c_str(), sBuffer );
+			}
+
+			dTimeMS += dDeltaMS;
+			iCount++;
+
+			aProgress.setProgress( (int)dTimeMS );
+			GetApplication()->processEvents();
+			if( aProgress.wasCanceled() )
+			{
+				dTimeMS = dStopMS;
+			}
+		}
+
+		aProgress.setProgress( (int)dStopMS );
+	}
+
+	ClearImageCache( aImageCache );
+
+	return iCount;
+#endif // ZAURUS
+}
