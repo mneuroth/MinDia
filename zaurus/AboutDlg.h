@@ -1,7 +1,7 @@
 /****************************************************************************
-** Form interface generated from reading ui file 'AboutDlg.ui'
+** Form interface generated from reading ui file 'zaurus/AboutDlg.ui'
 **
-** Created: Sat Jan 4 15:37:17 2003
+** Created: Fri Mar 12 23:42:10 2004
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!

@@ -1,7 +1,7 @@
 /****************************************************************************
-** Form implementation generated from reading ui file 'AboutDlg.ui'
+** Form implementation generated from reading ui file 'zaurus/AboutDlg.ui'
 **
-** Created: Sat Jan 4 15:40:34 2003
+** Created: Fri Mar 12 23:47:15 2004
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -27,7 +27,7 @@ AboutDlg::AboutDlg( QWidget* parent,  const char* name, bool modal, WFlags fl )
 {
     if ( !name )
 	setName( "AboutDlg" );
-    resize( 200, 147 ); 
+    resize( 184, 164 ); 
     setCaption( tr( "About" ) );
     AboutDlgLayout = new QVBoxLayout( this ); 
     AboutDlgLayout->setSpacing( 6 );
@@ -46,7 +46,7 @@ AboutDlg::AboutDlg( QWidget* parent,  const char* name, bool modal, WFlags fl )
     AboutDlgLayout->addWidget( m_pNameLabel );
 
     m_pVersionLabel = new QLabel( this, "m_pVersionLabel" );
-    m_pVersionLabel->setText( tr( "Version 0.97.1 (3.1.2003)" ) );
+    m_pVersionLabel->setText( tr( "Version 0.97.3b (12.3.2004)" ) );
     m_pVersionLabel->setAlignment( int( QLabel::AlignCenter ) );
     AboutDlgLayout->addWidget( m_pVersionLabel );
 
@@ -54,7 +54,7 @@ AboutDlg::AboutDlg( QWidget* parent,  const char* name, bool modal, WFlags fl )
     QFont m_pCopyrightLabel_font(  m_pCopyrightLabel->font() );
     m_pCopyrightLabel->setFont( m_pCopyrightLabel_font ); 
     m_pCopyrightLabel->setFrameShape( QLabel::MShape );
-    m_pCopyrightLabel->setText( tr( "(c) 2003 by Michael Neuroth" ) );
+    m_pCopyrightLabel->setText( tr( "(c) 2004 by Michael Neuroth" ) );
     m_pCopyrightLabel->setAlignment( int( QLabel::AlignCenter ) );
     AboutDlgLayout->addWidget( m_pCopyrightLabel );
 }
