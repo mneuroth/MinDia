@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/iscript.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -245,8 +248,14 @@ public:
 	// ** get the help/shared directory of MinDia 
 	// ** (where language- and help-files are stored)
 	virtual const char *		GetHelpDirecotry() const = 0;
-	// ** get the directory where the scripts are installed
+	// ** get the (default-)directory where the scripts are installed
 	virtual const char *		GetScriptDirecotry() const = 0;
+	// ** get the (default-)directory where images can be found
+	virtual const char *		GetImageDirecotry() const = 0;
+	// ** get the (default-)directory where music files can be found
+	virtual const char *		GetMusicDirecotry() const = 0;
+	// ** get the (default-)directory where presentation files can be found
+	virtual const char *		GetDataDirecotry() const = 0;
 };
 
 
