@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/dyngraphop.cpp,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2004/01/18 23:50:15  min
+ *	Bugfixes and new class for relative position of text implemented.
+ *	
  *	Revision 1.2  2003/09/24 22:15:51  min
  *	portability fixes
  *	
@@ -1152,6 +1155,9 @@ bool DynContainer::Write( ostream & aStream ) const
 
 void DynContainer::RunSelected( int iStartFromPosInMS )
 {
+#ifdef ZAURUS
+	return;
+#else
 	UpdateInfos();
 
     Reset();
@@ -1175,10 +1181,14 @@ void DynContainer::RunSelected( int iStartFromPosInMS )
 	}
 
 	Update();
+#endif
 }
 
 void DynContainer::Run( int iStartFromPosInMS )
 {
+#ifdef ZAURUS
+	return;
+#else
 	UpdateInfos();
 
     if( m_bIsPause )
@@ -1201,10 +1211,14 @@ void DynContainer::Run( int iStartFromPosInMS )
 	}
 
 	Update();
+#endif
 }
 
 void DynContainer::Pause()
 {
+#ifdef ZAURUS
+	return;
+#else
     m_bIsPause = true;
 
 	const_iterator aIter = begin();
@@ -1218,10 +1232,14 @@ void DynContainer::Pause()
 	}
 
     Update();
+#endif
 }
 
 void DynContainer::Continue()
 {
+#ifdef ZAURUS
+	return;
+#else
 	const_iterator aIter = begin();
 	while( aIter != end() )
 	{
@@ -1234,10 +1252,14 @@ void DynContainer::Continue()
 
     m_bIsPause = false;
     Update();
+#endif
 }
 
 void DynContainer::Stop()
 {
+#ifdef ZAURUS
+	return;
+#else
 	const_iterator aIter = begin();
 	while( aIter != end() )
 	{
@@ -1251,10 +1273,14 @@ void DynContainer::Stop()
 
     m_bIsPause = false;
     Update();
+#endif
 }
 
 void DynContainer::Reset()
 {
+#ifdef ZAURUS
+	return;
+#else
 	const_iterator aIter = begin();
 	while( aIter != end() )
 	{
@@ -1268,6 +1294,7 @@ void DynContainer::Reset()
 
     m_bIsPause = false;
     Update();
+#endif
 }
 
 void DynContainer::AddDefaultDynText( const string & sText, double dStartTimeInMS, double dShowTimeInMS )
