@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/helpdlgimpl.h,v $
  *
- *  $Revision: 1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1  2004/02/21 14:59:02  min
+ *	Help dialog improved
+ *	
  *	
  *
  ***************************************************************************/
