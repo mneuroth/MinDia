@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/doccontroler.cpp,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2003/10/26 17:35:01  min
+ *	Saved more values in the ini-file.
+ *	
  *	Revision 1.2  2003/10/03 23:07:16  min
  *	saving ini-file in unix-home directory
  *	
@@ -63,6 +66,16 @@ const char * c_sLoggingKey			= "logging";
 const char * c_sScriptEventsKey		= "scriptEvents";
 const char * c_sProjectorTypeKey	= "projector_id";
 
+string GetPathToIniFile()
+{
+#ifdef __linux__
+	string sPath = getenv( "HOME" );
+	return sPath+"/";
+#else
+	return _OFFSET_INI_FILE_PATH;
+#endif
+}
+
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************
@@ -74,7 +87,7 @@ DocumentAndControler::DocumentAndControler( bool bIgnoreComSettings,
 											IDiaOutputWindowInternal * pOutputWindowProxy,
 											minLoggingInterface * pLoggingChannel
 											)
-: m_aIniDB( string( _OFFSET_INI_FILE_PATH )+string( ".mindia.ini" ) ),
+: m_aIniDB( GetPathToIniFile()+string( ".mindia.ini" ) ),
   m_aCom( bIgnoreComSettings, bSimulation, iProjectorType, pLoggingChannel, &m_aIniDB ),
   m_aSoundPlayer( &m_aIniDB ),
   m_aPresentation( this, "newpresentation.dia", &m_aIniDB, pLoggingChannel, pOutputWindowProxy ),
