@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/doccontroler.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -45,6 +48,12 @@ class QtMTLock {};
 
 const string g_sLastFilesKey = "datafile";
 
+#ifdef __linux__
+#define _OFFSET_INI_FILE_PATH "~/"
+#else
+#define _OFFSET_INI_FILE_PATH ""
+#endif
+
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************
@@ -56,7 +65,7 @@ DocumentAndControler::DocumentAndControler( bool bIgnoreComSettings,
 											IDiaOutputWindowInternal * pOutputWindowProxy,
 											minLoggingInterface * pLoggingChannel
 											)
-: m_aIniDB( ".mindia.ini" ),
+: m_aIniDB( string( _OFFSET_INI_FILE_PATH )+string( ".mindia.ini" ) ),
   m_aCom( bIgnoreComSettings, bSimulation, iProjectorType, pLoggingChannel, &m_aIniDB ),
   m_aSoundPlayer( &m_aIniDB ),
   m_aPresentation( this, "newpresentation.dia", &m_aIniDB, pLoggingChannel, pOutputWindowProxy ),
