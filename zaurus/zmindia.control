@@ -3,8 +3,8 @@ Priority: optional
 Section: qpe/applications
 Maintainer: Michael Neuroth <min@developer.zaurus.de>
 Architecture: arm
-Version: 0.97.1
+Version: 0.97.3
 Depends: qpe-base ($QPE_VERSION)
 License: GPL
 Description: ZMinDia
- A player running on a Zaurus for data files of the MinDia program.
+ A player for the Zaurus for slide show data files of the MinDia program.

@@ -6,25 +6,25 @@
         <name>name</name>
         <cstring>AboutDlg</cstring>
     </property>
-    <property>
+    <property stdset="1">
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>204</width>
-            <height>147</height>
+            <width>187</width>
+            <height>164</height>
         </rect>
     </property>
-    <property>
+    <property stdset="1">
         <name>caption</name>
         <string>About</string>
     </property>
     <vbox>
-        <property>
+        <property stdset="1">
             <name>margin</name>
             <number>11</number>
         </property>
-        <property>
+        <property stdset="1">
             <name>spacing</name>
             <number>6</number>
         </property>
@@ -34,27 +34,27 @@
                 <name>name</name>
                 <cstring>m_pNameLabel</cstring>
             </property>
-            <property>
+            <property stdset="1">
                 <name>font</name>
                 <font>
                     <pointsize>16</pointsize>
                     <bold>1</bold>
                 </font>
             </property>
-            <property>
+            <property stdset="1">
                 <name>frameShape</name>
                 <enum>MShape</enum>
             </property>
-            <property>
+            <property stdset="1">
                 <name>frameShadow</name>
                 <enum>MShadow</enum>
             </property>
-            <property>
+            <property stdset="1">
                 <name>text</name>
                 <string>ZMinDia
 Player for Zaurus</string>
             </property>
-            <property>
+            <property stdset="1">
                 <name>alignment</name>
                 <set>AlignCenter</set>
             </property>
@@ -68,11 +68,11 @@ Player for Zaurus</string>
                 <name>name</name>
                 <cstring>m_pVersionLabel</cstring>
             </property>
-            <property>
+            <property stdset="1">
                 <name>text</name>
-                <string>Version 0.97.2 (11.11.2003)</string>
+                <string>Version 0.97.3 (26.2.2004)</string>
             </property>
-            <property>
+            <property stdset="1">
                 <name>alignment</name>
                 <set>AlignCenter</set>
             </property>
@@ -86,20 +86,20 @@ Player for Zaurus</string>
                 <name>name</name>
                 <cstring>m_pCopyrightLabel</cstring>
             </property>
-            <property>
+            <property stdset="1">
                 <name>font</name>
                 <font>
                 </font>
             </property>
-            <property>
+            <property stdset="1">
                 <name>frameShape</name>
                 <enum>MShape</enum>
             </property>
-            <property>
+            <property stdset="1">
                 <name>text</name>
-                <string>(c) 2003 by Michael Neuroth</string>
+                <string>(c) 2004 by Michael Neuroth</string>
             </property>
-            <property>
+            <property stdset="1">
                 <name>alignment</name>
                 <set>AlignCenter</set>
             </property>

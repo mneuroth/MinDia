@@ -1,10 +1,10 @@
-cp zmindia.desktop $QPEDIR/apps/Applications
-cp Zmindia.png $QPEDIR/pics
-cp zmindia.html $QPEDIR/help/html
-cp zmindia_de.html $QPEDIR/help/de/html/zmindia.html
+cp zaurus/zmindia.desktop $QPEDIR/apps/Applications
+cp zaurus/Zmindia.png $QPEDIR/pics
+cp zaurus/zmindia.html $QPEDIR/help/html
+cp zaurus/zmindia_de.html $QPEDIR/help/de/html/zmindia.html
 cp zmindia $QPEDIR/bin
 cp zmindia_de.qm $QPEDIR/i18n/de/zmindia.qm
-/opt/Qtopia/sharp/bin/mkipks zmindia.control
+/opt/Qtopia/sharp/bin/mkipks zaurus/zmindia.control
 
 
 
