@@ -520,24 +520,56 @@ msgstr ""
 msgid "HItemView::&Modify entry..."
 msgstr ""
 
-#: src/HelpDlg.cpp:63
-msgid "HelpDialog::&Back"
+#: src/HelpDlg.cpp:101
+msgid "HelpDialog::Alt+C"
 msgstr ""
 
-#: src/HelpDlg.cpp:66
-msgid "HelpDialog::&Close"
+#: src/HelpDlg.cpp:98
+msgid "HelpDialog::Alt+S"
 msgstr ""
 
-#: src/HelpDlg.cpp:64
-msgid "HelpDialog::&Forward"
-msgstr ""
-
-#: src/HelpDlg.cpp:65
-msgid "HelpDialog::&Home"
-msgstr ""
-
-#: src/HelpDlg.cpp:62
+#: src/HelpDlg.cpp:87
 msgid "HelpDialog::Help"
+msgstr ""
+
+#: src/HelpDlg.cpp:89
+msgid "HelpDialog::Home, Alt+H"
+msgstr ""
+
+#: src/HelpDlg.cpp:92
+msgid "HelpDialog::Left, Alt+B"
+msgstr ""
+
+#: src/HelpDlg.cpp:95
+msgid "HelpDialog::Right, Alt+F"
+msgstr ""
+
+#: src/HelpDlg.cpp:93
+msgid "HelpDialog::back"
+msgstr ""
+
+#: src/HelpDlg.cpp:102
+msgid "HelpDialog::close window"
+msgstr ""
+
+#: src/HelpDlg.cpp:99
+msgid "HelpDialog::find text"
+msgstr ""
+
+#: src/HelpDlg.cpp:96
+msgid "HelpDialog::forward"
+msgstr ""
+
+#: src/HelpDlg.cpp:90
+msgid "HelpDialog::home"
+msgstr ""
+
+#: src/helpdlgimpl.cpp:182
+msgid "HelpDlgImpl::MinDia - Warning"
+msgstr ""
+
+#: src/helpdlgimpl.cpp:182
+msgid "HelpDlgImpl::Text not found !"
 msgstr ""
 
 #: src/LicenseDlg.cpp:56
@@ -548,587 +580,587 @@ msgstr ""
 msgid "LicenseDlg::License"
 msgstr ""
 
-#: src/mindiawindow.cpp:1314
+#: src/mindiawindow.cpp:1323
 msgid "MinDiaWindow:: *** count: "
 msgstr ""
 
-#: src/mindiawindow.cpp:1308
+#: src/mindiawindow.cpp:1317
 msgid "MinDiaWindow:: *** next: "
 msgstr ""
 
-#: src/mindiawindow.cpp:1304
+#: src/mindiawindow.cpp:1313
 msgid "MinDiaWindow:: min"
 msgstr ""
 
-#: src/mindiawindow.cpp:1308
+#: src/mindiawindow.cpp:1317
 msgid "MinDiaWindow:: s"
 msgstr ""
 
-#: src/mindiawindow.cpp:391
+#: src/mindiawindow.cpp:400
 msgid "MinDiaWindow::&About..."
 msgstr ""
 
-#: src/mindiawindow.cpp:344
+#: src/mindiawindow.cpp:353
 msgid "MinDiaWindow::&Configuration..."
 msgstr ""
 
-#: src/mindiawindow.cpp:268
+#: src/mindiawindow.cpp:277
 msgid "MinDiaWindow::&Copy"
 msgstr ""
 
-#: src/mindiawindow.cpp:279
+#: src/mindiawindow.cpp:288
 msgid "MinDiaWindow::&Delete"
 msgstr ""
 
-#: src/mindiawindow.cpp:322
+#: src/mindiawindow.cpp:331
 msgid "MinDiaWindow::&Dissolve time..."
 msgstr ""
 
-#: src/mindiawindow.cpp:194
+#: src/mindiawindow.cpp:203
 msgid "MinDiaWindow::&Edit"
 msgstr ""
 
-#: src/mindiawindow.cpp:324
+#: src/mindiawindow.cpp:333
 msgid "MinDiaWindow::&Fade in test"
 msgstr ""
 
-#: src/mindiawindow.cpp:193
+#: src/mindiawindow.cpp:202
 msgid "MinDiaWindow::&File"
 msgstr ""
 
-#: src/mindiawindow.cpp:282
+#: src/mindiawindow.cpp:291
 msgid "MinDiaWindow::&Find..."
 msgstr ""
 
-#: src/mindiawindow.cpp:198
+#: src/mindiawindow.cpp:207
 msgid "MinDiaWindow::&Help"
 msgstr ""
 
-#: src/mindiawindow.cpp:397
+#: src/mindiawindow.cpp:406
 msgid "MinDiaWindow::&Help..."
 msgstr ""
 
-#: src/mindiawindow.cpp:213
+#: src/mindiawindow.cpp:222
 msgid "MinDiaWindow::&Import XML..."
 msgstr ""
 
-#: src/mindiawindow.cpp:253
+#: src/mindiawindow.cpp:262
 msgid "MinDiaWindow::&Import/Export"
 msgstr ""
 
-#: src/mindiawindow.cpp:395
+#: src/mindiawindow.cpp:404
 msgid "MinDiaWindow::&License..."
 msgstr ""
 
-#: src/mindiawindow.cpp:351
+#: src/mindiawindow.cpp:360
 msgid "MinDiaWindow::&Logging..."
 msgstr ""
 
-#: src/mindiawindow.cpp:367
+#: src/mindiawindow.cpp:376
 msgid "MinDiaWindow::&Modify item..."
 msgstr ""
 
-#: src/mindiawindow.cpp:201
+#: src/mindiawindow.cpp:210
 msgid "MinDiaWindow::&New"
 msgstr ""
 
-#: src/mindiawindow.cpp:203
+#: src/mindiawindow.cpp:212
 msgid "MinDiaWindow::&Open..."
 msgstr ""
 
-#: src/mindiawindow.cpp:270
+#: src/mindiawindow.cpp:279
 msgid "MinDiaWindow::&Paste"
 msgstr ""
 
-#: src/mindiawindow.cpp:305
+#: src/mindiawindow.cpp:314
 msgid "MinDiaWindow::&Pause"
 msgstr ""
 
-#: src/mindiawindow.cpp:195
+#: src/mindiawindow.cpp:204
 msgid "MinDiaWindow::&Play"
 msgstr ""
 
-#: src/mindiawindow.cpp:363
+#: src/mindiawindow.cpp:372
 msgid "MinDiaWindow::&Plot comments..."
 msgstr ""
 
-#: src/mindiawindow.cpp:223
+#: src/mindiawindow.cpp:232
 msgid "MinDiaWindow::&Print..."
 msgstr ""
 
-#: src/mindiawindow.cpp:262
+#: src/mindiawindow.cpp:271
 msgid "MinDiaWindow::&Redo"
 msgstr ""
 
-#: src/mindiawindow.cpp:207
+#: src/mindiawindow.cpp:216
 msgid "MinDiaWindow::&Save"
 msgstr ""
 
-#: src/mindiawindow.cpp:259
+#: src/mindiawindow.cpp:268
 msgid "MinDiaWindow::&Undo"
 msgstr ""
 
-#: src/mindiawindow.cpp:316
+#: src/mindiawindow.cpp:325
 msgid "MinDiaWindow::A&dd sound comment"
 msgstr ""
 
-#: src/mindiawindow.cpp:393
+#: src/mindiawindow.cpp:402
 msgid "MinDiaWindow::About &Qt..."
 msgstr ""
 
-#: src/mindiawindow.cpp:393
+#: src/mindiawindow.cpp:402
 msgid "MinDiaWindow::About Qt"
 msgstr ""
 
-#: src/mindiawindow.cpp:391
+#: src/mindiawindow.cpp:400
 msgid "MinDiaWindow::About"
 msgstr ""
 
-#: src/mindiawindow.cpp:276
+#: src/mindiawindow.cpp:285
 msgid "MinDiaWindow::Add &dia"
 msgstr ""
 
-#: src/mindiawindow.cpp:319
+#: src/mindiawindow.cpp:328
 msgid "MinDiaWindow::Add &graphic operation"
 msgstr ""
 
-#: src/mindiawindow.cpp:276
+#: src/mindiawindow.cpp:285
 msgid "MinDiaWindow::Add dia at current position"
 msgstr ""
 
-#: src/mindiawindow.cpp:319
+#: src/mindiawindow.cpp:328
 msgid "MinDiaWindow::Add graphic operation"
 msgstr ""
 
-#: src/mindiawindow.cpp:316
+#: src/mindiawindow.cpp:325
 msgid "MinDiaWindow::Add sound comment"
 msgstr ""
 
-#: src/mindiawindow.cpp:274
+#: src/mindiawindow.cpp:283
 msgid "MinDiaWindow::Append d&ia"
 msgstr ""
 
-#: src/mindiawindow.cpp:274
+#: src/mindiawindow.cpp:283
 msgid "MinDiaWindow::Append dia"
 msgstr ""
 
-#: src/mindiawindow.cpp:266
+#: src/mindiawindow.cpp:275
 msgid "MinDiaWindow::C&ut"
 msgstr ""
 
-#: src/mindiawindow.cpp:1637
+#: src/mindiawindow.cpp:1646
 msgid "MinDiaWindow::Can't close the application, because the presentation is still playing !"
 msgstr ""
 
-#: src/mindiawindow.cpp:344
+#: src/mindiawindow.cpp:353
 msgid "MinDiaWindow::Configuration"
 msgstr ""
 
-#: src/mindiawindow.cpp:268
+#: src/mindiawindow.cpp:277
 msgid "MinDiaWindow::Copy"
 msgstr ""
 
-#: src/mindiawindow.cpp:266
+#: src/mindiawindow.cpp:275
 msgid "MinDiaWindow::Cut"
 msgstr ""
 
-#: src/mindiawindow.cpp:365
+#: src/mindiawindow.cpp:374
 msgid "MinDiaWindow::D&yn. graphic operations..."
 msgstr ""
 
-#: src/mindiawindow.cpp:279
+#: src/mindiawindow.cpp:288
 msgid "MinDiaWindow::Delete"
 msgstr ""
 
-#: src/mindiawindow.cpp:365
+#: src/mindiawindow.cpp:374
 msgid "MinDiaWindow::Dynamic graphic operations"
 msgstr ""
 
-#: src/mindiawindow.cpp:225
+#: src/mindiawindow.cpp:234
 msgid "MinDiaWindow::E&xit"
 msgstr ""
 
-#: src/mindiawindow.cpp:215
+#: src/mindiawindow.cpp:224
 msgid "MinDiaWindow::E&xport XML..."
 msgstr ""
 
-#: src/mindiawindow.cpp:196
+#: src/mindiawindow.cpp:205
 msgid "MinDiaWindow::E&xtras"
 msgstr ""
 
-#: src/mindiawindow.cpp:322
+#: src/mindiawindow.cpp:331
 msgid "MinDiaWindow::Edit dissolve time"
 msgstr ""
 
-#: src/mindiawindow.cpp:1464
+#: src/mindiawindow.cpp:1473
 msgid "MinDiaWindow::Enter new dissolve time"
 msgstr ""
 
-#: src/mindiawindow.cpp:225
+#: src/mindiawindow.cpp:234
 msgid "MinDiaWindow::Exit"
 msgstr ""
 
-#: src/mindiawindow.cpp:217
+#: src/mindiawindow.cpp:226
 msgid "MinDiaWindow::Expo&rt..."
 msgstr ""
 
-#: src/mindiawindow.cpp:933
+#: src/mindiawindow.cpp:942
 msgid "MinDiaWindow::Export as XML"
 msgstr ""
 
-#: src/mindiawindow.cpp:215
+#: src/mindiawindow.cpp:224
 msgid "MinDiaWindow::Export data as XML file"
 msgstr ""
 
-#: src/mindiawindow.cpp:217
+#: src/mindiawindow.cpp:226
 msgid "MinDiaWindow::Export data"
 msgstr ""
 
-#: src/mindiawindow.cpp:219
+#: src/mindiawindow.cpp:228
 msgid "MinDiaWindow::Export dyn. &graphics..."
 msgstr ""
 
-#: src/mindiawindow.cpp:953
+#: src/mindiawindow.cpp:962
 msgid "MinDiaWindow::Export dynamic graphic data"
 msgstr ""
 
-#: src/mindiawindow.cpp:941
+#: src/mindiawindow.cpp:950
 msgid "MinDiaWindow::Export to XML was aborted"
 msgstr ""
 
-#: src/mindiawindow.cpp:326
+#: src/mindiawindow.cpp:335
 msgid "MinDiaWindow::Fade &out test"
 msgstr ""
 
-#: src/mindiawindow.cpp:324
+#: src/mindiawindow.cpp:333
 msgid "MinDiaWindow::Fade in test"
 msgstr ""
 
-#: src/mindiawindow.cpp:326
+#: src/mindiawindow.cpp:335
 msgid "MinDiaWindow::Fade out test"
 msgstr ""
 
-#: src/mindiawindow.cpp:175
+#: src/mindiawindow.cpp:184
 msgid "MinDiaWindow::File Operations"
 msgstr ""
 
-#: src/mindiawindow.cpp:284
+#: src/mindiawindow.cpp:293
 msgid "MinDiaWindow::Find &next"
 msgstr ""
 
-#: src/mindiawindow.cpp:284
+#: src/mindiawindow.cpp:293
 msgid "MinDiaWindow::Find next"
 msgstr ""
 
-#: src/mindiawindow.cpp:1433
+#: src/mindiawindow.cpp:1442
 msgid "MinDiaWindow::Find"
 msgstr ""
 
-#: src/mindiawindow.cpp:397
+#: src/mindiawindow.cpp:406
 msgid "MinDiaWindow::Help for mindia"
 msgstr ""
 
-#: src/mindiawindow.cpp:221
+#: src/mindiawindow.cpp:230
 msgid "MinDiaWindow::Import d&yn. graphics..."
 msgstr ""
 
-#: src/mindiawindow.cpp:213
+#: src/mindiawindow.cpp:222
 msgid "MinDiaWindow::Import data from a XML file"
 msgstr ""
 
-#: src/mindiawindow.cpp:963
+#: src/mindiawindow.cpp:972
 msgid "MinDiaWindow::Import dynamic graphic data"
 msgstr ""
 
-#: src/mindiawindow.cpp:254
+#: src/mindiawindow.cpp:263
 msgid "MinDiaWindow::Las&t files"
 msgstr ""
 
-#: src/mindiawindow.cpp:395
+#: src/mindiawindow.cpp:404
 msgid "MinDiaWindow::License"
 msgstr ""
 
-#: src/mindiawindow.cpp:874
+#: src/mindiawindow.cpp:883
 msgid "MinDiaWindow::Loading aborted"
 msgstr ""
 
-#: src/mindiawindow.cpp:351
+#: src/mindiawindow.cpp:360
 msgid "MinDiaWindow::Logging"
 msgstr ""
 
-#: src/mindiawindow.cpp:211
+#: src/mindiawindow.cpp:220
 msgid "MinDiaWindow::Make &relative paths"
 msgstr ""
 
-#: src/mindiawindow.cpp:211
+#: src/mindiawindow.cpp:220
 msgid "MinDiaWindow::Make absolute paths to reative paths"
 msgstr ""
 
-#: src/mindiawindow.cpp:1141
+#: src/mindiawindow.cpp:1150
 msgid "MinDiaWindow::MinDia - Error"
 msgstr ""
 
-#: src/mindiawindow.cpp:853
+#: src/mindiawindow.cpp:862
 msgid "MinDiaWindow::MinDia - Question"
 msgstr ""
 
-#: src/mindiawindow.cpp:1637
+#: src/mindiawindow.cpp:1646
 msgid "MinDiaWindow::MinDia - Warning"
 msgstr ""
 
-#: src/mindiawindow.cpp:107
+#: src/mindiawindow.cpp:116
 msgid "MinDiaWindow::MinDia"
 msgstr ""
 
-#: src/mindiawindow.cpp:367
+#: src/mindiawindow.cpp:376
 msgid "MinDiaWindow::Modify item"
 msgstr ""
 
-#: src/mindiawindow.cpp:201
+#: src/mindiawindow.cpp:210
 msgid "MinDiaWindow::New"
 msgstr ""
 
-#: src/mindiawindow.cpp:975
+#: src/mindiawindow.cpp:984
 msgid "MinDiaWindow::No"
 msgstr ""
 
-#: src/mindiawindow.cpp:928
+#: src/mindiawindow.cpp:937
 msgid "MinDiaWindow::Not implemented yet !"
 msgstr ""
 
-#: src/mindiawindow.cpp:178
+#: src/mindiawindow.cpp:187
 msgid "MinDiaWindow::Open File"
 msgstr ""
 
-#: src/mindiawindow.cpp:205
+#: src/mindiawindow.cpp:214
 msgid "MinDiaWindow::Open an existing file for edit (script-events are not executed)"
 msgstr ""
 
-#: src/mindiawindow.cpp:203
+#: src/mindiawindow.cpp:212
 msgid "MinDiaWindow::Open an existing file"
 msgstr ""
 
-#: src/mindiawindow.cpp:205
+#: src/mindiawindow.cpp:214
 msgid "MinDiaWindow::Open for &edit..."
 msgstr ""
 
-#: src/mindiawindow.cpp:887
+#: src/mindiawindow.cpp:896
 msgid "MinDiaWindow::Open for edit"
 msgstr ""
 
-#: src/mindiawindow.cpp:880
+#: src/mindiawindow.cpp:889
 msgid "MinDiaWindow::Open"
 msgstr ""
 
-#: src/mindiawindow.cpp:270
+#: src/mindiawindow.cpp:279
 msgid "MinDiaWindow::Paste"
 msgstr ""
 
-#: src/mindiawindow.cpp:182
+#: src/mindiawindow.cpp:191
 msgid "MinDiaWindow::Pause play"
 msgstr ""
 
-#: src/mindiawindow.cpp:305
+#: src/mindiawindow.cpp:314
 msgid "MinDiaWindow::Pause"
 msgstr ""
 
-#: src/mindiawindow.cpp:369
+#: src/mindiawindow.cpp:378
 msgid "MinDiaWindow::Pla&y infos..."
 msgstr ""
 
-#: src/mindiawindow.cpp:346
+#: src/mindiawindow.cpp:355
 msgid "MinDiaWindow::Pla&yer configuration..."
 msgstr ""
 
-#: src/mindiawindow.cpp:369
+#: src/mindiawindow.cpp:378
 msgid "MinDiaWindow::Play infos"
 msgstr ""
 
-#: src/mindiawindow.cpp:363
+#: src/mindiawindow.cpp:372
 msgid "MinDiaWindow::Plot comments"
 msgstr ""
 
-#: src/mindiawindow.cpp:197
+#: src/mindiawindow.cpp:206
 msgid "MinDiaWindow::Plu&gins"
 msgstr ""
 
-#: src/mindiawindow.cpp:355
+#: src/mindiawindow.cpp:364
 msgid "MinDiaWindow::Presentation &data..."
 msgstr ""
 
-#: src/mindiawindow.cpp:357
+#: src/mindiawindow.cpp:366
 msgid "MinDiaWindow::Presentation &events..."
 msgstr ""
 
-#: src/mindiawindow.cpp:355
+#: src/mindiawindow.cpp:364
 msgid "MinDiaWindow::Presentation data"
 msgstr ""
 
-#: src/mindiawindow.cpp:357
+#: src/mindiawindow.cpp:366
 msgid "MinDiaWindow::Presentation events"
 msgstr ""
 
-#: src/mindiawindow.cpp:223
+#: src/mindiawindow.cpp:232
 msgid "MinDiaWindow::Print data"
 msgstr ""
 
-#: src/mindiawindow.cpp:353
+#: src/mindiawindow.cpp:362
 msgid "MinDiaWindow::Pro&jector control..."
 msgstr ""
 
-#: src/mindiawindow.cpp:353
+#: src/mindiawindow.cpp:362
 msgid "MinDiaWindow::Projector control dialog"
 msgstr ""
 
-#: src/mindiawindow.cpp:854
+#: src/mindiawindow.cpp:863
 msgid "MinDiaWindow::Really create a new document and loose all changes ?"
 msgstr ""
 
-#: src/mindiawindow.cpp:262
+#: src/mindiawindow.cpp:271
 msgid "MinDiaWindow::Redo last operation"
 msgstr ""
 
-#: src/mindiawindow.cpp:307
+#: src/mindiawindow.cpp:316
 msgid "MinDiaWindow::S&top"
 msgstr ""
 
-#: src/mindiawindow.cpp:209
+#: src/mindiawindow.cpp:218
 msgid "MinDiaWindow::Save &as..."
 msgstr ""
 
-#: src/mindiawindow.cpp:179
+#: src/mindiawindow.cpp:188
 msgid "MinDiaWindow::Save File"
 msgstr ""
 
-#: src/mindiawindow.cpp:894
+#: src/mindiawindow.cpp:903
 msgid "MinDiaWindow::Save as"
 msgstr ""
 
-#: src/mindiawindow.cpp:209
+#: src/mindiawindow.cpp:218
 msgid "MinDiaWindow::Save data as"
 msgstr ""
 
-#: src/mindiawindow.cpp:207
+#: src/mindiawindow.cpp:216
 msgid "MinDiaWindow::Save data"
 msgstr ""
 
-#: src/mindiawindow.cpp:902
+#: src/mindiawindow.cpp:911
 msgid "MinDiaWindow::Save was aborted"
 msgstr ""
 
-#: src/mindiawindow.cpp:272
+#: src/mindiawindow.cpp:281
 msgid "MinDiaWindow::Select &all"
 msgstr ""
 
-#: src/mindiawindow.cpp:272
+#: src/mindiawindow.cpp:281
 msgid "MinDiaWindow::Select all"
 msgstr ""
 
-#: src/mindiawindow.cpp:359
+#: src/mindiawindow.cpp:368
 msgid "MinDiaWindow::So&und data..."
 msgstr ""
 
-#: src/mindiawindow.cpp:921
+#: src/mindiawindow.cpp:930
 msgid "MinDiaWindow::Sorry, printing not implemented yet !"
 msgstr ""
 
-#: src/mindiawindow.cpp:361
+#: src/mindiawindow.cpp:370
 msgid "MinDiaWindow::Sou&nd comments..."
 msgstr ""
 
-#: src/mindiawindow.cpp:361
+#: src/mindiawindow.cpp:370
 msgid "MinDiaWindow::Sound comments"
 msgstr ""
 
-#: src/mindiawindow.cpp:359
+#: src/mindiawindow.cpp:368
 msgid "MinDiaWindow::Sound data"
 msgstr ""
 
-#: src/mindiawindow.cpp:303
+#: src/mindiawindow.cpp:312
 msgid "MinDiaWindow::Sta&rt"
 msgstr ""
 
-#: src/mindiawindow.cpp:313
+#: src/mindiawindow.cpp:322
 msgid "MinDiaWindow::Start &at selected"
 msgstr ""
 
-#: src/mindiawindow.cpp:310
+#: src/mindiawindow.cpp:319
 msgid "MinDiaWindow::Start &from selected"
 msgstr ""
 
-#: src/mindiawindow.cpp:313
+#: src/mindiawindow.cpp:322
 msgid "MinDiaWindow::Start at selected position (just start at position)"
 msgstr ""
 
-#: src/mindiawindow.cpp:310
+#: src/mindiawindow.cpp:319
 msgid "MinDiaWindow::Start from selected position (goto position and start)"
 msgstr ""
 
-#: src/mindiawindow.cpp:181
+#: src/mindiawindow.cpp:190
 msgid "MinDiaWindow::Start play"
 msgstr ""
 
-#: src/mindiawindow.cpp:303
+#: src/mindiawindow.cpp:312
 msgid "MinDiaWindow::Start"
 msgstr ""
 
-#: src/mindiawindow.cpp:183
+#: src/mindiawindow.cpp:192
 msgid "MinDiaWindow::Stop play"
 msgstr ""
 
-#: src/mindiawindow.cpp:307
+#: src/mindiawindow.cpp:316
 msgid "MinDiaWindow::Stop"
 msgstr ""
 
-#: src/mindiawindow.cpp:789
+#: src/mindiawindow.cpp:798
 msgid "MinDiaWindow::This program is released under the GPL Version 2:\n\n"
 msgstr ""
 
-#: src/mindiawindow.cpp:259
+#: src/mindiawindow.cpp:268
 msgid "MinDiaWindow::Undo last operation"
 msgstr ""
 
-#: src/mindiawindow.cpp:948
+#: src/mindiawindow.cpp:957
 msgid "MinDiaWindow::Use scripts to export the presentation-data for other applications."
 msgstr ""
 
-#: src/mindiawindow.cpp:975
+#: src/mindiawindow.cpp:984
 msgid "MinDiaWindow::Write changed data ?"
 msgstr ""
 
-#: src/mindiawindow.cpp:975
+#: src/mindiawindow.cpp:984
 msgid "MinDiaWindow::Yes"
 msgstr ""
 
-#: src/mindiawindow.cpp:1465
+#: src/mindiawindow.cpp:1474
 msgid "MinDiaWindow::dissolve time [s]:"
 msgstr ""
 
-#: src/mindiawindow.cpp:460
+#: src/mindiawindow.cpp:469
 msgid "MinDiaWindow::message"
 msgstr ""
 
-#: src/mindiawindow.cpp:461
+#: src/mindiawindow.cpp:470
 msgid "MinDiaWindow::modus"
 msgstr ""
 
-#: src/mindiawindow.cpp:346
+#: src/mindiawindow.cpp:355
 msgid "MinDiaWindow::mp3 player configuration"
 msgstr ""
 
-#: src/mindiawindow.cpp:1297
+#: src/mindiawindow.cpp:1306
 msgid "MinDiaWindow::play"
 msgstr ""
 
-#: src/mindiawindow.cpp:1434
+#: src/mindiawindow.cpp:1443
 msgid "MinDiaWindow::search for:"
 msgstr ""
 
-#: src/mindiawindow.cpp:462
+#: src/mindiawindow.cpp:471
 msgid "MinDiaWindow::time"
 msgstr ""
 
-#: src/mindiawindow.cpp:1299
+#: src/mindiawindow.cpp:1308
 msgid "MinDiaWindow::total time: "
 msgstr ""
 
