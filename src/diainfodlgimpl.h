@@ -8,12 +8,15 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diainfodlgimpl.h,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2004/02/26 22:19:24  min
+ *	Fixes to compile MinDia for the Zaurus.
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
- *	
+ *
  *
  ***************************************************************************/
 /***************************************************************************
@@ -37,6 +40,8 @@
 #else
 #include "ZDiaInfoDlg.h"
 #endif
+#include "minhandle.h"
+#include "diainfo.h"
 
 class QDoubleValidator;
 class QIntValidator;
@@ -59,6 +64,7 @@ public:
 public slots:
     virtual void sltDisableDialog( bool bCheckData );
     virtual void sltUpdateData( HItem * pFirstSelectedItem, bool bEnable );
+    virtual void sltUpdateData( minHandle<DiaInfo> hFirstSelectedItem, bool bEnable );
     virtual void sltApplyData();
     virtual void sltApplyAndNext();
     virtual void sltApplyAndPrev();
@@ -70,6 +76,7 @@ public slots:
 	virtual void sltModifyScript();
     virtual void sltDataChanged();
     virtual void sltCreateNewItem();
+	virtual void sltDeleteItem();
 
 	virtual void sltTextChanged( const QString & sText );
 	virtual void sltTextChanged();
@@ -81,6 +88,7 @@ signals:
 	void sigPrevItem();
 	void sigNextItem();
 	void sigNewItem();
+	void sigDeleteItem();
 	void sigDialogHelp( const QString & sHelpTag);
 
 protected:
@@ -89,8 +97,9 @@ protected:
 	virtual void keyPressEvent( QKeyEvent * pEvent ); 
 
 private:
-	bool		m_bDataChanged;
-	HItem *		m_pItem;			// NO OWNER !!!
+	bool				m_bDataChanged;
+	HItem *				m_pItem;			// NO OWNER !!!
+	minHandle<DiaInfo>	m_hItem;
 
 	QDoubleValidator *	m_pDissolveValidator;
 	QDoubleValidator *	m_pTimerValidator;

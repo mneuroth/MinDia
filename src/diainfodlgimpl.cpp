@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diainfodlgimpl.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/10/26 17:37:18  min
+ *	Added new directories for images, sounds, data, scipts.
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -77,6 +80,7 @@ DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, const 
 	connect( this, SIGNAL( sigPrevItem() ), pEventConsumer, SLOT( sltSelectPrev() ) );
 	connect( this, SIGNAL( sigNextItem() ), pEventConsumer, SLOT( sltSelectNext() ) );
 	connect( this, SIGNAL( sigNewItem() ), pEventConsumer, SLOT( sltNewItemAfterSelected() ) );
+	connect( this, SIGNAL( sigDeleteItem() ), pEventConsumer, SLOT( sltDeleteSelectedItem() ) );
     connect( this, SIGNAL( sigDialogHelp(const QString &) ), parent, SLOT( sltShowHelp(const QString &) ) );
 }
 
@@ -117,11 +121,26 @@ void DiaInfoDlgImpl::sltDisableDialog( bool bCheckData )
 	m_pNext->setEnabled( bValue );
 	m_pSlideFormat->setEnabled( bValue );
 	m_pNewItem->setEnabled( bValue );
+	m_pDeleteItem->setEnabled( bValue );
 
 	SetDataChanged( false );
 }
 
 void DiaInfoDlgImpl::sltUpdateData( HItem * pFirstSelectedItem, bool bEnable )
+{
+#ifndef ZAURUS
+	if( pFirstSelectedItem )
+	{
+		minHandle<DiaInfo> hData = pFirstSelectedItem->GetInfoData();
+
+		sltUpdateData( hData, bEnable );
+	}
+#endif
+
+	m_pItem = pFirstSelectedItem;
+}
+
+void DiaInfoDlgImpl::sltUpdateData( minHandle<DiaInfo> hData, bool bEnable )
 {
 	CheckIfDataChanged();
 
@@ -138,109 +157,109 @@ void DiaInfoDlgImpl::sltUpdateData( HItem * pFirstSelectedItem, bool bEnable )
 	m_pNext->setEnabled( bValue );
 	m_pSlideFormat->setEnabled( bValue );
 	m_pNewItem->setEnabled( bValue );
+	m_pDeleteItem->setEnabled( bValue );
 
-#ifndef ZAURUS
-	if( pFirstSelectedItem )
+	m_hItem = hData;
+
+	if( hData.IsOk() )
 	{
-		minHandle<DiaInfo> hData = pFirstSelectedItem->GetInfoData();
+		m_pIDEdit->setText( hData->GetId() );
+		m_pFileNameEdit->setText( hData->GetImageFile() );
+		m_pScript->setText( hData->GetScript() );
+		m_pCommentEdit->setText( hData->GetComment() );
 
-		if( hData.IsOk() )
+		if( hData->IsHorizontalFormat() )
 		{
-			m_pIDEdit->setText( hData->GetId() );
-			m_pFileNameEdit->setText( hData->GetImageFile() );
-			m_pScript->setText( hData->GetScript() );
-			m_pCommentEdit->setText( hData->GetComment() );
-
-			if( hData->IsHorizontalFormat() )
-			{
-				m_pHorizontalFormat->setChecked( true );
-			}
-			else
-			{
-				m_pVerticalFormat->setChecked( true );
-			}
-
-			for( int i=0; i<hData->GetOperationCount(); i++ )
-			{
-				TimeOperation aOp = hData->GetOperation( i );
-
-				if( aOp.GetOperationType() == TimeOperation::DISSOLVE_IN )
-				{
-					QString s;
-					s.setNum( aOp.GetOperationTime() );
-
-					m_pDissolveEdit->setText( s );
-				}
-				if( aOp.GetOperationType() == TimeOperation::SHOW )
-				{
-					QString s;
-					s.setNum( aOp.GetOperationTime() );
-
-					m_pTimerEdit->setText( s );
-				}
-			}
-
-			SetDataChanged( false );
+			m_pHorizontalFormat->setChecked( true );
 		}
-	}
-#endif
+		else
+		{
+			m_pVerticalFormat->setChecked( true );
+		}
 
-	m_pItem = pFirstSelectedItem;
+		for( int i=0; i<hData->GetOperationCount(); i++ )
+		{
+			TimeOperation aOp = hData->GetOperation( i );
+
+			if( aOp.GetOperationType() == TimeOperation::DISSOLVE_IN )
+			{
+				QString s;
+				s.setNum( aOp.GetOperationTime() );
+
+				m_pDissolveEdit->setText( s );
+			}
+			if( aOp.GetOperationType() == TimeOperation::SHOW )
+			{
+				QString s;
+				s.setNum( aOp.GetOperationTime() );
+
+				m_pTimerEdit->setText( s );
+			}
+		}
+
+		SetDataChanged( false );
+	}
 }
 
 void DiaInfoDlgImpl::sltApplyData()
 {
+	minHandle<DiaInfo> hData;
+
+#ifndef ZAURUS
 	if( m_pItem )
 	{
-#ifndef ZAURUS
-		minHandle<DiaInfo> hData = m_pItem->GetInfoData();
+		hData = m_pItem->GetInfoData();
+	}
+	else
+#endif
+	{
+		hData = m_hItem;
+	}
 
-		if( hData.IsOk() )
+	if( hData.IsOk() )
+	{
+		QString s1 = m_pIDEdit->text();
+		QString s2 = m_pFileNameEdit->text();
+		QString s3 = m_pCommentEdit->text();
+		QString s4 = m_pScript->text();
+
+		hData->SetData( (const char *)s1, (const char *)s2, (const char *)s3, (const char *)s4 );
+
+		hData->SetHorizontalFormat( m_pHorizontalFormat->isChecked() );
+
+		for( int i=0; i<hData->GetOperationCount(); i++ )
 		{
-			QString s1 = m_pIDEdit->text();
-			QString s2 = m_pFileNameEdit->text();
-			QString s3 = m_pCommentEdit->text();
-			QString s4 = m_pScript->text();
+			TimeOperation aOp = hData->GetOperation( i );
 
-			hData->SetData( (const char *)s1, (const char *)s2, (const char *)s3, (const char *)s4 );
-
-			hData->SetHorizontalFormat( m_pHorizontalFormat->isChecked() );
-
-			for( int i=0; i<hData->GetOperationCount(); i++ )
+			if( aOp.GetOperationType() == TimeOperation::DISSOLVE_IN )
 			{
-				TimeOperation aOp = hData->GetOperation( i );
+				bool bOk	= false;
+				QString s	= m_pDissolveEdit->text();
+				double d	= s.toDouble( &bOk  );
 
-				if( aOp.GetOperationType() == TimeOperation::DISSOLVE_IN )
+				if( bOk )
 				{
-					bool bOk	= false;
-					QString s	= m_pDissolveEdit->text();
-					double d	= s.toDouble( &bOk  );
-
-					if( bOk )
-					{
-						hData->ModifyOperation( i, TimeOperation( TimeOperation::DISSOLVE_IN, d ) );
-					}
-				}
-				if( aOp.GetOperationType() == TimeOperation::SHOW )
-				{
-					bool bOk	= false;
-					QString s	= m_pTimerEdit->text();
-					double d	= s.toDouble( &bOk  );
-
-					if( bOk )
-					{
-						hData->ModifyOperation( i, TimeOperation( TimeOperation::SHOW, d ) );
-					}
+					hData->ModifyOperation( i, TimeOperation( TimeOperation::DISSOLVE_IN, d ) );
 				}
 			}
+			if( aOp.GetOperationType() == TimeOperation::SHOW )
+			{
+				bool bOk	= false;
+				QString s	= m_pTimerEdit->text();
+				double d	= s.toDouble( &bOk  );
 
-			// ** data was writen, so (new) data is now unchanged !
-			SetDataChanged( false );
-
-			emit sigDataChanged();
-			emit sigUpdateViews();
+				if( bOk )
+				{
+					hData->ModifyOperation( i, TimeOperation( TimeOperation::SHOW, d ) );
+				}
+			}
 		}
-#endif
+
+		// ** data was writen, so (new) data is now unchanged !
+		SetDataChanged( false );
+
+		emit sigDataChanged();
+		emit sigUpdateViews();
 	}
 }
 
@@ -293,6 +312,11 @@ void DiaInfoDlgImpl::sltDialogCanceled()
 void DiaInfoDlgImpl::sltCreateNewItem()
 {
 	emit sigNewItem();
+}
+
+void DiaInfoDlgImpl::sltDeleteItem()
+{
+	emit sigDeleteItem();
 }
 
 void DiaInfoDlgImpl::sltPrevItem()
