@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/hitemview.cpp,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2004/01/29 21:28:12  min
+ *	Bugfix: disable drag & drop in run modus
+ *	
  *	Revision 1.2  2004/01/18 23:48:07  min
  *	Changes for disabling compiler warnings.
  *	
@@ -654,6 +657,24 @@ void HItemView::sltNewItemAfterSelected()
 
 	// ** select the new created item 
 	sltSelectItem( iIndex+1, 0 );
+}
+
+void HItemView::sltDeleteSelectedItem()
+{
+	// ** restore the visible viewport after the operation
+	_RestoreContents aContents( this );
+
+	int iIndex = GetLastSelectedItemIndex();
+	
+	RemoveItemAt( iIndex, true );
+
+	SyncViewWithData();
+
+	// ** select the new created item 
+	if( iIndex>0 )
+	{
+		sltSelectItem( iIndex-1, 0 );
+	}
 }
 
 void HItemView::sltContextMenuActivated( int iMenuIndex )

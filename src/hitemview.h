@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/hitemview.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -103,6 +106,7 @@ public slots:
 	void sltSelectItem( int iNo, int iDissolveTimeInMS );
 	void sltItemSelected( int iCount, int iFirstSelectedItemNo );
 	void sltNewItemAfterSelected();
+	void sltDeleteSelectedItem();
 	void sltContextMenuActivated( int iMenuIndex );
 
 signals:
