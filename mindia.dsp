@@ -136,6 +136,14 @@ SOURCE=.\src\ConfigurationDlg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\CreateMovieDlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\createmoviedlgimpl.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\diainfo.cpp
 # End Source File
 # Begin Source File
@@ -277,6 +285,14 @@ SOURCE=.\src\moc_configplayerdlgimpl.cpp
 # Begin Source File
 
 SOURCE=.\src\moc_ConfigurationDlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\moc_CreateMovieDlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\moc_createmoviedlgimpl.cpp
 # End Source File
 # Begin Source File
 
@@ -613,6 +629,43 @@ InputName=configplayerdlgimpl
 # Begin Source File
 
 SOURCE=.\src\ConfigurationDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\CreateMovieDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\createmoviedlgimpl.h
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing createmoviedlgimpl.h...
+InputDir=.\src
+InputPath=.\src\createmoviedlgimpl.h
+InputName=createmoviedlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing createmoviedlgimpl.h...
+InputDir=.\src
+InputPath=.\src\createmoviedlgimpl.h
+InputName=createmoviedlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -2078,5 +2131,60 @@ BuildCmds= \
 
 # End Source File
 # End Group
+# Begin Source File
+
+SOURCE=.\src\CreateMovieDlg.ui
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing CreateMovieDlg.ui...
+InputDir=.\src
+InputPath=.\src\CreateMovieDlg.ui
+InputName=CreateMovieDlg
+
+BuildCmds= \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing CreateMovieDlg.ui...
+InputDir=.\src
+InputPath=.\src\CreateMovieDlg.ui
+InputName=CreateMovieDlg
+
+BuildCmds= \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
 # End Target
 # End Project
