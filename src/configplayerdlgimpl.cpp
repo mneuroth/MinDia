@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/configplayerdlgimpl.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -91,18 +94,18 @@ void ConfigPlayerDlgImpl::WriteComboBoxes()
 	char sBuffer[256];
 	int i;
 
-	m_aIniDB[ c_sActPlayerKey ] = m_pPlayer->currentText();
-	m_aIniDB[ c_sActPlayerOptionsKey ] = m_pPlayerSettings->currentText();
+	m_aIniDB[ c_sActPlayerKey ] = (const char *)m_pPlayer->currentText();
+	m_aIniDB[ c_sActPlayerOptionsKey ] = (const char *)m_pPlayerSettings->currentText();
 
 	for( i=0; i<m_pPlayer->count(); i++ )
 	{
 		sprintf( sBuffer, "%s.%d", c_sPlayerKey, i );
-		m_aIniDB[ sBuffer ] = m_pPlayer->text( i );
+		m_aIniDB[ sBuffer ] = (const char *)m_pPlayer->text( i );
 	}
 	for( i=0; i<m_pPlayerSettings->count(); i++ )
 	{
 		sprintf( sBuffer, "%s.%d", c_sPlayerOptionsKey, i );
-		m_aIniDB[ sBuffer ] = m_pPlayerSettings->text( i );
+		m_aIniDB[ sBuffer ] = (const char *)m_pPlayerSettings->text( i );
 	}
 
 	m_aIniDB.Save();
