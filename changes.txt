@@ -288,6 +288,48 @@ change history:
 21. 6.2003	4h		working on a qt-python-gui for the script/function makecddist.py, implementing font and color dialog for dynamic text edit dialog, 
                     bugfixes for dynamic texts (edit and play from), dynamic texts can now be deleted
 15. 8.2003	4h		initial cvs checkin for ver. 0.97.1, testing the release, upload to sourceforge
+14. 9.2003  2h		changes from Olaf Schlachter included, problems for SuSE 7.3 fixed, saving ini-file in user-home-directory (linux) implemented
+23. 9.2003  2h		working on mp3 file length calculation (for linux)
+24. 9.2003	2h		scripts are now stored in a separate directory (scripts)
+ 3.10.2003  3h		implemented better error-handling for python-scripts (own exception-handler and renamed mindiapyc_d.dll for debuging mode)
+ 5.10.2003	2h		saving presentation files in data-directory (appconfig.*), new directory-structure implemented (data, images, scripts, music)
+24.10.2003	3h		new menu point "make relative path" implemented
+25.10.2003	3h		handling of name of diapresentation changed, saving path and name seperately,
+                    included read_mp3.cpp for calcualtion of the mp3-file length under linux,
+					saving configuration values in ini-file (com-port-settings, logging, projectortype, etc.)
+
+TODO: 
+- Project-Homepage verbessern
+    * Foren angeben
+	* Referenz auf Sourceforge-Project-Page angeben
+	* ggf. Mailing Liste angeben
+
+		Mindia Project page
+		http://sourceforge.net/projects/mindia/
+
+		Foren: Mindia Open discussion
+		http://sourceforge.net/forum/forum.php?forum_id=149895
+
+		News:
+		http://sourceforge.net/news/?group_id=45740
+
+		Tracker:
+		http://sourceforge.net/tracker/?group_id=45740
+
+- Doku ins Englische übersetzen
+
+- Programm ins Niederländische überetzen (*.qm)
+
+- Problem von Dirks-Test beseitigen
+    * FAQ: Wo ist tmake
+	* FAQ: shared lib behandlung in /usr/local --> ldconfig laufen lassen
+	* Probleme mit installierten Python aber keinen Python-Developer-Files (*.h und *.lib)
+
+
+VCDs erzeugen:
+http://apps.kde.com/na/2/info/id/1941 --> KAvi2svcd
+http://cdrdao.sourceforge.net/
+http://www.vcdimager.org
 
 // bessere mp3 Unterstuetzung unter linux --> Laenge der Datei bestimmen !
 // Performance Optimierungen

@@ -23,6 +23,28 @@ Vor Release zu tun:
 
 //---------------------------------------------------------------------------
 
+//- Skripte in eigenes Verzeichnis verschieben --> probleme mit PYTHONPATH !!!
+//- data-Verzeichnis, images-Verzeichnis, music-Verzeichnis unterstützen
+//- Bug: in release kein setzen des Skript-Verzeichnisses
+//- relative Pfade für Sound und Bilder speichern (und Diapresentation)
+//- bessere mp3 Unterstützung für Linux (Länge der mp3-Datei bestimmen)
+- Performance-Optimierungen fuer Drag-and-Drop
+- Installations-Programm fuer Windows (inkl. Registry-Eintrag für .mindia.ini, Desktop-Icon erzeugen, Start-Menu-Eintrag erzeugen)
+- bessere autoconf / configure Unterstützung
+- ggf. KDevelop Unterstützung
+- Dokumentation ins englische übersetzen
+(- diverse Configurierungs-Daten in INI-Datei speichern, z.B. Logging on/off, Bildschirmposition und Größe etc.)
+//- INI-Datei unter Unix aus User-Home Verzeichnis lesen ~/.mindia.ini
+- komfortablere Text-Eingabe ermöglichen
+- Änderungen von Oliver Schlachter einbauen
+- bessere Installation unter Linux (make install) implementieren --> html Dateien für Hilfe
+- Zmindia schaltet sich immer im Play-Modus aus (wenn keine Aktivität mit Eingabe erfolgt)
+- Hilfe aktualisieren für Menupunkt "make relative paths"
+
+- Einlesen von Dia-Shows vom Projektor implementieren
+- Sonderfunktionen unterstützen
+- bessere Sound-Manipulation (mit Maus verschieben)d
+
 - Dokumentation verbessern _Online-Doku (User+Entwickler)
    --> Ansteuerung ueber TIMER, Kommunikation und WAV-Read ueber Thread
 
@@ -34,9 +56,9 @@ Vor Release zu tun:
 
 
 
-- Stabilitaet der RS232 Kommunikation unter Windows ist schlecht !
+//- Stabilitaet der RS232 Kommunikation unter Windows ist schlecht !
 
-- Bessere Sound-Unterstuetzung fuer Windows --> Sound stoppen !!!
+//- Bessere Sound-Unterstuetzung fuer Windows --> Sound stoppen !!!
 
 - letztes Dia mit END anstatt BV versorgen...
 
@@ -48,7 +70,7 @@ Vor Release zu tun:
 
 - Abspielzeit fuer Sound auf Diavortrag-Laenge sezten, damit auch unter Windows Sound aufhoert
 
-- Kommandozeilen-Parameter implementieren: -cd und -autorun
+//- Kommandozeilen-Parameter implementieren: -cd und -autorun
 
 (- Callback-Methoden (Trigger*) asynchron implementieren ?)
 
