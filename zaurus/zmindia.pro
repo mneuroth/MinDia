@@ -19,6 +19,7 @@ HEADERS		= zmindia.h \
               diainfodlgimpl.h \
               mp3file.h \
 			  configplayerdlgimpl.h\
+		dyngraphop.h \
               configdlgimpl.h
 SOURCES		= zmain.cpp \
               zmindia.cpp \
@@ -38,6 +39,7 @@ SOURCES		= zmain.cpp \
               diainfodlgimpl.cpp \
 			  configplayerdlgimpl.cpp\
               configdlgimpl.cpp \
+		dyngraphop.cpp \
               mp3file.cpp \
               sysdep1.c
 INCLUDEPATH	+= $(QPEDIR)/include
