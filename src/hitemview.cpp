@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/hitemview.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2004/01/18 23:48:07  min
+ *	Changes for disabling compiler warnings.
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -355,6 +358,12 @@ bool HItemView::IsDragTargetNotDragSource( QMouseEvent * pEvent, int iActIndex )
 
 void HItemView::contentsMouseMoveEvent( QMouseEvent * pEvent )
 {
+	// ** disable mouse input in play-modus !
+	if( m_pDiaPres && !m_pDiaPres->IsEdit() )
+	{
+		return;
+	}
+
 	if( GetSelectedCount()>0 && IsDragTargetNotDragSource( pEvent, GetLastSelectedItemIndex() ) )
 	{
 		QString sDragString;
@@ -455,105 +464,111 @@ void HItemView::keyPressEvent( QKeyEvent * pEvent )
 
 void HItemView::dragEnterEvent( QDragEnterEvent * pEvent )
 {
-	// allow only *.dia files and imager files to drop !
+	if( m_pDiaPres->IsEdit() )
+	{
+		// allow only *.dia files and imager files to drop !
 
-	QString sFileName;
-	QStrList aStrList;
+		QString sFileName;
+		QStrList aStrList;
 
-	if( IsDiaDataFileDrag( pEvent, sFileName ) )
-	{
-		pEvent->accept( QUriDrag::canDecode( pEvent ) );
-	}
-	else if( IsImageFileDrag( pEvent ) )
-	{
-		pEvent->accept( QUriDrag::canDecode( pEvent ) );
-	}
-	else if( QUriDrag::decode( pEvent, aStrList ) )
-	{
-		// do not accept other files than *.dia or images
-	}
-	else
-	{
-		pEvent->accept( QTextDrag::canDecode(pEvent) );
+		if( IsDiaDataFileDrag( pEvent, sFileName ) )
+		{
+			pEvent->accept( QUriDrag::canDecode( pEvent ) );
+		}
+		else if( IsImageFileDrag( pEvent ) )
+		{
+			pEvent->accept( QUriDrag::canDecode( pEvent ) );
+		}
+		else if( QUriDrag::decode( pEvent, aStrList ) )
+		{
+			// do not accept other files than *.dia or images
+		}
+		else
+		{
+			pEvent->accept( QTextDrag::canDecode(pEvent) );
+		}
 	}
 }
 
 void HItemView::dropEvent( QDropEvent * pEvent )
 {
-	QString sFileName;
-	QStrList aStrList;
-
-	if( IsDiaDataFileDrag( pEvent, sFileName ) )
+	if( m_pDiaPres->IsEdit() )
 	{
-		emit sigLoadDoc( sFileName, true );
-	}
-	else if( IsImageFileDrag( pEvent ) )
-	{
-		int iIndex = -1;
+		QString sFileName;
+		QStrList aStrList;
 
-		QPoint aPoint = pEvent->pos();
-
-		int x = aPoint.x() + contentsX();
-		int y = aPoint.y() + contentsY();
-
-		// find the index for the selected image
-		for( int i=0; i<(int)m_aItemContainer.size(); i++ )
+		if( IsDiaDataFileDrag( pEvent, sFileName ) )
 		{
-			HItem * pItem = m_aItemContainer[ i ];
-			if( pItem && pItem->IsPointInItem( x, y ) )
-			{
-				iIndex = i;
-			}
+			emit sigLoadDoc( sFileName, true );
 		}
-
-		// insert all droped image files at the found position 
-		if( QUriDrag::decode( pEvent, aStrList ) )
+		else if( IsImageFileDrag( pEvent ) )
 		{
-			for( int i=0; i<(int)aStrList.count(); i++ )
+			int iIndex = -1;
+
+			QPoint aPoint = pEvent->pos();
+
+			int x = aPoint.x() + contentsX();
+			int y = aPoint.y() + contentsY();
+
+			// find the index for the selected image
+			for( int i=0; i<(int)m_aItemContainer.size(); i++ )
 			{
-				const QString sTest = aStrList.at( i );
-				const char * s = (const char *)sTest;
-				sFileName = QUriDrag::uriToLocalFile( s );
-				//s = (const char *)sFileName;
-				AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID(), (const char *)sFileName ) ), iIndex+i, /*bInsert*/true );
+				HItem * pItem = m_aItemContainer[ i ];
+				if( pItem && pItem->IsPointInItem( x, y ) )
+				{
+					iIndex = i;
+				}
 			}
+
+			// insert all droped image files at the found position 
+			if( QUriDrag::decode( pEvent, aStrList ) )
+			{
+				for( int i=0; i<(int)aStrList.count(); i++ )
+				{
+					const QString sTest = aStrList.at( i );
+					const char * s = (const char *)sTest;
+					sFileName = QUriDrag::uriToLocalFile( s );
+					//s = (const char *)sFileName;
+					AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID(), (const char *)sFileName ) ), iIndex+i, /*bInsert*/true );
+				}
+			}
+
+			sltSelectItem( iIndex, 0 );
 		}
-
-		sltSelectItem( iIndex, 0 );
-	}
-	else if( QUriDrag::decode( pEvent, aStrList ) )
-	{
-		// do not accept other files than *.dia or images
-	}
-	else if( QTextDrag::decode( pEvent, sFileName ) ) 
-	{
-		int iIndex = -1;
-
-		QPoint aPoint = pEvent->pos();
-
-		int x = aPoint.x() + contentsX();
-		int y = aPoint.y() + contentsY();
-
-		// find the index for the selected image
-		for( int i=0; i<(int)m_aItemContainer.size(); i++ )
+		else if( QUriDrag::decode( pEvent, aStrList ) )
 		{
-			HItem * pItem = m_aItemContainer[ i ];
-			if( pItem && pItem->IsPointInItem( x, y ) )
-			{
-				iIndex = i;
-			}
+			// do not accept other files than *.dia or images
 		}
+		else if( QTextDrag::decode( pEvent, sFileName ) ) 
+		{
+			int iIndex = -1;
 
-		// min todo gulp: wenn iIndex == ActSelectedIndex --> ignorieren, nur wenn unterschiedlich draggen !
+			QPoint aPoint = pEvent->pos();
 
-		//QDropEvent::Action aAction = pEvent->action();
+			int x = aPoint.x() + contentsX();
+			int y = aPoint.y() + contentsY();
 
-		sltSelectItem( iIndex, 0 );
-		SetFromClipboardData( sFileName );
+			// find the index for the selected image
+			for( int i=0; i<(int)m_aItemContainer.size(); i++ )
+			{
+				HItem * pItem = m_aItemContainer[ i ];
+				if( pItem && pItem->IsPointInItem( x, y ) )
+				{
+					iIndex = i;
+				}
+			}
 
-		m_iDragTargetIndex = iIndex;
+			// min todo gulp: wenn iIndex == ActSelectedIndex --> ignorieren, nur wenn unterschiedlich draggen !
 
-		sltSelectItem( iIndex, 0 );
+			//QDropEvent::Action aAction = pEvent->action();
+
+			sltSelectItem( iIndex, 0 );
+			SetFromClipboardData( sFileName );
+
+			m_iDragTargetIndex = iIndex;
+
+			sltSelectItem( iIndex, 0 );
+		}
 	}
 }
 	

@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/timelineview.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2004/01/18 23:36:10  min
+ *	Bugfixes and dynamic text handling improved (new menu item).
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:22  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -754,69 +757,69 @@ void TimeLineView::contentsMouseReleaseEvent( QMouseEvent * /*pEvent*/ )
 
 void TimeLineView::contentsMouseMoveEvent( QMouseEvent * pEvent )
 {
-	if( m_hSelectedItem.IsOk() )
+	// ** allow modifiying of items only in edit-modus
+	if( m_pDiaPres->IsEdit() )
 	{
-		double dDelta = (double)(pEvent->x()-m_iSelectedItemStartPos);
-		m_iSelectedItemStartPos = pEvent->x();
-
-		dDelta = dDelta / g_dFactor;
-
-		if( m_bDissolveSelected )
+		if( m_hSelectedItem.IsOk() )
 		{
-			m_hSelectedItem->ChangeDissolveTime( dDelta );
+			double dDelta = (double)(pEvent->x()-m_iSelectedItemStartPos);
+			m_iSelectedItemStartPos = pEvent->x();
 
-			if( m_bTotalTimeConstant )
+			dDelta = dDelta / g_dFactor;
+
+			if( m_bDissolveSelected )
 			{
-				// ** if dissolve time is increased,
-				// ** the show time has to be decreased
-				m_hSelectedItem->ChangeShowTime( -dDelta );
+				m_hSelectedItem->ChangeDissolveTime( dDelta );
+
+				if( m_bTotalTimeConstant )
+				{
+					// ** if dissolve time is increased,
+					// ** the show time has to be decreased
+					m_hSelectedItem->ChangeShowTime( -dDelta );
+				}
 			}
+			else
+			{
+				m_hSelectedItem->ChangeShowTime( dDelta );
+			}
+
+			// ** data was changed with mouse-move
+			m_bMouseMovedWhilePressed = true;
+
+			// ** update view **
+			sltUpdateView();
+
+			//emit sigViewDataChanged();
+		}
+		// handle the movement of dynamic text objects
+		else if( m_iSelectedDynTextIndex>=0 )
+		{
+			double dDelta = (double)(pEvent->x()-m_iSelectedItemStartPos);
+			m_iSelectedItemStartPos = pEvent->x();
+
+			dDelta = dDelta / g_dFactor;
+
+			DynContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
+
+			minHandle<DynText> hItem = aDynGrOpContainer[ m_iSelectedDynTextIndex ];
+			hItem->Delta( dDelta*1000 );
+
+			aDynGrOpContainer.SetChanged();
+
+			// ** data was changed with mouse-move
+			m_bMouseMovedWhilePressed = true;
+
+			// select the slide for this text item
+			int iIndex = GetItemForPosX( pEvent->x() );
+			if( iIndex>=0 )
+			{
+				sltSelectItem( iIndex, 0 );
+			}
+
+			// ** update view **
+			sltUpdateView();
 		}
 		else
-		{
-			m_hSelectedItem->ChangeShowTime( dDelta );
-		}
-
-		// ** data was changed with mouse-move
-		m_bMouseMovedWhilePressed = true;
-
-		// ** update view **
-		sltUpdateView();
-
-		//emit sigViewDataChanged();
-	}
-	// handle the movement of dynamic text objects
-	else if( m_iSelectedDynTextIndex>=0 )
-	{
-		double dDelta = (double)(pEvent->x()-m_iSelectedItemStartPos);
-		m_iSelectedItemStartPos = pEvent->x();
-
-		dDelta = dDelta / g_dFactor;
-
-		DynContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
-
-		minHandle<DynText> hItem = aDynGrOpContainer[ m_iSelectedDynTextIndex ];
-		hItem->Delta( dDelta*1000 );
-
-		aDynGrOpContainer.SetChanged();
-
-		// ** data was changed with mouse-move
-		m_bMouseMovedWhilePressed = true;
-
-		// select the slide for this text item
-		int iIndex = GetItemForPosX( pEvent->x() );
-		if( iIndex>=0 )
-		{
-			sltSelectItem( iIndex, 0 );
-		}
-
-		// ** update view **
-		sltUpdateView();
-	}
-	else
-	{
-		// ** allow modifiying of items only in edit-modus
-		if( m_pDiaPres->IsEdit() )
 		{
 			// ** update mouse cursor if one can shift dissolve or show time with mouse
 			
@@ -850,128 +853,139 @@ void TimeLineView::contentsMouseMoveEvent( QMouseEvent * pEvent )
 
 				return;
 			}
-		}
 
-		setCursor( ArrowCursor );
+			setCursor( ArrowCursor );
+		}
 	}
 }
 
 void TimeLineView::dragEnterEvent( QDragEnterEvent * pEvent )
 {
-	QString sFileName;
-
-	if( IsDiaDataFileDrag( pEvent, sFileName ) )
+	if( m_pDiaPres->IsEdit() )
 	{
-		pEvent->accept( QUriDrag::canDecode( pEvent ) );
-	}
+		QString sFileName;
+
+		if( IsDiaDataFileDrag( pEvent, sFileName ) )
+		{
+			pEvent->accept( QUriDrag::canDecode( pEvent ) );
+		}
 //        QTextDrag::canDecode(pEvent) ||
+	}
 }
 
 void TimeLineView::dragMoveEvent ( QDragMoveEvent * pEvent )
 {
-	QString sFileName;
+	if( m_pDiaPres->IsEdit() )
+	{
+		QString sFileName;
 
-	if( IsDiaDataFileDrag( pEvent, sFileName ) )
-	{
-		pEvent->accept( QUriDrag::canDecode( pEvent ) );
-	}
-	else if( IsSoundFileDrag( pEvent ) )
-	{
-		pEvent->accept( QUriDrag::canDecode( pEvent ) );
-	}
-	else
-	{
-		bool bAcceptText = IsInGraphicOperationsArea( pEvent->pos() );
+		if( IsDiaDataFileDrag( pEvent, sFileName ) )
+		{
+			pEvent->accept( QUriDrag::canDecode( pEvent ) );
+		}
+		else if( IsSoundFileDrag( pEvent ) )
+		{
+			pEvent->accept( QUriDrag::canDecode( pEvent ) );
+		}
+		else
+		{
+			// don't accept text for graphic operations --> not implemented yet !
 
-		pEvent->accept( (bAcceptText && QTextDrag::canDecode(pEvent) ) );
-		//pEvent->setAction( QDropEvent::Copy );
+			//bool bAcceptText = IsInGraphicOperationsArea( pEvent->pos() );
+
+			//pEvent->accept( (bAcceptText && QTextDrag::canDecode(pEvent) ) );
+			////pEvent->setAction( QDropEvent::Copy );
+		}
 	}
 }
 
 void TimeLineView::dropEvent( QDropEvent * pEvent )
 {
-	QString sFileName;
-	QString sText;
-	QStrList aStrList;
-	QImage aImage;
-
-	QPoint aPos = pEvent->pos();
-
-	if( QImageDrag::decode( pEvent, aImage ) )
+	if( m_pDiaPres->IsEdit() )
 	{
-		int i = 0;
-		i = 2;
-	}
-	else if( IsDiaDataFileDrag( pEvent, sFileName ) )
-	{
-		emit sigLoadDoc( sFileName, true );
-	}
-	else if( IsSoundFileDrag( pEvent ) )
-	{
-		SoundInfoContainer & aSoundContainer = m_pDiaPres->GetSoundInfoData();
-
-		const char * s;
 		QString sFileName;
+		QString sText;
+		QStrList aStrList;
+		QImage aImage;
 
-		if( QUriDrag::decode( pEvent, aStrList ) )
+		QPoint aPos = pEvent->pos();
+
+		if( QImageDrag::decode( pEvent, aImage ) )
 		{
-			for( int i=0; i<(int)aStrList.count(); i++ )
+			int i = 0;
+			i = 2;
+		}
+		else if( IsDiaDataFileDrag( pEvent, sFileName ) )
+		{
+			emit sigLoadDoc( sFileName, true );
+		}
+		else if( IsSoundFileDrag( pEvent ) )
+		{
+			SoundInfoContainer & aSoundContainer = m_pDiaPres->GetSoundInfoData();
+
+			const char * s;
+			QString sFileName;
+
+			if( QUriDrag::decode( pEvent, aStrList ) )
+			{
+				for( int i=0; i<(int)aStrList.count(); i++ )
+				{
+					const QString sTest = aStrList.at(i);
+					s = (const char *)sTest;
+					sFileName = QUriDrag::uriToLocalFile( s );
+					s = (const char *)sFileName;
+
+					aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( s ) ) );
+					aSoundContainer.SetChanged();
+				}
+				emit sigViewDataChanged();
+			}
+		}
+	/*	else if( QUriDrag::decode( pEvent, aStrList ) )
+		{
+			const char * s;
+			QString sFileName;
+
+			for( int i=0; i<aStrList.count(); i++ )
 			{
 				const QString sTest = aStrList.at(i);
 				s = (const char *)sTest;
 				sFileName = QUriDrag::uriToLocalFile( s );
 				s = (const char *)sFileName;
 
-				aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( s ) ) );
-				aSoundContainer.SetChanged();
+				if( IsDiaDataFile( s ) )
+				{
+					emit sigLoadDoc( sFileName, true );
+				}
 			}
-			emit sigViewDataChanged();
-		}
-	}
-/*	else if( QUriDrag::decode( pEvent, aStrList ) )
-	{
-		const char * s;
-		QString sFileName;
 
-		for( int i=0; i<aStrList.count(); i++ )
+			// min todo --> ggf. auf *.dia pruefen
+
+			// otherwise it is maybe an image ?
+
+			bool bOk = ReadQImage( (const char *)sFileName, aImage );
+			//bool bOk = aImage.load( s1 );
+		}
+	*/	else if( QTextDrag::decode( pEvent, sText ) )
 		{
-			const QString sTest = aStrList.at(i);
-			s = (const char *)sTest;
-			sFileName = QUriDrag::uriToLocalFile( s );
-			s = (const char *)sFileName;
+			const char * s = (const char *)sText;
 
-			if( IsDiaDataFile( s ) )
-			{
-				emit sigLoadDoc( sFileName, true );
-			}
+			QUrl aUrl( sText );
+
+			bool bOk = aUrl.isValid();
+			bOk = aUrl.isLocalFile();
+
+			QString sName = aUrl.fileName();
+			QString sPath = aUrl.dirPath();
+
+			s = (const char *)sName;
+			s = (const char *)sPath;
+
+			QString sFullName = sPath + sName;
+			sFullName = sFullName.left( sFullName.length()-2 );
+			s = (const char *)sFullName;
+			bOk = aImage.load( sFullName );
 		}
-
-		// min todo --> ggf. auf *.dia pruefen
-
-		// otherwise it is maybe an image ?
-
-		bool bOk = ReadQImage( (const char *)sFileName, aImage );
-		//bool bOk = aImage.load( s1 );
-	}
-*/	else if( QTextDrag::decode( pEvent, sText ) )
-	{
-		const char * s = (const char *)sText;
-
-		QUrl aUrl( sText );
-
-		bool bOk = aUrl.isValid();
-		bOk = aUrl.isLocalFile();
-
-		QString sName = aUrl.fileName();
-		QString sPath = aUrl.dirPath();
-
-		s = (const char *)sName;
-		s = (const char *)sPath;
-
-		QString sFullName = sPath + sName;
-		sFullName = sFullName.left( sFullName.length()-2 );
-		s = (const char *)sFullName;
-		bOk = aImage.load( sFullName );
 	}
 }
 
