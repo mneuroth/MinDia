@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diapresentation.h,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2004/01/18 23:51:23  min
+ *	General device driver included.
+ *	
  *	Revision 1.2  2003/10/26 17:36:05  min
  *	MakeRelativePaths() added.
  *	
@@ -211,6 +214,7 @@ private:
 
 #ifndef ZAURUS
 	ApplScriptEnvironment	m_aScriptEnv;
+	minClientHandle<IGeneralDevice> m_hGenDev;
 #endif
 
 	// *** transient data ***
@@ -235,8 +239,6 @@ private:
 	DiaCallback *			m_pCallback;		// no owner !
 	minLoggingInterface *	m_pLogging;			// no owner !
 	//IDiaOutputWindowInternal *	m_pOutputWindowProxy;	// no owner !
-
-	minClientHandle<IGeneralDevice> m_hGenDev;
 
 public:
 	// *** some public constants for this class ***

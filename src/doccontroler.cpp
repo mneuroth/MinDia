@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/doccontroler.cpp,v $
  *
- *  $Revision: 1.5 $
+ *  $Revision: 1.6 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.5  2004/01/18 23:50:57  min
+ *	Windows only: get path .mindia.ini from registry.
+ *	
  *	Revision 1.4  2003/10/26 22:38:48  min
  *	calculate home directory for linux
  *	
@@ -73,7 +76,7 @@ const char * c_sProjectorTypeKey	= "projector_id";
 string GetPathToIniFile()
 {
 	string sPath;
-#ifdef __linux__
+#if defined( __linux__ ) || defined( ZAURUS )
 	const char * s = getenv( "HOME" );
 	if( s )
 	{
@@ -181,11 +184,13 @@ void DocumentAndControler::ReadIniValues()
 	{
 		GetDiaCom().SetLogging( (bool)aIniDB.GetValueAsInt( sBuffer ) );
 	}
+#ifndef ZAURUS
 	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sScriptEventsKey );
 	if( aIniDB.HasKey( sBuffer ) )
 	{
 		GetPresentation().GetScriptEnvironment().SetEnabled( (bool)aIniDB.GetValueAsInt( sBuffer ) );
 	}
+#endif
 	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sProjectorTypeKey );
 	if( aIniDB.HasKey( sBuffer ) )
 	{
@@ -206,9 +211,11 @@ void DocumentAndControler::WriteIniValues()
 	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sLoggingKey );
 	sprintf( sResult, "%d", (int)GetDiaCom().IsLogging() );
 	aIniDB.Add( sBuffer, sResult );
+#ifndef ZAURUS
 	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sScriptEventsKey );
 	sprintf( sResult, "%d", (int)GetPresentation().GetScriptEnvironment().IsEnabled() );
 	aIniDB.Add( sBuffer, sResult );
+#endif
 	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sProjectorTypeKey );
 	sprintf( sResult, "%d", GetDiaCom().GetProjectorType() );
 	aIniDB.Add( sBuffer, sResult );

@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diapresentation.cpp,v $
  *
- *  $Revision: 1.5 $
+ *  $Revision: 1.6 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.5  2004/01/18 23:51:48  min
+ *	General device driver included.
+ *	
  *	Revision 1.4  2003/10/26 22:39:11  min
  *	Bugfix
  *	
@@ -85,12 +88,12 @@ DiaPresentation::DiaPresentation( DiaCallback * pCallback, const string & sName,
   m_aDynItemContainer( pOutputWindowProxy ),
 #ifndef ZAURUS
   m_aScriptEnv( true ),
+  m_hGenDev( g_IGeneralDeviceID ),
 #endif
   m_pProjectorCom( 0 ),
   m_pSoundPlayer( 0 ),
   m_pCallback( pCallback ),
-  m_pLogging( pLogging ),
-  m_hGenDev( g_IGeneralDeviceID )
+  m_pLogging( pLogging )
 {
 	m_aObjectChanged.ClearChanged();
 
@@ -700,10 +703,12 @@ bool DiaPresentation::StartPlay( int iStartPos )
 	}
 
 	// (8.11.2003) check for other projector devices
+#ifndef ZAURUS
 	if( ExistsExternalDevice() )
 	{
 		m_hGenDev->Start();
 	}
+#endif
 
     // ** sometimes the switch to the direct mode fails
     // ** int that case inform the user about the error and
@@ -749,11 +754,13 @@ bool DiaPresentation::StartPlay( int iStartPos )
 			}
 
 			// (8.11.2003) check for other projector devices
+#ifndef ZAURUS
 			if( ExistsExternalDevice() )
 			{
 				m_hGenDev->SetDissolveTime( m_iActPos % m_hGenDev->GetDeviceCount(), dDissolveTime );
 				m_hGenDev->SlideForward( m_iActPos % m_hGenDev->GetDeviceCount() );
 			}
+#endif
         }
     }
 
@@ -828,10 +835,12 @@ void DiaPresentation::StopPlay()
 	}
 
 	// (8.11.2003) check for other projector devices
+#ifndef ZAURUS
 	if( ExistsExternalDevice() )
 	{
 		m_hGenDev->Stop();
 	}
+#endif
 
 	if( m_pSoundPlayer )
 	{
@@ -860,10 +869,12 @@ void DiaPresentation::PausePlay()
 	m_dCountDownTime += ((double)m_aCountDown.elapsed())*0.001;
 
 	// (8.11.2003) check for other projector devices
+#ifndef ZAURUS
 	if( ExistsExternalDevice() )
 	{
 		m_hGenDev->Pause();
 	}
+#endif
 
 	if( m_pSoundPlayer )
 	{
@@ -966,10 +977,12 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 				}
 
 				// (8.11.2003) check for other projector devices
+#ifndef ZAURUS
 				if( ExistsExternalDevice() && !bWasContinued )
 				{
 					m_hGenDev->SlideForward( m_iActPos % m_hGenDev->GetDeviceCount() );
 				}
+#endif
 
 				// ** send an observer the message, that the actual
 				// ** image has to be changed (fade in now!).
@@ -1079,11 +1092,13 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 				}
 
 				// (8.11.2003) check for other projector devices
+#ifndef ZAURUS
 				if( ExistsExternalDevice() && !bWasContinued )
 				{
 					// set dissolvetime for next slide
 					m_hGenDev->SetDissolveTime( (m_iActPos+1) % m_hGenDev->GetDeviceCount(), dNextStepTime );
 				}
+#endif
 
 				// ** send an observer infos about the next dia,
 				// ** so the observer has the posibility to pre-load
@@ -1212,18 +1227,18 @@ bool DiaPresentation::IsScriptEnabled() const
 
 void DiaPresentation::MyExecuteScript( const string & sEvent )
 {
+#ifndef ZAURUS
 	bool bScriptFound;
 	int  iRet;
 
-#ifndef ZAURUS
 	m_aScriptEnv.ExecuteScriptForEvent( sEvent, bScriptFound, &iRet );
-#endif
-	
 	CheckScriptResult( sEvent, bScriptFound, iRet );
+#endif	
 }
 
 void DiaPresentation::CheckScriptResult( const string & sEvent, bool bFoundScript, int iRet )
 {
+#ifndef ZAURUS
 	if( !bFoundScript )
 	{
 		cerr << "Warning: script for event " << sEvent.c_str() << " not found." << endl;
@@ -1244,6 +1259,7 @@ void DiaPresentation::CheckScriptResult( const string & sEvent, bool bFoundScrip
 			}
 		}
 	}
+#endif
 }
 
 bool DiaPresentation::ExistsExternalDevice()
@@ -1251,6 +1267,7 @@ bool DiaPresentation::ExistsExternalDevice()
 	// checks if an external device is existing.
 	// a query for an interface is done, if an interface is found
 	// but not initialized, the interface will be created
+#ifndef ZAURUS
 	if( !m_hGenDev.IsValid() )
 	{
 		m_hGenDev.UpdateIfNotValid();
@@ -1259,6 +1276,7 @@ bool DiaPresentation::ExistsExternalDevice()
 	{
 		return true;
 	}
+#endif
 	return false;
 }
 

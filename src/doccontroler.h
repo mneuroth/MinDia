@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/doccontroler.h,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/10/26 17:35:01  min
+ *	Saved more values in the ini-file.
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -32,7 +35,11 @@
 #ifndef _DOCCONTROLER_H
 #define _DOCCONTROLER_H
 
+#ifndef ZAURUS
 #include "iscript.h"
+#else
+class IDiaOutputWindowInternal;
+#endif
 #include "diacallback.h"
 
 #include "diapresentation.h"

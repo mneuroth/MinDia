@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diainfodlgimpl.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -29,7 +32,11 @@
 #ifndef _DIAINFODLGIMPL_H
 #define _DIAINFODLGIMPL_H
 
+#ifndef ZAURUS
 #include "DiaInfoDlg.h"
+#else
+#include "ZDiaInfoDlg.h"
+#endif
 
 class QDoubleValidator;
 class QIntValidator;
