@@ -13,16 +13,16 @@
 LIBPYTHON 		= @LIBPYTHON@
 PYTHONLIB 		= @PYTHONLIB@
 PYTHONINC 		= @PYTHONINC@
-PYTHONMODDIR	= @PYTHONMODDIR@
+# PYTHONMODDIR	= @PYTHONMODDIR@
 python_incdir	= @python_incdir@
 
-LIB_QT			= @LIB_QT@
-LIB_X11 		= @LIB_X11@
+# LIB_QT			= @LIB_QT@
+# LIB_X11 		= @LIB_X11@
 
-qt_includes 	= @qt_includes@
-kde_qt_verstring= @kde_qt_verstring@
+# qt_includes 	= @qt_includes@
+# kde_qt_verstring= @kde_qt_verstring@
 
-ac_found_tmake	= @ac_found_tmake@
+# ac_found_tmake	= @ac_found_tmake@
 ac_tmake		= @ac_tmake@
 
 ac_default_prefix	= @ac_default_prefix@

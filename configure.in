@@ -7,7 +7,7 @@ AC_INIT(acinclude.m4) dnl a source file from your sub dir
 AC_CONFIG_SRCDIR([mindiawindow.h])
 AC_CONFIG_HEADER([config.h])
 
-s# Checks for programs.
+# Checks for programs.
 AC_PROG_CXX
 AC_PROG_CC
 
@@ -47,9 +47,9 @@ KDE_CHECK_STL
 KDE_CHECK_PYTHON
 
 dnl check for Qt
-AC_PATH_QT
+dnl AC_PATH_QT
 
-AC_CHECK_TMAKE
+dnl AC_CHECK_TMAKE
 
 
 dnl AC_SUBST(PYTHONINC)
@@ -61,10 +61,11 @@ dnl AC_SUBST(LIB_QT)
 dnl AC_SUBST(LIB_X11)
 
 dnl AC_SUBST(qt_includes)
-AC_SUBST(kde_qt_verstring)
+dnl AC_SUBST(kde_qt_verstring)
 
 AC_SUBST(ac_found_tmake)
 AC_SUBST(ac_tmake)
+AC_SUBST(ac_qmake)
 
 AC_SUBST(ac_default_prefix)
 AC_DEFINE_UNQUOTED( MINDIA_INSTALLATION_DIR, "$ac_default_prefix/share/mindia", [The installation directory for MinDia])
