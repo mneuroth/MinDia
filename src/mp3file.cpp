@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mp3file.cpp,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2003/10/26 22:37:20  min
+ *	Bugfix
+ *	
  *	Revision 1.2  2003/10/26 17:28:55  min
  *	Implemented function to calculate mp3-file length for linux.
  *	
@@ -122,11 +125,11 @@ static int ParseOptions( const string & sOptions, vector<string> & aOptionsVec )
 // *******************************************************************
 
 Mp3File::Mp3File()
-	: m_iPID( 0 ),
-	  m_pIniDB( 0 ),
-	  m_iLengthInSeconds( -1 )
+	: m_iLengthInSeconds( -1 ),
+	  m_iPlayModus( 0 ),
+	  m_iPID( 0 ),	  
+	  m_pIniDB( 0 )
 {
-	m_iPlayModus = 0;
 	m_sMp3Player = "madplay";
 	m_sMp3Options = "--no-tty-control -v";
 }
@@ -149,7 +152,7 @@ void Mp3File::stopPlay()
 {
 	if( m_iPID>0 )
 	{
-		int iOk = kill( m_iPID, SIGKILL );
+		/*int iOk =*/ kill( m_iPID, SIGKILL );
 	}
 
 	m_iPlayModus = 0;
@@ -184,11 +187,11 @@ void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
 
 		char sProgName[_MAX_LEN];
 		char sName[_MAX_LEN];
-		char sStart[_MAX_LEN];
-		char sLength[_MAX_LEN];
-		char sFade[_MAX_LEN];
-		char sOption1[_MAX_LEN];
-		char sOption2[_MAX_LEN];
+		//char sStart[_MAX_LEN];
+		//char sLength[_MAX_LEN];
+		//char sFade[_MAX_LEN];
+		//char sOption1[_MAX_LEN];
+		//char sOption2[_MAX_LEN];
 		int iCount = 0;
 		unsigned long i = 0;
 		char * sArgs[7];
@@ -225,16 +228,16 @@ void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
 		sArgs[iCount] = 0;
 		iCount++;
 
-		int iOk = execvp( sArgs[0], sArgs );
+		/*int iOk =*/ execvp( sArgs[0], sArgs );
 
-		printf( "child iRet=%d!\n", iOk );
+		//debug: printf( "child iRet=%d!\n", iOk );
 	}
 	else
 	{
 		//int iStatus = 0;
 		//waitpid( m_iPID, &iStatus, WNOHANG );
 
-		printf( "child PID=%d! this=%x\n", m_iPID, (void *)this );
+		//debug: printf( "child PID=%d! this=%x\n", m_iPID, (void *)this );
 
 		if( m_iPID != -1 )
 		{
@@ -288,7 +291,7 @@ void Mp3File::playInThread()
 {
 	UpdateSettingsFromIniFile();
 
-	unsigned long ulThreadID = minBeginThread( _mp3SoundThreadStarter, _DEFAULT_STACK_SIZE, this );
+	/*unsigned long ulThreadID =*/ minBeginThread( _mp3SoundThreadStarter, _DEFAULT_STACK_SIZE, this );
 }
 
 void Mp3File::SetIniDB( MiniIniDB * pIniDB )
