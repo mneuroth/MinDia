@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/doccontroler.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/10/03 23:07:16  min
+ *	saving ini-file in unix-home directory
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -53,6 +56,12 @@ const string g_sLastFilesKey = "datafile";
 #else
 #define _OFFSET_INI_FILE_PATH ""
 #endif
+
+const char * c_sConfigKey			= "config";
+const char * c_sSimulationKey		= "simulation";
+const char * c_sLoggingKey			= "logging";
+const char * c_sScriptEventsKey		= "scriptEvents";
+const char * c_sProjectorTypeKey	= "projector_id";
 
 // *******************************************************************
 // *******************************************************************
@@ -98,6 +107,8 @@ DocumentAndControler::DocumentAndControler( bool bIgnoreComSettings,
     connect( this, SIGNAL( sigModusIsSwitched() ), pMainWindow, SLOT( sltModusIsSwitched() ) );
     connect( this, SIGNAL( sigPlayFinished() ), pMainWindow, SLOT( sltPlayFinished() ) );
     connect( this, SIGNAL( sigSelectItem(int,int) ), pMainWindow, SLOT( sltSelectItem(int,int) ) );
+
+	ReadIniValues();
 }
 
 DocumentAndControler::~DocumentAndControler()
@@ -106,6 +117,58 @@ DocumentAndControler::~DocumentAndControler()
 	{
 		delete m_pTimer;
 	}
+
+	WriteIniValues();
+}
+
+void DocumentAndControler::ReadIniValues()
+{
+	MiniIniDB &	aIniDB = GetIniDB();
+
+	char sBuffer[256];
+	char sResult[256];
+
+	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sSimulationKey );
+	if( aIniDB.HasKey( sBuffer ) )
+	{
+		SetSimulation( (bool)aIniDB.GetValueAsInt( sBuffer ) );
+	}
+	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sLoggingKey );
+	if( aIniDB.HasKey( sBuffer ) )
+	{
+		GetDiaCom().SetLogging( (bool)aIniDB.GetValueAsInt( sBuffer ) );
+	}
+	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sScriptEventsKey );
+	if( aIniDB.HasKey( sBuffer ) )
+	{
+		GetPresentation().GetScriptEnvironment().SetEnabled( (bool)aIniDB.GetValueAsInt( sBuffer ) );
+	}
+	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sProjectorTypeKey );
+	if( aIniDB.HasKey( sBuffer ) )
+	{
+		GetDiaCom().SetProjectorType( aIniDB.GetValueAsInt( sBuffer ) );
+	}
+}
+
+void DocumentAndControler::WriteIniValues()
+{
+	MiniIniDB &	aIniDB = GetIniDB();
+
+	char sBuffer[256];
+	char sResult[256];
+
+	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sSimulationKey );
+	sprintf( sResult, "%d", (int)IsSimulation() );
+	aIniDB.Add( sBuffer, sResult );
+	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sLoggingKey );
+	sprintf( sResult, "%d", (int)GetDiaCom().IsLogging() );
+	aIniDB.Add( sBuffer, sResult );
+	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sScriptEventsKey );
+	sprintf( sResult, "%d", (int)GetPresentation().GetScriptEnvironment().IsEnabled() );
+	aIniDB.Add( sBuffer, sResult );
+	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sProjectorTypeKey );
+	sprintf( sResult, "%d", GetDiaCom().GetProjectorType() );
+	aIniDB.Add( sBuffer, sResult );
 }
 
 bool DocumentAndControler::IsChanged() const
@@ -162,9 +225,9 @@ const char * DocumentAndControler::GetPlayModusStrg() const
 */
 }
 
-const char * DocumentAndControler::GetName() const
+string DocumentAndControler::GetName() const
 {
-	return m_aPresentation.GetName();
+	return m_aPresentation.GetFullName();
 }
 
 bool DocumentAndControler::IsSimulation() const
@@ -307,7 +370,7 @@ void DocumentAndControler::sltLoadDoc( const QString & sFileName, bool & bOk, bo
 
 void DocumentAndControler::sltSaveDoc( bool & bOk )
 {
-	fstream aFile( m_aPresentation.GetName(), ios::out );
+	fstream aFile( m_aPresentation.GetFullName().c_str(), ios::out );
 
 	bOk = aFile.good();
 	if( bOk )
@@ -640,7 +703,7 @@ void DocumentAndControler::ShowError( const char * sMsg )
 
 const char * DocumentAndControler::GetDocName() const
 {
-	return GetName();
+	return GetName().c_str();
 }
 
 const char * DocumentAndControler::GetDescription() const

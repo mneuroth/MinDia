@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/doccontroler.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -78,7 +81,7 @@ public:
 	virtual void			SetSimulation( bool bSimulation );
 	// ** implementation done. **
 
-	const char *			GetName() const;
+	string					GetName() const;
 
 	//int						GetProjectorCount() const;
 	//minHandle<DiaProjector>	GetProjectorPtr( int iNo ) const;
@@ -186,6 +189,8 @@ signals:
 private:
 	// ** help methods **
 	void ExecuteScript( bool bDissolve, const char * sScript, int iNo );
+	void ReadIniValues();
+	void WriteIniValues();
 
 	// *** data ***
 	MiniIniDB			m_aIniDB;				// a database for configuration data
