@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.cpp,v $
  *
- *  $Revision: 1.8 $
+ *  $Revision: 1.9 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.8  2004/02/20 23:06:37  min
+ *	Qt About via MessageBox handled.
+ *	
  *	Revision 1.7  2004/02/16 19:48:01  min
  *	About Qt added.
  *	
@@ -86,6 +89,7 @@
 #include <qtextbrowser.h>
 #include <qlineedit.h>
 #include <qtextview.h>
+#include <qtextcodec.h> 
 
 //#include <qsound.h>
 
@@ -155,12 +159,20 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 	  m_iPosY( 350 )
 {
 	// ** prepare application for different languages...**
+	QString sLangTemp = sLanguage;
+	if( sLangTemp.length()==0 )
+	{
+		// if language is not given as command line argument
+		// than get the actual language now...
+		sLangTemp = QTextCodec::locale();
+		m_sLanguage = sLangTemp;
+	}
 	QTranslator aTranslator( this );
 	QString sLang = GetMinDiaSharedDirectory().c_str();
 	sLang += "mindia_";
-	sLang += sLanguage;
+	sLang += sLangTemp;
 	sLang += ".qm";
-	if( sLanguage != "en" )
+	if( sLangTemp != "en" )
 	{
 		/*bool bOk =*/ aTranslator.load( sLang, "." );
 		qApp->installTranslator( &aTranslator );

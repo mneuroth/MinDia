@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/main.cpp,v $
  *
- *  $Revision: 1.7 $
+ *  $Revision: 1.8 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.7  2004/02/16 19:49:03  min
+ *	Fixes for Borland C++
+ *	
  *	Revision 1.6  2004/01/29 21:26:45  min
  *	Bugfix: accept -en as argument
  *	
@@ -344,7 +347,7 @@ int main( int argc, char** argv )
 	int  iPosY = 0;
 	int  iProjectorType = RolleiCom::TWIN_DIGITAL_P;
 	QString sFileName;
-	QString sLanguage = "en";		// defautl is english
+	QString sLanguage = "";
 
 	// ** do a very simple argument parsing
 	for( int i=1; i<argc; i++ )
