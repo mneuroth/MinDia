@@ -8,7 +8,7 @@
 
 #include <string>
 //#include <fstream>
-#include <locale>
+#include <locale.h>
 #include <algorithm>
 
 using namespace std;
