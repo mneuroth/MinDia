@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/main.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -41,8 +44,14 @@
 #define _MINDIAPYC_DLL_NAME		"libmindiapyc.so"
 //#define _LINUX_MINDIA_SHARED	"/usr/local/shared/mindia/";
 #else
+#ifdef _DEBUG
+#define _MINDIAPYC_DLL_NAME		"mindiapyc_d.dll"
+#else
 #define _MINDIAPYC_DLL_NAME		"mindiapyc.dll"
 #endif
+#endif
+
+#define _SCRIPTS_DIR	"scripts"
 
 // *************************************************************************
 
@@ -50,29 +59,33 @@
 string GetMinDiaSharedDirectory()
 {
 	string sRet;
+	string sSep( FileUtilityObj::GetDirectorySeparatorStrg() );
 
 #ifdef __linux__
 	// ** if MinDia is installed, than the german language file is in this directory
 	string sTestFileInShared;
 	
 	sTestFileInShared += MINDIA_INSTALLATION_DIR;		//_LINUX_MINDIA_SHARED;
-	sTestFileInShared += "/mindia_de.qm";
+	sTestFileInShared += sSep;
+	sTestFileInShared += "mindia_de.qm";
 
 	if( FileUtilityObj::ExistsFile( sTestFileInShared.c_str() ) )
 	{
 		sRet = MINDIA_INSTALLATION_DIR;		//_LINUX_MINDIA_SHARED;
-		sRet += "/";
+		sRet += sSep;
 	}
 	else
 	{
 		// ** if MinDia is not installed, try the local directory
-		sRet = "./";
+		sRet = ".";
+		sRet += sSep;
 	}
 #endif
 
 #ifdef _MSC_VER
 	// ** not really supported yet !
-	sRet = ".\\";
+	sRet = ".";
+	sRet += sSep;
 #endif
 
 	return sRet;
@@ -145,9 +158,10 @@ const char * IGeneralScriptFcnImpl::GetScriptDirecotry() const
 void IGeneralScriptFcnImpl::Init()
 {
 	string sTemp = GetMinDiaSharedDirectory();
+	string sSep( FileUtilityObj::GetDirectorySeparatorStrg() );
 
 	m_sHelpDirectory = sTemp;
-	m_sScriptDirectory = sTemp;
+	m_sScriptDirectory = sTemp + sSep + _SCRIPTS_DIR /*+ sSep*/;
 }
 
 // *************************************************************************
