@@ -44,7 +44,7 @@ msgid "AboutExtDlg::&License"
 msgstr ""
 
 #: AboutExtDlg.cpp:36
-msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.2 from 11.11.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
+msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.2 from 17.1.2004\n<br><br>\nCopyright 2001-2004 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
 msgstr ""
 
 #: AboutExtDlg.cpp:46
@@ -391,59 +391,79 @@ msgstr ""
 msgid "DocumentAndControler::saving was ok !"
 msgstr ""
 
-#: DynTextDlg.cpp:107
+#: DynTextDlg.cpp:137
 msgid "DynamicTextDlg::&Cancel"
 msgstr ""
 
-#: DynTextDlg.cpp:97
+#: DynTextDlg.cpp:133
 msgid "DynamicTextDlg::&Delete"
 msgstr ""
 
-#: DynTextDlg.cpp:70
+#: DynTextDlg.cpp:87
 msgid "DynamicTextDlg::&Font"
 msgstr ""
 
-#: DynTextDlg.cpp:90
-msgid "DynamicTextDlg::&Help"
-msgstr ""
-
-#: DynTextDlg.cpp:101
+#: DynTextDlg.cpp:142
 msgid "DynamicTextDlg::&OK"
 msgstr ""
 
-#: DynTextDlg.cpp:19
+#: DynTextDlg.cpp:71
+msgid "DynamicTextDlg::&rel. pos"
+msgstr ""
+
+#: DynTextDlg.cpp:25
 msgid "DynamicTextDlg::Dynamic Text"
 msgstr ""
 
-#: DynTextDlg.cpp:78
-msgid "DynamicTextDlg::Font&color"
+#: DynTextDlg.cpp:103
+msgid "DynamicTextDlg::Fo&ntcolor"
 msgstr ""
 
-#: DynTextDlg.cpp:45
+#: DynTextDlg.cpp:75
+msgid "DynamicTextDlg::Font attributes"
+msgstr ""
+
+#: DynTextDlg.cpp:79
 msgid "DynamicTextDlg::Font:"
 msgstr ""
 
-#: DynTextDlg.cpp:34
+#: DynTextDlg.cpp:83
 msgid "DynamicTextDlg::Fontsize:"
 msgstr ""
 
-#: DynTextDlg.cpp:74
+#: DynTextDlg.cpp:50
 msgid "DynamicTextDlg::Show at [ms]:"
 msgstr ""
 
-#: DynTextDlg.cpp:55
+#: DynTextDlg.cpp:41
 msgid "DynamicTextDlg::Show time [ms]:"
 msgstr ""
 
-#: DynTextDlg.cpp:59
+#: DynTextDlg.cpp:30
+msgid "DynamicTextDlg::Text data"
+msgstr ""
+
+#: DynTextDlg.cpp:37
 msgid "DynamicTextDlg::Text:"
 msgstr ""
 
-#: DynTextDlg.cpp:24
+#: DynTextDlg.cpp:99
+msgid "DynamicTextDlg::use &attributes for all texts"
+msgstr ""
+
+#: DynTextDlg.cpp:107
+msgid "DynamicTextDlg::x [%]:"
+msgstr ""
+
+#: DynTextDlg.cpp:63
 msgid "DynamicTextDlg::x:"
 msgstr ""
 
-#: DynTextDlg.cpp:29
+#: DynTextDlg.cpp:123
+msgid "DynamicTextDlg::y [%]:"
+msgstr ""
+
+#: DynTextDlg.cpp:45
 msgid "DynamicTextDlg::y:"
 msgstr ""
 
@@ -621,6 +641,10 @@ msgstr ""
 
 #: mindiawindow.cpp:360
 msgid "MinDiaWindow::&Plot comments..."
+msgstr ""
+
+#: mindiawindow.cpp:194
+msgid "MinDiaWindow::&Plugins"
 msgstr ""
 
 #: mindiawindow.cpp:220
@@ -881,10 +905,6 @@ msgstr ""
 
 #: mindiawindow.cpp:869
 msgid "MinDiaWindow::Open"
-msgstr ""
-
-#: mindiawindow.cpp:194
-msgid "MinDiaWindow::P&lugins"
 msgstr ""
 
 #: mindiawindow.cpp:267
@@ -1619,27 +1639,31 @@ msgstr ""
 msgid "SoundInfoDlgImpl::wav-filename"
 msgstr ""
 
-#: timelineview.cpp:85
+#: timelineview.cpp:86
 msgid "TimeLineView::&Add dyn. text..."
 msgstr ""
 
-#: timelineview.cpp:83
+#: timelineview.cpp:87
+msgid "TimeLineView::&Modify dyn. text..."
+msgstr ""
+
+#: timelineview.cpp:84
 msgid "TimeLineView::&Plot comments..."
 msgstr ""
 
-#: timelineview.cpp:272
+#: timelineview.cpp:276
 msgid "TimeLineView::Enter text"
 msgstr ""
 
-#: timelineview.cpp:82
+#: timelineview.cpp:83
 msgid "TimeLineView::Sound &comments..."
 msgstr ""
 
-#: timelineview.cpp:81
+#: timelineview.cpp:82
 msgid "TimeLineView::Sound &data..."
 msgstr ""
 
-#: timelineview.cpp:273
+#: timelineview.cpp:277
 msgid "TimeLineView::text:"
 msgstr ""
 
