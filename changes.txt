@@ -313,6 +313,13 @@ change history:
 18. 1.2004	8h		created example_nz.iss to produce a windows installation for the example (example001.exe),
                     bugfix for moving dyn. text items with mouse,
 					configure-script improved (no qt detection needed), tmake/qmake detection in new generated (autoconf) configure patched !
+23. 1.2004	3h		small bugfixes, working on mindia_en.html and mindia_de.html
+25. 1.2004  2h		working on mindia_en.html and mindia_de.html
+27. 1.2004  2h		working on mindia_en.html and mindia_de.html (finished !), start to prepare new release 0.97.2
+28. 1.2004  1h		prepare next release (created source zip file)
+29. 1.2004  2h		bugfixes: tooltips showed over status bar will be cleared, drag and drop was not disabled in run modus, -en commandline argument allowed
+31. 1.2004  3h		bugfix: handle simulation flag corret, create com port object if needed, prepare next release
+ 1. 2.2004  2h		prepare next release
 
 GetUserDefaultLangID() zur Bestimmung der Sprache !
 
@@ -335,10 +342,6 @@ TODO:
 
 		Tracker:
 		http://sourceforge.net/tracker/?group_id=45740
-
-- Doku ins Englische übersetzen
-
-- Programm ins Niederländische überetzen (*.qm)
 
 - Problem von Dirks-Test beseitigen
     * FAQ: Wo ist tmake

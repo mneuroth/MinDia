@@ -21,15 +21,62 @@ Vor Release zu tun:
 -	Beispiel-Dia-Vortrag (Demo)
 -	diverse Hilfs-Skripts
 
+-----------------------------------
+
+Homepage aktualisieren:
+
+ok  * index.html --> aktualisieren
+ok  * news.html --> aktualisieren
+ok  * documentation.html  --> Beschreibung der Linux Installatin (tmake/qmake --> . setqt2 / . setqt3), 
+                            Windows-Installation
+							Englische Doku verlinken
+							contributors --> Inno Setup
+  * screenshots.html --> aktualisieren, neue Screenshots
+ok  * feedback.html --> ggf. forum verlinken, bugs + wishes lists
+ok  * developer.html --> sourceforge project page
+
+*.gz/*.zip
+
+  * nichtgenutzte Dateien entfernen --> configure_qt2, _todo.txt, changes.txt
+  * Dateien auf rw setzen (schreibbar)
+
+Diverse Doku-Dateien aktualisieren
+  
+ok  * README / Readme.txt
+ok  * INSTALL
+ok  * HISTORY
+  * todo_de.html
+ (* faq_de.html)
+
+ok  * example.txt
+
+ok  * script-verzeichnis aufräumen
+
+  * Screenshots
+
+ok  * Projektor testen...
+
+ok  * nicht benötigte Datein entfernen: configure_qt2
+
+ok  * Bug mit der Status Zeile bei Play einer Präsentation
+
+ok  * Bug mit -en als Argument
+
+ok  * in INSTALL: export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
+
+
 //---------------------------------------------------------------------------
+
+BUG: anscheinend funktionieren Events unter Linux nicht !!!
 
 //- Installations-Programm fuer Windows (inkl. Registry-Eintrag für .mindia.ini, Desktop-Icon erzeugen, Start-Menu-Eintrag erzeugen)
 //- niederländische Version erzeugen
 //- Demo Vortrag mit allen Features (inkl. dyn. Text)
 //- bessere autoconf / configure Unterstützung
-- Dokumentation ins englische übersetzen
+//- BUG: Absturz bei Script-Sub-Menu unter linux
+//- Dokumentation ins englische übersetzen
 - bessere Device-Interface Anbindung realisieren: z.B. Device configurieren
-- Performance-Optimierungen fuer Drag-and-Drop
+- Performance-Optimierungen fuer Drag-and-Drop --> gcc -pg --> gprof
 - ggf. KDevelop Unterstützung
 - komfortablere Text-Eingabe ermöglichen
 (- bessere Installation unter Linux (make install) implementieren --> html Dateien für Hilfe)
