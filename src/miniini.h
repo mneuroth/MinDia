@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/miniini.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -41,9 +44,11 @@
 
 using namespace std;
 
+#include "dllbase.h"
+
 /** Very simple ini-file / registry handling for applications.
  */
-class MiniIniDB : public map< string, string >
+class MINDLLEXPORT MiniIniDB : public map< string, string >
 {
 	typedef pair<int,string>		LineItem;
 	typedef vector< LineItem >		LineContainer;

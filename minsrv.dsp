@@ -100,6 +100,10 @@ SOURCE=.\dllbase.cpp
 
 SOURCE=.\minbase.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=.\miniini.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -111,6 +115,10 @@ SOURCE=.\dllbase.h
 # Begin Source File
 
 SOURCE=.\minbase.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\miniini.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

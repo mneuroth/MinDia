@@ -216,10 +216,6 @@ SOURCE=.\mindiawindow.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\miniini.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\minisound.cpp
 # End Source File
 # Begin Source File
@@ -820,10 +816,6 @@ InputPath=.\mindiawindow.h
 # Begin Source File
 
 SOURCE=.\minexception.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\miniini.h
 # End Source File
 # Begin Source File
 

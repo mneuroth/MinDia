@@ -29,7 +29,6 @@ HEADERS         = diainfodlgimpl.h \
                   mindiawindow.h \
 				  writexml.h \
 				  minutils.h \
-				  miniini.h \
 				  minlog.h \
 				  rolleicom.h \
 				  wavfile.h \
@@ -71,7 +70,6 @@ SOURCES         = diainfodlgimpl.cpp \
                   mindiawindow.cpp \
 				  writexml.cpp \
                   minutils.cpp \
-				  miniini.cpp \
 				  rolleicom.cpp \
 				  wavfile.cpp \
 				  mincmdproc.cpp \

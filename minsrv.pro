@@ -3,8 +3,10 @@ TEMPLATE		= lib
 CONFIG          = warn_on dll release thread
 #CONFIG          = warn_on dll debug thread
 HEADERS         = minbase.h \
+				  miniini.h \
 				  dllbase.h
 SOURCES         = minbase.cpp \
+				  miniini.cpp \
 				  dllbase.cpp
 TARGET			= minsrv
 unix:OBJECTS_DIR		= tmp
