@@ -2,6 +2,27 @@ change history of MinDia
 ========================
 
 ------------------------------------------------------------------------------
+22. 2.2004  Version 0.97.3 released
+
+            new features:
+              * button for switching to fullscreen modus
+              * automatic language detection
+              * help dialog improved (find text implemented)
+            bugfixes and improvements:
+              * new directory structure for project
+              * small bugfixes (QString casts)
+              * bugfixes in playinfo dialog
+            linux version only
+              * improved configure script (better tmake/qmake and python detection)
+              * bugfix in installation script (--prefix handling now correct)
+              * uninstall implemented
+              * compile problems resolved for newer Qt versions
+              * source and binary rpm package for SuSE 8.2 available
+            windows version only
+              * using new non-commercial Qt Version 3.2.1
+              * using Python 2.3.3 now
+
+------------------------------------------------------------------------------
 31. 1.2004  Version 0.97.2 released
 
             new features:

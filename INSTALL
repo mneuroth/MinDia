@@ -7,7 +7,7 @@ Installation for Windows:
 
 To build MinDia on Windows these software-packages are needed:
   * MS-Visual C++ 6.0
-  * Qt 2.3.x
+  * Qt 3.2.x or higher
   * Python 2.x (optional) 
 
 Build MinDia from the source files:

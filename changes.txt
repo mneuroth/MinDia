@@ -328,6 +328,20 @@ change history:
 15. 2.2004  6h		started with kdevelop project for mindia
 16. 2.2004  6h		reorganized project (directories for: minsrv, gendev, mindiapyc, zaurus)
 17. 2.2004  4h		reorganized project (src), cvs reorganized
+20. 2.2004  4h		fullscreen icon in playinfo dialog implemented, bugfix in restore size in playinfo dialog,
+					bugfix in installation for linux, better project configuration for linux, 
+					automatic language detection implemented.
+21. 2.2004	6h		help dialog improved (search now possible), moved to Python 2.3.3, 
+					uninstall for linux implemented
+
+Referenzen:
+www.kde-apps.org
+www.freshmeat.net
+www.winload.de
+http://www.spieleutilities.de/spieleutilitie_anzeigen.php?id=598
+
+//linguist Unterstützung in *.pro einschalten
+
 kdevelop:
 Project-Properties: -fexceptions -D_POSIX -DHAVE_CONFIG_H
 acinclude.m4.in patchen --> fno-exceptions
@@ -439,3 +453,4 @@ TODO:
 //  * siehe QThread bzw. QApplication::postEvent()
 //  * verwende mpgl123-lib oder mad-player fuer mp3
 //  * Konfigurationsdialog fuer den externen mp3 player 
+
