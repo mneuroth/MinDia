@@ -1,0 +1,9 @@
+This is an example slide show for the MinDia application.
+
+To run the example slide show open the file example_nz.dia 
+with the MinDia application.
+
+The MinDia application can be downloaded from the MinDia-Homepage.
+The MinDia-Homepage can be found at: http://mindia.sourceforge.net
+
+The example is copyrighted by Michael Neuroth.
