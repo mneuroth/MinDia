@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/minutils.cpp,v $
  *
- *  $Revision: 1.6 $
+ *  $Revision: 1.7 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.6  2004/02/16 19:46:56  min
+ *	Fixes for Borland C++
+ *	
  *	Revision 1.5  2004/01/28 19:11:11  min
  *	Bugfix for linux: robuster directory scan
  *	
@@ -330,7 +333,8 @@ const int MAX_BUFFER_LENGTH =	512;
 			bFoundExt = true;
 			bFoundFile = true;
 			// means: no extention and no filename found !
-			strcpy( sExtBuf, sBuffer );
+			strcpy( sExtBuf, "" );			// bugfix 1.6.2004
+			_RotateString( sBuffer );		// bugfix 1.6.2004
 			strcpy( sNameBuf, sBuffer );
 			strcpy( sBuffer, "" );
 		}
