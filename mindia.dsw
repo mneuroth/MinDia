@@ -3,6 +3,21 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
+Project: "gendev"=.\gendev.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name minsrv
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "jpgdlib"=.\jpg\jpgdlib\jpgdlib.dsp - Package Owner=<4>
 
 Package=<5>
@@ -31,6 +46,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name minsrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name gendev
     End Project Dependency
 }}}
 

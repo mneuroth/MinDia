@@ -30,23 +30,23 @@ test:		make_test$(WITH_PYTHON)$(NO_TMAKE_FOUND)
 #          do not use them directly !
 # *****************************************************
 
-make_make: 						minsrv_make mindia_make
+make_make: 						minsrv_make mindia_make gendev_make
 
-make_make_with_python: 			minsrv_make mindiapyc_make mindia_make
+make_make_with_python: 			minsrv_make mindiapyc_make mindia_make gendev_make
 
 make_make_no_tmake:				make_no_tmake
 
 make_make_with_python_no_tmake:	make_no_tmake
 
-make_run: 						minsrv_dll mindia_exe
+make_run: 						minsrv_dll mindia_exe gendev_dll
 
-make_run_with_python: 			minsrv_dll mindiapyc_dll mindia_exe
+make_run_with_python: 			minsrv_dll mindiapyc_dll mindia_exe gendev_dll
 
-make_install:					minsrv_install mindia_install
+make_install:					minsrv_install mindia_install gendev_install
 
-make_install_with_python:		minsrv_install mindiapyc_install mindia_install
+make_install_with_python:		minsrv_install mindiapyc_install mindia_install gendev_install
 
-make_clean:						minsrv_clean mindia_clean bindist_clean
+make_clean:						minsrv_clean mindia_clean bindist_clean gendev_clean
 
 make_clean_with_python:			make_clean mindiapyc_clean
 
@@ -81,6 +81,7 @@ make_bindist_help:
 	-$(MKDIR) $(DATA_DIR)
 	$(COPY) $(RELEASE_DIR)\mindia.exe $(BINDIST_DIR)
 	$(COPY) $(RELEASE_DIR)\minsrv.dll $(BINDIST_DIR)
+	$(COPY) $(RELEASE_DIR)\gendev.dll $(BINDIST_DIR)
 	$(COPY) $(RELEASE_DIR)\mindiapyc.dll $(BINDIST_DIR)
 	$(COPY) $(SOURCE_DIR)\*.qm $(BINDIST_DIR)
 	$(COPY) $(SOURCE_DIR)\*.html $(BINDIST_DIR)
@@ -124,6 +125,9 @@ mindia_make:		mindia.pro
 mindiapyc_make:		mindiapyc.pro
 	$(TMAKE) $(TMAKEFLAGS) mindiapyc.pro -o _mindiapyc.mak
 
+gendev_make:		gendev.pro
+	$(TMAKE) $(TMAKEFLAGS) gendev.pro -o _gendev.mak
+
 # *****************************************************
 
 # Remark: temp makefiles start with an underbar !
@@ -137,6 +141,9 @@ mindia_exe:		_mindia.mak
 mindiapyc_dll:	_mindiapyc.mak
 	$(MAKE) PYTHON_INC=$(PYTHON_INC) PYTHON_LIB=$(PYTHON_LIB) -f _mindiapyc.mak
 
+gendev_dll:		_gendev.mak
+	$(MAKE) -f _gendev.mak
+
 # *****************************************************
 
 minsrv_clean:		_minsrv.mak
@@ -147,6 +154,9 @@ mindia_clean:		_mindia.mak
 
 mindiapyc_clean:	_mindiapyc.mak
 	$(MAKE) -f _mindiapyc.mak clean
+
+gendev_clean:		_gendev.mak
+	$(MAKE) -f _gendev.mak clean
 
 bindist_clean:
 	-$(DEL_FORCE) $(BINDIST_DIR)\*
@@ -174,3 +184,8 @@ mindiapyc_install:
 	$(COPY) libmindiapyc.so.1.0.0 $(INSTALL_DLL_DIR)
 	-$(LN_SYMB) $(INSTALL_DLL_DIR)/libmindiapyc.so.1.0.0 $(INSTALL_DLL_DIR)/libmindiapyc.so
 	-$(LN_SYMB) $(INSTALL_DLL_DIR)/libmindiapyc.so.1.0.0 $(INSTALL_DLL_DIR)/libmindiapyc.so.1
+
+gendev_install:		gendev_dll
+	$(COPY) libgendev.so.1.0.0 $(INSTALL_DLL_DIR)
+	-$(LN_SYMB) $(INSTALL_DLL_DIR)/libgendev.so.1.0.0 $(INSTALL_DLL_DIR)/libgendev.so
+	-$(LN_SYMB) $(INSTALL_DLL_DIR)/libgendev.so.1.0.0 $(INSTALL_DLL_DIR)/libgendev.so.1

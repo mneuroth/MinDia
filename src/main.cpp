@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/main.cpp,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2003/10/26 17:25:01  min
+ *	Added new directories: images, sounds, data, scripts
+ *	
  *	Revision 1.2  2003/10/03 23:05:26  min
  *	Scripts in own directory moved, python conform dll nameing: mindiapy_d.dll
  *	
@@ -45,6 +48,7 @@
 #include "minutils.h"
 #include "config.h"				// for autoconf values...
 #define _MINDIAPYC_DLL_NAME		"libmindiapyc.so"
+#define _GENDEV_DLL_NAME		"libgendev.so"
 //#define _LINUX_MINDIA_SHARED	"/usr/local/shared/mindia/";
 #else
 #ifdef _DEBUG
@@ -52,6 +56,7 @@
 #else
 #define _MINDIAPYC_DLL_NAME		"mindiapyc.dll"
 #endif
+#define _GENDEV_DLL_NAME		"gendev.dll"
 #endif
 
 #define _SCRIPTS_DIR	"scripts"
@@ -412,6 +417,14 @@ int main( int argc, char** argv )
 	else
 	{
 		cout << "Successfully loaded mindiapy-dll" << endl;
+	}
+	if( !pSrvManager->GetDllManager().LoadMinDll( _GENDEV_DLL_NAME, pNewDll ) )
+	{
+		cout << "Error loading gendev-dll" << endl;
+	}
+	else
+	{
+		cout << "Successfully loaded gendev-dll" << endl;
 	}
 
 	//aSrvManager.GetDllManager().Dump( cout );
