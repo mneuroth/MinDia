@@ -23,9 +23,13 @@ BIN_ZIP		= mindia_bin.zip
 
 SOURCE_DIR		= .
 SRC_SCRIPT_DIR	= $(SOURCE_DIR)\scripts
+SRC_DATA_DIR	= $(SOURCE_DIR)\data
 RELEASE_DIR		= .\Release
 BINDIST_DIR		= .\bindist
 SCRIPT_DIR		= $(BINDIST_DIR)\scripts
+IMAGE_DIR		= $(BINDIST_DIR)\images
+MUSIC_DIR		= $(BINDIST_DIR)\music
+DATA_DIR		= $(BINDIST_DIR)\data
 QT_DIR			= d:\programme\qt
 #PYTHON_DIR		= d:\programme\Python20
 #PYTHON_DIR		= e:\home\Entwicklung\projects\OPEN\Python-2.2\pcbuild
