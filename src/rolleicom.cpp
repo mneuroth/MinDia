@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/rolleicom.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:22  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -260,11 +263,6 @@ struct RolleiComHelperData
 							  0,
 							  NULL,
 							  OPEN_EXISTING,
-// min todo gulp
-// org:							  FILE_ATTRIBUTE_NORMAL | FILE_FLAG_WRITE_THROUGH /* | FILE_FLAG_NO_BUFFERING | FILE_FLAG_RANDOM_ACCESS*/,
-// tty.c:						  FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED,
-// GRIT:						  FILE_ATTRIBUTE_NORMAL,
-// other:					      0,
 							  0,
 							  NULL );
 		if( !m_hFile )
@@ -314,7 +312,7 @@ struct RolleiComHelperData
 		}
 		*/
 		sprintf( sBuffer, "BAUD=%d PARITY=%c DATA=%d STOP=%s", iBaudrate, chParity, iDataBits, sStopBits.c_str() );
-//		sprintf( sBuffer, "12,n,7,2,p" );
+		//sprintf( sBuffer, "12,n,7,2,p" );
 		//sprintf( sBuffer, "baud=%d parity=%c data=%d stop=%s%s", iBaudrate, chParity, iDataBits, sStopBits.c_str(), sFlow );
 		// old version of modem-string: mode com1 12,e,7,2,p
 
@@ -327,11 +325,8 @@ struct RolleiComHelperData
 		aTimeout.ReadIntervalTimeout = 100;
 		aTimeout.ReadTotalTimeoutMultiplier = 100;		// timeout per character
 		aTimeout.ReadTotalTimeoutConstant = 10000;		// total timeout for read (20s) !
-//		aTimeout.ReadTotalTimeoutConstant = 20000;		// total timeout for read (20s) !
 		aTimeout.WriteTotalTimeoutMultiplier = 100;		// timeout per character
-		aTimeout.WriteTotalTimeoutConstant = 1000; 
-//		aTimeout.WriteTotalTimeoutConstant = 2000; 
-// min todo gulp --> tests mit verschiedenen timeouts, insbes. fuer senden --> RS232 Problem ?
+		aTimeout.WriteTotalTimeoutConstant = 1000;		// old value: 2000
 		SetCommTimeouts( m_hFile, &aTimeout ); 
 
 		DCB aDCB;
@@ -355,7 +350,7 @@ struct RolleiComHelperData
 				//aDCB.fParity = iParity;
 				aDCB.fBinary = TRUE;			// new since 29.3.2002	
 				
-				// min todo gulp --> bessere Fehlerbehandlung fuer RS232 unter Windows 
+				// min todo --> bessere Fehlerbehandlung fuer RS232 unter Windows 
 				//   --> ClearCommError EscapeCommFunction 
 
 				// ** VERIY IMPORTANT: **
@@ -586,7 +581,7 @@ struct RolleiComHelperData
             fd_set aReadfs;    /* file descriptor set */
             FD_SET( m_hFile, &aReadfs );  /* set testing for source 1 */
 
-// min todo --> hier ggf. optimierter timeout, z.b. beim Testen kleiner als waehrend der Praesentation !
+			// hier ggf. optimierter timeout, z.b. beim Testen kleiner als waehrend der Praesentation !?
             struct timeval aTimeout;
             aTimeout.tv_usec = 0;  /* milliseconds */
             aTimeout.tv_sec  = 20;  /* seconds */
@@ -1362,7 +1357,7 @@ bool RolleiCom::GotoPosition( int iPosition )
 		// ** goto the first slide (001) and wait until it is reached !
 		// ** projector is slow but fast with the feedback !
 		FocusStepForward();
-// min todo gulp: hier ggf. robustere Behandlung, z.B. auf < ueberpruefen...
+		// min todo: hier ggf. robustere Behandlung, z.B. auf < ueberpruefen...
 		while( (GetActSlideNoStrg() != "001") && !IsSimulation() )
 		{
 			m_pData->Delay( 200 );

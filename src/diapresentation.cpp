@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diapresentation.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -731,8 +734,7 @@ bool DiaPresentation::StartPlay( int iStartPos )
 		}
 		// graphic operations are connected to the music !
 		//m_aDynGraphicOpProcessor.Continue();
-// min todo gulp
-//		m_aDynItemContainer.Continue();
+		//m_aDynItemContainer.Continue();
 
 		/* old (until 26.3.2002) --> now in NextStep
 		if( m_pSoundPlayer )
@@ -991,7 +993,6 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 				else
 				{
 					//m_aDynGraphicOpProcessor.Start( (int)(m_dAbsSoundStartTime*1000) );
-// min todo gulp
 					m_aDynItemContainer.Run( (int)(m_dAbsSoundStartTime*1000) );
 				}
 			}
