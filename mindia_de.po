@@ -656,15 +656,15 @@ msgstr "&Ändere Eintrag..."
 # msgid "HelpDialog::&Home"
 # msgstr "&Anfang"
 
-#: src/HelpDlg.cpp:101
+#: src/HelpDlg.cpp:107
 msgid "HelpDialog::Alt+C"
 msgstr ""
 
-#: src/HelpDlg.cpp:98
+#: src/HelpDlg.cpp:104
 msgid "HelpDialog::Alt+S"
 msgstr ""
 
-#: src/HelpDlg.cpp:87
+#: src/HelpDlg.cpp:92
 msgid "HelpDialog::Help"
 msgstr "Hilfe"
 
@@ -672,35 +672,39 @@ msgstr "Hilfe"
 # msgid "IGeneralScriptVMImpl::MinDia, Version 0.96.21\n\nfrom 12.2.2002\n\n(c) Michael Neuroth"
 # msgstr ""
 
-#: src/HelpDlg.cpp:89
+#: src/HelpDlg.cpp:94
 msgid "HelpDialog::Home, Alt+H"
 msgstr ""
 
-#: src/HelpDlg.cpp:92
+#: src/HelpDlg.cpp:97
 msgid "HelpDialog::Left, Alt+B"
 msgstr ""
 
-#: src/HelpDlg.cpp:95
+#: src/HelpDlg.cpp:100
 msgid "HelpDialog::Right, Alt+F"
 msgstr ""
 
-#: src/HelpDlg.cpp:93
+#: src/HelpDlg.cpp:102
+msgid "HelpDialog::Search text:"
+msgstr "Suche Text:"
+
+#: src/HelpDlg.cpp:98
 msgid "HelpDialog::back"
 msgstr "zurück"
 
-#: src/HelpDlg.cpp:102
+#: src/HelpDlg.cpp:108
 msgid "HelpDialog::close window"
 msgstr "Fenster schließen"
 
-#: src/HelpDlg.cpp:99
+#: src/HelpDlg.cpp:105
 msgid "HelpDialog::find text"
 msgstr "Text suchen"
 
-#: src/HelpDlg.cpp:96
+#: src/HelpDlg.cpp:101
 msgid "HelpDialog::forward"
 msgstr "vorwärts"
 
-#: src/HelpDlg.cpp:90
+#: src/HelpDlg.cpp:95
 msgid "HelpDialog::home"
 msgstr "Home"
 
@@ -1920,131 +1924,131 @@ msgstr "&Musik Daten..."
 msgid "TimeLineView::text:"
 msgstr "Text:"
 
-# # #: zmindia.cpp:483
-# # msgid "ZMinDia:: *** count: "
-# # msgstr " *** Anzahl: "
+# # # #: zmindia.cpp:483
+# # # msgid "ZMinDia:: *** count: "
+# # # msgstr " *** Anzahl: "
 
-# # #: zmindia.cpp:477
-# # msgid "ZMinDia:: *** next: "
-# # msgstr " *** nächster: "
+# # # #: zmindia.cpp:477
+# # # msgid "ZMinDia:: *** next: "
+# # # msgstr " *** nächster: "
 
-# # #: zmindia.cpp:473
-# # msgid "ZMinDia:: min"
-# # msgstr " min"
+# # # #: zmindia.cpp:473
+# # # msgid "ZMinDia:: min"
+# # # msgstr " min"
 
-# # #: zmindia.cpp:477
-# # msgid "ZMinDia:: s"
-# # msgstr " s"
+# # # #: zmindia.cpp:477
+# # # msgid "ZMinDia:: s"
+# # # msgstr " s"
 
-# # #: zmindia.cpp:143
-# # msgid "ZMinDia::About..."
-# # msgstr "Über..."
+# # # #: zmindia.cpp:143
+# # # msgid "ZMinDia::About..."
+# # # msgstr "Über..."
 
-# # #: zmindia.cpp:102
-# # msgid "ZMinDia::Actions"
-# # msgstr "Aktionen"
+# # # #: zmindia.cpp:102
+# # # msgid "ZMinDia::Actions"
+# # # msgstr "Aktionen"
 
-# # #: zmindia.cpp:400
-# # msgid "ZMinDia::Can't close the application, because\nthe presentation is still playing!"
-# # msgstr "Programm kann nicht beendet werden, da die Präsentation noch läuft!"
+# # # #: zmindia.cpp:400
+# # # msgid "ZMinDia::Can't close the application, because\nthe presentation is still playing!"
+# # # msgstr "Programm kann nicht beendet werden, da die Präsentation noch läuft!"
 
-# # #: zmindia.cpp:132
-# # msgid "ZMinDia::Clear logging"
-# # msgstr "Lösche Logging"
+# # # #: zmindia.cpp:132
+# # # msgid "ZMinDia::Clear logging"
+# # # msgstr "Lösche Logging"
 
-# # #: zmindia.cpp:193
-# # msgid "ZMinDia::Comment"
-# # msgstr "Kommentar"
+# # # #: zmindia.cpp:193
+# # # msgid "ZMinDia::Comment"
+# # # msgstr "Kommentar"
 
-# # #: zmindia.cpp:114
-# # msgid "ZMinDia::Configuration..."
-# # msgstr "Einstellungen..."
+# # # #: zmindia.cpp:114
+# # # msgid "ZMinDia::Configuration..."
+# # # msgstr "Einstellungen..."
 
-# # #: zmindia.cpp:126
-# # msgid "ZMinDia::Dia info..."
-# # msgstr "Dia Infos..."
+# # # #: zmindia.cpp:126
+# # # msgid "ZMinDia::Dia info..."
+# # # msgstr "Dia Infos..."
 
-# # #: zmindia.cpp:194
-# # msgid "ZMinDia::Dissolve time [s]"
-# # msgstr "Überblendzeit [s]"
+# # # #: zmindia.cpp:194
+# # # msgid "ZMinDia::Dissolve time [s]"
+# # # msgstr "Überblendzeit [s]"
 
-# # #: zmindia.cpp:100
-# # msgid "ZMinDia::File"
-# # msgstr "Datei"
+# # # #: zmindia.cpp:100
+# # # msgid "ZMinDia::File"
+# # # msgstr "Datei"
 
-# # #: zmindia.cpp:196
-# # msgid "ZMinDia::Id"
-# # msgstr "Id"
+# # # #: zmindia.cpp:196
+# # # msgid "ZMinDia::Id"
+# # # msgstr "Id"
 
-# # #: zmindia.cpp:197
-# # msgid "ZMinDia::Image"
-# # msgstr "Bild"
+# # # #: zmindia.cpp:197
+# # # msgid "ZMinDia::Image"
+# # # msgstr "Bild"
 
-# # #: zmindia.cpp:400
-# # msgid "ZMinDia::MinDia - Warning"
-# # msgstr "MinDia - Warnung"
+# # # #: zmindia.cpp:400
+# # # msgid "ZMinDia::MinDia - Warning"
+# # # msgstr "MinDia - Warnung"
 
-# # #: zmindia.cpp:106
-# # msgid "ZMinDia::Open"
-# # msgstr "Öffnen"
+# # # #: zmindia.cpp:106
+# # # msgid "ZMinDia::Open"
+# # # msgstr "Öffnen"
 
-# # #: zmindia.cpp:164
-# # msgid "ZMinDia::Pause"
-# # msgstr "Pause"
+# # # #: zmindia.cpp:164
+# # # msgid "ZMinDia::Pause"
+# # # msgstr "Pause"
 
-# # #: zmindia.cpp:101
-# # msgid "ZMinDia::Play"
-# # msgstr "Abspielen"
+# # # #: zmindia.cpp:101
+# # # msgid "ZMinDia::Play"
+# # # msgstr "Abspielen"
 
-# # #: zmindia.cpp:118
-# # msgid "ZMinDia::Player configuration..."
-# # msgstr "Player Einstellungen..."
+# # # #: zmindia.cpp:118
+# # # msgid "ZMinDia::Player configuration..."
+# # # msgstr "Player Einstellungen..."
 
-# # #: zmindia.cpp:122
-# # msgid "ZMinDia::Projector control..."
-# # msgstr "Projektor Kontrolle..."
+# # # #: zmindia.cpp:122
+# # # msgid "ZMinDia::Projector control..."
+# # # msgstr "Projektor Kontrolle..."
 
-# # #: zmindia.cpp:195
-# # msgid "ZMinDia::Show time [s]"
-# # msgstr "Standzeit [s]"
+# # # #: zmindia.cpp:195
+# # # msgid "ZMinDia::Show time [s]"
+# # # msgstr "Standzeit [s]"
 
-# # #: zmindia.cpp:153
-# # msgid "ZMinDia::Start at selected"
-# # msgstr "Starte abspielen mit ausgew. Pos."
+# # # #: zmindia.cpp:153
+# # # msgid "ZMinDia::Start at selected"
+# # # msgstr "Starte abspielen mit ausgew. Pos."
 
-# # #: zmindia.cpp:149
-# # msgid "ZMinDia::Start from seleted"
-# # msgstr "Starte abspielen von ausgew. Pos."
+# # # #: zmindia.cpp:149
+# # # msgid "ZMinDia::Start from seleted"
+# # # msgstr "Starte abspielen von ausgew. Pos."
 
-# # #: zmindia.cpp:159
-# # msgid "ZMinDia::Start"
-# # msgstr "Start"
+# # # #: zmindia.cpp:159
+# # # msgid "ZMinDia::Start"
+# # # msgstr "Start"
 
-# # #: zmindia.cpp:169
-# # msgid "ZMinDia::Stop"
-# # msgstr "Stop"
+# # # #: zmindia.cpp:169
+# # # msgid "ZMinDia::Stop"
+# # # msgstr "Stop"
 
-# # #: zmindia.cpp:136
-# # msgid "ZMinDia::Test read"
-# # msgstr "Test lesen"
+# # # #: zmindia.cpp:136
+# # # msgid "ZMinDia::Test read"
+# # # msgstr "Test lesen"
 
-# # #: zmindia.cpp:576
-# # msgid "ZMinDia::ZMinDia - Error"
-# # msgstr "ZMinDia - Fehler"
+# # # #: zmindia.cpp:576
+# # # msgid "ZMinDia::ZMinDia - Error"
+# # # msgstr "ZMinDia - Fehler"
 
-# # #: zmindia.cpp:581
-# # msgid "ZMinDia::ZMinDia - Warning"
-# # msgstr "ZMinDia - Warnung"
+# # # #: zmindia.cpp:581
+# # # msgid "ZMinDia::ZMinDia - Warning"
+# # # msgstr "ZMinDia - Warnung"
 
-# # #: zmindia.cpp:388
-# # msgid "ZMinDia::ZMinDia"
-# # msgstr "ZMinDia"
+# # # #: zmindia.cpp:388
+# # # msgid "ZMinDia::ZMinDia"
+# # # msgstr "ZMinDia"
 
-# # #: zmindia.cpp:466
-# # msgid "ZMinDia::play"
-# # msgstr "absp."
+# # # #: zmindia.cpp:466
+# # # msgid "ZMinDia::play"
+# # # msgstr "absp."
 
-# # #: zmindia.cpp:468
-# # msgid "ZMinDia::total time: "
-# # msgstr "ges. Zeit: "
+# # # #: zmindia.cpp:468
+# # # msgid "ZMinDia::total time: "
+# # # msgstr "ges. Zeit: "
 

@@ -520,47 +520,51 @@ msgstr ""
 msgid "HItemView::&Modify entry..."
 msgstr ""
 
-#: src/HelpDlg.cpp:101
+#: src/HelpDlg.cpp:107
 msgid "HelpDialog::Alt+C"
 msgstr ""
 
-#: src/HelpDlg.cpp:98
+#: src/HelpDlg.cpp:104
 msgid "HelpDialog::Alt+S"
 msgstr ""
 
-#: src/HelpDlg.cpp:87
+#: src/HelpDlg.cpp:92
 msgid "HelpDialog::Help"
 msgstr ""
 
-#: src/HelpDlg.cpp:89
+#: src/HelpDlg.cpp:94
 msgid "HelpDialog::Home, Alt+H"
 msgstr ""
 
-#: src/HelpDlg.cpp:92
+#: src/HelpDlg.cpp:97
 msgid "HelpDialog::Left, Alt+B"
 msgstr ""
 
-#: src/HelpDlg.cpp:95
+#: src/HelpDlg.cpp:100
 msgid "HelpDialog::Right, Alt+F"
 msgstr ""
 
-#: src/HelpDlg.cpp:93
+#: src/HelpDlg.cpp:102
+msgid "HelpDialog::Search text:"
+msgstr ""
+
+#: src/HelpDlg.cpp:98
 msgid "HelpDialog::back"
 msgstr ""
 
-#: src/HelpDlg.cpp:102
+#: src/HelpDlg.cpp:108
 msgid "HelpDialog::close window"
 msgstr ""
 
-#: src/HelpDlg.cpp:99
+#: src/HelpDlg.cpp:105
 msgid "HelpDialog::find text"
 msgstr ""
 
-#: src/HelpDlg.cpp:96
+#: src/HelpDlg.cpp:101
 msgid "HelpDialog::forward"
 msgstr ""
 
-#: src/HelpDlg.cpp:90
+#: src/HelpDlg.cpp:95
 msgid "HelpDialog::home"
 msgstr ""
 
