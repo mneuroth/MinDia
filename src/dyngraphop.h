@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/dyngraphop.h,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2004/02/16 19:51:29  min
+ *	Proted to Qt 3.2.1
+ *	
  *	Revision 1.2  2004/01/18 23:50:15  min
  *	Bugfixes and new class for relative position of text implemented.
  *	
@@ -39,6 +42,7 @@
 #include <qcolor.h>
 #include <qcanvas.h>
 #include <qtimer.h>
+#include <qpainter.h>
 
 class QTimer;
 class QCanvas;
@@ -478,13 +482,16 @@ public:
 
 	void CreateDefaultOperations( double dStartTimeInMS, double dShowTimeInMS );
 	void ChangeDefaultData( double dStartTimeInMS, double dShowTimeInMS );
-	void GetDefaultData( double & dStartTimeInMS, double & dShowTimeInMS );
+	void GetDefaultData( double & dStartTimeInMS, double & dShowTimeInMS ) const;
 	void Delta( double dDeltaTimeInMS );
 	bool SetRelativePos( double xRel, double yRel );
-	bool GetRelativePos( double & xRel, double & yRel );
+	bool GetRelativePos( double & xRel, double & yRel ) const;
 
 	// duplicate all attributes (color, font, size) from the other element
 	void SetAttributesFrom( DynText * pOtherItem );
+
+	void PaintForTime( QPainter & aPainter, double dTimeMS ) const;
+	bool IsNextChanging( double dTimeMS, double dDeltaMS ) const;
 
 private:
 	bool WriteOpContainer( ostream & aStream ) const;
@@ -521,6 +528,9 @@ public:
 	void AddDefaultDynText( const string & sText, double dStartTimeInMS, double dShowTimeInMS = 5000 );
 
 	void SetAttributesForAllItems( minHandle<DynText> hItem );
+
+	void PaintElementsForTime( QPainter & aPainter, double dTimeMS ) const;
+	bool IsNextElementChanging( double dTimeMS, double dDeltaMS ) const;
 
 private:
 	void Update();

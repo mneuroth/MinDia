@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diapresentation.h,v $
  *
- *  $Revision: 1.4 $
+ *  $Revision: 1.5 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.4  2004/02/26 22:20:21  min
+ *	Fixes to compile MinDia for the Zaurus.
+ *	
  *	Revision 1.3  2004/01/18 23:51:23  min
  *	General device driver included.
  *	
@@ -51,12 +54,15 @@
 #include "igendev.h"
 
 #include <qdatetime.h>		// for QTime
+#include <qmap.h>
 
 #include <iostream>
 #include <string>
 #include <vector>
 
 using namespace std;
+
+typedef QMap<QString,QImage>	QImageCache;
 
 // ** pre-declarations
 class RolleiCom;
@@ -124,6 +130,10 @@ public:
 	bool IsPause() const;
 	bool IsEdit() const;
 
+	void PaintSlideForTime( const QImageCache & aImageCache, QPainter & aPainter, double dTimeMS ) const;
+	bool IsNextSlideChanging( double dTimeMS, double dDeltaMS ) const;
+	bool GetIndexForTime( double dTimeMS, int & iIndex1, int & iIndex2, int & iFadeFactor ) const;
+
 	// ** information about the presentation **
 	int						GetDiaCount() const;
 	minHandle<DiaInfo>		GetDiaAt( int iIndex ) const;
@@ -179,6 +189,7 @@ public:
 	//DynGraphicOpContainer &	GetDynGraphicOpData();
 
 	DynContainer &			GetDynGraphicData();
+	const DynContainer &	GetDynGraphicData() const;
 
 #ifndef ZAURUS
 	ApplScriptEnvironment &	GetScriptEnvironment();
@@ -213,7 +224,7 @@ private:
 	DynContainer			m_aDynItemContainer;
 
 #ifndef ZAURUS
-	ApplScriptEnvironment	m_aScriptEnv;
+	ApplScriptEnvironment			m_aScriptEnv;
 	minClientHandle<IGeneralDevice> m_hGenDev;
 #endif
 

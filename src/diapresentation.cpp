@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diapresentation.cpp,v $
  *
- *  $Revision: 1.6 $
+ *  $Revision: 1.7 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.6  2004/02/26 22:20:21  min
+ *	Fixes to compile MinDia for the Zaurus.
+ *	
  *	Revision 1.5  2004/01/18 23:51:48  min
  *	General device driver included.
  *	
@@ -226,6 +229,11 @@ DynGraphicOpContainer &	DiaPresentation::GetDynGraphicOpData()
 */
 
 DynContainer & DiaPresentation::GetDynGraphicData()
+{
+	return m_aDynItemContainer;
+}
+
+const DynContainer & DiaPresentation::GetDynGraphicData() const
 {
 	return m_aDynItemContainer;
 }
@@ -1277,6 +1285,94 @@ bool DiaPresentation::ExistsExternalDevice()
 		return true;
 	}
 #endif
+	return false;
+}
+
+#ifndef ZAURUS
+#include <qimage.h>
+#include <qpainter.h>
+QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor );
+#endif
+
+void DiaPresentation::PaintSlideForTime( const QImageCache & aImageCache, QPainter & aPainter, double dTimeMS ) const
+{
+#ifndef ZAURUS
+	int iIndex1 = -1;
+	int iIndex2 = -1;
+	int iFadeFactor = 0;
+	if( GetIndexForTime( dTimeMS, iIndex1, iIndex2, iFadeFactor ) )
+	{
+		minHandle<DiaInfo> hDia1 = GetDiaAt( iIndex1 );
+		minHandle<DiaInfo> hDia2 = GetDiaAt( iIndex2 );
+
+		QRect aRect = aPainter.viewport();
+
+		if( hDia1.IsOk() )
+		{
+			//QImage aImage1 = QImage( hDia1->GetImageFile() );
+			const QImage & aImage1 = aImageCache[ hDia1->GetImageFile() ];
+			if( hDia2.IsOk() )
+			{
+				//QImage aImage2 = QImage( hDia2->GetImageFile() );
+				const QImage aImage2 = aImageCache[ hDia2->GetImageFile() ];
+				//aImage1 = aImage1.smoothScale( aImage2.width(), aImage2.height() );
+				QImage aImage3 = _FadeImage( aImage2, aImage1, iFadeFactor );
+				aPainter.drawImage( 0, 0, aImage3 );
+			}
+			else
+			{
+				aPainter.drawImage( 0, 0, aImage1 );
+			}
+
+			// after the (backgound) image, draw the text and other elements
+			GetDynGraphicData().PaintElementsForTime( aPainter, dTimeMS );
+		}
+	}
+#endif
+}
+
+bool DiaPresentation::IsNextSlideChanging( double dTimeMS, double dDeltaMS ) const
+{
+	int iIndex1a = -1;
+	int iIndex2a = -1;
+	int iFadeFactora = 0;
+	int iIndex1b = -1;
+	int iIndex2b = -1;
+	int iFadeFactorb = 0;
+	GetIndexForTime( dTimeMS, iIndex1a, iIndex2a, iFadeFactora );
+	GetIndexForTime( dTimeMS-dDeltaMS, iIndex1b, iIndex2b, iFadeFactorb );
+
+	if( iIndex1a==iIndex1b && iIndex2a==iIndex2b && iFadeFactora==iFadeFactorb )
+	{
+		return false;
+	}
+
+	return true;
+}
+
+
+bool DiaPresentation::GetIndexForTime( double dTimeMS, int & iIndex1, int & iIndex2, int & iFadeFactor ) const
+{
+	if( dTimeMS>=0 )
+	{
+		double dTime = 0;
+
+		for( int i=0; i<GetDiaCount(); i++ )
+		{
+			dTime += m_aDiaContainer[ i ]->GetTotalTime()*1000.0;
+
+			if( dTime>=dTimeMS )
+			{
+				iIndex1 = i;
+				if( dTimeMS<=dTime-m_aDiaContainer[ i ]->GetShowTime()*1000.0 && i>0 )
+				{
+					iIndex2 = i-1;
+					iFadeFactor = (dTime-m_aDiaContainer[ i ]->GetShowTime()*1000.0-dTimeMS)/(m_aDiaContainer[ i ]->GetDissolveTime()*1000.0)*255;
+				}
+				return true;
+			}
+		}
+	}
 	return false;
 }
 

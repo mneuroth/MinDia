@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/dyngraphop.cpp,v $
  *
- *  $Revision: 1.4 $
+ *  $Revision: 1.5 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.4  2004/03/19 13:24:48  min
+ *	Disable dynamic graphic operations for the Zaurus.
+ *	
  *	Revision 1.3  2004/01/18 23:50:15  min
  *	Bugfixes and new class for relative position of text implemented.
  *	
@@ -1319,6 +1322,37 @@ void DynContainer::SetAttributesForAllItems( minHandle<DynText> hOtherItem )
 	Update();
 }
 
+void DynContainer::PaintElementsForTime( QPainter & aPainter, double dTimeMS ) const
+{
+	const_iterator aIter = begin();
+	while( aIter != end() )
+	{
+		/*IOContainer<DynText>::*/HandleType hItem = *aIter;
+
+		hItem->PaintForTime( aPainter, dTimeMS );
+
+		++aIter;
+	}
+}
+
+bool DynContainer::IsNextElementChanging( double dTimeMS, double dDeltaMS ) const
+{
+	const_iterator aIter = begin();
+	while( aIter != end() )
+	{
+		/*IOContainer<DynText>::*/HandleType hItem = *aIter;
+
+		// if only one element is changing --> return true !
+		if( hItem->IsNextChanging( dTimeMS, dDeltaMS ) )
+		{
+			return true;
+		}
+
+		++aIter;
+	}
+	return false;
+}
+
 //********************************************************************
 
 DynText::DynText( const string & sText, QCanvas * pOwner )
@@ -1738,7 +1772,7 @@ void DynText::ChangeDefaultData( double dStartTimeInMS, double dShowTimeInMS )
 	Sync();
 }
 
-void DynText::GetDefaultData( double & dStartTimeInMS, double & dShowTimeInMS )
+void DynText::GetDefaultData( double & dStartTimeInMS, double & dShowTimeInMS ) const
 {
 	minHandle<OpItem_Base> hItem = m_aOpContainer[ c_iShowIndex ];
 	dStartTimeInMS = hItem->GetShowAtTimeInMS();
@@ -1765,7 +1799,7 @@ bool DynText::SetRelativePos( double xRel, double yRel )
 	return false;
 }
 
-bool DynText::GetRelativePos( double & xRel, double & yRel )
+bool DynText::GetRelativePos( double & xRel, double & yRel ) const
 {
 	if( (int)m_aOpContainer.size()>c_iSetRelIndex )
 	{
@@ -1783,4 +1817,45 @@ void DynText::SetAttributesFrom( DynText * pOtherItem )
 		setColor( pOtherItem->color() );
 		Sync();
 	}
+}
+
+void DynText::PaintForTime( QPainter & aPainter, double dTimeMS ) const
+{
+	double dStartTimeInMS; 
+	double dShowTimeInMS;
+	
+	GetDefaultData( dStartTimeInMS, dShowTimeInMS );
+
+	if( dTimeMS>=dStartTimeInMS && dTimeMS<=dStartTimeInMS+dShowTimeInMS )
+	{
+		double xRel, yRel;
+
+		aPainter.setPen( QPen( color() ) );
+		aPainter.setFont( font() );
+		if( GetRelativePos( xRel, yRel ) )
+		{
+			int x = xRel*aPainter.viewport().width();
+			int y = yRel*aPainter.viewport().height();
+			aPainter.drawText( x, y, GetString().c_str() );
+		}
+		else
+		{
+			aPainter.drawText( x(), y(), GetString().c_str() );
+		}
+	}
+}
+
+bool DynText::IsNextChanging( double dTimeMS, double dDeltaMS ) const
+{
+	double dStartTimeInMS; 
+	double dShowTimeInMS;
+	
+	GetDefaultData( dStartTimeInMS, dShowTimeInMS );
+
+	if( ( dTimeMS>=dStartTimeInMS && dTimeMS<=dStartTimeInMS+dShowTimeInMS ) &&
+		!( dTimeMS-dDeltaMS>=dStartTimeInMS && dTimeMS-dDeltaMS<=dStartTimeInMS+dShowTimeInMS ) )
+	{
+		return true;
+	}
+	return false;
 }
