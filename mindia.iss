@@ -18,7 +18,8 @@ Source: "release\mindia.exe"; DestDir: "{app}"; Components: main
 Source: "release\minsrv.dll"; DestDir: "{app}"; Components: main
 Source: "release\gendev.dll"; DestDir: "{app}"; Components: main
 Source: "release\mindiapyc.dll"; DestDir: "{app}"; Components: script
-Source: "E:\home\Entwicklung\projects\OPEN\Python-2.2.2\PCbuild\python22.dll"; DestDir: "{app}"; Components: script
+;Source: "E:\home\Entwicklung\projects\OPEN\Python-2.2.2\PCbuild\python22.dll"; DestDir: "{app}"; Components: script
+Source: "E:\home\Entwicklung\projects\OPEN\Python-2.3.3\PCbuild\python23.dll"; DestDir: "{app}"; Components: script
 ;Source: "D:\Programme\qt\bin\qt-mt230nc.dll"; DestDir: "{app}"; Components: main
 Source: "D:\Programme\qt3\bin\qt-mtnc321.dll"; DestDir: "{app}"; Components: main
 ;Source: "D:\windows\system32\msvcp60.dll";  DestDir: "{sys}"; Flags: restartreplace uninsneveruninstall

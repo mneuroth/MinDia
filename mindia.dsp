@@ -192,6 +192,10 @@ SOURCE=.\src\HelpDlg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\helpdlgimpl.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\hitem.cpp
 # End Source File
 # Begin Source File
@@ -313,6 +317,10 @@ SOURCE=.\src\moc_eventmapdlgimpl.cpp
 # Begin Source File
 
 SOURCE=.\src\moc_HelpDlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\moc_helpdlgimpl.cpp
 # End Source File
 # Begin Source File
 
@@ -818,6 +826,39 @@ SOURCE=.\src\global_patch.h
 # Begin Source File
 
 SOURCE=.\src\HelpDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\helpdlgimpl.h
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing helpdlgimpl.h...
+InputDir=.\src
+InputPath=.\src\helpdlgimpl.h
+InputName=helpdlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing helpdlgimpl.h...
+InputDir=.\src
+InputPath=.\src\helpdlgimpl.h
+InputName=helpdlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 

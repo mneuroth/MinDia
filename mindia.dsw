@@ -81,7 +81,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "pythoncore"="..\..\OPEN\Python-2.2.2\PCbuild\pythoncore.dsp" - Package Owner=<4>
+Project: "pythoncore"="..\..\OPEN\Python-2.3.3\PCbuild\pythoncore.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
