@@ -2,7 +2,7 @@
 	Program name:	MinDia
 
 		Start: 27. 8.2001
-		Now:   24. 9.2003
+		Now:   20. 2.2004
 
 	Program to create a slide show and run the show
 	with dia-projectors from rollei:
@@ -22,6 +22,7 @@
 		cdparanoia	for wav-file generation from audio cd's (linux)
 		LAME		for mp3-file encoding (smaller sound files for the Zaurus!)
 		CDex		for wav-file and mp3-file generation from audio cd's (windows)
+		Inno Setup	for Installation for windows
 
 	Create Makefile for Linux:
 
@@ -79,9 +80,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.h,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2003/10/26 17:33:20  min
+ *	MakeRelativePaths() added.
+ *	
  *	Revision 1.2  2003/10/03 23:09:45  min
  *	docu how to create bindist added
  *	
@@ -216,6 +220,7 @@ public slots:
 	void sltDoControlProjector();
 	void sltDoLogging();
 	void sltShowAbout();
+	void sltShowQtAbout();
 	void sltShowLicense();
 
 	// handle gui request in this class and pass file-name to document

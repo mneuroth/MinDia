@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.cpp,v $
  *
- *  $Revision: 1.7 $
+ *  $Revision: 1.8 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.7  2004/02/16 19:48:01  min
+ *	About Qt added.
+ *	
  *	Revision 1.6  2004/01/29 21:29:06  min
  *	Bugfix: clear tooltip if a new message for the statusbar arrives
  *	
@@ -450,7 +453,7 @@ void MinDiaWindow::CreateMenus()
     QAction * helpAboutAction = new QAction( tr( "About" ), tr( "&About..." ), CTRL+Key_F1, this, "about" );
     connect( helpAboutAction, SIGNAL( activated() ), this, SLOT( sltShowAbout() ) );
     QAction * helpAboutQtAction = new QAction( tr( "About Qt" ), tr( "About &Qt..." ), 0, this, "about_qt" );
-    connect( helpAboutQtAction, SIGNAL( activated() ), GetApplication(), SLOT( aboutQt() ) );
+    connect( helpAboutQtAction, SIGNAL( activated() ), this, SLOT( sltShowQtAbout() ) );
     //QAction * helpLicenseAction = new QAction( tr( "License" ), tr( "&License..." ), 0, this, "license" );
     //connect( helpLicenseAction, SIGNAL( activated() ), this, SLOT( sltShowLicense() ) );
     QAction * helpAction = new QAction( tr( "Help for mindia" ), tr( "&Help..." ), Key_F1, this, "help" );
@@ -892,6 +895,11 @@ void MinDiaWindow::sltShowAbout()
 	pAboutDlg->exec();
 
 	delete pAboutDlg;
+}
+
+void MinDiaWindow::sltShowQtAbout()
+{
+	QMessageBox::aboutQt( this, "MinDia Qt Version" );
 }
 
 void MinDiaWindow::sltShowLicense()
