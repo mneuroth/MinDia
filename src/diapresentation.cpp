@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diapresentation.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/08/15 19:38:32  min
+ *	debug comments deleted
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -224,6 +227,11 @@ ApplScriptEnvironment &	DiaPresentation::GetScriptEnvironment()
 }
 #endif
 
+string DiaPresentation::GetFullName() const
+{
+	return m_sPathInfo+m_sName;
+}
+
 const char * DiaPresentation::GetName() const
 {
 	return m_sName.c_str();
@@ -231,7 +239,7 @@ const char * DiaPresentation::GetName() const
 
 void DiaPresentation::SetName( const char * sNewName )
 {
-	m_sName = sNewName;
+	m_sName = FileUtilityObj::StripPath( sNewName, &m_sPathInfo );
 
 	// name is only for view, not a logical data item for a dia presentation (29.3.2003)
 	//m_aObjectChanged.SetChanged();
@@ -263,6 +271,13 @@ int	DiaPresentation::FindItemWithText( const string & sText, int iStartIndex ) c
 	}
 
 	return -1;
+}
+
+void DiaPresentation::MakeRelativePaths()
+{
+	m_sName = FileUtilityObj::ConvertToRelPath( m_sName.c_str() );
+	m_aDiaContainer.MakeRelativePaths();
+	m_aSoundInfoContainer.MakeRelativePaths();
 }
 
 double DiaPresentation::GetOffsetForSound() const
@@ -1240,6 +1255,17 @@ DiaInfoContainer::const_iterator DiaInfoContainer::FindItemWithText( const strin
 	}
 
 	return aStartPosIterator;
+}
+
+void DiaInfoContainer::MakeRelativePaths()
+{
+	iterator aIter = begin();
+	while( aIter != end() )
+	{
+		(*aIter)->MakeRelativePaths();
+
+		++aIter;
+	}
 }
 
 // *******************************************************************

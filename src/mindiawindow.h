@@ -79,9 +79,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.h,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/10/03 23:09:45  min
+ *	docu how to create bindist added
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -221,6 +224,7 @@ public slots:
 	void sltAskLoadDoc();
 	void sltAskLoadForEditDoc();
 	void sltAskSaveAsDoc();
+	void sltMakeRelPaths();
 	void sltPrintDoc();
 	void sltExportDoc();
 	void sltExportDynGraphData();
@@ -393,6 +397,7 @@ private:
 	QAction *		m_pFileLoadForEditAction;
 	QAction *		m_pFileSaveAction;
 	QAction *		m_pFileSaveAsAction;
+	QAction *		m_pFileMakeRelPathsAction;
 	QAction *		m_pFileExportXMLAction;
 	QAction *		m_pFileImportXMLAction;
 	QAction *		m_pFileExportAction;

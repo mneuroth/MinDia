@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diapresentation.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -79,6 +82,7 @@ public:
 	bool IsChanged() const; 
 
 	const_iterator FindItemWithText( const string & sText, const_iterator aStartPosIterator /*= begin()*/ ) const;
+	void MakeRelativePaths();
 
 	void SyncPositionInfos();
 
@@ -141,6 +145,7 @@ public:
 	void					SetSoundPlayer( miniSound * pSoundPlayer);
 
 	// ** some other informations **
+	string					GetFullName() const;
 	const char *			GetName() const;
 	void					SetName( const char * sNewName );
 
@@ -148,6 +153,8 @@ public:
 	void					SetComment( const string & sComment );
 
 	int						FindItemWithText( const string & sText, int iStartIndex = 0 ) const;
+
+	void					MakeRelativePaths();
 
 	// ** to synchronize sound with slide-show, wait for first slide. Unit: seconds **
 	double					GetOffsetForSound() const;
@@ -184,6 +191,7 @@ private:
 
 	// *** data ***
 	string					m_sName;
+	string					m_sPathInfo;				// temp
 	string					m_sComment;
 	DiaProjectorContainer	m_aProjectorContainer;
 	DiaInfoContainer		m_aDiaContainer;
