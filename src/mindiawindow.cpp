@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/08/15 19:39:06  min
+ *	size of sub-widget changed, debug comments deleted
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -35,6 +38,7 @@
 #include "iscript.h"
 #include "qtmtlock.h"
 
+#include "appconfig.h"
 #include "configdlgimpl.h"
 #include "configplayerdlgimpl.h"
 #include "comlogimpl.h"
@@ -248,6 +252,8 @@ void MinDiaWindow::CreateMenus()
     connect( m_pFileSaveAction, SIGNAL( activated() ), m_pControler, SLOT( sltSaveDoc() ) );
     m_pFileSaveAsAction = new QAction( tr( "Save data as" ), tr( "Save &as..." ), 0, this, "saveas" );
     connect( m_pFileSaveAsAction, SIGNAL( activated() ), this, SLOT( sltAskSaveAsDoc() ) );
+	m_pFileMakeRelPathsAction = new QAction( tr( "Make absolute paths to reative paths" ), tr( "Make &relative paths" ), 0, this, "makerelpaths" );
+    connect( m_pFileMakeRelPathsAction, SIGNAL( activated() ), this, SLOT( sltMakeRelPaths() ) );
 	m_pFileImportXMLAction = new QAction( tr( "Import data from a XML file" ), tr( "&Import XML..." ), 0, this, "import_xml" );
 	connect( m_pFileImportXMLAction, SIGNAL( activated() ), this, SLOT( sltImportXMLDoc() ) );
 	m_pFileExportXMLAction = new QAction( tr( "Export data as XML file" ), tr( "E&xport XML..." ), 0, this, "export_xml" );
@@ -284,6 +290,7 @@ void MinDiaWindow::CreateMenus()
 	m_pFileLoadForEditAction->addTo( m_pFile );
     m_pFileSaveAction->addTo( m_pFile );
     m_pFileSaveAsAction->addTo( m_pFile );
+	m_pFileMakeRelPathsAction->addTo( m_pFile );
 	m_pFile->insertSeparator();
     m_pFilePrintAction->addTo( m_pFile );
 	m_pFile->insertSeparator();
@@ -969,21 +976,21 @@ void MinDiaWindow::sltLoadDoc( const QString & sFileName, bool bExecuteEvent )
 
 void MinDiaWindow::sltAskLoadDoc()
 {
-    QString sFileName = QFileDialog::getOpenFileName( QString::null, /*QString::null*/"*.dia", this, "load", tr( "Open" ) );
+    QString sFileName = QFileDialog::getOpenFileName( /*QString::null*/GetDataPath().c_str(), /*QString::null*/"*.dia", this, "load", tr( "Open" ) );
 
 	sltLoadDoc( sFileName, /*bExecuteEvent*/true );
 }
 
 void MinDiaWindow::sltAskLoadForEditDoc()
 {
-    QString sFileName = QFileDialog::getOpenFileName( QString::null, /*QString::null*/"*.dia", this, "load_for_dit", tr( "Open for edit" ) );
+    QString sFileName = QFileDialog::getOpenFileName( /*QString::null*/GetDataPath().c_str(), /*QString::null*/"*.dia", this, "load_for_dit", tr( "Open for edit" ) );
 
 	sltLoadDoc( sFileName, /*bExecuteEvent*/false );
 }
 
 void MinDiaWindow::sltAskSaveAsDoc()
 {
-    QString sFileName = QFileDialog::getSaveFileName( QString::null, /*QString::null*/"*.dia", this, "save", tr( "Save as" ) );
+	QString sFileName = QFileDialog::getSaveFileName( /*QString::null*/GetDataPath().c_str(), /*QString::null*/"*.dia", this, "save", tr( "Save as" ) );
 
     if( !sFileName.isEmpty() )
 	{
@@ -993,6 +1000,13 @@ void MinDiaWindow::sltAskSaveAsDoc()
 	{
 		statusBar()->message( tr( "Save was aborted" ), c_ulStatusTimeout );
 	}
+}
+
+void MinDiaWindow::sltMakeRelPaths()
+{
+	m_pControler->GetPresentation().MakeRelativePaths();
+	
+	sltDoUpdateAllViews();
 }
 
 void MinDiaWindow::sltPrintDoc()
@@ -1324,7 +1338,7 @@ void MinDiaWindow::sltDoDocumentStateUpdate()
 {
 	// *** update caption of the window, with file name ! ***
 	QString sCaption = "MinDia - [";
-	sCaption += m_pControler->GetName();
+	sCaption += m_pControler->GetName().c_str();
 	if( m_pControler->IsChanged() )
 	{
 		sCaption += " *";
