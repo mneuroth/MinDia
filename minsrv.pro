@@ -2,12 +2,12 @@ PROJECT			= minsrv
 TEMPLATE		= lib
 CONFIG          = warn_on dll release thread stl exceptions
 #CONFIG          = warn_on dll debug thread stl exceptions
-HEADERS         = minbase.h \
-				  miniini.h \
-				  dllbase.h
-SOURCES         = minbase.cpp \
-				  miniini.cpp \
-				  dllbase.cpp
+HEADERS         = minsrv/minbase.h \
+				  minsrv/miniini.h \
+				  minsrv/dllbase.h
+SOURCES         = minsrv/minbase.cpp \
+				  minsrv/miniini.cpp \
+				  minsrv/dllbase.cpp
 TARGET			= minsrv
 unix:OBJECTS_DIR		= tmp
 unix:LIBS				+= -ldl

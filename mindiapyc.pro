@@ -2,15 +2,15 @@ PROJECT			= mindiapyc
 TEMPLATE		= lib
 CONFIG          = qt warn_on dll release thread
 #CONFIG          = qt warn_on dll debug thread
-HEADERS         = scriptfcn.h \
-				  minutils.h \
-				  scriptdlgimpl.h
-SOURCES         = mindiapy.cpp \
-				  scriptfcn.cpp \
-				  minutils.cpp \
-				  scriptdlgimpl.cpp \
-				  mindia_wrap.cpp
-INTERFACES      = ScriptDlg.ui
+HEADERS         = mindiapyc/scriptfcn.h \
+				  mindiapyc/minutils.h \
+				  mindiapyc/scriptdlgimpl.h
+SOURCES         = mindiapyc/mindiapy.cpp \
+				  mindiapyc/scriptfcn.cpp \
+				  mindiapyc/minutils.cpp \
+				  mindiapyc/scriptdlgimpl.cpp \
+				  mindiapyc/mindia_wrap.cpp
+INTERFACES      = mindiapyc/ScriptDlg.ui
 TARGET			= mindiapyc
 MOC_DIR			= moc
 unix:OBJECTS_DIR		= tmp
