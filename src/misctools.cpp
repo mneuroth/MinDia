@@ -41,7 +41,7 @@ static bool IsJPEG( const char * sFileName )
 	return false;
 }
 
-#ifdef _MSC_VER
+#if defined( _MSC_VER ) && defined( _WITH_EXT_JPG_LIB )
 
 #include "jpg/inc/jpegdecoder.h"
 
@@ -187,7 +187,6 @@ bool ReadQImage( const char * sFileName, QImage & aImageOut )
 
 #else
 
-// this function is the modified main()-function from jpg2tga.cpp
 bool ReadQImage( const char * sFileName, QImage & aImageOut )
 {
 	aImageOut = QImage( sFileName );

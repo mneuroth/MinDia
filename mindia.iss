@@ -5,7 +5,7 @@
 
 [Setup]
 AppName=MinDia
-AppVerName=MinDia Version 0.97.2
+AppVerName=MinDia Version 0.97.3
 DefaultDirName={pf}\mindia
 DefaultGroupName=MinDia
 UninstallDisplayIcon={app}\mindia.exe
@@ -19,7 +19,8 @@ Source: "release\minsrv.dll"; DestDir: "{app}"; Components: main
 Source: "release\gendev.dll"; DestDir: "{app}"; Components: main
 Source: "release\mindiapyc.dll"; DestDir: "{app}"; Components: script
 Source: "E:\home\Entwicklung\projects\OPEN\Python-2.2.2\PCbuild\python22.dll"; DestDir: "{app}"; Components: script
-Source: "D:\Programme\qt\bin\qt-mt230nc.dll"; DestDir: "{app}"; Components: main
+;Source: "D:\Programme\qt\bin\qt-mt230nc.dll"; DestDir: "{app}"; Components: main
+Source: "D:\Programme\qt3\bin\qt-mtnc321.dll"; DestDir: "{app}"; Components: main
 ;Source: "D:\windows\system32\msvcp60.dll";  DestDir: "{sys}"; Flags: restartreplace uninsneveruninstall
 ;Source: "D:\windows\system32\msvcrt.dll";   DestDir: "{sys}"; Flags: restartreplace uninsneveruninstall
 Source: "D:\windows\system32\msvcrt.dll"; DestDir: "{app}"; Components: main

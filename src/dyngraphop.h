@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/dyngraphop.h,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2004/01/18 23:50:15  min
+ *	Bugfixes and new class for relative position of text implemented.
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -32,12 +35,6 @@
 #ifndef _DYNGRAPHOP_H
 #define _DYNGRAPHOP_H
 
-#include "minhandle.h"
-#include "minutils.h"
-#include "iocontainer.h"
-#include "timerjobproc.h"
-#include "writexml.h"
-
 #include <qobject.h>
 #include <qcolor.h>
 #include <qcanvas.h>
@@ -49,6 +46,12 @@ class QCanvasText;
 
 class DynGraphicOpContainer;
 class IDiaOutputWindowInternal;
+
+#include "minhandle.h"
+#include "minutils.h"
+#include "iocontainer.h"
+#include "timerjobproc.h"
+#include "writexml.h"
 
 /*
 // *******************************************************************

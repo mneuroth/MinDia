@@ -1,7 +1,7 @@
 PROJECT			= mindia
 TEMPLATE        = app
-CONFIG          += qt warn_on release thread
-#CONFIG          += qt warn_on debug thread
+CONFIG          += qt warn_on release thread stl exceptions
+#CONFIG          += qt warn_on debug thread stl exceptions
 HEADERS         = diainfodlgimpl.h \
 				  playinfodlgimpl.h \
 				  comlogimpl.h \
@@ -40,7 +40,6 @@ HEADERS         = diainfodlgimpl.h \
 				  iscript.h \
 				  qtmtlock.h \
 				  minhandle.h \
-				  minexception.h \
 				  misctools.h \
 				  appconfig.h \
 				  osdep2.h
@@ -105,8 +104,9 @@ unix:SOURCES			+= sysdep1.c \
 unix:DEFINES    		= _POSIX HAVE_CONFIG_H LOCALEDIR=\"/usr/local/share/locale\"
 #unix:INCLUDEPATH   		= .
 win32:TMAKE_UIC			= $(QTDIR)\bin\uic.exe
-#win32:TMAKE_CFLAGS 	= -GX -MD
 win32:TMAKE_CXXFLAGS 	= -GX -MD
-win32:DEFINES			= QT_DLL _DEBUG
+win32-borland:TMAKE_CXXFLAGS 	= 
+win32:DEFINES			= QT_DLL QT_NO_DEBUG QT_THREAD_SUPPORT QT_NON_COMMERCIAL 
+#_DEBUG
+win32:LIBS				+= minsrv.lib
 
-#../mad-0.14.2b/libmad/timer.o ../mad-0.14.2b/libmad/bit.o ../mad-0.14.2b/libmad/libmad.a ../mad-0.14.2b/libmad/timer.o ../mad-0.14.2b/libmad/bit.o ../mad-0.14.2b/libmad/libmad.a
