@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/minutils.cpp,v $
  *
- *  $Revision: 1.4 $
+ *  $Revision: 1.5 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.4  2003/10/26 22:40:18  min
+ *	Bugfixes for linux port
+ *	
  *	Revision 1.3  2003/10/26 17:21:01  min
  *	New Methods include: IsAbsPath(), ConvertToRelPath();
  *	
@@ -1192,7 +1195,7 @@ bool FileSystemUtils::GetDirectory( const string & sPath, int nShowFlagsIn, Dire
 
 	pDir = opendir( sPath.c_str() );
 
-	while( (pEntry = readdir( pDir )) != 0 )
+	while( (pDir != 0) && (pEntry = readdir( pDir )) != 0 )
 	{
 		// ** check for wildcards
 		int iRet = aRegExp.match( pEntry->d_name );
