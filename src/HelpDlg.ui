@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>538</width>
-            <height>435</height>
+            <height>438</height>
         </rect>
     </property>
     <property name="caption">
@@ -30,7 +30,7 @@
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout13</cstring>
+                <cstring>layout2</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -96,6 +96,17 @@
                         <string>forward</string>
                     </property>
                 </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>m_pSearchTextLabel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Search text:</string>
+                    </property>
+                    <property name="alignment">
+                        <set>AlignVCenter|AlignRight</set>
+                    </property>
+                </widget>
                 <widget class="QLineEdit">
                     <property name="name">
                         <cstring>m_pSearchText</cstring>
@@ -139,7 +150,7 @@
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>166</width>
+                            <width>88</width>
                             <height>16</height>
                         </size>
                     </property>
