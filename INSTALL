@@ -18,12 +18,24 @@ Build MinDia from the source files:
     or remove the sub-project mindiapyc 
 
 Binary installation:
-  * unpack the mindia*_bin.zip file into an empty directory 
+  * Start Setup.exe and follow the instructions
   * start mindia.exe 
 
 ========================================================================
 Installation for Linux:
 -----------------------
+
+The installation on unix uses the default steps on a unix system.
+First you run the 'configure' script to determinate the system
+settings. Than run 'make' to create the program and after a successfull
+compilation type 'make install' to install the program on your system.
+The Makefile for MinDia uses the tool tmake or qmake from Trolltech,
+so it is important for the configure script to find tmake or qmake.
+If tmake or qmake is not in your executable path environment variable
+run the scripts '. setqt2' or '. setqt3' to set the environment
+variable correct and than run the configure script.
+
+------------------------------------------------------------------------
 
    These are generic installation instructions.
 

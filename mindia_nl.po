@@ -51,8 +51,12 @@ msgstr "&Licensie"
 # msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.1 from 19.6.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
 # msgstr ""
 
+# #: AboutExtDlg.cpp:36
+# msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.2 from 17.1.2004\n<br><br>\nCopyright 2001-2004 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
+# msgstr ""
+
 #: AboutExtDlg.cpp:36
-msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.2 from 17.1.2004\n<br><br>\nCopyright 2001-2004 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
+msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.2 from 27.1.2004\n<br><br>\nCopyright 2001-2004 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
 msgstr ""
 
 #: AboutExtDlg.cpp:46
@@ -481,7 +485,7 @@ msgstr ""
 
 #: EnterValueDlg.cpp:56
 msgid "EnterValueDlg::&Cancel"
-msgstr "&Annuleren" 
+msgstr "&Annuleren"
 
 #: EnterValueDlg.cpp:43
 msgid "EnterValueDlg::&Help"
@@ -655,9 +659,9 @@ msgstr "&Afspelen"
 msgid "MinDiaWindow::&Plot comments..."
 msgstr "C&ommentaar voor dias..."
 
-#: mindiawindow.cpp:194
-msgid "MinDiaWindow::&Plugins"
-msgstr ""
+# #: mindiawindow.cpp:194
+# msgid "MinDiaWindow::&Plugins"
+# msgstr ""
 
 #: mindiawindow.cpp:220
 msgid "MinDiaWindow::&Print..."
@@ -950,6 +954,10 @@ msgstr "Afspelen infos"
 #: mindiawindow.cpp:360
 msgid "MinDiaWindow::Plot comments"
 msgstr "Commentaar voor dias"
+
+#: mindiawindow.cpp:194
+msgid "MinDiaWindow::Plu&gins"
+msgstr ""
 
 #: mindiawindow.cpp:352
 msgid "MinDiaWindow::Presentation &data..."
@@ -1571,7 +1579,7 @@ msgstr "Verandere Python scripts"
 msgid "ScriptMenuHandler::Run a Python script"
 msgstr "Python script uitvoeren"
 
-#: scriptfcn.cpp:377
+#: scriptfcn.cpp:375
 msgid "ScriptMenuHandler::Script %s returned: %d"
 msgstr "Script %s levert: %d"
 

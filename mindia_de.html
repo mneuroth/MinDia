@@ -82,10 +82,10 @@ Dia-Pult-Ansicht und der Zeitleisten-Ansicht.
 <h4><font size="+1">Men&uuml;zeile</font></h4>
 &Uuml;ber das Men&uuml; k&ouml;nnen alle Funktionen des Programms
 aufgerufen werden. Zur schnelleren Bedienbarkeit des Programms besitzten
-praktisch alle Men&uuml;punkte besitzen einen sog. Accelerator-Key,
-d.h. sie k&ouml;nnen ohne &uuml;ber das Men&uuml; zu gehen direkt
-&uuml;ber die Eingabe einer Tastenkombination (Beispiel: Ctrl+O zum
-&Ouml;ffnen einer Pr&auml;sentations-Datei) aufgerufen werden.
+praktisch alle Men&uuml;punkte besitzen einen sog. Accelerator-Key, d.h.
+sie k&ouml;nnen ohne &uuml;ber das Men&uuml; zu gehen direkt &uuml;ber
+die Eingabe einer Tastenkombination (Beispiel: Ctrl+O zum &Ouml;ffnen
+einer Pr&auml;sentations-Datei) aufgerufen werden.
 <p>Das <a href="#Hauptmenu">Hauptmen&uuml;</a> enth&auml;lt die
 folgenden Eintr&auml;ge:</p>
 <ul>
@@ -148,8 +148,8 @@ Form des Maus-Zeigers ge&auml;ndert, dann kann duch dr&uuml;cken der
 linken Maus-Taste und gleichzeitigem (horizontalem) Verschieben des
 Maus-Zeigers die Standzeit des Dias ge&auml;ndert werden.<br>
 Das gleiche kann auch mit der &Uuml;berblendzeit erreicht werden, indem
-der Maus-Zeiger an das ender der &Uuml;berblend-Rampe positioniert wird.<br>
-Zus&auml;tzlich k&ouml;nnen Musik-Dateien (z.Z. sind ds WAV und MP3)
+der Maus-Zeiger an das Ende der &Uuml;berblend-Rampe positioniert wird.<br>
+Zus&auml;tzlich k&ouml;nnen Musik-Dateien (z.Z. sind das WAV und MP3)
 mit Drag &amp; Drop auf diesen Bereich fallen gelassen werden, dann
 werden diese Musik-Dateien nach der letzten verf&uuml;gbaren Musik-Datei
 einsortiert.<br>
@@ -158,7 +158,7 @@ dynamischen Grafik-Operationen gezogen werden, es wird dann an dieser
 Stelle ein dynamischer Text eingef&uuml;gt. Dieser dynamische Text kann
 &uuml;ber das anclicken des Textes mit der linken Maustaste bei
 gleichzeitig gedr&uuml;ckter Shift-Taste in einem Dialog ge&auml;ndert
-werden.
+werden oder &uuml;ber das Context-Men&uuml;.
 </ul>
 <hr width="100%">
 <h3><a name="Hauptmenu"></a>Hauptmenu</h3>
@@ -175,7 +175,7 @@ Diavortrags werden gel&ouml;scht.</td>
       <td>Einen Diavortrag aus einer Datei einlesen.</td>
     </tr>
     <tr>
-      <td>&Ouml;ffnen zum Modifizieren...</td>
+      <td>&Ouml;ffnen zum &Auml;nderen...</td>
       <td>Einen Diavortrag aus einer Datei einlesen, ohne jedoch das
 Skript-Ereignis "Presentation_loaded" auszuf&uuml;hren.</td>
     </tr>
@@ -335,7 +335,7 @@ Abspielposition. Nur w&auml;hrend dem Abspielen verf&uuml;gbar.<br>
       </td>
     </tr>
     <tr>
-      <td>&Uuml;berblendzeit &auml;ndern</td>
+      <td>&Uuml;berblendzeit &auml;ndern...</td>
       <td>&Auml;nderung der Test-&Uuml;berblendzeit durchf&uuml;hren</td>
     </tr>
     <tr>
@@ -394,7 +394,9 @@ Musik-St&uuml;cke und Abspiel-Positionen. Hier k&ouml;nnen Wav-Dateien
 eingegeben werden, die w&auml;hrend der Pr&auml;sentation abgespielt
 werden sollen. Zu jeder Wav-Datei k&ouml;nnen Start- und Stop-, sowie
 Ein- und Ausblend-Zeitpunkte angegeben werden.<br>
-ACHTUNG: dieser Dialog ist noch nicht ganz ausgereift!</td>
+ACHTUNG: dieser Dialog ist noch nicht ganz ausgereift! --&gt; verwende
+Drag &amp; Drop stattdessen!<br>
+      </td>
     </tr>
     <tr>
       <td>Kommentare zur Musik...</td>
@@ -411,7 +413,7 @@ Finale, etc.). Diese Kommentare sind als Hilfe bei der Erstellung von
 ACHTUNG: dieser Dialog ist noch nicht ganz ausgereift!</td>
     </tr>
     <tr>
-      <td>Modifiziere Eintrag...</td>
+      <td>&Auml;ndere Eintrag...</td>
       <td>Anzeige eines Dialoges zum modifizieren der Daten des gerade
 ausgew&auml;hlten Dias, in diesem Dialog k&ouml;nnen z.B. Stand- und
 &Uuml;berblendzeit, sowie Kommentar-Text des Dias ge&auml;ndert werden.</td>
@@ -430,12 +432,12 @@ Pr&auml;sentation im Simulations-Modus n&uuml;tzlich.&nbsp;</td>
   <tbody>
     <tr>
       <td width="25%">Modifiziere Python Skripte...</td>
-      <td>&Ouml;ffnet einen Dialog, in dem Skripte geladen, modifiziert
-und gespeichert werden k&ouml;nnen.</td>
+      <td>&Ouml;ffnet einen Dialog, in dem Skripte geladen,
+modifiziert, gespeichert und ausgef&uuml;hrt werden k&ouml;nnen.</td>
     </tr>
     <tr>
       <td>Python Skripte ausf&uuml;hren</td>
-      <td>Schnellstart der im aktuellen Verzeichnis verf&uuml;gbaren
+      <td>Schnellstart der im "scripts" Verzeichnis verf&uuml;gbaren
 Skripte.</td>
     </tr>
   </tbody>
@@ -472,7 +474,9 @@ modal </p>
 <p><a name="DynGraphOpDlg"></a>Dynamische Grafik-Operationen-Dialog,
 modal<br>
 </p>
-<p>Diese Dialog kann z.Z. nur &uuml;ber das Kontext-Men&uuml; der
+<p>In diesem Dialog k&ouml;nnen Eigenschaften der dynamischen Texte
+ge&auml;ndert weden (Farbe, Zeichensatz, Zeichensatzgr&ouml;&szlig;e).<br>
+Diese Dialog kann &uuml;ber das Kontext-Men&uuml; der
 Zeitleisten-Ansicht ge&ouml;ffnet werden oder durch das anclicken eines
 dynamischen Textes mit der linken Maustaste bei gleichzeitig
 gedr&uuml;ckter Shift-Taste.<br>
@@ -502,7 +506,7 @@ Dialogs passt.</li>
 angepasst, dass es genau in die H&ouml;he der Bild-Anzeigefl&auml;che
 des Dialogs passt.</li>
   <li><b>Expandiere</b>, hier wird die H&ouml;he und Breite des Bildes
-angepasst, dass es genau in die Bild-Anzeigefl&auml;che des Dialogs
+angepasst, dass es optimal in die Bild-Anzeigefl&auml;che des Dialogs
 passt.</li>
   <li><b>Original Gr&ouml;&szlig;e</b>, das Bild wird nicht skaliert
 und in seiner originalen Gr&ouml;&szlig;e in der Bild-Anzeigefl&auml;che
@@ -567,10 +571,16 @@ die korrekte Funktion dieser Ansteuerung.</b></p>
 <hr width="100%">
 <h3><a name="Feedback"></a>Feedback</h3>
 Die Homepage von <b><font color="#990000">MinDia</font></b> ist unter <a
- href="http://mindia.sourceforge.net">mindia.sourceforge.net</a>zu
+ href="http://mindia.sourceforge.net">mindia.sourceforge.net</a> zu
 finden. Der Autor ist unter <a
  href="mailto:mindia@users.sourceforge.net">mindia@users.sourceforge.net</a>
-zu erreichen.
+zu erreichen. Die <span style=""><a
+ href="http://sourceforge.net/forum/forum.php?forum_id=149895">Project-Seite</a>
+auf Sourceforge sind weitere n&uuml;tzliche Informationen &uuml;ber das
+Projekt verf&uuml;gbar. Es gibt auch ein <a
+ href="http://sourceforge.net/forum/forum.php?forum_id=149895">User-Forum</a>
+und einen <a href="http://sourceforge.net/tracker/?group_id=45740">Bug-Tracker</a>
+(f&uuml;r Fehlerberichte) auf Sourceforge.</span>
 <p>Da Autoren von Programmen immer gerne &uuml;ber die
 N&uuml;tzlichkeit ihrer geschriebenen Programmes f&uuml;r andere User
 informiert sein m&ouml;chten, bittet der Autor um Erfahrungsberichte
@@ -603,7 +613,6 @@ Ansteuerung von anderen Dia-Projektoren, Unterst&uuml;tzung zu leisten.</p>
   <li><a href="#Skripte">Skripte / Makros</a></li>
   <li><a href="#Skript-Ereignisse">Skript-Ereignisse</a></li>
   <li><a href="#Plugin-Schnittstelle">Plugin-Schnittstelle</a></li>
-  <li><a href="#Contribs">Beitr&auml;ge f&uuml;r dieses Projekt</a></li>
 </ul>
 <hr width="100%">
 <h3><a name="Plattformen"></a>Voraussetzungen und Plattformen</h3>
@@ -614,11 +623,9 @@ Skript-Sprache Python 2.x installiert sein.
 <p>Zur Zeit l&auml;uft MinDia auf den folgenden Plattformen:</p>
 <ul>
   <li>GNU/Linux (getestet auf SuSE Professional 7.3 und 8.2)</li>
-  <li>MS-Windows (getestet auf Windows98 und WindowsXP)</li>
+  <li>MS-Windows (getestet auf Windows98 und WindowsXP)<br>
+  </li>
 </ul>
-Der Autor bevorzugt die Linux-Version, da diese Version ein
-zus&auml;tzliches Features besitzt (Ein- und Ausblenden von Musik).<br>
-<br>
 <hr width="100%">
 <h3><a name="KommandozeilenParameter"></a>Kommandozeilen Parameter</h3>
 Folgende Kommandozeilen Parameter werden von der Applikation
@@ -631,11 +638,13 @@ serielle Schnittstelle)</li>
 Schnittstelle aus dem Konfigurations-Dialog. Es werden die vom System
 eingestellten Parameter verwendet.)</li>
   <li>-de (deutsche Version)</li>
+  <li>-nl (niederl&auml;ndische Version)<br>
+  </li>
   <li>-en (englische Version) <b>[standard]</b></li>
   <li>-twin (Ansteuerungsprotokoll f&uuml;r den Diaprojektor Rollei
-twin digital P) verwenden <b>[standard]</b></li>
+twin digital P verwenden) <b>[standard]</b></li>
   <li>-msc (Ansteuerungsprotokoll f&uuml;r den Diaprojektor Rollei twin
-MSC 3x0 P) verwenden</li>
+MSC 3x0 P verwenden)</li>
   <li>-cd (Ausf&uuml;hrung des Programms auf einem nicht beschreibbaren
 Medium, z.B. CD. Ini-Datei wird nicht geschrieben)</li>
   <li>-autorun (sofortige Ausf&uuml;hrung der Pr&auml;sentation aus der
@@ -660,19 +669,20 @@ das Load-Ereignis wird nicht ausgef&uuml;hrt)</li>
 <h3><a name="INI-Datei"></a>INI-Datei</h3>
 In der Ini-Datei (.mindia.ini) k&ouml;nnen diverse
 Konfigurations-Parameter gesetzt werden, die dann die Standardwerte
-&uuml;berschreiben. Das Format der INI-Datei Eintr&auml;ge ist immer von
-der Form:<br>
-&nbsp;
+&uuml;berschreiben. Diese Wete k&ouml;nnen auch mit Hilfe des <a
+ href="#ConfigurationDialog">Konfigurations-Dialoges</a> ge&auml;ndert
+werden. Das Format der INI-Datei Eintr&auml;ge ist immer von der Form:<br>
 <pre><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp; Schl&uuml;ssel-Text=Werte-Text</font></pre>
-<p><br>
-<b>ACHTUNG:</b> zwischen dem Zuweisungs-Zeichen (=) und dem
+<p><b>ACHTUNG:</b> zwischen dem Zuweisungs-Zeichen (=) und dem
 Schl&uuml;ssel-Text und dem Werte-Text darf kein Leerzeichen stehen,
 ansonsten wird der Schl&uuml;ssel nicht erkannt.<br>
 </p>
 <p>Die Ini-Datei wird unter Linux im User-Home Verzeichnis
 (~/.mindia.ini) und unter Windows in dem Verzeichnis, das unter dem
 Registry-Eintrag "HKEY_CURRENT_USER.Software.mindia.inifile" eingetragen
-ist, gespeichert.<br>
+ist, gespeichert. Falls unter Windows das Setup.exe Programm zur
+Installation verwendet wird, ist dies in der Regel das Verzichnis
+c:\programme\mindia.<br>
 </p>
 <p>Die folgende Eintr&auml;ge werden zur Zeit unterst&uuml;tzt:<br>
 &nbsp;
@@ -744,9 +754,6 @@ ist, gespeichert.<br>
     </tr>
   </tbody>
 </table>
-<br>
-ACHTUNG: alle Eintr&auml;ge werden &uuml;berschrieben und k&ouml;nnen
-durch die Configurations-Dialoge des Programms eingestellt werden.<br>
 </p>
 <hr width="100%">
 <h3><a name="Skripte"></a>Skripte<a name="ScriptModifyDialog"></a></h3>
@@ -755,7 +762,10 @@ erheblich erweitert werden. So kann z.B. der Import und Export von
 Pr&auml;sentationsdaten implementiert werden. Es k&ouml;nnen
 &Uuml;berpr&uuml;fungsfunktionen realisiert werden (z.B. um zu
 &uuml;berpr&uuml;fen ob die Standzeiten f&uuml;r Dias die technischen
-Spezifikationen des Diaprojektors erf&uuml;llen).
+Spezifikationen des Diaprojektors erf&uuml;llen, siehe <a
+ href="scripts/verifyshow.py">verifyshow.py</a>) und
+Skalierungsfunktionen (z.B. in <a href="scripts/_settime.py">_settime.py</a>)
+angegeben werden.
 <p>Neben der Verwendung von Skripten als Makros, k&ouml;nnen auch
 Skripte f&uuml;r verschiedene Ereignisse angegeben werden, siehe dazu
 den Abschnitt <a href="#Skript-Ereignisse">Skript-Ereignisse</a>.</p>
@@ -764,9 +774,8 @@ zwei Stellen w&auml;hrend des Abspielens eines Diavortrages aufgerufen.
 Zum einen zum Beginn des &Uuml;berblendens (Variable bDissolve besitzt
 den Wert 1) und zum anderen wenn das &Uuml;berblenden beendet ist
 (Variable bDissolve besitzt den Wert 0). Dies kann z.B. zur Anzeige von
-Texten und Bildunterschriften eingesetzt werden. Siehe dazu die
-mitgelieferten Beispiel Diavortr&auml;ge (z.B. scripttest.py) und den
-Abschnitt &uuml;ber <a href="#BeispielDiaSkript">Beispiel-Skripte</a>.</p>
+Texten und Bildunterschriften eingesetzt werden. <br>
+</p>
 <p>&Uuml;ber die Plugin-Schnittstelle k&ouml;nnen verschieden
 Skript-Sprachen eingebunden werden. Die Funktionalit&auml;t des
 Programms wird dann &uuml;ber verschiedene Funktionen, bzw.
@@ -776,7 +785,7 @@ verschiedenen Skript-Sprachen erfolgt &uuml;ber <a href="#SWIG">SWIG</a>.</p>
  href="#Python">Python.</a> <br>
 &nbsp;</p>
 <p><b>Folgende Funktionen stehen in dem Modul <font
- face="Courier New,Courier">mindiapy</font>zur Verf&uuml;gung:</b><br>
+ face="Courier New,Courier">mindiapy</font> zur Verf&uuml;gung:</b><br>
 &nbsp;</p>
 <pre>&nbsp; # Ausgabe eines Strings auf ein Ausgabe-Fenster</pre>
 <pre>&nbsp; <font color="#cc0000">mindiapy.PrintLn( "Ausgabetext" )</font></pre>
@@ -808,8 +817,7 @@ repr&auml;sentiert einen RGB Farbwert.</li>
   <li>die <font face="Courier New,Courier">IHsv</font>-Klasse
 repr&auml;sentiert einen HSV Farbwert.</li>
 </ul>
-Die (schematische) Klassendefinition der beiden Klassen sieht wie folgt
-aus:
+Die (schematische) Klassendefinition der Klassen sieht wie folgt aus:
 <pre>##############################################################</pre>
 <pre>class IDiaPresentation:</pre>
 <pre>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; IsChanged():<br>&nbsp;&nbsp;&nbsp; string GetDocName():<br>&nbsp;&nbsp;&nbsp; string GetDescription():</pre>
@@ -838,8 +846,6 @@ IDiaPresentation Objekt verwenden. Niemals den in Python eingebauten
 new-Operator nutzen!</p>
 <p><a name="BeispielDiaSkript"></a><b>Beispiel f&uuml;r ein Dia-Skript:</b> </p>
 <pre># script example for a slide-script<br># the variable bDissolve will be set<br># from the MinDia-Application<br><br>import mindiapy<br><br>aPres = mindiapy.GetDiaPresentation()<br>aWin = aPres.GetOutputWindow()<br><br>def Dissolve():<br>&nbsp;&nbsp;&nbsp; aWin.SetFontSize( 30 )<br>&nbsp;&nbsp;&nbsp; aWin.SetTextXY( 10, 10, "Fade In" )<br><br>def Show():<br>&nbsp;&nbsp;&nbsp; aWin.Clear()<br>&nbsp;&nbsp;&nbsp; aWin.SetFontSize( 30 )<br>&nbsp;&nbsp;&nbsp; aWin.SetTextXY( 30, 50, "Show" )<br><br>if bDissolve==1:<br>&nbsp;&nbsp;&nbsp; Dissolve()<br>else:<br>&nbsp;&nbsp;&nbsp; Show()</pre>
-<p><br>
-</p>
 <hr width="100%">
 <h3><a name="Skript-Ereignisse"></a>Skript-Ereignisse</h3>
 In einer Pr&auml;sentation k&ouml;nnen f&uuml;r verschieden Ereignisse
@@ -889,7 +895,7 @@ Pr&auml;senation wurde schon eingelesen.</td>
 TODO !
 <h3>
 <hr width="100%"></h3>
-<h2><a name="Contribs"></a><u>Beitr&auml;ge zu diesem Projekt</u></h2>
+<h2><a name="Contribs"></a><small><u>Beitr&auml;ge zu diesem Projekt</u></small></h2>
 Die grafische Oberfl&auml;che des Programms <b><font color="#990000">MinDia</font></b>wurde
 mit dem Qt-Framework der Firma <a href="http://www.trolltech.com">Trolltech</a>
 erzeugt.
@@ -938,15 +944,20 @@ wavfile.cpp, wurde modifiziert)</li>
   </ul>
   <li><b><a href="http://www.mars.org/home/rob/proj/mpeg">madplay</a></b></li>
   <ul>
-    <li>Kommandozeilen Programm zum Abspielen von mp3-Dateien (Linux)<br>
+    <li>Kommandozeilen Programm zum Abspielen von mp3-Dateien (Linux)</li>
+  </ul>
+  <li><b><a href="http://www.innosetup.com">innosetup</a></b></li>
+  <ul>
+    <li>Erzeugung von Windows-Installations Programmen (setup.exe)<br>
     </li>
   </ul>
 </ul>
 <hr width="100%">
 <h3><a name="Python"></a>Python</h3>
 Weitere Informationen &uuml;ber die bekannte Programmier-Sprache sind
-unter <a href="http://www.python.org">www.python.org</a>, und <a
- href="http://www.pythonlabs.com">www.pythonlabs.com</a> zu finden.
+unter <a href="http://www.python.org">www.python.org</a> und <a
+ href="http://www.pythonlabs.com">www.pythonlabs.com</a> zu finden.<br>
+<br>
 <hr width="100%">
 <h3><a name="SWIG"></a>SWIG</h3>
 Programmpaket zum Einbinden von C/C++ Funktionen in Skript-Sprachen und
@@ -954,10 +965,8 @@ zum Einf&uuml;gen von Skript-Sprachen in Applikationen. Von SWIG werden
 viele unterschiedliche Skript-Sprachen, wie Python, Perl und Tcl,
 unterst&uuml;tzt.
 <p>Zu weiteren Informationen &uuml;ber SWIG siehe <a
- href="http://www.swig.org">www.swig.org</a>.</p>
+ href="http://www.swig.org">www.swig.org</a>.<br>
 <br>
-<br>
-<br>
-<br>
+</p>
 </body>
 </html>
