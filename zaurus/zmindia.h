@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/zaurus/zmindia.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:22  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -75,6 +78,7 @@ public slots:
     void sltUpdateOutput();
     void sltTestRead();
     void sltModusIsSwitched();
+	void sltPlayFinished();
 
     void sltSelectPrev();
     void sltSelectNext();
