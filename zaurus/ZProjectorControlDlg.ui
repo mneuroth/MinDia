@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>210</width>
+            <width>211</width>
             <height>274</height>
         </rect>
     </property>
@@ -40,93 +40,6 @@
         <name>caption</name>
         <string>Projector Control</string>
     </property>
-    <widget>
-        <class>QPushButton</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>m_pReset</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>156</x>
-                <y>35</y>
-                <width>48</width>
-                <height>25</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>text</name>
-            <string>&amp;Reset</string>
-        </property>
-    </widget>
-    <widget>
-        <class>QGroupBox</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>m_pInfoGroup</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>2</x>
-                <y>23</y>
-                <width>151</width>
-                <height>43</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>title</name>
-            <string>Info</string>
-        </property>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>m_pSlideNoLabel</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>80</x>
-                    <y>14</y>
-                    <width>65</width>
-                    <height>22</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>0</string>
-            </property>
-            <property stdset="1">
-                <name>alignment</name>
-                <set>AlignCenter</set>
-            </property>
-            <property>
-                <name>hAlign</name>
-            </property>
-        </widget>
-        <widget>
-            <class>QPushButton</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>m_pGetDiaNo</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>4</x>
-                    <y>15</y>
-                    <width>75</width>
-                    <height>24</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>Get s&amp;lide no</string>
-            </property>
-        </widget>
-    </widget>
     <widget>
         <class>QPushButton</class>
         <property stdset="1">
@@ -736,6 +649,93 @@
         </property>
         <property>
             <name>hAlign</name>
+        </property>
+    </widget>
+    <widget>
+        <class>QGroupBox</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>m_pInfoGroup</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>2</x>
+                <y>23</y>
+                <width>125</width>
+                <height>43</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>title</name>
+            <string>Info</string>
+        </property>
+        <widget>
+            <class>QPushButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pGetDiaNo</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>4</x>
+                    <y>15</y>
+                    <width>75</width>
+                    <height>24</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Get s&amp;lide no</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pSlideNoLabel</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>80</x>
+                    <y>14</y>
+                    <width>43</width>
+                    <height>22</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>0</string>
+            </property>
+            <property stdset="1">
+                <name>alignment</name>
+                <set>AlignCenter</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+    </widget>
+    <widget>
+        <class>QPushButton</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>m_pReset</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>134</x>
+                <y>35</y>
+                <width>70</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>&amp;Reset</string>
         </property>
     </widget>
 </widget>
