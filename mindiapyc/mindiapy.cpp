@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/mindiapyc/mindiapy.cpp,v $
  *
- *  $Revision: 1.5 $
+ *  $Revision: 1.6 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.5  2004/02/17 19:42:37  min
+ *	Reorganized project structure.
+ *	
  *	Revision 1.4  2003/10/26 22:37:47  min
  *	Bugfix
  *	
@@ -49,15 +52,6 @@
 //  g++ -c -fPIC mindia_wrap.c  -I/usr/include/python2.1
 
 
-#include "dllbase.h"
-#include "minbase.h"
-#include "minhandle.h"
-#include "minutils.h"
-
-#include "iscript.h"
-
-#include "scriptfcn.h"
-
 #define _with_python
 #ifdef _with_python
 
@@ -76,6 +70,16 @@ extern "C" int forkpty()
 */
 
 #endif
+
+#include "dllbase.h"
+#include "minbase.h"
+#include "minhandle.h"
+#include "minutils.h"
+
+#include "iscript.h"
+
+#include "scriptfcn.h"
+
 
 // *************************************************************************
 // *************************************************************************
