@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/mindiapyc/mindiapy.cpp,v $
  *
- *  $Revision: 1.4 $
+ *  $Revision: 1.5 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.4  2003/10/26 22:37:47  min
+ *	Bugfix
+ *	
  *	Revision 1.3  2003/10/26 17:31:45  min
  *	Bugfix.
  *	
@@ -115,7 +118,10 @@ IGeneralScriptVMImpl::IGeneralScriptVMImpl( minClientHandle<IMinDiaScriptFcn> hS
 {
 	//cout << "IGeneralScriptVMImpl()" << endl;
 
-	InitVM( hScriptFcn->GetArgCount(), hScriptFcn->GetArgVec() );
+	if( hScriptFcn.IsValid() )
+	{
+		InitVM( hScriptFcn->GetArgCount(), hScriptFcn->GetArgVec() );
+	}
 }
 
 IGeneralScriptVMImpl::~IGeneralScriptVMImpl()
@@ -229,6 +235,8 @@ extern "C" int MINDLLEXPORT minModuleInit( void * pData, void * pDllData )
 	// Daten in entsprechende Klassen casten
 	minDll * pDll = (minDll *)pDllData;
 	minServiceManager * pSrvManager = (minServiceManager *)pData;
+
+	pSrvManager->SetGlobServiceManagerPtr(pSrvManager);
 
 #ifdef _with_service
 	minClientHandle<IMinDiaScriptFcn> hScriptFcn( g_IMinDiaScriptFcnID );

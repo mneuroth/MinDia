@@ -94,15 +94,15 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=.\dllbase.cpp
+SOURCE=.\minsrv\dllbase.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\minbase.cpp
+SOURCE=.\minsrv\minbase.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\miniini.cpp
+SOURCE=.\minsrv\miniini.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -110,15 +110,15 @@ SOURCE=.\miniini.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=.\dllbase.h
+SOURCE=.\minsrv\dllbase.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\minbase.h
+SOURCE=.\minsrv\minbase.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\miniini.h
+SOURCE=.\minsrv\miniini.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

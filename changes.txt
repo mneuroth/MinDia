@@ -319,7 +319,19 @@ change history:
 28. 1.2004  1h		prepare next release (created source zip file)
 29. 1.2004  2h		bugfixes: tooltips showed over status bar will be cleared, drag and drop was not disabled in run modus, -en commandline argument allowed
 31. 1.2004  3h		bugfix: handle simulation flag corret, create com port object if needed, prepare next release
- 1. 2.2004  2h		prepare next release
+ 1. 2.2004  2h		prepare next release and released
+---------------------------------------------------------------------------------------------------
+13. 2.2004  2h		ported mindia to Qt 3.2.1 non-commercial (--> set QTLIB for lib !), 
+                    small fixes (QString), jpg support is buildin in qt3 (no ext. jpg lib needed)
+14. 2.2004  3h		ported mindia to Borland C++ 5.5, compile successfull bug mindia does not run !
+                    added new menu item "About Qt"
+15. 2.2004  6h		started with kdevelop project for mindia
+16. 2.2004  6h		reorganized project (directories for: minsrv, gendev, mindiapyc, zaurus)
+17. 2.2004  4h		reorganized project (src), cvs reorganized
+kdevelop:
+Project-Properties: -fexceptions -D_POSIX -DHAVE_CONFIG_H
+acinclude.m4.in patchen --> fno-exceptions
+
 
 GetUserDefaultLangID() zur Bestimmung der Sprache !
 

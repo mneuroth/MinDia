@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O1 /I "$(QTDIR)\include" /D "NDEBUG" /D "NO_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "QT_THREAD_SUPPORT" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O1 /I "$(QTDIR)\include" /I ".\minsrv" /I ".\gendev" /D "NDEBUG" /D "NO_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "QT_THREAD_SUPPORT" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib winmm.lib wsock32.lib /nologo /subsystem:windows /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib winmm.lib wsock32.lib imm32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib $(QTDIR)\lib\qtmain.lib /nologo /subsystem:windows /machine:I386
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib winmm.lib wsock32.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib /nologo /subsystem:windows /machine:I386
 
 !ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
 
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /Gm /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /FD /GZ /c
-# ADD CPP /nologo /MD /W3 /Gm /GX /ZI /Od /I "$(QTDIR)\include" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "QT_THREAD_SUPPORT" /FD /GZ /c
+# ADD CPP /nologo /MD /W3 /Gm /GX /ZI /Od /I "$(QTDIR)\include" /I ".\minsrv" /I ".\gendev" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "QT_DLL" /D "QT_THREAD_SUPPORT" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib winmm.lib wsock32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib winmm.lib wsock32.lib imm32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib $(QTDIR)\lib\qtmain.lib /nologo /subsystem:windows /debug /machine:I386 /nodefaultlib:"libc" /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib winmm.lib wsock32.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib /nologo /subsystem:windows /debug /machine:I386 /nodefaultlib:"libc" /pdbtype:sept
 
 !ENDIF 
 
@@ -92,335 +92,351 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=.\AboutExtDlg.cpp
+SOURCE=.\src\AboutExtDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\appconfig.cpp
+SOURCE=.\src\appconfig.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\applscriptenv.cpp
+SOURCE=.\src\applscriptenv.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\ComLoggingDlg.cpp
+SOURCE=.\src\ComLoggingDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\comlogimpl.cpp
+SOURCE=.\src\comlogimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\CommentDlg.cpp
+SOURCE=.\src\CommentDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\commentdlgimpl.cpp
+SOURCE=.\src\commentdlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\configdlgimpl.cpp
+SOURCE=.\src\configdlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\ConfigPlayerDlg.cpp
+SOURCE=.\src\ConfigPlayerDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\configplayerdlgimpl.cpp
+SOURCE=.\src\configplayerdlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\ConfigurationDlg.cpp
+SOURCE=.\src\ConfigurationDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\diainfo.cpp
+SOURCE=.\src\diainfo.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\DiaInfoDlg.cpp
+SOURCE=.\src\DiaInfoDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\diainfodlgimpl.cpp
+SOURCE=.\src\diainfodlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\diapresentation.cpp
+SOURCE=.\src\diapresentation.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\diaprojector.cpp
+SOURCE=.\src\diaprojector.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\doccontroler.cpp
+SOURCE=.\src\dllbase.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\dyngraphop.cpp
+SOURCE=.\src\doccontroler.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\DynTextDlg.cpp
+SOURCE=.\src\dyngraphop.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\dyntextdlgimpl.cpp
+SOURCE=.\src\DynTextDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\EnterValueDlg.cpp
+SOURCE=.\src\dyntextdlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\EventMapDlg.cpp
+SOURCE=.\src\EnterValueDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\eventmapdlgimpl.cpp
+SOURCE=.\src\EventMapDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\HelpDlg.cpp
+SOURCE=.\src\eventmapdlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\hitem.cpp
+SOURCE=.\src\HelpDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\hitemview.cpp
+SOURCE=.\src\hitem.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\LicenseDlg.cpp
+SOURCE=.\src\hitemview.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\main.cpp
+SOURCE=.\src\LicenseDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\mincmdproc.cpp
+SOURCE=.\src\main.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\mindia.rc
+SOURCE=.\src\minbase.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\mindiawindow.cpp
+SOURCE=.\src\mincmdproc.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\minisound.cpp
+SOURCE=.\src\mindia.rc
 # End Source File
 # Begin Source File
 
-SOURCE=.\minutils.cpp
+SOURCE=.\src\mindiawindow.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\misctools.cpp
+SOURCE=.\src\miniini.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\misctools.h
+SOURCE=.\src\minisound.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_AboutExtDlg.cpp
+SOURCE=.\src\minutils.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_ComLoggingDlg.cpp
+SOURCE=.\src\misctools.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_comlogimpl.cpp
+SOURCE=.\src\moc_AboutExtDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_CommentDlg.cpp
+SOURCE=.\src\moc_ComLoggingDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_commentdlgimpl.cpp
+SOURCE=.\src\moc_comlogimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_configdlgimpl.cpp
+SOURCE=.\src\moc_CommentDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_ConfigPlayerDlg.cpp
+SOURCE=.\src\moc_commentdlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_configplayerdlgimpl.cpp
+SOURCE=.\src\moc_configdlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_ConfigurationDlg.cpp
+SOURCE=.\src\moc_ConfigPlayerDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_DiaInfoDlg.cpp
+SOURCE=.\src\moc_configplayerdlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_diainfodlgimpl.cpp
+SOURCE=.\src\moc_ConfigurationDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_doccontroler.cpp
+SOURCE=.\src\moc_DiaInfoDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_dyngraphop.cpp
+SOURCE=.\src\moc_diainfodlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_DynTextDlg.cpp
+SOURCE=.\src\moc_doccontroler.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_dyntextdlgimpl.cpp
+SOURCE=.\src\moc_dyngraphop.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_EnterValueDlg.cpp
+SOURCE=.\src\moc_DynTextDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_EventMapDlg.cpp
+SOURCE=.\src\moc_dyntextdlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_eventmapdlgimpl.cpp
+SOURCE=.\src\moc_EnterValueDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_HelpDlg.cpp
+SOURCE=.\src\moc_EventMapDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_hitemview.cpp
+SOURCE=.\src\moc_eventmapdlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_LicenseDlg.cpp
+SOURCE=.\src\moc_HelpDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_mindiawindow.cpp
+SOURCE=.\src\moc_hitemview.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_pcdlgimpl.cpp
+SOURCE=.\src\moc_LicenseDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_pddlgimpl.cpp
+SOURCE=.\src\moc_mindiawindow.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_PlayInfoDlg.cpp
+SOURCE=.\src\moc_pcdlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_playinfodlgimpl.cpp
+SOURCE=.\src\moc_pddlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_PresentationDataDlg.cpp
+SOURCE=.\src\moc_PlayInfoDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_ProjectorControlDlg.cpp
+SOURCE=.\src\moc_playinfodlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_sndinfodlgimpl.cpp
+SOURCE=.\src\moc_PresentationDataDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_SoundInfoDlg.cpp
+SOURCE=.\src\moc_ProjectorControlDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_timelineview.cpp
+SOURCE=.\src\moc_sndinfodlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_timerjobproc.cpp
+SOURCE=.\src\moc_SoundInfoDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\pcdlgimpl.cpp
+SOURCE=.\src\moc_timelineview.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\pddlgimpl.cpp
+SOURCE=.\src\moc_timerjobproc.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\PlayInfoDlg.cpp
+SOURCE=.\src\pcdlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\playinfodlgimpl.cpp
+SOURCE=.\src\pddlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\PresentationDataDlg.cpp
+SOURCE=.\src\PlayInfoDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\ProjectorControlDlg.cpp
+SOURCE=.\src\playinfodlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\qtmtlock.cpp
+SOURCE=.\src\PresentationDataDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\rolleicom.cpp
+SOURCE=.\src\ProjectorControlDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\sndinfodlgimpl.cpp
+SOURCE=.\src\qtmtlock.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\soundinfo.cpp
+SOURCE=.\src\read_mp3.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\SoundInfoDlg.cpp
+SOURCE=.\src\rolleicom.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\timelineaxis.cpp
+SOURCE=.\src\sndinfodlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\timelineitem.cpp
+SOURCE=.\src\soundinfo.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\timelineview.cpp
+SOURCE=.\src\SoundInfoDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\timerjobproc.cpp
+SOURCE=.\src\timelineaxis.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\writexml.cpp
+SOURCE=.\src\timelineitem.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\timelineview.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\timerjobproc.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\wavfile.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\writexml.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -428,175 +444,47 @@ SOURCE=.\writexml.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=.\AboutExtDlg.h
+SOURCE=.\src\AboutExtDlg.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\appconfig.h
+SOURCE=.\src\appconfig.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\applscriptenv.h
+SOURCE=.\src\applscriptenv.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\ComLoggingDlg.h
+SOURCE=.\src\ComLoggingDlg.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\comlogimpl.h
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Moc'ing comlogimpl.h...
-InputPath=.\comlogimpl.h
-
-"moc\moc_comlogimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe comlogimpl.h -o moc\moc_comlogimpl.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Moc'ing comlogimpl.h...
-InputPath=.\comlogimpl.h
-
-"moc\moc_comlogimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe comlogimpl.h -o moc\moc_comlogimpl.cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\CommentDlg.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\commentdlgimpl.h
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Moc'ing commentdlgimpl.h...
-InputPath=.\commentdlgimpl.h
-
-"moc\moc_commentdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe commentdlgimpl.h -o moc\moc_commentdlgimpl.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Moc'ing commentdlgimpl.h...
-InputPath=.\commentdlgimpl.h
-
-"moc\moc_commentdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe commentdlgimpl.h -o moc\moc_commentdlgimpl.cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\configdlgimpl.h
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Moc'ing configdlgimpl.h...
-InputPath=.\configdlgimpl.h
-
-"moc\moc_configdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe configdlgimpl.h -o moc\moc_configdlgimpl.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Moc'ing configdlgimpl.h...
-InputPath=.\configdlgimpl.h
-
-"moc\moc_configdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe configdlgimpl.h -o moc\moc_configdlgimpl.cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\ConfigPlayerDlg.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\configplayerdlgimpl.h
+SOURCE=.\src\comlogimpl.h
 
 !IF  "$(CFG)" == "mindia - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputPath=.\configplayerdlgimpl.h
+# Begin Custom Build - MOCing comlogimpl.h...
+InputDir=.\src
+InputPath=.\src\comlogimpl.h
+InputName=comlogimpl
 
-"moc\moc_configplayerdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe configplayerdlgimpl.h -o moc\moc_configplayerdlgimpl.cpp
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputPath=.\configplayerdlgimpl.h
+# Begin Custom Build - MOCing comlogimpl.h...
+InputDir=.\src
+InputPath=.\src\comlogimpl.h
+InputName=comlogimpl
 
-"moc\moc_configplayerdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe configplayerdlgimpl.h -o moc\moc_configplayerdlgimpl.cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\ConfigurationDlg.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\diacallback.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\diainfo.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\DiaInfoDlg.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\diainfodlgimpl.h
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Moc'ing diainfodlgimpl.h...
-InputPath=.\diainfodlgimpl.h
-
-"moc\moc_diainfodlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe diainfodlgimpl.h -o moc\moc_diainfodlgimpl.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Moc'ing diainfodlgimpl.h...
-InputPath=.\diainfodlgimpl.h
-
-"moc\moc_diainfodlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe diainfodlgimpl.h -o moc\moc_diainfodlgimpl.cpp
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
 
 # End Custom Build
 
@@ -605,62 +493,35 @@ InputPath=.\diainfodlgimpl.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\diapresentation.h
+SOURCE=.\src\CommentDlg.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\diaprojector.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\doccontroler.h
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Moc'ing doccontroler.h...
-InputPath=.\doccontroler.h
-
-"moc\moc_doccontroler.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe doccontroler.h -o moc\moc_doccontroler.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Moc'ing doccontroler.h...
-InputPath=.\doccontroler.h
-
-"moc\moc_doccontroler.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe doccontroler.h -o moc\moc_doccontroler.cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\dyngraphop.h
+SOURCE=.\src\commentdlgimpl.h
 
 !IF  "$(CFG)" == "mindia - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputPath=.\dyngraphop.h
+# Begin Custom Build - MOCing commentdlgimpl.h...
+InputDir=.\src
+InputPath=.\src\commentdlgimpl.h
+InputName=commentdlgimpl
 
-"moc\moc_dyngraphop.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe dyngraphop.h -o moc\moc_dyngraphop.cpp
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputPath=.\dyngraphop.h
+# Begin Custom Build - MOCing commentdlgimpl.h...
+InputDir=.\src
+InputPath=.\src\commentdlgimpl.h
+InputName=commentdlgimpl
 
-"moc\moc_dyngraphop.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe dyngraphop.h -o moc\moc_dyngraphop.cpp
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
 
 # End Custom Build
 
@@ -669,35 +530,240 @@ InputPath=.\dyngraphop.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\DynTextDlg.h
+SOURCE=.\src\config.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\dyntextdlgimpl.h
+SOURCE=.\src\configdlgimpl.h
 
 !IF  "$(CFG)" == "mindia - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\dyntextdlgimpl.h
+# Begin Custom Build - MOCing configdlgimpl.h...
+InputDir=.\src
+InputPath=.\src\configdlgimpl.h
+InputName=configdlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing configdlgimpl.h...
+InputDir=.\src
+InputPath=.\src\configdlgimpl.h
+InputName=configdlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\ConfigPlayerDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\configplayerdlgimpl.h
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing configplayerdlgimpl.h...
+InputDir=.\src
+InputPath=.\src\configplayerdlgimpl.h
+InputName=configplayerdlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing configplayerdlgimpl.h...
+InputDir=.\src
+InputPath=.\src\configplayerdlgimpl.h
+InputName=configplayerdlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\ConfigurationDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\diacallback.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\diainfo.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\DiaInfoDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\diainfodlgimpl.h
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing diainfodlgimpl.h...
+InputDir=.\src
+InputPath=.\src\diainfodlgimpl.h
+InputName=diainfodlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing diainfodlgimpl.h...
+InputDir=.\src
+InputPath=.\src\diainfodlgimpl.h
+InputName=diainfodlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\diapresentation.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\diaprojector.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\dllbase.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\dllexport.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\doccontroler.h
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing doccontroler.h...
+InputDir=.\src
+InputPath=.\src\doccontroler.h
+InputName=doccontroler
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing doccontroler.h...
+InputDir=.\src
+InputPath=.\src\doccontroler.h
+InputName=doccontroler
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\dyngraphop.h
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing dyngraphop.h...
+InputDir=.\src
+InputPath=.\src\dyngraphop.h
+InputName=dyngraphop
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing dyngraphop.h...
+InputDir=.\src
+InputPath=.\src\dyngraphop.h
+InputName=dyngraphop
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\DynTextDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\dyntextdlgimpl.h
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing dyntextdlgimpl.h...
+InputDir=.\src
+InputPath=.\src\dyntextdlgimpl.h
 InputName=dyntextdlgimpl
 
-"moc\moc_dyntextdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe dyntextdlgimpl.h -o moc\moc_dyntextdlgimpl.cpp
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputDir=.
-InputPath=.\dyntextdlgimpl.h
+# Begin Custom Build - MOCing dyntextdlgimpl.h...
+InputDir=.\src
+InputPath=.\src\dyntextdlgimpl.h
 InputName=dyntextdlgimpl
 
-"moc\moc_dyntextdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%qtdir%\bin\moc.exe dyntextdlgimpl.h -o moc\moc_dyntextdlgimpl.cpp
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
 
 # End Custom Build
 
@@ -706,331 +772,39 @@ InputName=dyntextdlgimpl
 # End Source File
 # Begin Source File
 
-SOURCE=.\EnterValueDlg.h
+SOURCE=.\src\EnterValueDlg.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\EventMapDlg.h
+SOURCE=.\src\EventMapDlg.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\eventmapdlgimpl.h
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Moc'ing eventmapdlgimpl.h...
-InputPath=.\eventmapdlgimpl.h
-
-"moc\moc_eventmapdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe eventmapdlgimpl.h -o moc\moc_eventmapdlgimpl.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Moc'ing eventmapdlgimpl.h...
-InputPath=.\eventmapdlgimpl.h
-
-"moc\moc_eventmapdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe eventmapdlgimpl.h -o moc\moc_eventmapdlgimpl.cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\HelpDlg.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\hitem.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\hitemview.h
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Moc'ing hitemview.h...
-InputPath=.\hitemview.h
-
-"moc\moc_hitemview.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe hitemview.h -o moc\moc_hitemview.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Moc'ing hitemview.h...
-InputPath=.\hitemview.h
-
-"moc\moc_hitemview.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe hitemview.h -o moc\moc_hitemview.cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\iocontainer.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\LicenseDlg.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\mincmdproc.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\mindiawindow.h
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Moc'ing mindiawindow.h...
-InputPath=.\mindiawindow.h
-
-"moc\moc_mindiawindow.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe mindiawindow.h -o moc\moc_mindiawindow.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Moc'ing mindiawindow.h...
-InputPath=.\mindiawindow.h
-
-"moc\moc_mindiawindow.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe mindiawindow.h -o moc\moc_mindiawindow.cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\minexception.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\minisound.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\minlog.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\minutils.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\mp3file.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\osdep2.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\pcdlgimpl.h
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Moc'ing pcdlgimpl.h...
-InputPath=.\pcdlgimpl.h
-
-"moc\moc_pcdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe pcdlgimpl.h -o moc\moc_pcdlgimpl.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Moc'ing pcdlgimpl.h...
-InputPath=.\pcdlgimpl.h
-
-"moc\moc_pcdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe pcdlgimpl.h -o moc\moc_pcdlgimpl.cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\pddlgimpl.h
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Moc'ing pddlgimpl.h...
-InputPath=.\pddlgimpl.h
-
-"moc\moc_pddlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe pddlgimpl.h -o moc\moc_pddlgimpl.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Moc'ing pddlgimpl.h...
-InputPath=.\pddlgimpl.h
-
-"moc\moc_pddlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe pddlgimpl.h -o moc\moc_pddlgimpl.cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\PlayInfoDlg.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\playinfodlgimpl.h
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Moc'ing playinfodlgimpl.h...
-InputPath=.\playinfodlgimpl.h
-
-"moc\moc_playinfodlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe playinfodlgimpl.h -o moc\moc_playinfodlgimpl.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Moc'ing playinfodlgimpl.h...
-InputPath=.\playinfodlgimpl.h
-
-"moc\moc_playinfodlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe playinfodlgimpl.h -o moc\moc_playinfodlgimpl.cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\PresentationDataDlg.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\ProjectorControlDlg.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\qtmtlock.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\rolleicom.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\sndinfodlgimpl.h
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Moc'ing sndinfodlgimpl.h...
-InputPath=.\sndinfodlgimpl.h
-
-"moc\moc_sndinfodlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe sndinfodlgimpl.h -o moc\moc_sndinfodlgimpl.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Moc'ing sndinfodlgimpl.h...
-InputPath=.\sndinfodlgimpl.h
-
-"moc\moc_sndinfodlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe sndinfodlgimpl.h -o moc\moc_sndinfodlgimpl.cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\soundinfo.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SoundInfoDlg.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\timelineaxis.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\timelineitem.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\timelineview.h
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Moc'ing timelineview.h...
-InputPath=.\timelineview.h
-
-"moc\moc_timelineview.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe timelineview.h -o moc\moc_timelineview.cpp
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Moc'ing timelineview.h...
-InputPath=.\timelineview.h
-
-"moc\moc_timelineview.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe timelineview.h -o moc\moc_timelineview.cpp
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\timerjobproc.h
+SOURCE=.\src\eventmapdlgimpl.h
 
 !IF  "$(CFG)" == "mindia - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputPath=.\timerjobproc.h
+# Begin Custom Build - MOCing eventmapdlgimpl.h...
+InputDir=.\src
+InputPath=.\src\eventmapdlgimpl.h
+InputName=eventmapdlgimpl
 
-"moc\moc_timerjobproc.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe timerjobproc.h -o moc\moc_timerjobproc.cpp
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Moc'ing $(InputName).h ...
-InputPath=.\timerjobproc.h
+# Begin Custom Build - MOCing eventmapdlgimpl.h...
+InputDir=.\src
+InputPath=.\src\eventmapdlgimpl.h
+InputName=eventmapdlgimpl
 
-"moc\moc_timerjobproc.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe timerjobproc.h -o moc\moc_timerjobproc.cpp
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
 
 # End Custom Build
 
@@ -1039,7 +813,387 @@ InputPath=.\timerjobproc.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\writexml.h
+SOURCE=.\src\global_patch.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\HelpDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\hitem.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\hitemview.h
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing hitemview.h...
+InputDir=.\src
+InputPath=.\src\hitemview.h
+InputName=hitemview
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing hitemview.h...
+InputDir=.\src
+InputPath=.\src\hitemview.h
+InputName=hitemview
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\iniconst.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\iocontainer.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\iscript.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\LicenseDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\minbase.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mincmdproc.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mindiawindow.h
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing mindiawindow.h...
+InputDir=.\src
+InputPath=.\src\mindiawindow.h
+InputName=mindiawindow
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing mindiawindow.h...
+InputDir=.\src
+InputPath=.\src\mindiawindow.h
+InputName=mindiawindow
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\minexception.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\minhandle.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\miniini.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\minisound.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\minlog.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\minutils.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\misctools.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\osdep2.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\pcdlgimpl.h
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing pcdlgimpl.h...
+InputDir=.\src
+InputPath=.\src\pcdlgimpl.h
+InputName=pcdlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing pcdlgimpl.h...
+InputDir=.\src
+InputPath=.\src\pcdlgimpl.h
+InputName=pcdlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\pddlgimpl.h
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing pddlgimpl.h...
+InputDir=.\src
+InputPath=.\src\pddlgimpl.h
+InputName=pddlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing pddlgimpl.h...
+InputDir=.\src
+InputPath=.\src\pddlgimpl.h
+InputName=pddlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\PlayInfoDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\playinfodlgimpl.h
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing playinfodlgimpl.h...
+InputDir=.\src
+InputPath=.\src\playinfodlgimpl.h
+InputName=playinfodlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing playinfodlgimpl.h...
+InputDir=.\src
+InputPath=.\src\playinfodlgimpl.h
+InputName=playinfodlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\PresentationDataDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\ProjectorControlDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\qtmtlock.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\resource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\rolleicom.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\sndinfodlgimpl.h
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing sndinfodlgimpl.h...
+InputDir=.\src
+InputPath=.\src\sndinfodlgimpl.h
+InputName=sndinfodlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing sndinfodlgimpl.h...
+InputDir=.\src
+InputPath=.\src\sndinfodlgimpl.h
+InputName=sndinfodlgimpl
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\soundinfo.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\SoundInfoDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\sysdep.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\timelineaxis.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\timelineitem.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\timelineview.h
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing timelineview.h...
+InputDir=.\src
+InputPath=.\src\timelineview.h
+InputName=timelineview
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing timelineview.h...
+InputDir=.\src
+InputPath=.\src\timelineview.h
+InputName=timelineview
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\timerjobproc.h
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing timerjobproc.h...
+InputDir=.\src
+InputPath=.\src\timerjobproc.h
+InputName=timerjobproc
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing timerjobproc.h...
+InputDir=.\src
+InputPath=.\src\timerjobproc.h
+InputName=timerjobproc
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\wavfile.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\writexml.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -1059,20 +1213,20 @@ SOURCE=.\mindia.ico
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\AboutExtDlg.ui
+SOURCE=.\src\AboutExtDlg.ui
 
 !IF  "$(CFG)" == "mindia - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
-InputDir=.
-InputPath=.\AboutExtDlg.ui
+# Begin Custom Build - UICing AboutExtDlg.ui...
+InputDir=.\src
+InputPath=.\src\AboutExtDlg.ui
 InputName=AboutExtDlg
 
 BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o moc\moc_$(InputName).cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -1081,22 +1235,22 @@ BuildCmds= \
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"moc\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
-InputDir=.
-InputPath=.\AboutExtDlg.ui
+# Begin Custom Build - UICing AboutExtDlg.ui...
+InputDir=.\src
+InputPath=.\src\AboutExtDlg.ui
 InputName=AboutExtDlg
 
 BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o moc\moc_$(InputName).cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -1105,7 +1259,7 @@ BuildCmds= \
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"moc\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -1114,147 +1268,53 @@ BuildCmds= \
 # End Source File
 # Begin Source File
 
-SOURCE=.\ComLoggingDlg.ui
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Uic'ing ComLoggingDlg.ui...
-InputPath=.\ComLoggingDlg.ui
-
-BuildCmds= \
-	$(QTDIR)\bin\uic ComLoggingDlg.ui -o ComLoggingDlg.h \
-	$(QTDIR)\bin\uic ComLoggingDlg.ui -i ComLoggingDlg.h -o ComLoggingDlg.cpp \
-	%QTDIR%\bin\moc ComLoggingDlg.h -o moc\moc_ComLoggingDlg.cpp \
-	
-
-"ComLoggingDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"ComLoggingDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"moc\moc_ComLoggingDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Uic'ing ComLoggingDlg.ui...
-InputPath=.\ComLoggingDlg.ui
-
-BuildCmds= \
-	$(QTDIR)\bin\uic ComLoggingDlg.ui -o ComLoggingDlg.h \
-	$(QTDIR)\bin\uic ComLoggingDlg.ui -i ComLoggingDlg.h -o ComLoggingDlg.cpp \
-	%QTDIR%\bin\moc ComLoggingDlg.h -o moc\moc_ComLoggingDlg.cpp \
-	
-
-"ComLoggingDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"ComLoggingDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"moc\moc_ComLoggingDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\CommentDlg.ui
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Uic'ing CommentDlg.ui...
-InputPath=.\CommentDlg.ui
-
-BuildCmds= \
-	$(QTDIR)\bin\uic CommentDlg.ui -o CommentDlg.h \
-	$(QTDIR)\bin\uic CommentDlg.ui -i CommentDlg.h -o CommentDlg.cpp \
-	%QTDIR%\bin\moc CommentDlg.h -o moc\moc_CommentDlg.cpp \
-	
-
-"CommentDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"CommentDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"moc\moc_CommentDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Uic'ing CommentDlg.ui...
-InputPath=.\CommentDlg.ui
-
-BuildCmds= \
-	$(QTDIR)\bin\uic CommentDlg.ui -o CommentDlg.h \
-	$(QTDIR)\bin\uic CommentDlg.ui -i CommentDlg.h -o CommentDlg.cpp \
-	%QTDIR%\bin\moc CommentDlg.h -o moc\moc_CommentDlg.cpp \
-	
-
-"CommentDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"CommentDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"moc\moc_CommentDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\ConfigPlayerDlg.ui
+SOURCE=.\src\ComLoggingDlg.ui
 
 !IF  "$(CFG)" == "mindia - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing ConfigPlayerDlg.ui ...
-InputPath=.\ConfigPlayerDlg.ui
+# Begin Custom Build - UICing ComLoggingDlg.ui...
+InputDir=.\src
+InputPath=.\src\ComLoggingDlg.ui
+InputName=ComLoggingDlg
 
 BuildCmds= \
-	$(QTDIR)\bin\uic ConfigPlayerDlg.ui -o ConfigPlayerDlg.h \
-	$(QTDIR)\bin\uic ConfigPlayerDlg.ui -i ConfigPlayerDlg.h -o ConfigPlayerDlg.cpp \
-	%QTDIR%\bin\moc ConfigPlayerDlg.h -o moc\moc_ConfigPlayerDlg.cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
-"ConfigPlayerDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"ConfigPlayerDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"moc\moc_ConfigPlayerDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing ConfigPlayerDlg.ui ...
-InputPath=.\ConfigPlayerDlg.ui
+# Begin Custom Build - UICing ComLoggingDlg.ui...
+InputDir=.\src
+InputPath=.\src\ComLoggingDlg.ui
+InputName=ComLoggingDlg
 
 BuildCmds= \
-	$(QTDIR)\bin\uic ConfigPlayerDlg.ui -o ConfigPlayerDlg.h \
-	$(QTDIR)\bin\uic ConfigPlayerDlg.ui -i ConfigPlayerDlg.h -o ConfigPlayerDlg.cpp \
-	%QTDIR%\bin\moc ConfigPlayerDlg.h -o moc\moc_ConfigPlayerDlg.cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
-"ConfigPlayerDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"ConfigPlayerDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"moc\moc_ConfigPlayerDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -1263,118 +1323,240 @@ BuildCmds= \
 # End Source File
 # Begin Source File
 
-SOURCE=.\ConfigurationDlg.ui
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Uic'ing ConfigurationDlg.ui...
-InputPath=.\ConfigurationDlg.ui
-
-BuildCmds= \
-	$(QTDIR)\bin\uic ConfigurationDlg.ui -o ConfigurationDlg.h \
-	$(QTDIR)\bin\uic ConfigurationDlg.ui -i ConfigurationDlg.h -o ConfigurationDlg.cpp \
-	%QTDIR%\bin\moc ConfigurationDlg.h -o moc\moc_ConfigurationDlg.cpp \
-	
-
-"ConfigurationDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"ConfigurationDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"moc\moc_ConfigurationDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Uic'ing ConfigurationDlg.ui...
-InputPath=.\ConfigurationDlg.ui
-
-BuildCmds= \
-	$(QTDIR)\bin\uic ConfigurationDlg.ui -o ConfigurationDlg.h \
-	$(QTDIR)\bin\uic ConfigurationDlg.ui -i ConfigurationDlg.h -o ConfigurationDlg.cpp \
-	%QTDIR%\bin\moc ConfigurationDlg.h -o moc\moc_ConfigurationDlg.cpp \
-	
-
-"ConfigurationDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"ConfigurationDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"moc\moc_ConfigurationDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\DiaInfoDlg.ui
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Uic'ing DiaInfoDlg.ui...
-InputPath=.\DiaInfoDlg.ui
-
-BuildCmds= \
-	$(QTDIR)\bin\uic DiaInfoDlg.ui -o DiaInfoDlg.h \
-	$(QTDIR)\bin\uic DiaInfoDlg.ui -i DiaInfoDlg.h -o DiaInfoDlg.cpp \
-	%QTDIR%\bin\moc DiaInfoDlg.h -o moc\moc_DiaInfoDlg.cpp \
-	
-
-"DiaInfoDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"DiaInfoDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"moc\moc_DiaInfoDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Uic'ing DiaInfoDlg.ui...
-InputPath=.\DiaInfoDlg.ui
-
-BuildCmds= \
-	$(QTDIR)\bin\uic DiaInfoDlg.ui -o DiaInfoDlg.h \
-	$(QTDIR)\bin\uic DiaInfoDlg.ui -i DiaInfoDlg.h -o DiaInfoDlg.cpp \
-	%QTDIR%\bin\moc DiaInfoDlg.h -o moc\moc_DiaInfoDlg.cpp \
-	
-
-"DiaInfoDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"DiaInfoDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"moc\moc_DiaInfoDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\DynTextDlg.ui
+SOURCE=.\src\CommentDlg.ui
 
 !IF  "$(CFG)" == "mindia - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
-InputDir=.
-InputPath=.\DynTextDlg.ui
+# Begin Custom Build - UICing CommentDlg.ui...
+InputDir=.\src
+InputPath=.\src\CommentDlg.ui
+InputName=CommentDlg
+
+BuildCmds= \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing CommentDlg.ui...
+InputDir=.\src
+InputPath=.\src\CommentDlg.ui
+InputName=CommentDlg
+
+BuildCmds= \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\ConfigPlayerDlg.ui
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing ConfigPlayerDlg.ui...
+InputDir=.\src
+InputPath=.\src\ConfigPlayerDlg.ui
+InputName=ConfigPlayerDlg
+
+BuildCmds= \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing ConfigPlayerDlg.ui...
+InputDir=.\src
+InputPath=.\src\ConfigPlayerDlg.ui
+InputName=ConfigPlayerDlg
+
+BuildCmds= \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\ConfigurationDlg.ui
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing ConfigurationDlg.ui...
+InputDir=.\src
+InputPath=.\src\ConfigurationDlg.ui
+InputName=ConfigurationDlg
+
+BuildCmds= \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing ConfigurationDlg.ui...
+InputDir=.\src
+InputPath=.\src\ConfigurationDlg.ui
+InputName=ConfigurationDlg
+
+BuildCmds= \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\DiaInfoDlg.ui
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing DiaInfoDlg.ui...
+InputDir=.\src
+InputPath=.\src\DiaInfoDlg.ui
+InputName=DiaInfoDlg
+
+BuildCmds= \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing DiaInfoDlg.ui...
+InputDir=.\src
+InputPath=.\src\DiaInfoDlg.ui
+InputName=DiaInfoDlg
+
+BuildCmds= \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\DynTextDlg.ui
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing DynTextDlg.ui...
+InputDir=.\src
+InputPath=.\src\DynTextDlg.ui
 InputName=DynTextDlg
 
 BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc\moc_$(InputName).cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -1383,22 +1565,22 @@ BuildCmds= \
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"$(InputDir)\moc\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
-InputDir=.
-InputPath=.\DynTextDlg.ui
+# Begin Custom Build - UICing DynTextDlg.ui...
+InputDir=.\src
+InputPath=.\src\DynTextDlg.ui
 InputName=DynTextDlg
 
 BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc\moc_$(InputName).cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -1407,7 +1589,7 @@ BuildCmds= \
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"$(InputDir)\moc\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -1416,167 +1598,20 @@ BuildCmds= \
 # End Source File
 # Begin Source File
 
-SOURCE=.\EnterValueDlg.ui
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Uic'ing EnterValueDlg.ui...
-InputPath=.\EnterValueDlg.ui
-
-BuildCmds= \
-	$(QTDIR)\bin\uic EnterValueDlg.ui -o EnterValueDlg.h \
-	$(QTDIR)\bin\uic EnterValueDlg.ui -i EnterValueDlg.h -o EnterValueDlg.cpp \
-	%QTDIR%\bin\moc EnterValueDlg.h -o moc\moc_EnterValueDlg.cpp \
-	
-
-"EnterValueDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"EnterValueDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"moc\moc_EnterValueDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Uic'ing EnterValueDlg.ui...
-InputPath=.\EnterValueDlg.ui
-
-BuildCmds= \
-	$(QTDIR)\bin\uic EnterValueDlg.ui -o EnterValueDlg.h \
-	$(QTDIR)\bin\uic EnterValueDlg.ui -i EnterValueDlg.h -o EnterValueDlg.cpp \
-	%QTDIR%\bin\moc EnterValueDlg.h -o moc\moc_EnterValueDlg.cpp \
-	
-
-"EnterValueDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"EnterValueDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"moc\moc_EnterValueDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\EventMapDlg.ui
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Uic'ing EventMapDlg.ui...
-InputPath=.\EventMapDlg.ui
-
-BuildCmds= \
-	$(QTDIR)\bin\uic EventMapDlg.ui -o EventMapDlg.h \
-	$(QTDIR)\bin\uic EventMapDlg.ui -i EventMapDlg.h -o EventMapDlg.cpp \
-	%QTDIR%\bin\moc EventMapDlg.h -o moc\moc_EventMapDlg.cpp \
-	
-
-"EventMapDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"EventMapDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"moc\moc_EventMapDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Uic'ing EventMapDlg.ui...
-InputPath=.\EventMapDlg.ui
-
-BuildCmds= \
-	$(QTDIR)\bin\uic EventMapDlg.ui -o EventMapDlg.h \
-	$(QTDIR)\bin\uic EventMapDlg.ui -i EventMapDlg.h -o EventMapDlg.cpp \
-	%QTDIR%\bin\moc EventMapDlg.h -o moc\moc_EventMapDlg.cpp \
-	
-
-"EventMapDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"EventMapDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"moc\moc_EventMapDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\HelpDlg.ui
-
-!IF  "$(CFG)" == "mindia - Win32 Release"
-
-# Begin Custom Build - Uic'ing HelpDlg.ui...
-InputPath=.\HelpDlg.ui
-
-BuildCmds= \
-	$(QTDIR)\bin\uic HelpDlg.ui -o HelpDlg.h \
-	$(QTDIR)\bin\uic HelpDlg.ui -i HelpDlg.h -o HelpDlg.cpp \
-	%QTDIR%\bin\moc HelpDlg.h -o moc\moc_HelpDlg.cpp \
-	
-
-"HelpDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"HelpDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"moc\moc_HelpDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
-
-# Begin Custom Build - Uic'ing HelpDlg.ui...
-InputPath=.\HelpDlg.ui
-
-BuildCmds= \
-	$(QTDIR)\bin\uic HelpDlg.ui -o HelpDlg.h \
-	$(QTDIR)\bin\uic HelpDlg.ui -i HelpDlg.h -o HelpDlg.cpp \
-	%QTDIR%\bin\moc HelpDlg.h -o moc\moc_HelpDlg.cpp \
-	
-
-"HelpDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"HelpDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-
-"moc\moc_HelpDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-   $(BuildCmds)
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\LicenseDlg.ui
+SOURCE=.\src\EnterValueDlg.ui
 
 !IF  "$(CFG)" == "mindia - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
-InputDir=.
-InputPath=.\LicenseDlg.ui
-InputName=LicenseDlg
+# Begin Custom Build - UICing EnterValueDlg.ui...
+InputDir=.\src
+InputPath=.\src\EnterValueDlg.ui
+InputName=EnterValueDlg
 
 BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o moc\moc_$(InputName).cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -1585,22 +1620,22 @@ BuildCmds= \
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"moc\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-# Begin Custom Build - Uic'ing $(InputName).ui ...
-InputDir=.
-InputPath=.\LicenseDlg.ui
-InputName=LicenseDlg
+# Begin Custom Build - UICing EnterValueDlg.ui...
+InputDir=.\src
+InputPath=.\src\EnterValueDlg.ui
+InputName=EnterValueDlg
 
 BuildCmds= \
-	%qtdir%\bin\uic.exe $(InputPath) -o $(InputDir)\$(InputName).h \
-	%qtdir%\bin\uic.exe $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
-	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o moc\moc_$(InputName).cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
 "$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -1609,7 +1644,7 @@ BuildCmds= \
 "$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"moc\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -1618,47 +1653,53 @@ BuildCmds= \
 # End Source File
 # Begin Source File
 
-SOURCE=.\PlayInfoDlg.ui
+SOURCE=.\src\EventMapDlg.ui
 
 !IF  "$(CFG)" == "mindia - Win32 Release"
 
-# Begin Custom Build - Uic'ing PlayInfoDlg.ui...
-InputPath=.\PlayInfoDlg.ui
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing EventMapDlg.ui...
+InputDir=.\src
+InputPath=.\src\EventMapDlg.ui
+InputName=EventMapDlg
 
 BuildCmds= \
-	$(QTDIR)\bin\uic PlayInfoDlg.ui -o PlayInfoDlg.h \
-	$(QTDIR)\bin\uic PlayInfoDlg.ui -i PlayInfoDlg.h -o PlayInfoDlg.cpp \
-	%QTDIR%\bin\moc PlayInfoDlg.h -o moc\moc_PlayInfoDlg.cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
-"PlayInfoDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"PlayInfoDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"moc\moc_PlayInfoDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
 
-# Begin Custom Build - Uic'ing PlayInfoDlg.ui...
-InputPath=.\PlayInfoDlg.ui
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing EventMapDlg.ui...
+InputDir=.\src
+InputPath=.\src\EventMapDlg.ui
+InputName=EventMapDlg
 
 BuildCmds= \
-	$(QTDIR)\bin\uic PlayInfoDlg.ui -o PlayInfoDlg.h \
-	$(QTDIR)\bin\uic PlayInfoDlg.ui -i PlayInfoDlg.h -o PlayInfoDlg.cpp \
-	%QTDIR%\bin\moc PlayInfoDlg.h -o moc\moc_PlayInfoDlg.cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
-"PlayInfoDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"PlayInfoDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"moc\moc_PlayInfoDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -1667,47 +1708,53 @@ BuildCmds= \
 # End Source File
 # Begin Source File
 
-SOURCE=.\PresentationDataDlg.ui
+SOURCE=.\src\HelpDlg.ui
 
 !IF  "$(CFG)" == "mindia - Win32 Release"
 
-# Begin Custom Build - Uic'ing PresentationDataDlg.ui...
-InputPath=.\PresentationDataDlg.ui
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing HelpDlg.ui...
+InputDir=.\src
+InputPath=.\src\HelpDlg.ui
+InputName=HelpDlg
 
 BuildCmds= \
-	$(QTDIR)\bin\uic PresentationDataDlg.ui -o PresentationDataDlg.h \
-	$(QTDIR)\bin\uic PresentationDataDlg.ui -i PresentationDataDlg.h -o PresentationDataDlg.cpp \
-	%QTDIR%\bin\moc PresentationDataDlg.h -o moc\moc_PresentationDataDlg.cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
-"PresentationDataDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"PresentationDataDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"moc\moc_PresentationDataDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
 
-# Begin Custom Build - Uic'ing PresentationDataDlg.ui...
-InputPath=.\PresentationDataDlg.ui
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing HelpDlg.ui...
+InputDir=.\src
+InputPath=.\src\HelpDlg.ui
+InputName=HelpDlg
 
 BuildCmds= \
-	$(QTDIR)\bin\uic PresentationDataDlg.ui -o PresentationDataDlg.h \
-	$(QTDIR)\bin\uic PresentationDataDlg.ui -i PresentationDataDlg.h -o PresentationDataDlg.cpp \
-	%QTDIR%\bin\moc PresentationDataDlg.h -o moc\moc_PresentationDataDlg.cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
-"PresentationDataDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"PresentationDataDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"moc\moc_PresentationDataDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -1716,47 +1763,53 @@ BuildCmds= \
 # End Source File
 # Begin Source File
 
-SOURCE=.\ProjectorControlDlg.ui
+SOURCE=.\src\LicenseDlg.ui
 
 !IF  "$(CFG)" == "mindia - Win32 Release"
 
-# Begin Custom Build - Uic'ing ProjectorControlDlg.ui...
-InputPath=.\ProjectorControlDlg.ui
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing LicenseDlg.ui...
+InputDir=.\src
+InputPath=.\src\LicenseDlg.ui
+InputName=LicenseDlg
 
 BuildCmds= \
-	$(QTDIR)\bin\uic ProjectorControlDlg.ui -o ProjectorControlDlg.h \
-	$(QTDIR)\bin\uic ProjectorControlDlg.ui -i ProjectorControlDlg.h -o ProjectorControlDlg.cpp \
-	%QTDIR%\bin\moc ProjectorControlDlg.h -o moc\moc_ProjectorControlDlg.cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
-"ProjectorControlDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"ProjectorControlDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"moc\moc_ProjectorControlDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
 
-# Begin Custom Build - Uic'ing ProjectorControlDlg.ui...
-InputPath=.\ProjectorControlDlg.ui
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing LicenseDlg.ui...
+InputDir=.\src
+InputPath=.\src\LicenseDlg.ui
+InputName=LicenseDlg
 
 BuildCmds= \
-	$(QTDIR)\bin\uic ProjectorControlDlg.ui -o ProjectorControlDlg.h \
-	$(QTDIR)\bin\uic ProjectorControlDlg.ui -i ProjectorControlDlg.h -o ProjectorControlDlg.cpp \
-	%QTDIR%\bin\moc ProjectorControlDlg.h -o moc\moc_ProjectorControlDlg.cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
-"ProjectorControlDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"ProjectorControlDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"moc\moc_ProjectorControlDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
@@ -1765,47 +1818,218 @@ BuildCmds= \
 # End Source File
 # Begin Source File
 
-SOURCE=.\SoundInfoDlg.ui
+SOURCE=.\src\PlayInfoDlg.ui
 
 !IF  "$(CFG)" == "mindia - Win32 Release"
 
-# Begin Custom Build - Uic'ing SoundInfoDlg.ui...
-InputPath=.\SoundInfoDlg.ui
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing PlayInfoDlg.ui...
+InputDir=.\src
+InputPath=.\src\PlayInfoDlg.ui
+InputName=PlayInfoDlg
 
 BuildCmds= \
-	$(QTDIR)\bin\uic SoundInfoDlg.ui -o SoundInfoDlg.h \
-	$(QTDIR)\bin\uic SoundInfoDlg.ui -i SoundInfoDlg.h -o SoundInfoDlg.cpp \
-	%QTDIR%\bin\moc SoundInfoDlg.h -o moc\moc_SoundInfoDlg.cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
-"SoundInfoDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"SoundInfoDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"moc\moc_SoundInfoDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
 
-# Begin Custom Build - Uic'ing SoundInfoDlg.ui...
-InputPath=.\SoundInfoDlg.ui
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing PlayInfoDlg.ui...
+InputDir=.\src
+InputPath=.\src\PlayInfoDlg.ui
+InputName=PlayInfoDlg
 
 BuildCmds= \
-	$(QTDIR)\bin\uic SoundInfoDlg.ui -o SoundInfoDlg.h \
-	$(QTDIR)\bin\uic SoundInfoDlg.ui -i SoundInfoDlg.h -o SoundInfoDlg.cpp \
-	%QTDIR%\bin\moc SoundInfoDlg.h -o moc\moc_SoundInfoDlg.cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
-"SoundInfoDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"SoundInfoDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"moc\moc_SoundInfoDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\PresentationDataDlg.ui
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing PresentationDataDlg.ui...
+InputDir=.\src
+InputPath=.\src\PresentationDataDlg.ui
+InputName=PresentationDataDlg
+
+BuildCmds= \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing PresentationDataDlg.ui...
+InputDir=.\src
+InputPath=.\src\PresentationDataDlg.ui
+InputName=PresentationDataDlg
+
+BuildCmds= \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\ProjectorControlDlg.ui
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing ProjectorControlDlg.ui...
+InputDir=.\src
+InputPath=.\src\ProjectorControlDlg.ui
+InputName=ProjectorControlDlg
+
+BuildCmds= \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing ProjectorControlDlg.ui...
+InputDir=.\src
+InputPath=.\src\ProjectorControlDlg.ui
+InputName=ProjectorControlDlg
+
+BuildCmds= \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\SoundInfoDlg.ui
+
+!IF  "$(CFG)" == "mindia - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing SoundInfoDlg.ui...
+InputDir=.\src
+InputPath=.\src\SoundInfoDlg.ui
+InputName=SoundInfoDlg
+
+BuildCmds= \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "mindia - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing SoundInfoDlg.ui...
+InputDir=.\src
+InputPath=.\src\SoundInfoDlg.ui
+InputName=SoundInfoDlg
+
+BuildCmds= \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
+	
+
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+   $(BuildCmds)
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 

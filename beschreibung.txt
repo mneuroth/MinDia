@@ -1,0 +1,5 @@
+MinDia ist ein Programm zum Erstellen von Multimedia Dia-Shows. 
+Die Dia-Shows können Bilder, Musik und Text-Elemente enthalten. 
+Die Dia-Show kann auf dem Bildschirm angezeigt werden und zusätzlich 
+können Rollei Diaprojektoren über die serielle Schnittstelle angesteuert 
+werden (Rolleivision 35 twin digital P und Rolleivision twin msc 3x0 P).

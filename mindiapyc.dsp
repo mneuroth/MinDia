@@ -44,7 +44,7 @@ RSC=rc.exe
 # PROP Target_Dir ""
 F90=df.exe
 # ADD BASE CPP /nologo /MD /W3 /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O1 /I "$(PYTHONDIR)\include" /I "$(PYTHONDIR)\pc" /I "$(QTDIR)\include" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "QT_DLL" /D "NO_DEBUG" /D "QT_THREAD_SUPPORT" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O1 /I "$(PYTHONDIR)\include" /I "$(PYTHONDIR)\pc" /I "$(QTDIR)\include" /I ".\minsrv" /I ".\src" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "QT_DLL" /D "NO_DEBUG" /D "QT_THREAD_SUPPORT" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -54,7 +54,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib /nologo /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib /nologo /dll /machine:I386
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib wsock32.lib winmm.lib $(QTDIR)\lib\$(QTLIB) /nologo /dll /machine:I386
 
 !ELSEIF  "$(CFG)" == "mindiapyc - Win32 Debug"
 
@@ -71,7 +71,7 @@ LINK32=link.exe
 # PROP Target_Dir ""
 F90=df.exe
 # ADD BASE CPP /nologo /MD /W3 /Gm /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /FD /GZ /c
-# ADD CPP /nologo /MD /W3 /Gm /GX /ZI /Od /I "$(PYTHONDIR)\include" /I "$(PYTHONDIR)\pc" /I "$(QTDIR)\include" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "QT_DLL" /D "QT_THREAD_SUPPORT" /FD /GZ /c
+# ADD CPP /nologo /MD /W3 /Gm /GX /ZI /Od /I "$(PYTHONDIR)\include" /I "$(PYTHONDIR)\pc" /I "$(QTDIR)\include" /I ".\minsrv" /I ".\src" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "QT_DLL" /D "QT_THREAD_SUPPORT" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -81,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib wsock32.lib winmm.lib $(QTDIR)\lib\qt-mt230nc.lib /nologo /dll /debug /machine:I386 /out:"Debug/mindiapyc_d.dll" /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib wsock32.lib winmm.lib $(QTDIR)\lib\$(QTLIB) /nologo /dll /debug /machine:I386 /out:"Debug/mindiapyc_d.dll" /pdbtype:sept
 
 !ENDIF 
 
@@ -94,39 +94,39 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=.\mindia_wrap.cpp
+SOURCE=.\mindiapyc\_minutils.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\mindiapy.cpp
+SOURCE=.\mindiapyc\mindia_wrap.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\minutils.cpp
+SOURCE=.\mindiapyc\mindiapy.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_ScriptDlg.cpp
+SOURCE=.\mindiapyc\moc_ScriptDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_scriptdlgimpl.cpp
+SOURCE=.\mindiapyc\moc_scriptdlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\moc\moc_scriptfcn.cpp
+SOURCE=.\mindiapyc\moc_scriptfcn.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\ScriptDlg.cpp
+SOURCE=.\mindiapyc\ScriptDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\scriptdlgimpl.cpp
+SOURCE=.\mindiapyc\scriptdlgimpl.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\scriptfcn.cpp
+SOURCE=.\mindiapyc\scriptfcn.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -134,29 +134,35 @@ SOURCE=.\scriptfcn.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=.\ScriptDlg.h
+SOURCE=.\mindiapyc\ScriptDlg.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\scriptdlgimpl.h
+SOURCE=.\mindiapyc\scriptdlgimpl.h
 
 !IF  "$(CFG)" == "mindiapyc - Win32 Release"
 
-# Begin Custom Build - Moc'ing scriptdlgimpl.h...
-InputPath=.\scriptdlgimpl.h
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing scriptdlgimpl.h...
+InputDir=.\mindiapyc
+InputPath=.\mindiapyc\scriptdlgimpl.h
+InputName=scriptdlgimpl
 
-"moc\moc_scriptdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe scriptdlgimpl.h -o moc\moc_scriptdlgimpl.cpp
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "mindiapyc - Win32 Debug"
 
-# Begin Custom Build - Moc'ing scriptdlgimpl.h...
-InputPath=.\scriptdlgimpl.h
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing scriptdlgimpl.h...
+InputDir=.\mindiapyc
+InputPath=.\mindiapyc\scriptdlgimpl.h
+InputName=scriptdlgimpl
 
-"moc\moc_scriptdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe scriptdlgimpl.h -o moc\moc_scriptdlgimpl.cpp
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
 
 # End Custom Build
 
@@ -165,25 +171,31 @@ InputPath=.\scriptdlgimpl.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\scriptfcn.h
+SOURCE=.\mindiapyc\scriptfcn.h
 
 !IF  "$(CFG)" == "mindiapyc - Win32 Release"
 
-# Begin Custom Build - Moc'ing scriptfcn.h...
-InputPath=.\scriptfcn.h
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing scriptfcn.h...
+InputDir=.\mindiapyc
+InputPath=.\mindiapyc\scriptfcn.h
+InputName=scriptfcn
 
-"moc\moc_scriptfcn.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe scriptfcn.h -o moc\moc_scriptfcn.cpp
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "mindiapyc - Win32 Debug"
 
-# Begin Custom Build - Moc'ing scriptfcn.h...
-InputPath=.\scriptfcn.h
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - MOCing scriptfcn.h...
+InputDir=.\mindiapyc
+InputPath=.\mindiapyc\scriptfcn.h
+InputName=scriptfcn
 
-"moc\moc_scriptfcn.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	%QTDIR%\bin\moc.exe scriptfcn.h -o moc\moc_scriptfcn.cpp
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	"%qtdir%\bin\moc.exe" "$(InputDir)\$(InputName).h" -o "$(InputDir)\moc_$(InputName).cpp"
 
 # End Custom Build
 
@@ -198,55 +210,61 @@ InputPath=.\scriptfcn.h
 # Begin Group "Interfaces"
 
 # PROP Default_Filter ""
+# End Group
 # Begin Source File
 
-SOURCE=.\ScriptDlg.ui
+SOURCE=.\mindiapyc\ScriptDlg.ui
 
 !IF  "$(CFG)" == "mindiapyc - Win32 Release"
 
-# Begin Custom Build - Uic'ing ScriptDlg.ui...
-InputPath=.\ScriptDlg.ui
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing ScriptDlg.ui...
+InputDir=.\mindiapyc
+InputPath=.\mindiapyc\ScriptDlg.ui
+InputName=ScriptDlg
 
 BuildCmds= \
-	$(QTDIR)\bin\uic ScriptDlg.ui -o ScriptDlg.h \
-	$(QTDIR)\bin\uic ScriptDlg.ui -i ScriptDlg.h -o ScriptDlg.cpp \
-	%QTDIR%\bin\moc ScriptDlg.h -o moc\moc_ScriptDlg.cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
-"ScriptDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"ScriptDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"moc\moc_ScriptDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "mindiapyc - Win32 Debug"
 
-# Begin Custom Build - Uic'ing ScriptDlg.ui...
-InputPath=.\ScriptDlg.ui
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - UICing ScriptDlg.ui...
+InputDir=.\mindiapyc
+InputPath=.\mindiapyc\ScriptDlg.ui
+InputName=ScriptDlg
 
 BuildCmds= \
-	$(QTDIR)\bin\uic ScriptDlg.ui -o ScriptDlg.h \
-	$(QTDIR)\bin\uic ScriptDlg.ui -i ScriptDlg.h -o ScriptDlg.cpp \
-	%QTDIR%\bin\moc ScriptDlg.h -o moc\moc_ScriptDlg.cpp \
+	"%qtdir%\bin\uic.exe" $(InputPath) -o $(InputDir)\$(InputName).h \
+	"%qtdir%\bin\uic.exe" $(InputPath) -i $(InputName).h -o $(InputDir)\$(InputName).cpp \
+	"%qtdir%\bin\moc.exe" $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp \
 	
 
-"ScriptDlg.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"ScriptDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 
-"moc\moc_ScriptDlg.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
    $(BuildCmds)
 # End Custom Build
 
 !ENDIF 
 
 # End Source File
-# End Group
 # End Target
 # End Project
