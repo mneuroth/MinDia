@@ -48,12 +48,14 @@ BIN_ZIP		= mindia_bin.zip
 PYTHON_INC	= $(python_incdir)
 PYTHON_LIB	= "$(LIBPYTHON) $(PYTHONLIB)"
 
-SOURCE_DIR	= .
-RELEASE_DIR	= 			# not needed !
-BINDIST_DIR	= .\bindist
-QT_DIR		= 			# not needed !
-PYTHON_DIR	= 			# not needed !
-SYSTEM_DIR	= 			# not needed !
+SOURCE_DIR		= .
+SRC_SCRIPT_DIR	= $(SOURCE_DIR)/scripts
+RELEASE_DIR		= 			# not needed !
+BINDIST_DIR		= ./bindist
+SCRIPT_DIR		= $(BINDIST_DIR)/scripts
+QT_DIR			= 			# not needed !
+PYTHON_DIR		= 			# not needed !
+SYSTEM_DIR		= 			# not needed !
 
 #INSTALL_EXE_DIR		= /usr/local/bin
 #INSTALL_DLL_DIR		= /usr/local/lib

@@ -75,12 +75,13 @@ make_doku:
 #
 make_bindist_help:
 	-$(MKDIR) $(BINDIST_DIR)
+	-$(MKDIR) $(SCRIPT_DIR)
 	$(COPY) $(RELEASE_DIR)\mindia.exe $(BINDIST_DIR)
 	$(COPY) $(RELEASE_DIR)\minsrv.dll $(BINDIST_DIR)
 	$(COPY) $(RELEASE_DIR)\mindiapyc.dll $(BINDIST_DIR)
 	$(COPY) $(SOURCE_DIR)\*.qm $(BINDIST_DIR)
 	$(COPY) $(SOURCE_DIR)\*.html $(BINDIST_DIR)
-	-$(COPY) $(SOURCE_DIR)\*.py $(BINDIST_DIR)
+	-$(COPY) $(SRC_SCRIPT_DIR)\*.py $(SCRIPT_DIR)
 	$(COPY) $(SOURCE_DIR)\README $(BINDIST_DIR)
 	$(COPY) $(SOURCE_DIR)\INSTALL $(BINDIST_DIR)
 	$(COPY) $(SOURCE_DIR)\HISTORY $(BINDIST_DIR)
@@ -95,7 +96,7 @@ make_bindist_help:
 
 make_bindist:	make_bindist_help
 	$(CDDIR) $(BINDIST_DIR)
-	$(ZIP) -u $(BIN_ZIP) * -x *.ini *.pyc
+	$(ZIP) -u -r $(BIN_ZIP) * -x *.ini *.pyc
 
 #
 # TODO: hier ggf. in ein lib-Verzeichnis auf CD kopieren ?
@@ -160,9 +161,10 @@ minsrv_install:		minsrv_dll
 mindia_install:		mindia_exe
 	$(COPY) mindia $(INSTALL_EXE_DIR)
 	-$(MKDIR) $(INSTALL_SHARE_DIR)
+	-$(MKDIR) $(INSTALL_SHARE_DIR)/scripts
 	$(COPY) *.qm $(INSTALL_SHARE_DIR)
 	$(COPY) *.html $(INSTALL_SHARE_DIR)
-	$(COPY) *.py $(INSTALL_SHARE_DIR)
+	$(COPY) scripts/*.py $(INSTALL_SHARE_DIR)/scripts
 
 mindiapyc_install:
 	$(COPY) libmindiapyc.so.1.0.0 $(INSTALL_DLL_DIR)

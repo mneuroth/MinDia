@@ -21,14 +21,16 @@ BIN_ZIP		= mindia_bin.zip
 #PYTHON_INC 	= d:/Programme/Python20/include
 #PYTHON_LIB 	= d:/Programme/Python20/libs/python20.lib
 
-SOURCE_DIR	= .
-RELEASE_DIR	= .\Release
-BINDIST_DIR	= .\bindist
-QT_DIR		= d:\programme\qt
-#PYTHON_DIR	= d:\programme\Python20
-#PYTHON_DIR	= e:\home\Entwicklung\projects\OPEN\Python-2.2\pcbuild
-PYTHON_DIR	= e:\home\Entwicklung\projects\OPEN\Python-2.2.2\pcbuild
-SYSTEM_DIR	= d:\windows\system32
+SOURCE_DIR		= .
+SRC_SCRIPT_DIR	= $(SOURCE_DIR)\scripts
+RELEASE_DIR		= .\Release
+BINDIST_DIR		= .\bindist
+SCRIPT_DIR		= $(BINDIST_DIR)\scripts
+QT_DIR			= d:\programme\qt
+#PYTHON_DIR		= d:\programme\Python20
+#PYTHON_DIR		= e:\home\Entwicklung\projects\OPEN\Python-2.2\pcbuild
+PYTHON_DIR		= e:\home\Entwicklung\projects\OPEN\Python-2.2.2\pcbuild
+SYSTEM_DIR		= d:\windows\system32
 
 # here comes the autoconf section...
 
