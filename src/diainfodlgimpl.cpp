@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diainfodlgimpl.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -26,6 +29,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "appconfig.h"
 #include "diainfodlgimpl.h"
 #include "hitem.h"
 #include "diainfo.h"
@@ -43,7 +47,6 @@
 #include <qvalidator.h>
 #include <qmessagebox.h>
 #include <qfiledialog.h>
-
 
 DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, const char* name, bool modal, WFlags fl )
 : DiaInfoDlg( parent, name, modal, fl )
@@ -325,7 +328,7 @@ void DiaInfoDlgImpl::sltModifyScript()
 void DiaInfoDlgImpl::sltSelectFileName()
 {
 #ifndef ZAURUS
-	QString sFileName = QFileDialog::getOpenFileName( QString::null, /*QString::null*/"*.bmp", this );
+	QString sFileName = QFileDialog::getOpenFileName( /*QString::null*/GetImagePath().c_str(), /*QString::null*/"*.bmp", this );
 
 	if( !sFileName.isEmpty() )
 	{
