@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/configdlgimpl.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -135,7 +138,7 @@ void ConfigurationDlgImpl::TransferDataToControl()
 {
 	// ** fill the combo-boxes with all possible values **
 
-#ifdef _MSC_VER
+#if defined( _MSC_VER ) || defined( __BORLANDC__ )
 	m_pComPortList->insertItem( "COM1" );
 	m_pComPortList->insertItem( "COM2" );
 	m_pComPortList->insertItem( "COM3" );

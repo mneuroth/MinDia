@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/minisound.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2004/01/18 23:38:18  min
+ *	Disabling debug outputs.
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -43,7 +46,7 @@
 
 #include <qfile.h>
 
-#ifdef _MSC_VER
+#if defined( _MSC_VER ) || defined( __BORLANDC__ )
 #include <windows.h>
 #include <mmsystem.h>
 

@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/main.cpp,v $
  *
- *  $Revision: 1.6 $
+ *  $Revision: 1.7 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.6  2004/01/29 21:26:45  min
+ *	Bugfix: accept -en as argument
+ *	
  *	Revision 1.5  2004/01/18 23:42:05  min
  *	Windows only: get path .mindia.ini from registry.
  *	
@@ -42,7 +45,6 @@
  ***************************************************************************/
 
 #include <qapplication.h>
-//#include <qimage.h>
 
 #include "mindiawindow.h"
 #include "doccontroler.h"
@@ -64,6 +66,10 @@
 #define _MINDIAPYC_DLL_NAME		"mindiapyc.dll"
 #endif
 #define _GENDEV_DLL_NAME		"gendev.dll"
+#endif
+
+#ifdef __BORLANDC__
+#define main qMain
 #endif
 
 #define _SCRIPTS_DIR	"scripts"
@@ -100,7 +106,7 @@ string GetMinDiaSharedDirectory()
 	}
 #endif
 
-#ifdef _MSC_VER
+#if defined( _MSC_VER ) || defined( __BORLANDC__ )
 	sRet = ".";
 	// HKEY_CURRENT_USER.Software.mindia.inifile
 	HKEY hKey;

@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mp3file.h,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/10/26 17:28:55  min
+ *	Implemented function to calculate mp3-file length for linux.
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -32,7 +35,7 @@
 #ifndef _MP3FILE_H
 #define _MP3FILE_H
 
-#ifndef _MSC_VER
+#if !defined( _MSC_VER ) && !defined( __BORLANDC__ )
 
 #include <string>
 

@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/minutils.cpp,v $
  *
- *  $Revision: 1.5 $
+ *  $Revision: 1.6 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.5  2004/01/28 19:11:11  min
+ *	Bugfix for linux: robuster directory scan
+ *	
  *	Revision 1.4  2003/10/26 22:40:18  min
  *	Bugfixes for linux port
  *	
@@ -50,6 +53,10 @@
 
 #ifdef _WIN32
 #include <io.h>
+#endif
+
+#ifdef __BORLANDC__
+#include <dos.h>
 #endif
 
 #ifndef __linux__
@@ -948,32 +955,36 @@ bool DirectoryItem::IsDirectory() const
 {
 #ifdef _WIN32
 	return (m_aFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == FILE_ATTRIBUTE_DIRECTORY;
-#endif
+#else
 	return false;
+#endif
 }
 
 bool DirectoryItem::IsHidden() const
 {
 #ifdef _WIN32
 	return (m_aFileAttributes & FILE_ATTRIBUTE_HIDDEN) == FILE_ATTRIBUTE_HIDDEN;
-#endif
+#else
 	return false;
+#endif
 }
 
 bool DirectoryItem::IsReadOnly() const
 {
 #ifdef _WIN32
 	return m_aFileAttributes & FILE_ATTRIBUTE_READONLY;
-#endif
+#else
 	return false;
+#endif
 }
 
 bool DirectoryItem::IsSystem() const
 {
 #ifdef _WIN32
 	return (m_aFileAttributes & FILE_ATTRIBUTE_SYSTEM) == FILE_ATTRIBUTE_SYSTEM;
-#endif
+#else
 	return false;
+#endif
 }
 
 bool DirectoryItem::IsDeleted() const

@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/osdep2.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -149,7 +152,7 @@
 #endif
 
 //************************** WNT ***********************************
-// +++ fuer MS Visual C++ 5.0 +++
+// +++ fuer MS Visual C++ 5.0 and Borland C++ 5.5 +++
 #ifdef _WIN32
 
 #include <process.h>
@@ -262,10 +265,14 @@
 
 //******************************************************************
 /** Funktion zum Starten von externen Programmen (neu seit 2.2.2000) */
-inline int minSpawn( int nModus, const char * sCmdName, const char * * sArgv )
+inline int minSpawn( int nModus, const char * sCmdName, const char * const * sArgv )
 {
 #ifdef _WIN32
-	return _spawnvp( nModus, sCmdName, sArgv );
+#ifdef __BORLANDC__
+	return spawnvp( nModus, sCmdName, (char * const *)sArgv );
+#else
+	return spawnvp( nModus, sCmdName, sArgv );
+#endif
 #endif
 #ifdef _OS2
 	return _spawnvp( nModus, (char *)sCmdName, (char **)sArgv );

@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/playinfodlgimpl.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/10/26 17:32:39  min
+ *	Directory for images added.
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:22  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -254,9 +257,9 @@ static const int g_iTimerDelay = 10;
 
 typedef int myint;
 
-typedef int byte;
-
 /* for lookup table tests:
+
+typedef int byte;
 
 byte oben[65536]; 
 byte unten[65536]; 

@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/rolleicom.cpp,v $
  *
- *  $Revision: 1.5 $
+ *  $Revision: 1.6 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.5  2004/01/31 16:00:01  min
+ *	Handle simulation flag correct.
+ *	
  *	Revision 1.4  2003/10/26 17:42:24  min
  *	Added patches from Olaf Schlachter for MSC 3x0 P. Added saving values to ini-file.
  *	
@@ -56,7 +59,7 @@
 // *******************************************************************
 // *******************************************************************
 
-#ifdef _MSC_VER
+#if defined( _MSC_VER ) || defined( __BORLANDC__ )
 
 #include <windows.h>
 
@@ -650,13 +653,21 @@ struct RolleiComHelperData
 // *******************************************************************
 // *******************************************************************
 
-const int RolleiCom::NONE					= 0;
-const int RolleiCom::ODD					= 1;
-const int RolleiCom::EVEN					= 2;
+// temp. constants because of Borland C++ 5.5 
+const int _NONE = 0;
+const int _ODD = 1;
+const int _EVEN = 2;
+const int _ONE = 0;
+const int _ONE_POINT_FIVE = 1;
+const int _TWO = 2;
 
-const int RolleiCom::ONE					= 0;
-const int RolleiCom::ONE_POINT_FIVE			= 1;
-const int RolleiCom::TWO					= 2;
+const int RolleiCom::NONE					= _NONE;
+const int RolleiCom::ODD					= _ODD;
+const int RolleiCom::EVEN					= _EVEN;
+
+const int RolleiCom::ONE					= _ONE;
+const int RolleiCom::ONE_POINT_FIVE			= _ONE_POINT_FIVE;
+const int RolleiCom::TWO					= _TWO;
 
 const int RolleiCom::NO_FLOW				= 0;
 const int RolleiCom::XON_XOFF_FLOW			= 1;
@@ -1576,11 +1587,11 @@ string RolleiCom::GetParityModeStrg( int iParityMode ) const
 {
 	switch( iParityMode )
 	{
-		case NONE:
+		case _NONE:
 			return "none";
-		case EVEN:
+		case _EVEN:
 			return "even";
-		case ODD:
+		case _ODD:
 			return "odd";
 
 		default:
@@ -1592,11 +1603,11 @@ string RolleiCom::GetStopBitsStrg( int iStopBits ) const
 {
 	switch( iStopBits )
 	{
-		case ONE:
+		case _ONE:
 			return "1";
-		case TWO:
+		case _TWO:
 			return "2";
-		case ONE_POINT_FIVE:
+		case _ONE_POINT_FIVE:
 			return "1.5";
 
 		default:

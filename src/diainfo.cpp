@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diainfo.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/10/26 17:26:30  min
+ *	MakeRelativePaths() implemented.
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -490,11 +493,17 @@ bool TimeOperationContainer::Write( ostream & aStream ) const
 
 const int TimeOperation::ACT_FILE_VERSION = 0;
 
-const int TimeOperation::UNDEFINED		= -1;
-const int TimeOperation::DISSOLVE_IN	= 0;
-const int TimeOperation::SHOW			= 1;
-const int TimeOperation::DISSOLVE_OUT	= 2;
-const int TimeOperation::FLASH			= 3;
+// temp. constants because of Borland C++ 5.5 
+const int _UNDEFINED = -1;
+const int _DISSOLVE_IN = 0;
+const int _SHOW = 1;
+const int _DISSOLVE_OUT = 2;
+const int _FLASH = 3;
+const int TimeOperation::UNDEFINED		= _UNDEFINED;
+const int TimeOperation::DISSOLVE_IN		= _DISSOLVE_IN;
+const int TimeOperation::SHOW			= _SHOW;
+const int TimeOperation::DISSOLVE_OUT	= _DISSOLVE_OUT;
+const int TimeOperation::FLASH			= _FLASH;
 
 
 TimeOperation::TimeOperation( int iOperationType, double dOperationTime )
@@ -509,16 +518,16 @@ string TimeOperation::GetOperationTypeName() const
 
 	switch( m_iOperationType )
 	{
-		case DISSOLVE_IN :
+		case _DISSOLVE_IN :
 			s = "IN";
 			break;
-		case DISSOLVE_OUT :
+		case _DISSOLVE_OUT :
 			s = "OUT";
 			break;
-		case SHOW :
+		case _SHOW :
 			s = "SHOW";
 			break;
-		case FLASH :
+		case _FLASH :
 			s = "FLASH";
 			break;
 		default:

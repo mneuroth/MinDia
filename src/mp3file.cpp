@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mp3file.cpp,v $
  *
- *  $Revision: 1.4 $
+ *  $Revision: 1.5 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.4  2004/01/18 23:37:05  min
+ *	Unused variable commented
+ *	
  *	Revision 1.3  2003/10/26 22:37:20  min
  *	Bugfix
  *	
@@ -35,7 +38,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _MSC_VER
+#if !defined( _MSC_VER ) && !defined( __BORLANDC__ )
 
 #include "mp3file.h"
 
