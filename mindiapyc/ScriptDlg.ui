@@ -1,307 +1,258 @@
-<!DOCTYPE UI><UI>
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>ScriptDlg</class>
-<widget>
-    <class>QDialog</class>
-    <property stdset="1">
-        <name>name</name>
+<widget class="QDialog">
+    <property name="name">
         <cstring>ScriptDlg</cstring>
     </property>
-    <property>
-        <name>geometry</name>
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
             <width>506</width>
-            <height>482</height>
+            <height>485</height>
         </rect>
     </property>
-    <property>
-        <name>caption</name>
+    <property name="caption">
         <string>Script</string>
     </property>
-    <property>
-        <name>sizeGripEnabled</name>
+    <property name="sizeGripEnabled">
         <bool>true</bool>
     </property>
     <vbox>
-        <property>
-            <name>margin</name>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
             <number>11</number>
         </property>
-        <property>
-            <name>spacing</name>
+        <property name="spacing">
             <number>6</number>
         </property>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
+        <widget class="QLayoutWidget">
+            <property name="name">
                 <cstring>Layout6</cstring>
             </property>
             <hbox>
-                <property>
-                    <name>margin</name>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
                     <number>0</number>
                 </property>
-                <property>
-                    <name>spacing</name>
+                <property name="spacing">
                     <number>6</number>
                 </property>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
+                <widget class="QLabel">
+                    <property name="name">
                         <cstring>m_pScriptLabel</cstring>
                     </property>
-                    <property>
-                        <name>text</name>
+                    <property name="text">
                         <string>Script:</string>
                     </property>
                 </widget>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
+                <widget class="QLabel">
+                    <property name="name">
                         <cstring>m_pScriptFileName</cstring>
                     </property>
-                    <property>
-                        <name>text</name>
+                    <property name="text">
                         <string>[]</string>
                     </property>
-                    <property>
-                        <name>alignment</name>
+                    <property name="alignment">
                         <set>AlignVCenter|AlignRight</set>
                     </property>
-                    <property>
-                        <name>hAlign</name>
+                    <property name="hAlign" stdset="0">
                     </property>
                 </widget>
             </hbox>
         </widget>
-        <widget>
-            <class>QMultiLineEdit</class>
-            <property stdset="1">
-                <name>name</name>
+        <widget class="QMultiLineEdit">
+            <property name="name">
                 <cstring>m_pScript</cstring>
             </property>
-            <property>
-                <name>font</name>
+            <property name="font">
                 <font>
-                    <family>Courier</family>
+                    <family>Courier New</family>
                 </font>
             </property>
+            <property name="wordWrap">
+                <enum>NoWrap</enum>
+            </property>
         </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
+        <widget class="QLabel">
+            <property name="name">
                 <cstring>m_pOutputLabel</cstring>
             </property>
-            <property>
-                <name>text</name>
+            <property name="text">
                 <string>Output:</string>
             </property>
         </widget>
-        <widget>
-            <class>QMultiLineEdit</class>
-            <property stdset="1">
-                <name>name</name>
+        <widget class="QMultiLineEdit">
+            <property name="name">
                 <cstring>m_pOutput</cstring>
             </property>
-            <property>
-                <name>font</name>
+            <property name="font">
                 <font>
-                    <family>Courier</family>
+                    <family>Courier New</family>
                 </font>
             </property>
+            <property name="wordWrap">
+                <enum>NoWrap</enum>
+            </property>
         </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
+        <widget class="QLayoutWidget">
+            <property name="name">
                 <cstring>Layout8</cstring>
             </property>
             <hbox>
-                <property>
-                    <name>margin</name>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
                     <number>0</number>
                 </property>
-                <property>
-                    <name>spacing</name>
+                <property name="spacing">
                     <number>6</number>
                 </property>
-                <widget>
-                    <class>QLayoutWidget</class>
-                    <property stdset="1">
-                        <name>name</name>
+                <widget class="QLayoutWidget">
+                    <property name="name">
                         <cstring>Layout3</cstring>
                     </property>
                     <vbox>
-                        <property>
-                            <name>margin</name>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
                             <number>0</number>
                         </property>
-                        <property>
-                            <name>spacing</name>
+                        <property name="spacing">
                             <number>6</number>
                         </property>
-                        <widget>
-                            <class>QPushButton</class>
-                            <property stdset="1">
-                                <name>name</name>
+                        <widget class="QPushButton">
+                            <property name="name">
                                 <cstring>m_pExecute</cstring>
                             </property>
-                            <property>
-                                <name>text</name>
+                            <property name="text">
                                 <string>&amp;Execute</string>
                             </property>
                         </widget>
-                        <widget>
-                            <class>QPushButton</class>
-                            <property stdset="1">
-                                <name>name</name>
+                        <widget class="QPushButton">
+                            <property name="name">
                                 <cstring>m_pSaveScript</cstring>
                             </property>
-                            <property>
-                                <name>text</name>
+                            <property name="text">
                                 <string>&amp;Save script...</string>
                             </property>
                         </widget>
                     </vbox>
                 </widget>
-                <widget>
-                    <class>QLayoutWidget</class>
-                    <property stdset="1">
-                        <name>name</name>
+                <widget class="QLayoutWidget">
+                    <property name="name">
                         <cstring>Layout4</cstring>
                     </property>
                     <vbox>
-                        <property>
-                            <name>margin</name>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
                             <number>0</number>
                         </property>
-                        <property>
-                            <name>spacing</name>
+                        <property name="spacing">
                             <number>6</number>
                         </property>
-                        <widget>
-                            <class>QPushButton</class>
-                            <property stdset="1">
-                                <name>name</name>
+                        <widget class="QPushButton">
+                            <property name="name">
                                 <cstring>m_pClearOutput</cstring>
                             </property>
-                            <property>
-                                <name>text</name>
+                            <property name="text">
                                 <string>Clear O&amp;utput</string>
                             </property>
                         </widget>
-                        <widget>
-                            <class>QPushButton</class>
-                            <property stdset="1">
-                                <name>name</name>
+                        <widget class="QPushButton">
+                            <property name="name">
                                 <cstring>m_pLoadScript</cstring>
                             </property>
-                            <property>
-                                <name>text</name>
+                            <property name="text">
                                 <string>&amp;Load script...</string>
                             </property>
                         </widget>
                     </vbox>
                 </widget>
-                <widget>
-                    <class>QLayoutWidget</class>
-                    <property stdset="1">
-                        <name>name</name>
+                <widget class="QLayoutWidget">
+                    <property name="name">
                         <cstring>Layout4_2</cstring>
                     </property>
                     <vbox>
-                        <property>
-                            <name>margin</name>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
                             <number>0</number>
                         </property>
-                        <property>
-                            <name>spacing</name>
+                        <property name="spacing">
                             <number>6</number>
                         </property>
-                        <widget>
-                            <class>QPushButton</class>
-                            <property stdset="1">
-                                <name>name</name>
+                        <widget class="QPushButton">
+                            <property name="name">
                                 <cstring>m_pClearScript</cstring>
                             </property>
-                            <property>
-                                <name>text</name>
+                            <property name="text">
                                 <string>Clear Scri&amp;pt</string>
                             </property>
                         </widget>
-                        <widget>
-                            <class>QPushButton</class>
-                            <property stdset="1">
-                                <name>name</name>
+                        <widget class="QPushButton">
+                            <property name="name">
                                 <cstring>m_pHelp</cstring>
                             </property>
-                            <property>
-                                <name>text</name>
+                            <property name="text">
                                 <string>&amp;Help</string>
                             </property>
                         </widget>
                     </vbox>
                 </widget>
                 <spacer>
-                    <property>
-                        <name>name</name>
+                    <property name="name">
                         <cstring>Spacer1</cstring>
                     </property>
-                    <property>
-                        <name>orientation</name>
+                    <property name="orientation">
                         <enum>Horizontal</enum>
                     </property>
-                    <property>
-                        <name>sizeType</name>
+                    <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property>
-                        <name>sizeHint</name>
+                    <property name="sizeHint">
                         <size>
                             <width>20</width>
                             <height>20</height>
                         </size>
                     </property>
                 </spacer>
-                <widget>
-                    <class>QLayoutWidget</class>
-                    <property stdset="1">
-                        <name>name</name>
+                <widget class="QLayoutWidget">
+                    <property name="name">
                         <cstring>Layout4</cstring>
                     </property>
                     <vbox>
-                        <property>
-                            <name>margin</name>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
                             <number>0</number>
                         </property>
-                        <property>
-                            <name>spacing</name>
+                        <property name="spacing">
                             <number>6</number>
                         </property>
-                        <widget>
-                            <class>QPushButton</class>
-                            <property stdset="1">
-                                <name>name</name>
+                        <widget class="QPushButton">
+                            <property name="name">
                                 <cstring>m_pCancel</cstring>
                             </property>
-                            <property>
-                                <name>text</name>
+                            <property name="text">
                                 <string>&amp;Cancel</string>
                             </property>
                         </widget>
-                        <widget>
-                            <class>QPushButton</class>
-                            <property stdset="1">
-                                <name>name</name>
+                        <widget class="QPushButton">
+                            <property name="name">
                                 <cstring>m_pOk</cstring>
                             </property>
-                            <property>
-                                <name>text</name>
+                            <property name="text">
                                 <string>&amp;Ok</string>
                             </property>
                         </widget>
@@ -366,15 +317,18 @@
         <receiver>ScriptDlg</receiver>
         <slot>sltHelp()</slot>
     </connection>
-    <slot access="public">sltHelp()</slot>
-    <slot access="public">sltCancelDialog()</slot>
-    <slot access="public">sltClearOutput()</slot>
-    <slot access="public">sltClearScript()</slot>
-    <slot access="public">sltCloseDialog()</slot>
-    <slot access="public">sltExecuteScript()</slot>
-    <slot access="public">sltLoadScript()</slot>
-    <slot access="public">sltPrintToOutput( const QString &amp;)</slot>
-    <slot access="public">sltSaveScript()</slot>
-    <slot access="public">sltScriptChanged()</slot>
 </connections>
+<slots>
+    <slot>sltHelp()</slot>
+    <slot>sltCancelDialog()</slot>
+    <slot>sltClearOutput()</slot>
+    <slot>sltClearScript()</slot>
+    <slot>sltCloseDialog()</slot>
+    <slot>sltExecuteScript()</slot>
+    <slot>sltLoadScript()</slot>
+    <slot>sltPrintToOutput( const QString &amp;)</slot>
+    <slot>sltSaveScript()</slot>
+    <slot>sltScriptChanged()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
 </UI>
