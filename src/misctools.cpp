@@ -248,7 +248,7 @@ bool IsImageFileDrag( const QMimeSource * pEvent )
 	if( QUriDrag::decode( pEvent, aStrList ) )
 	{
 		// all droped file-names have to be images with known format !!!
-		for( int i=0; i<aStrList.count(); i++ )
+		for( int i=0; i<(int)aStrList.count(); i++ )
 		{
 			const QString sTest = aStrList.at( i );
 			const char * s = (const char *)sTest;
@@ -293,7 +293,7 @@ bool IsSoundFileDrag( const QMimeSource * pEvent )
 	if( QUriDrag::decode( pEvent, aStrList ) )
 	{
 		// all droped file-names have to be images with known format !!!
-		for( int i=0; i<aStrList.count(); i++ )
+		for( int i=0; i<(int)aStrList.count(); i++ )
 		{
 			const QString sTest = aStrList.at( i );
 			const char * s = (const char *)sTest;
