@@ -22,10 +22,11 @@ python_incdir	= @python_incdir@
 # qt_includes 	= @qt_includes@
 # kde_qt_verstring= @kde_qt_verstring@
 
-# ac_found_tmake	= @ac_found_tmake@
+ac_found_tmake	= @ac_found_tmake@
 ac_tmake		= @ac_tmake@
 
 ac_default_prefix	= @ac_default_prefix@
+ac_install_prefix	= @prefix@
 
 # *****************************
 
@@ -65,9 +66,9 @@ SYSTEM_DIR		= 			# not needed !
 #INSTALL_DLL_DIR		= /usr/local/lib
 #INSTALL_SHARE_DIR	= /usr/local/share/mindia
 
-INSTALL_EXE_DIR		= $(ac_default_prefix)/bin
-INSTALL_DLL_DIR		= $(ac_default_prefix)/lib
-INSTALL_SHARE_DIR	= $(ac_default_prefix)/share/mindia
+INSTALL_EXE_DIR		= $(ac_install_prefix)/bin
+INSTALL_DLL_DIR		= $(ac_install_prefix)/lib
+INSTALL_SHARE_DIR	= $(ac_install_prefix)/share/mindia
 
 
 

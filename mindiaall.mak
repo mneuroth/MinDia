@@ -42,9 +42,9 @@ make_run: 						minsrv_dll mindia_exe gendev_dll
 
 make_run_with_python: 			minsrv_dll mindiapyc_dll mindia_exe gendev_dll
 
-make_install:					minsrv_install mindia_install gendev_install
+make_install:					minsrv_install mindia_install gendev_install post_install
 
-make_install_with_python:		minsrv_install mindiapyc_install mindia_install gendev_install
+make_install_with_python:		minsrv_install mindiapyc_install mindia_install gendev_install post_install
 
 make_clean:						minsrv_clean mindia_clean bindist_clean gendev_clean
 
@@ -192,3 +192,6 @@ gendev_install:		gendev_dll
 	$(COPY) libgendev.so.1.0.0 $(INSTALL_DLL_DIR)
 	-$(LN_SYMB) $(INSTALL_DLL_DIR)/libgendev.so.1.0.0 $(INSTALL_DLL_DIR)/libgendev.so
 	-$(LN_SYMB) $(INSTALL_DLL_DIR)/libgendev.so.1.0.0 $(INSTALL_DLL_DIR)/libgendev.so.1
+
+post_install:
+	ldconfig

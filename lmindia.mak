@@ -13,19 +13,20 @@
 LIBPYTHON 		= -lpython2.2 -lpthread -lm -lutil -ldl 
 PYTHONLIB 		= -L/usr/lib/python2.2/config
 PYTHONINC 		= -I/usr/include/python2.2
-PYTHONMODDIR	= /usr/lib/python2.2
+# PYTHONMODDIR	= /usr/lib/python2.2
 python_incdir	= /usr/include/python2.2
 
-LIB_QT			= -lqt-mt  $(LIBPNG) -lXext $(LIB_X11) $(LIBSM) -lpthread
-LIB_X11 		= -lX11 $(LIBSOCKET)
+# LIB_QT			= @LIB_QT@
+# LIB_X11 		= @LIB_X11@
 
-qt_includes 	= /usr/lib/qt3/include
-kde_qt_verstring= QT_VERSION >= 0x030100
+# qt_includes 	= @qt_includes@
+# kde_qt_verstring= @kde_qt_verstring@
 
 ac_found_tmake	= yes
 ac_tmake		= /usr/lib/qt3/bin/qmake
 
 ac_default_prefix	= /usr/local
+ac_install_prefix	= /usr/local
 
 # *****************************
 
@@ -65,9 +66,9 @@ SYSTEM_DIR		= 			# not needed !
 #INSTALL_DLL_DIR		= /usr/local/lib
 #INSTALL_SHARE_DIR	= /usr/local/share/mindia
 
-INSTALL_EXE_DIR		= $(ac_default_prefix)/bin
-INSTALL_DLL_DIR		= $(ac_default_prefix)/lib
-INSTALL_SHARE_DIR	= $(ac_default_prefix)/share/mindia
+INSTALL_EXE_DIR		= $(ac_install_prefix)/bin
+INSTALL_DLL_DIR		= $(ac_install_prefix)/lib
+INSTALL_SHARE_DIR	= $(ac_install_prefix)/share/mindia
 
 
 

@@ -271,7 +271,7 @@ PACKAGE_STRING=
 PACKAGE_BUGREPORT=
 
 ac_unique_file="acinclude.m4"
-ac_unique_file="mindiawindow.h"
+ac_unique_file="src/mindiawindow.h"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -848,7 +848,6 @@ if test -n "$ac_init_help"; then
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --enable-kernel-threads Enable the use of the LinuxThreads port on FreeBSD/i386 only.
   --disable-threading     disables threading even if libpthread found
 
 Optional Packages:
@@ -1254,6 +1253,11 @@ ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+
+
+
 
 
 
@@ -4722,7 +4726,87 @@ done
 
 
 
-echo "$as_me:$LINENO: checking for pthread_create in -lpthread" >&5
+  LIBPTHREAD=""
+
+  if test -n "$PTHREAD_LIBS"; then
+    PTHREAD_LIBS_save="$PTHREAD_LIBS"
+    PTHREAD_LIBS=`echo "$PTHREAD_LIBS_save" | sed -e 's,^-l,,g'`
+
+     kde_save_LDFLAGS="$LDFLAGS"
+          kde_save_LIBS="$LIBS"
+     LDFLAGS="$LDFLAGS $all_libraries"
+     case $host_os in
+      aix*) LDFLAGS="-brtl $LDFLAGS"
+	test "$GCC" = yes && LDFLAGS="-Wl,$LDFLAGS"
+	;;
+     esac
+     as_ac_Lib=`echo "ac_cv_lib_$PTHREAD_LIBS''_pthread_create" | $as_tr_sh`
+echo "$as_me:$LINENO: checking for pthread_create in -l$PTHREAD_LIBS" >&5
+echo $ECHO_N "checking for pthread_create in -l$PTHREAD_LIBS... $ECHO_C" >&6
+if eval "test \"\${$as_ac_Lib+set}\" = set"; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-l$PTHREAD_LIBS  $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char pthread_create ();
+int
+main ()
+{
+pthread_create ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  eval "$as_ac_Lib=yes"
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+eval "$as_ac_Lib=no"
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_Lib'}'`" >&5
+echo "${ECHO_T}`eval echo '${'$as_ac_Lib'}'`" >&6
+if test `eval echo '${'$as_ac_Lib'}'` = yes; then
+  LIBPTHREAD="$PTHREAD_LIBS_save"
+fi
+
+     LDFLAGS="$kde_save_LDFLAGS"
+     LIBS="$kde_save_LIBS"
+
+    PTHREAD_LIBS="$PTHREAD_LIBS_save"
+  fi
+
+  if test -z "$LIBPTHREAD"; then
+    echo "$as_me:$LINENO: checking for pthread_create in -lpthread" >&5
 echo $ECHO_N "checking for pthread_create in -lpthread... $ECHO_C" >&6
 if test "${ac_cv_lib_pthread_pthread_create+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -4780,240 +4864,18 @@ if test $ac_cv_lib_pthread_pthread_create = yes; then
   LIBPTHREAD="-lpthread"
 fi
 
-
-
-
-
-    # Check whether --enable-kernel-threads or --disable-kernel-threads was given.
-if test "${enable_kernel_threads+set}" = set; then
-  enableval="$enable_kernel_threads"
-  kde_use_kernthreads=$enableval
-else
-  kde_use_kernthreads=no
-fi;
-
-    if test "$kde_use_kernthreads" = "yes"; then
-      ac_save_CXXFLAGS="$CXXFLAGS"
-      ac_save_CFLAGS="$CFLAGS"
-      CXXFLAGS="-I/usr/local/include/pthread/linuxthreads $CXXFLAGS"
-      CFLAGS="-I/usr/local/include/pthread/linuxthreads $CFLAGS"
-
-for ac_header in pthread/linuxthreads/pthread.h
-do
-as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
-if eval "test \"\${$as_ac_Header+set}\" = set"; then
-  echo "$as_me:$LINENO: checking for $ac_header" >&5
-echo $ECHO_N "checking for $ac_header... $ECHO_C" >&6
-if eval "test \"\${$as_ac_Header+set}\" = set"; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-fi
-echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_Header'}'`" >&5
-echo "${ECHO_T}`eval echo '${'$as_ac_Header'}'`" >&6
-else
-  # Is the header compilable?
-echo "$as_me:$LINENO: checking $ac_header usability" >&5
-echo $ECHO_N "checking $ac_header usability... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-$ac_includes_default
-#include <$ac_header>
-_ACEOF
-rm -f conftest.$ac_objext
-if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
-  (eval $ac_compile) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest.$ac_objext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_header_compiler=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_header_compiler=no
-fi
-rm -f conftest.$ac_objext conftest.$ac_ext
-echo "$as_me:$LINENO: result: $ac_header_compiler" >&5
-echo "${ECHO_T}$ac_header_compiler" >&6
-
-# Is the header present?
-echo "$as_me:$LINENO: checking $ac_header presence" >&5
-echo $ECHO_N "checking $ac_header presence... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <$ac_header>
-_ACEOF
-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } >/dev/null; then
-  if test -s conftest.err; then
-    ac_cpp_err=$ac_c_preproc_warn_flag
-  else
-    ac_cpp_err=
   fi
-else
-  ac_cpp_err=yes
-fi
-if test -z "$ac_cpp_err"; then
-  ac_header_preproc=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
 
-  ac_header_preproc=no
-fi
-rm -f conftest.err conftest.$ac_ext
-echo "$as_me:$LINENO: result: $ac_header_preproc" >&5
-echo "${ECHO_T}$ac_header_preproc" >&6
 
-# So?  What about this header?
-case $ac_header_compiler:$ac_header_preproc in
-  yes:no )
-    { echo "$as_me:$LINENO: WARNING: $ac_header: accepted by the compiler, rejected by the preprocessor!" >&5
-echo "$as_me: WARNING: $ac_header: accepted by the compiler, rejected by the preprocessor!" >&2;}
-    { echo "$as_me:$LINENO: WARNING: $ac_header: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: $ac_header: proceeding with the preprocessor's result" >&2;}
-    (
-      cat <<\_ASBOX
-## ------------------------------------ ##
-## Report this to bug-autoconf@gnu.org. ##
-## ------------------------------------ ##
-_ASBOX
-    ) |
-      sed "s/^/$as_me: WARNING:     /" >&2
-    ;;
-  no:yes )
-    { echo "$as_me:$LINENO: WARNING: $ac_header: present but cannot be compiled" >&5
-echo "$as_me: WARNING: $ac_header: present but cannot be compiled" >&2;}
-    { echo "$as_me:$LINENO: WARNING: $ac_header: check for missing prerequisite headers?" >&5
-echo "$as_me: WARNING: $ac_header: check for missing prerequisite headers?" >&2;}
-    { echo "$as_me:$LINENO: WARNING: $ac_header: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: $ac_header: proceeding with the preprocessor's result" >&2;}
-    (
-      cat <<\_ASBOX
-## ------------------------------------ ##
-## Report this to bug-autoconf@gnu.org. ##
-## ------------------------------------ ##
-_ASBOX
-    ) |
-      sed "s/^/$as_me: WARNING:     /" >&2
-    ;;
-esac
-echo "$as_me:$LINENO: checking for $ac_header" >&5
-echo $ECHO_N "checking for $ac_header... $ECHO_C" >&6
-if eval "test \"\${$as_ac_Header+set}\" = set"; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  eval "$as_ac_Header=$ac_header_preproc"
-fi
-echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_Header'}'`" >&5
-echo "${ECHO_T}`eval echo '${'$as_ac_Header'}'`" >&6
 
-fi
-if test `eval echo '${'$as_ac_Header'}'` = yes; then
-  cat >>confdefs.h <<_ACEOF
-#define `echo "HAVE_$ac_header" | $as_tr_cpp` 1
-_ACEOF
 
-fi
 
-done
-
-      CXXFLAGS="$ac_save_CXXFLAGS"
-      CFLAGS="$ac_save_CFLAGS"
-      if test "$ac_cv_header_pthread_linuxthreads_pthread_h" = "no"; then
-        kde_use_kernthreads=no
-      else
-                echo "$as_me:$LINENO: checking for pthread_join in -llthread" >&5
-echo $ECHO_N "checking for pthread_join in -llthread... $ECHO_C" >&6
-if test "${ac_cv_lib_lthread_pthread_join+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-llthread  $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char pthread_join ();
-int
-main ()
-{
-pthread_join ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_lthread_pthread_join=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_lthread_pthread_join=no
-fi
-rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_lthread_pthread_join" >&5
-echo "${ECHO_T}$ac_cv_lib_lthread_pthread_join" >&6
-if test $ac_cv_lib_lthread_pthread_join = yes; then
-  LIBPTHREAD="-llthread -llgcc_r"
-fi
-         if test "x$LIBPTHREAD" = "x"; then
-          kde_use_kernthreads=no
-        else
-          USE_THREADS="-D_THREAD_SAFE -I/usr/local/include/pthread/linuxthreads"
-        fi
-      fi
-    else
       USE_THREADS=""
       if test -z "$LIBPTHREAD"; then
 
 echo "$as_me:$LINENO: checking whether $CXX supports -pthread" >&5
 echo $ECHO_N "checking whether $CXX supports -pthread... $ECHO_C" >&6
-kde_cache=`echo pthread | sed 'y% .=/+-%____p_%'`
+kde_cache=`echo pthread | sed 'y% .=/+-,%____p__%'`
 if eval "test \"\${kde_cv_prog_cxx_$kde_cache+set}\" = set"; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
@@ -5082,7 +4944,7 @@ if eval "test \"`echo '$kde_cv_prog_cxx_'$kde_cache`\" = yes"; then
  echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
  :
- USE_THREADS="-pthread"
+ USE_THREADS="-D_THREAD_SAFE -pthread"
 else
  echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6
@@ -5091,7 +4953,6 @@ echo "${ECHO_T}no" >&6
 fi
 
       fi
-    fi
 
 
 
@@ -5100,7 +4961,7 @@ fi
 
 echo "$as_me:$LINENO: checking whether $CXX supports -mt" >&5
 echo $ECHO_N "checking whether $CXX supports -mt... $ECHO_C" >&6
-kde_cache=`echo mt | sed 'y% .=/+-%____p_%'`
+kde_cache=`echo mt | sed 'y% .=/+-,%____p__%'`
 if eval "test \"\${kde_cv_prog_cxx_$kde_cache+set}\" = set"; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
@@ -5178,7 +5039,7 @@ fi
                 CPPFLAGS="$CPPFLAGS -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS -DUSE_SOLARIS -DSVR4"
     		;;
         freebsd*)
-                CPPFLAGS="$CPPFLAGS -D_THREAD_SAFE"
+                CPPFLAGS="$CPPFLAGS -D_THREAD_SAFE $PTHREAD_CFLAGS"
                 ;;
         aix*)
                 CPPFLAGS="$CPPFLAGS -D_THREAD_SAFE"
@@ -5238,9 +5099,9 @@ ac_link='rm -rf SunWS_cache; ${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFL
     ac_save_CXXFLAGS="$CXXFLAGS"
     CXXFLAGS="`echo $CXXFLAGS | sed s/-fno-exceptions//`"
 
-    echo "$as_me:$LINENO: checking if STL implementation is SGI like" >&5
-echo $ECHO_N "checking if STL implementation is SGI like... $ECHO_C" >&6
-    if test "${kde_cv_stl_type_sgi+set}" = set; then
+    echo "$as_me:$LINENO: checking if C++ programs can be compiled" >&5
+echo $ECHO_N "checking if C++ programs can be compiled... $ECHO_C" >&6
+    if test "${kde_cv_stl_works+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
 
@@ -5279,105 +5140,40 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  kde_cv_stl_type_sgi=yes
+  kde_cv_stl_works=yes
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-kde_cv_stl_type_sgi=no
+kde_cv_stl_works=no
 fi
 rm -f conftest.$ac_objext conftest.$ac_ext
 
 fi
 
 
-   echo "$as_me:$LINENO: result: $kde_cv_stl_type_sgi" >&5
-echo "${ECHO_T}$kde_cv_stl_type_sgi" >&6
+   echo "$as_me:$LINENO: result: $kde_cv_stl_works" >&5
+echo "${ECHO_T}$kde_cv_stl_works" >&6
 
-   if test "$kde_cv_stl_type_sgi" = "yes"; then
+   if test "$kde_cv_stl_works" = "yes"; then
+     # back compatible
 
 cat >>confdefs.h <<_ACEOF
 #define HAVE_SGI_STL 1
 _ACEOF
 
-   fi
-
-
-    if test "$kde_cv_stl_type_sgi" = "no"; then
-
-    echo "$as_me:$LINENO: checking if STL implementation is HP like" >&5
-echo $ECHO_N "checking if STL implementation is HP like... $ECHO_C" >&6
-    if test "${kde_cv_stl_type_hp+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-
-      cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-#include <string>
-using namespace std;
-
-int
-main ()
-{
-
-  string astring="Hello World";
-  astring.remove(0, 6); // now astring is "World"
-  return 0;
-
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext
-if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
-  (eval $ac_compile) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest.$ac_objext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  kde_cv_stl_type_hp=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-kde_cv_stl_type_hp=no
-fi
-rm -f conftest.$ac_objext conftest.$ac_ext
-
-fi
-
-   echo "$as_me:$LINENO: result: $kde_cv_stl_type_hp" >&5
-echo "${ECHO_T}$kde_cv_stl_type_hp" >&6
-
-   if test "$kde_cv_stl_type_hp" = "yes"; then
-
-cat >>confdefs.h <<_ACEOF
-#define HAVE_HP_STL 1
-_ACEOF
-
-   fi
-
-
-       if test "$kde_cv_stl_type_hp" = "no"; then
-         { { echo "$as_me:$LINENO: error: \"no known STL type found - did you forget to install libstdc++-devel ?\"" >&5
-echo "$as_me: error: \"no known STL type found - did you forget to install libstdc++-devel ?\"" >&2;}
+   else
+	 { { echo "$as_me:$LINENO: error: Your Installation isn't able to compile simple C++ programs.
+Check config.log for details - if you're using a Linux distribution you might miss
+a package named similiar to libstd++-dev." >&5
+echo "$as_me: error: Your Installation isn't able to compile simple C++ programs.
+Check config.log for details - if you're using a Linux distribution you might miss
+a package named similiar to libstd++-dev." >&2;}
    { (exit 1); exit 1; }; }
-       fi
-    fi
+   fi
 
-    CXXFLAGS="$ac_save_CXXFLAGS"
-    ac_ext=c
+   CXXFLAGS="$ac_save_CXXFLAGS"
+   ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
@@ -5549,10 +5345,10 @@ echo "${ECHO_T}$ac_python_dir" >&6
 
 
 
-if test -z ""2.2""; then
+if test -z ""2.3""; then
   version="1.5"
 else
-  version=""2.2""
+  version=""2.3""
 fi
 
 echo "$as_me:$LINENO: checking for Python$version" >&5
@@ -5565,7 +5361,7 @@ for i in $python_incdirs;
 do
   for j in Python.h;
   do
-    echo "configure: 5568: $i/$j" >&5
+    echo "configure: 5364: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -5581,7 +5377,7 @@ for i in $python_incdirs;
 do
   for j in python$version/Python.h;
   do
-    echo "configure: 5584: $i/$j" >&5
+    echo "configure: 5380: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -5598,14 +5394,30 @@ fi
 
 PYTHONINC=-I$python_incdir
 
-python_libdirs="$ac_python_dir/lib /usr/lib /usr/local /usr/lib $kde_extra_libs"
+python_libdirs="$ac_python_dir/lib$kdelibsuff /usr/lib$kdelibsuff /usr/local /usr/lib$kdelibsuff $kde_extra_libs"
+
+python_libdir=NO
+for i in $python_libdirs;
+do
+  for j in libpython$version.so;
+  do
+    echo "configure: 5404: $i/$j" >&5
+    if test -r "$i/$j"; then
+      echo "taking that" >&5
+      python_libdir=$i
+      break 2
+    fi
+  done
+done
+
+if test ! -r $python_libdir/libpython$version.so; then
 
 python_libdir=NO
 for i in $python_libdirs;
 do
   for j in libpython$version.a;
   do
-    echo "configure: 5608: $i/$j" >&5
+    echo "configure: 5420: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -5614,14 +5426,14 @@ do
   done
 done
 
-if test ! -r $python_libdir/libpython$version.a; then
+  if test ! -r $python_libdir/libpython$version.a; then
 
 python_libdir=NO
 for i in $python_libdirs;
 do
   for j in python$version/config/libpython$version.a;
   do
-    echo "configure: 5624: $i/$j" >&5
+    echo "configure: 5436: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -5630,9 +5442,10 @@ do
   done
 done
 
-  python_libdir=$python_libdir/python$version/config
-  if test ! -r $python_libdir/libpython$version.a; then
-    python_libdir=no
+    python_libdir=$python_libdir/python$version/config
+    if test ! -r $python_libdir/libpython$version.a; then
+      python_libdir=no
+    fi
   fi
 fi
 
@@ -5642,14 +5455,157 @@ if test -z "$LIBPYTHON"; then
   LIBPYTHON=-lpython$version
 fi
 
-python_libdirs="$ac_python_dir/lib /usr/lib /usr/local /usr/lib $kde_extra_libs"
 
 python_moddir=NO
 for i in $python_libdirs;
 do
   for j in python$version/copy.py;
   do
-    echo "configure: 5652: $i/$j" >&5
+    echo "configure: 5464: $i/$j" >&5
+    if test -r "$i/$j"; then
+      echo "taking that" >&5
+      python_moddir=$i
+      break 2
+    fi
+  done
+done
+
+python_moddir=$python_moddir/python$version
+if test ! -r $python_moddir/copy.py; then
+  python_moddir=no
+fi
+
+PYTHONMODDIR=$python_moddir
+
+echo "$as_me:$LINENO: result: header $python_incdir library $python_libdir modules $python_moddir" >&5
+echo "${ECHO_T}header $python_incdir library $python_libdir modules $python_moddir" >&6
+
+if test x$python_incdir = xno ||  test x$python_libdir = xno ||  test x$python_moddir = xno; then
+   LIBPYTHON=$kde_orig_LIBPYTHON
+   test "x$PYTHONLIB" = "x-Lno" && PYTHONLIB=""
+   test "x$PYTHONINC" = "x-Ino" && PYTHONINC=""
+
+
+
+
+
+if test -z ""2.2""; then
+  version="1.5"
+else
+  version=""2.2""
+fi
+
+echo "$as_me:$LINENO: checking for Python$version" >&5
+echo $ECHO_N "checking for Python$version... $ECHO_C" >&6
+
+python_incdirs="$ac_python_dir/include /usr/include /usr/local/include/ $kde_extra_includes"
+
+python_incdir=NO
+for i in $python_incdirs;
+do
+  for j in Python.h;
+  do
+    echo "configure: 5508: $i/$j" >&5
+    if test -r "$i/$j"; then
+      echo "taking that" >&5
+      python_incdir=$i
+      break 2
+    fi
+  done
+done
+
+if test ! -r $python_incdir/Python.h; then
+
+python_incdir=NO
+for i in $python_incdirs;
+do
+  for j in python$version/Python.h;
+  do
+    echo "configure: 5524: $i/$j" >&5
+    if test -r "$i/$j"; then
+      echo "taking that" >&5
+      python_incdir=$i
+      break 2
+    fi
+  done
+done
+
+  python_incdir=$python_incdir/python$version
+  if test ! -r $python_incdir/Python.h; then
+    python_incdir=no
+  fi
+fi
+
+PYTHONINC=-I$python_incdir
+
+python_libdirs="$ac_python_dir/lib$kdelibsuff /usr/lib$kdelibsuff /usr/local /usr/lib$kdelibsuff $kde_extra_libs"
+
+python_libdir=NO
+for i in $python_libdirs;
+do
+  for j in libpython$version.so;
+  do
+    echo "configure: 5548: $i/$j" >&5
+    if test -r "$i/$j"; then
+      echo "taking that" >&5
+      python_libdir=$i
+      break 2
+    fi
+  done
+done
+
+if test ! -r $python_libdir/libpython$version.so; then
+
+python_libdir=NO
+for i in $python_libdirs;
+do
+  for j in libpython$version.a;
+  do
+    echo "configure: 5564: $i/$j" >&5
+    if test -r "$i/$j"; then
+      echo "taking that" >&5
+      python_libdir=$i
+      break 2
+    fi
+  done
+done
+
+  if test ! -r $python_libdir/libpython$version.a; then
+
+python_libdir=NO
+for i in $python_libdirs;
+do
+  for j in python$version/config/libpython$version.a;
+  do
+    echo "configure: 5580: $i/$j" >&5
+    if test -r "$i/$j"; then
+      echo "taking that" >&5
+      python_libdir=$i
+      break 2
+    fi
+  done
+done
+
+    python_libdir=$python_libdir/python$version/config
+    if test ! -r $python_libdir/libpython$version.a; then
+      python_libdir=no
+    fi
+  fi
+fi
+
+PYTHONLIB=-L$python_libdir
+kde_orig_LIBPYTHON=$LIBPYTHON
+if test -z "$LIBPYTHON"; then
+  LIBPYTHON=-lpython$version
+fi
+
+
+python_moddir=NO
+for i in $python_libdirs;
+do
+  for j in python$version/copy.py;
+  do
+    echo "configure: 5608: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_moddir=$i
@@ -5693,7 +5649,7 @@ for i in $python_incdirs;
 do
   for j in Python.h;
   do
-    echo "configure: 5696: $i/$j" >&5
+    echo "configure: 5652: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -5709,7 +5665,7 @@ for i in $python_incdirs;
 do
   for j in python$version/Python.h;
   do
-    echo "configure: 5712: $i/$j" >&5
+    echo "configure: 5668: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -5726,14 +5682,30 @@ fi
 
 PYTHONINC=-I$python_incdir
 
-python_libdirs="$ac_python_dir/lib /usr/lib /usr/local /usr/lib $kde_extra_libs"
+python_libdirs="$ac_python_dir/lib$kdelibsuff /usr/lib$kdelibsuff /usr/local /usr/lib$kdelibsuff $kde_extra_libs"
+
+python_libdir=NO
+for i in $python_libdirs;
+do
+  for j in libpython$version.so;
+  do
+    echo "configure: 5692: $i/$j" >&5
+    if test -r "$i/$j"; then
+      echo "taking that" >&5
+      python_libdir=$i
+      break 2
+    fi
+  done
+done
+
+if test ! -r $python_libdir/libpython$version.so; then
 
 python_libdir=NO
 for i in $python_libdirs;
 do
   for j in libpython$version.a;
   do
-    echo "configure: 5736: $i/$j" >&5
+    echo "configure: 5708: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -5742,14 +5714,14 @@ do
   done
 done
 
-if test ! -r $python_libdir/libpython$version.a; then
+  if test ! -r $python_libdir/libpython$version.a; then
 
 python_libdir=NO
 for i in $python_libdirs;
 do
   for j in python$version/config/libpython$version.a;
   do
-    echo "configure: 5752: $i/$j" >&5
+    echo "configure: 5724: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -5758,9 +5730,10 @@ do
   done
 done
 
-  python_libdir=$python_libdir/python$version/config
-  if test ! -r $python_libdir/libpython$version.a; then
-    python_libdir=no
+    python_libdir=$python_libdir/python$version/config
+    if test ! -r $python_libdir/libpython$version.a; then
+      python_libdir=no
+    fi
   fi
 fi
 
@@ -5770,14 +5743,13 @@ if test -z "$LIBPYTHON"; then
   LIBPYTHON=-lpython$version
 fi
 
-python_libdirs="$ac_python_dir/lib /usr/lib /usr/local /usr/lib $kde_extra_libs"
 
 python_moddir=NO
 for i in $python_libdirs;
 do
   for j in python$version/copy.py;
   do
-    echo "configure: 5780: $i/$j" >&5
+    echo "configure: 5752: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_moddir=$i
@@ -5821,7 +5793,7 @@ for i in $python_incdirs;
 do
   for j in Python.h;
   do
-    echo "configure: 5824: $i/$j" >&5
+    echo "configure: 5796: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -5837,7 +5809,7 @@ for i in $python_incdirs;
 do
   for j in python$version/Python.h;
   do
-    echo "configure: 5840: $i/$j" >&5
+    echo "configure: 5812: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -5854,14 +5826,30 @@ fi
 
 PYTHONINC=-I$python_incdir
 
-python_libdirs="$ac_python_dir/lib /usr/lib /usr/local /usr/lib $kde_extra_libs"
+python_libdirs="$ac_python_dir/lib$kdelibsuff /usr/lib$kdelibsuff /usr/local /usr/lib$kdelibsuff $kde_extra_libs"
+
+python_libdir=NO
+for i in $python_libdirs;
+do
+  for j in libpython$version.so;
+  do
+    echo "configure: 5836: $i/$j" >&5
+    if test -r "$i/$j"; then
+      echo "taking that" >&5
+      python_libdir=$i
+      break 2
+    fi
+  done
+done
+
+if test ! -r $python_libdir/libpython$version.so; then
 
 python_libdir=NO
 for i in $python_libdirs;
 do
   for j in libpython$version.a;
   do
-    echo "configure: 5864: $i/$j" >&5
+    echo "configure: 5852: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -5870,14 +5858,14 @@ do
   done
 done
 
-if test ! -r $python_libdir/libpython$version.a; then
+  if test ! -r $python_libdir/libpython$version.a; then
 
 python_libdir=NO
 for i in $python_libdirs;
 do
   for j in python$version/config/libpython$version.a;
   do
-    echo "configure: 5880: $i/$j" >&5
+    echo "configure: 5868: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -5886,9 +5874,10 @@ do
   done
 done
 
-  python_libdir=$python_libdir/python$version/config
-  if test ! -r $python_libdir/libpython$version.a; then
-    python_libdir=no
+    python_libdir=$python_libdir/python$version/config
+    if test ! -r $python_libdir/libpython$version.a; then
+      python_libdir=no
+    fi
   fi
 fi
 
@@ -5898,14 +5887,13 @@ if test -z "$LIBPYTHON"; then
   LIBPYTHON=-lpython$version
 fi
 
-python_libdirs="$ac_python_dir/lib /usr/lib /usr/local /usr/lib $kde_extra_libs"
 
 python_moddir=NO
 for i in $python_libdirs;
 do
   for j in python$version/copy.py;
   do
-    echo "configure: 5908: $i/$j" >&5
+    echo "configure: 5896: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_moddir=$i
@@ -5949,7 +5937,7 @@ for i in $python_incdirs;
 do
   for j in Python.h;
   do
-    echo "configure: 5952: $i/$j" >&5
+    echo "configure: 5940: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -5965,7 +5953,7 @@ for i in $python_incdirs;
 do
   for j in python$version/Python.h;
   do
-    echo "configure: 5968: $i/$j" >&5
+    echo "configure: 5956: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -5982,14 +5970,30 @@ fi
 
 PYTHONINC=-I$python_incdir
 
-python_libdirs="$ac_python_dir/lib /usr/lib /usr/local /usr/lib $kde_extra_libs"
+python_libdirs="$ac_python_dir/lib$kdelibsuff /usr/lib$kdelibsuff /usr/local /usr/lib$kdelibsuff $kde_extra_libs"
+
+python_libdir=NO
+for i in $python_libdirs;
+do
+  for j in libpython$version.so;
+  do
+    echo "configure: 5980: $i/$j" >&5
+    if test -r "$i/$j"; then
+      echo "taking that" >&5
+      python_libdir=$i
+      break 2
+    fi
+  done
+done
+
+if test ! -r $python_libdir/libpython$version.so; then
 
 python_libdir=NO
 for i in $python_libdirs;
 do
   for j in libpython$version.a;
   do
-    echo "configure: 5992: $i/$j" >&5
+    echo "configure: 5996: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -5998,14 +6002,14 @@ do
   done
 done
 
-if test ! -r $python_libdir/libpython$version.a; then
+  if test ! -r $python_libdir/libpython$version.a; then
 
 python_libdir=NO
 for i in $python_libdirs;
 do
   for j in python$version/config/libpython$version.a;
   do
-    echo "configure: 6008: $i/$j" >&5
+    echo "configure: 6012: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -6014,9 +6018,10 @@ do
   done
 done
 
-  python_libdir=$python_libdir/python$version/config
-  if test ! -r $python_libdir/libpython$version.a; then
-    python_libdir=no
+    python_libdir=$python_libdir/python$version/config
+    if test ! -r $python_libdir/libpython$version.a; then
+      python_libdir=no
+    fi
   fi
 fi
 
@@ -6026,14 +6031,13 @@ if test -z "$LIBPYTHON"; then
   LIBPYTHON=-lpython$version
 fi
 
-python_libdirs="$ac_python_dir/lib /usr/lib /usr/local /usr/lib $kde_extra_libs"
 
 python_moddir=NO
 for i in $python_libdirs;
 do
   for j in python$version/copy.py;
   do
-    echo "configure: 6036: $i/$j" >&5
+    echo "configure: 6040: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_moddir=$i
@@ -6074,14 +6078,6 @@ if test "${kde_cv_try_link_python_normal+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
 
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
 kde_save_libs="$LIBS"
@@ -6150,12 +6146,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -6174,14 +6164,6 @@ fi
 if test "${kde_cv_try_link_python_m+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -6251,12 +6233,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -6275,12 +6251,6 @@ fi
 if test "${kde_cv_try_link_python_pthread+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -6350,12 +6320,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -6374,14 +6338,6 @@ fi
 if test "${kde_cv_try_link_python_tcl+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -6451,12 +6407,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -6475,14 +6425,6 @@ fi
 if test "${kde_cv_try_link_python_db2+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -6552,12 +6494,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -6576,14 +6512,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -6653,12 +6581,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -6677,14 +6599,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread_and_util+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -6754,12 +6668,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -6778,14 +6686,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread_and_db3+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -6855,12 +6755,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -6879,14 +6773,6 @@ fi
 if test "${kde_cv_try_link_python_pthread_and_db3+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -6956,12 +6842,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -6980,14 +6860,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread_and_db+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -7057,12 +6929,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -7081,14 +6947,6 @@ fi
 if test "${kde_cv_try_link_python_pthread_and_dl+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -7158,12 +7016,93 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
+fi
+
+
+
+if test "$kde_python_link_found" = no; then
+
+if test "pthread_and_panel_curses" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on $LIBPTHREAD $LIBDL -lm -lpanel -lcurses" >&5
+echo $ECHO_N "checking if Python depends on $LIBPTHREAD $LIBDL -lm -lpanel -lcurses... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_pthread_and_panel_curses+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON $LIBPTHREAD $LIBDL -lm -lpanel -lcurses $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_pthread_and_panel_curses=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_pthread_and_panel_curses=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_pthread_and_panel_curses" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "pthread_and_panel_curses" = normal; then
+    LIBPYTHON="$LIBPYTHON $LIBPTHREAD $LIBDL -lm -lpanel -lcurses"
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
 
 fi
 
@@ -7182,14 +7121,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread_and_db_special+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -7258,19 +7189,13 @@ else
   echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6
   { echo "$as_me:$LINENO: WARNING: it seems, Python depends on another library.
-    Pleae set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
+    Please set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
     and contact the authors to let them know about this problem" >&5
 echo "$as_me: WARNING: it seems, Python depends on another library.
-    Pleae set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
+    Please set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
     and contact the authors to let them know about this problem" >&2;}
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -7306,14 +7231,6 @@ if test "${kde_cv_try_link_python_normal+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
 
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
 kde_save_libs="$LIBS"
@@ -7382,12 +7299,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -7406,14 +7317,6 @@ fi
 if test "${kde_cv_try_link_python_m+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -7483,12 +7386,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -7507,14 +7404,6 @@ fi
 if test "${kde_cv_try_link_python_pthread+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -7584,12 +7473,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -7608,14 +7491,6 @@ fi
 if test "${kde_cv_try_link_python_tcl+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -7685,12 +7560,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -7709,14 +7578,6 @@ fi
 if test "${kde_cv_try_link_python_db2+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -7786,12 +7647,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -7810,14 +7665,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -7887,12 +7734,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -7911,14 +7752,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread_and_util+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -7988,12 +7821,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -8012,14 +7839,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread_and_db3+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -8089,12 +7908,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -8113,14 +7926,6 @@ fi
 if test "${kde_cv_try_link_python_pthread_and_db3+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -8190,12 +7995,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -8214,14 +8013,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread_and_db+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -8291,12 +8082,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -8315,14 +8100,6 @@ fi
 if test "${kde_cv_try_link_python_pthread_and_dl+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -8392,12 +8169,93 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
+fi
+
+
+
+if test "$kde_python_link_found" = no; then
+
+if test "pthread_and_panel_curses" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on $LIBPTHREAD $LIBDL -lm -lpanel -lcurses" >&5
+echo $ECHO_N "checking if Python depends on $LIBPTHREAD $LIBDL -lm -lpanel -lcurses... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_pthread_and_panel_curses+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON $LIBPTHREAD $LIBDL -lm -lpanel -lcurses $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_pthread_and_panel_curses=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_pthread_and_panel_curses=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_pthread_and_panel_curses" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "pthread_and_panel_curses" = normal; then
+    LIBPYTHON="$LIBPYTHON $LIBPTHREAD $LIBDL -lm -lpanel -lcurses"
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
 
 fi
 
@@ -8416,14 +8274,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread_and_db_special+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -8492,19 +8342,13 @@ else
   echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6
   { echo "$as_me:$LINENO: WARNING: it seems, Python depends on another library.
-    Pleae set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
+    Please set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
     and contact the authors to let them know about this problem" >&5
 echo "$as_me: WARNING: it seems, Python depends on another library.
-    Pleae set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
+    Please set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
     and contact the authors to let them know about this problem" >&2;}
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -8541,14 +8385,6 @@ if test "${kde_cv_try_link_python_normal+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
 
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
 kde_save_libs="$LIBS"
@@ -8617,12 +8453,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -8641,14 +8471,6 @@ fi
 if test "${kde_cv_try_link_python_m+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -8718,12 +8540,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -8742,14 +8558,6 @@ fi
 if test "${kde_cv_try_link_python_pthread+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -8819,12 +8627,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -8843,14 +8645,6 @@ fi
 if test "${kde_cv_try_link_python_tcl+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -8920,12 +8714,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -8944,14 +8732,6 @@ fi
 if test "${kde_cv_try_link_python_db2+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -9021,12 +8801,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -9045,14 +8819,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -9122,12 +8888,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -9146,14 +8906,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread_and_util+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -9223,12 +8975,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -9247,14 +8993,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread_and_db3+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -9324,12 +9062,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -9348,14 +9080,6 @@ fi
 if test "${kde_cv_try_link_python_pthread_and_db3+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -9425,12 +9149,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -9449,14 +9167,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread_and_db+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -9526,12 +9236,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -9550,14 +9254,6 @@ fi
 if test "${kde_cv_try_link_python_pthread_and_dl+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -9627,12 +9323,93 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
+fi
+
+
+
+if test "$kde_python_link_found" = no; then
+
+if test "pthread_and_panel_curses" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on $LIBPTHREAD $LIBDL -lm -lpanel -lcurses" >&5
+echo $ECHO_N "checking if Python depends on $LIBPTHREAD $LIBDL -lm -lpanel -lcurses... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_pthread_and_panel_curses+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON $LIBPTHREAD $LIBDL -lm -lpanel -lcurses $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_pthread_and_panel_curses=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_pthread_and_panel_curses=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_pthread_and_panel_curses" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "pthread_and_panel_curses" = normal; then
+    LIBPYTHON="$LIBPYTHON $LIBPTHREAD $LIBDL -lm -lpanel -lcurses"
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
 
 fi
 
@@ -9651,14 +9428,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread_and_db_special+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -9727,19 +9496,13 @@ else
   echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6
   { echo "$as_me:$LINENO: WARNING: it seems, Python depends on another library.
-    Pleae set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
+    Please set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
     and contact the authors to let them know about this problem" >&5
 echo "$as_me: WARNING: it seems, Python depends on another library.
-    Pleae set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
+    Please set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
     and contact the authors to let them know about this problem" >&2;}
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -9756,6 +9519,7 @@ cat >>confdefs.h <<\_ACEOF
 _ACEOF
 
 fi
+
 
 
 else
@@ -9775,14 +9539,6 @@ if test "${kde_cv_try_link_python_normal+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
 
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
 kde_save_libs="$LIBS"
@@ -9851,12 +9607,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -9875,14 +9625,6 @@ fi
 if test "${kde_cv_try_link_python_m+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -9952,12 +9694,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -9976,14 +9712,6 @@ fi
 if test "${kde_cv_try_link_python_pthread+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -10053,12 +9781,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -10077,14 +9799,6 @@ fi
 if test "${kde_cv_try_link_python_tcl+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -10154,12 +9868,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -10178,14 +9886,6 @@ fi
 if test "${kde_cv_try_link_python_db2+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -10255,12 +9955,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -10279,14 +9973,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -10356,12 +10042,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -10380,14 +10060,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread_and_util+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -10457,12 +10129,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -10481,14 +10147,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread_and_db3+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -10558,12 +10216,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -10582,14 +10234,6 @@ fi
 if test "${kde_cv_try_link_python_pthread_and_db3+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -10659,12 +10303,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -10683,14 +10321,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread_and_db+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -10760,12 +10390,6 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -10784,14 +10408,6 @@ fi
 if test "${kde_cv_try_link_python_pthread_and_dl+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -10861,12 +10477,93 @@ else
 echo "${ECHO_T}no" >&6
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
+fi
+
+
+
+if test "$kde_python_link_found" = no; then
+
+if test "pthread_and_panel_curses" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on $LIBPTHREAD $LIBDL -lm -lpanel -lcurses" >&5
+echo $ECHO_N "checking if Python depends on $LIBPTHREAD $LIBDL -lm -lpanel -lcurses... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_pthread_and_panel_curses+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON $LIBPTHREAD $LIBDL -lm -lpanel -lcurses $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_pthread_and_panel_curses=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_pthread_and_panel_curses=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_pthread_and_panel_curses" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "pthread_and_panel_curses" = normal; then
+    LIBPYTHON="$LIBPYTHON $LIBPTHREAD $LIBDL -lm -lpanel -lcurses"
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
 
 fi
 
@@ -10885,14 +10582,6 @@ fi
 if test "${kde_cv_try_link_python_m_and_thread_and_db_special+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
-
-
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 kde_save_cflags="$CFLAGS"
 CFLAGS="$CFLAGS $PYTHONINC"
@@ -10961,19 +10650,13 @@ else
   echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6
   { echo "$as_me:$LINENO: WARNING: it seems, Python depends on another library.
-    Pleae set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
+    Please set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
     and contact the authors to let them know about this problem" >&5
 echo "$as_me: WARNING: it seems, Python depends on another library.
-    Pleae set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
+    Please set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
     and contact the authors to let them know about this problem" >&2;}
 
 fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 fi
 
@@ -10992,7 +10675,1380 @@ _ACEOF
 fi
 
 
-################ patch ! ############
+
+else
+    kde_python_link_found=no
+
+if test "$kde_python_link_found" = no; then
+
+if test "normal" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on " >&5
+echo $ECHO_N "checking if Python depends on ... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_normal+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON  $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_normal=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_normal=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_normal" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "normal" = normal; then
+    LIBPYTHON="$LIBPYTHON "
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
+
+fi
+
+
+
+if test "$kde_python_link_found" = no; then
+
+if test "m" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on -lm" >&5
+echo $ECHO_N "checking if Python depends on -lm... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_m+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON -lm $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_m=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_m=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_m" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "m" = normal; then
+    LIBPYTHON="$LIBPYTHON -lm"
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
+
+fi
+
+
+
+if test "$kde_python_link_found" = no; then
+
+if test "pthread" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on $LIBPTHREAD" >&5
+echo $ECHO_N "checking if Python depends on $LIBPTHREAD... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_pthread+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON $LIBPTHREAD $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_pthread=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_pthread=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_pthread" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "pthread" = normal; then
+    LIBPYTHON="$LIBPYTHON $LIBPTHREAD"
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
+
+fi
+
+
+
+if test "$kde_python_link_found" = no; then
+
+if test "tcl" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on -ltcl" >&5
+echo $ECHO_N "checking if Python depends on -ltcl... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_tcl+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON -ltcl $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_tcl=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_tcl=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_tcl" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "tcl" = normal; then
+    LIBPYTHON="$LIBPYTHON -ltcl"
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
+
+fi
+
+
+
+if test "$kde_python_link_found" = no; then
+
+if test "db2" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on -ldb2" >&5
+echo $ECHO_N "checking if Python depends on -ldb2... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_db2+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON -ldb2 $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_db2=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_db2=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_db2" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "db2" = normal; then
+    LIBPYTHON="$LIBPYTHON -ldb2"
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
+
+fi
+
+
+
+if test "$kde_python_link_found" = no; then
+
+if test "m_and_thread" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on $LIBPTHREAD -lm" >&5
+echo $ECHO_N "checking if Python depends on $LIBPTHREAD -lm... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_m_and_thread+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON $LIBPTHREAD -lm $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_m_and_thread=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_m_and_thread=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_m_and_thread" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "m_and_thread" = normal; then
+    LIBPYTHON="$LIBPYTHON $LIBPTHREAD -lm"
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
+
+fi
+
+
+
+if test "$kde_python_link_found" = no; then
+
+if test "m_and_thread_and_util" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on $LIBPTHREAD -lm -lutil" >&5
+echo $ECHO_N "checking if Python depends on $LIBPTHREAD -lm -lutil... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_m_and_thread_and_util+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON $LIBPTHREAD -lm -lutil $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_m_and_thread_and_util=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_m_and_thread_and_util=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_m_and_thread_and_util" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "m_and_thread_and_util" = normal; then
+    LIBPYTHON="$LIBPYTHON $LIBPTHREAD -lm -lutil"
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
+
+fi
+
+
+
+if test "$kde_python_link_found" = no; then
+
+if test "m_and_thread_and_db3" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on $LIBPTHREAD -lm -ldb-3 -lutil" >&5
+echo $ECHO_N "checking if Python depends on $LIBPTHREAD -lm -ldb-3 -lutil... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_m_and_thread_and_db3+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON $LIBPTHREAD -lm -ldb-3 -lutil $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_m_and_thread_and_db3=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_m_and_thread_and_db3=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_m_and_thread_and_db3" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "m_and_thread_and_db3" = normal; then
+    LIBPYTHON="$LIBPYTHON $LIBPTHREAD -lm -ldb-3 -lutil"
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
+
+fi
+
+
+
+if test "$kde_python_link_found" = no; then
+
+if test "pthread_and_db3" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on $LIBPTHREAD -ldb-3" >&5
+echo $ECHO_N "checking if Python depends on $LIBPTHREAD -ldb-3... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_pthread_and_db3+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON $LIBPTHREAD -ldb-3 $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_pthread_and_db3=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_pthread_and_db3=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_pthread_and_db3" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "pthread_and_db3" = normal; then
+    LIBPYTHON="$LIBPYTHON $LIBPTHREAD -ldb-3"
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
+
+fi
+
+
+
+if test "$kde_python_link_found" = no; then
+
+if test "m_and_thread_and_db" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on $LIBPTHREAD -lm -ldb -ltermcap -lutil" >&5
+echo $ECHO_N "checking if Python depends on $LIBPTHREAD -lm -ldb -ltermcap -lutil... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_m_and_thread_and_db+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON $LIBPTHREAD -lm -ldb -ltermcap -lutil $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_m_and_thread_and_db=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_m_and_thread_and_db=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_m_and_thread_and_db" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "m_and_thread_and_db" = normal; then
+    LIBPYTHON="$LIBPYTHON $LIBPTHREAD -lm -ldb -ltermcap -lutil"
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
+
+fi
+
+
+
+if test "$kde_python_link_found" = no; then
+
+if test "pthread_and_dl" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on $LIBPTHREAD $LIBDL -lutil -lreadline -lncurses -lm" >&5
+echo $ECHO_N "checking if Python depends on $LIBPTHREAD $LIBDL -lutil -lreadline -lncurses -lm... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_pthread_and_dl+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON $LIBPTHREAD $LIBDL -lutil -lreadline -lncurses -lm $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_pthread_and_dl=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_pthread_and_dl=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_pthread_and_dl" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "pthread_and_dl" = normal; then
+    LIBPYTHON="$LIBPYTHON $LIBPTHREAD $LIBDL -lutil -lreadline -lncurses -lm"
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
+
+fi
+
+
+
+if test "$kde_python_link_found" = no; then
+
+if test "pthread_and_panel_curses" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on $LIBPTHREAD $LIBDL -lm -lpanel -lcurses" >&5
+echo $ECHO_N "checking if Python depends on $LIBPTHREAD $LIBDL -lm -lpanel -lcurses... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_pthread_and_panel_curses+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON $LIBPTHREAD $LIBDL -lm -lpanel -lcurses $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_pthread_and_panel_curses=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_pthread_and_panel_curses=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_pthread_and_panel_curses" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "pthread_and_panel_curses" = normal; then
+    LIBPYTHON="$LIBPYTHON $LIBPTHREAD $LIBDL -lm -lpanel -lcurses"
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
+
+fi
+
+
+
+if test "$kde_python_link_found" = no; then
+
+if test "m_and_thread_and_db_special" = normal; then
+  echo "$as_me:$LINENO: checking if a Python application links" >&5
+echo $ECHO_N "checking if a Python application links... $ECHO_C" >&6
+else
+  echo "$as_me:$LINENO: checking if Python depends on $LIBPTHREAD -lm -ldb -lutil" >&5
+echo $ECHO_N "checking if Python depends on $LIBPTHREAD -lm -ldb -lutil... $ECHO_C" >&6
+fi
+
+if test "${kde_cv_try_link_python_m_and_thread_and_db_special+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+kde_save_cflags="$CFLAGS"
+CFLAGS="$CFLAGS $PYTHONINC"
+kde_save_libs="$LIBS"
+LIBS="$LIBS $LIBPYTHON $LIBPTHREAD -lm -ldb -lutil $LIBDL $LIBSOCKET"
+kde_save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS $PYTHONLIB"
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <Python.h>
+
+int
+main ()
+{
+
+	PySys_SetArgv(1, 0);
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  kde_cv_try_link_python_m_and_thread_and_db_special=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+kde_cv_try_link_python_m_and_thread_and_db_special=no
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$kde_save_cflags"
+LIBS="$kde_save_libs"
+LDFLAGS="$kde_save_ldflags"
+
+fi
+
+
+if test "$kde_cv_try_link_python_m_and_thread_and_db_special" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_python_link_found=yes
+  if test ! "m_and_thread_and_db_special" = normal; then
+    LIBPYTHON="$LIBPYTHON $LIBPTHREAD -lm -ldb -lutil"
+  fi
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+  { echo "$as_me:$LINENO: WARNING: it seems, Python depends on another library.
+    Please set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
+    and contact the authors to let them know about this problem" >&5
+echo "$as_me: WARNING: it seems, Python depends on another library.
+    Please set LIBPYTHON to '-lpython$version -lotherlib' before calling configure to fix this
+    and contact the authors to let them know about this problem" >&2;}
+
+fi
+
+fi
+
+
+
+  LIBPYTHON="$LIBPYTHON $LIBDL $LIBSOCKET"
+
+
+
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_PYTHON 1
+_ACEOF
+
+fi
+
+
+
+
+if test -z ""; then
+  # Current default Qt version: 3.2
+  kde_qtver=3
+  kde_qtsubver=2
+else
+  kde_qtsubver=`echo "" | sed -e 's#[0-9][0-9]*\.\([0-9][0-9]*\).*#\1#'`
+  # following is the check if subversion isnt found in passed argument
+  if test "$kde_qtsubver" = ""; then
+    kde_qtsubver=1
+  fi
+  kde_qtver=`echo "" | sed -e 's#^\([0-9][0-9]*\)\..*#\1#'`
+  if test "$kde_qtver" = "1"; then
+    kde_qtsubver=42
+  fi
+fi
+
+if test -z ""; then
+  if test "$kde_qtver" = "2"; then
+    if test $kde_qtsubver -gt 0; then
+      kde_qt_minversion=">= Qt 2.2.2"
+    else
+      kde_qt_minversion=">= Qt 2.0.2"
+    fi
+  fi
+  if test "$kde_qtver" = "3"; then
+    if test $kde_qtsubver -gt 0; then
+	 if test $kde_qtsubver -gt 1; then
+	    kde_qt_minversion=">= Qt 3.2"
+	 else
+            kde_qt_minversion=">= Qt 3.1 (20021021)"
+         fi
+    else
+      kde_qt_minversion=">= Qt 3.0"
+    fi
+  fi
+  if test "$kde_qtver" = "1"; then
+    kde_qt_minversion=">= 1.42 and < 2.0"
+  fi
+else
+   kde_qt_minversion=
+fi
+
+if test -z ""; then
+   if test $kde_qtver = 3; then
+     if test $kde_qtsubver -gt 0; then
+       kde_qt_verstring="QT_VERSION >= 0x03@VER@00"
+       qtsubver=`echo "00$kde_qtsubver" | sed -e 's,.*\(..\)$,\1,'`
+       kde_qt_verstring=`echo $kde_qt_verstring | sed -e "s,@VER@,$qtsubver,"`
+     else
+       kde_qt_verstring="QT_VERSION >= 300"
+     fi
+   fi
+   if test $kde_qtver = 2; then
+     if test $kde_qtsubver -gt 0; then
+       kde_qt_verstring="QT_VERSION >= 222"
+     else
+       kde_qt_verstring="QT_VERSION >= 200"
+     fi
+   fi
+   if test $kde_qtver = 1; then
+    kde_qt_verstring="QT_VERSION >= 142 && QT_VERSION < 200"
+   fi
+else
+   kde_qt_verstring=
+fi
+
+if test $kde_qtver = 3; then
+  kde_qt_dirs="$QTDIR /usr/lib/qt3 /usr/lib/qt /usr/share/qt3"
+fi
+if test $kde_qtver = 2; then
+   kde_qt_dirs="$QTDIR /usr/lib/qt2 /usr/lib/qt"
+fi
+if test $kde_qtver = 1; then
+   kde_qt_dirs="$QTDIR /usr/lib/qt"
+fi
+
+
+
+echo "$as_me:$LINENO: checking if Qt compiles without flags" >&5
+echo $ECHO_N "checking if Qt compiles without flags... $ECHO_C" >&6
+if test "${kde_cv_qt_direct+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+
+
+
+ ac_ext=cc
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+ac_link='rm -rf SunWS_cache; ${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
+
+
+ac_LD_LIBRARY_PATH_safe=$LD_LIBRARY_PATH
+ac_LIBRARY_PATH="$LIBRARY_PATH"
+ac_cxxflags_safe="$CXXFLAGS"
+ac_ldflags_safe="$LDFLAGS"
+ac_libs_safe="$LIBS"
+
+CXXFLAGS="$CXXFLAGS -I$qt_includes"
+LDFLAGS="$LDFLAGS $X_LDFLAGS"
+if test "x$kde_use_qt_emb" != "xyes" && test "x$kde_use_qt_mac" != "xyes"; then
+LIBS="$LIBQT -lXext -lX11 $LIBSOCKET"
+else
+LIBS="$LIBQT $LIBSOCKET"
+fi
+LD_LIBRARY_PATH=
+export LD_LIBRARY_PATH
+LIBRARY_PATH=
+export LIBRARY_PATH
+
+
+
+cat > conftest.$ac_ext <<EOF
+#include "confdefs.h"
+#include <qglobal.h>
+#include <qapplication.h>
+EOF
+if test "$kde_qtver" = "2"; then
+cat >> conftest.$ac_ext <<EOF
+#include <qevent.h>
+#include <qstring.h>
+#include <qstyle.h>
+EOF
+
+if test $kde_qtsubver -gt 0; then
+cat >> conftest.$ac_ext <<EOF
+#if QT_VERSION < 210
+#error 1
+#endif
+EOF
+fi
+fi
+
+if test "$kde_qtver" = "3"; then
+cat >> conftest.$ac_ext <<EOF
+#include <qcursor.h>
+#include <qstylefactory.h>
+#include <private/qucomextra_p.h>
+EOF
+fi
+
+echo "#if ! ($kde_qt_verstring)" >> conftest.$ac_ext
+cat >> conftest.$ac_ext <<EOF
+#error 1
+#endif
+
+int main() {
+EOF
+if test "$kde_qtver" = "2"; then
+cat >> conftest.$ac_ext <<EOF
+    QStringList *t = new QStringList();
+    Q_UNUSED(t);
+EOF
+if test $kde_qtsubver -gt 0; then
+cat >> conftest.$ac_ext <<EOF
+    QString s;
+    s.setLatin1("Elvis is alive", 14);
+EOF
+fi
+fi
+if test "$kde_qtver" = "3"; then
+cat >> conftest.$ac_ext <<EOF
+    (void)QStyleFactory::create(QString::null);
+    QCursor c(Qt::WhatsThisCursor);
+EOF
+fi
+cat >> conftest.$ac_ext <<EOF
+    return 0;
+}
+EOF
+
+
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && test -s conftest; then
+  kde_cv_qt_direct="yes"
+else
+  kde_cv_qt_direct="no"
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+fi
+
+rm -f conftest*
+CXXFLAGS="$ac_cxxflags_safe"
+LDFLAGS="$ac_ldflags_safe"
+LIBS="$ac_libs_safe"
+
+LD_LIBRARY_PATH="$ac_LD_LIBRARY_PATH_safe"
+export LD_LIBRARY_PATH
+LIBRARY_PATH="$ac_LIBRARY_PATH"
+export LIBRARY_PATH
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+fi
+
+
+if test "$kde_cv_qt_direct" = "yes"; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+
+fi
+
+
+
 
   echo "$as_me:$LINENO: checking check for tmake or qmake" >&5
 echo $ECHO_N "checking check for tmake or qmake... $ECHO_C" >&6
@@ -11014,10 +12070,6 @@ echo $ECHO_N "checking check for tmake or qmake... $ECHO_C" >&6
   fi
   echo "$as_me:$LINENO: result: $ac_found_tmake (found $ac_tmake)" >&5
 echo "${ECHO_T}$ac_found_tmake (found $ac_tmake)" >&6
-
-
-
-
 
 
 
@@ -12092,19 +13144,6 @@ echo "$as_me: error: cannot create directory \"$ac_dir\"" >&2;}
     cat $tmp/config.h
     rm -f $tmp/config.h
   fi
-_am_stamp_count=`expr ${_am_stamp_count-0} + 1`
-echo "timestamp for $ac_file" >`(dirname $ac_file) 2>/dev/null ||
-$as_expr X$ac_file : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
-         X$ac_file : 'X\(//\)[^/]' \| \
-         X$ac_file : 'X\(//\)$' \| \
-         X$ac_file : 'X\(/\)' \| \
-         .     : '\(.\)' 2>/dev/null ||
-echo X$ac_file |
-    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{ s//\1/; q; }
-  	  /^X\(\/\/\)[^/].*/{ s//\1/; q; }
-  	  /^X\(\/\/\)$/{ s//\1/; q; }
-  	  /^X\(\/\).*/{ s//\1/; q; }
-  	  s/.*/./; q'`/stamp-h$_am_stamp_count
 done
 _ACEOF
 

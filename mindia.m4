@@ -1,5 +1,5 @@
 
-// ** WARNING: this is only the code, which has to be placed in aclocal.m4 !!!
+dnl ** WARNING: this is only the code, which has to be placed in aclocal.m4 !!!
 
 AC_DEFUN(AC_CHECK_TMAKE,
 [
