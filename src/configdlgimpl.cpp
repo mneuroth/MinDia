@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/configdlgimpl.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2004/02/16 19:50:26  min
+ *	Fixes for Borland C++
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -47,9 +50,11 @@ ConfigurationDlgImpl::ConfigurationDlgImpl( DocumentAndControler * pControler, Q
     connect( this, SIGNAL( sigDocumentUpdate() ), parent, SLOT( sltDoDocumentStateUpdate() ) );
     connect( this, SIGNAL( sigDialogHelp(QWidget *, const QString &) ), parent, SLOT( sltShowModalHelp(QWidget *, const QString &) ) );
 
-	// ** timeouts are not supported yet 
+	// ** timeouts are not supported yet
+#ifndef ZAURUS
 	m_pReadTimeout->setEnabled( false );
 	m_pWriteTimeout->setEnabled( false );
+#endif
 }
 
 ConfigurationDlgImpl::~ConfigurationDlgImpl()
@@ -178,8 +183,10 @@ void ConfigurationDlgImpl::TransferDataToControl()
 	m_pFlowControlList->insertItem( tr( "XON/XOFF" ) );
 	m_pFlowControlList->insertItem( tr( "hardware" ) );
 
+#ifndef ZAURUS
 	m_pReadTimeout->setText( "20000" );
 	m_pWriteTimeout->setText( "20000" );
+#endif
 
 	// ** set the document data **
 
@@ -212,7 +219,7 @@ void ConfigurationDlgImpl::TransferDataToControl()
 
 #ifndef ZAURUS
 	m_pExecuteEvents->setChecked( m_pControler->GetPresentation().GetScriptEnvironment().IsEnabled() );
-#endif	
+#endif
 }
 
 void ConfigurationDlgImpl::TransferDataFromControl()

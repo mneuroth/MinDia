@@ -8,7 +8,7 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diainfodlgimpl.cpp,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
  *	Revision 1.2  2003/10/26 17:37:18  min
@@ -59,20 +59,26 @@ DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, const 
 
 	m_pDissolveValidator = new QDoubleValidator( 0, 10.0, 1, m_pDissolveEdit );
 	m_pTimerValidator = new QDoubleValidator( 0, 100.0, 1, m_pTimerEdit );
+#ifndef ZAURUS
 	m_pEffectCountValidator = new QIntValidator( 0, 4, m_pEffectCount );
+#endif
 
 	m_pDissolveEdit->setValidator( m_pDissolveValidator );
 	m_pTimerEdit->setValidator( m_pTimerValidator );
+#ifndef ZAURUS
 	m_pEffectCount->setValidator( m_pEffectCountValidator );
+#endif
 
 	// ** set new accelerators for fast movement
     m_pPrevious->setAccel( CTRL+Key_Left );
     m_pNext->setAccel( CTRL+Key_Right );
 
+#ifndef ZAURUS
 	// min todo --> Effekte werden noch nicht unterstuezt
 	m_pEffectButtonGroup->setEnabled( false );
 
 	m_pScript->setEnabled( false );
+#endif
 
     connect( this, SIGNAL( sigUpdateViews() ), parent, SLOT( sltDoUpdateAllViews() ) );
     connect( this, SIGNAL( sigDataChanged() ), parent, SLOT( sltDoDataChanged() ) );
@@ -113,13 +119,15 @@ void DiaInfoDlgImpl::sltDisableDialog( bool bCheckData )
 	m_pDissolveEdit->setText( "" );
 	m_pTimerEdit->setEnabled( bValue );
 	m_pTimerEdit->setText( "" );
-	m_pFileNameButton->setEnabled( bValue );
+#ifndef ZAURUS
 	m_pScript->setEnabled( bValue );
 	m_pScript->setText( "" );
+	m_pFileNameButton->setEnabled( bValue );
 	m_pModifyScript->setEnabled( bValue );
+	m_pSlideFormat->setEnabled( bValue );
+#endif
 	m_pPrevious->setEnabled( bValue );
 	m_pNext->setEnabled( bValue );
-	m_pSlideFormat->setEnabled( bValue );
 	m_pNewItem->setEnabled( bValue );
 	m_pDeleteItem->setEnabled( bValue );
 
@@ -150,12 +158,14 @@ void DiaInfoDlgImpl::sltUpdateData( minHandle<DiaInfo> hData, bool bEnable )
 	m_pCommentEdit->setEnabled( bValue );
 	m_pDissolveEdit->setEnabled( bValue );
 	m_pTimerEdit->setEnabled( bValue );
+#ifndef ZAURUS
 	m_pFileNameButton->setEnabled( bValue );
 	m_pScript->setEnabled( bValue );
 	m_pModifyScript->setEnabled( bValue );
+	m_pSlideFormat->setEnabled( bValue );
+#endif
 	m_pPrevious->setEnabled( bValue );
 	m_pNext->setEnabled( bValue );
-	m_pSlideFormat->setEnabled( bValue );
 	m_pNewItem->setEnabled( bValue );
 	m_pDeleteItem->setEnabled( bValue );
 
@@ -165,8 +175,9 @@ void DiaInfoDlgImpl::sltUpdateData( minHandle<DiaInfo> hData, bool bEnable )
 	{
 		m_pIDEdit->setText( hData->GetId() );
 		m_pFileNameEdit->setText( hData->GetImageFile() );
-		m_pScript->setText( hData->GetScript() );
 		m_pCommentEdit->setText( hData->GetComment() );
+#ifndef ZAURUS
+		m_pScript->setText( hData->GetScript() );
 
 		if( hData->IsHorizontalFormat() )
 		{
@@ -176,7 +187,7 @@ void DiaInfoDlgImpl::sltUpdateData( minHandle<DiaInfo> hData, bool bEnable )
 		{
 			m_pVerticalFormat->setChecked( true );
 		}
-
+#endif
 		for( int i=0; i<hData->GetOperationCount(); i++ )
 		{
 			TimeOperation aOp = hData->GetOperation( i );
@@ -221,12 +232,16 @@ void DiaInfoDlgImpl::sltApplyData()
 		QString s1 = m_pIDEdit->text();
 		QString s2 = m_pFileNameEdit->text();
 		QString s3 = m_pCommentEdit->text();
-		QString s4 = m_pScript->text();
+		QString s4;
 
+#ifndef ZAURUS
+		s4 = m_pScript->text();
+#endif
 		hData->SetData( (const char *)s1, (const char *)s2, (const char *)s3, (const char *)s4 );
 
+#ifndef ZAURUS
 		hData->SetHorizontalFormat( m_pHorizontalFormat->isChecked() );
-
+#endif
 		for( int i=0; i<hData->GetOperationCount(); i++ )
 		{
 			TimeOperation aOp = hData->GetOperation( i );
