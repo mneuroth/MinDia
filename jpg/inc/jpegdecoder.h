@@ -28,7 +28,8 @@
 #define SUPPORT_X86ASM
 //------------------------------------------------------------------------------
 // Define SUPPORT_MMX to include MMX support.
-//#define SUPPORT_MMX		// funktioniert im release modus nicht !
+#define SUPPORT_MMX		// funktioniert im release modus nicht ! 
+						// --> funktioniert jedoch wenn /O2 Option ausgeschaltet !
 //------------------------------------------------------------------------------
 #define JPGD_INBUFSIZE       4096
 //------------------------------------------------------------------------------
