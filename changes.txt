@@ -288,6 +288,7 @@ change history:
 21. 6.2003	4h		working on a qt-python-gui for the script/function makecddist.py, implementing font and color dialog for dynamic text edit dialog, 
                     bugfixes for dynamic texts (edit and play from), dynamic texts can now be deleted
 15. 8.2003	4h		initial cvs checkin for ver. 0.97.1, testing the release, upload to sourceforge
+---------------------------------------------------------------------------------------------------
 14. 9.2003  2h		changes from Olaf Schlachter included, problems for SuSE 7.3 fixed, saving ini-file in user-home-directory (linux) implemented
 23. 9.2003  2h		working on mp3 file length calculation (for linux)
 24. 9.2003	2h		scripts are now stored in a separate directory (scripts)
@@ -297,6 +298,25 @@ change history:
 25.10.2003	3h		handling of name of diapresentation changed, saving path and name seperately,
                     included read_mp3.cpp for calcualtion of the mp3-file length under linux,
 					saving configuration values in ini-file (com-port-settings, logging, projectortype, etc.)
+					path to ini-file changed: linux==HOME directory of user; windows==via windows registry
+ 8.11.2003	3h		started with the interface for other projectors (igendev.h), dummy implementation for gendev in a gendev-module
+ 9.11.2003	4h		jpeg-library uses now mmx, in release mode compiler option /O2 disabled (speed optimization!),
+					miniini.* moved into minsrv module, worked on interface for other projectors
+					helpfile updated, language files *.qm updated, target cddist updated --> preparing project for install-tool
+15.11.2003  3h      working on installation tool (python)
+24.12.2003  1h		working on mindia_nl.po
+ 2. 1.2003  1h		working on mindia_en.html
+12. 1.2004  3h		working on the installation tool --> now using Inno Setup (mindia.iss)
+13. 1.2004  2h		working on the installation tool (script)
+16. 1.2004  3h		improved the DynamicText-Dialog and added context-menu item to call this dialog
+17. 1.2004	6h		improved the DynamicText-Dialog, working on mindia_nl.po (finished!)
+18. 1.2004	8h		created example_nz.iss to produce a windows installation for the example (example001.exe),
+                    bugfix for moving dyn. text items with mouse,
+					configure-script improved (no qt detection needed), tmake/qmake detection in new generated (autoconf) configure patched !
+
+GetUserDefaultLangID() zur Bestimmung der Sprache !
+
+--> Execute sript events
 
 TODO: 
 - Project-Homepage verbessern

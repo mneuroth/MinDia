@@ -23,27 +23,31 @@ Vor Release zu tun:
 
 //---------------------------------------------------------------------------
 
+//- Installations-Programm fuer Windows (inkl. Registry-Eintrag für .mindia.ini, Desktop-Icon erzeugen, Start-Menu-Eintrag erzeugen)
+//- niederländische Version erzeugen
+//- Demo Vortrag mit allen Features (inkl. dyn. Text)
+//- bessere autoconf / configure Unterstützung
+- Dokumentation ins englische übersetzen
+- bessere Device-Interface Anbindung realisieren: z.B. Device configurieren
+- Performance-Optimierungen fuer Drag-and-Drop
+- ggf. KDevelop Unterstützung
+- komfortablere Text-Eingabe ermöglichen
+(- bessere Installation unter Linux (make install) implementieren --> html Dateien für Hilfe)
+- Zmindia schaltet sich immer im Play-Modus aus (wenn keine Aktivität mit Eingabe erfolgt)
 //- Skripte in eigenes Verzeichnis verschieben --> probleme mit PYTHONPATH !!!
 //- data-Verzeichnis, images-Verzeichnis, music-Verzeichnis unterstützen
 //- Bug: in release kein setzen des Skript-Verzeichnisses
 //- relative Pfade für Sound und Bilder speichern (und Diapresentation)
 //- bessere mp3 Unterstützung für Linux (Länge der mp3-Datei bestimmen)
-- Performance-Optimierungen fuer Drag-and-Drop
-- Installations-Programm fuer Windows (inkl. Registry-Eintrag für .mindia.ini, Desktop-Icon erzeugen, Start-Menu-Eintrag erzeugen)
-- bessere autoconf / configure Unterstützung
-- ggf. KDevelop Unterstützung
-- Dokumentation ins englische übersetzen
-(- diverse Configurierungs-Daten in INI-Datei speichern, z.B. Logging on/off, Bildschirmposition und Größe etc.)
 //- INI-Datei unter Unix aus User-Home Verzeichnis lesen ~/.mindia.ini
-- komfortablere Text-Eingabe ermöglichen
-- Änderungen von Oliver Schlachter einbauen
-- bessere Installation unter Linux (make install) implementieren --> html Dateien für Hilfe
-- Zmindia schaltet sich immer im Play-Modus aus (wenn keine Aktivität mit Eingabe erfolgt)
-- Hilfe aktualisieren für Menupunkt "make relative paths"
+//- Änderungen von Oliver Schlachter einbauen
+//- Hilfe aktualisieren für Menupunkt "make relative paths"
+//- Interface für andere Diaprojektoren implementieren
+(- diverse Configurierungs-Daten in INI-Datei speichern, z.B. Logging on/off, Bildschirmposition und Größe etc.)
 
 - Einlesen von Dia-Shows vom Projektor implementieren
 - Sonderfunktionen unterstützen
-- bessere Sound-Manipulation (mit Maus verschieben)d
+- bessere Sound-Manipulation (mit Maus verschieben)
 
 - Dokumentation verbessern _Online-Doku (User+Entwickler)
    --> Ansteuerung ueber TIMER, Kommunikation und WAV-Read ueber Thread

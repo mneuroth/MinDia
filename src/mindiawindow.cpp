@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.cpp,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2003/10/26 17:34:05  min
+ *	MakeRelativePaths() added. Directories for images, sounds, data, scirpts added.
+ *	
  *	Revision 1.2  2003/08/15 19:39:06  min
  *	size of sub-widget changed, debug comments deleted
  *	
@@ -124,12 +127,12 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 	  m_pDynGraphicOpDialog( 0 ),
 	  m_pHelpDialog( 0 ),
 	  m_pStatusUpdateTimer( 0 ),
+	  m_pAutoStartTimer( 0 ),
 	  m_iCount( 0 ),
 	  m_pFirstSelectedItem( 0 ),
 	  m_iFirstSelectedItemNo( -1 ),
 	  m_sLanguage( sLanguage ),
 	  m_dDissolveTime( 2.5 ),
-	  m_pAutoStartTimer( 0 ),
 	  m_bExitOnFinished( false ),
       m_iScreenX( 0 ),
       m_iScreenY( 0 ),
@@ -238,7 +241,7 @@ void MinDiaWindow::CreateMenus()
     menuBar()->insertItem( tr( "&Edit" ), m_pEdit );
     menuBar()->insertItem( tr( "&Play" ), m_pPlay );
     menuBar()->insertItem( tr( "E&xtras" ), m_pExtras );
-    menuBar()->insertItem( tr( "P&lugins" ), m_pPlugins );
+    menuBar()->insertItem( tr( "&Plugins" ), m_pPlugins );
     menuBar()->insertItem( tr( "&Help" ), m_pHelp );
 
 	// *** submenu: File ***

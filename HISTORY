@@ -2,41 +2,66 @@ change history of MinDia
 ========================
 
 ------------------------------------------------------------------------------
+xx.xx.xxxx  Version 0.97.2 released
+
+            new features:
+			  * english documentation
+              * new menu point: "Make relative paths"
+              * example slide show available (example_nz.dia)
+			  * demo device driver (to control other slide projector hardware)
+            bugfixes and improvements:
+			  * nederlands/dutch version now available
+              * bugfixes from Olaf Schlachter for MSC 3x0 P projectors 
+			  * improved dynamic operations dialog (relative positioning of text)
+              * scripts, images, music and data have now an own directory
+              * better error-handling for python scripts 
+                (errors are now displayed in output window)
+              * location of ini file is now os standard 
+                (User-HOME under linux, registry under windows)
+              * more values are saved and restored from .mindia.ini file
+            linux version only
+			  * configure script improved (tmake/qmake detection)
+              * calculation of the length of mp3-files now imlemented
+            windows version only
+              *	installation program available (using Inno Setup from Jordan Russel)
+              * jpeg-image support uses now mmx (speed optimizations)
+
+------------------------------------------------------------------------------
 15. 8.2003  Version 0.97.1 released
 
             new features:
-			  * dissolving of images in play info dialog implemented
-			  * menupoint for testing of image dissolving implemented
-			  * drag and drop support (for images, data-files, texts)
-			  * dynamic graphic operations implemented (for viewing texts)
-			  * play info dialog supports fullscreen modus
-			  * script support improved: a lot of new functions introduced
-			  * script dialog to modify scripts improved
-			  * scripts for every slide are now possible 
-			    (can be used to display text in images)
-			  * support for Rolleivision MSC twin 3x0 P implemented
-			  * several context menus introduced
-			  * saving of images supported
-			  * XML export
-			  * commandline option -autorun implemented
-			  * online documentation improved
+              * dissolving of images in play info dialog implemented
+              * menupoint for testing of image dissolving implemented
+              * drag and drop support (for images, data-files, texts)
+              * dynamic graphic operations implemented (for viewing texts)
+              * play info dialog supports fullscreen modus
+              * script support improved: a lot of new functions introduced
+              * script dialog to modify scripts improved
+              * scripts for every slide are now possible 
+                (can be used to display text in images)
+              * support for Rolleivision MSC twin 3x0 P implemented
+              * several context menus introduced
+              * saving of images supported
+              * XML export
+              * commandline option -autorun implemented
+              * online documentation improved
             bugfixes and improvements:
-			  * realtime support of the play modus improved
-			  * locking for multithreading environment implemented
-			  * repaint handling improved
-			  * communiction with com-port now more robust (windows)
-			  * better sound support (windows)
+              * realtime support of the play modus improved
+              * locking for multithreading environment implemented
+              * repaint handling improved
+              * communiction with com-port now more robust (windows)
+              * better sound support (windows)
             linux version only
-			  * script module (libmindiapyc.so) is now linked statically to the application
-			  * autoconf support improved: tmake/qmake will be detected
-			  * linking with qt-mt
-			  * mp3 support (via external mp3-player)
-			  * Qt version 3.x supported
+              * script module (libmindiapyc.so) is now linked statically to the application
+              * autoconf support improved: tmake/qmake will be detected
+              * linking with qt-mt
+              * mp3 support (via external mp3-player)
+              * Qt version 3.x supported
             windows version only
-			  * python 2.2.2 used
-			  * jpg-image support added
+              * python 2.2.2 used
+              * jpg-image support added
 
 ------------------------------------------------------------------------------
 12. 2.2002  Version 0.96.21 (beta)
 
-			first public release of MinDia
+            first public release of MinDia
