@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/rolleicom.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:22  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -55,6 +58,7 @@ public:
 	bool	IsOk() const;
 	bool	IsTwinDigitalP() const;
 	bool	IsMSC300P() const;
+	int		GetProjectorType() const;
 	void	SetProjectorType( int iType );
 	bool	IsSimulation() const;
 	void	SetSimulation( bool bSimulation );
@@ -156,6 +160,7 @@ private:
 	int							m_iDataBits;
 	int							m_iFlowMode;			// new since 27.3.2002
 	int							m_iProjectorType;		// new since 22.3.2002
+	int							m_bIsPcMode;			// new since 14.9.2003 (Olaf Schlachter)
 	minSyncObject *				m_pComPortSync;			// new since 15.2.2003, to synchronize access to the Com-Port
 };
 

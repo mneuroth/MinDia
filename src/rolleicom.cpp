@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/rolleicom.cpp,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2003/08/17 09:52:30  min
+ *	Bugfix: Syncronizing com port does not work under linux
+ *
  *	Revision 1.2  2003/08/15 19:38:32  min
  *	debug comments deleted
  *	
@@ -319,7 +322,7 @@ struct RolleiComHelperData
 		//sprintf( sBuffer, "baud=%d parity=%c data=%d stop=%s%s", iBaudrate, chParity, iDataBits, sStopBits.c_str(), sFlow );
 		// old version of modem-string: mode com1 12,e,7,2,p
 
-		// ** VERIY IMPORTANT: ** 
+		// ** VERIY IMPORTANT: **
 		// ** the time for the execution of the commands can be very long !
 		// ** the success is only indicated, if the slide is visible (dissolve-time).
 		COMMTIMEOUTS aTimeout;
@@ -695,18 +698,19 @@ RolleiCom::RolleiCom( bool bIgnoreComSettings, bool bSimulation, int iProjectorT
   m_pData( 0 ),
   m_pCmdProcessor( 0 ),
   m_bIsSimulation( bSimulation ),
-  m_bDoLogging( true ),  
+  m_bDoLogging( true ),
   m_bStopGoFlag( false ),
   m_bIgnoreComSettings( bIgnoreComSettings ),
   m_iComPortNo( iComPortNo ),
   m_iProjectorType( iProjectorType ),
+  m_bIsPcMode(false),
   m_pComPortSync( 0 )
 {
 	m_pComPortSync = new minSyncObject();
 
 	// ** default values for projector type may be overwritten with ini-file values
 	SetDefaultValues( m_iProjectorType );
-				
+
 	// ** if there is a ini-db available, try to find values in it...
 	if( m_pIniDB )
 	{
@@ -758,6 +762,25 @@ RolleiCom::RolleiCom( bool bIgnoreComSettings, bool bSimulation, int iProjectorT
 RolleiCom::~RolleiCom()
 {
 	Stop();
+
+	if( m_pIniDB )
+	{
+		char sResult[256];
+
+		sprintf( sResult, "%d", m_iComPortNo );
+		m_pIniDB->Add( _PORT_NO, sResult );
+		sprintf( sResult, "%d", m_iBaudrate );
+		m_pIniDB->Add( _BAUDRATE, sResult );
+		m_pIniDB->Add( _PARITIY_MODE, GetParityModeStrg( m_iParityMode ) );
+		m_pIniDB->Add( _STOPBITS, GetStopBitsStrg( m_iStopBits ) );
+		sprintf( sResult, "%d", m_iDataBits );
+		m_pIniDB->Add( _DATABITS, sResult );
+		sprintf( sResult, "%d", m_iFlowMode );
+		m_pIniDB->Add( _FLOW_CONTROL, sResult );
+
+		sprintf( sResult, "%d", (int)m_bDoLogging );
+		m_pIniDB->Add( _COM_LOGGING, sResult );
+	}
 
 	delete m_pComPortSync;
 }
@@ -816,6 +839,11 @@ bool RolleiCom::IsTwinDigitalP() const
 bool RolleiCom::IsMSC300P() const
 {
 	return m_iProjectorType == MSC_300_P;
+}
+
+int RolleiCom::GetProjectorType() const
+{
+	return m_iProjectorType;
 }
 
 void RolleiCom::SetProjectorType( int iType )
@@ -894,7 +922,7 @@ bool RolleiCom::SendCmdTwin( const string & sMsg, bool bExpectReturnValue )
 		// Bugfix: 15.2.2003 synchronize access to Com-Port
 		// now the synchronious stop-cmd can not interfere with cmd-thread command handling
 		//todo, problems with linux: minLock aLock( *m_pComPortSync );
-			
+
 		// ** send every character of the cmd as a single character
 		for( int i=0; i<(int)sMsg.length(); i++ )
 		{
@@ -1004,7 +1032,9 @@ bool RolleiCom::SendCmdMSC( const string & sMsg, bool bExpectReturnValue )
 		if( bOk && !bExpectReturnValue )
 		{
 			// ** read the final CR and LF from the projector
-			string sRet = GetMsg( 2 );
+			// osc 2003-08-29 begin: echo is already there
+			//string sRet = GetMsg( 2 );
+			// osc 2003-08-29 end
 
 			// ** the msc projector sends no special ok character
 			// ** use the echo string to verify the success.
@@ -1063,7 +1093,7 @@ bool RolleiCom::ReceiveEcho( const string & sMsgCharacter, string & sEcho )
 bool RolleiCom::CheckReady()
 {
 	char ch = GetStatus();
-	
+
 	while( ch=='v' || ch=='B' )
 	{
 		if( !IsSimulation() )
@@ -1173,6 +1203,7 @@ void RolleiCom::SetLoggingChannel( minLoggingInterface * pLogChannel )
 
 bool RolleiCom::DirectMode( bool bSync )
 {
+
 	if( IsTwinDigitalP() )
 	{
 		return SendMsg( "DM", /*bExpectReturnValue*/false, bSync );
@@ -1180,7 +1211,10 @@ bool RolleiCom::DirectMode( bool bSync )
 	else if( IsMSC300P() )
 	{
 		// ** this is the pc modus
+		m_bIsPcMode=true;
 		return SendMsg( "PE", /*bExpectReturnValue*/false, bSync );
+
+
 	}
 	return false;
 }
@@ -1202,7 +1236,9 @@ bool RolleiCom::MemoryMode( bool bSync )
 
 bool RolleiCom::Reset( bool bSync )
 {
-	return SendMsg( "RS", /*bExpectReturnValue*/false, bSync );
+	bool bStatus = SendMsg( "RS", /*bExpectReturnValue*/false, bSync );
+	m_bIsPcMode=false;
+	return bStatus;
 }
 
 bool RolleiCom::SlideBack( bool bSync )
@@ -1225,7 +1261,7 @@ bool RolleiCom::StopGo( bool bSync )
 	}
 	else if( IsMSC300P() )
 	{
-		// ** the msc projectors have a different stop/go handling 
+		// ** the msc projectors have a different stop/go handling
 		if( m_bStopGoFlag )
 		{
 			return SendMsg( "ST", /*bExpectReturnValue*/false, bSync );
@@ -1341,10 +1377,23 @@ bool RolleiCom::SetLight( int iLightValue, bool bSync  )
 			{
 				iLightValue = 255;
 			}
-			sprintf( sBuffer, "SL:%03d", iLightValue );
+			// osc 2003-08-29 begin
+			//sprintf( sBuffer, "SL:%03d", iLightValue );
+			//string sCmd( sBuffer );
+			//return SendMsg( sCmd, /*bExpectReturnValue*/false, bSync );
+
+			sprintf( sBuffer, "LD1:%03d", iLightValue );
 			string sCmd( sBuffer );
-			return SendMsg( sCmd, /*bExpectReturnValue*/false, bSync );
-		}		
+			bool bStatus = SendMsg( sCmd, /*bExpectReturnValue*/false, bSync );
+			if (bStatus)
+			{
+				sprintf( sBuffer, "LD2:%03d", iLightValue );
+				string sCmd( sBuffer );
+				bStatus = SendMsg( sCmd, /*bExpectReturnValue*/false, bSync );
+			}
+			return bStatus;
+			// osc 2003-08-29 end
+		}
 	}
 	return false;
 }
@@ -1395,7 +1444,12 @@ char RolleiCom::GetStatus( bool /*bSync*/ )
 				// now the synchronious stop-cmd can not interfere with cmd-thread command handling
 				//todo, problems with linux: minLock aLock( *m_pComPortSync );
 
-				bool bOk = m_pData->Write( "ß" );
+				// osc 2003-08-29 begin: fix character set problems
+				//bool bOk = m_pData->Write( "ß" );
+				string sStatusCmd ;
+				sStatusCmd += 225;
+				bool bOk = m_pData->Write( sStatusCmd );
+				// osc 2003-08-29 end
 				if( bOk )
 				{
 					string sRet;
@@ -1474,7 +1528,14 @@ string RolleiCom::GetStatusStrg( char ch )
 bool RolleiCom::IsProjectorConnected()
 {
 	// ** try to send a simple command to the projector...
-	return SetAutofocus( true );
+	if( IsMSC300P() )
+	{
+		return CheckReady();
+	}
+	else
+	{
+		return SetAutofocus( true );
+	}
 }
 
 bool RolleiCom::IsKeyboardMode()
@@ -1484,8 +1545,15 @@ bool RolleiCom::IsKeyboardMode()
 
 bool RolleiCom::IsDirectMode()
 {
-	// ** is only allowed in Direct -Mode
-	return SetDissolveTime( 25 );
+	if( IsMSC300P() )
+	{
+		return m_bIsPcMode;
+	}
+	else
+	{
+		// ** is only allowed in Direct -Mode
+		return SetDissolveTime( 25 );
+	}
 }
 
 string RolleiCom::GetParityModeStrg( int iParityMode ) const
