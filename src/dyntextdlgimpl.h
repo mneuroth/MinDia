@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/dyntextdlgimpl.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -31,24 +34,65 @@
 
 #include "DynTextDlg.h"
 
+#include "dyngraphop.h"
+
 #include <qfont.h>
+#include <qcanvas.h>
+
+
+class DrawingArea : public QCanvasView
+{
+	Q_OBJECT
+
+public:
+	DrawingArea( QWidget * pParent, QWidget * pSignalClient );
+	virtual ~DrawingArea();
+
+	virtual void contentsMousePressEvent( QMouseEvent * pEvent );
+	virtual void contentsMouseMoveEvent( QMouseEvent * pEvent );
+
+signals:
+	void sigTextMoved();
+
+private:
+	QCanvasItem *	m_pMovingItem;
+	QPoint			m_aMovingStart;
+};
 
 class DynamicTextDlgImpl : public DynamicTextDlg
 {
 	Q_OBJECT
 
 public:
-    DynamicTextDlgImpl( const QFont & aInitFont, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * parent = 0, QWidget * pMain = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+	virtual ~DynamicTextDlgImpl();
+
+	double GetRelX() const;
+	double GetRelY() const;
+	void SetRelPos( double xRel, double yRel );
 
 	QFont GetFont() const;
 
 public slots:
+    virtual void sltRelPosToggled(bool bValue);
 	virtual void sltDeleteText();
 	virtual void sltSelectFont();
     virtual void sltSelectFontcolor();
+	
+	void sltUpdateData();
+
+signals:
+	void sigDialogHelp( QWidget * pParent, const QString & sHelpTag );
+
+protected:
+	virtual void keyPressEvent( QKeyEvent * pEvent ); 
 
 private:
-	QFont	m_aInitFont;
+	minHandle<DynText>	m_hItem;
+	QFont				m_aInitFont;
+	DrawingArea *		m_pDrawingAreaCanvas;
+	QCanvas *			m_pCanvas;
+	QCanvasText *		m_pCanvasText;
 };
 
 #endif
