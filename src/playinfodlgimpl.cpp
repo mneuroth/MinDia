@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/playinfodlgimpl.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:22  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -27,6 +30,8 @@
  ***************************************************************************/
 
 #include "playinfodlgimpl.h"
+
+#include "appconfig.h"
 
 #include "qtmtlock.h"
 
@@ -1016,7 +1021,7 @@ void PlayInfoDlgImpl::sltSaveActImage( const QString & sImageFormat )
 	QString sExt( "*." );
 	sExt += sImageFormat;
 
-    QString sFileName = QFileDialog::getSaveFileName( QString::null, sExt, this, "save", tr( "Save as" ) );
+    QString sFileName = QFileDialog::getSaveFileName( /*QString::null*/GetImagePath().c_str(), sExt, this, "save", tr( "Save as" ) );
 
     if( !sFileName.isEmpty() )
 	{
