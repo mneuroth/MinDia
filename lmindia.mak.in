@@ -31,6 +31,7 @@ ac_install_prefix	= @prefix@
 # *****************************
 
 MKDIR		= mkdir
+RMDIR		= rmdir
 CDDIR		= cd
 DEL			= rm
 DEL_FORCE	= rm -f

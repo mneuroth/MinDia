@@ -31,6 +31,7 @@ ac_install_prefix	= /usr/local
 # *****************************
 
 MKDIR		= mkdir
+RMDIR		= rmdir
 CDDIR		= cd
 DEL			= rm
 DEL_FORCE	= rm -f
