@@ -5,7 +5,8 @@ CONFIG          = qt warn_on dll release thread
 HEADERS         = mindiapyc/scriptfcn.h \
 				  mindiapyc/minutils.h \
 				  mindiapyc/scriptdlgimpl.h
-SOURCES         = mindiapyc/mindiapy.cpp \
+SOURCES         = mindiapyc/_minutils.cpp \
+				  mindiapyc/mindiapy.cpp \
 				  mindiapyc/scriptfcn.cpp \
 				  mindiapyc/minutils.cpp \
 				  mindiapyc/scriptdlgimpl.cpp \
