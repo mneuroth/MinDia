@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/soundinfo.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/10/26 17:18:48  min
+ *	MakeRelativePaths() added.
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:22  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -427,12 +430,12 @@ string SoundComment::GetDataName( int iIndex ) const
 	{
 		case 0 :
 			{
-				sRet = QObject::tr( "time pos. [ms]" );
+				sRet = (const char *)QObject::tr( "time pos. [ms]" );
 			}
 			break;
 		case 1 :
 			{
-				sRet = QObject::tr( "comment" );
+				sRet = (const char *)QObject::tr( "comment" );
 			}
 			break;
 
@@ -658,17 +661,17 @@ string PlotComment::GetDataName( int iIndex ) const
 	{
 		case 0 :
 			{
-				sRet = QObject::tr( "start index" );
+				sRet = (const char *)QObject::tr( "start index" );
 			}
 			break;
 		case 1 :
 			{
-				sRet = QObject::tr( "stop index" );
+				sRet = (const char *)QObject::tr( "stop index" );
 			}
 			break;
 		case 2 :
 			{
-				sRet = QObject::tr( "comment" );
+				sRet = (const char *)QObject::tr( "comment" );
 			}
 			break;
 
