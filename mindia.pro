@@ -13,6 +13,7 @@ HEADERS         = src/diainfodlgimpl.h \
 				  src/commentdlgimpl.h \
 				  src/eventmapdlgimpl.h \
 				  src/dyntextdlgimpl.h \
+				  src/helpdlgimpl.h \
 				  src/iocontainer.h \
 				  src/minisound.h \
 				  src/soundinfo.h \
@@ -54,6 +55,7 @@ SOURCES         = src/diainfodlgimpl.cpp \
 				  src/commentdlgimpl.cpp \
 				  src/eventmapdlgimpl.cpp \
 				  src/dyntextdlgimpl.cpp \
+				  src/helpdlgimpl.cpp \
 				  src/minisound.cpp \
 				  src/soundinfo.cpp \
 				  src/applscriptenv.cpp \

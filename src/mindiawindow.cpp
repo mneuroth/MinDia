@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.cpp,v $
  *
- *  $Revision: 1.9 $
+ *  $Revision: 1.10 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.9  2004/02/21 00:54:52  min
+ *	Automatic language detection implemented.
+ *	
  *	Revision 1.8  2004/02/20 23:06:37  min
  *	Qt About via MessageBox handled.
  *	
@@ -67,7 +70,7 @@
 #include "pddlgimpl.h"
 #include "sndinfodlgimpl.h"
 #include "commentdlgimpl.h"
-#include "HelpDlg.h"
+#include "helpdlgimpl.h"
 #include "EnterValueDlg.h"
 #include "LicenseDlg.h"
 #include "AboutExtDlg.h"
@@ -190,8 +193,8 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 	m_pLoggingDialog = new ComLoggingDialogImpl( this );
 	//m_pControler->GetDiaCom().SetLoggingChannel( m_pLoggingDialog );
 
-	m_pHelpDialog = new HelpDialog( this, "help" );
-	m_pHelpDialog->move( 500, 5 );
+	m_pHelpDialog = new HelpDlgImpl( this, "help" );
+	m_pHelpDialog->move( 470, 5 );
 
 	m_pControler = new DocumentAndControler( bIgnoreComSettings, bSimulation, iProjectorType, this, this, m_pLoggingDialog );
 
@@ -1306,7 +1309,7 @@ void MinDiaWindow::sltShowStatusBarMessage( const QString & sMsg )
 	}
 }
 
-void MinDiaWindow::SetHelpFile( HelpDialog * pHelpDialog, const QString & sHelpTag ) const
+void MinDiaWindow::SetHelpFile( HelpDlgImpl * pHelpDialog, const QString & sHelpTag ) const
 {
 	// ** help-file is language sensitive
 	QString sHelp = GetMinDiaSharedDirectory().c_str();
@@ -1344,9 +1347,9 @@ void MinDiaWindow::SetHelpFile( HelpDialog * pHelpDialog, const QString & sHelpT
 
 void MinDiaWindow::sltShowModalHelp( QWidget * pParent, const QString & sHelpTag )
 {
-	HelpDialog * pHelpDialog = new HelpDialog( pParent, "help_temp", TRUE );
+	HelpDlgImpl * pHelpDialog = new HelpDlgImpl( pParent, "help_temp", TRUE );
 
-	pHelpDialog->move( 500, 5 );
+	pHelpDialog->move( 470, 5 );
 
 	SetHelpFile( pHelpDialog, sHelpTag );
 

@@ -1,161 +1,184 @@
-<!DOCTYPE UI><UI>
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>HelpDialog</class>
-<widget>
-    <class>QDialog</class>
-    <property stdset="1">
-        <name>name</name>
+<widget class="QDialog">
+    <property name="name">
         <cstring>HelpDialog</cstring>
     </property>
-    <property>
-        <name>geometry</name>
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>513</width>
-            <height>429</height>
+            <width>538</width>
+            <height>435</height>
         </rect>
     </property>
-    <property>
-        <name>caption</name>
+    <property name="caption">
         <string>Help</string>
     </property>
-    <property>
-        <name>sizeGripEnabled</name>
+    <property name="sizeGripEnabled">
         <bool>true</bool>
     </property>
     <vbox>
-        <property>
-            <name>margin</name>
-            <number>11</number>
+        <property name="name">
+            <cstring>unnamed</cstring>
         </property>
-        <property>
-            <name>spacing</name>
-            <number>6</number>
+        <property name="margin">
+            <number>4</number>
         </property>
-        <widget>
-            <class>QTextBrowser</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>m_pTextBrowser</cstring>
-            </property>
-        </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Layout2</cstring>
+        <property name="spacing">
+            <number>4</number>
+        </property>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout13</cstring>
             </property>
             <hbox>
-                <property>
-                    <name>margin</name>
-                    <number>0</number>
+                <property name="name">
+                    <cstring>unnamed</cstring>
                 </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
-                <widget>
-                    <class>QPushButton</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>m_pBack</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>&amp;Back</string>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QPushButton</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>m_pForward</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>&amp;Forward</string>
-                    </property>
-                </widget>
-                <spacer>
-                    <property>
-                        <name>name</name>
-                        <cstring>Spacer2</cstring>
-                    </property>
-                    <property>
-                        <name>orientation</name>
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property>
-                        <name>sizeType</name>
-                        <enum>Expanding</enum>
-                    </property>
-                    <property>
-                        <name>sizeHint</name>
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget>
-                    <class>QPushButton</class>
-                    <property stdset="1">
-                        <name>name</name>
+                <widget class="QPushButton">
+                    <property name="name">
                         <cstring>m_pHome</cstring>
                     </property>
-                    <property>
-                        <name>text</name>
-                        <string>&amp;Home</string>
+                    <property name="maximumSize">
+                        <size>
+                            <width>26</width>
+                            <height>26</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="accel">
+                        <string>Home, Alt+H</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>home</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>m_pBack</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>26</width>
+                            <height>26</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="accel">
+                        <string>Left, Alt+B</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>back</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>m_pForward</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>26</width>
+                            <height>26</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="accel">
+                        <string>Right, Alt+F</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>forward</string>
+                    </property>
+                </widget>
+                <widget class="QLineEdit">
+                    <property name="name">
+                        <cstring>m_pSearchText</cstring>
+                    </property>
+                    <property name="frameShape">
+                        <enum>LineEditPanel</enum>
+                    </property>
+                    <property name="frameShadow">
+                        <enum>Sunken</enum>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>m_pSearch</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>26</width>
+                            <height>26</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+S</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>find text</string>
                     </property>
                 </widget>
                 <spacer>
-                    <property>
-                        <name>name</name>
-                        <cstring>Spacer1</cstring>
+                    <property name="name">
+                        <cstring>Spacer2</cstring>
                     </property>
-                    <property>
-                        <name>orientation</name>
+                    <property name="orientation">
                         <enum>Horizontal</enum>
                     </property>
-                    <property>
-                        <name>sizeType</name>
+                    <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property>
-                        <name>sizeHint</name>
+                    <property name="sizeHint">
                         <size>
-                            <width>20</width>
-                            <height>20</height>
+                            <width>166</width>
+                            <height>16</height>
                         </size>
                     </property>
                 </spacer>
-                <widget>
-                    <class>QPushButton</class>
-                    <property stdset="1">
-                        <name>name</name>
+                <widget class="QPushButton">
+                    <property name="name">
                         <cstring>m_pClose</cstring>
                     </property>
-                    <property>
-                        <name>text</name>
-                        <string>&amp;Close</string>
+                    <property name="maximumSize">
+                        <size>
+                            <width>26</width>
+                            <height>26</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+C</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>close window</string>
                     </property>
                 </widget>
             </hbox>
+        </widget>
+        <widget class="QTextBrowser">
+            <property name="name">
+                <cstring>m_pTextBrowser</cstring>
+            </property>
         </widget>
     </vbox>
 </widget>
 <connections>
     <connection>
-        <sender>m_pClose</sender>
-        <signal>clicked()</signal>
-        <receiver>HelpDialog</receiver>
-        <slot>accept()</slot>
-    </connection>
-    <connection>
-        <sender>m_pBack</sender>
+        <sender>m_pHome</sender>
         <signal>clicked()</signal>
         <receiver>m_pTextBrowser</receiver>
-        <slot>backward()</slot>
+        <slot>home()</slot>
     </connection>
     <connection>
         <sender>m_pForward</sender>
@@ -164,10 +187,60 @@
         <slot>forward()</slot>
     </connection>
     <connection>
-        <sender>m_pHome</sender>
+        <sender>m_pBack</sender>
         <signal>clicked()</signal>
         <receiver>m_pTextBrowser</receiver>
-        <slot>home()</slot>
+        <slot>backward()</slot>
+    </connection>
+    <connection>
+        <sender>m_pClose</sender>
+        <signal>clicked()</signal>
+        <receiver>HelpDialog</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>m_pSearch</sender>
+        <signal>clicked()</signal>
+        <receiver>HelpDialog</receiver>
+        <slot>sltFindClicked()</slot>
+    </connection>
+    <connection>
+        <sender>m_pTextBrowser</sender>
+        <signal>backwardAvailable(bool)</signal>
+        <receiver>m_pBack</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>m_pTextBrowser</sender>
+        <signal>forwardAvailable(bool)</signal>
+        <receiver>m_pForward</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>m_pSearchText</sender>
+        <signal>returnPressed()</signal>
+        <receiver>m_pSearch</receiver>
+        <slot>toggle()</slot>
+    </connection>
+    <connection>
+        <sender>m_pSearchText</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>HelpDialog</receiver>
+        <slot>sltSearchTextChanged(const QString&amp;)</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>m_pSearchText</tabstop>
+    <tabstop>m_pSearch</tabstop>
+    <tabstop>m_pHome</tabstop>
+    <tabstop>m_pBack</tabstop>
+    <tabstop>m_pForward</tabstop>
+    <tabstop>m_pClose</tabstop>
+    <tabstop>m_pTextBrowser</tabstop>
+</tabstops>
+<slots>
+    <slot>sltFindClicked()</slot>
+    <slot>sltSearchTextChanged(const QString &amp;)</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
 </UI>

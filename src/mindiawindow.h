@@ -81,9 +81,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.h,v $
  *
- *  $Revision: 1.5 $
+ *  $Revision: 1.6 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.5  2004/02/20 23:32:08  min
+ *	Update comment.
+ *	
  *	Revision 1.4  2004/02/20 23:06:37  min
  *	Qt About via MessageBox handled.
  *	
@@ -141,7 +144,7 @@ class EventMapDlgImpl;
 class DiaInfoDlgImpl;
 class SoundInfoDlgImpl;
 class CommentDlgImpl;
-class HelpDialog;
+class HelpDlgImpl;
 
 // min todo --> richtige Implementation angeben
 typedef HItemView	IconItemView;
@@ -315,7 +318,7 @@ private:
 	void CreateMenus();
 	void CreateChildWidgets();
 	bool IsValidClipboardData();
-	void SetHelpFile( HelpDialog * pHelpDialog, const QString & sHelpTag ) const;
+	void SetHelpFile( HelpDlgImpl * pHelpDialog, const QString & sHelpTag ) const;
 
 	// *** private data ***
 
@@ -349,7 +352,7 @@ private:
 	CommentDlgImpl *			m_pSoundCommentDialog;		// modal
 	CommentDlgImpl *			m_pPlotCommentDialog;		// modal
 	CommentDlgImpl *			m_pDynGraphicOpDialog;		// modal
-	HelpDialog *				m_pHelpDialog;
+	HelpDlgImpl *				m_pHelpDialog;
 
 	// ****************************************
 
