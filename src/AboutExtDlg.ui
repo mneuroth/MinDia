@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>464</width>
+            <width>456</width>
             <height>372</height>
         </rect>
     </property>
@@ -74,7 +74,7 @@
 &lt;center&gt;
 &lt;b&gt;MinDia&lt;/b&gt;
 &lt;br&gt;&lt;br&gt;
-ver. 0.97.1 from 22.6.2003
+ver. 0.97.2 from 11.11.2003
 &lt;br&gt;&lt;br&gt;
 Copyright 2001-2003 by Michael Neuroth
 &lt;br&gt;&lt;br&gt;
@@ -129,7 +129,7 @@ Michael Neuroth,
                 </property>
                 <attribute>
                     <name>title</name>
-                    <string>&amp;Contributions</string>
+                    <string>C&amp;ontributions</string>
                 </attribute>
                 <vbox>
                     <property>
