@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/minutils.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -854,7 +857,7 @@ int	Directory::GetNoOfFiles() const
 	const_iterator aIter = begin();
 	while( aIter != end() )
 	{
-		if( !(*aIter).IsDirectory() && !(*aIter).IsReadOnly() )
+		if( !(*aIter).IsDirectory() /*&& !(*aIter).IsReadOnly()*/ )		// 27.9.2003: was sollte readonly ?
 			++nCount;
 		++aIter;
 	}
