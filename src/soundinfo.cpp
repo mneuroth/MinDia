@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/soundinfo.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:22  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -268,6 +271,11 @@ bool SoundInfo::Write( ostream & aStream ) const
 	return aStream.good();
 }
 
+void SoundInfo::MakeRelativePaths()
+{
+	m_sFileName = FileUtilityObj::ConvertToRelPath( m_sFileName.c_str() );
+}
+
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************
@@ -326,6 +334,18 @@ SoundInfoContainer::iterator SoundInfoContainer::GetItemForAbsPlayPos( int iAbsT
 
 	iOffsetTime = 0;
 	return aIter;
+}
+
+void SoundInfoContainer::MakeRelativePaths()
+{
+	iterator aIter = begin();
+
+	while( aIter != end() )
+	{
+		minHandle<SoundInfo> hItem = *aIter;
+		hItem->MakeRelativePaths();
+		++aIter;
+	}
 }
 
 // *******************************************************************
