@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/playinfodlgimpl.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:22  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -157,6 +160,7 @@ public slots:
     virtual void sltStop();
     virtual void sltPause();
     virtual void sltPlay();
+    virtual void sltFullScreen();
 
 	void sltSetImage( const QString & sImageFileName, bool bIsPlaying, int iDissolveTimeInMS );
 	void sltSetImage( const QImage & aImage );

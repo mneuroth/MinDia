@@ -1,287 +1,263 @@
-<!DOCTYPE UI><UI>
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>PlayInfoDialog</class>
-<widget>
-    <class>QDialog</class>
-    <property stdset="1">
-        <name>name</name>
+<widget class="QDialog">
+    <property name="name">
         <cstring>PlayInfoDialog</cstring>
     </property>
-    <property>
-        <name>geometry</name>
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
             <width>506</width>
-            <height>386</height>
+            <height>392</height>
         </rect>
     </property>
-    <property>
-        <name>sizePolicy</name>
+    <property name="sizePolicy">
         <sizepolicy>
             <hsizetype>5</hsizetype>
             <vsizetype>5</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
         </sizepolicy>
     </property>
-    <property>
-        <name>minimumSize</name>
+    <property name="minimumSize">
         <size>
             <width>0</width>
             <height>0</height>
         </size>
     </property>
-    <property>
-        <name>maximumSize</name>
+    <property name="maximumSize">
         <size>
             <width>32767</width>
             <height>32767</height>
         </size>
     </property>
-    <property>
-        <name>caption</name>
+    <property name="caption">
         <string>Play Info</string>
     </property>
-    <property>
-        <name>sizeGripEnabled</name>
+    <property name="sizeGripEnabled">
         <bool>true</bool>
     </property>
-    <property>
-        <name>layoutMargin</name>
+    <property name="layoutMargin" stdset="0">
     </property>
-    <property>
-        <name>layoutSpacing</name>
+    <property name="layoutSpacing" stdset="0">
     </property>
     <vbox>
-        <property>
-            <name>margin</name>
-            <number>4</number>
+        <property name="name">
+            <cstring>unnamed</cstring>
         </property>
-        <property>
-            <name>spacing</name>
-            <number>4</number>
+        <property name="margin">
+            <number>2</number>
         </property>
-        <widget>
-            <class>QFrame</class>
-            <property stdset="1">
-                <name>name</name>
+        <property name="spacing">
+            <number>2</number>
+        </property>
+        <widget class="QFrame">
+            <property name="name">
                 <cstring>m_pFrame</cstring>
             </property>
-            <property>
-                <name>frameShape</name>
+            <property name="frameShape">
                 <enum>StyledPanel</enum>
             </property>
-            <property>
-                <name>frameShadow</name>
+            <property name="frameShadow">
                 <enum>Raised</enum>
             </property>
         </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
+        <widget class="QLayoutWidget">
+            <property name="name">
                 <cstring>m_pButtonLayout</cstring>
             </property>
             <hbox>
-                <property>
-                    <name>margin</name>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
                     <number>0</number>
                 </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
+                <property name="spacing">
+                    <number>4</number>
                 </property>
-                <widget>
-                    <class>QLayoutWidget</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>Layout5</cstring>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>m_pLeftContainer</cstring>
                     </property>
                     <vbox>
-                        <property>
-                            <name>margin</name>
-                            <number>0</number>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
                         </property>
-                        <property>
-                            <name>spacing</name>
-                            <number>6</number>
-                        </property>
-                        <widget>
-                            <class>QLayoutWidget</class>
-                            <property stdset="1">
-                                <name>name</name>
-                                <cstring>Layout4</cstring>
-                            </property>
-                            <property>
-                                <name>layoutSpacing</name>
+                        <widget class="QLayoutWidget">
+                            <property name="name">
+                                <cstring>m_pButtonContainer</cstring>
                             </property>
                             <hbox>
-                                <property>
-                                    <name>margin</name>
-                                    <number>0</number>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
                                 </property>
-                                <property>
-                                    <name>spacing</name>
-                                    <number>2</number>
+                                <property name="margin">
+                                    <number>1</number>
                                 </property>
-                                <widget>
-                                    <class>QPushButton</class>
-                                    <property stdset="1">
-                                        <name>name</name>
+                                <property name="spacing">
+                                    <number>1</number>
+                                </property>
+                                <widget class="QPushButton">
+                                    <property name="name">
                                         <cstring>m_pRun</cstring>
                                     </property>
-                                    <property>
-                                        <name>maximumSize</name>
+                                    <property name="maximumSize">
                                         <size>
                                             <width>25</width>
                                             <height>32767</height>
                                         </size>
                                     </property>
-                                    <property>
-                                        <name>text</name>
+                                    <property name="text">
                                         <string></string>
                                     </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>start presentation ('r')</string>
+                                    </property>
                                 </widget>
-                                <widget>
-                                    <class>QPushButton</class>
-                                    <property stdset="1">
-                                        <name>name</name>
+                                <widget class="QPushButton">
+                                    <property name="name">
                                         <cstring>m_pPause</cstring>
                                     </property>
-                                    <property>
-                                        <name>maximumSize</name>
+                                    <property name="maximumSize">
                                         <size>
                                             <width>25</width>
                                             <height>32767</height>
                                         </size>
                                     </property>
-                                    <property>
-                                        <name>text</name>
+                                    <property name="text">
                                         <string></string>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>pause presentation ('p')</string>
                                     </property>
                                 </widget>
-                                <widget>
-                                    <class>QPushButton</class>
-                                    <property stdset="1">
-                                        <name>name</name>
+                                <widget class="QPushButton">
+                                    <property name="name">
                                         <cstring>m_pStop</cstring>
                                     </property>
-                                    <property>
-                                        <name>maximumSize</name>
+                                    <property name="maximumSize">
                                         <size>
                                             <width>25</width>
                                             <height>32767</height>
                                         </size>
                                     </property>
-                                    <property>
-                                        <name>text</name>
+                                    <property name="text">
                                         <string></string>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>stop presentation ('t')</string>
+                                    </property>
+                                </widget>
+                                <widget class="QPushButton">
+                                    <property name="name">
+                                        <cstring>m_pFullScreen</cstring>
+                                    </property>
+                                    <property name="maximumSize">
+                                        <size>
+                                            <width>25</width>
+                                            <height>32767</height>
+                                        </size>
+                                    </property>
+                                    <property name="text">
+                                        <string></string>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>switch to fullscreen ('m')</string>
                                     </property>
                                 </widget>
                             </hbox>
                         </widget>
-                        <widget>
-                            <class>QCheckBox</class>
-                            <property stdset="1">
-                                <name>name</name>
+                        <widget class="QCheckBox">
+                            <property name="name">
                                 <cstring>m_pDisplayImage</cstring>
                             </property>
-                            <property>
-                                <name>sizePolicy</name>
+                            <property name="sizePolicy">
                                 <sizepolicy>
                                     <hsizetype>1</hsizetype>
                                     <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
-                            <property>
-                                <name>minimumSize</name>
+                            <property name="minimumSize">
                                 <size>
                                     <width>0</width>
                                     <height>0</height>
                                 </size>
                             </property>
-                            <property>
-                                <name>maximumSize</name>
+                            <property name="maximumSize">
                                 <size>
                                     <width>32767</width>
                                     <height>32767</height>
                                 </size>
                             </property>
-                            <property>
-                                <name>caption</name>
+                            <property name="caption">
                                 <string></string>
                             </property>
-                            <property>
-                                <name>text</name>
+                            <property name="text">
                                 <string>&amp;Display image</string>
                             </property>
-                            <property>
-                                <name>layoutMargin</name>
+                            <property name="accel">
+                                <string>Alt+D</string>
                             </property>
-                            <property>
-                                <name>layoutSpacing</name>
+                            <property name="layoutMargin" stdset="0">
+                            </property>
+                            <property name="layoutSpacing" stdset="0">
                             </property>
                         </widget>
                     </vbox>
                 </widget>
                 <spacer>
-                    <property>
-                        <name>name</name>
-                        <cstring>Spacer2</cstring>
+                    <property name="name">
+                        <cstring>spacer9</cstring>
                     </property>
-                    <property>
-                        <name>orientation</name>
+                    <property name="orientation">
                         <enum>Horizontal</enum>
                     </property>
-                    <property>
-                        <name>sizeType</name>
+                    <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property>
-                        <name>sizeHint</name>
+                    <property name="sizeHint">
                         <size>
-                            <width>20</width>
-                            <height>20</height>
+                            <width>19</width>
+                            <height>15</height>
                         </size>
                     </property>
                 </spacer>
-                <widget>
-                    <class>QButtonGroup</class>
-                    <property stdset="1">
-                        <name>name</name>
+                <widget class="QButtonGroup">
+                    <property name="name">
                         <cstring>m_pScaleImageGroup</cstring>
                     </property>
-                    <property>
-                        <name>sizePolicy</name>
+                    <property name="sizePolicy">
                         <sizepolicy>
                             <hsizetype>0</hsizetype>
                             <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property>
-                        <name>minimumSize</name>
+                    <property name="minimumSize">
                         <size>
                             <width>280</width>
                             <height>50</height>
                         </size>
                     </property>
-                    <property>
-                        <name>maximumSize</name>
+                    <property name="maximumSize">
                         <size>
                             <width>280</width>
                             <height>50</height>
                         </size>
                     </property>
-                    <property>
-                        <name>title</name>
+                    <property name="title">
                         <string>Scale image</string>
                     </property>
-                    <widget>
-                        <class>QRadioButton</class>
-                        <property stdset="1">
-                            <name>name</name>
+                    <widget class="QRadioButton">
+                        <property name="name">
                             <cstring>m_pScaleFillX</cstring>
                         </property>
-                        <property>
-                            <name>geometry</name>
+                        <property name="geometry">
                             <rect>
                                 <x>11</x>
                                 <y>19</y>
@@ -289,19 +265,15 @@
                                 <height>17</height>
                             </rect>
                         </property>
-                        <property>
-                            <name>text</name>
+                        <property name="text">
                             <string>Fill &amp;X</string>
                         </property>
                     </widget>
-                    <widget>
-                        <class>QRadioButton</class>
-                        <property stdset="1">
-                            <name>name</name>
+                    <widget class="QRadioButton">
+                        <property name="name">
                             <cstring>m_pScaleFillY</cstring>
                         </property>
-                        <property>
-                            <name>geometry</name>
+                        <property name="geometry">
                             <rect>
                                 <x>67</x>
                                 <y>19</y>
@@ -309,19 +281,15 @@
                                 <height>17</height>
                             </rect>
                         </property>
-                        <property>
-                            <name>text</name>
+                        <property name="text">
                             <string>Fill &amp;Y</string>
                         </property>
                     </widget>
-                    <widget>
-                        <class>QRadioButton</class>
-                        <property stdset="1">
-                            <name>name</name>
+                    <widget class="QRadioButton">
+                        <property name="name">
                             <cstring>m_pScaleExpand</cstring>
                         </property>
-                        <property>
-                            <name>geometry</name>
+                        <property name="geometry">
                             <rect>
                                 <x>122</x>
                                 <y>19</y>
@@ -329,19 +297,15 @@
                                 <height>17</height>
                             </rect>
                         </property>
-                        <property>
-                            <name>text</name>
+                        <property name="text">
                             <string>&amp;Expand</string>
                         </property>
                     </widget>
-                    <widget>
-                        <class>QRadioButton</class>
-                        <property stdset="1">
-                            <name>name</name>
+                    <widget class="QRadioButton">
+                        <property name="name">
                             <cstring>m_pScaleOriginal</cstring>
                         </property>
-                        <property>
-                            <name>geometry</name>
+                        <property name="geometry">
                             <rect>
                                 <x>187</x>
                                 <y>19</y>
@@ -349,49 +313,45 @@
                                 <height>17</height>
                             </rect>
                         </property>
-                        <property>
-                            <name>text</name>
+                        <property name="text">
                             <string>&amp;Original size</string>
+                        </property>
+                        <property name="accel">
+                            <string>Alt+O</string>
                         </property>
                     </widget>
                 </widget>
                 <spacer>
-                    <property>
-                        <name>name</name>
-                        <cstring>Spacer4</cstring>
+                    <property name="name">
+                        <cstring>spacer6</cstring>
                     </property>
-                    <property>
-                        <name>orientation</name>
+                    <property name="orientation">
                         <enum>Horizontal</enum>
                     </property>
-                    <property>
-                        <name>sizeType</name>
+                    <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property>
-                        <name>sizeHint</name>
+                    <property name="sizeHint">
                         <size>
-                            <width>20</width>
-                            <height>20</height>
+                            <width>16</width>
+                            <height>16</height>
                         </size>
                     </property>
                 </spacer>
-                <widget>
-                    <class>QPushButton</class>
-                    <property stdset="1">
-                        <name>name</name>
+                <widget class="QPushButton">
+                    <property name="name">
                         <cstring>m_pClose</cstring>
                     </property>
-                    <property>
-                        <name>text</name>
+                    <property name="text">
                         <string>&amp;Close</string>
                     </property>
-                    <property>
-                        <name>autoDefault</name>
+                    <property name="accel">
+                        <string>Alt+C</string>
+                    </property>
+                    <property name="autoDefault">
                         <bool>true</bool>
                     </property>
-                    <property>
-                        <name>default</name>
+                    <property name="default">
                         <bool>true</bool>
                     </property>
                 </widget>
@@ -460,12 +420,22 @@
         <receiver>PlayInfoDialog</receiver>
         <slot>sltStop()</slot>
     </connection>
-    <slot access="public">sltCancelDialog()</slot>
-    <slot access="public">sltCloseDialog()</slot>
-    <slot access="public">sltDispImageToggled(bool)</slot>
-    <slot access="public">sltPause()</slot>
-    <slot access="public">sltPlay()</slot>
-    <slot access="public">sltScaleImageToggled(bool)</slot>
-    <slot access="public">sltStop()</slot>
+    <connection>
+        <sender>m_pFullScreen</sender>
+        <signal>clicked()</signal>
+        <receiver>PlayInfoDialog</receiver>
+        <slot>sltFullScreen()</slot>
+    </connection>
 </connections>
+<slots>
+    <slot>sltCancelDialog()</slot>
+    <slot>sltCloseDialog()</slot>
+    <slot>sltDispImageToggled(bool)</slot>
+    <slot>sltPause()</slot>
+    <slot>sltPlay()</slot>
+    <slot>sltScaleImageToggled(bool)</slot>
+    <slot>sltStop()</slot>
+    <slot>sltFullScreen()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
 </UI>

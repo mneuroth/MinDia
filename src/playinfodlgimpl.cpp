@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/playinfodlgimpl.cpp,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2004/02/16 19:44:51  min
+ *	Fixes for Borland C++
+ *	
  *	Revision 1.2  2003/10/26 17:32:39  min
  *	Directory for images added.
  *	
@@ -386,7 +389,7 @@ inline QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iF
 // *******************************************************************
 
 PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, const char* name, bool modal, WFlags fl )
-: PlayInfoDialog( parent, name, modal, fl ),
+: PlayInfoDialog( parent, name, modal, fl | WStyle_Maximize ),
   m_pParent( parent ),
   m_iFadeInTimeInMS( 0 ),
   m_iFadeInFactor( 0 ),
@@ -398,9 +401,11 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, co
 	QPixmap aPauseIcon( pausescript );
 	QPixmap aStopIcon( stopscript );
 	QPixmap aRunIcon( runscript );
+	QPixmap aFullscreenIcon( fullscreen );
 	m_pRun->setIconSet( aRunIcon );	
 	m_pStop->setIconSet( aStopIcon );
 	m_pPause->setIconSet( aPauseIcon );
+	m_pFullScreen->setIconSet( aFullscreenIcon );
 
 	m_pFadeInTimer = new QTimer( this );
 	connect( m_pFadeInTimer, SIGNAL( timeout() ), this, SLOT( sltFadeInTimer() ) );
@@ -462,6 +467,7 @@ void PlayInfoDlgImpl::FullScreen()
 		m_pRun->hide();
 		m_pPause->hide();
 		m_pStop->hide();
+		m_pFullScreen->hide();
 		m_pScaleImageGroup->hide();
 
 		delete m_pButtonLayout;
@@ -490,10 +496,23 @@ void PlayInfoDlgImpl::RestoreSize()
 		m_pButtonLayout->setSpacing( 4 );	// 6
 		m_pButtonLayout->setMargin( 0 );
 
-	    m_pButtonLayout->addWidget( m_pDisplayImage );
+		// anscheinend werden auch Sub-Layouts zerstoert
+		// wenn der Eltern-Layout-Container zerstoert wird !
+		m_pLeftContainer = new QVBoxLayout( 0, 0, 6, "m_pLeftContainer"); 
+		m_pButtonContainer = new QHBoxLayout( 0, 1, 1, "m_pButtonContainer"); 
+		m_pButtonContainer->addWidget( m_pRun );
+		m_pButtonContainer->addWidget( m_pPause );
+		m_pButtonContainer->addWidget( m_pStop );
+		m_pButtonContainer->addWidget( m_pFullScreen );
+		m_pLeftContainer->addLayout( m_pButtonContainer );
+		m_pLeftContainer->addWidget( m_pDisplayImage );
+
+		m_pButtonLayout->addLayout( m_pLeftContainer );
+	    QSpacerItem* spacer1 = new QSpacerItem( 19, 15, QSizePolicy::Expanding, QSizePolicy::Minimum );
+	    m_pButtonLayout->addItem( spacer1 );
 		m_pButtonLayout->addWidget( m_pScaleImageGroup );
-	    QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-	    m_pButtonLayout->addItem( spacer );
+	    QSpacerItem* spacer2 = new QSpacerItem( 16, 16, QSizePolicy::Expanding, QSizePolicy::Minimum );
+	    m_pButtonLayout->addItem( spacer2 );
 	    m_pButtonLayout->addWidget( m_pClose );
 
 		// ** see PlayInfoDlg.cpp for the values **
@@ -506,6 +525,7 @@ void PlayInfoDlgImpl::RestoreSize()
 		m_pRun->show();
 		m_pPause->show();
 		m_pStop->show();
+		m_pFullScreen->show();
 		m_pScaleImageGroup->show();
 
 		//m_pCanvasView->setLineWidth( 2 );
@@ -1059,6 +1079,11 @@ void PlayInfoDlgImpl::sltPlay()
 	emit sigDoPlay();
 }
 
+void PlayInfoDlgImpl::sltFullScreen()
+{
+	Maximize();
+}
+
 void PlayInfoDlgImpl::closeEvent( QCloseEvent * pCloseEvent )
 {
 	pCloseEvent->accept();
@@ -1154,7 +1179,7 @@ void PlayInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 	{
 		FullScreen();
 	}
-	else if( (pEvent->ascii() == 'n') )
+	else if( (pEvent->ascii() == 'n') || (IsFullScreen() && (pEvent->ascii() == /*ESC*/27)) )
 	{
 		RestoreSize();
 	}
