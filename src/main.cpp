@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/main.cpp,v $
  *
- *  $Revision: 1.4 $
+ *  $Revision: 1.5 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.4  2003/11/09 14:25:45  min
+ *	gendev project added
+ *	
  *	Revision 1.3  2003/10/26 17:25:01  min
  *	Added new directories: images, sounds, data, scripts
  *	
@@ -51,6 +54,7 @@
 #define _GENDEV_DLL_NAME		"libgendev.so"
 //#define _LINUX_MINDIA_SHARED	"/usr/local/shared/mindia/";
 #else
+#include <windows.h>
 #ifdef _DEBUG
 #define _MINDIAPYC_DLL_NAME		"mindiapyc_d.dll"
 #else
@@ -94,7 +98,29 @@ string GetMinDiaSharedDirectory()
 #endif
 
 #ifdef _MSC_VER
-	// ** not really supported yet !
+	sRet = ".";
+	// HKEY_CURRENT_USER.Software.mindia.inifile
+	HKEY hKey;
+	if( RegOpenKeyEx( HKEY_CURRENT_USER, "Software", 0, KEY_ALL_ACCESS, &hKey ) == ERROR_SUCCESS )
+	{
+		HKEY hKeyMindia;
+		if( RegOpenKeyEx( hKey, "mindia", 0, KEY_ALL_ACCESS, &hKeyMindia ) == ERROR_SUCCESS )
+		{
+			char sBuffer[512];
+			DWORD dwLength = 512;
+			DWORD dwType = REG_SZ;
+
+			RegQueryValueEx( hKeyMindia, "inifile", NULL, &dwType, (LPBYTE)sBuffer, &dwLength );
+
+			sRet = sBuffer;
+
+			RegCloseKey( hKeyMindia );
+		}
+
+		RegCloseKey( hKey );
+
+		return sRet+sSep;
+	}
 	sRet = ".";
 	sRet += sSep;
 #endif
