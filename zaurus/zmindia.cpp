@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/zaurus/zmindia.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2004/02/26 22:16:04  min
+ *	Disable screen saver while playing.
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:22  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -38,7 +41,7 @@
 	ACHTUNG: zum Verkleinern der Programmdatei die Option -s beim Linken angeben (strip) !
 	         LFLAGS = -s
 
-4) During the boot process you will see a 'Wait' message displayed followed by a number 
+4) During the boot process you will see a 'Wait' message displayed followed by a number
    that decrements from 5. Before the number decrements to 0, press the '/?' key on the 
    keypad. This will display the following menu
 
@@ -128,6 +131,19 @@ static void copyDocLnk(const DocLnk &source, DocLnk &target)
   target.setCategories(source.categories());
 }
 
+static int g_iIDCount = 0;
+
+static string GetNextFreeID()
+{
+	char sBuffer[12];
+
+	g_iIDCount++;
+
+	sprintf( sBuffer, "id%d", g_iIDCount );
+
+	return sBuffer;
+}
+
 /*
  *  Constructs a ZMinDia which is a child of 'parent', with the
  *  name 'name' and widget flags set to 'f'
@@ -135,9 +151,10 @@ static void copyDocLnk(const DocLnk &source, DocLnk &target)
 ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
     : QMainWindow( parent, name, fl ),
 	  m_aDocContrl( /*bIgnoreComSettings*/false, /*bSimulation*/true, RolleiCom::TWIN_DIGITAL_P, this, 0, this ),
+	  m_pDiaInfo( 0 ),
 	  m_pFileSelector( 0 ),
-	  m_sScriptExtention( "text/plain" )
-//	  m_sScriptExtention( "text/mindia" )
+	  m_sScriptExtention( "text/plain" ),	// "text/mindia"
+	  m_iActRow( 0 )
 {
 //	bool bok = m_aDocContrl.LoadPresentation( "example_nz.dia", false );
 //cout << "load doc: " << bok << " " << m_aDocContrl.GetDiaCount() << endl;
@@ -196,8 +213,8 @@ ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
     connect( aAction, SIGNAL( activated() ), this, SLOT( sltClearLogging() ) );
     aAction->addTo( pFile );
 
-    aAction = new QAction( tr( "Test read" ), QString::null, 0, this, 0 );
-    connect( aAction, SIGNAL( activated() ), this, SLOT( sltTestRead() ) );
+    aAction = new QAction( tr( "Fast read" ), QString::null, 0, this, 0 );
+    connect( aAction, SIGNAL( activated() ), this, SLOT( sltFastRead() ) );
     aAction->addTo( pFile );
 
 	pFile->insertSeparator();
@@ -262,7 +279,8 @@ ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
     m_pLogging = new QMultiLineEdit( /*m_pSplitter*/m_pVBox, "m_pLogging" );
     m_pLogging->setReadOnly( TRUE );
 	// set the size of the logging field...
-	m_pLogging->setMaximumSize( QSize( 240, 65 ) );
+	//m_pLogging->setMaximumSize( QSize( 240, 65 ) );
+	m_pLogging->setMaximumHeight( 65 );
 	m_pLogging->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed ) );
 
 	m_pStatusLabel1 = new QLabel( m_pVBox, "m_pStatusLabel1" );
@@ -280,6 +298,8 @@ ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
 	m_pStatusUpdateTimer = new QTimer( this );
 	connect( m_pStatusUpdateTimer, SIGNAL( timeout() ), this, SLOT( sltStatusUpdateTimerEvent() ) );
 	m_pStatusUpdateTimer->start( c_ulStatusBarTimer );
+
+	connect( m_pOutput, SIGNAL( currentChanged(int,int) ), this, SLOT( sltSelectionChanged(int,int) ) );
 
 	m_aDocContrl.GetDiaCom().SetLoggingChannel( this );
 	m_aDocContrl.GetDiaCom().SetLogging( true );
@@ -300,6 +320,11 @@ ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
 ZMinDia::~ZMinDia()
 {
     // no need to delete child widgets, Qt does it all for us
+
+	if( m_pDiaInfo )
+	{
+		delete m_pDiaInfo;
+	}
 }
 
 void ZMinDia::updateFileSelector()
@@ -604,16 +629,19 @@ void ZMinDia::sltProjectorControl()
 
 void ZMinDia::sltDiaInfo()
 {
-	DiaInfoDlgImpl * pDlg = new DiaInfoDlgImpl( this, this, "projector_control", /*bTrue*/true );
+	if( m_pDiaInfo==0 )
+	{
+		m_pDiaInfo = new DiaInfoDlgImpl( this, this, "dia_info", /*bModal*/FALSE );
+	}
 
-	/*int iRet =*/ pDlg->exec();
+	/*int iRet =*/ m_pDiaInfo->show();
 /*
 	if( iRet == 1 )
 	{
 		// ok, pressed
 	}
 */
-	delete pDlg;
+//	delete pDlg;
 }
 
 void ZMinDia::sltUpdateOutput()
@@ -638,24 +666,52 @@ void ZMinDia::sltUpdateOutput()
 	}
 }
 
-void ZMinDia::sltTestRead()
+void ZMinDia::sltFastRead()
 {
-	/*bool bOk =*/ m_aDocContrl.LoadPresentation( "/mnt/cf/example_nz.dia", false );
+	/*bool bOk =*/ m_aDocContrl.LoadPresentation( "/mnt/cf/diapresentation.dia", false );
 
 	sltShowWorkspace();
-	updateCaption( "example_nz.dia" );
+	updateCaption( "diapresentation.dia" );
 }
 
 void ZMinDia::sltSelectPrev()
 {
+	if( m_iActRow>0 )
+	{
+		m_iActRow--;
+
+		updateDiaInfoDialog( m_iActRow );
+	}
 }
 
 void ZMinDia::sltSelectNext()
 {
+	if( m_iActRow+1<m_aDocContrl.GetPresentation().GetDiaCount() )
+	{
+		m_iActRow++;
+
+		updateDiaInfoDialog( m_iActRow );
+	}
 }
 
 void ZMinDia::sltNewItemAfterSelected()
 {
+	m_iActRow++;
+
+	m_aDocContrl.GetPresentation().AddDiaAt( m_iActRow, minHandle<DiaInfo>( new DiaInfo( GetNextFreeID() ) ) );
+
+	sltUpdateOutput();
+
+	updateDiaInfoDialog( m_iActRow );
+}
+
+void ZMinDia::sltDeleteSelectedItem()
+{
+	m_aDocContrl.GetPresentation().RemoveDiaAt( m_iActRow );
+
+	sltUpdateOutput();
+
+	updateDiaInfoDialog( m_iActRow );
 }
 
 void ZMinDia::sltShowErrorMessage( const QString & sMessage )
@@ -701,3 +757,27 @@ int ZMinDia::GetSelectedRow() const
 
 	return -1;		// no row selected !
 }
+
+void ZMinDia::sltSelectionChanged( int iRow, int iCol )
+{
+	updateDiaInfoDialog( iRow );
+}
+
+void ZMinDia::updateDiaInfoDialog( int iRow )
+{
+	m_iActRow = iRow;
+
+	minHandle<DiaInfo> hSelected = m_aDocContrl.GetPresentation().GetDiaAt( m_iActRow );
+
+    if( m_pDiaInfo )
+	{
+		m_pDiaInfo->sltUpdateData( hSelected, true );
+	}
+}
+
+void ZMinDia::sltDoDataChanged()
+{
+	sltUpdateOutput();
+}
+
+

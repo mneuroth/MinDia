@@ -1,7 +1,7 @@
 /****************************************************************************
-** Form interface generated from reading ui file 'ZDiaInfoDlg.ui'
+** Form interface generated from reading ui file 'zaurus/ZDiaInfoDlg.ui'
 **
-** Created: Sat Jan 4 15:37:17 2003
+** Created: Fri Mar 12 23:42:11 2004
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -30,13 +30,6 @@ public:
     DiaInfoDlg( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
     ~DiaInfoDlg();
 
-    QPushButton* m_pFileNameButton;
-    QButtonGroup* m_pSlideFormat;
-    QRadioButton* m_pHorizontalFormat;
-    QRadioButton* m_pVerticalFormat;
-    QMultiLineEdit* m_pScript;
-    QLabel* m_pScriptLabel;
-    QPushButton* m_pModifyScript;
     QButtonGroup* m_pEffectButtonGroup;
     QRadioButton* m_pFreeze;
     QRadioButton* m_pDarkPhase;
@@ -46,27 +39,35 @@ public:
     QRadioButton* m_pSwing;
     QLineEdit* m_pEffectCount;
     QLabel* m_pEffectCountLabel;
-    QLabel* CommenLabel;
-    QLabel* FileNameLabel;
+    QPushButton* buttonOk;
+    QPushButton* m_pFileNameButton;
+    QButtonGroup* m_pSlideFormat;
+    QRadioButton* m_pHorizontalFormat;
+    QRadioButton* m_pVerticalFormat;
+    QLabel* m_pScriptLabel;
+    QPushButton* m_pModifyScript;
+    QMultiLineEdit* m_pScript;
+    QPushButton* buttonCancel;
     QLabel* IDLabel;
+    QPushButton* m_pNext;
+    QPushButton* m_pPrevious;
+    QLineEdit* m_pIDEdit;
+    QPushButton* m_pApplyAndNext;
+    QPushButton* m_pApplyAndPrev;
+    QPushButton* m_pApply;
+    QPushButton* m_pNewItem;
+    QPushButton* m_pDeleteItem;
+    QLabel* CommenLabel;
     QLabel* TimerLabel;
     QLabel* DissolveLabel;
-    QPushButton* m_pPrevious;
-    QPushButton* m_pNext;
+    QLabel* FileNameLabel;
     QLineEdit* m_pCommentEdit;
-    QLineEdit* m_pIDEdit;
     QLineEdit* m_pFileNameEdit;
     QLineEdit* m_pDissolveEdit;
     QLineEdit* m_pTimerEdit;
-    QPushButton* buttonOk;
-    QPushButton* buttonCancel;
-    QPushButton* m_pApply;
-    QPushButton* m_pApplyAndPrev;
-    QPushButton* m_pApplyAndNext;
-    QPushButton* m_pNewItem;
 
 public slots:
-    virtual void sltTextChanged();
+    virtual void sltDeleteItem();
     virtual void sltApplyAndNext();
     virtual void sltApplyAndPrev();
     virtual void sltApplyData();
@@ -81,16 +82,17 @@ public slots:
     virtual void sltScriptFlagToggled(bool);
     virtual void sltSelectFileName();
     virtual void sltTextChanged( const QString &);
+    virtual void sltTextChanged();
     virtual void sltUpdateData(HItem * pFirstSelectedItem, bool bEnable );
 
 protected:
-    QGridLayout* m_pSlideFormatLayout;
-    QVBoxLayout* Layout25;
-    QVBoxLayout* Layout10;
     QHBoxLayout* m_pEffectButtonGroupLayout;
     QHBoxLayout* Layout21;
     QGridLayout* Layout19;
     QGridLayout* Layout20;
+    QGridLayout* m_pSlideFormatLayout;
+    QVBoxLayout* Layout25;
+    QVBoxLayout* Layout10;
 };
 
 #endif // DIAINFODLG_H

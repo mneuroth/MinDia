@@ -1,7 +1,7 @@
 /****************************************************************************
-** Form implementation generated from reading ui file 'ZDiaInfoDlg.ui'
+** Form implementation generated from reading ui file 'zaurus/ZDiaInfoDlg.ui'
 **
-** Created: Sat Jan 4 15:40:57 2003
+** Created: Fri Mar 12 23:47:33 2004
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -31,7 +31,7 @@ DiaInfoDlg::DiaInfoDlg( QWidget* parent,  const char* name, bool modal, WFlags f
 {
     if ( !name )
 	setName( "DiaInfoDlg" );
-    resize( 231, 193 ); 
+    resize( 191, 194 ); 
     setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)5, sizePolicy().hasHeightForWidth() ) );
     setMinimumSize( QSize( 0, 0 ) );
     setMaximumSize( QSize( 32767, 32767 ) );
@@ -39,58 +39,8 @@ DiaInfoDlg::DiaInfoDlg( QWidget* parent,  const char* name, bool modal, WFlags f
     setCaption( tr( "Dia Info" ) );
     setSizeGripEnabled( TRUE );
 
-    m_pFileNameButton = new QPushButton( this, "m_pFileNameButton" );
-    m_pFileNameButton->setGeometry( QRect( 333, 74, 80, 28 ) ); 
-    m_pFileNameButton->setText( tr( "&..." ) );
-
-    m_pSlideFormat = new QButtonGroup( this, "m_pSlideFormat" );
-    m_pSlideFormat->setGeometry( QRect( 290, 108, 123, 76 ) ); 
-    m_pSlideFormat->setTitle( tr( "Format" ) );
-    m_pSlideFormat->setColumnLayout(0, Qt::Vertical );
-    m_pSlideFormat->layout()->setSpacing( 0 );
-    m_pSlideFormat->layout()->setMargin( 0 );
-    m_pSlideFormatLayout = new QGridLayout( m_pSlideFormat->layout() );
-    m_pSlideFormatLayout->setAlignment( Qt::AlignTop );
-    m_pSlideFormatLayout->setSpacing( 6 );
-    m_pSlideFormatLayout->setMargin( 11 );
-
-    Layout25 = new QVBoxLayout; 
-    Layout25->setSpacing( 6 );
-    Layout25->setMargin( 0 );
-
-    m_pHorizontalFormat = new QRadioButton( m_pSlideFormat, "m_pHorizontalFormat" );
-    m_pHorizontalFormat->setText( tr( "hori&zontal" ) );
-    m_pHorizontalFormat->setChecked( TRUE );
-    Layout25->addWidget( m_pHorizontalFormat );
-
-    m_pVerticalFormat = new QRadioButton( m_pSlideFormat, "m_pVerticalFormat" );
-    m_pVerticalFormat->setText( tr( "&vertical" ) );
-    Layout25->addWidget( m_pVerticalFormat );
-
-    m_pSlideFormatLayout->addLayout( Layout25, 0, 0 );
-
-    m_pScript = new QMultiLineEdit( this, "m_pScript" );
-    m_pScript->setGeometry( QRect( 100, 411, 315, 51 ) ); 
-    m_pScript->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)7, (QSizePolicy::SizeType)7, m_pScript->sizePolicy().hasHeightForWidth() ) );
-    m_pScript->setReadOnly( TRUE );
-
-    QWidget* privateLayoutWidget = new QWidget( this, "Layout10" );
-    privateLayoutWidget->setGeometry( QRect( 10, 409, 82, 51 ) ); 
-    Layout10 = new QVBoxLayout( privateLayoutWidget ); 
-    Layout10->setSpacing( 6 );
-    Layout10->setMargin( 0 );
-
-    m_pScriptLabel = new QLabel( privateLayoutWidget, "m_pScriptLabel" );
-    m_pScriptLabel->setText( tr( "Script:" ) );
-    m_pScriptLabel->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
-    Layout10->addWidget( m_pScriptLabel );
-
-    m_pModifyScript = new QPushButton( privateLayoutWidget, "m_pModifyScript" );
-    m_pModifyScript->setText( tr( "&Modify..." ) );
-    Layout10->addWidget( m_pModifyScript );
-
     m_pEffectButtonGroup = new QButtonGroup( this, "m_pEffectButtonGroup" );
-    m_pEffectButtonGroup->setGeometry( QRect( 8, 280, 403, 78 ) ); 
+    m_pEffectButtonGroup->setGeometry( QRect( 14, 280, 403, 78 ) ); 
     m_pEffectButtonGroup->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)0, m_pEffectButtonGroup->sizePolicy().hasHeightForWidth() ) );
     m_pEffectButtonGroup->setTitle( tr( "Effects" ) );
     m_pEffectButtonGroup->setColumnLayout(0, Qt::Vertical );
@@ -163,89 +113,144 @@ DiaInfoDlg::DiaInfoDlg( QWidget* parent,  const char* name, bool modal, WFlags f
     Layout21->addLayout( Layout20 );
     m_pEffectButtonGroupLayout->addLayout( Layout21 );
 
-    CommenLabel = new QLabel( this, "CommenLabel" );
-    CommenLabel->setGeometry( QRect( 4, 29, 61, 16 ) ); 
-    CommenLabel->setText( tr( "Comment:" ) );
-    CommenLabel->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
-
-    FileNameLabel = new QLabel( this, "FileNameLabel" );
-    FileNameLabel->setGeometry( QRect( 9, 49, 55, 19 ) ); 
-    FileNameLabel->setText( tr( "Filename:" ) );
-    FileNameLabel->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
-
-    IDLabel = new QLabel( this, "IDLabel" );
-    IDLabel->setGeometry( QRect( 9, 7, 56, 19 ) ); 
-    IDLabel->setText( tr( "Id:" ) );
-    IDLabel->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
-
-    TimerLabel = new QLabel( this, "TimerLabel" );
-    TimerLabel->setGeometry( QRect( 7, 89, 60, 19 ) ); 
-    TimerLabel->setText( tr( "Timer [s]:" ) );
-    TimerLabel->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
-
-    DissolveLabel = new QLabel( this, "DissolveLabel" );
-    DissolveLabel->setGeometry( QRect( -2, 69, 70, 19 ) ); 
-    DissolveLabel->setText( tr( "Dissolve [s]:" ) );
-    DissolveLabel->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
-
-    m_pPrevious = new QPushButton( this, "m_pPrevious" );
-    m_pPrevious->setGeometry( QRect( 149, 3, 35, 24 ) ); 
-    m_pPrevious->setText( tr( "&<--" ) );
-    m_pPrevious->setAccel( 4198418 );
-
-    m_pNext = new QPushButton( this, "m_pNext" );
-    m_pNext->setGeometry( QRect( 188, 3, 35, 24 ) ); 
-    m_pNext->setText( tr( "--&>" ) );
-    m_pNext->setAccel( 4198420 );
-
-    m_pCommentEdit = new QLineEdit( this, "m_pCommentEdit" );
-    m_pCommentEdit->setGeometry( QRect( 67, 28, 157, 22 ) ); 
-
-    m_pIDEdit = new QLineEdit( this, "m_pIDEdit" );
-    m_pIDEdit->setGeometry( QRect( 67, 4, 79, 22 ) ); 
-
-    m_pFileNameEdit = new QLineEdit( this, "m_pFileNameEdit" );
-    m_pFileNameEdit->setGeometry( QRect( 67, 53, 157, 22 ) ); 
-
-    m_pDissolveEdit = new QLineEdit( this, "m_pDissolveEdit" );
-    m_pDissolveEdit->setGeometry( QRect( 67, 77, 158, 22 ) ); 
-
-    m_pTimerEdit = new QLineEdit( this, "m_pTimerEdit" );
-    m_pTimerEdit->setGeometry( QRect( 66, 100, 159, 22 ) ); 
-
     buttonOk = new QPushButton( this, "buttonOk" );
-    buttonOk->setGeometry( QRect( 244, 220, 80, 28 ) ); 
+    buttonOk->setGeometry( QRect( 250, 220, 80, 28 ) ); 
     buttonOk->setText( tr( "&OK" ) );
     buttonOk->setAutoDefault( TRUE );
     buttonOk->setDefault( FALSE );
 
+    m_pFileNameButton = new QPushButton( this, "m_pFileNameButton" );
+    m_pFileNameButton->setGeometry( QRect( 339, 74, 80, 28 ) ); 
+    m_pFileNameButton->setText( tr( "&..." ) );
+
+    m_pSlideFormat = new QButtonGroup( this, "m_pSlideFormat" );
+    m_pSlideFormat->setGeometry( QRect( 296, 108, 123, 76 ) ); 
+    m_pSlideFormat->setTitle( tr( "Format" ) );
+    m_pSlideFormat->setColumnLayout(0, Qt::Vertical );
+    m_pSlideFormat->layout()->setSpacing( 0 );
+    m_pSlideFormat->layout()->setMargin( 0 );
+    m_pSlideFormatLayout = new QGridLayout( m_pSlideFormat->layout() );
+    m_pSlideFormatLayout->setAlignment( Qt::AlignTop );
+    m_pSlideFormatLayout->setSpacing( 6 );
+    m_pSlideFormatLayout->setMargin( 11 );
+
+    Layout25 = new QVBoxLayout; 
+    Layout25->setSpacing( 6 );
+    Layout25->setMargin( 0 );
+
+    m_pHorizontalFormat = new QRadioButton( m_pSlideFormat, "m_pHorizontalFormat" );
+    m_pHorizontalFormat->setText( tr( "hori&zontal" ) );
+    m_pHorizontalFormat->setChecked( TRUE );
+    Layout25->addWidget( m_pHorizontalFormat );
+
+    m_pVerticalFormat = new QRadioButton( m_pSlideFormat, "m_pVerticalFormat" );
+    m_pVerticalFormat->setText( tr( "&vertical" ) );
+    Layout25->addWidget( m_pVerticalFormat );
+
+    m_pSlideFormatLayout->addLayout( Layout25, 0, 0 );
+
+    QWidget* privateLayoutWidget = new QWidget( this, "Layout10" );
+    privateLayoutWidget->setGeometry( QRect( 16, 409, 82, 51 ) ); 
+    Layout10 = new QVBoxLayout( privateLayoutWidget ); 
+    Layout10->setSpacing( 6 );
+    Layout10->setMargin( 0 );
+
+    m_pScriptLabel = new QLabel( privateLayoutWidget, "m_pScriptLabel" );
+    m_pScriptLabel->setText( tr( "Script:" ) );
+    m_pScriptLabel->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
+    Layout10->addWidget( m_pScriptLabel );
+
+    m_pModifyScript = new QPushButton( privateLayoutWidget, "m_pModifyScript" );
+    m_pModifyScript->setText( tr( "&Modify..." ) );
+    Layout10->addWidget( m_pModifyScript );
+
+    m_pScript = new QMultiLineEdit( this, "m_pScript" );
+    m_pScript->setGeometry( QRect( 106, 411, 315, 51 ) ); 
+    m_pScript->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)7, (QSizePolicy::SizeType)7, m_pScript->sizePolicy().hasHeightForWidth() ) );
+    m_pScript->setReadOnly( TRUE );
+
     buttonCancel = new QPushButton( this, "buttonCancel" );
-    buttonCancel->setGeometry( QRect( 330, 220, 80, 28 ) ); 
+    buttonCancel->setGeometry( QRect( 336, 220, 80, 28 ) ); 
     buttonCancel->setText( tr( "&Cancel" ) );
     buttonCancel->setAutoDefault( TRUE );
 
+    IDLabel = new QLabel( this, "IDLabel" );
+    IDLabel->setGeometry( QRect( 13, 8, 27, 19 ) ); 
+    IDLabel->setText( tr( "Id:" ) );
+    IDLabel->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
+
+    m_pNext = new QPushButton( this, "m_pNext" );
+    m_pNext->setGeometry( QRect( 152, 3, 35, 24 ) ); 
+    m_pNext->setText( tr( "--&>" ) );
+    m_pNext->setAccel( 4198420 );
+
+    m_pPrevious = new QPushButton( this, "m_pPrevious" );
+    m_pPrevious->setGeometry( QRect( 116, 3, 35, 24 ) ); 
+    m_pPrevious->setText( tr( "&<--" ) );
+    m_pPrevious->setAccel( 4198418 );
+
+    m_pIDEdit = new QLineEdit( this, "m_pIDEdit" );
+    m_pIDEdit->setGeometry( QRect( 52, 5, 60, 22 ) ); 
+
+    m_pApplyAndNext = new QPushButton( this, "m_pApplyAndNext" );
+    m_pApplyAndNext->setGeometry( QRect( 97, 128, 90, 25 ) ); 
+    m_pApplyAndNext->setText( tr( "Apply+ne&xt" ) );
+    m_pApplyAndNext->setAutoDefault( TRUE );
+    m_pApplyAndNext->setDefault( TRUE );
+
+    m_pApplyAndPrev = new QPushButton( this, "m_pApplyAndPrev" );
+    m_pApplyAndPrev->setGeometry( QRect( 3, 128, 90, 25 ) ); 
+    m_pApplyAndPrev->setText( tr( "Apply+pre&v." ) );
+    m_pApplyAndPrev->setAutoDefault( TRUE );
+    m_pApplyAndPrev->setDefault( TRUE );
+
     m_pApply = new QPushButton( this, "m_pApply" );
-    m_pApply->setGeometry( QRect( 7, 128, 60, 25 ) ); 
+    m_pApply->setGeometry( QRect( 4, 158, 60, 25 ) ); 
     m_pApply->setText( tr( "&Apply" ) );
     m_pApply->setAutoDefault( TRUE );
     m_pApply->setDefault( TRUE );
 
-    m_pApplyAndPrev = new QPushButton( this, "m_pApplyAndPrev" );
-    m_pApplyAndPrev->setGeometry( QRect( 72, 128, 100, 25 ) ); 
-    m_pApplyAndPrev->setText( tr( "Apply and pre&v." ) );
-    m_pApplyAndPrev->setAutoDefault( TRUE );
-    m_pApplyAndPrev->setDefault( TRUE );
-
-    m_pApplyAndNext = new QPushButton( this, "m_pApplyAndNext" );
-    m_pApplyAndNext->setGeometry( QRect( 71, 158, 100, 25 ) ); 
-    m_pApplyAndNext->setText( tr( "Apply and ne&xt" ) );
-    m_pApplyAndNext->setAutoDefault( TRUE );
-    m_pApplyAndNext->setDefault( TRUE );
-
     m_pNewItem = new QPushButton( this, "m_pNewItem" );
-    m_pNewItem->setGeometry( QRect( 7, 157, 60, 25 ) ); 
+    m_pNewItem->setGeometry( QRect( 66, 158, 60, 25 ) ); 
     m_pNewItem->setText( tr( "&New dia" ) );
     m_pNewItem->setAutoDefault( TRUE );
+
+    m_pDeleteItem = new QPushButton( this, "m_pDeleteItem" );
+    m_pDeleteItem->setGeometry( QRect( 128, 158, 60, 25 ) ); 
+    m_pDeleteItem->setText( tr( "&Del. dia" ) );
+    m_pDeleteItem->setAutoDefault( TRUE );
+
+    CommenLabel = new QLabel( this, "CommenLabel" );
+    CommenLabel->setGeometry( QRect( 12, 31, 61, 16 ) ); 
+    CommenLabel->setText( tr( "Comment:" ) );
+    CommenLabel->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
+
+    TimerLabel = new QLabel( this, "TimerLabel" );
+    TimerLabel->setGeometry( QRect( 16, 101, 60, 19 ) ); 
+    TimerLabel->setText( tr( "Timer [s]:" ) );
+    TimerLabel->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
+
+    DissolveLabel = new QLabel( this, "DissolveLabel" );
+    DissolveLabel->setGeometry( QRect( 1, 77, 75, 19 ) ); 
+    DissolveLabel->setText( tr( "Dissolve [s]:" ) );
+    DissolveLabel->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
+
+    FileNameLabel = new QLabel( this, "FileNameLabel" );
+    FileNameLabel->setGeometry( QRect( 18, 54, 55, 19 ) ); 
+    FileNameLabel->setText( tr( "Filename:" ) );
+    FileNameLabel->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
+
+    m_pCommentEdit = new QLineEdit( this, "m_pCommentEdit" );
+    m_pCommentEdit->setGeometry( QRect( 79, 29, 107, 22 ) ); 
+
+    m_pFileNameEdit = new QLineEdit( this, "m_pFileNameEdit" );
+    m_pFileNameEdit->setGeometry( QRect( 79, 53, 107, 22 ) ); 
+
+    m_pDissolveEdit = new QLineEdit( this, "m_pDissolveEdit" );
+    m_pDissolveEdit->setGeometry( QRect( 79, 77, 107, 22 ) ); 
+
+    m_pTimerEdit = new QLineEdit( this, "m_pTimerEdit" );
+    m_pTimerEdit->setGeometry( QRect( 79, 100, 107, 22 ) ); 
 
     // signals and slots connections
     connect( m_pApply, SIGNAL( clicked() ), this, SLOT( sltApplyData() ) );
@@ -273,6 +278,7 @@ DiaInfoDlg::DiaInfoDlg( QWidget* parent,  const char* name, bool modal, WFlags f
     connect( m_pApplyAndPrev, SIGNAL( clicked() ), this, SLOT( sltApplyAndPrev() ) );
     connect( m_pModifyScript, SIGNAL( clicked() ), this, SLOT( sltModifyScript() ) );
     connect( m_pScript, SIGNAL( textChanged() ), this, SLOT( sltTextChanged() ) );
+    connect( m_pDeleteItem, SIGNAL( clicked() ), this, SLOT( sltDeleteItem() ) );
 
     // tab order
     setTabOrder( m_pNoEffect, m_pIDEdit );
@@ -303,9 +309,9 @@ DiaInfoDlg::~DiaInfoDlg()
     // no need to delete child widgets, Qt does it all for us
 }
 
-void DiaInfoDlg::sltTextChanged()
+void DiaInfoDlg::sltDeleteItem()
 {
-    qWarning( "DiaInfoDlg::sltTextChanged(): Not implemented yet!" );
+    qWarning( "DiaInfoDlg::sltDeleteItem(): Not implemented yet!" );
 }
 
 void DiaInfoDlg::sltApplyAndNext()
@@ -376,6 +382,11 @@ void DiaInfoDlg::sltSelectFileName()
 void DiaInfoDlg::sltTextChanged( const QString &)
 {
     qWarning( "DiaInfoDlg::sltTextChanged( const QString &): Not implemented yet!" );
+}
+
+void DiaInfoDlg::sltTextChanged()
+{
+    qWarning( "DiaInfoDlg::sltTextChanged(): Not implemented yet!" );
 }
 
 void DiaInfoDlg::sltUpdateData(HItem * pFirstSelectedItem, bool bEnable )

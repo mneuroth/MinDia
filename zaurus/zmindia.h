@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/zaurus/zmindia.h,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2004/02/26 22:15:24  min
+ *	New slot sltPlayFinished() added.
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:22  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -51,6 +54,8 @@ class QTable;
 class QLabel;
 class QTimer;
 
+class DiaInfoDlgImpl;
+
 class ZMinDia : public QMainWindow, public minLoggingInterface
 {
     Q_OBJECT
@@ -76,13 +81,15 @@ public slots:
     void sltShowWarningMessage( const QString & sText );
     void sltSelectItem( int iIndex, int iDissolveTimeInMS );
     void sltUpdateOutput();
-    void sltTestRead();
+    void sltFastRead();
     void sltModusIsSwitched();
 	void sltPlayFinished();
 
     void sltSelectPrev();
     void sltSelectNext();
     void sltNewItemAfterSelected();
+	void sltDeleteSelectedItem();
+	void sltDoDataChanged();
 
 private slots:
     void sltOpenFile( const DocLnk & );
@@ -93,6 +100,8 @@ private slots:
     void sltShowWorkspace();
     void sltStatusUpdateTimerEvent();
 
+	void sltSelectionChanged( int row, int col );
+
 protected:
     virtual void closeEvent( QCloseEvent * pCloseEvent );
 	virtual void customEvent( QCustomEvent * pEvent );
@@ -101,9 +110,12 @@ private:
     void updateCaption( const QString & sName=QString::null );
     void updateFileSelector();
     int  GetSelectedRow() const;
+	void updateDiaInfoDialog( int iRow );
 
 	// ** data **
 	DocumentAndControler	m_aDocContrl;
+
+	DiaInfoDlgImpl * 	m_pDiaInfo;
 
 	FileSelector *		m_pFileSelector;
 	QToolBar *			m_pMenu;
@@ -121,6 +133,8 @@ private:
     DocLnk 				m_aDoc;
 
 	QString				m_sScriptExtention;
+
+	int					m_iActRow;
 };
 
 #endif // ZMINDIA

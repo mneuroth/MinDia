@@ -12,8 +12,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>231</width>
-            <height>193</height>
+            <width>190</width>
+            <height>191</height>
         </rect>
     </property>
     <property stdset="1">
@@ -53,181 +53,6 @@
         <bool>true</bool>
     </property>
     <widget>
-        <class>QPushButton</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>m_pFileNameButton</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>333</x>
-                <y>74</y>
-                <width>80</width>
-                <height>28</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>text</name>
-            <string>&amp;...</string>
-        </property>
-    </widget>
-    <widget>
-        <class>QButtonGroup</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>m_pSlideFormat</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>290</x>
-                <y>108</y>
-                <width>123</width>
-                <height>76</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>title</name>
-            <string>Format</string>
-        </property>
-        <grid>
-            <property stdset="1">
-                <name>margin</name>
-                <number>11</number>
-            </property>
-            <property stdset="1">
-                <name>spacing</name>
-                <number>6</number>
-            </property>
-            <widget row="0"  column="0" >
-                <class>QLayoutWidget</class>
-                <property stdset="1">
-                    <name>name</name>
-                    <cstring>Layout25</cstring>
-                </property>
-                <vbox>
-                    <property stdset="1">
-                        <name>margin</name>
-                        <number>0</number>
-                    </property>
-                    <property stdset="1">
-                        <name>spacing</name>
-                        <number>6</number>
-                    </property>
-                    <widget>
-                        <class>QRadioButton</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>m_pHorizontalFormat</cstring>
-                        </property>
-                        <property stdset="1">
-                            <name>text</name>
-                            <string>hori&amp;zontal</string>
-                        </property>
-                        <property stdset="1">
-                            <name>checked</name>
-                            <bool>true</bool>
-                        </property>
-                    </widget>
-                    <widget>
-                        <class>QRadioButton</class>
-                        <property stdset="1">
-                            <name>name</name>
-                            <cstring>m_pVerticalFormat</cstring>
-                        </property>
-                        <property stdset="1">
-                            <name>text</name>
-                            <string>&amp;vertical</string>
-                        </property>
-                    </widget>
-                </vbox>
-            </widget>
-        </grid>
-    </widget>
-    <widget>
-        <class>QMultiLineEdit</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>m_pScript</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>100</x>
-                <y>411</y>
-                <width>315</width>
-                <height>51</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>sizePolicy</name>
-            <sizepolicy>
-                <hsizetype>7</hsizetype>
-                <vsizetype>7</vsizetype>
-            </sizepolicy>
-        </property>
-        <property stdset="1">
-            <name>readOnly</name>
-            <bool>true</bool>
-        </property>
-    </widget>
-    <widget>
-        <class>QLayoutWidget</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>Layout10</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>10</x>
-                <y>409</y>
-                <width>82</width>
-                <height>51</height>
-            </rect>
-        </property>
-        <vbox>
-            <property stdset="1">
-                <name>margin</name>
-                <number>0</number>
-            </property>
-            <property stdset="1">
-                <name>spacing</name>
-                <number>6</number>
-            </property>
-            <widget>
-                <class>QLabel</class>
-                <property stdset="1">
-                    <name>name</name>
-                    <cstring>m_pScriptLabel</cstring>
-                </property>
-                <property stdset="1">
-                    <name>text</name>
-                    <string>Script:</string>
-                </property>
-                <property stdset="1">
-                    <name>alignment</name>
-                    <set>AlignVCenter|AlignRight</set>
-                </property>
-                <property>
-                    <name>hAlign</name>
-                </property>
-            </widget>
-            <widget>
-                <class>QPushButton</class>
-                <property stdset="1">
-                    <name>name</name>
-                    <cstring>m_pModifyScript</cstring>
-                </property>
-                <property stdset="1">
-                    <name>text</name>
-                    <string>&amp;Modify...</string>
-                </property>
-            </widget>
-        </vbox>
-    </widget>
-    <widget>
         <class>QButtonGroup</class>
         <property stdset="1">
             <name>name</name>
@@ -236,7 +61,7 @@
         <property stdset="1">
             <name>geometry</name>
             <rect>
-                <x>8</x>
+                <x>14</x>
                 <y>280</y>
                 <width>403</width>
                 <height>78</height>
@@ -435,290 +260,6 @@
         </hbox>
     </widget>
     <widget>
-        <class>QLabel</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>CommenLabel</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>4</x>
-                <y>29</y>
-                <width>61</width>
-                <height>16</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>text</name>
-            <string>Comment:</string>
-        </property>
-        <property stdset="1">
-            <name>alignment</name>
-            <set>AlignVCenter|AlignRight</set>
-        </property>
-        <property>
-            <name>hAlign</name>
-        </property>
-    </widget>
-    <widget>
-        <class>QLabel</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>FileNameLabel</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>9</x>
-                <y>49</y>
-                <width>55</width>
-                <height>19</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>text</name>
-            <string>Filename:</string>
-        </property>
-        <property stdset="1">
-            <name>alignment</name>
-            <set>AlignVCenter|AlignRight</set>
-        </property>
-        <property>
-            <name>hAlign</name>
-        </property>
-    </widget>
-    <widget>
-        <class>QLabel</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>IDLabel</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>9</x>
-                <y>7</y>
-                <width>56</width>
-                <height>19</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>text</name>
-            <string>Id:</string>
-        </property>
-        <property stdset="1">
-            <name>alignment</name>
-            <set>AlignVCenter|AlignRight</set>
-        </property>
-        <property>
-            <name>hAlign</name>
-        </property>
-    </widget>
-    <widget>
-        <class>QLabel</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>TimerLabel</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>7</x>
-                <y>89</y>
-                <width>60</width>
-                <height>19</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>text</name>
-            <string>Timer [s]:</string>
-        </property>
-        <property stdset="1">
-            <name>alignment</name>
-            <set>AlignVCenter|AlignRight</set>
-        </property>
-        <property>
-            <name>hAlign</name>
-        </property>
-    </widget>
-    <widget>
-        <class>QLabel</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>DissolveLabel</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>-2</x>
-                <y>69</y>
-                <width>70</width>
-                <height>19</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>text</name>
-            <string>Dissolve [s]:</string>
-        </property>
-        <property stdset="1">
-            <name>alignment</name>
-            <set>AlignVCenter|AlignRight</set>
-        </property>
-        <property>
-            <name>hAlign</name>
-        </property>
-    </widget>
-    <widget>
-        <class>QPushButton</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>m_pPrevious</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>149</x>
-                <y>3</y>
-                <width>35</width>
-                <height>24</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>text</name>
-            <string>&amp;&lt;--</string>
-        </property>
-        <property stdset="1">
-            <name>accel</name>
-            <number>4198418</number>
-        </property>
-    </widget>
-    <widget>
-        <class>QPushButton</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>m_pNext</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>188</x>
-                <y>3</y>
-                <width>35</width>
-                <height>24</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>text</name>
-            <string>--&amp;&gt;</string>
-        </property>
-        <property stdset="1">
-            <name>accel</name>
-            <number>4198420</number>
-        </property>
-    </widget>
-    <widget>
-        <class>QLineEdit</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>m_pCommentEdit</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>67</x>
-                <y>28</y>
-                <width>157</width>
-                <height>22</height>
-            </rect>
-        </property>
-    </widget>
-    <widget>
-        <class>QLineEdit</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>m_pIDEdit</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>67</x>
-                <y>4</y>
-                <width>79</width>
-                <height>22</height>
-            </rect>
-        </property>
-    </widget>
-    <widget>
-        <class>QLineEdit</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>m_pFileNameEdit</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>67</x>
-                <y>53</y>
-                <width>157</width>
-                <height>22</height>
-            </rect>
-        </property>
-    </widget>
-    <widget>
-        <class>QLineEdit</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>m_pDissolveEdit</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>67</x>
-                <y>77</y>
-                <width>158</width>
-                <height>22</height>
-            </rect>
-        </property>
-    </widget>
-    <widget>
-        <class>QLineEdit</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>m_pTimerEdit</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>66</x>
-                <y>100</y>
-                <width>159</width>
-                <height>22</height>
-            </rect>
-        </property>
-    </widget>
-    <spacer>
-        <property>
-            <name>name</name>
-            <cstring>Spacer2</cstring>
-        </property>
-        <property stdset="1">
-            <name>orientation</name>
-            <enum>Horizontal</enum>
-        </property>
-        <property stdset="1">
-            <name>sizeType</name>
-            <enum>Expanding</enum>
-        </property>
-        <property>
-            <name>sizeHint</name>
-            <size>
-                <width>20</width>
-                <height>20</height>
-            </size>
-        </property>
-    </spacer>
-    <widget>
         <class>QPushButton</class>
         <property stdset="1">
             <name>name</name>
@@ -727,7 +268,7 @@
         <property stdset="1">
             <name>geometry</name>
             <rect>
-                <x>244</x>
+                <x>250</x>
                 <y>220</y>
                 <width>80</width>
                 <height>28</height>
@@ -750,12 +291,187 @@
         <class>QPushButton</class>
         <property stdset="1">
             <name>name</name>
+            <cstring>m_pFileNameButton</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>339</x>
+                <y>74</y>
+                <width>80</width>
+                <height>28</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>&amp;...</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QButtonGroup</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>m_pSlideFormat</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>296</x>
+                <y>108</y>
+                <width>123</width>
+                <height>76</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>title</name>
+            <string>Format</string>
+        </property>
+        <grid>
+            <property stdset="1">
+                <name>margin</name>
+                <number>11</number>
+            </property>
+            <property stdset="1">
+                <name>spacing</name>
+                <number>6</number>
+            </property>
+            <widget row="0"  column="0" >
+                <class>QLayoutWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>Layout25</cstring>
+                </property>
+                <vbox>
+                    <property stdset="1">
+                        <name>margin</name>
+                        <number>0</number>
+                    </property>
+                    <property stdset="1">
+                        <name>spacing</name>
+                        <number>6</number>
+                    </property>
+                    <widget>
+                        <class>QRadioButton</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>m_pHorizontalFormat</cstring>
+                        </property>
+                        <property stdset="1">
+                            <name>text</name>
+                            <string>hori&amp;zontal</string>
+                        </property>
+                        <property stdset="1">
+                            <name>checked</name>
+                            <bool>true</bool>
+                        </property>
+                    </widget>
+                    <widget>
+                        <class>QRadioButton</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>m_pVerticalFormat</cstring>
+                        </property>
+                        <property stdset="1">
+                            <name>text</name>
+                            <string>&amp;vertical</string>
+                        </property>
+                    </widget>
+                </vbox>
+            </widget>
+        </grid>
+    </widget>
+    <widget>
+        <class>QLayoutWidget</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>Layout10</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>16</x>
+                <y>409</y>
+                <width>82</width>
+                <height>51</height>
+            </rect>
+        </property>
+        <vbox>
+            <property stdset="1">
+                <name>margin</name>
+                <number>0</number>
+            </property>
+            <property stdset="1">
+                <name>spacing</name>
+                <number>6</number>
+            </property>
+            <widget>
+                <class>QLabel</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>m_pScriptLabel</cstring>
+                </property>
+                <property stdset="1">
+                    <name>text</name>
+                    <string>Script:</string>
+                </property>
+                <property stdset="1">
+                    <name>alignment</name>
+                    <set>AlignVCenter|AlignRight</set>
+                </property>
+                <property>
+                    <name>hAlign</name>
+                </property>
+            </widget>
+            <widget>
+                <class>QPushButton</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>m_pModifyScript</cstring>
+                </property>
+                <property stdset="1">
+                    <name>text</name>
+                    <string>&amp;Modify...</string>
+                </property>
+            </widget>
+        </vbox>
+    </widget>
+    <widget>
+        <class>QMultiLineEdit</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>m_pScript</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>106</x>
+                <y>411</y>
+                <width>315</width>
+                <height>51</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>sizePolicy</name>
+            <sizepolicy>
+                <hsizetype>7</hsizetype>
+                <vsizetype>7</vsizetype>
+            </sizepolicy>
+        </property>
+        <property stdset="1">
+            <name>readOnly</name>
+            <bool>true</bool>
+        </property>
+    </widget>
+    <widget>
+        <class>QPushButton</class>
+        <property stdset="1">
+            <name>name</name>
             <cstring>buttonCancel</cstring>
         </property>
         <property stdset="1">
             <name>geometry</name>
             <rect>
-                <x>330</x>
+                <x>336</x>
                 <y>220</y>
                 <width>80</width>
                 <height>28</height>
@@ -770,27 +486,101 @@
             <bool>true</bool>
         </property>
     </widget>
-    <spacer>
-        <property>
+    <widget>
+        <class>QLabel</class>
+        <property stdset="1">
             <name>name</name>
-            <cstring>Spacer3</cstring>
+            <cstring>IDLabel</cstring>
         </property>
         <property stdset="1">
-            <name>orientation</name>
-            <enum>Horizontal</enum>
+            <name>geometry</name>
+            <rect>
+                <x>13</x>
+                <y>8</y>
+                <width>27</width>
+                <height>19</height>
+            </rect>
         </property>
         <property stdset="1">
-            <name>sizeType</name>
-            <enum>Expanding</enum>
+            <name>text</name>
+            <string>Id:</string>
+        </property>
+        <property stdset="1">
+            <name>alignment</name>
+            <set>AlignVCenter|AlignRight</set>
         </property>
         <property>
-            <name>sizeHint</name>
-            <size>
-                <width>20</width>
-                <height>20</height>
-            </size>
+            <name>hAlign</name>
         </property>
-    </spacer>
+    </widget>
+    <widget>
+        <class>QPushButton</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>m_pNext</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>152</x>
+                <y>3</y>
+                <width>35</width>
+                <height>24</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>--&amp;&gt;</string>
+        </property>
+        <property stdset="1">
+            <name>accel</name>
+            <number>4198420</number>
+        </property>
+    </widget>
+    <widget>
+        <class>QLineEdit</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>m_pIDEdit</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>52</x>
+                <y>5</y>
+                <width>60</width>
+                <height>22</height>
+            </rect>
+        </property>
+    </widget>
+    <widget>
+        <class>QPushButton</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>m_pApplyAndPrev</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>3</x>
+                <y>128</y>
+                <width>90</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>Apply+pre&amp;v.</string>
+        </property>
+        <property stdset="1">
+            <name>autoDefault</name>
+            <bool>true</bool>
+        </property>
+        <property stdset="1">
+            <name>default</name>
+            <bool>true</bool>
+        </property>
+    </widget>
     <widget>
         <class>QPushButton</class>
         <property stdset="1">
@@ -800,8 +590,8 @@
         <property stdset="1">
             <name>geometry</name>
             <rect>
-                <x>7</x>
-                <y>128</y>
+                <x>4</x>
+                <y>158</y>
                 <width>60</width>
                 <height>25</height>
             </rect>
@@ -823,28 +613,48 @@
         <class>QPushButton</class>
         <property stdset="1">
             <name>name</name>
-            <cstring>m_pApplyAndPrev</cstring>
+            <cstring>m_pDeleteItem</cstring>
         </property>
         <property stdset="1">
             <name>geometry</name>
             <rect>
-                <x>72</x>
-                <y>128</y>
-                <width>100</width>
+                <x>128</x>
+                <y>158</y>
+                <width>60</width>
                 <height>25</height>
             </rect>
         </property>
         <property stdset="1">
             <name>text</name>
-            <string>Apply and pre&amp;v.</string>
+            <string>&amp;Del. dia</string>
         </property>
         <property stdset="1">
             <name>autoDefault</name>
             <bool>true</bool>
         </property>
+    </widget>
+    <widget>
+        <class>QPushButton</class>
         <property stdset="1">
-            <name>default</name>
-            <bool>true</bool>
+            <name>name</name>
+            <cstring>m_pPrevious</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>116</x>
+                <y>3</y>
+                <width>35</width>
+                <height>24</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>&amp;&lt;--</string>
+        </property>
+        <property stdset="1">
+            <name>accel</name>
+            <number>4198418</number>
         </property>
     </widget>
     <widget>
@@ -856,15 +666,15 @@
         <property stdset="1">
             <name>geometry</name>
             <rect>
-                <x>71</x>
-                <y>158</y>
-                <width>100</width>
+                <x>97</x>
+                <y>128</y>
+                <width>90</width>
                 <height>25</height>
             </rect>
         </property>
         <property stdset="1">
             <name>text</name>
-            <string>Apply and ne&amp;xt</string>
+            <string>Apply+ne&amp;xt</string>
         </property>
         <property stdset="1">
             <name>autoDefault</name>
@@ -876,6 +686,178 @@
         </property>
     </widget>
     <widget>
+        <class>QLineEdit</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>m_pCommentEdit</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>88</x>
+                <y>29</y>
+                <width>98</width>
+                <height>22</height>
+            </rect>
+        </property>
+    </widget>
+    <widget>
+        <class>QLineEdit</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>m_pTimerEdit</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>88</x>
+                <y>100</y>
+                <width>98</width>
+                <height>22</height>
+            </rect>
+        </property>
+    </widget>
+    <widget>
+        <class>QLineEdit</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>m_pDissolveEdit</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>88</x>
+                <y>77</y>
+                <width>98</width>
+                <height>22</height>
+            </rect>
+        </property>
+    </widget>
+    <widget>
+        <class>QLineEdit</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>m_pFileNameEdit</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>88</x>
+                <y>53</y>
+                <width>98</width>
+                <height>22</height>
+            </rect>
+        </property>
+    </widget>
+    <widget>
+        <class>QLabel</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>DissolveLabel</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>4</x>
+                <y>77</y>
+                <width>82</width>
+                <height>19</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>Dissolve [s]:</string>
+        </property>
+        <property stdset="1">
+            <name>alignment</name>
+            <set>AlignVCenter|AlignRight</set>
+        </property>
+        <property>
+            <name>hAlign</name>
+        </property>
+    </widget>
+    <widget>
+        <class>QLabel</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>FileNameLabel</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>5</x>
+                <y>54</y>
+                <width>82</width>
+                <height>19</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>Filename:</string>
+        </property>
+        <property stdset="1">
+            <name>alignment</name>
+            <set>AlignVCenter|AlignRight</set>
+        </property>
+        <property>
+            <name>hAlign</name>
+        </property>
+    </widget>
+    <widget>
+        <class>QLabel</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>CommenLabel</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>4</x>
+                <y>31</y>
+                <width>82</width>
+                <height>16</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>Comment:</string>
+        </property>
+        <property stdset="1">
+            <name>alignment</name>
+            <set>AlignVCenter|AlignRight</set>
+        </property>
+        <property>
+            <name>hAlign</name>
+        </property>
+    </widget>
+    <widget>
+        <class>QLabel</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>TimerLabel</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>4</x>
+                <y>101</y>
+                <width>82</width>
+                <height>19</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>Timer [s]:</string>
+        </property>
+        <property stdset="1">
+            <name>alignment</name>
+            <set>AlignVCenter|AlignRight</set>
+        </property>
+        <property>
+            <name>hAlign</name>
+        </property>
+    </widget>
+    <widget>
         <class>QPushButton</class>
         <property stdset="1">
             <name>name</name>
@@ -884,8 +866,8 @@
         <property stdset="1">
             <name>geometry</name>
             <rect>
-                <x>7</x>
-                <y>157</y>
+                <x>66</x>
+                <y>158</y>
                 <width>60</width>
                 <height>25</height>
             </rect>
@@ -1051,7 +1033,13 @@
         <receiver>DiaInfoDlg</receiver>
         <slot>sltTextChanged()</slot>
     </connection>
-    <slot access="public">sltTextChanged()</slot>
+    <connection>
+        <sender>m_pDeleteItem</sender>
+        <signal>clicked()</signal>
+        <receiver>DiaInfoDlg</receiver>
+        <slot>sltDeleteItem()</slot>
+    </connection>
+    <slot access="public">sltDeleteItem()</slot>
     <slot access="public">sltApplyAndNext()</slot>
     <slot access="public">sltApplyAndPrev()</slot>
     <slot access="public">sltApplyData()</slot>
@@ -1066,6 +1054,7 @@
     <slot access="public">sltScriptFlagToggled(bool)</slot>
     <slot access="public">sltSelectFileName()</slot>
     <slot access="public">sltTextChanged( const QString &amp;)</slot>
+    <slot access="public">sltTextChanged()</slot>
     <slot access="public">sltUpdateData(HItem * pFirstSelectedItem, bool bEnable )</slot>
 </connections>
 <tabstops>
