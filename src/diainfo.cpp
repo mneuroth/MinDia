@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diainfo.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -443,6 +446,11 @@ bool DiaInfo::ModifyOperation( int iIndex, const TimeOperation & aOperation )
 		return true;
 	}
 	return false;
+}
+
+void DiaInfo::MakeRelativePaths()
+{
+	m_sImageFile = FileUtilityObj::ConvertToRelPath( m_sImageFile.c_str() );
 }
 
 // *******************************************************************
