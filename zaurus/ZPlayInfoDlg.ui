@@ -1,0 +1,243 @@
+<!DOCTYPE UI><UI>
+<class>PlayInfoDialog</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>PlayInfoDialog</cstring>
+    </property>
+    <property stdset="1">
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>236</width>
+            <height>205</height>
+        </rect>
+    </property>
+    <property stdset="1">
+        <name>sizePolicy</name>
+        <sizepolicy>
+            <hsizetype>5</hsizetype>
+            <vsizetype>5</vsizetype>
+        </sizepolicy>
+    </property>
+    <property stdset="1">
+        <name>minimumSize</name>
+        <size>
+            <width>0</width>
+            <height>0</height>
+        </size>
+    </property>
+    <property stdset="1">
+        <name>maximumSize</name>
+        <size>
+            <width>32767</width>
+            <height>32767</height>
+        </size>
+    </property>
+    <property stdset="1">
+        <name>caption</name>
+        <string>Play Info</string>
+    </property>
+    <property stdset="1">
+        <name>sizeGripEnabled</name>
+        <bool>true</bool>
+    </property>
+    <property>
+        <name>layoutMargin</name>
+    </property>
+    <property>
+        <name>layoutSpacing</name>
+    </property>
+    <vbox>
+        <property stdset="1">
+            <name>margin</name>
+            <number>4</number>
+        </property>
+        <property stdset="1">
+            <name>spacing</name>
+            <number>2</number>
+        </property>
+        <widget>
+            <class>QFrame</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pFrame</cstring>
+            </property>
+            <property stdset="1">
+                <name>frameShape</name>
+                <enum>StyledPanel</enum>
+            </property>
+            <property stdset="1">
+                <name>frameShadow</name>
+                <enum>Raised</enum>
+            </property>
+        </widget>
+        <widget>
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pButtonLayout</cstring>
+            </property>
+            <hbox>
+                <property stdset="1">
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property stdset="1">
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>m_pRun</cstring>
+                    </property>
+                    <property stdset="1">
+                        <name>maximumSize</name>
+                        <size>
+                            <width>25</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property stdset="1">
+                        <name>text</name>
+                        <string></string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>m_pPause</cstring>
+                    </property>
+                    <property stdset="1">
+                        <name>maximumSize</name>
+                        <size>
+                            <width>25</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property stdset="1">
+                        <name>text</name>
+                        <string></string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>m_pStop</cstring>
+                    </property>
+                    <property stdset="1">
+                        <name>maximumSize</name>
+                        <size>
+                            <width>25</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property stdset="1">
+                        <name>text</name>
+                        <string></string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>m_pFullScreen</cstring>
+                    </property>
+                    <property stdset="1">
+                        <name>maximumSize</name>
+                        <size>
+                            <width>25</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property stdset="1">
+                        <name>text</name>
+                        <string></string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QCheckBox</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>m_pDisplayImage</cstring>
+                    </property>
+                    <property stdset="1">
+                        <name>sizePolicy</name>
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                        </sizepolicy>
+                    </property>
+                    <property stdset="1">
+                        <name>minimumSize</name>
+                        <size>
+                            <width>0</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                    <property stdset="1">
+                        <name>maximumSize</name>
+                        <size>
+                            <width>32767</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property stdset="1">
+                        <name>caption</name>
+                        <string></string>
+                    </property>
+                    <property stdset="1">
+                        <name>text</name>
+                        <string>&amp;Display image</string>
+                    </property>
+                    <property>
+                        <name>layoutMargin</name>
+                    </property>
+                    <property>
+                        <name>layoutSpacing</name>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </vbox>
+</widget>
+<connections>
+    <connection>
+        <sender>m_pDisplayImage</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>PlayInfoDialog</receiver>
+        <slot>sltDispImageToggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>m_pRun</sender>
+        <signal>clicked()</signal>
+        <receiver>PlayInfoDialog</receiver>
+        <slot>sltPlay()</slot>
+    </connection>
+    <connection>
+        <sender>m_pPause</sender>
+        <signal>clicked()</signal>
+        <receiver>PlayInfoDialog</receiver>
+        <slot>sltPause()</slot>
+    </connection>
+    <connection>
+        <sender>m_pStop</sender>
+        <signal>clicked()</signal>
+        <receiver>PlayInfoDialog</receiver>
+        <slot>sltStop()</slot>
+    </connection>
+    <slot access="public">sltCancelDialog()</slot>
+    <slot access="public">sltCloseDialog()</slot>
+    <slot access="public">sltDispImageToggled(bool)</slot>
+    <slot access="public">sltPause()</slot>
+    <slot access="public">sltPlay()</slot>
+    <slot access="public">sltScaleImageToggled(bool)</slot>
+    <slot access="public">sltStop()</slot>
+</connections>
+</UI>
