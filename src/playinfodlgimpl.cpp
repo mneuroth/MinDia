@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/playinfodlgimpl.cpp,v $
  *
- *  $Revision: 1.4 $
+ *  $Revision: 1.5 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.4  2004/02/20 20:11:07  min
+ *	Bugfixes and fullscreen button implemented.
+ *	
  *	Revision 1.3  2004/02/16 19:44:51  min
  *	Fixes for Borland C++
  *	
@@ -283,7 +286,7 @@ static int g_iTest = init_cache();
 
 /** factor == 0..255 --> Image1..Image2 
   * IMPORTANT: both images MUST have the same size ! */
-inline QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor )
+QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor )
 {
 	int iWidth = aImage1.width();
 	int iHeight = aImage1.height();
