@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.cpp,v $
  *
- *  $Revision: 1.5 $
+ *  $Revision: 1.6 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.5  2004/01/28 19:11:37  min
+ *	Plugins menuitem changed
+ *	
  *	Revision 1.4  2004/01/18 23:52:36  min
  *	Updated.
  *	
@@ -1268,6 +1271,9 @@ void MinDiaWindow::sltShowStatusBarMessage( const QString & sMsg )
 	if( m_pStatusBarMsg )
 	{
 		m_pStatusBarMsg->setText( sMsg );
+
+		// clear tooltips showed over the status bar
+		statusBar()->clear();
 	}
 }
 
@@ -1448,6 +1454,11 @@ void MinDiaWindow::sltStatusUpdateTimerEvent()
 
 		m_pStatusBarTime->setText( sMsg );
 		m_pStatusBarModus->setText( m_pControler->GetPlayModusStrg() );
+
+		// clear tooltips showed over the status bar
+		// --> not here because than tooltips are never seen
+		// because the status-bar is updated every few ms
+		//statusBar()->clear();
 
 		if( !bIsEdit )
 		{
