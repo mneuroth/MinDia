@@ -75,9 +75,13 @@ msgstr "&Lizenz"
 # msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.1 from 22.6.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
 # msgstr "<center><b>MinDia</b>\n<br><br>\nVer. 0.97.1 vom 22.6.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nDieses Programm ist gedacht zur Erstellung, Modifizierung und Durchführung eines Multimedia-Dia-Vortrags mit dem Computer.<br><br>\nDas Programm unterstützt auch die direkte Ansteuerung von Rollei Dia-Projektoren <br> (<i>Rolleivision 35 twin digital P</i> und <i>Rollei twin MSC 3x0 P</i>).</center>"
 
+# #: AboutExtDlg.cpp:36
+# msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.2 from 11.11.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
+# msgstr "<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.2 vom 11.11.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nDieses Programm ist gedacht zur Erstellung, Modifizierung und Durchführung eines Multimedia-DiaVortrages mit dem Computer.<br><br>\nDas Programm unterstützt auch die direkte Ansteuerung von Rollei Dia-Projektoren <br> (<i>Rolleivision 35 twin digital P</i> und <i>Rollei twin MSC 3x0 P</i>).\n</center>"
+
 #: AboutExtDlg.cpp:36
-msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.2 from 11.11.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
-msgstr "<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.2 vom 11.11.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nDieses Programm ist gedacht zur Erstellung, Modifizierung und Durchführung eines Multimedia-DiaVortrages mit dem Computer.<br><br>\nDas Programm unterstützt auch die direkte Ansteuerung von Rollei Dia-Projektoren <br> (<i>Rolleivision 35 twin digital P</i> und <i>Rollei twin MSC 3x0 P</i>).\n</center>"
+msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.2 from 17.1.2004\n<br><br>\nCopyright 2001-2004 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
+msgstr "<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.2 vom 17.1.2004\n<br><br>\nCopyright 2001-2004 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nDieses Programm ist gedacht zur Erstellung, Modifizierung und Durchführung eines Multimedia-DiaVortrages mit dem Computer.<br><br>\nDas Programm unterstützt auch die direkte Ansteuerung von Rollei Dia-Projektoren <br> (<i>Rolleivision 35 twin digital P</i> und <i>Rollei twin MSC 3x0 P</i>).\n</center>"
 
 #: AboutExtDlg.cpp:46
 msgid "AboutExtDlg::<br>\nMichael Neuroth, \n<a href=\"mailto:mindia@users.sourceforge.net\">mindia@users.sourceforge.net</a>"
@@ -141,7 +145,7 @@ msgstr "&Sortieren"
 
 #: CommentDlg.cpp:21
 msgid "CommentDlg::Modify comments"
-msgstr "Modifiziere Kommentare"
+msgstr "Ändere Kommentare"
 
 #: ZConfigPlayerDlg.cpp:33
 msgid "ConfigPlayerDlg::&Cancel"
@@ -431,59 +435,87 @@ msgstr "lesen war erfolgreich !"
 msgid "DocumentAndControler::saving was ok !"
 msgstr "speichern war erfolgreich !"
 
-#: DynTextDlg.cpp:107
+#: DynTextDlg.cpp:137
 msgid "DynamicTextDlg::&Cancel"
-msgstr "&Abbrechen"
+msgstr "A&bbrechen"
 
-#: DynTextDlg.cpp:97
+#: DynTextDlg.cpp:133
 msgid "DynamicTextDlg::&Delete"
 msgstr "&Löschen"
 
-#: DynTextDlg.cpp:70
+#: DynTextDlg.cpp:87
 msgid "DynamicTextDlg::&Font"
 msgstr "&Zeichensatz"
 
-#: DynTextDlg.cpp:90
-msgid "DynamicTextDlg::&Help"
-msgstr "&Hilfe"
+# #: DynTextDlg.cpp:90
+# msgid "DynamicTextDlg::&Help"
+# msgstr "&Hilfe"
 
-#: DynTextDlg.cpp:101
+#: DynTextDlg.cpp:142
 msgid "DynamicTextDlg::&OK"
 msgstr "&OK"
 
-#: DynTextDlg.cpp:19
+#: DynTextDlg.cpp:71
+msgid "DynamicTextDlg::&rel. pos"
+msgstr "&rel. Pos."
+
+#: DynTextDlg.cpp:25
 msgid "DynamicTextDlg::Dynamic Text"
 msgstr "Dynamischer Text"
 
-#: DynTextDlg.cpp:78
-msgid "DynamicTextDlg::Font&color"
-msgstr "Zeichensatz&farbe"
+#: DynTextDlg.cpp:103
+msgid "DynamicTextDlg::Fo&ntcolor"
+msgstr "Text&farbe"
 
-#: DynTextDlg.cpp:45
+#: DynTextDlg.cpp:75
+msgid "DynamicTextDlg::Font attributes"
+msgstr "Zeichensatz Attribute"
+
+# #: DynTextDlg.cpp:78
+# msgid "DynamicTextDlg::Font&color"
+# msgstr "Zeichensatz&farbe"
+
+#: DynTextDlg.cpp:79
 msgid "DynamicTextDlg::Font:"
 msgstr "Zeichensatz:"
 
-#: DynTextDlg.cpp:34
+#: DynTextDlg.cpp:83
 msgid "DynamicTextDlg::Fontsize:"
 msgstr "Zeichensatzgröße:"
 
-#: DynTextDlg.cpp:74
+#: DynTextDlg.cpp:50
 msgid "DynamicTextDlg::Show at [ms]:"
 msgstr "Zeigen nach [ms]:"
 
-#: DynTextDlg.cpp:55
+#: DynTextDlg.cpp:41
 msgid "DynamicTextDlg::Show time [ms]:"
 msgstr "Standzeit [ms]:"
 
-#: DynTextDlg.cpp:59
+#: DynTextDlg.cpp:30
+msgid "DynamicTextDlg::Text data"
+msgstr "Text Daten"
+
+#: DynTextDlg.cpp:37
 msgid "DynamicTextDlg::Text:"
 msgstr "Text:"
 
-#: DynTextDlg.cpp:24
+#: DynTextDlg.cpp:99
+msgid "DynamicTextDlg::use &attributes for all texts"
+msgstr "verwende &Attribute für alle Texte"
+
+#: DynTextDlg.cpp:107
+msgid "DynamicTextDlg::x [%]:"
+msgstr ""
+
+#: DynTextDlg.cpp:63
 msgid "DynamicTextDlg::x:"
 msgstr "x:"
 
-#: DynTextDlg.cpp:29
+#: DynTextDlg.cpp:123
+msgid "DynamicTextDlg::y [%]:"
+msgstr ""
+
+#: DynTextDlg.cpp:45
 msgid "DynamicTextDlg::y:"
 msgstr "y:"
 
@@ -513,7 +545,7 @@ msgstr "S&chließen"
 
 #: EventMapDlg.cpp:45
 msgid "EventMapDlg::&Modify"
-msgstr "&Modifizieren"
+msgstr "&Ändern"
 
 #: EventMapDlg.cpp:20
 msgid "EventMapDlg::Event Map"
@@ -641,7 +673,7 @@ msgstr "&Logging..."
 
 #: mindiawindow.cpp:364
 msgid "MinDiaWindow::&Modify item..."
-msgstr "&Modifiziere Eintrag..."
+msgstr "&Ändere Eintrag..."
 
 #: mindiawindow.cpp:198
 msgid "MinDiaWindow::&New"
@@ -674,6 +706,10 @@ msgstr "K&ommentare zu den Dias..."
 # #: mindiawindow.cpp:184
 # msgid "MinDiaWindow::&Plugins"
 # msgstr "&Plugins"
+
+#: mindiawindow.cpp:194
+msgid "MinDiaWindow::&Plugins"
+msgstr ""
 
 #: mindiawindow.cpp:220
 msgid "MinDiaWindow::&Print..."
@@ -777,7 +813,7 @@ msgstr "E&xtras"
 
 #: mindiawindow.cpp:319
 msgid "MinDiaWindow::Edit dissolve time"
-msgstr "Modifiziere Überblendzeit"
+msgstr "Ändere Überblendzeit"
 
 #: mindiawindow.cpp:1445
 msgid "MinDiaWindow::Enter new dissolve time"
@@ -901,7 +937,7 @@ msgstr "MinDia"
 
 #: mindiawindow.cpp:364
 msgid "MinDiaWindow::Modify item"
-msgstr "Modifiziere Eintrag"
+msgstr "Ändere Eintrag"
 
 #: mindiawindow.cpp:198
 msgid "MinDiaWindow::New"
@@ -921,7 +957,7 @@ msgstr "Öffne Datei"
 
 #: mindiawindow.cpp:202
 msgid "MinDiaWindow::Open an existing file for edit (script-events are not executed)"
-msgstr "Öffne eine existierende Datei zum Modifizieren (Skript-Ereignisse werden nicht ausgeführt)"
+msgstr "Öffne eine existierende Datei zum Ändern (Skript-Ereignisse werden nicht ausgeführt)"
 
 #: mindiawindow.cpp:200
 msgid "MinDiaWindow::Open an existing file"
@@ -929,19 +965,15 @@ msgstr "Öffne eine existierende Datei"
 
 #: mindiawindow.cpp:202
 msgid "MinDiaWindow::Open for &edit..."
-msgstr "Öffnen zum &Modifizieren..."
+msgstr "Öffnen zum &Ändern..."
 
 #: mindiawindow.cpp:876
 msgid "MinDiaWindow::Open for edit"
-msgstr "Öffne Datei zum Modifizieren"
+msgstr "Öffne Datei zum Ändern"
 
 #: mindiawindow.cpp:869
 msgid "MinDiaWindow::Open"
 msgstr "Öffnen"
-
-#: mindiawindow.cpp:194
-msgid "MinDiaWindow::P&lugins"
-msgstr ""
 
 #: mindiawindow.cpp:267
 msgid "MinDiaWindow::Paste"
@@ -1691,37 +1723,41 @@ msgstr "Gesamte Spielzeit [ms]"
 msgid "SoundInfoDlgImpl::wav-filename"
 msgstr "wav-Dateiname"
 
-#: timelineview.cpp:85
+#: timelineview.cpp:86
 msgid "TimeLineView::&Add dyn. text..."
 msgstr "Dyn. Text hinzufügen..."
 
-#: timelineview.cpp:83
+#: timelineview.cpp:87
+msgid "TimeLineView::&Modify dyn. text..."
+msgstr "&Ändere dyn. Text..."
+
+#: timelineview.cpp:84
 msgid "TimeLineView::&Plot comments..."
 msgstr "&Plot Kommentare..."
 
-#: timelineview.cpp:272
+#: timelineview.cpp:276
 msgid "TimeLineView::Enter text"
 msgstr "Texteingabe"
 
-#: timelineview.cpp:82
+#: timelineview.cpp:83
 msgid "TimeLineView::Sound &comments..."
 msgstr "Musik &Kommentare..."
 
-#: timelineview.cpp:81
+#: timelineview.cpp:82
 msgid "TimeLineView::Sound &data..."
 msgstr "&Musik Daten..."
 
-#: timelineview.cpp:273
+#: timelineview.cpp:277
 msgid "TimeLineView::text:"
 msgstr "Text:"
 
 #: zmindia.cpp:483
 msgid "ZMinDia:: *** count: "
-msgstr ""
+msgstr " *** Anzahl: "
 
 #: zmindia.cpp:477
 msgid "ZMinDia:: *** next: "
-msgstr ""
+msgstr " *** nächster: "
 
 #: zmindia.cpp:473
 msgid "ZMinDia:: min"
