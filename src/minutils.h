@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/minutils.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -96,6 +99,7 @@ public:
   static int GetActDrive();
   static int GetDriveNoFromString( const string & sDriveStrg );
 //  static DriveInfoList GetAllLogicalDrives();
+  static bool IsAbsPath( const char * sPath );
   static bool SplitPath( const char * sPath, string & sDrive, string & sDir, string & sFileName, string & sExt );
   static string GetFullPath( const char * sFileName );
   static string MakeSaveDOSPath( const char * sFullFileName );
@@ -161,6 +165,9 @@ public:
   static bool CheckDirSeparatorAtEnd( char * sPath );
   static bool GetTmpPath( char * sTempPath );
   static bool MakeRelPathsToAbsPaths( char * sName );
+
+  static string ConvertToRelPath( const char * sFileName );
+  static string StripPath( const char * sFileName, string * psPath );
 
 private:
   bool Write(ostream& OS, char ch)

@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/minutils.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/10/03 23:00:41  min
+ *	Bugfix in GetNoOfFiles() not only readonly files counting.
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -81,6 +84,7 @@ typedef struct
 // *************************************************************************
 
 const int MAX_STRING_LENGTH =	8192;
+const int MAX_BUFFER_LENGTH =	512;
 
 // *******************************************************************
 
@@ -96,7 +100,7 @@ const int MAX_STRING_LENGTH =	8192;
   // Transformation durchfuehren "abc" --> "cba"
   static void _RotateString( char * sBuffer )
   {
-	char sBuf[512];
+	char sBuf[MAX_BUFFER_LENGTH];
 	int nLen = strlen( sBuffer );
 	for( int i=0; i<nLen; i++ )
 	{
@@ -106,12 +110,184 @@ const int MAX_STRING_LENGTH =	8192;
 	strcpy( sBuffer, sBuf );
   }
 
+
+  string string_tolower( const string & s )
+  {
+	  string sTemp = s;
+      transform( sTemp.begin(), sTemp.end(), sTemp.begin(), tolower );
+	  return sTemp;
+  }
+
+  vector<string> SplitPathInItems( const string & sPath )
+  {
+	  vector<string> aContainer;
+
+	  string sDir;
+
+	  int iLength = sPath.length();
+	  for( int i=0; i<iLength; i++ )
+	  {
+		  if( sPath[i]=='/' || sPath[i]=='\\' )
+		  {
+			  if( sDir.length()>0 )
+			  {
+				  aContainer.push_back( sDir );
+			  }
+			  sDir = "";
+		  }
+		  else
+		  {
+			  sDir += sPath[i];
+		  }
+	  }
+
+	  return aContainer;
+  }
+
+  // strip the path information from a filename.
+  // example: c:\data\test.dat --> test.dat
+  string FileUtilityObj::StripPath( const char * strFileName, string * psPath )
+  {
+	  // split the path
+	  string sDrive;
+	  string sDir;
+	  string sFileName;
+	  string sExt;
+	  SplitPath( strFileName, sDrive, sDir, sFileName, sExt );
+
+      if( psPath )
+	  {
+		  *psPath = sDrive+sDir;
+	  }
+
+	  return sFileName+sExt;
+  }
+
+  // convert an absolute path to a relative path.
+  // example: c:\data\sim\test.dat --> ..\..\sim\test.dat
+  string FileUtilityObj::ConvertToRelPath( const char * strFileName )
+  {
+	  // split the path
+	  string sDrive;
+	  string sDir;
+	  string sFileName;
+	  string sExt;
+	  SplitPath( strFileName, sDrive, sDir, sFileName, sExt );
+
+	  // if actual drive != drive of path ? --> error
+	  if( sDrive.length()>0 )
+	  {
+		  string sActDrive;
+		  
+		  sActDrive += (char)(_getdrive()-1+'A');
+
+		  if( string_tolower( sActDrive ) == string_tolower( sDrive ) )
+		  {
+			  return strFileName;
+		  }
+	  }
+
+	  // pfad relativ machen
+	  if( IsAbsPath( sDir.c_str() ) )
+	  {
+		  char sBuffer[MAX_BUFFER_LENGTH];
+
+		  string sActPath = _getcwd( sBuffer, MAX_BUFFER_LENGTH );
+		  sActPath += GetDirectorySeparator();
+		  string _sDrive;
+		  string sActDir;
+		  string _sFileName;
+		  string _sExt;
+		  SplitPath( sActPath.c_str(), _sDrive, sActDir, _sFileName, _sExt );
+
+#ifdef _WIN32
+		  sActDir = string_tolower( sActDir );
+		  sDir = string_tolower( sDir );
+#endif
+
+		  // relative path = absolute path - (actual drive + actual directory)
+		  // ../../../f/g    = /a/f/g   /a/b/c/d  
+		  // ../../../../f/g = /x/f/g   /a/b/c/d  
+		  // ./d             = /a/b/c/d /a/b/c
+
+		  vector<string> aActDir = SplitPathInItems( sActDir );
+		  vector<string> aPathDir = SplitPathInItems( sDir );
+
+		  // subtract equal path-parts (from root)
+		  // (/a) = /f/g  /b/c/d
+		  for( int i=0; i<min(aActDir.size(),aPathDir.size()); i++ )
+		  {
+			  if( aActDir[i] != aPathDir[i] )
+			  {
+				  break;
+			  }
+		  }
+		  if( i>0 )
+		  {
+			  aActDir.erase( aActDir.begin(), aActDir.begin()+i );
+			  aPathDir.erase( aPathDir.begin(), aPathDir.begin()+i );
+		  }		  
+
+		  // count the directoreis and add the rest of the path
+		  // ../../../f/g
+		  string s;
+		  const string sCdUp = "..";
+
+		  if( i==0 )
+		  {
+			  s += sCdUp;
+			  s += GetDirectorySeparator();
+		  }
+
+		  // absolute path is the same (and longer) than the actual path
+		  if( aActDir.size()==0 )
+		  {
+			  s += ".";
+			  s += GetDirectorySeparator();
+		  }
+		  for( i=0; i<aActDir.size(); i++ )
+		  {
+			  s += sCdUp;
+			  s += GetDirectorySeparator();
+		  }
+		  for( i=0; i<aPathDir.size(); i++ )
+		  {
+			  s += aPathDir[i];
+			  s += GetDirectorySeparator();
+		  }
+		  s += sFileName;
+		  s += sExt;
+
+		  return s;
+	  }
+
+	  // it was already a relative path
+	  return strFileName;
+  }
+
+  bool FileUtilityObj::IsAbsPath( const char * sPath )
+  {
+	string sDriveBuf;
+	string sDirBuf;
+	string sNameBuf;
+	string sExtBuf;
+
+	SplitPath( sPath, sDriveBuf, sDirBuf, sNameBuf, sExtBuf );
+
+	if( sDirBuf.length()>0 && (sDirBuf[0]=='/' || sDirBuf[0]=='\\') )
+	{
+		return true;
+	}
+
+	return false;
+  }
+
   bool FileUtilityObj::SplitPath( const char * sPath, string & sDrive, string & sDir, string & sFileName, string & sExt )
   {
-	char sDriveBuf[512];
-	char sDirBuf[512];
-	char sNameBuf[512];
-	char sExtBuf[512];
+	char sDriveBuf[12];
+	char sDirBuf[MAX_BUFFER_LENGTH];
+	char sNameBuf[MAX_BUFFER_LENGTH];
+	char sExtBuf[MAX_BUFFER_LENGTH];
 #ifndef __linux__
 	_splitpath( /*(CHAR_CAST)*/sPath, sDriveBuf, sDirBuf, sNameBuf, sExtBuf );
 #else
@@ -121,7 +297,7 @@ const int MAX_STRING_LENGTH =	8192;
 	strcpy( sNameBuf, "" );
 	strcpy( sExtBuf, "" );
 	// Pfad von hinten analysieren
-	char sBuffer[512];
+	char sBuffer[MAX_BUFFER_LENGTH];
 	strcpy( sBuffer, "" );
 	bool bFoundExt = false;
 	bool bFoundFile = false;
@@ -535,7 +711,7 @@ string FileTime::GetString( int /*nLanguage*/ ) const
 {
 	// TODO: laenderspezifische Ausgabe implementieren
 
-	char sBuffer[512];
+	char sBuffer[MAX_BUFFER_LENGTH];
 	sprintf( sBuffer,"%02d:%02d:%02d %02d.%02d.%d", m_nHour, m_nMinute, m_nSecond, m_nDay, m_nMonth, m_nYear );
 	return sBuffer;
 }
@@ -544,7 +720,7 @@ string FileTime::GetDateString( int /*nLanguage*/ ) const
 {
 	// TODO: laenderspezifische Ausgabe implementieren
 
-	char sBuffer[512];
+	char sBuffer[MAX_BUFFER_LENGTH];
 	sprintf( sBuffer,"%02d.%02d.%d", m_nDay, m_nMonth, m_nYear );
 	return sBuffer;
 }
@@ -553,7 +729,7 @@ string FileTime::GetTimeString( int /*nLanguage*/ ) const
 {
 	// TODO: laenderspezifische Ausgabe implementieren
 
-	char sBuffer[512];
+	char sBuffer[MAX_BUFFER_LENGTH];
 	sprintf( sBuffer,"%02d:%02d:%02d", m_nHour, m_nMinute, m_nSecond );
 	return sBuffer;
 }
