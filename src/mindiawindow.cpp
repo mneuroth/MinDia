@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.cpp,v $
  *
- *  $Revision: 1.4 $
+ *  $Revision: 1.5 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.4  2004/01/18 23:52:36  min
+ *	Updated.
+ *	
  *	Revision 1.3  2003/10/26 17:34:05  min
  *	MakeRelativePaths() added. Directories for images, sounds, data, scirpts added.
  *	
@@ -241,7 +244,7 @@ void MinDiaWindow::CreateMenus()
     menuBar()->insertItem( tr( "&Edit" ), m_pEdit );
     menuBar()->insertItem( tr( "&Play" ), m_pPlay );
     menuBar()->insertItem( tr( "E&xtras" ), m_pExtras );
-    menuBar()->insertItem( tr( "&Plugins" ), m_pPlugins );
+    menuBar()->insertItem( tr( "Plu&gins" ), m_pPlugins );
     menuBar()->insertItem( tr( "&Help" ), m_pHelp );
 
 	// *** submenu: File ***
