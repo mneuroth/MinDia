@@ -13,6 +13,7 @@ HEADERS         = src/diainfodlgimpl.h \
 				  src/commentdlgimpl.h \
 				  src/eventmapdlgimpl.h \
 				  src/dyntextdlgimpl.h \
+				  src/createmoviedlgimpl.h \
 				  src/helpdlgimpl.h \
 				  src/iocontainer.h \
 				  src/minisound.h \
@@ -55,6 +56,7 @@ SOURCES         = src/diainfodlgimpl.cpp \
 				  src/commentdlgimpl.cpp \
 				  src/eventmapdlgimpl.cpp \
 				  src/dyntextdlgimpl.cpp \
+				  src/createmoviedlgimpl.cpp \
 				  src/helpdlgimpl.cpp \
 				  src/minisound.cpp \
 				  src/soundinfo.cpp \
@@ -94,6 +96,7 @@ INTERFACES      = src/DiaInfoDlg.ui \
 				  src/LicenseDlg.ui \
 				  src/AboutExtDlg.ui \
 				  src/DynTextDlg.ui \
+				  src/CreateMovieDlg.ui \
 				  src/EnterValueDlg.ui
 TARGET					= mindia
 MOC_DIR					= moc
