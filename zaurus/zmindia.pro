@@ -19,7 +19,9 @@ HEADERS		= zaurus/zmindia.h \
               src/diainfodlgimpl.h \
               src/mp3file.h \
 			  src/configplayerdlgimpl.h\
+			  src/playinfodlgimpl.h \
               src/dyngraphop.h \
+              src/misctools.h \
               src/configdlgimpl.h
 SOURCES		= zaurus/zmain.cpp \
               zaurus/zmindia.cpp \
@@ -39,7 +41,9 @@ SOURCES		= zaurus/zmain.cpp \
               src/diainfodlgimpl.cpp \
 			  src/configplayerdlgimpl.cpp\
               src/configdlgimpl.cpp \
+			  src/playinfodlgimpl.cpp \
               src/dyngraphop.cpp \
+              src/misctools.cpp \
               src/mp3file.cpp \
               src/sysdep1.c
 INCLUDEPATH	+= $(QPEDIR)/include ./minsrv ./gendev ./src ./zaurus
@@ -55,6 +59,7 @@ INTERFACES	= zaurus/SaveAsDlg.ui \
               zaurus/ZConfigurationDlg.ui \
               zaurus/ZProjectorControlDlg.ui \
               zaurus/ZDiaInfoDlg.ui \
+              zaurus/ZPlayInfoDlg.ui \
               zaurus/ZConfigPlayerDlg.ui
 TARGET		= zmindia
 
