@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/dyngraphop.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/09/24 22:15:51  min
+ *	portability fixes
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -321,6 +324,7 @@ bool DynGraphicOpContainer::Write( ostream & aStream ) const
 // *******************************************************************
 // *******************************************************************
 
+const char * c_sSetRel = "SetRel";
 const char * c_sMove = "Move";
 const char * c_sMoveRel = "MoveRel";
 const char * c_sFade = "Fade";
@@ -690,6 +694,77 @@ void OpItem_ChangeFontSize::sltOnTimer()
 
 //********************************************************************
 
+OpItem_SetRelPos::OpItem_SetRelPos( DynText * pItem, double dRelX, double dRelY, const string & sClassName )
+: OpItem_Base( pItem, sClassName )
+{
+	m_dRelX = dRelX;
+	m_dRelY = dRelY;
+}
+
+void OpItem_SetRelPos::Update()
+{
+	QCanvas * pCanvas = m_pItem->canvas();
+
+	if( pCanvas && m_dRelX>=0 && m_dRelY>=0 )
+	{
+		int x = (int)pCanvas->width()*m_dRelX;
+		int y = (int)pCanvas->height()*m_dRelY;
+
+		m_pItem->setX( x );
+		m_pItem->setY( y );
+	}
+}
+
+void OpItem_SetRelPos::Reset()
+{
+	Update();
+}
+
+bool OpItem_SetRelPos::Write( ostream & aStream ) const
+{
+	OpItem_Base::Write( aStream );
+
+	FileUtilityObj aFU;
+
+	aFU.WriteStructBegin( aStream );
+	aStream << m_dRelX;
+	aFU.WriteSeparator( aStream );
+	aStream << m_dRelY;
+	aFU.WriteStructEnd( aStream );
+
+	return aStream.good();
+}
+
+bool OpItem_SetRelPos::Read( istream & aStream )
+{
+	FileUtilityObj aFU;
+
+	aFU.ReadStructBegin( aStream );
+	aStream >> m_dRelX;
+	aFU.ReadSeparator( aStream );
+	aStream >> m_dRelY;
+	aFU.ReadStructEnd( aStream );
+
+	return aStream.good();
+}
+
+bool OpItem_SetRelPos::SetRelPos( double xRel, double yRel )
+{
+	m_dRelX = xRel;
+	m_dRelY = yRel;
+	return true;
+}
+
+bool OpItem_SetRelPos::GetRelPos( double & xRel, double & yRel )
+{
+	xRel = m_dRelX;
+	yRel = m_dRelY;
+	return true;
+}
+
+
+//********************************************************************
+
 OpItem_MoveTo::OpItem_MoveTo( DynText * pItem, int iFromPosX, int iFromPosY, int iToPosX, int iToPosY, int iTimeInMS, const string & sClassName )
 : OpItem_Base( pItem, sClassName )
 {
@@ -799,7 +874,7 @@ void OpItem_MoveTo::MoveMe( double x, double y )
 //********************************************************************
 
 OpItem_MoveToRel::OpItem_MoveToRel( DynText * pItem, int iFromPosX, int iFromPosY, int iToPosX, int iToPosY, int iTimeInMS, const string & sClassName )
-: OpItem_MoveTo( pItem, iFromPosX, iFromPosY, iToPosX, iToPosY, iTimeInMS, c_sMoveRel )
+: OpItem_MoveTo( pItem, iFromPosX, iFromPosY, iToPosX, iToPosY, iTimeInMS, sClassName )
 {
 }
 
@@ -872,8 +947,21 @@ int OpItem_Base::GetShowAtTimeInMS() const
 	return 0;
 }
 
-void OpItem_Base::SetShowAtTimeInMS( int iTimeInMS )
+void OpItem_Base::SetShowAtTimeInMS( int /*iTimeInMS*/ )
 {
+	// dummy
+}
+
+bool OpItem_Base::SetRelPos( double /*xRel*/, double /*yRel*/ )
+{
+	// dummy
+	return false;
+}
+
+bool OpItem_Base::GetRelPos( double & /*xRel*/, double & /*yRel*/ )
+{
+	// dummy
+	return false;
 }
 
 void OpItem_Base::Update()
@@ -962,7 +1050,11 @@ bool OpItem_Base::Read( istream & aStream )
 
 OpItem_Base * OpItem_Base::CreateFromType( const string & sTypeName )
 {
-	if( sTypeName == c_sMove )
+	if( sTypeName == c_sSetRel )
+	{
+		return new OpItem_SetRelPos( 0, -1.0, -1.0 );
+	}
+	else if( sTypeName == c_sMove )
 	{
 		return new OpItem_MoveTo( 0 );
 	}
@@ -1184,6 +1276,20 @@ void DynContainer::AddDefaultDynText( const string & sText, double dStartTimeInM
 	pText->CreateDefaultOperations( dStartTimeInMS, dShowTimeInMS );
 	push_back( minHandle<DynText>( pText ) );
 	SetChanged();
+}
+
+void DynContainer::SetAttributesForAllItems( minHandle<DynText> hOtherItem )
+{
+	iterator aIter = begin();
+	while( aIter != end() )
+	{
+		/*IOContainer<DynText>::*/HandleType hItem = *aIter;
+
+		hItem->SetAttributesFrom( hOtherItem.GetPtr() );
+
+		++aIter;
+	}
+	Update();
 }
 
 //********************************************************************
@@ -1584,36 +1690,70 @@ void DynText::CreateDefaultOperations( double dStartTimeInMS, double dShowTimeIn
 	AddOperation( minHandle<OpItem_Base>( new OpItem_Hide( this, 0 ) ) );
 	//AddOperation( minHandle<OpItem_Base>( new OpItem_MoveTo( this, 0, 0, 100, 100, 10 ) ) );
 	//AddOperation( minHandle<OpItem_Base>( new OpItem_ChangeColor( this, QColor( 0, 0, 0 ), QColor( 255, 0, 0 ), 10 ) ) );
-	AddOperation( minHandle<OpItem_Base>( new OpItem_Show( this, dStartTimeInMS ) ) );
-	AddOperation( minHandle<OpItem_Base>( new OpItem_Hide( this, dStartTimeInMS+dShowTimeInMS ) ) );
+	AddOperation( minHandle<OpItem_Base>( new OpItem_Show( this, (int)dStartTimeInMS ) ) );
+	AddOperation( minHandle<OpItem_Base>( new OpItem_Hide( this, (int)(dStartTimeInMS+dShowTimeInMS) ) ) );
+	// new since 17.1.2004:
+	AddOperation( minHandle<OpItem_Base>( new OpItem_SetRelPos( this, -1.0, -1.0 ) ) );
 	Sync();
 }
 
+const int c_iHideStartIndex = 0;
+const int c_iShowIndex = 1;
+const int c_iHideStopIndex = 2;
+const int c_iSetRelIndex = 3;
+
 void DynText::ChangeDefaultData( double dStartTimeInMS, double dShowTimeInMS )
 {
-	minHandle<OpItem_Base> hItem = m_aOpContainer[ 1 ];
-	hItem->SetShowAtTimeInMS( dStartTimeInMS );
-	hItem = m_aOpContainer[ 2 ];
-	hItem->SetDelayInMS( dStartTimeInMS + dShowTimeInMS );
+	minHandle<OpItem_Base> hItem = m_aOpContainer[ c_iShowIndex ];
+	hItem->SetShowAtTimeInMS( (int)dStartTimeInMS );
+	hItem = m_aOpContainer[ c_iHideStopIndex ];
+	hItem->SetDelayInMS( (int)(dStartTimeInMS + dShowTimeInMS) );
 	Sync();
 }
 
 void DynText::GetDefaultData( double & dStartTimeInMS, double & dShowTimeInMS )
 {
-	minHandle<OpItem_Base> hItem = m_aOpContainer[ 1 ];
+	minHandle<OpItem_Base> hItem = m_aOpContainer[ c_iShowIndex ];
 	dStartTimeInMS = hItem->GetShowAtTimeInMS();
-	hItem = m_aOpContainer[ 2 ];
+	hItem = m_aOpContainer[ c_iHideStopIndex ];
 	dShowTimeInMS = hItem->GetDelayInMS() - dStartTimeInMS;
 }
 
 void DynText::Delta( double dDeltaTimeInMS )
 {
-// min todo gulp --> hier genau den Typ ueberpruefen oder an alle weitergeben... (eher falsch!)
-// --> ggf. Probleme mit importierten Dateien !
+	minHandle<OpItem_Base> hItem = m_aOpContainer[ c_iShowIndex ];
+	hItem->SetShowAtTimeInMS( (int)(hItem->GetShowAtTimeInMS() + dDeltaTimeInMS) );
 
-	minHandle<OpItem_Base> hItem = m_aOpContainer[ 1 ];
-	hItem->SetShowAtTimeInMS( hItem->GetShowAtTimeInMS() + dDeltaTimeInMS );
+	hItem = m_aOpContainer[ c_iHideStopIndex ];
+	hItem->SetDelayInMS( (int)(hItem->GetDelayInMS() + dDeltaTimeInMS) );
+}
 
-	hItem = m_aOpContainer[ 2 ];
-	hItem->SetDelayInMS( hItem->GetDelayInMS() + dDeltaTimeInMS );
+bool DynText::SetRelativePos( double xRel, double yRel )
+{
+	if( (int)m_aOpContainer.size()>c_iSetRelIndex )
+	{
+		minHandle<OpItem_Base> hItem = m_aOpContainer[ c_iSetRelIndex ];
+		return hItem->SetRelPos( xRel, yRel );
+	}
+	return false;
+}
+
+bool DynText::GetRelativePos( double & xRel, double & yRel )
+{
+	if( (int)m_aOpContainer.size()>c_iSetRelIndex )
+	{
+		minHandle<OpItem_Base> hItem = m_aOpContainer[ c_iSetRelIndex ];
+		return hItem->GetRelPos( xRel, yRel );
+	}
+	return false;
+}
+
+void DynText::SetAttributesFrom( DynText * pOtherItem )
+{
+	if( pOtherItem )
+	{
+		setFont( pOtherItem->font() );
+		setColor( pOtherItem->color() );
+		Sync();
+	}
 }

@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/dyngraphop.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -131,6 +134,7 @@ private:
 // *******************************************************************
 // *******************************************************************
 
+extern const char * c_sSetRel;
 extern const char * c_sMove;
 extern const char * c_sMoveRel;
 extern const char * c_sFade;
@@ -205,8 +209,11 @@ public:
 	int GetDelayInMS() const;
 	void SetDelayInMS( int iDelayInMS );
 
+	// methods to send data to objects from subclasses
 	virtual int GetShowAtTimeInMS() const;
 	virtual void SetShowAtTimeInMS( int iTimeInMS );
+	virtual bool SetRelPos( double xRel, double yRel );
+	virtual bool GetRelPos( double & xRel, double & yRel );
 
     virtual void Update();
 
@@ -348,6 +355,29 @@ private:
 };
 
 // *******************************************************************
+class OpItem_SetRelPos : public OpItem_Base
+{
+	Q_OBJECT
+
+public:
+	OpItem_SetRelPos( DynText * pItem, double dRelX, double dRelY, const string & sClassName = c_sSetRel );
+
+	virtual void Update();
+
+	virtual void Reset();
+
+	virtual bool Write( ostream & aStream ) const;
+	virtual bool Read( istream & aStream );
+
+	virtual bool SetRelPos( double xRel, double yRel );
+	virtual bool GetRelPos( double & xRel, double & yRel );
+
+private:
+	double			m_dRelX;
+	double			m_dRelY;
+};
+
+// *******************************************************************
 class OpItem_MoveTo : public OpItem_Base
 {
 	Q_OBJECT
@@ -387,7 +417,7 @@ class OpItem_MoveToRel : public OpItem_MoveTo
 	Q_OBJECT
 
 public:
-	OpItem_MoveToRel( DynText * pItem, int iFromPosX = 0, int iFromPosY = 0, int iToPosX = 0, int iToPosY = 0, int iTimeInMS = 1000, const string & sClassName = c_sMove );
+	OpItem_MoveToRel( DynText * pItem, int iFromPosX = 0, int iFromPosY = 0, int iToPosX = 0, int iToPosY = 0, int iTimeInMS = 1000, const string & sClassName = c_sMoveRel );
 
 protected:
 	virtual void MoveMe( double x, double y );
@@ -447,6 +477,11 @@ public:
 	void ChangeDefaultData( double dStartTimeInMS, double dShowTimeInMS );
 	void GetDefaultData( double & dStartTimeInMS, double & dShowTimeInMS );
 	void Delta( double dDeltaTimeInMS );
+	bool SetRelativePos( double xRel, double yRel );
+	bool GetRelativePos( double & xRel, double & yRel );
+
+	// duplicate all attributes (color, font, size) from the other element
+	void SetAttributesFrom( DynText * pOtherItem );
 
 private:
 	bool WriteOpContainer( ostream & aStream ) const;
@@ -481,6 +516,8 @@ public:
 	void Reset();
 
 	void AddDefaultDynText( const string & sText, double dStartTimeInMS, double dShowTimeInMS = 5000 );
+
+	void SetAttributesForAllItems( minHandle<DynText> hItem );
 
 private:
 	void Update();
