@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/doccontroler.h,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2004/02/26 22:19:07  min
+ *	Fixes to compile MinDia for the Zaurus.
+ *	
  *	Revision 1.2  2003/10/26 17:35:01  min
  *	Saved more values in the ini-file.
  *	
@@ -88,7 +91,7 @@ public:
 	virtual void			SetSimulation( bool bSimulation );
 	// ** implementation done. **
 
-	string					GetName() const;
+	const string &			GetName() const;
 
 	//int						GetProjectorCount() const;
 	//minHandle<DiaProjector>	GetProjectorPtr( int iNo ) const;
@@ -210,6 +213,7 @@ private:
 
 	// *** temp data ***
 	int					m_iLastFoundPos;
+	string				m_sFullName;			// helper data for Script interface
 
 	IDiaOutputWindowInternal *	m_pOutputWindowProxy;
 };

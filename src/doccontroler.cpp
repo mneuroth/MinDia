@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/doccontroler.cpp,v $
  *
- *  $Revision: 1.6 $
+ *  $Revision: 1.7 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.6  2004/02/26 22:19:07  min
+ *	Fixes to compile MinDia for the Zaurus.
+ *	
  *	Revision 1.5  2004/01/18 23:50:57  min
  *	Windows only: get path .mindia.ini from registry.
  *	
@@ -275,9 +278,13 @@ const char * DocumentAndControler::GetPlayModusStrg() const
 */
 }
 
-string DocumentAndControler::GetName() const
+const string & DocumentAndControler::GetName() const
 {
-	return m_aPresentation.GetFullName();
+	// update the local variable for the presentation
+	// local variable needed for a correct handling of the
+	// script command GetDocName()
+	((DocumentAndControler *)this)->m_sFullName = m_aPresentation.GetFullName();
+	return m_sFullName;
 }
 
 bool DocumentAndControler::IsSimulation() const
