@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diapresentation.h,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/10/26 17:36:05  min
+ *	MakeRelativePaths() added.
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -42,6 +45,7 @@
 #ifndef ZAURUS
 #include "applscriptenv.h"
 #endif
+#include "igendev.h"
 
 #include <qdatetime.h>		// for QTime
 
@@ -188,6 +192,7 @@ private:
 	double	GetDissolveTimeOfSlide( int iSlideIndex ) const;
 	void	MyExecuteScript( const string & sEvent );
 	void	CheckScriptResult( const string & sEvent, bool bFoundScript, int iRet );
+	bool	ExistsExternalDevice();
 
 	// *** data ***
 	string					m_sName;
@@ -230,6 +235,8 @@ private:
 	DiaCallback *			m_pCallback;		// no owner !
 	minLoggingInterface *	m_pLogging;			// no owner !
 	//IDiaOutputWindowInternal *	m_pOutputWindowProxy;	// no owner !
+
+	minClientHandle<IGeneralDevice> m_hGenDev;
 
 public:
 	// *** some public constants for this class ***

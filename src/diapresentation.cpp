@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diapresentation.cpp,v $
  *
- *  $Revision: 1.4 $
+ *  $Revision: 1.5 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.4  2003/10/26 22:39:11  min
+ *	Bugfix
+ *	
  *	Revision 1.3  2003/10/26 17:36:05  min
  *	MakeRelativePaths() added.
  *	
@@ -86,7 +89,8 @@ DiaPresentation::DiaPresentation( DiaCallback * pCallback, const string & sName,
   m_pProjectorCom( 0 ),
   m_pSoundPlayer( 0 ),
   m_pCallback( pCallback ),
-  m_pLogging( pLogging )
+  m_pLogging( pLogging ),
+  m_hGenDev( g_IGeneralDeviceID )
 {
 	m_aObjectChanged.ClearChanged();
 
@@ -684,59 +688,72 @@ bool DiaPresentation::StartPlay( int iStartPos )
 
     bool bOk = true;
 
-    if( m_pProjectorCom )
+	// ** switch to direct mode, only if comming not from pause-mode !
+	if( !m_bContinued )
 	{
-		// ** switch to direct mode, only if comming not from pause-mode !
-		if( !m_bContinued )
+		// ** switch to direct mode only if in keyboard mode !
+		if( m_pProjectorCom && !m_pProjectorCom->IsDirectMode() )
 		{
-			// ** switch to direct mode only if in keyboard mode !
-			if( !m_pProjectorCom->IsDirectMode() )
-			{
-				bOk = m_pProjectorCom->DirectMode( /*bSync*/true );
-			}
+			bOk = m_pProjectorCom->DirectMode( /*bSync*/true );
+		}
 // min todo --> hier ggf. weiter init-values setzen: light-value, autofocus etc.
+	}
+
+	// (8.11.2003) check for other projector devices
+	if( ExistsExternalDevice() )
+	{
+		m_hGenDev->Start();
+	}
+
+    // ** sometimes the switch to the direct mode fails
+    // ** int that case inform the user about the error and
+    // ** stop the presentation...
+    if( bOk )
+    {
+		// ** if there is a positive StartPos given, we want
+		// ** to start the presentation from a selected dia 
+		if( iStartPos >= 0 )
+		{
+			m_iActPos = iStartPos;
+			m_iStartPos = iStartPos;
 		}
 
-        // ** sometimes the switch to the direct mode fails
-        // ** int that case inform the user about the error and
-        // ** stop the presentation...
-        if( bOk )
+        // ** prepare the projector for the first slide:
+        // ** magazine is just loaded, no slide is transported;
+        // ** set first dissolve-time and load first slide in synchronios mode,
+        // ** all other operations in the presentation will run in batch mode
+        if( (iStartPos<0) || (m_iActPos==m_iStartPos) )
         {
-			// ** if there is a positive StartPos given, we want
-			// ** to start the presentation from a selected dia 
-			if( iStartPos >= 0 )
+			int iStartIndex = max( iStartPos, 0 );
+            double dDissolveTime = GetDissolveTimeOfSlide( iStartIndex );
+			double dAbsStartTime = GetDiaAbsStartDissolveTime( iStartIndex );
+			m_dAbsSoundStartTime = dAbsStartTime + dDissolveTime - GetOffsetForSound();
+            int iStepTime = (int)(dDissolveTime*10);
+
+			if( m_pProjectorCom )
 			{
-				m_iActPos = iStartPos;
-				m_iStartPos = iStartPos;
+				bOk = m_pProjectorCom->SetDissolveTime( iStepTime, /*bSync*/true );
+	            bOk = m_pProjectorCom->SlideForward( /*bSync*/true );
 			}
 
-            // ** prepare the projector for the first slide:
-            // ** magazine is just loaded, no slide is transported;
-            // ** set first dissolve-time and load first slide in synchronios mode,
-            // ** all other operations in the presentation will run in batch mode
-            if( (iStartPos<0) || (m_iActPos==m_iStartPos) )
-            {
-				int iStartIndex = max( iStartPos, 0 );
-                double dDissolveTime = GetDissolveTimeOfSlide( iStartIndex );
-				double dAbsStartTime = GetDiaAbsStartDissolveTime( iStartIndex );
-				m_dAbsSoundStartTime = dAbsStartTime + dDissolveTime - GetOffsetForSound();
-                int iStepTime = (int)(dDissolveTime*10);
+            // ** the first dissolve-time will not be measured with the timer...
+            m_dPlayTime += dDissolveTime + dAbsStartTime;
+			// ** Attention: the play time will be recalibrated in the first step
 
-				bOk = m_pProjectorCom->SetDissolveTime( iStepTime, /*bSync*/true );
-                bOk = m_pProjectorCom->SlideForward( /*bSync*/true );
+			// ** old: in simulation mode wait the dissolve time (first dia is synchronious)
+			// ** new: no special handling for first slide in simulation mode
+			if( m_pProjectorCom && m_pProjectorCom->IsSimulation() )
+			{
+				//old: minSleep( dDissolveTime*1000 );
+				m_dPlayTime -= dDissolveTime;
+			}
 
-                // ** the first dissolve-time will not be measured with the timer...
-                m_dPlayTime += dDissolveTime + dAbsStartTime;
-				// ** Attention: the play time will be recalibrated in the first step
-
-				// ** old: in simulation mode wait the dissolve time (first dia is synchronious)
-				// ** new: no special handling for first slide in simulation mode
-				if( m_pProjectorCom->IsSimulation() )
-				{
-					//old: minSleep( dDissolveTime*1000 );
-					m_dPlayTime -= dDissolveTime;
-				}
-            }
+			// (8.11.2003) check for other projector devices
+			if( ExistsExternalDevice() )
+			{
+				m_hGenDev->SetDissolveTime( m_iActPos % m_hGenDev->GetDeviceCount(), dDissolveTime );
+				m_hGenDev->SlideForward( m_iActPos % m_hGenDev->GetDeviceCount() );
+			}
         }
     }
 
@@ -810,6 +827,12 @@ void DiaPresentation::StopPlay()
 		m_pProjectorCom->Reset( /*bSync*/true );
 	}
 
+	// (8.11.2003) check for other projector devices
+	if( ExistsExternalDevice() )
+	{
+		m_hGenDev->Stop();
+	}
+
 	if( m_pSoundPlayer )
 	{
 		m_pSoundPlayer->Stop();
@@ -835,6 +858,12 @@ void DiaPresentation::PausePlay()
 	m_bIsPause = true;
 	m_dPlayTime += ((double)m_aPlayTime.elapsed())*0.001;
 	m_dCountDownTime += ((double)m_aCountDown.elapsed())*0.001;
+
+	// (8.11.2003) check for other projector devices
+	if( ExistsExternalDevice() )
+	{
+		m_hGenDev->Pause();
+	}
 
 	if( m_pSoundPlayer )
 	{
@@ -934,6 +963,12 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 				{
 					// ** realtime command !
 					m_pProjectorCom->SlideForward( /*bSync*/false );
+				}
+
+				// (8.11.2003) check for other projector devices
+				if( ExistsExternalDevice() && !bWasContinued )
+				{
+					m_hGenDev->SlideForward( m_iActPos % m_hGenDev->GetDeviceCount() );
 				}
 
 				// ** send an observer the message, that the actual
@@ -1041,6 +1076,13 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 				{
 					// ** batch command !
 					m_pProjectorCom->SetDissolveTime( iNextStepTime, /*bSync*/false );
+				}
+
+				// (8.11.2003) check for other projector devices
+				if( ExistsExternalDevice() && !bWasContinued )
+				{
+					// set dissolvetime for next slide
+					m_hGenDev->SetDissolveTime( (m_iActPos+1) % m_hGenDev->GetDeviceCount(), dNextStepTime );
 				}
 
 				// ** send an observer infos about the next dia,
@@ -1202,6 +1244,22 @@ void DiaPresentation::CheckScriptResult( const string & sEvent, bool bFoundScrip
 			}
 		}
 	}
+}
+
+bool DiaPresentation::ExistsExternalDevice()
+{
+	// checks if an external device is existing.
+	// a query for an interface is done, if an interface is found
+	// but not initialized, the interface will be created
+	if( !m_hGenDev.IsValid() )
+	{
+		m_hGenDev.UpdateIfNotValid();
+	}
+	if( m_hGenDev.IsValid() && m_hGenDev->IsOk() )
+	{
+		return true;
+	}
+	return false;
 }
 
 // *******************************************************************
