@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/main.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/10/03 23:05:26  min
+ *	Scripts in own directory moved, python conform dll nameing: mindiapy_d.dll
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -52,6 +55,9 @@
 #endif
 
 #define _SCRIPTS_DIR	"scripts"
+#define _IMAGES_DIR		"images"
+#define _MUSIC_DIR		"music"
+#define _DATA_DIR		"data"
 
 // *************************************************************************
 
@@ -111,6 +117,9 @@ public:
 	virtual const char *	GetLanguage() const;
 	virtual const char *	GetHelpDirecotry() const;
 	virtual const char *	GetScriptDirecotry() const;
+	virtual const char *	GetImageDirecotry() const;
+	virtual const char *	GetMusicDirecotry() const;
+	virtual const char *	GetDataDirecotry() const;
 
 private:
 	void Init();
@@ -119,6 +128,9 @@ private:
 	string				m_sLanguage;
 	string				m_sHelpDirectory;
 	string				m_sScriptDirectory;
+	string				m_sImageDirectory;
+	string				m_sMusicDirectory;
+	string				m_sDataDirectory;
 };
 
 bool IGeneralScriptFcnImpl::IsOk() const
@@ -155,13 +167,31 @@ const char * IGeneralScriptFcnImpl::GetScriptDirecotry() const
 	return m_sScriptDirectory.c_str();
 }
 
+const char * IGeneralScriptFcnImpl::GetImageDirecotry() const
+{
+	return m_sImageDirectory.c_str();
+}
+
+const char * IGeneralScriptFcnImpl::GetMusicDirecotry() const
+{
+	return m_sMusicDirectory.c_str();
+}
+
+const char * IGeneralScriptFcnImpl::GetDataDirecotry() const
+{
+	return m_sDataDirectory.c_str();
+}
+
 void IGeneralScriptFcnImpl::Init()
 {
 	string sTemp = GetMinDiaSharedDirectory();
 	string sSep( FileUtilityObj::GetDirectorySeparatorStrg() );
 
-	m_sHelpDirectory = sTemp;
-	m_sScriptDirectory = sTemp + sSep + _SCRIPTS_DIR /*+ sSep*/;
+	m_sHelpDirectory = sTemp;	// this path endst with a directory separator
+	m_sScriptDirectory = sTemp + _SCRIPTS_DIR /*+ sSep*/;
+	m_sImageDirectory = sTemp + _IMAGES_DIR /*+ sSep*/;
+	m_sMusicDirectory = sTemp + _MUSIC_DIR /*+ sSep*/;
+	m_sDataDirectory = sTemp + _DATA_DIR /*+ sSep*/;
 }
 
 // *************************************************************************

@@ -50,9 +50,13 @@ PYTHON_LIB	= "$(LIBPYTHON) $(PYTHONLIB)"
 
 SOURCE_DIR		= .
 SRC_SCRIPT_DIR	= $(SOURCE_DIR)/scripts
+SRC_DATA_DIR	= $(SOURCE_DIR)/data
 RELEASE_DIR		= 			# not needed !
 BINDIST_DIR		= ./bindist
 SCRIPT_DIR		= $(BINDIST_DIR)/scripts
+IMAGE_DIR		= $(BINDIST_DIR)/images
+MUSIC_DIR		= $(BINDIST_DIR)/music
+DATA_DIR		= $(BINDIST_DIR)/data
 QT_DIR			= 			# not needed !
 PYTHON_DIR		= 			# not needed !
 SYSTEM_DIR		= 			# not needed !
