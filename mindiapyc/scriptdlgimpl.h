@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/mindiapyc/scriptdlgimpl.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:22  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -76,6 +79,7 @@ private:
 
 	// ** data **
 	minClientHandle<IGeneralScriptVM> 	m_hScriptVM;
+	minClientHandle<IGeneralScriptFcn>	m_hScriptFcn;
 
 	bool	m_bModified;
 	bool	m_bCheckForSave;

@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/mindiapyc/scriptdlgimpl.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:22  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -46,6 +49,7 @@
 ScriptDlgImpl::ScriptDlgImpl( QWidget* parent, const char* name, bool modal, WFlags fl, bool bCheckForSave )
 : ScriptDlg( parent, name, modal, fl ),
   m_hScriptVM( g_IGeneralScriptVMID ),
+  m_hScriptFcn( g_IGeneralScriptFcnID ),
   m_bModified( false ),
   m_bCheckForSave( bCheckForSave )
 {
@@ -152,7 +156,7 @@ void ScriptDlgImpl::sltSaveScript()
 {
 	if( m_pScript )
 	{
-	    QString sFileName = QFileDialog::getSaveFileName( QString::null, _PYTHON_EXT, this );
+	    QString sFileName = QFileDialog::getSaveFileName( m_hScriptFcn->GetScriptDirecotry(), _PYTHON_EXT, this );
 
 	    if( !sFileName.isEmpty() )
 		{
@@ -181,7 +185,7 @@ void ScriptDlgImpl::sltLoadScript()
 {
 	if( m_pScript )
 	{
-		QString sFileName = QFileDialog::getOpenFileName( QString::null, _PYTHON_EXT, this );
+		QString sFileName = QFileDialog::getOpenFileName( m_hScriptFcn->GetScriptDirecotry(), _PYTHON_EXT, this );
 
 	    if( !sFileName.isEmpty() )
 		{
