@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mp3file.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -66,6 +69,7 @@ private:
 	string 			m_sFileName;
 	string			m_sMp3Player;
 	string			m_sMp3Options;
+	int				m_iLengthInSeconds;
 	int				m_iPlayModus;
 	int				m_iPID;
 	MiniIniDB *		m_pIniDB;			// no owner !

@@ -17,23 +17,12 @@
 
 #include <stdio.h>
 
+#include "minutils.h"
+
 using namespace std;
 
 typedef unsigned long   ulong;
 typedef /*unsigned*/ char	byte;
-
-  unsigned long GetFileSize( const char *sFileName )
-  {
-	fstream aFile( sFileName, ios::in );
-
-	if( aFile.good() )
-	{
-		// fuer die Progress-Anzeige die Dateigroesse merken
-		aFile.seekg( 0, ios::end );
-		return (unsigned long)aFile.tellg();
-	}
- 	return (unsigned long)-1;		// Datei nicht gefunden !
-  }
 
 class MP3Header
 {
@@ -71,7 +60,7 @@ public:
    
         // Set the file size
 */
-        lngFileSize = GetFileSize(FileName.c_str()); //Length;
+        lngFileSize = FileUtilityObj::GetFileSize(FileName.c_str()); //Length;
 
         byte * bytHeader = new byte[4];
         byte * bytVBitRate = new byte[12];
@@ -370,6 +359,22 @@ private:
     }
 };
 
+#ifdef _with_test_main
+
+  unsigned long GetFileSize( const char *sFileName )
+  {
+	fstream aFile( sFileName, ios::in );
+
+	if( aFile.good() )
+	{
+		// fuer die Progress-Anzeige die Dateigroesse merken
+		aFile.seekg( 0, ios::end );
+		return (unsigned long)aFile.tellg();
+	}
+ 	return (unsigned long)-1;		// Datei nicht gefunden !
+  }
+
+
 int main(int argc, char * * argv)
 {
 	MP3Header aMP3Header;
@@ -386,4 +391,4 @@ int main(int argc, char * * argv)
 	return 0;
 }
 
-
+#endif

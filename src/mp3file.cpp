@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mp3file.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -34,6 +37,8 @@
 
 #include "iniconst.h"
 #include "miniini.h"
+
+#include "read_mp3.cpp"
 
 #include <vector>
 
@@ -115,7 +120,8 @@ static int ParseOptions( const string & sOptions, vector<string> & aOptionsVec )
 
 Mp3File::Mp3File()
 	: m_iPID( 0 ),
-	  m_pIniDB( 0 )
+	  m_pIniDB( 0 ),
+	  m_iLengthInSeconds( -1 )
 {
 	m_iPlayModus = 0;
 	m_sMp3Player = "madplay";
@@ -129,6 +135,9 @@ Mp3File::~Mp3File()
 int Mp3File::openFile( char * sFileName )
 {
 	m_sFileName = sFileName;
+
+	// reset the length information of the file
+	m_iLengthInSeconds = -1;
 
 	return 0;
 }
@@ -243,8 +252,19 @@ double Mp3File::getCurrPlayPosInSeconds()
 
 double Mp3File::getTotalPlayTimeInSeconds()
 {
-	// min todo
-	return 42;
+	if( m_iLengthInSeconds<0 )
+	{
+		MP3Header aMP3Header;
+
+		bool boolIsMP3 = aMP3Header.ReadMP3Information( m_sFileName.c_str() );
+		if(boolIsMP3)
+		{
+			m_iLengthInSeconds = aMP3Header.intLength;
+		}
+	
+		m_iLengthInSeconds = 0;
+	}
+	return (double)m_iLengthInSeconds;
 }
 
 int Mp3File::getActivePlay()
