@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/timelineaxis.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:22  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -67,7 +70,11 @@ void TimeLineAxis::MakeSecondTicks()
 	m_aTickContainer.erase( m_aTickContainer.begin(), m_aTickContainer.end() );
 
 	int iMaxSeconds = (int)m_dTotalTime;
-	iMaxSeconds++;
+	// for a nicer display of ticks...
+	if( iMaxSeconds>0 )
+	{
+		iMaxSeconds++;
+	}
 	for( int i=0; i<iMaxSeconds; i = i+10 )
 	{
 		int iPos = (int)(((double)i)*m_dFactor);
