@@ -85,6 +85,7 @@ make_bindist_help:
 	-$(MKDIR) $(IMAGE_DIR)
 	-$(MKDIR) $(MUSIC_DIR)
 	-$(MKDIR) $(DATA_DIR)
+	-$(MKDIR) $(MOVIE_DIR)
 	$(COPY) $(RELEASE_DIR)\mindia.exe $(BINDIST_DIR)
 	$(COPY) $(RELEASE_DIR)\minsrv.dll $(BINDIST_DIR)
 	$(COPY) $(RELEASE_DIR)\gendev.dll $(BINDIST_DIR)

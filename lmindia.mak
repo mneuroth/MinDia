@@ -59,6 +59,7 @@ SCRIPT_DIR		= $(BINDIST_DIR)/scripts
 IMAGE_DIR		= $(BINDIST_DIR)/images
 MUSIC_DIR		= $(BINDIST_DIR)/music
 DATA_DIR		= $(BINDIST_DIR)/data
+MOVIE_DIR		= $(BINDIST_DIR)/movie
 QT_DIR			= 			# not needed !
 PYTHON_DIR		= 			# not needed !
 SYSTEM_DIR		= 			# not needed !
