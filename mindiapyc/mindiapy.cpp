@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/mindiapyc/mindiapy.cpp,v $
  *
- *  $Revision: 1.2 $
+ *  $Revision: 1.3 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.2  2003/10/03 23:02:43  min
+ *	Scripts in own directory moved, better error-handling (defining own exception handler)
+ *	
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
  *	
@@ -43,6 +46,7 @@
 #include "dllbase.h"
 #include "minbase.h"
 #include "minhandle.h"
+#include "minutils.h"
 
 #include "iscript.h"
 
@@ -162,8 +166,8 @@ void IGeneralScriptVMImpl::InitVM( int argc, char** argv )
 	char sBuffer[512];
 	minClientHandle<IGeneralScriptFcn>	hScriptFcn( g_IGeneralScriptFcnID );
 	sprintf( sBuffer, 
-		     "sys.path.insert(0,\"..\\%s\")\nsys.path.insert(0, \"%s\")\n\n", 
-			 hScriptFcn->GetScriptDirecotry(), hScriptFcn->GetScriptDirecotry() );
+		     "sys.path.insert(0, \"%s\")\nsys.path.insert(0,\"..%c%s\")\n\n", 
+			 hScriptFcn->GetScriptDirecotry(), FileUtilityObj::GetDirectorySeparator(), hScriptFcn->GetScriptDirecotry() );
 	ok = PyRun_SimpleString( sBuffer );
 
 	ok = PyRun_SimpleString("import mindiapyc\n");
