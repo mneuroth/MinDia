@@ -1,0 +1,1 @@
+call mindia\runshow.bat

@@ -1,0 +1,340 @@
+
+Internal TODO
+=============
+
+// Diese (auskommentieren) Punkte sind schon erledigt !
+
+//###########################################################################
+
+Vor Release zu tun:
+
+- Dateien: 
+	Readme.txt	ok
+	License,	--> COPYING
+	AUTHORS,	ok
+	INSTALL,	ok
+	HISTORY,	ok
+	TODO,		--> todo_de.html
+	FAQ,		--> faq_de.html
+	BUGS,		ok
+
+-	Beispiel-Dia-Vortrag (Demo)
+-	diverse Hilfs-Skripts
+
+//---------------------------------------------------------------------------
+
+- Dokumentation verbessern _Online-Doku (User+Entwickler)
+   --> Ansteuerung ueber TIMER, Kommunikation und WAV-Read ueber Thread
+
+- Python Skripte koennen nicht ausgefuehrt werden, bei installierter Version
+        --> Probleme das mindiapyc Modul zu finden.
+  --> PYTHONPATH setzen --> Doku, Faq ?
+  --> set PYTHONPATH=e:\home\Entwicklung\projects\OPEN\Python-2.2\Lib;e:\home\Entwicklung\projects\OPEN\Python-2.2\PCbuild;e:\home\Entwicklung\projects\OPEN\Python-2.2\Lib\lib-tk
+  --> unter Windows Python-Libs mit ausliefern ?
+
+
+
+- Stabilitaet der RS232 Kommunikation unter Windows ist schlecht !
+
+- Bessere Sound-Unterstuetzung fuer Windows --> Sound stoppen !!!
+
+- letztes Dia mit END anstatt BV versorgen...
+
+- Unterstuetzung fuer neuen Rollei Projektor implementieren
+
+(- Testen: funktioniert noch die alte Projektor-Unterstuetzung ?)
+
+- XML Import einbauen
+
+- Abspielzeit fuer Sound auf Diavortrag-Laenge sezten, damit auch unter Windows Sound aufhoert
+
+- Kommandozeilen-Parameter implementieren: -cd und -autorun
+
+(- Callback-Methoden (Trigger*) asynchron implementieren ?)
+
+- schoener Beispiel-Diavortrag: 1) Multimedia-Faehigkeiten und 2) Skript-Faehigkeiten
+  - Bilder von Projektor in examples_script.dia einfuegen
+  - neuseeland Vortrag mit kleineren Bildern und kleiner WAV-Datei erstellen
+
+- Install-Shild Version fuer Windows-Binary ?
+
+- Python-Lib unter Windows ausliefern
+
+- Doku und Beispiel fuer Auto-Run-CD
+
+- Doku fuer 'Echtzeitfaehigkeit' --> nicht so kritisch, ausreichend fuer subjektives empfinden
+
+- Doku fuer Dialoge implementieren
+
+- Doku ins englische uebersetzen
+
+- Doku in PDF-Format?
+
+- Homepage aktualisieren: Bilder (Rollei-Projektoren und Ueberblend-Effekt-Sequenzen) 
+- Homepage aktualisieren: aktuelle Beschreibung, weniger Rollei, neuer Projektor
+- Homepage aktualisieren: News 
+
+- Homepage: Version-Changes Datei hinzufuegen
+
+- Homepage: ggf. Gallery (Online-Beispiele fuer Ueberblend Effekte: Java-Applet oder JavaScript?)
+
+- Homepage: ggf. Wunschliste ?
+
+- Homepage bekannt machen:
+  * News: sourceforge und kde.org
+  * bei Applikations-Verzeichnissen registrieren
+  * Linuxmagazin --> Brave Gnu World
+  * Heise
+  * Colorfoto, etc.
+  * Link-Pages
+  * Newsgroups
+
+- Bug: wenn Play-Info Dialog noch nicht angelegt wurde, dann scheitert folgende Sequenz:
+		aWin.Show()
+		mindiapy.SleepMS( 1000 )
+		aWin.Maximize()
+    --> ggf. PlayInfo Dialog grundsaetzlich anlegen !
+
+- Optimierungen: ACHTUNG: das verschieben der timeline-view kostet Zeit !!! 
+    --> im vollbildmodus update disablen ... !!!
+
+- Optimierungen: in SimpleBitmapCanvas::drawBackground() 
+    --> hier koennte man ggf. performance optimieren, loeschen ist bei fade in nicht immer notwendig, da sowieso neu gezeichnet wird !!!
+
+- ggf. Skripte in eigenem Thread ausfuehren ??? --> DocumentAndControler::ExecuteScript()
+  ACHTUNG: anscheinend blockiert der Python-Thread auch die GUI-Updates, falls auf GUI zugegriffen wird --> MTLock ?!
+
+(- warum ist im Ueber-Dialog die erste Seite NICHT uebersetzt ?)
+
+
+//- Unresolved Symbols unter Linux (_Py_None): Python in Applikation einbinden ?! --> libmindiapyc.so dazulinken !
+
+//- bessere tmake Behandlung unter Linux --> wird nun detektiert, siehe auch mindia.m4
+
+//- Skript-Funktionen zur Aenderung der Play-Info-Dialog Groesse angeben
+//- Skript-Funktion: Sleep( int iMs )
+
+//- Skripte auch in Ueberblend-Phase erlauben/ermoeglichen
+
+//- bessere Echtzeit Unterstuetzung (shift der play mark waehrend play modus !)
+//  --> berechne prozessing zeit und synchronisiere mit akt. play-zeit
+
+//- Skripte blockieren die Oberflaeche --> besser Skripte NICHT in eigenem Thread laufen lassen
+//- beim zweiten Skript im Abspielmodus wird die GUI blockiert, wenn das Skritp laeuft,
+//  d.h. es gibt kein Update der GUI-Anzeige. --> scripttest.dia
+
+(- bessere Multithreading-Unterstuetzung --> sporadische Absturze 
+   --> andere Threads, z.B. Logging-Thread greift auf GUI zu !
+   --> verwende QtMTLock !)
+
+(- Skripte als 'Image-Erzeuger' zulassen --> Texte, etc. implementieren)
+
+//- nach Verwendung von Skripten ist der Play-Info-Dialog nicht mehr oberhalb des Appl-Fensters ?!
+//  --> liegt am Vollbildschirm Modus --> reparent window !
+
+//- Ueberblenden von Images ermoeglichen
+
+//- XML Export einbauen
+
+//- Optimierte redraw/repaint Routine implementieren
+
+//- Vollbildschirm fuer Dia-Darstellung implementieren 
+//    --> pWidget->showFullScreen(); Layout->setMargin( 0 ); Layout->setSpacing( 0 );
+//	    pWidget->frameSize()
+
+//- Bugfix: Sound faengt im Simulations-Modus sofort mit der ersten Ueberblendung an !!!
+
+//- Bugfix: "Alles auswaehlen" funktioniert nicht
+
+(- direkten Zugriff auf PYTHON als Skriptsprache ersetzten !)
+
+(- Absturz --> haengende Referenz im Modifiy-Dialog !!! --> selektieren, loeschen und neu anlegen)
+
+//- Autoconf fuer Linux implementieren
+
+//- verbesserte DLL/SO Erzeugung (makefile ?) implementieren
+
+//- Menu-Punkt zur Anzeige der GNU-License !!!
+//  (siehe auch Linux-Programing Buch von Wrox)
+
+//- Verzeichnis aufraeumen (alte *.dia und *.py Dateien loeschen)
+
+//- Header und Cpp mit Info-Kopf fuer Linzens, Copyright, Autor, CVS-Tag, etc.
+
+//- dynamisches laden von mindiapyc.dll verbessern (momentan ueber Pfad !)
+
+//###########################################################################
+
+Skripte:
+- Check-Script schreiben: sind alle Randbedingungen erfuellt (Standzeiten, etc.) ?
+- Aktualisierung des Document-Changed Flags nach Script-Ausfuehrung implementieren
+- sound infos an sound-datei haengen, ggf. script zum schreiben der sound infos fuer ein lied imortiert/exportiert!!!
+- Bild-Namen parsen und in ID-Feld einsortieren
+- Einlesen eines Verzeichnisses mit Bildern und automatisches anlegen einer Diashow für dieses Verzeichnis...
+
+Features:
+- Bilder ueberblenden (fade) implementieren
+- Musik-Kommentar-Marken und DiaPlot-Kommentar-Marken ueber Maus verschiebbar machen
+- Bilder Uebersicht anbieten
+
+Bugfixes:
+- Bugfix fuer Linux: repaint Problem, wenn mit Dialog ueber timelineview gefahren wird
+- Bugfix fuer Windows: Sound kann nicht gestoppt bzw. in pause gesetzt werden
+- Bugfix fuer Windows: Ansteuerung des Projektors ueber COM ist nicht sehr robust ?
+- Bugfix: anscheinend funktioniert der Pause-Modus, bzw. die Continue-Funktion noch nicht richtig... (es wird ein Bild übersprungen!)
+- Bugfix: Umschalten von Simulation auf Com funktioniert wohl nicht ganz zuverlaessig !
+- Bugfix: Problem mit Appl-Close unter Linux wenn kein Diaprojektor angeschlossen ist
+- Bugfix: Synchronisation funktioniert nicht, wenn Bilder angezeigt werden... (laueft auseinander) !
+
+Testen
+- Testen: Sound-Implementierung unter Linux (z.B. 8Bit Wav-Dateien, einblenden, etd.)
+
+Optionale Features:
+- Ggf.: Verallgemeinerung der Projektor-Steuerung (eigene Service-DLL?)
+- Ggf.: Optimierung: rolleicom in Teil feur RS232-Kommunikation und Rollei-Projektor aufteilen !?
+- Ggf.: Interface fuer Kooka und Twain zum Scannen von Bildern
+- Ggf.: standard Verzeichnisse fuer wav und jpg Dateien festlegen (und behandeln!)
+- Ggf.: Kontext-Menus implementieren (Pult-View und Timeline-View)
+- Ggf.: Autosave implementieren
+- Ggf.: bessere (genauere) Positionierung der Startmarke fuer Diavortrag implementieren
+- Ggf.: Single Step Modus, d.h. naechstes Dia auf Knopfdruck, ohne Timer
+- Ggf.: Anzeige der Wav-Dateien als Plot in der Timeline-View
+- Ggf.: unterschiedliche Markierungen zum Starten eines (langen) Diavortrags von verschiedenen Positionen ermoeglichen
+- Ggf.: EnterDialog verbessern (ableiten und F1 abfangen)
+- Ggf.: aktuell gespielte wav-datei anzeigen (Status-Bar und Timeline-View)
+- Ggf.: Auswahl-Button zum Starten eines File-Dialogs bei wav-File Eingabe (in Tabelle)
+- Ggf.: Anzeige einer Warnung wenn Sound nicht abgespielt werden kann
+- Ggf.: Robustere Ueberpruefung des Sound-Dialoges implementieren (Bereiche pruefen, etc.)
+- Ggf.: Optimierung: bessere Dokument-Changed-Behandlung in: SoundInfoDlgImpl::TransferData()
+- Ggf.: Global-Data-Dialog verbessern: fuer die Presentation globale Werte eingeben: kommentar, light-value, autofocus, etc.)
+- Ggf.: Config-Dialog: Timeout fuer Kommunikation angeben
+
+Done:
+//- DiaPlot-Kommentare ermoeglichen --> Editierung ermoeglichen
+//- Magazin-Wechsel behandeln --> mit Script !!! im Script wird Nachfolgedate geladen
+//- Musikstueck aus-/einblenden ermoeglichen --> fadeIn / fadeOut behandeln im ReadBlock-Thread
+//- Test: start des Vortrages von markiertem Dia aus: auch mit echtem Projektor moeglich ?
+//- Bugfix fuer Linux: neu zeichnen nach einlesen von Daten (falls weniger Daten als vorher angezeigt werden)
+//- Bugfix: save einer Datei funktioniert nicht, wenn der Pfad nicht mehr gueltig ist (ggf. nicht den gesamten Pfad speichern)
+//- ini-file implementieren
+//    * speichern der Konfiguration und Letzte-Dateien-Liste implementieren ($(HOME).mindia)
+//- Script/Makros Behandlung verbessern und ggf. in eigene Service-Dll verlagern (Wiederverwendung !)
+//- Logging-Ausgaben begrenzen/ausschalten --> ist ausschaltbar !
+//- verbesserte INI-Datei Behandlung (Kommentare und Reihenfolge erhalten)
+
+//###########################################################################
+
+//  * Play-Modus richtig implementieren
+
+//  * zuviele Repaints wenn Daten im Modify-Dialog editiert werden
+
+//  * Modify-Item-Dialog disablen, wenn im PlayModus...
+
+//  * Kommandozeilen-Parameter (fuer Dateien)
+
+//  * Kommandozeilen-Parameter (fuer Simulationsmodus)
+
+//  * Projektor Ansteuerung implementieren
+
+//  * Control-Dialog fuer Projektor-Ansteuerung
+
+//  * Toolbar-Buttons hinzufeugen (inline im Code)
+
+//  * markiere gerade projeziertes Dia in der ItemView
+
+//  * Appl-Exit waehrend Run disablen
+
+//  * Besser: Zustand wird z.Z. an DiaPresentation und am HItemControler behandelt !!!
+
+//  * Projektor-Ansteuerung in eigenem Thread durchfuehren
+
+//  * Bugfix: wenn Dialog-Fenster ueber Schliessen-Button oder Alt-F4 geschlossen wird, wird Menu-Button nicht aktualisiert !
+
+//  * BUGFIX: bessere Dokument-Changed Behandlung
+
+//  * IMPROVEMENT: nicht blockierendes read() fuer Kommunikation unter Linux verwenden (timeout !)
+
+//  * in DiaInfoDlgImpl::sltApplyData() wird ein Item geaendert, der Container sieht davon jedoch nichts !!! kein * in der Titelzeile
+
+//  (* disable Projektor-Control-Dialog waehrend play-Modus !)
+
+//  (* WICHTIG: Timer muss groesser als ca. 3.5s sein, wegen Zeit fuer Diawechsel --> bei Eingabe pruefen ! )
+
+//  (* verbessertes Default-Verhalten beim Modify-Dialog)
+
+//  * korrektes einsortieren nach "New dia" an der richtigen Stelle implementieren
+
+//  * BUGFIX: Clipboard Kommandos funktionieren nach dem Start nicht immer... --> update status nach clipboard operationen !
+
+//  * BUGFIX: Pause-Modus funktioniert noch nicht richtig...
+
+//  * disable Dialoge waehrend run... (alle modalen Dialoge)
+
+//  * PERFORMANCE: Problem bei grossen Dateiene: HItemView::AddItemAt() ? --> m_pCanvas-resize() ist teuer !
+
+//  * reset View-Breite nach neuladen von Dateien
+
+//  * Neuzeichnen der View nach loeschen von Items optimieren (siehe Datei: bigdata.dia)
+
+//  * Automatische Anzeige der Laenge des wav-Files
+
+//  * Menupunkt Insert Dia ist eigentlich append dia...
+
+//  * Empty-wav-Eintrag bei Sound Dialog implementieren --> verwende empty.wav Datei !
+
+//  * Probleme mit modalen Dialogen unter Qt 3.0.0 --> modale Dialoge mit exec() anstatt show()
+
+//  * Zeitachse fuer Dias implementieren (zur Synchronisation mit Musik)
+
+//  * Audio-Unterstuetzung implementieren
+
+//  * beim Play das gerade aktive Item selektieren/markieren
+
+//  (* Synchronisation der Musik mit Vortrag im Simulations-Modus)
+
+//  (* Musik-Marker-Dialog implementieren: Musik abspielen (inkl. Pause) und Kommentare eingeben)
+
+//  (* repaint Problem bei PlayMarker unter Linux)
+
+//  * Real-Timeline-View implementieren
+
+//  * Musik unter Linux implementieren...
+
+//  * Bugfix: loeschen von Zeilen in Tables funktioniert nicht richtig wenn schon vorher eine Zeile geloescht wurde --> Probleme mit currentRow() !
+
+//  * Bugfix: Menupunkte Copy/Paste und Find waehren Play disablen
+
+//  * Up und Down von Zeilen in der Tabelle/Grid implementieren (komfortablerer Editmodus)
+
+//  * Config-Dialog: Konfiguration der seriellen-Schnittstelle ermoeglichen (re-open/re-init ermoeglichen)
+
+//  * Config-Dialog: Simulation der Verbindung zum Projektor
+
+//  (* Sprachresourcen)
+
+//  * Verschieben der Dias in Timeline-View implementieren (ein Dia verschieben, alle anderen Positionen bleiben fix)
+
+//  * Start des Vortrages von einem markierten Dia !!!
+
+//  * bei start von einem markierten Dia, ggf. automatisch den Projektor zu dieser Position fahren
+
+//  * Text Suche implementieren
+
+//  * Ini-Datei fuer speichern der Konfiguration und Letzte-Dateien-Liste implementieren ($(HOME).mindia)
+
+//  * Bugfix: starten an einer silent.wav Stelle funktioniert mit dem sound noch nicht richtig
+//      --->  positionsangabe im silent modus beachtet nicht ein starten mitten im stueck !!!
+
+//  * Bugfix: datei lesen, ändern, neue datei lesen, speichern ignorieren, --> neue datei ist gleich modifiziert !
+//	  --->	changed Behandlung fuer sound-infos fehlerhaft --> SoundInfoContainer und SoundCommentContainer muessen nach read das ObjectChanged-Flag zuruecksetzen
+
+//  * Scale-Image-Buttons implementieren
+
+//  (* Test: Synchronisation zwischen Sound und Dia --> ist ok !!!)
+
+//  (* Online-Hilfe implementieren --> Infrastruktur ok, HTML-Datei fehlt noch)
+
+//  * BUGFIX: der Cancel-Button bei den Dialogen, die Tables enthalten, funktioniert nicht,
+//            die Daten werden direkt uebernommen: sltValueChanged() !!!
+
+//  * BUGFIX: wenn Dialoge mit ESC-Taste geschlossen werden, wird das Menu nicht richtig aktualisiert

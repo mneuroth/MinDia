@@ -1,0 +1,364 @@
+
+change history:
+===============
+
+27. 8.2001	2.5h	Start, playing with qt
+28. 8.2001	2.5h	initial layout, some menues, hitemview-class
+ 5. 9.2001	0.5h	menue updated
+ 8. 9.2001	1.5h	menue updated, create itemcontroler and item
+ 9. 9.2001	4.5h	started wit data structure implementation,
+					load, save implemented, menue updated (print)
+10. 9.2001	1.5h	menue updated (undo, redo, delete),
+					replaced document with controler
+24. 9.2001	1h		starting with popup-dialog
+26. 9.2001	1.5h	starting with selecting and deleting of items
+ 3.10.2001	5h		replacing QVector with stl-vector, changing
+					the data model: now the DiaPresentations holds
+					all the data for the DiaInfo's, this information
+					was hold on the DiaProjector-Objects.
+					Clipboard-handling implemented.
+					Dialog DiaInfoDlg started (UI).
+ 5.10.2001	0.5h	Dialog DiaInfoDlgImpl started
+20.10.2001	4h		Dialog DiaInfoDlgImpl implementation continued,
+					selection improved (shift key)
+21.10.2001	6h		file version introduced, new menu itmes: export, play status
+					Dialog DiaInfoDlgImpl implementation continued (dissolve, timer)
+					data-structure improved (dissolve and timer),
+					enable/disable clipboard-operations, selection improved,
+					usability and handling improved
+22.10.2001	3h		Dialog DiaInfoDlgImpl improved (format selection),
+					started with play/pause/edit modus (timer)
+24.10.2001	2h		nicer output of items in item-view (slide-frame and all data)
+28.10.2001	5h		repaint optimized, play-modus implemented, comand-line parameter
+29.10.2001	1.5h	logging dialog started, projector control dialog started
+30.10.2001	8h		communication with com-port implemented for windows (handshake and timeout !)
+					logging dialog and projector control dialog improved
+31.10.2001	6h		projector control dialog improved, first dia presentation !
+					problem with the timing (feedback from projector is synchron),
+					started with internationalizing the program (*.po, *.qm)
+					important for generating *.po files: no // ** comments without the space allowed !
+ 1.11.2001	9h		in play-modus the actual item will be selected, some small bugfixes,
+					simplifying the application, improvements for play-modus,
+					communication with projector in play-modus now with own thread,
+					multithreading for linux (pthread) !
+ 2.11.2001	4h		improved document changed handling,
+					implemented the RS232 support for linux
+ 3.11.2001	6h		user-handling improved (new dia-button in modify-dialog)
+					Presentation-Data-Dialog implemented,
+					Configuration-Dialog started, PlayInfo-Dialog subclassed
+					(all needed dialogs are created),
+					many bugfixes, pause-mode is now ok
+ 4.11.2001	1h		small bugfixes (disable new-dia-button in modify-dialog,
+					do not send cmd to projector again, if comming from pause-mode)
+ 9.11.2001	2h		first tests with sound (wav-files) for windows
+10.11.2001	5h		sound support improved (SoundInfo, etc.)
+11.11.2001	3h		sound info dialog implemented, some dialogs are now modal (ver. 0.93),
+					source code size: approx 10000 lines (without *.ui and moc_* files)
+12.11.2001	2h		tests with sound under linux
+13.11.2001	2h		sound info dialog improved
+16.11.2001	3h		started with the implementation of the TimeLineView,
+					performace optimisations (repaints of hview optimized)
+17.11.2001	8h		TimeLineView improved, SoundComment-data structure implemented
+					SoundComment-Dialog implemented, bugfixes (ver. 0.94)
+18.11.2001	8h		bugfixes, TimeLineView improved (output), menu item "add comment" implemented
+					sound-support for linux started.
+19.11.2001	1h		tmake input file mindia.pro improved
+20.11.2001	2h		sound-support for linux improved (ReadBufferQueue started)
+21.11.2001	2h		working on sound-support for linux (hacked sound...)
+23.11.2001	4h		sound-support for linux improved (bugfixes for bufferqueue),
+					bugfix: delete row in Tables doesn't work correctly
+					silent.wav-modus implemented (dummy-wav-file)
+24.11.2001	7h		up/donw buttons for SoundInfo-Dialog implemented
+					configuration dialog implemented (simulation-mode and com-port settings),
+					first version of language file (mindia_de.po) implemented (ver. 0.95),
+					bugfix: done() method overloaded for non-modal dialogs (used to emit closed signal)
+					some dialogs are now resizeable (using layout-manager),
+					prepared dialogs for F1 Help, HelpDialog implemented.
+25.11.2001	6h		new menu-items: 'help', 'play from', 'find' and 'find next', PlayInfoDlg improved
+					help-dialog is now not modal, icons of toolbar now also visible in menu,
+					EnterValueDlg implemented, start presentation from selected slide/dia implemented
+					bugfix: Edit and File menu disabled in pause modus,
+					(ver. 0.96, mindia29.zip)
+26.11.2001	2h		bugfix: start in silent-mode now handled correct
+					bugfix: reset sound-info-container changed flag after reading a new diapresentation
+					text search implemented
+					approx 15000 lines of code (lcount *.h *.cpp, withoud moc_*)
+27.11.2001	2h		PlayInfoDialog improved, actual Image will be displayed in the play-dialog (performance ?),
+					images in hitem will be scaled to fit in slide-dimensions (what about performance ?)
+					EnterValueDialog has now a help button
+28.11.2001	2h		help-file (mindia.html) now correctly handled, PlayInfoDialog improved (scale and display button)
+					writing of help-file started
+ 1.12.2001	2h		modifiying of show and dissolve time in timeline-view implemented (with mouse)
+ 2.12.2001	2h		prepare optimized image showing with introducing the callback-method SetNextDiaNo()
+					PlayInfoDialog improved: fill x/y, expand, original size implemented,
+					update contents of PlayInfoDialog if an image/item is selected
+ 4.12.2001	2h		minService included (dllbase.*, minbase.*, iscript.h),
+	 				started with script-interpreter interface
+ 9.12.2001	3h		python integration improved, new script dialog started
+10.12.2001	2h		script dialog improved
+24.12.2001	3h		bugfix: disable manipulation of items in timeline-view in play-modus
+					bugfix: minbase.* dllbase.* moved in own shared library (minsrv) --> mksrv.bat / mksrv
+26.12.2001	3h		bugfix: rounding error problem for wav-files solved
+					script support improved (now more functions in interface IDia)
+					modifiying dissolve time with mouse improved: hold total slide time constant
+					small gui improvements: fast movement with DiaInfo-Dialog (CTRL+Left / CTRL+Right)
+					first real slide show (irland !)
+27.12.2001	6h		sound comments are now related/connected to the sound-play-time
+					new feature: sound comments can be sorted,
+					bugfix: output of slide-info in pult-view overwrites neighbour dia information
+					new feature: one single dia can be selected in timeline view,
+					timeline- and pult-view are syncronized if item is selected
+					diainfo-dialog improved (apply and next-Button)
+					PlotComment and PlotCommentContainer implemented, PlotComment-view implemented
+28.12.2001	8h		PlotComment-Dialog implemented --> generalized the SoundComment-Dialog
+					renamed sndcommentdlgimpl.* to commentdlgimpl.*, renamed SoundCommentDlg.* in CommentDlg.*
+					diainfo-dialog improved (apply and prev-Button), german language settings improved
+					bugfix: repaint problem after read for linux solved (use visibleWidth() instead of contentsWidth())
+					new feature: menu items: start from and start at (first means goto position and start, second projector is allready at position)
+					bugfix (windows): initializing the com-port doesn't work under windowsxp (initialize DCB-structure)
+					ver. 0.96.12 (mindia41.zip)
+29.12.2001	5h		improved the script interface, script-handling moved in shared library,
+					small optimizations on some dialogs
+30.12.2001	9h		improved the script interface (class ScriptEnvironment and ScriptEventItem),
+					scripts are handled in dll (also the gui of the script-dialog!),
+					new dialog: EventMapDlg to modify the scripts for the events
+					ATTENTION: /D "_DEBUG" links msvcp60d.dll to application, this gives problems with mindiapyc.dll which is linked against msvcp60d.dll (different runtime libs !)
+31.12.2001	5h		bugfix: script interface, renamed menu-point "Scripts" in "Plugins"
+					bugfix: set active window on EventMapDialog after modifying the script
+					improved the online-documentation (script functions)
+					bugfix: modal dialogs need to use sltShowModalHelp() to show online help
+					improved the script dialog (laod and save now with file-dialog)
+					improved the plugin-menu for the python script plugin
+ 1. 1.2002	6h		dynamic script menu implemented, implemented FileSystemUtils::GetDirectory() for linux
+	 				worked on fadein/fadeout (only for linux)
+ 2. 1.2002	4h		implemented fadein/fadeout for linux
+ 3. 1.2002	5h		ini-file support started (MiniIniDB-class), simulation-mode is now default (use -real for no simulation)
+					configuration dialog improved (checkbutton for logging on/off)
+					renamed minCom in RolleiCom (mincom.* --> rolleicom.*)
+					renamed HItemControler in DocumentAndControler (hitemcontroler.* --> doccontroler.*)
+					last-file history implemented, bugfix: save problem for changed path solved 
+ 4. 1.2002	5h		enable/disable event-script execution, menu point "Open for edit" (open file without script event)
+					online-help file is now language sensitive (example: mindia_de.html, mindia_en.html)
+					small bugfixes, preparing the project for the public release
+					ver. 0.96.19 (mindia48.zip)
+
+20. 1.2002	2h		small fixes (casts) for windows version.
+					generated first development documentation with doxygen (doc-directory): doxygen mindoc.ini
+					how to buid a msdev-project:
+					create qmindia.dsp from qmindia.pro in msdev-studio via qt-toolbar-button, 
+					create minsrv.dsp from minsrv.pro in msdev-studio,
+					open qmindia.dsp as workspace, insert minsrv.dsp as project,
+					set dependencies minsrv for the qmindia project,
+					activate in config-dialog (ALT-F7) the compiler switch "exception handling" (-GX)
+					REMEMBER:
+					Veriy importand for windows-qt-project files are this defines: QT_DLL, /*_DEBUG*/ !
+21. 1.2002	2h		created mindiapyc.pro
+					for Debug-Version set define _DEBUG to NO_DEBUG (because of python20.lib)
+					set dependencies minsrv for the mindiapy project,
+					activate in config-dialog (ALT-F7) the compiler switch "exception handling" (-GX)
+					set NO_DEBUG define for minsrv and qmindia projects as well, because of unified memory-handling for all projects
+22. 1.2002	2h		About- and License-Dialog implemented
+					ver. 0.96.20 (mindia51.zip)
+26. 1.2002	4h		preparing for public release: copyright-header in all source files included
+					master-makefile created: mindiaall.mak
+27. 1.2002	5h		debugging: problems with ::FindFirstFile() in the case of the unicode version of the runtime-lib
+					--> disable UNICODE define in project settings (introduced via tmake ?)
+					use QTranslator in mindiapyc-module to handle language settings, parent for python messagbox-function set
+					started with some demo scripts and presentation files (import.py, export.py)
+					online documentation improved
+10. 2.2002	3h		working on the project homepage
+11. 2.2002	6h		small bugfixes in *.dsp-file, makefiles improved, project home page improved
+12. 2.2002	6h		project home page improved, autoconf support implemented, installation for linux implemented
+				    small bugfixes in FileUtils::GetDirectory()
+				    ver. 0.96.21 (mindia58.zip) --> FIRST PUBLIC RELEASE on Sourceforge !
+---------------------------------------------------------------------------------------------------
+22. 2.2002  2h		Python 2.2 as project included (set environment variable PYTHONDIR and TCLDIR)
+23. 2.2002	6h		ScriptDialog improved (modified flag handled), 
+					very important: set environment variable PYTHONPATH to the python lib and lib\lib-tk (for *.py) and pcbuild (for *.pyd) directory
+					other usefull environment variables: PYTHONDEBUG, PYTHONVERBOSE, PYTHONHOME
+					Now Tk is available in Python !!!
+					Linux: Problems with exported symbols from python.a lib !
+ 9. 3.2002  3h		preparation for scripts as image started, repaint handling improved (start using canvas items for hitems !)
+10. 3.2002  5h		repaint and selection handling improved, new menu point: add dia
+11. 3.2002  1h		continued work on scripts as image
+12. 3.2002  2h		preparing application for XML support (import/export)
+13. 3.2002  5h		play-info dialog can now be displayed in fullscreen mode (with context menu),
+					displaying images in play-info dialog optimized,
+					new interface class for Python (IDiaOutputWindow) introduced
+14. 3.2002  3h		xml export continued, new files writexml.* introduced
+15. 3.2002  3h      xml export finished, started with fade in/out implementation
+17. 3.2002	3h		contiunued the fade in/out implementation
+18. 3.2002	3h		locking for mt introduced (new files qtmtlock.*), new menu items for fade in/out tests
+19. 3.2002  3h      fade in optimized: first scale image (110ms), than fade in image (80ms) for a 1024x768 image
+					working on crash problem with fading (reason: QTimer, MT-locking or fading ???)
+22. 3.2002  1h		prepared support for MSC 3x0 P (configuration dialog, etc.)
+23. 3.2002  2h		new command line options: -twin und -msc, updated documentation (support for msc projector)
+					working on msc projector support
+24. 3.2002  6h		context menus for timeline- and slidepult-view implemented, attribs for xml-export implemented
+					bugfixes and improvements for the image dissolve process,	
+					improved the realtime support (synchronize real with virtual play-time, better than recalibrate startup and step-time with the processing times)
+25. 3.2002  2h      new script functions to show, hide and maximize the play-info-dialog
+26. 3.2002  2h		bugfix: start the sound with the show-part of the first slide (in NextStep())
+					bugfix: reparent after FullScreen-Modus needed, bugfix: scripts should run in the gui-thread !
+27. 3.2002  2h		new feature: flow control for rs232 can be configured now, bugfix: SetComData() handled iStopBits wrong
+29. 3.2002	6h		bugfix: added "thread" as config target in *.pro files, working on rs232 stability problem under windows,
+					trigger-cmds are now after the projector communication-commands,
+					improved dia-info dialog: scripts are not stored in the filename variable any more (new fileversion) !
+					improved the script interface (added new functions and scripts in dissolve-phase)
+30. 3.2002  4h		improved the script interface, added some more test scripts, started with example-slide shows
+31. 3.2002  4h		example scripts and slide shows, update fade process only if play info dialog is visible,
+					execute scripts in Trigger*-methods only if scripts are enabled, HISTORY started,
+					bugfix: (only linux) linking libmindiapyc.so statically to mindia, solves unresolved symbols while loading tkinter module
+ 1. 4.2002  4h		autoconf support improved: tmake detection implemented (see mindia.m4),
+					working on support for the new rollei msc projectors
+ 2. 4.2002  2h		working on support for the new rollei msc projectors
+ 3. 4.2002  2h      feature: start/stop of dissolve process in play info dialog implemented,
+                    saving of images implemented, direct keyboard commands for play info dialog implemented
+20. 4.2002  5h		project homepage improved
+21. 4.2002	3h		pre release tested and uploaded, new homepage installed
+
+13. 9.2002  4h		working on the zaurus player port
+15. 9.2002	5h		working on the zaurus player port
+16. 9.2002	2h		working on the zaurus player port
+17. 9.2002	3h		working on the zaurus player port, project files merged, tests with mp3 support (madplayer) mindia79.zip
+21. 9.2002  4h		working on the mp3 support (madplayer statically linked)
+26.10.2002  1h      debugging, merging versions, tests with wxPython --> ok in release !!!
+27.10.2002  1h		tests with PyQt3.1 --> hmmm, not working very well, no return to mindia application after script execution (main event loop problem?)
+30.10.2002	3h		mp3 files under linux are now played with an external player like mpg123 or madplay (also on the zaurus!),
+                    logging events are now posted to the gui-thread with postEvent(), now no QtMTLock needed
+ 8.11.2002	2h		bugfix: change between wav files not allways correct, due to a rounding error in Wave::getCurrPlaySamplePos()
+13.11.2002	1h		working on bugfix: slide show does not stop if the show time of the last dia is too short ! --> queueing of commands not correct ?
+17.11.2002  1h		better error handling for rs232 communication implemented (com? will not be opend in simulation mode any more)
+18.11.2002  2h		starting the implementation of the mp3 player configuration dialog
+29.11.2002	2h		continuing mp3 player configuration, bugfix in ini-file writing (ignore last line)
+ 3. 1.2003	3h		continuing mp3 player configuration
+ 4. 1.2003  6h		fixing all warnings under linux, continuing mp3 player configuration
+ 					working on zaurus port, small bugfixes (wav-file handling)
+ 6. 1.2003  3h		working on mp3 support (output of external player piping)
+ 8. 1.2003	6h		working on mp3 support (start, stop and act-play pos now supported) 
+19. 1.2003 0.5h		bugfix: stopping sound-thread in silent.wav did not work!
+20. 1.2003 1.5h		bugfix: strange behaviour while editing start- and stop-time in sound dialog if one value is -1
+					better logging of script-errors in play modus, they apear now in the logging-dialog
+21. 1.2003	3h		bugfix: spontanious stopping in play-modus (see DocumentAndControler::sltTimerEvent())
+					bugfix: stopping of sound play in windows does not work (mciSendString() has to be used in the same thread!)
+					bugfix: pause/continue does not work correctly
+25. 1.2003	5h		working on the RS232 problem under Windows (testing wfc library)
+					bugfix: some small bugs in sound handling fixed
+26. 1.2003	3h		working on stability of the RS232 communication under windows and crash under linux
+					bugfix: check for successfull start in DocumentAndControler::sltPlayPresentationAt()
+					bugfix: delay for sending chars via RS232 under windows increased (10->15ms), communication seems to be stable now !
+15. 2.2003	6h		option -autorun implemented, new option: -screen implemented
+					working on wav-file bug under linux (multithread problem?)
+					bugfix: com-port access is now synchronized with an semaphor
+					bugfix: vertical view of images not correct in thumbnail view
+19. 2.2003  6h		Buttons for play, pause and stop in the PlayInfoDlg implemented
+					Start with TimerJobProcessor class for DynGraphicOperations
+20. 2.2003  4h		working on the dynamic graphic operations
+21. 2.2003	3h		working on the dynamic graphic operations
+22. 2.2003	3h		working on the dynamic graphic operations
+ 1. 3.2003  4h      tests with tk and wxWindows and Python 2.2.2: build all *.pyd and install wxPython in python2.2.2 directory, update PYTHONPATH !
+					wxWindows runs only in release version (for debug you have to build a debug version from wxPython)
+					implementation of read() and write() for Dynamic Graphic Operations
+ 2. 3.2003  1h		PyQt scrips are working too, but the script must not create the application object !
+ 4. 3.2003  1h		temporary binary release put on homepage
+ 5. 3.2003  2h		timeline view changed a litle bit, now also the dynamic graphic operations will be showed
+15. 3.2003  3h		support for jpg-images under Win32 implemented (using "Small JPEG Decoder Library v0.93b" from Rich Geldreich: http://www.voicenet.com/~richgel)
+					new methodds at the IDia-Interface: SetHorizontalFormat() and GetHorizontalFormat()
+19. 3.2003  2h		continuing the Dynamic Graphic Operation implementation
+21. 3.2003  2h		continuing the Dynamic Graphic Operation implementation
+22. 3.2003	2h		continuing the Dynamic Graphic Operation implementation
+23. 3.2003	3h		continuing the Dynamic Graphic Operation implementation
+26. 3.2003	2h		bugfix: disable SUPPORT_MMX in jpegdecoder.h, this causes problems in release version
+					optimization: QImage will be cached in HItem-class
+					new commandline options: -autoquit and -x=10 -y=10 -dx=800 -y=600 for setting the size of the playinfo dialog
+29. 3.2003  1h		DynGraphic-Text will not be showed when show is starting
+					Fade in/out uses now a white image, if no image is available
+15. 5.2003	2h		compiled under SuSE 8.2 with gcc 3.3, fixed some warnings, working on new autoconf setup
+17. 5.2003	3h		new autoconf setup for Qt 3.1.x, mindia compiles now under SuSE8.2 with configure, make
+ 5. 6.2003	2h		working on a better showing of the dynamic graphic operations (using QToolTips)
+ 6. 6.2003	2h		playing with drag and drop
+ 7. 6.2003	5h		Main window accept now *.dia files as drop operation, hitemview accept images (incl. multiselection) and drag and drop in own window
+ 8. 6.2003	9h		bugfixes for drag and drop, drag and drop support for *.wav and *.mp3 files implemented, icon for windows created (in *.rc and *.xpm files)
+					creating default dynamic text objects via context menu, started with implementing the mouse-shifting of dynamic text objects
+					started with edit dialog for dynamic text objects
+ 9. 6.2003	3h		dsp-file bugfixes, porting to linux
+18. 6.2003	1h		small porting problems to linux solved (tolower), bugfixes
+19. 6.2003	5h		new menupoint "add dynamic text", new submenu "Import/Export", starting with script makecddist.py,
+					interface IDiaPresentation updated (for SoundFile-Infos)
+21. 6.2003	4h		working on a qt-python-gui for the script/function makecddist.py, implementing font and color dialog for dynamic text edit dialog, 
+                    bugfixes for dynamic texts (edit and play from), dynamic texts can now be deleted
+
+
+// bessere mp3 Unterstuetzung unter linux --> Laenge der Datei bestimmen !
+// Performance Optimierungen
+// Menuepunkt: abs to rel paths fuer alle Dateien (Images und Sound) --> in Datei Menue
+(// Icon unter Windows setzen)
+(// Sound-File Drag&Drop unterstuetzung implementieren)
+// Menues aufteilen: Sound und Image Operationen !?
+// Konfigurationsdialog fuer Standard Dissolve und Standard Standzeit implementieren (speichern im ini-File)
+
+//// TODO --> DynamicTexts koennen noch nicht geloescht werden !!!
+//// TODO --> verschieben von DynGraphOp mit Maus implementieren
+//// TODO: einige Bugfixes beim bearbeiten von Dynamic Texts (Fonts ?, Size ?) !
+//// TODO: Farbe fuer Dynamic Text fehlt noch...
+
+// einige feste dyn graphic objecte fest codieren: Text anzeigen, Text einblenden, Text bewegen,
+// jeweils mit Decorator-Muster ? Editierbar mit Start und Ende Zeiten, inkl. Mouse-Unterstuetzung
+// Optionen fuer -screen Komandozeilenparameter: Groesse und Expand, Original Size, etc.
+//// Delay beim Starten der dyn Graphic-Objecte auf 0 setzen ! (Geister Schriften am Anfang loeschen !)
+
+// TODO:
+// --> DynGraphOp --> Start( time ) --> OpItem_Base::Run()
+//// import/export von dyngraph ops
+// clean/hide all items on canvas --> im Kontext-Menu im PlayInfoDlg
+// Hintergrundfarbe von Play-Info-Dialog (canvas) aenderbar machen ?
+
+/* min todo gulp
+QComboBox * pCombo = new QComboBox( m_pTable );
+pCombo->insertItem( "item 1" );
+pCombo->insertItem( "item 2" );
+m_pTable->setCellWidget( 2, 2, pCombo );
+m_pTable->updateCell( 2, 2 );
+*/
+
+//void TimeLineView::ShowGraphicOperations()
+//add operation menu-punkt
+//menu-punkt zum aufruf des modify dialogs fuer graphic operations
+edit operation dialog implementieren...
+//jpeg unterstuetzung auch fuer Windows 
+//void DynGraphicOpContainer::AddOperation( double dTimeInMS, const string & sText )
+// Kontainer - Behandlung (io)
+
+
+// min todo: Native Anzeige von Text auf Musik-Achse/Zeitachse ermoeglichen (DynamicGraphicOperations)
+
+// min todo: Absturz unter Linux bei italien2.dia, weim wav-file abspielen ?
+
+// TODO: unter linux in neuer version wird bei italien_part2.dia nicht immer die nachfoge
+//       wav datei gestartet!!!
+//// TODO: wenn Fehler beim Starten wird trotzdem der sound gestartet !! --> wahrscheinlich geloest DocumentAndControler::sltPlayPresentationAt()
+// TODO: crash bei italien_par2.dia in dia nr.32 (manchmal)!!!
+//// TODO: rs232 kommunikaiton unter windows instabil
+// TODO: importieren / exportieren XML und zuletzt geoeffnete Dateien und abspielen/Ueberblendzeit disablen bei run !!!
+
+(// TODO: Bug: gleichzeitiger Zugriff auf RS232 beim Stop (Hauptthread und Cmd-Thread) !!!)
+(// TODO: nach einem Magazin funktioniert der Sound nicht mehr !!! --> CloseSound fehlt?) --> mit mci-cmds im gleichen Thread ok !?
+
+//// min todo: jpeg-Unterstuetzung fuer Windows anbieten
+//// min todo: SetHorizontalImage() fuer python interface anbieten
+
+// TODO: Bug: Start Script wird auch bei continue aufgerufen !
+
+TODO: 
+  * Absturz bei Italien-Dia-Show (Linux) !!!
+//  * abspielen wird manchmal im play abgebrochen, anscheinend bei Dia-Wechsel !
+//  * mp3 player configurierbar machen ueber ini-datei
+//  * BUG: Eingabe von Musik-Daten (start/stop) zeigt seltsames Verhalten !!!
+//  * BUG: wenn eine Musik-Datei geoeffnet werden soll, die nicht exisitert, funktioniert anschliessend die RS232 Ansteuerung nicht mehr (Windows+Linux) !!!
+//  * Bessere Fehlerbehandlung fuer RS232 Ansteuerung --> mehr Logging !
+  * logging-fenster auf zaurus immer mit gleicher groesse betreiben
+  * Ausschalten des Zaurus disablen
+//  * Multithreading-Lock gibt es beim Zaurus nicht, daher ggf. Problem mit Logging-Ausgabe...
+//  * siehe QThread bzw. QApplication::postEvent()
+//  * verwende mpgl123-lib oder mad-player fuer mp3
+//  * Konfigurationsdialog fuer den externen mp3 player 

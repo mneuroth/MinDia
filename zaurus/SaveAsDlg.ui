@@ -1,0 +1,129 @@
+<!DOCTYPE UI><UI>
+<class>SaveAsDlg</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>SaveAsDlg</cstring>
+    </property>
+    <property stdset="1">
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>222</width>
+            <height>142</height>
+        </rect>
+    </property>
+    <property stdset="1">
+        <name>caption</name>
+        <string>Save as</string>
+    </property>
+    <grid>
+        <property stdset="1">
+            <name>margin</name>
+            <number>11</number>
+        </property>
+        <property stdset="1">
+            <name>spacing</name>
+            <number>6</number>
+        </property>
+        <widget row="0"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pFileNameLabel</cstring>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>File name:</string>
+            </property>
+        </widget>
+        <widget row="0"  column="1" >
+            <class>QLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pFileName</cstring>
+            </property>
+        </widget>
+        <widget row="1"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pFolderLabel</cstring>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Folder:</string>
+            </property>
+        </widget>
+        <widget row="2"  column="0" >
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pTypeLabel</cstring>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Type:</string>
+            </property>
+        </widget>
+        <widget row="1"  column="1" >
+            <class>QComboBox</class>
+            <item>
+                <property>
+                    <name>text</name>
+                    <string>Internal Storage</string>
+                </property>
+            </item>
+            <item>
+                <property>
+                    <name>text</name>
+                    <string>CF Card</string>
+                </property>
+            </item>
+            <item>
+                <property>
+                    <name>text</name>
+                    <string>SD Card</string>
+                </property>
+            </item>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pFolder</cstring>
+            </property>
+        </widget>
+        <widget row="2"  column="1" >
+            <class>QComboBox</class>
+            <item>
+                <property>
+                    <name>text</name>
+                    <string>text/python</string>
+                </property>
+            </item>
+            <item>
+                <property>
+                    <name>text</name>
+                    <string>text/perl</string>
+                </property>
+            </item>
+            <item>
+                <property>
+                    <name>text</name>
+                    <string>text/minscript</string>
+                </property>
+            </item>
+            <item>
+                <property>
+                    <name>text</name>
+                    <string>text/plain</string>
+                </property>
+            </item>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pType</cstring>
+            </property>
+        </widget>
+    </grid>
+</widget>
+</UI>

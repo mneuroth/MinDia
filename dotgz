@@ -1,0 +1,7 @@
+#!/bin/bash
+cd ..
+tar -cf mindia_src_0.97.tar mindia/*.h mindia/*.cpp mindia/*.c mindia/*.cw mindia/*.ui mindia/*.txt mindia/*.html mindia/*.py mindia/*.xpm mindia/*.i mindia/*.po mindia/*.pro mindia/*.qm mindia/*.dsp mindia/*.bat mindia/*.ini mindia/*.in mindia/*.m4 mindia/configure mindia/Makefile mindia/mindiaall.mak mindia/wmindia.mak mindia/lmindia.mak mindia/_*.mak mindia/AUTHORS mindia/COPYING mindia/INSTALL mindia/HISTORY mindia/BUGS mindia/README mindia/setqt2 mindia/examples/*.dia
+gzip mindia_src_0.97.tar
+cd mindia
+
+

@@ -1,0 +1,168 @@
+# This is a Qt message file in .po format.  Each msgid starts with
+# a scope.  This scope should *NOT* be translated - eg. translating
+# from French to English, "Foo::Bar" would be translated to "Pub",
+# not "Foo::Pub".
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2002-04-21 16:12:18 CEST\n"
+"PO-Revision-Date: YYYY-MM-DD\n"
+"Last-Translator: FULLNAME <EMAIL@ADDRESS>\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+
+#: AboutDlg.cpp:40
+msgid "AboutDlg::(c) 2002 by Michael Neuroth"
+msgstr ""
+
+#: AboutDlg.cpp:18
+msgid "AboutDlg::About"
+msgstr ""
+
+#: AboutDlg.cpp:35
+msgid "AboutDlg::Version 0.2.2 (21.4.2002)"
+msgstr ""
+
+#: AboutDlg.cpp:30
+msgid "AboutDlg::VisiScript"
+msgstr ""
+
+#: ConfigureDlg.cpp:29
+msgid "ConfigureDlg::"
+msgstr ""
+
+#: ConfigureDlg.cpp:19
+msgid "ConfigureDlg::Configure"
+msgstr ""
+
+#: ConfigureDlg.cpp:23
+msgid "ConfigureDlg::Script command:"
+msgstr ""
+
+#: ConfigureDlg.cpp:37
+msgid "ConfigureDlg::Script extention:"
+msgstr ""
+
+#: ConfigureDlg.cpp:32
+msgid "ConfigureDlg::minscript"
+msgstr ""
+
+#: ConfigureDlg.cpp:31
+msgid "ConfigureDlg::perl"
+msgstr ""
+
+#: ConfigureDlg.cpp:30
+msgid "ConfigureDlg::python"
+msgstr ""
+
+#: SaveAsDlg.cpp:46
+msgid "SaveAsDlg::CF Card"
+msgstr ""
+
+#: SaveAsDlg.cpp:26
+msgid "SaveAsDlg::File name:"
+msgstr ""
+
+#: SaveAsDlg.cpp:35
+msgid "SaveAsDlg::Folder:"
+msgstr ""
+
+#: SaveAsDlg.cpp:45
+msgid "SaveAsDlg::Internal Storage"
+msgstr ""
+
+#: SaveAsDlg.cpp:47
+msgid "SaveAsDlg::SD Card"
+msgstr ""
+
+#: SaveAsDlg.cpp:20
+msgid "SaveAsDlg::Save as"
+msgstr ""
+
+#: SaveAsDlg.cpp:40
+msgid "SaveAsDlg::Type:"
+msgstr ""
+
+#: SaveAsDlg.cpp:54
+msgid "SaveAsDlg::text/minscript"
+msgstr ""
+
+#: SaveAsDlg.cpp:53
+msgid "SaveAsDlg::text/perl"
+msgstr ""
+
+#: SaveAsDlg.cpp:55
+msgid "SaveAsDlg::text/plain"
+msgstr ""
+
+#: SaveAsDlg.cpp:52
+msgid "SaveAsDlg::text/python"
+msgstr ""
+
+#: visiscript.cpp:189
+msgid "VisiScript::About..."
+msgstr ""
+
+#: visiscript.cpp:216
+msgid "VisiScript::Clear output"
+msgstr ""
+
+#: visiscript.cpp:212
+msgid "VisiScript::Clear script"
+msgstr ""
+
+#: visiscript.cpp:182
+msgid "VisiScript::Configuration..."
+msgstr ""
+
+#: visiscript.cpp:200
+msgid "VisiScript::Copy"
+msgstr ""
+
+#: visiscript.cpp:195
+msgid "VisiScript::Cut"
+msgstr ""
+
+#: visiscript.cpp:156
+msgid "VisiScript::Edit"
+msgstr ""
+
+#: visiscript.cpp:456
+msgid "VisiScript::File was modified, save now ?"
+msgstr ""
+
+#: visiscript.cpp:155
+msgid "VisiScript::File"
+msgstr ""
+
+#: visiscript.cpp:161
+msgid "VisiScript::New"
+msgstr ""
+
+#: visiscript.cpp:166
+msgid "VisiScript::Open"
+msgstr ""
+
+#: visiscript.cpp:205
+msgid "VisiScript::Paste"
+msgstr ""
+
+#: visiscript.cpp:225
+msgid "VisiScript::Run"
+msgstr ""
+
+#: visiscript.cpp:175
+msgid "VisiScript::Save as..."
+msgstr ""
+
+#: visiscript.cpp:456
+msgid "VisiScript::Save file"
+msgstr ""
+
+#: visiscript.cpp:171
+msgid "VisiScript::Save"
+msgstr ""
+
+#: visiscript.cpp:524
+msgid "VisiScript::VisiScript"
+msgstr ""
+

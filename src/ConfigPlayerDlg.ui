@@ -1,0 +1,240 @@
+<!DOCTYPE UI><UI>
+<class>ConfigPlayerDlg</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>ConfigPlayerDlg</cstring>
+    </property>
+    <property stdset="1">
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>300</width>
+            <height>150</height>
+        </rect>
+    </property>
+    <property stdset="1">
+        <name>sizePolicy</name>
+        <sizepolicy>
+            <hsizetype>0</hsizetype>
+            <vsizetype>0</vsizetype>
+        </sizepolicy>
+    </property>
+    <property stdset="1">
+        <name>minimumSize</name>
+        <size>
+            <width>300</width>
+            <height>150</height>
+        </size>
+    </property>
+    <property stdset="1">
+        <name>maximumSize</name>
+        <size>
+            <width>300</width>
+            <height>150</height>
+        </size>
+    </property>
+    <property stdset="1">
+        <name>caption</name>
+        <string>Player Configuration</string>
+    </property>
+    <property stdset="1">
+        <name>sizeGripEnabled</name>
+        <bool>false</bool>
+    </property>
+    <widget>
+        <class>QLayoutWidget</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>Layout4</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>6</x>
+                <y>114</y>
+                <width>284</width>
+                <height>28</height>
+            </rect>
+        </property>
+        <hbox>
+            <property stdset="1">
+                <name>margin</name>
+                <number>0</number>
+            </property>
+            <property stdset="1">
+                <name>spacing</name>
+                <number>6</number>
+            </property>
+            <widget>
+                <class>QPushButton</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>m_pOk</cstring>
+                </property>
+                <property stdset="1">
+                    <name>text</name>
+                    <string>&amp;Ok</string>
+                </property>
+            </widget>
+            <widget>
+                <class>QPushButton</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>m_pCancel</cstring>
+                </property>
+                <property stdset="1">
+                    <name>text</name>
+                    <string>&amp;Cancel</string>
+                </property>
+            </widget>
+            <spacer>
+                <property>
+                    <name>name</name>
+                    <cstring>Spacer1</cstring>
+                </property>
+                <property stdset="1">
+                    <name>orientation</name>
+                    <enum>Horizontal</enum>
+                </property>
+                <property stdset="1">
+                    <name>sizeType</name>
+                    <enum>Expanding</enum>
+                </property>
+                <property>
+                    <name>sizeHint</name>
+                    <size>
+                        <width>20</width>
+                        <height>20</height>
+                    </size>
+                </property>
+            </spacer>
+        </hbox>
+    </widget>
+    <widget>
+        <class>QGroupBox</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>GroupBox4</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>6</x>
+                <y>6</y>
+                <width>283</width>
+                <height>95</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>title</name>
+            <string>mp3 player settings</string>
+        </property>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pPlayerLabel</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>10</x>
+                    <y>22</y>
+                    <width>101</width>
+                    <height>22</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>mp3 player:</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pPlayeSettingsLabel</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>10</x>
+                    <y>56</y>
+                    <width>101</width>
+                    <height>22</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>mp3 player settings:</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QComboBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pPlayer</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>117</x>
+                    <y>22</y>
+                    <width>160</width>
+                    <height>22</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>editable</name>
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget>
+            <class>QComboBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pPlayerSettings</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>117</x>
+                    <y>56</y>
+                    <width>160</width>
+                    <height>22</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>editable</name>
+                <bool>true</bool>
+            </property>
+        </widget>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>m_pPlayer</sender>
+        <signal>activated(int)</signal>
+        <receiver>ConfigPlayerDlg</receiver>
+        <slot>sltPlayerChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>m_pOk</sender>
+        <signal>clicked()</signal>
+        <receiver>ConfigPlayerDlg</receiver>
+        <slot>sltOk()</slot>
+    </connection>
+    <connection>
+        <sender>m_pCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>ConfigPlayerDlg</receiver>
+        <slot>sltCancel()</slot>
+    </connection>
+    <slot access="public">sltCancel()</slot>
+    <slot access="public">sltOk()</slot>
+    <slot access="public">sltPlayerChanged(int)</slot>
+</connections>
+</UI>

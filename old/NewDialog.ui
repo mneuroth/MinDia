@@ -1,0 +1,137 @@
+<!DOCTYPE UI><UI>
+<class>DynamicTextData</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>DynamicTextData</cstring>
+    </property>
+    <property>
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>515</width>
+            <height>286</height>
+        </rect>
+    </property>
+    <property>
+        <name>caption</name>
+        <string>Dynamic Text</string>
+    </property>
+    <property>
+        <name>sizeGripEnabled</name>
+        <bool>true</bool>
+    </property>
+    <widget>
+        <class>QLayoutWidget</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>Layout1</cstring>
+        </property>
+        <property>
+            <name>geometry</name>
+            <rect>
+                <x>21</x>
+                <y>241</y>
+                <width>476</width>
+                <height>33</height>
+            </rect>
+        </property>
+        <hbox>
+            <property>
+                <name>margin</name>
+                <number>0</number>
+            </property>
+            <property>
+                <name>spacing</name>
+                <number>6</number>
+            </property>
+            <widget>
+                <class>QPushButton</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>buttonHelp</cstring>
+                </property>
+                <property>
+                    <name>text</name>
+                    <string>&amp;Help</string>
+                </property>
+                <property>
+                    <name>autoDefault</name>
+                    <bool>true</bool>
+                </property>
+            </widget>
+            <spacer>
+                <property>
+                    <name>name</name>
+                    <cstring>Horizontal Spacing2</cstring>
+                </property>
+                <property>
+                    <name>orientation</name>
+                    <enum>Horizontal</enum>
+                </property>
+                <property>
+                    <name>sizeType</name>
+                    <enum>Expanding</enum>
+                </property>
+                <property>
+                    <name>sizeHint</name>
+                    <size>
+                        <width>20</width>
+                        <height>20</height>
+                    </size>
+                </property>
+            </spacer>
+            <widget>
+                <class>QPushButton</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>buttonOk</cstring>
+                </property>
+                <property>
+                    <name>text</name>
+                    <string>&amp;OK</string>
+                </property>
+                <property>
+                    <name>autoDefault</name>
+                    <bool>true</bool>
+                </property>
+                <property>
+                    <name>default</name>
+                    <bool>true</bool>
+                </property>
+            </widget>
+            <widget>
+                <class>QPushButton</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>buttonCancel</cstring>
+                </property>
+                <property>
+                    <name>text</name>
+                    <string>&amp;Cancel</string>
+                </property>
+                <property>
+                    <name>autoDefault</name>
+                    <bool>true</bool>
+                </property>
+            </widget>
+        </hbox>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>DynamicTextData</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>buttonCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>DynamicTextData</receiver>
+        <slot>reject()</slot>
+    </connection>
+</connections>
+</UI>

@@ -1,0 +1,155 @@
+<!DOCTYPE UI><UI>
+<class>EventMapDlg</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>EventMapDlg</cstring>
+    </property>
+    <property>
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>451</width>
+            <height>309</height>
+        </rect>
+    </property>
+    <property>
+        <name>caption</name>
+        <string>Event Map</string>
+    </property>
+    <property>
+        <name>sizeGripEnabled</name>
+        <bool>true</bool>
+    </property>
+    <vbox>
+        <property>
+            <name>margin</name>
+            <number>11</number>
+        </property>
+        <property>
+            <name>spacing</name>
+            <number>6</number>
+        </property>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pEventsLabel</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Events:</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QComboBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pEvents</cstring>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pScriptLabel</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Script:</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QMultiLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pScript</cstring>
+            </property>
+        </widget>
+        <widget>
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout6</cstring>
+            </property>
+            <hbox>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>m_pModify</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Modify</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property>
+                        <name>name</name>
+                        <cstring>Spacer2</cstring>
+                    </property>
+                    <property>
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property>
+                        <name>sizeType</name>
+                        <enum>Expanding</enum>
+                    </property>
+                    <property>
+                        <name>sizeHint</name>
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>m_pClose</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Close</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </vbox>
+</widget>
+<connections>
+    <connection>
+        <sender>m_pClose</sender>
+        <signal>clicked()</signal>
+        <receiver>EventMapDlg</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>m_pModify</sender>
+        <signal>clicked()</signal>
+        <receiver>EventMapDlg</receiver>
+        <slot>sltModifyScript()</slot>
+    </connection>
+    <connection>
+        <sender>m_pEvents</sender>
+        <signal>activated(int)</signal>
+        <receiver>EventMapDlg</receiver>
+        <slot>sltEventSelected(int)</slot>
+    </connection>
+    <slot access="public">sltEventSelected(int)</slot>
+    <slot access="public">sltModifyScript()</slot>
+</connections>
+</UI>

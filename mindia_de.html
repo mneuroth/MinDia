@@ -1,0 +1,916 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+                        
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+                        
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+                        
+  <meta name="GENERATOR"
+ content="Mozilla/4.75 [de] (Windows NT 5.0; U) [Netscape]">
+  <title>Hilfe f&uuml;r MinDia</title>
+</head>
+<body>
+<center>
+<h1><b><u><font color="#330099">Hilfe f&uuml;r das Programm MinDia</font></u></b></h1>
+</center>
+Das Programm <b><font color="#990000">MinDia</font></b> ist daf&uuml;r gedacht
+multimediale Diavortr&auml;ge auf dem Computer durchzuf&uuml;hren. Man kann
+Bilder &uuml;berblenden, Texte in die Bilder einblenden und den Vortrag mit
+Musik unterlegen.
+<p>Das Programm bietet weiterhin die M&ouml;glichkeit programmierbare Diaprojektoren
+anzusteuern um somit computergesteuerte Diavortr&auml;ge durchzuf&uuml;hren.
+Zur Zeit&nbsp; werden unterschiedliche Rollei Diaprojektoren unterst&uuml;tzt:
+<b><i><font color="#006600">Rolleivision 35 twin digital P</font></i></b>
+und <b><i><font color="#006600">Rolleivision twin MSC 3x0 P</font></i></b>.
+</p>
+<p>Diese Diaprojektoren lassen sich mit Hilfe einer seriellen Schnittstelle
+(RS 232) durch einen Computer ansteuern. Daher ist es m&ouml;glich einen
+Diavortrag vollautomatisch ablaufen zu lassen. Der Computer setzt f&uuml;r
+jedes Dia die &Uuml;berblend- und Standzeit und sorgt auch f&uuml;r den Diawechsel.
+Zus&auml;tzlich kann man den Diavortrag mit einer Musik unterlegen. Dabei
+&uuml;bernimmt der Computer das Abspielen einer oder mehrerer Audio-Dateien
+(zur Zeit werden WAV- und MP3-Dateien unterst&uuml;tzt).</p>
+<p>Das Programm m&ouml;chte den Anwender bei der Erstellung eines Diavortrages
+unterst&uuml;tzen, indem es ihm die Anordnung der Dias auf bequeme Weise
+erm&ouml;glicht und ihm hilft, die Diawechsel mit der Musik zu synchronisieren,
+z.B. einen Diawechsel passend zu einem Rythmuswechsel durchzuf&uuml;hren.
+Ein Diavortrag kann w&auml;hrend der Erstellung auch ohne angeschlossenen
+Diaprojektor in Echtzeit simuliert werden.</p>
+<p>Durch die M&ouml;glichkeit der Simulation des Diavortrages, kann das Programm
+auch dazu verwendet werden, den Diavortrag auf einem angeschlossenen Computer-Monitor
+oder TV-Bildschirm vorzuf&uuml;hren. Somit ist es m&ouml;glich, das Programm
+zur Pr&auml;sentation von vortragsbegleitenden Grafiken&nbsp; einzusetzen.
+</p>
+<p>Zu dem <a href="#Diavortrag">Diavortrag</a> .</p>
+<hr width="100%" size="1" align="left" noshade="noshade">
+<h3><a name="Programmfunktionen"></a>Programmfunktionen</h3>
+Die wesentlichen Funktionen des Programmes sind:
+<ul>
+  <li>Anlegen, Modifizieren, Lesen und Speichern eines Diavortrages</li>
+  <li>Abspielen eines Diavortrages</li>
+  <li>Simulation eines Diavortrages (d.h. keine direkte Ansteuerung des Diaprojektors
+durchf&uuml;hren)</li>
+  <li>manuelle (direkte) Ansteuerung des Diaprojektors</li>
+</ul>
+<h3><a name="Diavortrag"></a>Diavortrag</h3>
+Ein Diavortrag besteht im wesentlichen aus:
+<ul>
+  <li>Sequenz von Dia-Informationen (&Uuml;berblendzeit, Standzeit, ggf. Spezialeffekte)</li>
+  <li>Musik-Informationen (Wav-Dateien mit Angabe der Start und Stop-Zeiten)</li>
+  <li>Kommentar-Informationen (Bemerkungen zur Musik und zu den Dias)</li>
+  <li>Dynamische Grafik-Operationen (Anzeige und Manipulation von Texten in
+dem Abspiel-Info-Dialog)<br>
+  </li>
+  <li><a href="#Skripte">Skripte</a> f&uuml;r diverse m&ouml;gliche Ereignisse
+(Skripte funktionieren nur wenn Skript-Plugin verf&uuml;gbar ist)</li>
+</ul>
+Zur Anordnung der Dias wird die <a href="#DiaPultAnsicht">Pult-Ansicht</a>
+verwendet und zur Synchronisation der Diawechsel mit der Musik wird die <a
+ href="#ZeitleistenAnsicht">Zeitleisten-Ansicht</a> verwendet.
+<hr width="100%" size="1" align="left" noshade="noshade">
+<h3><a name="Hauptfenster"></a>Aufbau des Hauptfensters</h3>
+Das Hauptfenster des Programms MinDia besteht aus verschiedenen Bereichen:
+der Men&uuml;zeile, der Zubeh&ouml;r-Leiste (Toolbar), einer Statuszeile
+(am unteren Rand des Fensters), sowie dem Arbeitsbereich, der wiederum aus
+zwei einzelnen Unterbereichen besteht: der Dia-Pult-Ansicht und der Zeitleisten-Ansicht.
+<h4><font size="+1">Men&uuml;zeile</font></h4>
+&Uuml;ber das Men&uuml; k&ouml;nnen alle Funktionen des Programms aufgerufen
+werden. Zur schlelleren Bedienbarkeit des Programms besitzten praktisch alle
+Men&uuml;punkte besitzen einen sog. Accelerator-Key, d.h. sie k&ouml;nnen
+ohne &uuml;ber das Men&uuml; zu gehen direkt &uuml;ber die Eingabe einer
+Tastenkombination (Beispiel: Ctrl+O zum &Ouml;ffnen einer Pr&auml;sentations-Datei)
+aufgerufen werden.
+<p>Das <a href="#Hauptmenu">Hauptmen&uuml;</a> enth&auml;lt die folgenden
+Eintr&auml;ge:</p>
+<ul>
+  <li><b><a href="#Datei">Datei</a></b> (Operationen mit Dateien)</li>
+  <li><b><a href="#Bearbeiten">Bearbeiten</a></b> (Operationen mit den Daten
+einer Pr&auml;sentation)</li>
+  <li><b><a href="#Abspielen">Abspielen</a></b> (Operationen zur Durchf&uuml;hrung
+einer Pr&auml;sentation)</li>
+  <li><b><a href="#Extras">Extras</a></b> (Aufruf von verschiedensten <a
+ href="#Dialoge">Dialogen</a>zur Datenmanipulation)</li>
+  <li><b><a href="#Plugins">Plugins</a></b> (Operationen von externen Komponenten,
+z.Z. die Python-Skript Funktionalt&auml;t)</li>
+  <li><b><a href="#Hilfe">Hilfe</a></b> (Hilfe zum und Informationen &uuml;ber
+das Programm)</li>
+</ul>
+<b><font size="+1">Zubeh&ouml;r-Leiste (Toolbar)</font></b>
+<p>In der Toolbar sind einige h&auml;ufig ben&ouml;tigte Operationen direkt
+&uuml;ber Icons aufrufbar.</p>
+<p><b><font size="+1">Statuszeile</font></b></p>
+<p>In der Statuszeile werden Informationen &uuml;ber den aktuellen Zustand
+des Programms angezeigt. Es gibt drei Anzeige-Bereiche:</p>
+<ul>
+  <li>im linken Bereich werden Meldungen von gerade aktiven oder ausgef&uuml;hrten
+Operationen angezeigt (z.B. Datei wurde erfolgreich eingelesen oder Ansteuer-Informationen
+f&uuml;r den Dia-Projektor w&auml;hrend einer Pr&auml;sentation).</li>
+  <li>im mittleren Bereich wird der aktuelle Zustand des Programms angezeigt,
+das k&ouml;nnen sein: EDIT, PLAY und PAUSE. Nur im EDIT-Modus k&ouml;nnen
+Daten der Pr&auml;sentation ge&auml;ndert werden.</li>
+  <li>im rechten Bereich werden Informationen &uuml;ber die gerade geladene
+Pr&auml;sentation angezeigt (gesamte Spielzeit und die Anzahl der Dias).</li>
+</ul>
+<b><font size="+1">Arbeitsbereich</font></b>
+<p><a name="DiaPultAnsicht"></a><b>Dia-Pult-Ansicht:</b></p>
+<ul>
+Hier werden Dias angelegt und die Reihenfolge der Dias angegeben.<br>
+Ein neues Dia wird immer an das Ende der aktuellen Pr&auml;sentation eingef&uuml;gt.
+  <br>
+Das &Auml;ndern der Reihenfolge erfolgt &uuml;ber die Zwischenablage (Clipboard):
+erst wird das zu verschiebende Dia markiert (durch 'anclicken' mit der Maus),
+dann in die Zwischenablage ausgeschnitten (Cut), anschlie&szlig;end wird das
+Dia markiert nach dem das in der Zwischenablage befindliche Dia eingef&uuml;gt
+werden soll, dieses wird dann aus der Zwischenablage eingef&uuml;gt (Paste).
+  <br>
+Es k&ouml;nnen auch mehrere Dias gleichzeitig markiert werden, durch gleichzeitiges
+dr&uuml;cken der Shift-Taste bei der Auswahl der Dias.<br>
+Au&szlig;erdem kann man Bilder-Dateien auf diesen Bereich mit Drag &amp;
+Drop fallen lassen, diese werden dann als Dia an die entsprechende Position
+einsortiert. Das Drag &amp; Drop funktioniert auch f&uuml;r Dias innerhalb
+der Dia-Pult-Ansicht.<br>
+</ul>
+<a name="ZeitleistenAnsicht"></a><b>Zeitleisten-Ansicht:</b>
+<ul>
+Hier werden die &Uuml;berblend- und Standzeiten der Dias angezeigt.<br>
+Zus&auml;tzlich kann die &Uuml;berblendzeit und Standzeit der Dias durch einfache
+Maus-Bewegungen ver&auml;ndert werden:<br>
+Sobald der Maus-Zeiger &uuml;ber dem Ende eines Dias steht, wird die Form
+des Maus-Zeigers ge&auml;ndert, dann kann duch dr&uuml;cken der linken Maus-Taste
+und gleichzeitigem (horizontalem) Verschieben des Maus-Zeigers die Standzeit
+des Dias ge&auml;ndert werden.<br>
+Das gleiche kann auch mit der &Uuml;berblendzeit erreicht werden, indem der
+Maus-Zeiger an das ender der &Uuml;berblend-Rampe positioniert wird.<br>
+Zus&auml;tzlich k&ouml;nnen Musik-Dateien (z.Z. sind ds WAV und MP3) mit
+Drag &amp; Drop auf diesen Bereich fallen gelassen werden, dann werden diese
+Musik-Dateien nach der letzten verf&uuml;gbaren Musik-Datei einsortiert.<br>
+Texte k&ouml;nnen ebenfalls mit Drag &amp; Drop in den Bereich der dynamischen
+Grafik-Operationen gezogen werden, es wird dann an dieser Stelle ein dynamischer
+Text eingef&uuml;gt. Dieser dynamische Text kann &uuml;ber das anclicken
+des Textes mit der linken Maustaste bei gleichzeitig gedr&uuml;ckter Shift-Taste
+in einem Dialog ge&auml;ndert werden.
+</ul>
+<hr width="100%">
+<h3><a name="Hauptmenu"></a>Hauptmenu</h3>
+<a name="Datei"></a><b><u>Datei</u></b>
+<table border="1" cols="2" width="100%">
+  <tbody>
+    <tr>
+      <td width="25%">Neu</td>
+      <td>Einen neuen Diavortrag anlegen, die Daten des aktuellen Diavortrags
+werden gel&ouml;scht.</td>
+    </tr>
+    <tr>
+      <td>&Ouml;ffnen...</td>
+      <td>Einen Diavortrag aus einer Datei einlesen.</td>
+    </tr>
+    <tr>
+      <td>&Ouml;ffnen zum Modifizieren...</td>
+      <td>Einen Diavortrag aus einer Datei einlesen, ohne jedoch das Skript-Ereignis
+"Presentation_loaded" auszuf&uuml;hren.</td>
+    </tr>
+    <tr>
+      <td>Speichern</td>
+      <td>Speichert den aktuell bearbeiteten Diavortrag.</td>
+    </tr>
+    <tr>
+      <td>Speichern als...</td>
+      <td>Speichert den aktuell bearbeiteten Diavortrag unter einem anderen
+Namen ab.</td>
+    </tr>
+    <tr>
+      <td>Importiere XML-Datei...</td>
+      <td>Importiert einen Diavortrag aus einer XML-Datei.&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Exportieren als XML-Datei...</td>
+      <td>Exportiert den aktuellen Diavortrag als XML-Datei.</td>
+    </tr>
+    <tr>
+      <td valign="top">Importiere dynamische Grafik-Datei...<br>
+      </td>
+      <td valign="top">Importiert eine extern erstellte Datei mit dynamischen
+Grafik-Objekten.<br>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top">Exportiere dynamische Grafik-Datei...<br>
+      </td>
+      <td valign="top">Exportiert die aktuellen dynamischen Grafik-Objekte
+in eine Datei, diese kann mit externen Programmen weiterbearbeitet werden
+und anschlie&szlig;end wieder importiert werden.<br>
+      </td>
+    </tr>
+    <tr>
+      <td>Exportieren...</td>
+      <td>NOCH NICHT IMPLEMENTIERT, verwende ein entsprechendes Skript.</td>
+    </tr>
+    <tr>
+      <td>Drucken...</td>
+      <td>NOCH NICHT IMPLEMENTIERT.</td>
+    </tr>
+    <tr>
+      <td>Zuletzt ge&ouml;ffnete Dateien</td>
+      <td>Schnellauswahl der zuletzt bearbeiteten Dateien.</td>
+    </tr>
+    <tr>
+      <td>Beenden</td>
+      <td>Programm beenden. Es erfolgt eine Nachfrage, falls die aktuellen
+Daten noch nicht gespeichert wurden.</td>
+    </tr>
+                    
+  </tbody>
+</table>
+<p><a name="Bearbeiten"></a><b><u>Bearbeiten</u></b>
+<table border="1" cols="2" width="100%">
+  <tbody>
+    <tr>
+      <td width="25%">R&uuml;ckg&auml;ngig</td>
+      <td>NOCH NICHT IMPLEMENTIERT.</td>
+    </tr>
+    <tr>
+      <td>Wiederherstellen</td>
+      <td>NOCH NICHT IMPLEMENTIERT.</td>
+    </tr>
+    <tr>
+      <td>Ausschneiden</td>
+      <td>Markierte(s) Dia(s) in die Zwischenablage ablegen und aus den Pr&auml;sentationsdaten
+l&ouml;schen.</td>
+    </tr>
+    <tr>
+      <td>Kopieren</td>
+      <td>Markierte(s) Dia(s) in die Zwischenablage ablegen.</td>
+    </tr>
+    <tr>
+      <td>Einf&uuml;gen</td>
+      <td>Im der Zwischenablage abgelege Dias nach der aktuell markierten
+Position einf&uuml;gen.</td>
+    </tr>
+    <tr>
+      <td>Alles ausw&auml;hlen</td>
+      <td>Alle Dias der Pr&auml;sentation ausw&auml;hlen (selektieren).</td>
+    </tr>
+    <tr>
+      <td>Finde Text...</td>
+      <td>Suche einen Text in den Dia-Informationen (Id, Kommentar oder Bild-Datei-Name).</td>
+    </tr>
+    <tr>
+      <td>Finde n&auml;chste</td>
+      <td>Finde das n&auml;chste Vorkommen des Such-Textes.</td>
+    </tr>
+    <tr>
+      <td>Dia anh&auml;ngen</td>
+      <td>Neues Dia an das Ende der aktuellen Pr&auml;sentation anf&uuml;gen.</td>
+    </tr>
+    <tr>
+      <td>Dia hinzuf&uuml;gen</td>
+      <td>Neues Dia an die aktuelle Position einf&uuml;gen</td>
+    </tr>
+    <tr>
+      <td>L&ouml;schen</td>
+      <td>Markierte(s) Dia(s) l&ouml;schen.</td>
+    </tr>
+                    
+  </tbody>
+</table>
+</p>
+<p><a name="Abspielen"></a><b><u>Abspielen</u></b>
+<table border="1" cols="2" width="100%">
+  <tbody>
+    <tr>
+      <td width="25%">Starte von Auswahl</td>
+      <td>Starte das Abspielen der aktuellen Diapr&auml;sentation ab dem markierten
+Dia. Vor dem Abspielen wird das das Magazin zur ausgew&auml;hlten Position
+transportiert.</td>
+    </tr>
+    <tr>
+      <td>Starte mit Auswahl</td>
+      <td>Starte das Abspielen der aktuellen Diapr&auml;sentation ab dem markierten
+Dia. Es erfolgt kein Transport des Magazins zur Position, d.h. das Magazin
+sollte schon vorher manuell positioniert sein.</td>
+    </tr>
+    <tr>
+      <td>Start</td>
+      <td>Starte das Abspielen der aktuellen Diapr&auml;sentation.</td>
+    </tr>
+    <tr>
+      <td>Pause</td>
+      <td>Pausiere das Abspielen der gerade laufenden Diapr&auml;sentation.</td>
+    </tr>
+    <tr>
+      <td>Stop</td>
+      <td>Stoppe das Abspielen der gerade laufenden Diapr&auml;sentation.</td>
+    </tr>
+    <tr>
+      <td>Musik Kommentar hinzuf&uuml;gen</td>
+      <td>Setze einen Kommentar-Makrierung an die aktuelle Abspielposition.
+Nur w&auml;hrend dem Abspielen verf&uuml;gbar.</td>
+    </tr>
+    <tr>
+      <td valign="top">Graphik-Operation hinzuf&uuml;gen<br>
+      </td>
+      <td valign="top">Setzt eine Grafik-Operation an die aktuelle Abspielposition.
+Nur w&auml;hrend dem Abspielen verf&uuml;gbar.<br>
+      </td>
+    </tr>
+    <tr>
+      <td>&Uuml;berblendzeit &auml;ndern</td>
+      <td>&Auml;nderung der Test-&Uuml;berblendzeit durchf&uuml;hren</td>
+    </tr>
+    <tr>
+      <td>Fade in Test</td>
+      <td>F&uuml;hrt im Play-Info-Dialog einen &Uuml;berblend-Test mit den
+beiden aktuell ausgew&auml;hlten Dias durch. Als &Uuml;berblendzeit wird die
+Test-&Uuml;berblendzeit verwendet.</td>
+    </tr>
+    <tr>
+      <td>Fade out Test</td>
+      <td>Analog zum Fade in Test, jedoch mit umgekehrter Reihenfolge.</td>
+    </tr>
+                    
+  </tbody>
+</table>
+</p>
+<p><a name="Extras"></a><b><u>Extras</u></b>
+<table border="1" cols="2" width="100%">
+  <tbody>
+    <tr>
+      <td width="25%">Konfiguration...</td>
+      <td>Anzeige eines modalen Dialoges um Einstellungen f&uuml;r das Programm
+zu &auml;ndern: COM-Port Einstellungen, Simulation- und Skriptmodus).</td>
+    </tr>
+    <tr>
+      <td valign="top">Player-Einstellungen...<br>
+      </td>
+      <td valign="top">Einstellungen f&uuml;r den mp3-Player vornehmen (nur
+unter Linux)<br>
+      </td>
+    </tr>
+    <tr>
+      <td>Logging...</td>
+      <td>Anzeige eines Dialoges um Protokoll-Ausgaben anzuzeigen, Ausgaben
+k&ouml;nnen im Konfigurations-Dialog ausgeschaltet weden.</td>
+    </tr>
+    <tr>
+      <td>Projektor kontrollieren...</td>
+      <td>Anzeige eines Dialoges zur manuellen Kontrolle des Diaprojektors.</td>
+    </tr>
+    <tr>
+      <td>Pr&auml;sentationsdaten...</td>
+      <td>Anzeige eines modalen Dialoges zur Eingabe eines Kommentars zur
+aktuellen Pr&auml;sentation.</td>
+    </tr>
+    <tr>
+      <td>Pr&auml;sentationsereignisse...</td>
+      <td>Anzeige eines modalen Dialoges zur Eingabe von Skripten zu entsprechenden
+Ereignissen.</td>
+    </tr>
+    <tr>
+      <td>Musik Daten...</td>
+      <td>Anzeige eines modalen Dialoges zur Eingabe der Musik-St&uuml;cke
+und Abspiel-Positionen. Hier k&ouml;nnen Wav-Dateien eingegeben werden, die
+w&auml;hrend der Pr&auml;sentation abgespielt werden sollen. Zu jeder Wav-Datei
+k&ouml;nnen Start- und Stop-, sowie Ein- und Ausblend-Zeitpunkte angegeben
+werden.<br>
+ACHTUNG: dieser Dialog ist noch nicht ganz ausgereift!</td>
+    </tr>
+    <tr>
+      <td>Kommentare zur Musik...</td>
+      <td>Anzeige eines modalen Dialoges in dem die Musik-Kommentare modifiziert
+werden k&ouml;nnen.<br>
+ACHTUNG: dieser Dialog ist noch nicht ganz ausgereift!</td>
+    </tr>
+    <tr>
+      <td>Kommentare zu den Dias...</td>
+      <td>Anzeige eines modalen Dialoges in dem Kommentare zu Dia-Bereichen
+modifiziert werden k&ouml;nnen (z.B. Intro, Kapitel 1, Finale, etc.). Diese
+Kommentare sind als Hilfe bei der Erstellung von 'Drehb&uuml;chern' gedacht.
+      <br>
+ACHTUNG: dieser Dialog ist noch nicht ganz ausgereift!</td>
+    </tr>
+        <tr>
+      <td>Modifiziere Eintrag...</td>
+      <td>Anzeige eines Dialoges zum modifizieren der Daten des gerade ausgew&auml;hlten
+Dias, in diesem Dialog k&ouml;nnen z.B. Stand- und &Uuml;berblendzeit, sowie
+Kommentar-Text des Dias ge&auml;ndert werden.</td>
+    </tr>
+    <tr>
+      <td>Abspiel Status...</td>
+      <td>Anzeige eines Dialoges in dem das Bild des gerade aktivierte Dias
+angezeigt wird. Dieser Dialog ist f&uuml;r die Beurteilung der Pr&auml;sentation
+im Simulations-Modus n&uuml;tzlich.&nbsp;</td>
+    </tr>
+                    
+  </tbody>
+</table>
+</p>
+<p><a name="Plugins"></a><b><u>Plugins (optional)</u></b>
+<table border="1" cols="2" width="100%">
+  <tbody>
+    <tr>
+      <td width="25%">Modifiziere Python Skripte...</td>
+      <td>&Ouml;ffnet einen Dialog, in dem Skripte geladen, modifiziert und
+gespeichert werden k&ouml;nnen.</td>
+    </tr>
+    <tr>
+      <td>Python Skripte ausf&uuml;hren</td>
+      <td>Schnellstart der im aktuellen Verzeichnis verf&uuml;gbaren Skripte.</td>
+    </tr>
+                    
+  </tbody>
+</table>
+</p>
+<p><a name="Hilfe"></a><b><u>Hilfe</u></b>
+<table border="1" cols="2" width="100%">
+  <tbody>
+    <tr>
+      <td width="25%">Hilfe</td>
+      <td>Anzeige der Hilfe f&uuml;r das Programm.</td>
+    </tr>
+    <tr>
+      <td>&Uuml;ber...</td>
+      <td>Informationen &uuml;ber das Programm anzeigen.</td>
+    </tr>
+                    
+  </tbody>
+</table>
+</p>
+<hr width="100%">
+<h3><a name="Dialoge"></a>Dialoge</h3>
+<a name="ConfigurationDialog"></a>Konfigurations-Dialog (Konfiguration der
+seriellen Schnittstelle RS232), modal
+<p><a name="LoggingDialog"></a>Logging-Dialog</p>
+<p><a name="ProjectorControlDialog"></a>Projektor Kontrolle-Dialog</p>
+<p><a name="PresentationDataDialog"></a>Pr&auml;sentationsdaten-Dialog, modal
+</p>
+<p><a name="EventMapDialog"></a>Pr&auml;sentationsereignisse-Dialog, modal
+</p>
+<p><a name="SoundInfoDialog"></a>Musik-Daten-Dialog, modal</p>
+<p><a name="CommentDialog"></a>Musik-Kommentare-Dialog, modal</p>
+<p>Dia-Kommentare-Dialog, modal<br>
+</p>
+<p><a name="DynGraphOpDlg"></a>Dynamische Grafik-Operationen-Dialog, modal<br>
+</p>
+<p>Diese Dialog kann z.Z. nur &uuml;ber das Kontext-Men&uuml; der Zeitleisten-Ansicht
+ge&ouml;ffnet werden oder durch das anclicken eines dynamischen Textes mit
+der linken Maustaste bei gleichzeitig gedr&uuml;ckter Shift-Taste.<br>
+</p>
+<p><a name="DiaInfoDialog"></a>Modifiziere-Dia-Dialog</p>
+<p><a name="PlayInfoDialog"></a><b>Abspiel-Informations-Dialog</b></p>
+<p>Dieser Dialog repr&auml;sentiert eine virtuelle Leinwand. In diesem Dialog
+wird das gerade aktuelle oder selektierte Bild angezeigt, falls ein solches
+vorhanden ist. Hier k&ouml;nnen auch die &Uuml;berblend-Effekte ausgetestet
+werden (Men&uuml;punkt: "Abspielen / Fade in/out").<br>
+&Uuml;ber das Kontext-Men&uuml; der Bildanzeige (aktivierbar &uuml;ber die
+rechte Maustaste) kann der Dialog auf Vollbildschirm Modus umgeschaltet werden.
+In diesem Modus nimmt der Dialog die gesamte Bildschirmgr&ouml;&szlig;e ein,
+dies ist z.B. f&uuml;r die Pr&auml;sentation von Diavortr&auml;gen mit digitalen
+Projektoren n&uuml;tzlich. Weiter kann im Kontext-Men&uuml; die gerade laufende
+&Uuml;berblendung unterbrochen und fortgesetzt werden und das aktuelle Bild
+gespeichert werden.<br>
+Am unteren Ende des Dialoges kann man den Skalierungs-Modus f&uuml;r die Bilder
+einstellen. Folgende Modi stehen zur Verf&uuml;gung:</p>
+<ul>
+  <li><b>F&uuml;lle X</b>, hier wird die Breite des Bildes so angepasst, dass
+es genau in die Breite der Bild-Anzeigefl&auml;che des Dialogs passt.</li>
+  <li><b>F&uuml;lle Y</b>, hier wird die H&ouml;he des Bildes so angepasst,
+dass es genau in die H&ouml;he der Bild-Anzeigefl&auml;che des Dialogs passt.</li>
+  <li><b>Expandiere</b>, hier wird die H&ouml;he und Breite des Bildes angepasst,
+dass es genau in die Bild-Anzeigefl&auml;che des Dialogs passt.</li>
+  <li><b>Original Gr&ouml;&szlig;e</b>, das Bild wird nicht skaliert und in
+seiner originalen Gr&ouml;&szlig;e in der Bild-Anzeigefl&auml;che des Dialogs
+angezeigt.</li>
+</ul>
+Au&szlig;erdem kann man durch Tastatur-Eingabe (wenn der Dialog den Eingabefokus
+besitzt) einige Befehle aus dem Kontext-Men&uuml; direkt ausf&uuml;hren:
+<ul>
+  <li><b>s,</b> Start/Stop eines ggf. laufenden &Uuml;berblend-Prozesses</li>
+  <li><b>m,</b> f&uuml;r den Vollbildschirm-Modus</li>
+  <li><b>n,</b> f&uuml;r den Normalbildschirm-Modus (restaurieren der original
+Gr&ouml;&szlig;e)</li>
+</ul>
+<p><br>
+<b>Suchen-Dialog,</b> modal</p>
+<p><b>&Uuml;ber-Dialog,</b> modal</p>
+<p>Hier wird Information &uuml;ber die Anwendung angezeigt. Es gibt mehrere
+Kategorien:</p>
+<ul>
+  <li>&Uuml;ber, hier stehen allgemeine Informationen &uuml;ber die Anwendung:
+Name, Autor, Homepage und eine kurze Beschreibung.</li>
+  <li>Autor,</li>
+  <li>Beitr&auml;ge,</li>
+  <li>Lizenz,</li>
+</ul>
+<b>Hilfe-Dialog,</b> manchmal modal
+<p>In diesem Dialog wird die Online-Hilfe f&uuml;r die Anwendung angezeigt.
+Es besteht die M&ouml;glichkeit &uuml;ber die Navigations-Kn&ouml;pfe am
+unteren Ende des Dialogs innerhalb der Hilfe zu navigieren.</p>
+<p><a name="ScriptModifyDialog"></a><b>Modifziere-Scripte-Dialog</b></p>
+<p>Hier k&ouml;nnen Skripte eingegeben, ver&auml;ndert, importiert, exportiert
+und getestet werden. Die von der Applikation zur Verf&uuml;gung gestellten
+Skript-Befehle sind in dem Abschnitt&nbsp; <a href="#Skripte">Skript-Funktionen</a>
+zusammengefasst. Im unteren Bereich des Dialoges befindet sich ein Ausgabe-Bereich,
+hier werden alle Texte angezeigt, die mit der Funktion <tt>mindiapy.PrintLn(
+string )</tt> ausgegeben werden.</p>
+<hr width="100%">
+<h3><a name="Copyright"></a>Copyright</h3>
+<b><font color="#990000">MinDia</font></b> (c) by Michael Neuroth, 2001-2003.
+<p>Das Programm <b><font color="#990000">MinDia</font></b> wurde von Michael
+Neuroth geschrieben und steht unter der <a href="COPYING">GPL</a>.</p>
+<p>Bei der Erstellung einiger Teile des Programms wurden Quelltexte und Bibliotheken
+aus anderen Quellen verwendet, siehe dazu den Abschnitt <a
+ href="#Contribs">Beitr&auml;ge</a>.</p>
+<p><b>ACHTUNG:</b><br>
+Die Verwendung des Programms erfolgt auf eigene Gefahr. Der Autor &uuml;bernimmt
+keinerlei Gew&auml;hrleistung f&uuml;r dieses Programm.</p>
+<p><b>WARNUNG:</b><br>
+Das Programm kann &uuml;ber die serielle Schnittstelle (RS232) Dia-Projektoren
+vom Typ <b><i><font color="#006600">Rolleivision 35 twin digital P </font></i></b>und
+<b><i><font color="#006600">Rolleivision twin MSC 3x0 P </font></i></b>ansteuern.
+<b>Die Nutzung dieser Funktionalit&auml;t erfolgt auf eigene Gefahr</b>. Bei
+unsachgem&auml;&szlig;er Verwendung dieser Ansteuer-M&ouml;glichkeit des
+Projektors kann der Dia-Projektor besch&auml;digt werden. <b>Der Autor &uuml;bernimmt
+&uuml;bernimmt <u>keine Gew&auml;hrleistung</u> f&uuml;r die korrekte Funktion
+dieser Ansteuerung.</b></p>
+<hr width="100%">
+<h3><a name="Feedback"></a>Feedback</h3>
+Die Homepage von <b><font color="#990000">MinDia</font></b> ist unter <a
+ href="http://mindia.sourceforge.net">mindia.sourceforge.net</a>zu finden.
+Der Autor ist unter <a href="mailto:mindia@users.sourceforge.net">mindia@users.sourceforge.net</a>
+zu erreichen.
+<p>Da Autoren von Programmen immer gerne &uuml;ber die N&uuml;tzlichkeit
+ihrer geschriebenen Programmes f&uuml;r andere User informiert sein m&ouml;chten,
+bittet der Autor um Erfahrungsberichte beim Einsatz des Programms (positive
+wie negative), Fehlermeldungen, Verbesserungsvorschl&auml;ge und Quellcode
+(f&uuml;r Plugin-Module, Bugfixes, Erg&auml;nzungen, etc.). Jede R&uuml;ckmeldung
+ist sehr willkommen.</p>
+<p>Der Autor ist auch gerne bereit, bei der Erstellung von weiteren Plugin-Modulen
+(f&uuml;r weitere Skript-Sprachen) und f&uuml;r die Ansteuerung von anderen
+Dia-Projektoren, Unterst&uuml;tzung zu leisten.</p>
+<hr width="100%">
+<h3><a name="WeitereInfos"></a>Weitere Informationen</h3>
+<ul>
+  <li><a href="INSTALL">Installations Anleitung</a></li>
+  <li><a href="readme.txt">README</a></li>
+  <li><a href="faq_de.html">FAQ's</a></li>
+  <li><a href="todo_de.html">TODO-Liste</a></li>
+  <li><a href="BUGS">BUGS</a></li>
+  <li><a href="changes.txt">Change History</a></li>
+  <li><a href="AUTHORS">Autoren-Liste</a></li>
+  <li><a href="#Contribs">Beitr&auml;ge f&uuml;r dieses Projekt</a></li>
+</ul>
+<h3>
+<hr width="100%"></h3>
+<h1><a name="TechnischeDoku"></a><u>Technische Dokumentation</u></h1>
+<ul>
+  <li><a href="#Plattformen">Voraussetzungen und Plattformen</a></li>
+  <li><a href="#KommandozeilenParameter">Kommandozeilen-Parameter</a></li>
+  <li><a href="#INI-Datei">Ini-Datei</a></li>
+  <li><a href="#Skripte">Skripte / Makros</a></li>
+  <li><a href="#Skript-Ereignisse">Skript-Ereignisse</a></li>
+  <li><a href="#Plugin-Schnittstelle">Plugin-Schnittstelle</a></li>
+  <li><a href="#Contribs">Beitr&auml;ge f&uuml;r dieses Projekt</a></li>
+</ul>
+<hr width="100%">
+<h3><a name="Plattformen"></a>Voraussetzungen und Plattformen</h3>
+MinDia verwendet das Qt-Framework. Es wird mindestens Qt 2.3.0 ben&ouml;tigt.
+Das Programm kann auch mit Qt 3.0.0 &uuml;bersetzt werden.<br>
+Zur Nutzung der (optionalen) Skript-Funktionalit&auml;t mu&szlig; die Skript-Sprache
+Python 2.x installiert sein.
+<p>Zur Zeit l&auml;uft MinDia auf den folgenden Plattformen:</p>
+<ul>
+  <li>GNU/Linux (getestet auf SuSE Professional 7.3)</li>
+  <li>MS-Windows (getestet auf Windows98 und WindowsXP)</li>
+</ul>
+Der Autor bevorzugt die Linux-Version, da diese Version ein zus&auml;tzliches
+Features besitzt (Ein- und Ausblenden von Musik), die Synchronisation zwischen
+den Diawechseln und der gespielten Musik besser ist und die Kommunikation
+mit der seriellen Schnittstelle robuster funktioniert.
+<hr width="100%">
+<h3><a name="KommandozeilenParameter"></a>Kommandozeilen Parameter</h3>
+Folgende Kommandozeilen Parameter werden von der Applikation ausgewertet:
+<ul>
+  <li>-sim (Simulation der Dia-Projektor-Ansteuerung, Standardwert) <b>[standard]</b></li>
+  <li>-real (Echte Kommunikation mit dem Dia-Projektor &uuml;ber die serielle
+Schnittstelle)</li>
+  <li>-ignore (ignoriere die Einstellungen f&uuml;r die serielle Schnittstelle
+aus dem Konfigurations-Dialog. Es werden die vom System eingestellten Parameter
+verwendet.)</li>
+  <li>-de (deutsche Version)</li>
+  <li>-en (englische Version) <b>[standard]</b></li>
+  <li>-twin (Ansteuerungsprotokoll f&uuml;r den Diaprojektor Rollei twin digital
+P) verwenden <b>[standard]</b></li>
+  <li>-msc (Ansteuerungsprotokoll f&uuml;r den Diaprojektor Rollei twin MSC
+3x0 P) verwenden</li>
+  <li>-cd (Ausf&uuml;hrung des Programms auf einem nicht beschreibbaren Medium,
+z.B. CD. Ini-Datei wird nicht geschrieben)</li>
+  <li>-autorun (sofortige Ausf&uuml;hrung der Pr&auml;sentation aus der angegebenen
+Datei)</li>
+  <li>-autoquit (automatische Beendung des Programms nach der Ausf&uuml;hrung
+der Pr&auml;sentation)<br>
+  </li>
+  <li>-screen (sofortige Anzeige des Play-Info Dialoges zur Darstellung der
+Bilder auf dem Bildschirm)</li>
+  <li>-x=? (x-Position des Play-Info Dialogs setzen)</li>
+  <li>-y=? (y-Position des Play-Info Dialogs setzen)</li>
+  <li>-dx=? (Breite des Play-Info Dialogs setzen)</li>
+  <li>-dy=? (H&ouml;he des Play-Info Dialogs setzen)<br>
+  </li>
+  <li>-edit (&ouml;ffne Datei im Edit-Modus, d.h. das Skript f&uuml;r das
+Load-Ereignis wird nicht ausgef&uuml;hrt)</li>
+  <li>dateiname (nur eine Datei kann angegeben werden, die letzte Datei 'gewinnt')</li>
+</ul>
+<h3>
+<hr width="100%"></h3>
+<h3><a name="INI-Datei"></a>INI-Datei</h3>
+In der Ini-Datei (.mindia.ini) k&ouml;nnen diverse Konfigurations-Parameter
+gesetzt werden, die dann die Standardwerte &uuml;berschreiben. Das Format
+der INI-Datei Eintr&auml;ge ist immer von der Form:<br>
+&nbsp;
+<pre><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp; Schl&uuml;ssel-Text=Werte-Text</font></pre>
+<p><br>
+<b>ACHTUNG:</b> zwischen dem Zuweisungs-Zeichen (=) und dem Schl&uuml;ssel-Text
+und dem Werte-Text darf kein Leerzeichen stehen, ansonsten wird der Schl&uuml;ssel
+nicht erkannt.</p>
+<p>Die folgende Eintr&auml;ge werden zur Zeit unterst&uuml;tzt:<br>
+&nbsp;
+<table border="1" cols="2" width="100%">
+  <tbody>
+    <tr>
+      <th>Schl&uuml;ssel</th>
+      <th>M&ouml;gliche Werte</th>
+    </tr>
+    <tr>
+      <td>com.port_no</td>
+      <td>1,2,3,4</td>
+    </tr>
+    <tr>
+      <td>com.baudrate</td>
+      <td>110, 300, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200</td>
+    </tr>
+    <tr>
+      <td>com.parity_mode</td>
+      <td>none (keine), even (gerade), odd (ungerade)</td>
+    </tr>
+    <tr>
+      <td>com.stopbits</td>
+      <td>1, 1.5, 2</td>
+    </tr>
+    <tr>
+      <td>com.databits</td>
+      <td>6,7,8</td>
+    </tr>
+    <tr>
+      <td>com.flow</td>
+      <td>0 (keine), 1 (XON/XOFF), 2 (Hardware)</td>
+    </tr>
+    <tr>
+      <td>com.logging</td>
+      <td>0, 1</td>
+    </tr>
+    <tr>
+      <td>script_events.enabled</td>
+      <td>0, 1</td>
+    </tr>
+    <tr>
+      <td>datafile.?</td>
+      <td>Dateiname</td>
+    </tr>
+                    
+  </tbody>
+</table>
+</p>
+<p>Bis auf die Eintr&auml;ge f&uuml;r die zuletzt ge&ouml;ffneten Dateien
+(datafile.?) werden die Eintr&auml;ge in der INI-Datei niemals von dem Programm
+&uuml;berschrieben.</p>
+<hr width="100%">
+<h3><a name="Skripte"></a>Skripte<a name="ScriptModifyDialog"></a></h3>
+Mit Hilfe von Skripten kann die Funktionalit&auml;t des Programms erheblich
+erweitert werden. So kann z.B. der Import und Export von Pr&auml;sentationsdaten
+implementiert werden. Es k&ouml;nnen &Uuml;berpr&uuml;fungsfunktionen realisiert
+werden (z.B. um zu &uuml;berpr&uuml;fen ob die Standzeiten f&uuml;r Dias
+die technischen Spezifikationen des Diaprojektors erf&uuml;llen).
+<p>Neben der Verwendung von Skripten als Makros, k&ouml;nnen auch Skripte
+f&uuml;r verschiedene Ereignisse angegeben werden, siehe dazu den Abschnitt
+<a href="#Skript-Ereignisse">Skript-Ereignisse</a>.</p>
+<p>Weiter kann zu jedem Dia ein Skript angegeben werden, dieses wird an zwei
+Stellen w&auml;hrend des Abspielens eines Diavortrages aufgerufen. Zum einen
+zum Beginn des &Uuml;berblendens (Variable bDissolve besitzt den Wert 1) und
+zum anderen wenn das &Uuml;berblenden beendet ist (Variable bDissolve besitzt
+den Wert 0). Dies kann z.B. zur Anzeige von Texten und Bildunterschriften
+eingesetzt werden. Siehe dazu die mitgelieferten Beispiel Diavortr&auml;ge
+(z.B. scripttest.py) und den Abschnitt &uuml;ber <a
+ href="#BeispielDiaSkript">Beispiel-Skripte</a>.</p>
+<p>&Uuml;ber die Plugin-Schnittstelle k&ouml;nnen verschieden Skript-Sprachen
+eingebunden werden. Die Funktionalit&auml;t des Programms wird dann &uuml;ber
+verschiedene Funktionen, bzw. Objekt-Methoden zur Verf&uuml;gung gestellt.
+Die Anbindung der verschiedenen Skript-Sprachen erfolgt &uuml;ber <a
+ href="#SWIG">SWIG</a>.</p>
+<p>Zur Zeit unterst&uuml;tzt MinDia die Skript-Sprache <a href="#Python">Python.</a>
+<br>
+&nbsp;</p>
+<p><b>Folgende Funktionen stehen in dem Modul <font
+ face="Courier New,Courier">mindiapy</font>zur Verf&uuml;gung:</b><br>
+&nbsp;</p>
+<pre>&nbsp; # Ausgabe eines Strings auf ein Ausgabe-Fenster</pre>
+<pre>&nbsp; <font color="#cc0000">mindiapy.PrintLn( "Ausgabetext" )</font></pre>
+<pre>&nbsp; # Anzeige einer modalen Messagebox</pre>
+<pre>&nbsp; # Rueckgabewerte: -1 == Undefined, 0 == Ok, 1 == Cancel</pre>
+<pre>&nbsp; iRet = <font color="#cc0000">mindiapy.DoMessageBox( "Meldungstext", "Titel-Text" )</font></pre>
+<pre>&nbsp; # Zugriff auf das Dia-Praesentations-Objekt</pre>
+<pre>&nbsp; aDiaPresentation = <font color="#cc0000">mindiapy.GetDiaPresentation()</font></pre>
+<pre>&nbsp; # Suspendierung des aktuellen Threads fuer einige ms (hier 100 ms)</pre>
+<pre>&nbsp; <font color="#cc0000">mindiapy.SleepMS( 100 )</font></pre>
+<pre>&nbsp; # Konvertiert einen RGB Farbwert in einen HSV Farbwert</pre>
+<pre>&nbsp; aHSV = <font color="#cc0000">mindiapy.RgbToHsv( aRGB )</font></pre>
+<pre>&nbsp; # Konvertiert einen HSV Farbwert in einen RGB Farbwert</pre>
+<pre>&nbsp; aRGB = <font color="#cc0000">mindiapy.HsvToRgb( aHSV )</font></pre>
+<p><br>
+<b>Das Objekt-Modell besteht aus den folgenden Klassen:</b></p>
+<ul>
+  <li>die <font face="Courier New,Courier">IDiaPresentation</font>-Klasse,
+die Informationen &uuml;ber die Diapr&auml;sentation zur Verf&uuml;gung stellt,
+dies ist das Dokument-Objekt.</li>
+  <li>die <font face="Courier New,Courier">IDia</font>-Klasse, die Informationen
+(z.B. Stand- und &Uuml;berblendzeit) &uuml;ber ein einzelnes Dia zur Verf&uuml;gung
+stellt.</li>
+  <li>die <font face="Courier New,Courier">IDiaOutputWindow</font>-Klasse,
+die Informationen &uuml;ber und Operationen mit dem Ausgabe-Fenster zur Verf&uuml;gung
+stellt.</li>
+  <li>die <font face="Courier New,Courier">IColor</font>-Klasse repr&auml;sentiert
+einen RGB Farbwert.</li>
+  <li>die <font face="Courier New,Courier">IHsv</font>-Klasse repr&auml;sentiert
+einen HSV Farbwert.</li>
+</ul>
+Die (schematische) Klassendefinition der beiden Klassen sieht wie folgt aus:
+<pre>##############################################################</pre>
+<pre>class IDiaPresentation:</pre>
+<pre>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; IsChanged():<br>&nbsp;&nbsp;&nbsp; string GetDocName():<br>&nbsp;&nbsp;&nbsp; string GetDescription():</pre>
+<pre>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp; GetDiaCount():<br>&nbsp;&nbsp;&nbsp; IDia&nbsp;&nbsp; GetDia( int iIndex ):<br>&nbsp;&nbsp;&nbsp; IDia&nbsp;&nbsp; AddNewDia():</pre>
+<pre>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp; GetSoundFileCount():<br>    string GetSoundFileNameAt( int iIndex ):<br>    bool   SetSoundFileNameAt( int iIndex, string sFileName ):&nbsp;<br><br>&nbsp;&nbsp;&nbsp; IDiaOutputWindow GetOutputWindow():</pre>
+<pre>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; LoadPresentation( string sFileName ):<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; SavePresentation():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; SavePresentationAs( string sFileName ):</pre>
+<pre>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; GotoPosition( int iPosition ):<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; PlayFrom( int iFromDiaNo ):<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; Play():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; Stop():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; Pause():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; Continue():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; IsPlayModus():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; IsPauseModus():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; IsEditModus():<br>&nbsp;&nbsp;&nbsp; string GetPlayModusStrg():</pre>
+<pre>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; IsSimulation():<br>&nbsp;&nbsp;&nbsp; void&nbsp;&nbsp; SetSimulation( bool bSimulation ):</pre>
+<pre>##############################################################</pre>
+<pre>class IDia</pre>
+<pre>&nbsp;&nbsp;&nbsp; double GetTotalTime():<br><br>&nbsp;&nbsp;&nbsp; double GetShowTime():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; SetShowTime( double dVal ):<br>&nbsp;&nbsp;&nbsp; double GetDissolveTime():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; SetDissolveTime( double dVal ):<br><br>&nbsp;&nbsp;&nbsp; string GetId() const:<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; SetId( string sId ):<br>&nbsp;&nbsp;&nbsp; string GetComment():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; SetComment( string sComment ):<br>&nbsp;&nbsp;&nbsp; string GetImageFile():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; SetImageFile( string sFileName ):<br>&nbsp;&nbsp;&nbsp; string GetScript():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; SetScript( string sScript ):<br>&nbsp;&nbsp;&nbsp; bool   GetHorizontalFormat():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; SetHorizontalFormat( bool bHorizontal ):<br></pre>
+<pre>##############################################################</pre>
+<pre>class IDiaOutputWindow</pre>
+<pre>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; IsValid():</pre>
+<pre>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; Show():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; Hide():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; Maximize():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; Restore():</pre>
+<pre>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; GetWidth():<br>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; GetHeight():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; SetSize( int iWidth, iHeight ):<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; SetPos( int x, int y ):<br>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; GetDrawWidth():<br>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; GetDrawHeight():</pre>
+<pre>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; Clear():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; SetColor( int iRed, int iGreen, int iBlue ):<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; SetFont( string sFontName ):<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; SetFontSize( int iSizeInPixel, bool bBold, bool bItalic ):<br>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; SetTextXY( int x, int y, string sText ):<br>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; GetTextCount():<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; MoveText( int iTextID, int x, int y ):<br>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; GetTextX( int iTextID ):<br>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; GetTextY( int iTextID ):<br>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; GetTextWidth( int iTextID ):<br>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; GetTextHeight( int iTextID ):<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; SetTextColor( int iTextID, int iRed, int iGreen, int iBlue ):<br>&nbsp;&nbsp;&nbsp; bool&nbsp;&nbsp; DeleteText( int iTextID ):</pre>
+<pre>##############################################################</pre>
+<pre>class IColor<br>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; iRed<br>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; iGreen<br>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; iBlue</pre>
+<pre>##############################################################</pre>
+<pre>class IHsv<br>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; iHue<br>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; iSaturation<br>&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; iValue</pre>
+<p><br>
+<b>Bemerkung:</b><br>
+Zur Erzeugung eines neuen Dia-Objektes nur die Methode AddNewDia an dem IDiaPresentation
+Objekt verwenden. Niemals den in Python eingebauten new-Operator nutzen!</p>
+<p><a name="BeispielDiaSkript"></a><b>Beispiel f&uuml;r ein Dia-Skript:</b>
+</p>
+<pre># script example for a slide-script<br># the variable bDissolve will be set<br># from the MinDia-Application<br><br>import mindiapy<br><br>aPres = mindiapy.GetDiaPresentation()<br>aWin = aPres.GetOutputWindow()<br><br>def Dissolve():<br>&nbsp;&nbsp;&nbsp; aWin.SetFontSize( 30 )<br>&nbsp;&nbsp;&nbsp; aWin.SetTextXY( 10, 10, "Fade In" )<br><br>def Show():<br>&nbsp;&nbsp;&nbsp; aWin.Clear()<br>&nbsp;&nbsp;&nbsp; aWin.SetFontSize( 30 )<br>&nbsp;&nbsp;&nbsp; aWin.SetTextXY( 30, 50, "Show" )<br><br>if bDissolve==1:<br>&nbsp;&nbsp;&nbsp; Dissolve()<br>else:<br>&nbsp;&nbsp;&nbsp; Show()</pre>
+<p><br>
+</p>
+<hr width="100%">
+<h3><a name="Skript-Ereignisse"></a>Skript-Ereignisse</h3>
+In einer Pr&auml;sentation k&ouml;nnen f&uuml;r verschieden Ereignisse Skripte
+hinterlegt werden, die dann ausgef&uuml;hrt werden, wenn diese Ereignisse
+auftreten. Folgende Ereignisse werden von dem Programm unterst&uuml;tzt.<br>
+&nbsp;
+<table border="1" cols="2" width="100%">
+  <tbody>
+    <tr>
+      <th>Ereignis</th>
+      <th>Bemerkung</th>
+    </tr>
+    <tr>
+      <td>Presentation_Started</td>
+      <td>Die Pr&auml;sentation soll gestartet werden. Dieses Ereignis wird
+unmittelbar vor dem Starten des Abspielens erzeugt, d.h. die Pr&auml;sentation
+wurde noch nicht gestartet.</td>
+    </tr>
+    <tr>
+      <td>Presentation_Stoped</td>
+      <td>Die Pr&auml;sentation wurde gestoppt. Dieses Ereignis wird unmittelbar
+nach dem Stoppen des Abspielens erzeugt, d.h. die Pr&auml;sentation wurde
+schon gestoppt.</td>
+    </tr>
+    <tr>
+      <td>Presentation_Paused</td>
+      <td>Die Pr&auml;sentation wird unterbrochen.</td>
+    </tr>
+    <tr>
+      <td>Presentation_Saved</td>
+      <td>Die Pr&auml;sentation wurde gespeichert. Dieses Ereigniss wird unmittelbar
+nach dem Speichern erzeugt, d.h. die Pr&auml;senation wurde schon gespeichert.</td>
+    </tr>
+    <tr>
+      <td>Presentation_Loaded</td>
+      <td>Eine neue Pr&auml;sentation wurde eingelesen. Dieses Ereigniss wird
+unmittelbar nach dem Einlesen erzeugt, d.h. die Pr&auml;senation wurde schon
+eingelesen.</td>
+    </tr>
+                    
+  </tbody>
+</table>
+<h3>
+<hr width="100%"></h3>
+<h3><a name="Plugin-Schnittstelle"></a>Plugin-Schnittstelle</h3>
+TODO !
+<h3>
+<hr width="100%"></h3>
+<h2><a name="Contribs"></a><u>Beitr&auml;ge zu diesem Projekt</u></h2>
+Die grafische Oberfl&auml;che des Programms <b><font color="#990000">MinDia
+</font></b>wurde mit dem Qt-Framework der Firma <a
+ href="http://www.trolltech.com">Trolltech</a> erzeugt.
+<p>Aus folgenden Projekten oder Quellen wurden Dateien, bzw. Funktionalit&auml;t
+verwendet, oder sie sind n&uuml;tzlich f&uuml;r die Erstellung von Dia-Show's:</p>
+<ul>
+  <li><b><a href="http://www.clinet.fi/%7Ewalker/minicom.html">minicom</a></b></li>
+                    
+  <ul>
+    <li>Konfiguration der seriellen Schnittstelle unterLinux (sysdep.h und
+sysdep1.c)</li>
+                    
+  </ul>
+  <li><b><a href="http://www.ibk.ml.org/home/vogel">kwav</a></b></li>
+                    
+  <ul>
+    <li>wav-Datei Unterst&uuml;tzung f&uuml;r Linux (wavfile.h und wavfile.cpp,
+wurde modifiziert)</li>
+                    
+  </ul>
+  <li><b><a href="http://www.voicenet.com/%7Erichgel">jpgd</a></b></li>
+        
+  <ul>
+    <li>Unterst&uuml;tzung f&uuml;r JPG-Bilder unter Windows<br>
+    </li>
+        
+  </ul>
+  <li><b><a href="#Python">Python</a></b></li>
+                    
+  <ul>
+    <li>die Skript-Sprache f&uuml;r MinDia</li>
+                    
+  </ul>
+  <li><b><a href="#SWIG">SIWG</a></b></li>
+                    
+  <ul>
+    <li>Skript Anbindung</li>
+                    
+  </ul>
+  <li><b><a href="http://www.xiph.org/paranoia/">cdparanoia</a></b></li>
+                    
+  <ul>
+    <li>Erzeugung von wav-Dateien von Audio CD's (Linux)</li>
+                    
+  </ul>
+  <li><b><a href="http://www.mp3encoder.org">LAME</a></b></li>
+                    
+  <ul>
+    <li>Erzeugung von mp3-Dateien aus wav-Dateien</li>
+                    
+  </ul>
+  <li><b><a href="http://cdexos.sourceforge.net">CDex</a></b></li>
+              
+  <ul>
+    <li>Erzeugung von wav- und mp3-Dateien von Audio CD's (Windows)</li>
+              
+  </ul>
+  <li><b><a href="http://www.mostang.com/sane">xsane</a></b></li>
+                    
+  <ul>
+    <li>Einscannen von bmp- und jpg-Dateien von Dia's.</li>
+                    
+  </ul>
+  <li><b><a href="http://www.mars.org/home/rob/proj/mpeg">madplay</a></b></li>
+              
+  <ul>
+    <li>Kommandozeilen Programm zum Abspielen von mp3-Dateien (Linux)<br>
+    </li>
+              
+  </ul>
+</ul>
+<hr width="100%">
+<h3><a name="Python"></a>Python</h3>
+Weitere Informationen &uuml;ber die bekannte Programmier-Sprache sind unter
+<a href="http://www.python.org">www.python.org</a>, und <a
+ href="http://www.pythonlabs.com">www.pythonlabs.com</a> zu finden.
+<hr width="100%">
+<h3><a name="SWIG"></a>SWIG</h3>
+Programmpaket zum Einbinden von C/C++ Funktionen in Skript-Sprachen und zum
+Einf&uuml;gen von Skript-Sprachen in Applikationen. Von SWIG werden viele
+unterschiedliche Skript-Sprachen, wie Python, Perl und Tcl, unterst&uuml;tzt.
+<p>Zu weiteren Informationen &uuml;ber SWIG siehe <a
+ href="http://www.swig.org">www.swig.org</a>.</p>
+<br>
+<br>
+<br>
+<br>
+</body>
+</html>

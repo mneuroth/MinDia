@@ -1,0 +1,251 @@
+<!DOCTYPE UI><UI>
+<class>CommentDlg</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>CommentDlg</cstring>
+    </property>
+    <property>
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>527</width>
+            <height>360</height>
+        </rect>
+    </property>
+    <property>
+        <name>sizePolicy</name>
+        <sizepolicy>
+            <hsizetype>5</hsizetype>
+            <vsizetype>5</vsizetype>
+        </sizepolicy>
+    </property>
+    <property>
+        <name>minimumSize</name>
+        <size>
+            <width>0</width>
+            <height>0</height>
+        </size>
+    </property>
+    <property>
+        <name>maximumSize</name>
+        <size>
+            <width>32767</width>
+            <height>32767</height>
+        </size>
+    </property>
+    <property>
+        <name>caption</name>
+        <string>Modify comments</string>
+    </property>
+    <property>
+        <name>sizeGripEnabled</name>
+        <bool>true</bool>
+    </property>
+    <property>
+        <name>layoutMargin</name>
+    </property>
+    <property>
+        <name>layoutSpacing</name>
+    </property>
+    <widget>
+        <class>QTable</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>m_pTable</cstring>
+        </property>
+        <property>
+            <name>geometry</name>
+            <rect>
+                <x>11</x>
+                <y>11</y>
+                <width>509</width>
+                <height>304</height>
+            </rect>
+        </property>
+        <property>
+            <name>numRows</name>
+            <number>3</number>
+        </property>
+        <property>
+            <name>numCols</name>
+            <number>3</number>
+        </property>
+    </widget>
+    <widget>
+        <class>QLayoutWidget</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>Layout2</cstring>
+        </property>
+        <property>
+            <name>geometry</name>
+            <rect>
+                <x>12</x>
+                <y>320</y>
+                <width>510</width>
+                <height>28</height>
+            </rect>
+        </property>
+        <hbox>
+            <property>
+                <name>margin</name>
+                <number>0</number>
+            </property>
+            <property>
+                <name>spacing</name>
+                <number>6</number>
+            </property>
+            <widget>
+                <class>QPushButton</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>m_pNewLine</cstring>
+                </property>
+                <property>
+                    <name>text</name>
+                    <string>&amp;New Line</string>
+                </property>
+                <property>
+                    <name>autoDefault</name>
+                    <bool>true</bool>
+                </property>
+            </widget>
+            <widget>
+                <class>QPushButton</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>m_pDeleteLine</cstring>
+                </property>
+                <property>
+                    <name>text</name>
+                    <string>&amp;Delete Line</string>
+                </property>
+                <property>
+                    <name>autoDefault</name>
+                    <bool>true</bool>
+                </property>
+            </widget>
+            <widget>
+                <class>QPushButton</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>m_pSort</cstring>
+                </property>
+                <property>
+                    <name>text</name>
+                    <string>&amp;Sort</string>
+                </property>
+            </widget>
+            <spacer>
+                <property>
+                    <name>name</name>
+                    <cstring>Spacer19</cstring>
+                </property>
+                <property>
+                    <name>orientation</name>
+                    <enum>Horizontal</enum>
+                </property>
+                <property>
+                    <name>sizeType</name>
+                    <enum>Expanding</enum>
+                </property>
+                <property>
+                    <name>sizeHint</name>
+                    <size>
+                        <width>20</width>
+                        <height>20</height>
+                    </size>
+                </property>
+            </spacer>
+            <widget>
+                <class>QPushButton</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>buttonOk</cstring>
+                </property>
+                <property>
+                    <name>text</name>
+                    <string>&amp;OK</string>
+                </property>
+                <property>
+                    <name>autoDefault</name>
+                    <bool>true</bool>
+                </property>
+                <property>
+                    <name>default</name>
+                    <bool>false</bool>
+                </property>
+            </widget>
+            <widget>
+                <class>QPushButton</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>buttonCancel</cstring>
+                </property>
+                <property>
+                    <name>text</name>
+                    <string>&amp;Cancel</string>
+                </property>
+                <property>
+                    <name>autoDefault</name>
+                    <bool>true</bool>
+                </property>
+            </widget>
+        </hbox>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>CommentDlg</receiver>
+        <slot>sltCloseDialog()</slot>
+    </connection>
+    <connection>
+        <sender>buttonCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>CommentDlg</receiver>
+        <slot>sltDialogCanceled()</slot>
+    </connection>
+    <connection>
+        <sender>m_pDeleteLine</sender>
+        <signal>clicked()</signal>
+        <receiver>CommentDlg</receiver>
+        <slot>sltDeleteRow()</slot>
+    </connection>
+    <connection>
+        <sender>m_pNewLine</sender>
+        <signal>clicked()</signal>
+        <receiver>CommentDlg</receiver>
+        <slot>sltNewRow()</slot>
+    </connection>
+    <connection>
+        <sender>m_pTable</sender>
+        <signal>selectionChanged()</signal>
+        <receiver>CommentDlg</receiver>
+        <slot>sltTableSelectionChanged()</slot>
+    </connection>
+    <connection>
+        <sender>m_pTable</sender>
+        <signal>valueChanged(int,int)</signal>
+        <receiver>CommentDlg</receiver>
+        <slot>sltValueChanged( int, int )</slot>
+    </connection>
+    <connection>
+        <sender>m_pSort</sender>
+        <signal>clicked()</signal>
+        <receiver>CommentDlg</receiver>
+        <slot>sltSortTable()</slot>
+    </connection>
+    <slot access="public">sltSortTable()</slot>
+    <slot access="public">sltCloseDialog()</slot>
+    <slot access="public">sltDeleteRow()</slot>
+    <slot access="public">sltDialogCanceled()</slot>
+    <slot access="public">sltNewRow()</slot>
+    <slot access="public">sltTableSelectionChanged()</slot>
+    <slot access="public">sltValueChanged( int, int )</slot>
+</connections>
+</UI>

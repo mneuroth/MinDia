@@ -1,0 +1,135 @@
+//*************************************************************************
+/* XPM */
+/* XPM */
+static const char *fileopen[] = {
+"    16    13        5            1",
+". c #040404",
+"# c #808304",
+"a c #bfc2bf",
+"b c #f3f704",
+"c c #f3f7f3",
+"aaaaaaaaa...aaaa",
+"aaaaaaaa.aaa.a.a",
+"aaaaaaaaaaaaa..a",
+"a...aaaaaaaa...a",
+".bcb.......aaaaa",
+".cbcbcbcbc.aaaaa",
+".bcbcbcbcb.aaaaa",
+".cbcb...........",
+".bcb.#########.a",
+".cb.#########.aa",
+".b.#########.aaa",
+"..#########.aaaa",
+"...........aaaaa"
+};
+
+/* XPM */
+static const char *filesave[] = {
+"    14    14        3            1",
+". c #040404",
+"# c #808304",
+"a c #bfc2bf",
+"..............",
+".#.aaaaaaaa.a.",
+".#.aaaaaaaa...",
+".#.aaaaaaaa.#.",
+".#.aaaaaaaa.#.",
+".#.aaaaaaaa.#.",
+".#.aaaaaaaa.#.",
+".##........##.",
+".############.",
+".##.........#.",
+".##......aa.#.",
+".##......aa.#.",
+".##......aa.#.",
+"a............."
+};
+
+/* XPM */
+static const char *runscript[] = {
+"    14    14        3            1",
+"a c #008000",
+"# c #808304",
+". c #bfc2bf",
+"..............",
+"..............",
+"..aa..........",
+"..aaaa........",
+"..aaaaaa......",
+"..aaaaaaaa....",
+"..aaaaaaaaaa..",
+"..aaaaaaaaaa..",
+"..aaaaaaaa....",
+"..aaaaaa......",
+"..aaaa........",
+"..aa..........",
+"..............",
+".............."
+};
+
+
+/* XPM */
+static const char *pausescript[] = {
+"    14    14        3            1",
+"a c #000080",
+"# c #808304",
+". c #bfc2bf",
+"..............",
+"..aaaa...aaaa.",
+"..aaaa...aaaa.",
+"..aaaa...aaaa.",
+"..aaaa...aaaa.",
+"..aaaa...aaaa.",
+"..aaaa...aaaa.",
+"..aaaa...aaaa.",
+"..aaaa...aaaa.",
+"..aaaa...aaaa.",
+"..aaaa...aaaa.",
+"..aaaa...aaaa.",
+"..aaaa...aaaa.",
+".............."
+};
+
+/* XPM */
+static const char *stopscript[] = {
+"    14    14        3            1",
+"a c #800000",
+"# c #808304",
+". c #bfc2bf",
+"..............",
+"..............",
+"...aaaaaaaaa..",
+"...aaaaaaaaa..",
+"...aaaaaaaaa..",
+"...aaaaaaaaa..",
+"...aaaaaaaaa..",
+"...aaaaaaaaa..",
+"...aaaaaaaaa..",
+"...aaaaaaaaa..",
+"...aaaaaaaaa..",
+"...aaaaaaaaa..",
+"..............",
+".............."
+};
+
+/* XPM */
+static const char *mindia_icon[] = {
+"    14    14        3            1",
+"a c #0000ff",
+"# c #808304",
+". c #bfc2bf",
+"..............",
+"..aaaa..aaaa..",
+"..aaaa..aaaa..",
+"...aa....aa...",
+"..aaaaaaaaaa..",
+"..aaaaaaaaaa..",
+"..aaaaaaaaaa..",
+"..aaaaaaaaaa..",
+"..aaaaaaaaaa..",
+"..aaaaaaaaaa..",
+"..aaaaaaaaaa..",
+"..aaaaaaaaaa..",
+"..aaaaaaaaaa..",
+".............."
+};

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Comment=A player for MinDia data
+Exec=zmindia
+Icon=Zmindia
+Type=Application
+Name=ZMinDia
+Name[de]=ZMinDia

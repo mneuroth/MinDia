@@ -1,0 +1,346 @@
+<!DOCTYPE UI><UI>
+<class>SoundInfoDlg</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>SoundInfoDlg</cstring>
+    </property>
+    <property>
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>576</width>
+            <height>370</height>
+        </rect>
+    </property>
+    <property>
+        <name>sizePolicy</name>
+        <sizepolicy>
+            <hsizetype>5</hsizetype>
+            <vsizetype>5</vsizetype>
+        </sizepolicy>
+    </property>
+    <property>
+        <name>minimumSize</name>
+        <size>
+            <width>0</width>
+            <height>0</height>
+        </size>
+    </property>
+    <property>
+        <name>maximumSize</name>
+        <size>
+            <width>32767</width>
+            <height>32767</height>
+        </size>
+    </property>
+    <property>
+        <name>caption</name>
+        <string>Sound Info</string>
+    </property>
+    <property>
+        <name>sizeGripEnabled</name>
+        <bool>true</bool>
+    </property>
+    <grid>
+        <property>
+            <name>margin</name>
+            <number>11</number>
+        </property>
+        <property>
+            <name>spacing</name>
+            <number>6</number>
+        </property>
+        <widget row="0"  column="0"  rowspan="1"  colspan="2" >
+            <class>QTable</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pTable</cstring>
+            </property>
+            <property>
+                <name>numRows</name>
+                <number>3</number>
+            </property>
+            <property>
+                <name>numCols</name>
+                <number>5</number>
+            </property>
+        </widget>
+        <widget row="1"  column="1" >
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout18</cstring>
+            </property>
+            <hbox>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <spacer>
+                    <property>
+                        <name>name</name>
+                        <cstring>Spacer22</cstring>
+                    </property>
+                    <property>
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property>
+                        <name>sizeType</name>
+                        <enum>Expanding</enum>
+                    </property>
+                    <property>
+                        <name>sizeHint</name>
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget>
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>m_pTotalPlayTimeLabel</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>Total play time [min:sec]:</string>
+                    </property>
+                    <property>
+                        <name>alignment</name>
+                        <set>AlignVCenter|AlignRight</set>
+                    </property>
+                    <property>
+                        <name>hAlign</name>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>m_pTotalPlayTime</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>   </string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget row="1"  column="0"  rowspan="2"  colspan="1" >
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout4</cstring>
+            </property>
+            <vbox>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>m_pLineUp</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Up</string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>m_pLineDown</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Down</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget row="2"  column="1" >
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout5</cstring>
+            </property>
+            <hbox>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>m_pNewLine</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;New Line</string>
+                    </property>
+                    <property>
+                        <name>autoDefault</name>
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>m_pDeleteLine</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Delete Line</string>
+                    </property>
+                    <property>
+                        <name>autoDefault</name>
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <spacer>
+                    <property>
+                        <name>name</name>
+                        <cstring>Spacer1</cstring>
+                    </property>
+                    <property>
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property>
+                        <name>sizeType</name>
+                        <enum>Expanding</enum>
+                    </property>
+                    <property>
+                        <name>sizeHint</name>
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>buttonOk</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;OK</string>
+                    </property>
+                    <property>
+                        <name>autoDefault</name>
+                        <bool>true</bool>
+                    </property>
+                    <property>
+                        <name>default</name>
+                        <bool>false</bool>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>buttonCancel</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Cancel</string>
+                    </property>
+                    <property>
+                        <name>autoDefault</name>
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>SoundInfoDlg</receiver>
+        <slot>sltCloseDialog()</slot>
+    </connection>
+    <connection>
+        <sender>buttonCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>SoundInfoDlg</receiver>
+        <slot>sltDialogCanceled()</slot>
+    </connection>
+    <connection>
+        <sender>m_pNewLine</sender>
+        <signal>clicked()</signal>
+        <receiver>SoundInfoDlg</receiver>
+        <slot>sltNewRow()</slot>
+    </connection>
+    <connection>
+        <sender>m_pDeleteLine</sender>
+        <signal>clicked()</signal>
+        <receiver>SoundInfoDlg</receiver>
+        <slot>sltDeleteRow()</slot>
+    </connection>
+    <connection>
+        <sender>m_pTable</sender>
+        <signal>valueChanged(int,int)</signal>
+        <receiver>SoundInfoDlg</receiver>
+        <slot>sltValueChanged( int, int )</slot>
+    </connection>
+    <connection>
+        <sender>m_pTable</sender>
+        <signal>selectionChanged()</signal>
+        <receiver>SoundInfoDlg</receiver>
+        <slot>sltTableSelectionChanged()</slot>
+    </connection>
+    <connection>
+        <sender>m_pLineUp</sender>
+        <signal>clicked()</signal>
+        <receiver>SoundInfoDlg</receiver>
+        <slot>sltRowUp()</slot>
+    </connection>
+    <connection>
+        <sender>m_pLineDown</sender>
+        <signal>clicked()</signal>
+        <receiver>SoundInfoDlg</receiver>
+        <slot>sltRowDown()</slot>
+    </connection>
+    <slot access="public">sltRowDown()</slot>
+    <slot access="public">sltCloseDialog()</slot>
+    <slot access="public">sltDeleteRow()</slot>
+    <slot access="public">sltDialogCanceled()</slot>
+    <slot access="public">sltNewRow()</slot>
+    <slot access="public">sltRowUp()</slot>
+    <slot access="public">sltTableSelectionChanged()</slot>
+    <slot access="public">sltValueChanged( int, int )</slot>
+</connections>
+<tabstops>
+    <tabstop>m_pTable</tabstop>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>buttonCancel</tabstop>
+    <tabstop>m_pNewLine</tabstop>
+    <tabstop>m_pDeleteLine</tabstop>
+</tabstops>
+</UI>

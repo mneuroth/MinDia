@@ -1,0 +1,599 @@
+<!DOCTYPE UI><UI>
+<class>ConfigurationDlg</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>ConfigurationDlg</cstring>
+    </property>
+    <property stdset="1">
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>215</width>
+            <height>244</height>
+        </rect>
+    </property>
+    <property stdset="1">
+        <name>sizePolicy</name>
+        <sizepolicy>
+            <hsizetype>5</hsizetype>
+            <vsizetype>5</vsizetype>
+        </sizepolicy>
+    </property>
+    <property stdset="1">
+        <name>minimumSize</name>
+        <size>
+            <width>0</width>
+            <height>0</height>
+        </size>
+    </property>
+    <property stdset="1">
+        <name>maximumSize</name>
+        <size>
+            <width>32767</width>
+            <height>32767</height>
+        </size>
+    </property>
+    <property stdset="1">
+        <name>caption</name>
+        <string>Configuration</string>
+    </property>
+    <widget>
+        <class>QButtonGroup</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>m_pProjectorType</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>1</x>
+                <y>-1</y>
+                <width>211</width>
+                <height>39</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>title</name>
+            <string>Projector type</string>
+        </property>
+        <widget>
+            <class>QRadioButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pDigitalTwinP</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>6</x>
+                    <y>16</y>
+                    <width>100</width>
+                    <height>17</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>&amp;Twin digital P</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QRadioButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pMSC300P</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>110</x>
+                    <y>16</y>
+                    <width>92</width>
+                    <height>17</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>&amp;MSC 3x0 P</string>
+            </property>
+        </widget>
+    </widget>
+    <widget>
+        <class>QGroupBox</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>m_pComPortGroup</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>1</x>
+                <y>37</y>
+                <width>210</width>
+                <height>163</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>title</name>
+            <string>Com port settings</string>
+        </property>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pComPortLabel</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>12</x>
+                    <y>16</y>
+                    <width>95</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Port:</string>
+            </property>
+            <property stdset="1">
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pBaudRateLabel</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>12</x>
+                    <y>40</y>
+                    <width>95</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Baudrate:</string>
+            </property>
+            <property stdset="1">
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pDataBitsLabel</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>12</x>
+                    <y>64</y>
+                    <width>95</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Databits:</string>
+            </property>
+            <property stdset="1">
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pStopBitsLabel</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>12</x>
+                    <y>88</y>
+                    <width>95</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Stopbits:</string>
+            </property>
+            <property stdset="1">
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pParityLabel</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>12</x>
+                    <y>112</y>
+                    <width>95</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Parity:</string>
+            </property>
+            <property stdset="1">
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pFlowControlLabel</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>12</x>
+                    <y>136</y>
+                    <width>95</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Flowcontrol:</string>
+            </property>
+            <property stdset="1">
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pWriteTimeoutLabel</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>3</x>
+                    <y>184</y>
+                    <width>104</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Write-timeout [ms]:</string>
+            </property>
+            <property stdset="1">
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget>
+            <class>QComboBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pComPortList</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>113</x>
+                    <y>15</y>
+                    <width>91</width>
+                    <height>22</height>
+                </rect>
+            </property>
+        </widget>
+        <widget>
+            <class>QLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pWriteTimeout</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>113</x>
+                    <y>183</y>
+                    <width>79</width>
+                    <height>22</height>
+                </rect>
+            </property>
+        </widget>
+        <widget>
+            <class>QComboBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pDataBitsList</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>113</x>
+                    <y>63</y>
+                    <width>81</width>
+                    <height>22</height>
+                </rect>
+            </property>
+        </widget>
+        <widget>
+            <class>QComboBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pStopBitsList</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>113</x>
+                    <y>87</y>
+                    <width>81</width>
+                    <height>22</height>
+                </rect>
+            </property>
+        </widget>
+        <widget>
+            <class>QComboBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pParityList</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>113</x>
+                    <y>111</y>
+                    <width>81</width>
+                    <height>22</height>
+                </rect>
+            </property>
+        </widget>
+        <widget>
+            <class>QComboBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pFlowControlList</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>113</x>
+                    <y>135</y>
+                    <width>81</width>
+                    <height>22</height>
+                </rect>
+            </property>
+        </widget>
+        <widget>
+            <class>QComboBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pBaudRateList</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>113</x>
+                    <y>39</y>
+                    <width>81</width>
+                    <height>22</height>
+                </rect>
+            </property>
+        </widget>
+        <widget>
+            <class>QLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pReadTimeout</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>113</x>
+                    <y>163</y>
+                    <width>79</width>
+                    <height>22</height>
+                </rect>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pReadTimeoutLabel</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>2</x>
+                    <y>163</y>
+                    <width>105</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Read-timeout [ms]:</string>
+            </property>
+            <property stdset="1">
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+    </widget>
+    <widget>
+        <class>QGroupBox</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>m_pModusGroup</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>2</x>
+                <y>199</y>
+                <width>104</width>
+                <height>39</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>title</name>
+            <string>Modus</string>
+        </property>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pExecuteEvents</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>8</x>
+                    <y>41</y>
+                    <width>89</width>
+                    <height>17</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>&amp;Execute sript events</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pSimulation</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>8</x>
+                    <y>15</y>
+                    <width>88</width>
+                    <height>17</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>&amp;Simulation</string>
+            </property>
+        </widget>
+    </widget>
+    <widget>
+        <class>QGroupBox</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>m_pDebugGroup</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>112</x>
+                <y>199</y>
+                <width>99</width>
+                <height>39</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>title</name>
+            <string>Debug</string>
+        </property>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pDbgLogging</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>12</x>
+                    <y>15</y>
+                    <width>77</width>
+                    <height>17</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>&amp;Logging</string>
+            </property>
+        </widget>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>m_pSimulation</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>ConfigurationDlg</receiver>
+        <slot>sltSimulationToggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>m_pDbgLogging</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>ConfigurationDlg</receiver>
+        <slot>sltDebugLoggingToggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>m_pDigitalTwinP</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>ConfigurationDlg</receiver>
+        <slot>sltTwinDigitalPToggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>m_pMSC300P</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>ConfigurationDlg</receiver>
+        <slot>sltMSC300PToggled(bool)</slot>
+    </connection>
+    <slot access="public">sltMSC300PToggled(bool)</slot>
+    <slot access="public">sltCloseDialog()</slot>
+    <slot access="public">sltDebugLoggingToggled(bool)</slot>
+    <slot access="public">sltSimulationToggled(bool)</slot>
+    <slot access="public">sltTwinDigitalPToggled(bool)</slot>
+</connections>
+</UI>

@@ -1,0 +1,42 @@
+change history of MinDia
+========================
+
+------------------------------------------------------------------------------
+22. 6.2003  Version 0.97.1 released
+
+            new features:
+              * dissolving of images in play info dialog implemented
+			  * menupoint for testing of image dissolving implemented
+			  * drag and drop support (for images, data-files, texts)
+			  * dynamic graphic operations implemented (for viewing texts)
+			  * play info dialog supports fullscreen modus
+			  * script support improved: a lot of new functions introduced
+              * script dialog to modify scripts improved
+			  * scripts for every slide are now possible 
+			    (can be used to display text in images)
+			  * support for Rolleivision MSC twin 3x0 P implemented
+			  * several context menus introduced
+			  * saving of images supported
+			  * XML export
+			  * commandline option -autorun implemented
+			  * online documentation improved
+            bugfixes and improvements:
+			  * realtime support of the play modus improved
+			  * locking for multithreading environment implemented
+			  * repaint handling improved
+			  * communiction with com-port now more robust (windows)
+			  * better sound support (windows)
+			linux version only
+			  * script module (libmindiapyc.so) is now linked statically to the application
+			  * autoconf support improved: tmake/qmake will be detected
+			  * linking with qt-mt
+			  * mp3 support (via external mp3-player)
+			  * Qt version 3.x supported
+            windows version only
+			  * python 2.2.2 used
+			  * jpg-image support added
+
+------------------------------------------------------------------------------
+12. 2.2002  Version 0.96.21 (beta)
+
+			first public release of MinDia

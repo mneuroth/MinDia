@@ -1,0 +1,78 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Michael Neuroth">
+   <meta name="GENERATOR" content="Mozilla/4.75 [de] (Windows NT 5.0; U) [Netscape]">
+   <title>FAQ f&uuml;r MinDia</title>
+</head>
+<body>
+
+<center>
+<h1>
+<a NAME="FAQ"></a><u>FAQ f&uuml;r MinDia</u></h1></center>
+
+<ul>
+<li>
+<b><i>Wie erstellt man einen Diavortrag, der aus mehreren Dia-Magazinen
+besteht?</i></b></li>
+
+<ul>
+<li>
+Erstelle eine Diavortrag-Datei f&uuml;r jedes Magazin</li>
+
+<li>
+Verbinde die Einzelvortr&auml;ge mit Hilfe von Skripten (d.h. im Stop-Event
+wird die Nachfolge-Pr&auml;sentation geladen (<font face="Courier New,Courier">LoadPresentation()</font>)
+und im Load-Event der Nachfolge-Pr&auml;sentation wird die neue Pr&auml;sentation
+abgespielt (<font face="Courier New,Courier">Play()</font>).</li>
+</ul>
+
+<li>
+<b><i>Wie kann man die Dias mit der Musik synchron starten?</i></b></li>
+
+<ul>
+<li>
+Da Vortrag mit dem ersten Dia synchron startet, funktioniert dadurch die
+Synchronistion mit der Sound nicht, daher das erste Dia immer ohne Sound
+starten (z.B. Intro-Bild mit Thema des Vortrages, oder schwarzes Dia).</li>
+
+<li>
+Die Musik startet dann NACH dem Einblenden des ersten Dias !</li>
+</ul>
+
+<li>
+<b><i>Die Musik und Diawechsel laufen nicht synchron wie in der Pr&auml;sentation
+angegeben?</i></b></li>
+
+<ul>
+<li>
+Die minimale Dia-Standzeit mu&szlig; 4.5 Sekunden betragen (wegen Dia Transport
+!), ansonsten kommt das Kommando zum Diawechsel verz&ouml;gert.</li>
+</ul>
+
+<li>
+<b><i>Wie kann man die Ausblendzeit f&uuml;r das letzte Dia einer Pr&auml;sentation
+angeben?</i></b></li>
+
+<ul>
+<li>
+Zur Ausblendezeit des 50ten Dias einfach ein 51. Dia hinzufuegen und eine
+Dissolve-Zeit angeben, diese wird dann zum ausblenden verwendet, der Projektor
+erkennt, dass danach kein Dia mehr kommt und schaltet automatisch auf dunkel
+!</li>
+</ul>
+
+<li>
+<b><i>Wie lauten die Standardwerte f&uuml;r die serielle Schnittstelle
+(RS232)?</i></b></li>
+
+<ul>
+<li>
+COM1, Baud=1200, Parity=even, Stopbits=2, Databits=7, Handshake=Hardware</li>
+
+<br>&nbsp;</ul>
+</ul>
+
+</body>
+</html>

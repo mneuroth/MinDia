@@ -1,0 +1,54 @@
+<html>
+<body>
+<pre>
+<h1>Erstellungsprotokoll</h1>
+<h3>
+--------------------Konfiguration: jpgdlib - Win32 Debug--------------------
+</h3>
+<h3>Befehlszeilen</h3>
+Erstellen der temporären Datei  "D:\DOKUME~1\min\LOKALE~1\Temp\RSP92E.tmp" mit Inhalten
+[
+/MD /W3 /Gm /GX /ZI /Od /I "..\inc" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\h2v2.cpp"
+]
+Creating command line "cl.exe @D:\DOKUME~1\min\LOKALE~1\Temp\RSP92E.tmp" 
+Erstellen der temporären Datei  "D:\DOKUME~1\min\LOKALE~1\Temp\RSP92F.tmp" mit Inhalten
+[
+/MD /W3 /Gm /GX /ZI /Od /I "..\inc" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_USE_NON_INTEL_COMPILER" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\idct.cpp"
+"E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\jidctfst.cpp"
+"E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\jpegdecoder.cpp"
+]
+Creating command line "cl.exe @D:\DOKUME~1\min\LOKALE~1\Temp\RSP92F.tmp" 
+Erstellen der Befehlzeile "link.exe -lib /nologo /out:"..\lib\jpgdlib_d.lib"  .\Debug\h2v2.obj .\Debug\idct.obj .\Debug\jidctfst.obj .\Debug\jpegdecoder.obj "
+<h3>Ausgabefenster</h3>
+Kompilierung läuft...
+Optimierender Microsoft (R) 32-Bit C/C++-Compiler, Version 12.00.8804, fuer x86
+Copyright (C) Microsoft Corp 1984-1998. Alle Rechte vorbehalten.
+
+cl /MD /W3 /Gm /GX /ZI /Od /I "..\inc" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+   "E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\h2v2.cpp"
+
+h2v2.cpp
+Kompilierung läuft...
+Optimierender Microsoft (R) 32-Bit C/C++-Compiler, Version 12.00.8804, fuer x86
+Copyright (C) Microsoft Corp 1984-1998. Alle Rechte vorbehalten.
+
+cl /MD /W3 /Gm /GX /ZI /Od /I "..\inc" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_USE_NON_INTEL_COMPILER" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+   "E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\idct.cpp"
+   "E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\jidctfst.cpp"
+   "E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\jpegdecoder.cpp"
+
+idct.cpp
+jidctfst.cpp
+jpegdecoder.cpp
+Generieren von Code...
+Bibliothek wird erstellt...
+
+
+
+<h3>Ergebnisse</h3>
+jpgdlib_d.lib - 0 Fehler, 0 Warnung(en)
+</pre>
+</body>
+</html>

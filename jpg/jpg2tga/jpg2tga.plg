@@ -1,0 +1,99 @@
+<html>
+<body>
+<pre>
+<h1>Erstellungsprotokoll</h1>
+<h3>
+--------------------Konfiguration: jpgdlib - Win32 Release--------------------
+</h3>
+<h3>Befehlszeilen</h3>
+Erstellen der temporären Datei  "D:\DOKUME~1\min\LOKALE~1\Temp\RSP37.tmp" mit Inhalten
+[
+/ML /W3 /GX /O2 /Ob2 /I "..\inc" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /Fp"Release/jpgdlib.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\h2v2.cpp"
+]
+Creating command line "cl.exe @D:\DOKUME~1\min\LOKALE~1\Temp\RSP37.tmp" 
+Erstellen der temporären Datei  "D:\DOKUME~1\min\LOKALE~1\Temp\RSP38.tmp" mit Inhalten
+[
+/ML /W3 /GX /O2 /Ob2 /I "..\inc" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_USE_NON_INTEL_COMPILER" /Fp"Release/jpgdlib.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\idct.cpp"
+"E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\jidctfst.cpp"
+"E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\jpegdecoder.cpp"
+]
+Creating command line "cl.exe @D:\DOKUME~1\min\LOKALE~1\Temp\RSP38.tmp" 
+Erstellen der Befehlzeile "link.exe -lib /nologo /out:"..\lib\jpgdlib.lib"  .\Release\h2v2.obj .\Release\idct.obj .\Release\jidctfst.obj .\Release\jpegdecoder.obj "
+<h3>Ausgabefenster</h3>
+Kompilierung läuft...
+Optimierender Microsoft (R) 32-Bit C/C++-Compiler, Version 12.00.8804, fuer x86
+Copyright (C) Microsoft Corp 1984-1998. Alle Rechte vorbehalten.
+
+cl /ML /W3 /GX /O2 /Ob2 /I "..\inc" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /Fp"Release/jpgdlib.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+   "E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\h2v2.cpp"
+
+h2v2.cpp
+Hinweis: Erstellen von vorkompilierter Header-Datei Release/jpgdlib.pch
+Kompilierung läuft...
+Optimierender Microsoft (R) 32-Bit C/C++-Compiler, Version 12.00.8804, fuer x86
+Copyright (C) Microsoft Corp 1984-1998. Alle Rechte vorbehalten.
+
+cl /ML /W3 /GX /O2 /Ob2 /I "..\inc" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_USE_NON_INTEL_COMPILER" /Fp"Release/jpgdlib.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+   "E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\idct.cpp"
+   "E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\jidctfst.cpp"
+   "E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\jpegdecoder.cpp"
+
+idct.cpp
+Hinweis: Erstellen von neuer vorkompilierter Header-Datei Release/jpgdlib.pch
+jidctfst.cpp
+Hinweis: Neu vorkompilierte Header-Datei Release/jpgdlib.pch mit 1 Header-Datei(en)
+jpegdecoder.cpp
+Hinweis: Verwenden von vorkompilierter Header-Datei 
+
+E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpgdlib\jpegdecoder.cpp(1039) : Warnung C4799: Funktion 'void __thiscall jpeg_decoder::process_restart(void)' hat keine EMMS-Anweisung
+Bibliothek wird erstellt...
+<h3>
+--------------------Konfiguration: jpg2tga - Win32 Release--------------------
+</h3>
+<h3>Befehlszeilen</h3>
+Erstellen der temporären Datei  "D:\DOKUME~1\min\LOKALE~1\Temp\RSP39.tmp" mit Inhalten
+[
+/ML /W3 /GX /O2 /Ob2 /I "..\inc" /D "NDEBUG" /D "WIN32" /D "_CONSOLE" /D "_MBCS" /D "_USE_NON_INTEL_COMPILER" /Fp"Release/jpg2tga.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpg2tga\jpg2tga.cpp"
+"E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpg2tga\writetga.cpp"
+]
+Creating command line "cl.exe @D:\DOKUME~1\min\LOKALE~1\Temp\RSP39.tmp" 
+Erstellen der temporären Datei  "D:\DOKUME~1\min\LOKALE~1\Temp\RSP3A.tmp" mit Inhalten
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /subsystem:console /incremental:no /pdb:"Release/jpg2tga.pdb" /machine:I386 /out:"../bin/jpg2tga.exe" 
+.\Release\jpg2tga.obj
+.\Release\writetga.obj
+\home\Entwicklung\projects\mindia\MinDia\jpg\lib\jpgdlib.lib
+]
+Erstellen der Befehlzeile "link.exe @D:\DOKUME~1\min\LOKALE~1\Temp\RSP3A.tmp"
+<h3>Ausgabefenster</h3>
+Kompilierung läuft...
+Optimierender Microsoft (R) 32-Bit C/C++-Compiler, Version 12.00.8804, fuer x86
+Copyright (C) Microsoft Corp 1984-1998. Alle Rechte vorbehalten.
+
+cl /ML /W3 /GX /O2 /Ob2 /I "..\inc" /D "NDEBUG" /D "WIN32" /D "_CONSOLE" /D "_MBCS" /D "_USE_NON_INTEL_COMPILER" /Fp"Release/jpg2tga.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+   "E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpg2tga\jpg2tga.cpp"
+   "E:\home\Entwicklung\projects\mindia\MinDia\jpg\jpg2tga\writetga.cpp"
+
+jpg2tga.cpp
+Hinweis: Erstellen von vorkompilierter Header-Datei Release/jpg2tga.pch
+writetga.cpp
+Hinweis: Erstellen von neuer vorkompilierter Header-Datei Release/jpg2tga.pch
+Linker-Vorgang läuft...
+Microsoft (R) Incremental Linker Version 6.00.8447
+Copyright (C) Microsoft Corp 1992-1998. All rights reserved.
+
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /subsystem:console /incremental:no "/pdb:Release/jpg2tga.pdb" /machine:I386 "/out:../bin/jpg2tga.exe" 
+.\Release\jpg2tga.obj 
+.\Release\writetga.obj 
+\home\Entwicklung\projects\mindia\MinDia\jpg\lib\jpgdlib.lib 
+
+
+
+<h3>Ergebnisse</h3>
+jpg2tga.exe - 0 Fehler, 0 Warnung(en)
+</pre>
+</body>
+</html>

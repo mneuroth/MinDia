@@ -1,0 +1,1753 @@
+# This is a Qt message file in .po format.  Each msgid starts with
+# a scope.  This scope should *NOT* be translated - eg. "Foo::Bar"
+# would be translated to "Pub", not "Foo::Pub".
+msgid ""
+msgstr ""
+"Project-Id-Version: example-Qt-message-extraction\n"
+"POT-Creation-Date: 1999-02-23 15:38+0200\n"
+"PO-Revision-Date: 1999-02-23 15:38+0200\n"
+"Last-Translator: \n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+
+#: AboutDlg.cpp:44
+msgid "AboutDlg::(c) 2003 by Michael Neuroth"
+msgstr ""
+
+#: AboutDlg.cpp:18
+msgid "AboutDlg::About"
+msgstr ""
+
+#: AboutDlg.cpp:36
+msgid "AboutDlg::Version 0.97.1 (3.1.2003)"
+msgstr ""
+
+#: AboutDlg.cpp:30
+msgid "AboutDlg::"
+"ZMinDia\n"
+"Player for Zaurus"
+msgstr ""
+
+#: AboutExtDlg.cpp:69
+msgid "AboutExtDlg::"
+msgstr ""
+
+#: AboutExtDlg.cpp:38
+msgid "AboutExtDlg::&About"
+msgstr ""
+
+#: AboutExtDlg.cpp:81
+msgid "AboutExtDlg::&Close"
+msgstr ""
+
+#: AboutExtDlg.cpp:58
+msgid "AboutExtDlg::&Contributions"
+msgstr ""
+
+#: AboutExtDlg.cpp:71
+msgid "AboutExtDlg::&License"
+msgstr ""
+
+#: AboutExtDlg.cpp:36
+msgid "AboutExtDlg::<br>\n<center>\n<b>MinDia</b>\n<br><br>\nver. 0.97.1 from 19.6.2003\n<br><br>\nCopyright 2001-2003 by Michael Neuroth\n<br><br>\nHomepage: <a href=\"http:mindia.sourceforge.net\"> http:mindia.sourceforge.net</a>\n<br><br>\nThis program is intented to create, modify and run multimedia slide shows on a computer. <br><br>\nThe programm supports also the direct control of Rollei dia-projectors <br>(<i>Rolleivision 35 twin digital P</i> and <i>Rollei twin MSC 3x0 P</i>).\n</center>"
+msgstr ""
+
+#: AboutExtDlg.cpp:46
+msgid "AboutExtDlg::<br>\nMichael Neuroth, \n<a href=\"mailto:mindia@users.sourceforge.net\">mindia@users.sourceforge.net</a>"
+msgstr ""
+
+#: AboutExtDlg.cpp:56
+msgid "AboutExtDlg::<br>\nMinDia would not existing without this software:\n<ul>\n<li><b>Qt</b> from Trolltech</li>\n</ul>\n<p>\nMinDia is using code from this projects:\n<ul>\n<li><b>minicom</b>: com-port support for linux --> sysdep.h, sysdep1.c</li>\n<li><b>kwav</b>: wav-file import, wav-file playing for linux --> wavfile.h, wavfile.cpp (modified)</li>\n<li><b>jpgd</b>: Small JPEG Decoder Library v0.93b for jpg-image support for Windows</li>\n<li><b>Python</b>: the script-language for this application</li>\n<li><b>SWIG</b>: for python (and other script languages) bindings</li>\n</ul>\n<p>\nOther usefull programs to create a multimedia slide show:\n<ul>\n<li><b>xsane</b>: for scanning images</li>\n<li><b>cdparanoia</b>: for wav-file generation from audio cd's (Linux)</li>\n<li><b>LAME</b>: for mp3-file encoding from wav-files</li>\n<li><b>CDex</b>: for wav- and mp3-file creation from audiao cd's (Windows)</li>\n<li><b>madplay</b>: a command-line mp3-player (Linux)</li>\n</ul>"
+msgstr ""
+
+#: AboutExtDlg.cpp:48
+msgid "AboutExtDlg::A&uthor"
+msgstr ""
+
+#: AboutExtDlg.cpp:20
+msgid "AboutExtDlg::About MinDia"
+msgstr ""
+
+#: ComLoggingDlg.cpp:36
+msgid "ComLoggingDialog::&Close"
+msgstr ""
+
+#: ComLoggingDlg.cpp:41
+msgid "ComLoggingDialog::Clear &Output"
+msgstr ""
+
+#: ComLoggingDlg.cpp:21
+msgid "ComLoggingDialog::Logging"
+msgstr ""
+
+#: CommentDlg.cpp:58
+msgid "CommentDlg::&Cancel"
+msgstr ""
+
+#: CommentDlg.cpp:41
+msgid "CommentDlg::&Delete Line"
+msgstr ""
+
+#: CommentDlg.cpp:36
+msgid "CommentDlg::&New Line"
+msgstr ""
+
+#: CommentDlg.cpp:52
+msgid "CommentDlg::&OK"
+msgstr ""
+
+#: CommentDlg.cpp:46
+msgid "CommentDlg::&Sort"
+msgstr ""
+
+#: CommentDlg.cpp:21
+msgid "CommentDlg::Modify comments"
+msgstr ""
+
+#: ZConfigPlayerDlg.cpp:33
+msgid "ConfigPlayerDlg::&Cancel"
+msgstr ""
+
+#: ZConfigPlayerDlg.cpp:29
+msgid "ConfigPlayerDlg::&Ok"
+msgstr ""
+
+#: ZConfigPlayerDlg.cpp:20
+msgid "ConfigPlayerDlg::Player Configuration"
+msgstr ""
+
+#: ZConfigPlayerDlg.cpp:40
+msgid "ConfigPlayerDlg::mp3 player settings"
+msgstr ""
+
+#: ConfigPlayerDlg.cpp:52
+msgid "ConfigPlayerDlg::mp3 player settings:"
+msgstr ""
+
+#: ConfigPlayerDlg.cpp:48
+msgid "ConfigPlayerDlg::mp3 player:"
+msgstr ""
+
+#: ZConfigPlayerDlg.cpp:44
+msgid "ConfigPlayerDlg::player:"
+msgstr ""
+
+#: ZConfigPlayerDlg.cpp:48
+msgid "ConfigPlayerDlg::settings:"
+msgstr ""
+
+#: ConfigurationDlg.cpp:35
+msgid "ConfigurationDlg::&Cancel"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:114
+msgid "ConfigurationDlg::&Execute sript events"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:126
+msgid "ConfigurationDlg::&Logging"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:38
+msgid "ConfigurationDlg::&MSC 3x0 P"
+msgstr ""
+
+#: ConfigurationDlg.cpp:31
+msgid "ConfigurationDlg::&Ok"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:118
+msgid "ConfigurationDlg::&Simulation"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:34
+msgid "ConfigurationDlg::&Twin digital P"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:51
+msgid "ConfigurationDlg::Baudrate:"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:42
+msgid "ConfigurationDlg::Com port settings"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:26
+msgid "ConfigurationDlg::Configuration"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:56
+msgid "ConfigurationDlg::Databits:"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:122
+msgid "ConfigurationDlg::Debug"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:71
+msgid "ConfigurationDlg::Flowcontrol:"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:110
+msgid "ConfigurationDlg::Modus"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:66
+msgid "ConfigurationDlg::Parity:"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:46
+msgid "ConfigurationDlg::Port:"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:30
+msgid "ConfigurationDlg::Projector type"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:105
+msgid "ConfigurationDlg::Read-timeout [ms]:"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:61
+msgid "ConfigurationDlg::Stopbits:"
+msgstr ""
+
+#: ZConfigurationDlg.cpp:76
+msgid "ConfigurationDlg::Write-timeout [ms]:"
+msgstr ""
+
+#: configdlgimpl.cpp:150
+msgid "ConfigurationDlgImpl::XON/XOFF"
+msgstr ""
+
+#: configdlgimpl.cpp:147
+msgid "ConfigurationDlgImpl::even"
+msgstr ""
+
+#: configdlgimpl.cpp:151
+msgid "ConfigurationDlgImpl::hardware"
+msgstr ""
+
+#: configdlgimpl.cpp:149
+msgid "ConfigurationDlgImpl::none"
+msgstr ""
+
+#: configdlgimpl.cpp:146
+msgid "ConfigurationDlgImpl::odd"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:31
+msgid "DiaInfoDlg::&..."
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:180
+msgid "DiaInfoDlg::&<--"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:216
+msgid "DiaInfoDlg::&Apply"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:211
+msgid "DiaInfoDlg::&Cancel"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:76
+msgid "DiaInfoDlg::&Modify..."
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:234
+msgid "DiaInfoDlg::&New dia"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:205
+msgid "DiaInfoDlg::&OK"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:106
+msgid "DiaInfoDlg::&dark phase"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:112
+msgid "DiaInfoDlg::&flash"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:124
+msgid "DiaInfoDlg::&no effect"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:131
+msgid "DiaInfoDlg::&swing"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:54
+msgid "DiaInfoDlg::&vertical"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:185
+msgid "DiaInfoDlg::--&>"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:228
+msgid "DiaInfoDlg::Apply and ne&xt"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:222
+msgid "DiaInfoDlg::Apply and pre&v."
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:155
+msgid "DiaInfoDlg::Comment:"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:26
+msgid "DiaInfoDlg::Dia Info"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:175
+msgid "DiaInfoDlg::Dissolve [s]:"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:82
+msgid "DiaInfoDlg::Effects"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:160
+msgid "DiaInfoDlg::Filename:"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:35
+msgid "DiaInfoDlg::Format"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:165
+msgid "DiaInfoDlg::Id:"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:71
+msgid "DiaInfoDlg::Script:"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:170
+msgid "DiaInfoDlg::Timer [s]:"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:146
+msgid "DiaInfoDlg::count:"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:100
+msgid "DiaInfoDlg::f&reeze"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:118
+msgid "DiaInfoDlg::fade &in"
+msgstr ""
+
+#: ZDiaInfoDlg.cpp:49
+msgid "DiaInfoDlg::hori&zontal"
+msgstr ""
+
+#: diainfodlgimpl.cpp:335
+msgid "DiaInfoDlgImpl::MinDia - Warning"
+msgstr ""
+
+#: diainfodlgimpl.cpp:335
+msgid "DiaInfoDlgImpl::No"
+msgstr ""
+
+#: diainfodlgimpl.cpp:335
+msgid "DiaInfoDlgImpl::Write changed data ?"
+msgstr ""
+
+#: diainfodlgimpl.cpp:335
+msgid "DiaInfoDlgImpl::Yes"
+msgstr ""
+
+#: doccontroler.cpp:236
+msgid "DocumentAndControler::Error reading file !"
+msgstr ""
+
+#: doccontroler.cpp:164
+msgid "DocumentAndControler::Error reading file \""
+msgstr ""
+
+#: doccontroler.cpp:183
+msgid "DocumentAndControler::Error saving file \""
+msgstr ""
+
+#: doccontroler.cpp:221
+msgid "DocumentAndControler::Path of file has changed !"
+msgstr ""
+
+#: doccontroler.cpp:463
+msgid "DocumentAndControler::Text not found !"
+msgstr ""
+
+#: doccontroler.cpp:171
+msgid "DocumentAndControler::reading was ok !"
+msgstr ""
+
+#: doccontroler.cpp:190
+msgid "DocumentAndControler::saving was ok !"
+msgstr ""
+
+#: DynTextDlg.cpp:84
+msgid "DynamicTextDlg::&Cancel"
+msgstr ""
+
+#: DynTextDlg.cpp:71
+msgid "DynamicTextDlg::&Help"
+msgstr ""
+
+#: DynTextDlg.cpp:78
+msgid "DynamicTextDlg::&OK"
+msgstr ""
+
+#: DynTextDlg.cpp:19
+msgid "DynamicTextDlg::Dynamic Text"
+msgstr ""
+
+#: DynTextDlg.cpp:28
+msgid "DynamicTextDlg::Font:"
+msgstr ""
+
+#: DynTextDlg.cpp:32
+msgid "DynamicTextDlg::Fontsize:"
+msgstr ""
+
+#: DynTextDlg.cpp:42
+msgid "DynamicTextDlg::Show at [ms]:"
+msgstr ""
+
+#: DynTextDlg.cpp:46
+msgid "DynamicTextDlg::Show time [ms]:"
+msgstr ""
+
+#: DynTextDlg.cpp:24
+msgid "DynamicTextDlg::Text:"
+msgstr ""
+
+#: DynTextDlg.cpp:58
+msgid "DynamicTextDlg::x:"
+msgstr ""
+
+#: DynTextDlg.cpp:53
+msgid "DynamicTextDlg::y:"
+msgstr ""
+
+#: EnterValueDlg.cpp:56
+msgid "EnterValueDlg::&Cancel"
+msgstr ""
+
+#: EnterValueDlg.cpp:43
+msgid "EnterValueDlg::&Help"
+msgstr ""
+
+#: EnterValueDlg.cpp:50
+msgid "EnterValueDlg::&OK"
+msgstr ""
+
+#: EnterValueDlg.cpp:29
+msgid "EnterValueDlg::Enter value:"
+msgstr ""
+
+#: EnterValueDlg.cpp:19
+msgid "EnterValueDlg::Enter"
+msgstr ""
+
+#: EventMapDlg.cpp:51
+msgid "EventMapDlg::&Close"
+msgstr ""
+
+#: EventMapDlg.cpp:45
+msgid "EventMapDlg::&Modify"
+msgstr ""
+
+#: EventMapDlg.cpp:20
+msgid "EventMapDlg::Event Map"
+msgstr ""
+
+#: EventMapDlg.cpp:27
+msgid "EventMapDlg::Events:"
+msgstr ""
+
+#: EventMapDlg.cpp:34
+msgid "EventMapDlg::Script:"
+msgstr ""
+
+#: hitemview.cpp:70
+msgid "HItemView::&Modify entry..."
+msgstr ""
+
+#: HelpDlg.cpp:32
+msgid "HelpDialog::&Back"
+msgstr ""
+
+#: HelpDlg.cpp:48
+msgid "HelpDialog::&Close"
+msgstr ""
+
+#: HelpDlg.cpp:36
+msgid "HelpDialog::&Forward"
+msgstr ""
+
+#: HelpDlg.cpp:42
+msgid "HelpDialog::&Home"
+msgstr ""
+
+#: HelpDlg.cpp:18
+msgid "HelpDialog::Help"
+msgstr ""
+
+#: LicenseDlg.cpp:37
+msgid "LicenseDlg::&Close"
+msgstr ""
+
+#: LicenseDlg.cpp:18
+msgid "LicenseDlg::License"
+msgstr ""
+
+#: mindiawindow.cpp:1291
+msgid "MinDiaWindow:: *** count: "
+msgstr ""
+
+#: mindiawindow.cpp:1285
+msgid "MinDiaWindow:: *** next: "
+msgstr ""
+
+#: mindiawindow.cpp:1281
+msgid "MinDiaWindow:: min"
+msgstr ""
+
+#: mindiawindow.cpp:1285
+msgid "MinDiaWindow:: s"
+msgstr ""
+
+#: mindiawindow.cpp:384
+msgid "MinDiaWindow::&About..."
+msgstr ""
+
+#: mindiawindow.cpp:337
+msgid "MinDiaWindow::&Configuration..."
+msgstr ""
+
+#: mindiawindow.cpp:261
+msgid "MinDiaWindow::&Copy"
+msgstr ""
+
+#: mindiawindow.cpp:272
+msgid "MinDiaWindow::&Delete"
+msgstr ""
+
+#: mindiawindow.cpp:315
+msgid "MinDiaWindow::&Dissolve time..."
+msgstr ""
+
+#: mindiawindow.cpp:190
+msgid "MinDiaWindow::&Edit"
+msgstr ""
+
+#: mindiawindow.cpp:317
+msgid "MinDiaWindow::&Fade in test"
+msgstr ""
+
+#: mindiawindow.cpp:189
+msgid "MinDiaWindow::&File"
+msgstr "&Bestand"
+
+#: mindiawindow.cpp:275
+msgid "MinDiaWindow::&Find..."
+msgstr ""
+
+#: mindiawindow.cpp:194
+msgid "MinDiaWindow::&Help"
+msgstr "&Hulp"
+
+#: mindiawindow.cpp:388
+msgid "MinDiaWindow::&Help..."
+msgstr "&Hulp..."
+
+#: mindiawindow.cpp:207
+msgid "MinDiaWindow::&Import XML..."
+msgstr ""
+
+#: mindiawindow.cpp:246
+msgid "MinDiaWindow::&Import/Export"
+msgstr ""
+
+#: mindiawindow.cpp:386
+msgid "MinDiaWindow::&License..."
+msgstr ""
+
+#: mindiawindow.cpp:344
+msgid "MinDiaWindow::&Logging..."
+msgstr ""
+
+#: mindiawindow.cpp:360
+msgid "MinDiaWindow::&Modify item..."
+msgstr ""
+
+#: mindiawindow.cpp:197
+msgid "MinDiaWindow::&New"
+msgstr ""
+
+#: mindiawindow.cpp:199
+msgid "MinDiaWindow::&Open..."
+msgstr ""
+
+#: mindiawindow.cpp:263
+msgid "MinDiaWindow::&Paste"
+msgstr ""
+
+#: mindiawindow.cpp:298
+msgid "MinDiaWindow::&Pause"
+msgstr ""
+
+#: mindiawindow.cpp:191
+msgid "MinDiaWindow::&Play"
+msgstr ""
+
+#: mindiawindow.cpp:356
+msgid "MinDiaWindow::&Plot comments..."
+msgstr ""
+
+#: mindiawindow.cpp:217
+msgid "MinDiaWindow::&Print..."
+msgstr ""
+
+#: mindiawindow.cpp:255
+msgid "MinDiaWindow::&Redo"
+msgstr ""
+
+#: mindiawindow.cpp:203
+msgid "MinDiaWindow::&Save"
+msgstr ""
+
+#: mindiawindow.cpp:252
+msgid "MinDiaWindow::&Undo"
+msgstr ""
+
+#: mindiawindow.cpp:309
+msgid "MinDiaWindow::A&dd sound comment"
+msgstr ""
+
+#: mindiawindow.cpp:384
+msgid "MinDiaWindow::About"
+msgstr ""
+
+#: mindiawindow.cpp:269
+msgid "MinDiaWindow::Add &dia"
+msgstr ""
+
+#: mindiawindow.cpp:312
+msgid "MinDiaWindow::Add &graphic operation"
+msgstr ""
+
+#: mindiawindow.cpp:269
+msgid "MinDiaWindow::Add dia at current position"
+msgstr ""
+
+#: mindiawindow.cpp:312
+msgid "MinDiaWindow::Add graphic operation"
+msgstr ""
+
+#: mindiawindow.cpp:309
+msgid "MinDiaWindow::Add sound comment"
+msgstr ""
+
+#: mindiawindow.cpp:267
+msgid "MinDiaWindow::Append d&ia"
+msgstr ""
+
+#: mindiawindow.cpp:267
+msgid "MinDiaWindow::Append dia"
+msgstr ""
+
+#: mindiawindow.cpp:259
+msgid "MinDiaWindow::C&ut"
+msgstr ""
+
+#: mindiawindow.cpp:1609
+msgid "MinDiaWindow::Can't close the application, because the presentation is still playing !"
+msgstr ""
+
+#: mindiawindow.cpp:337
+msgid "MinDiaWindow::Configuration"
+msgstr ""
+
+#: mindiawindow.cpp:261
+msgid "MinDiaWindow::Copy"
+msgstr ""
+
+#: mindiawindow.cpp:259
+msgid "MinDiaWindow::Cut"
+msgstr ""
+
+#: mindiawindow.cpp:358
+msgid "MinDiaWindow::D&yn. graphic operations..."
+msgstr ""
+
+#: mindiawindow.cpp:272
+msgid "MinDiaWindow::Delete"
+msgstr ""
+
+#: mindiawindow.cpp:358
+msgid "MinDiaWindow::Dynamic graphic operations"
+msgstr ""
+
+#: mindiawindow.cpp:219
+msgid "MinDiaWindow::E&xit"
+msgstr ""
+
+#: mindiawindow.cpp:209
+msgid "MinDiaWindow::E&xport XML..."
+msgstr ""
+
+#: mindiawindow.cpp:192
+msgid "MinDiaWindow::E&xtras"
+msgstr ""
+
+#: mindiawindow.cpp:315
+msgid "MinDiaWindow::Edit dissolve time"
+msgstr ""
+
+#: mindiawindow.cpp:1436
+msgid "MinDiaWindow::Enter new dissolve time"
+msgstr ""
+
+#: mindiawindow.cpp:219
+msgid "MinDiaWindow::Exit"
+msgstr ""
+
+#: mindiawindow.cpp:211
+msgid "MinDiaWindow::Expo&rt..."
+msgstr ""
+
+#: mindiawindow.cpp:913
+msgid "MinDiaWindow::Export as XML"
+msgstr ""
+
+#: mindiawindow.cpp:209
+msgid "MinDiaWindow::Export data as XML file"
+msgstr ""
+
+#: mindiawindow.cpp:211
+msgid "MinDiaWindow::Export data"
+msgstr ""
+
+#: mindiawindow.cpp:213
+msgid "MinDiaWindow::Export dyn. &graphics..."
+msgstr ""
+
+#: mindiawindow.cpp:933
+msgid "MinDiaWindow::Export dynamic graphic data"
+msgstr ""
+
+#: mindiawindow.cpp:921
+msgid "MinDiaWindow::Export to XML was aborted"
+msgstr ""
+
+#: mindiawindow.cpp:319
+msgid "MinDiaWindow::Fade &out test"
+msgstr ""
+
+#: mindiawindow.cpp:317
+msgid "MinDiaWindow::Fade in test"
+msgstr ""
+
+#: mindiawindow.cpp:319
+msgid "MinDiaWindow::Fade out test"
+msgstr ""
+
+#: mindiawindow.cpp:171
+msgid "MinDiaWindow::File Operations"
+msgstr ""
+
+#: mindiawindow.cpp:277
+msgid "MinDiaWindow::Find &next"
+msgstr ""
+
+#: mindiawindow.cpp:277
+msgid "MinDiaWindow::Find next"
+msgstr ""
+
+#: mindiawindow.cpp:1405
+msgid "MinDiaWindow::Find"
+msgstr ""
+
+#: mindiawindow.cpp:388
+msgid "MinDiaWindow::Help for mindia"
+msgstr ""
+
+#: mindiawindow.cpp:215
+msgid "MinDiaWindow::Import d&yn. graphics..."
+msgstr ""
+
+#: mindiawindow.cpp:207
+msgid "MinDiaWindow::Import data from a XML file"
+msgstr ""
+
+#: mindiawindow.cpp:943
+msgid "MinDiaWindow::Import dynamic graphic data"
+msgstr ""
+
+#: mindiawindow.cpp:247
+msgid "MinDiaWindow::Las&t files"
+msgstr ""
+
+#: mindiawindow.cpp:386
+msgid "MinDiaWindow::License"
+msgstr ""
+
+#: mindiawindow.cpp:861
+msgid "MinDiaWindow::Loading aborted"
+msgstr ""
+
+#: mindiawindow.cpp:344
+msgid "MinDiaWindow::Logging"
+msgstr ""
+
+#: mindiawindow.cpp:1121
+msgid "MinDiaWindow::MinDia - Error"
+msgstr ""
+
+#: mindiawindow.cpp:840
+msgid "MinDiaWindow::MinDia - Question"
+msgstr ""
+
+#: mindiawindow.cpp:1609
+msgid "MinDiaWindow::MinDia - Warning"
+msgstr ""
+
+#: mindiawindow.cpp:103
+msgid "MinDiaWindow::MinDia"
+msgstr ""
+
+#: mindiawindow.cpp:360
+msgid "MinDiaWindow::Modify item"
+msgstr ""
+
+#: mindiawindow.cpp:197
+msgid "MinDiaWindow::New"
+msgstr ""
+
+#: mindiawindow.cpp:955
+msgid "MinDiaWindow::No"
+msgstr ""
+
+#: mindiawindow.cpp:908
+msgid "MinDiaWindow::Not implemented yet !"
+msgstr ""
+
+#: mindiawindow.cpp:174
+msgid "MinDiaWindow::Open File"
+msgstr ""
+
+#: mindiawindow.cpp:201
+msgid "MinDiaWindow::Open an existing file for edit (script-events are not executed)"
+msgstr ""
+
+#: mindiawindow.cpp:199
+msgid "MinDiaWindow::Open an existing file"
+msgstr ""
+
+#: mindiawindow.cpp:201
+msgid "MinDiaWindow::Open for &edit..."
+msgstr ""
+
+#: mindiawindow.cpp:874
+msgid "MinDiaWindow::Open for edit"
+msgstr ""
+
+#: mindiawindow.cpp:867
+msgid "MinDiaWindow::Open"
+msgstr ""
+
+#: mindiawindow.cpp:193
+msgid "MinDiaWindow::P&lugins"
+msgstr ""
+
+#: mindiawindow.cpp:263
+msgid "MinDiaWindow::Paste"
+msgstr ""
+
+#: mindiawindow.cpp:178
+msgid "MinDiaWindow::Pause play"
+msgstr ""
+
+#: mindiawindow.cpp:298
+msgid "MinDiaWindow::Pause"
+msgstr ""
+
+#: mindiawindow.cpp:362
+msgid "MinDiaWindow::Pla&y infos..."
+msgstr ""
+
+#: mindiawindow.cpp:339
+msgid "MinDiaWindow::Pla&yer configuration..."
+msgstr ""
+
+#: mindiawindow.cpp:362
+msgid "MinDiaWindow::Play infos"
+msgstr ""
+
+#: mindiawindow.cpp:356
+msgid "MinDiaWindow::Plot comments"
+msgstr ""
+
+#: mindiawindow.cpp:348
+msgid "MinDiaWindow::Presentation &data..."
+msgstr ""
+
+#: mindiawindow.cpp:350
+msgid "MinDiaWindow::Presentation &events..."
+msgstr ""
+
+#: mindiawindow.cpp:348
+msgid "MinDiaWindow::Presentation data"
+msgstr ""
+
+#: mindiawindow.cpp:350
+msgid "MinDiaWindow::Presentation events"
+msgstr ""
+
+#: mindiawindow.cpp:217
+msgid "MinDiaWindow::Print data"
+msgstr ""
+
+#: mindiawindow.cpp:346
+msgid "MinDiaWindow::Pro&jector control..."
+msgstr ""
+
+#: mindiawindow.cpp:346
+msgid "MinDiaWindow::Projector control dialog"
+msgstr ""
+
+#: mindiawindow.cpp:841
+msgid "MinDiaWindow::Really create a new document and loose all changes ?"
+msgstr ""
+
+#: mindiawindow.cpp:255
+msgid "MinDiaWindow::Redo last operation"
+msgstr ""
+
+#: mindiawindow.cpp:300
+msgid "MinDiaWindow::S&top"
+msgstr ""
+
+#: mindiawindow.cpp:205
+msgid "MinDiaWindow::Save &as..."
+msgstr ""
+
+#: mindiawindow.cpp:175
+msgid "MinDiaWindow::Save File"
+msgstr ""
+
+#: mindiawindow.cpp:881
+msgid "MinDiaWindow::Save as"
+msgstr ""
+
+#: mindiawindow.cpp:205
+msgid "MinDiaWindow::Save data as"
+msgstr ""
+
+#: mindiawindow.cpp:203
+msgid "MinDiaWindow::Save data"
+msgstr ""
+
+#: mindiawindow.cpp:889
+msgid "MinDiaWindow::Save was aborted"
+msgstr ""
+
+#: mindiawindow.cpp:265
+msgid "MinDiaWindow::Select &all"
+msgstr ""
+
+#: mindiawindow.cpp:265
+msgid "MinDiaWindow::Select all"
+msgstr ""
+
+#: mindiawindow.cpp:352
+msgid "MinDiaWindow::So&und data..."
+msgstr ""
+
+#: mindiawindow.cpp:901
+msgid "MinDiaWindow::Sorry, printing not implemented yet !"
+msgstr ""
+
+#: mindiawindow.cpp:354
+msgid "MinDiaWindow::Sou&nd comments..."
+msgstr ""
+
+#: mindiawindow.cpp:354
+msgid "MinDiaWindow::Sound comments"
+msgstr ""
+
+#: mindiawindow.cpp:352
+msgid "MinDiaWindow::Sound data"
+msgstr ""
+
+#: mindiawindow.cpp:296
+msgid "MinDiaWindow::Sta&rt"
+msgstr ""
+
+#: mindiawindow.cpp:306
+msgid "MinDiaWindow::Start &at selected"
+msgstr ""
+
+#: mindiawindow.cpp:303
+msgid "MinDiaWindow::Start &from selected"
+msgstr ""
+
+#: mindiawindow.cpp:306
+msgid "MinDiaWindow::Start at selected position (just start at position)"
+msgstr ""
+
+#: mindiawindow.cpp:303
+msgid "MinDiaWindow::Start from selected position (goto position and start)"
+msgstr ""
+
+#: mindiawindow.cpp:177
+msgid "MinDiaWindow::Start play"
+msgstr ""
+
+#: mindiawindow.cpp:296
+msgid "MinDiaWindow::Start"
+msgstr ""
+
+#: mindiawindow.cpp:179
+msgid "MinDiaWindow::Stop play"
+msgstr ""
+
+#: mindiawindow.cpp:300
+msgid "MinDiaWindow::Stop"
+msgstr ""
+
+#: mindiawindow.cpp:776
+msgid "MinDiaWindow::This program is released under the GPL Version 2:\n\n"
+msgstr ""
+
+#: mindiawindow.cpp:252
+msgid "MinDiaWindow::Undo last operation"
+msgstr ""
+
+#: mindiawindow.cpp:928
+msgid "MinDiaWindow::Use scripts to export the presentation-data for other applications."
+msgstr ""
+
+#: mindiawindow.cpp:955
+msgid "MinDiaWindow::Write changed data ?"
+msgstr ""
+
+#: mindiawindow.cpp:955
+msgid "MinDiaWindow::Yes"
+msgstr ""
+
+#: mindiawindow.cpp:1437
+msgid "MinDiaWindow::dissolve time [s]:"
+msgstr ""
+
+#: mindiawindow.cpp:452
+msgid "MinDiaWindow::message"
+msgstr ""
+
+#: mindiawindow.cpp:453
+msgid "MinDiaWindow::modus"
+msgstr ""
+
+#: mindiawindow.cpp:339
+msgid "MinDiaWindow::mp3 player configuration"
+msgstr ""
+
+#: mindiawindow.cpp:1274
+msgid "MinDiaWindow::play"
+msgstr ""
+
+#: mindiawindow.cpp:1406
+msgid "MinDiaWindow::search for:"
+msgstr ""
+
+#: mindiawindow.cpp:454
+msgid "MinDiaWindow::time"
+msgstr ""
+
+#: mindiawindow.cpp:1276
+msgid "MinDiaWindow::total time: "
+msgstr ""
+
+#: playinfodlgimpl.cpp:76
+msgid "PlayInfoContextMenu::&Close"
+msgstr ""
+
+#: playinfodlgimpl.cpp:133
+msgid "PlayInfoContextMenu::&Full screen"
+msgstr ""
+
+#: playinfodlgimpl.cpp:129
+msgid "PlayInfoContextMenu::&Normal"
+msgstr ""
+
+#: playinfodlgimpl.cpp:71
+msgid "PlayInfoContextMenu::Dissolve &Start/Stop"
+msgstr ""
+
+#: playinfodlgimpl.cpp:72
+msgid "PlayInfoContextMenu::Save &image..."
+msgstr ""
+
+#: PlayInfoDlg.cpp:67
+msgid "PlayInfoDialog::"
+msgstr ""
+
+#: PlayInfoDlg.cpp:100
+msgid "PlayInfoDialog::&Close"
+msgstr ""
+
+#: PlayInfoDlg.cpp:68
+msgid "PlayInfoDialog::&Display image"
+msgstr ""
+
+#: PlayInfoDlg.cpp:90
+msgid "PlayInfoDialog::&Expand"
+msgstr ""
+
+#: PlayInfoDlg.cpp:94
+msgid "PlayInfoDialog::&Original size"
+msgstr ""
+
+#: PlayInfoDlg.cpp:82
+msgid "PlayInfoDialog::Fill &X"
+msgstr ""
+
+#: PlayInfoDlg.cpp:86
+msgid "PlayInfoDialog::Fill &Y"
+msgstr ""
+
+#: PlayInfoDlg.cpp:24
+msgid "PlayInfoDialog::Play Info"
+msgstr ""
+
+#: PlayInfoDlg.cpp:78
+msgid "PlayInfoDialog::Scale image"
+msgstr ""
+
+#: playinfodlgimpl.cpp:930
+msgid "PlayInfoDlgImpl::Save as"
+msgstr ""
+
+#: PresentationDataDlg.cpp:44
+msgid "PresentationDataDlg::&Cancel"
+msgstr ""
+
+#: PresentationDataDlg.cpp:40
+msgid "PresentationDataDlg::&Ok"
+msgstr ""
+
+#: PresentationDataDlg.cpp:29
+msgid "PresentationDataDlg::Comment:"
+msgstr ""
+
+#: PresentationDataDlg.cpp:22
+msgid "PresentationDataDlg::Presentation data"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:134
+msgid "ProjectorControlDialog::&+"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:130
+msgid "ProjectorControlDialog::&-"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:66
+msgid "ProjectorControlDialog::&0.5 s"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:74
+msgid "ProjectorControlDialog::&1.5 s"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:78
+msgid "ProjectorControlDialog::&3.0 s"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:83
+msgid "ProjectorControlDialog::&6.0 s"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:49
+msgid "ProjectorControlDialog::&Back"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:45
+msgid "ProjectorControlDialog::&Close"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:58
+msgid "ProjectorControlDialog::&Dir. Mode"
+msgstr ""
+
+#: ProjectorControlDlg.cpp:28
+msgid "ProjectorControlDialog::&Direct Mode"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:53
+msgid "ProjectorControlDialog::&Forward"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:126
+msgid "ProjectorControlDialog::&Off"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:28
+msgid "ProjectorControlDialog::&Reset"
+msgstr ""
+
+#: ProjectorControlDlg.cpp:104
+msgid "ProjectorControlDialog::&Stop / Go"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:70
+msgid "ProjectorControlDialog::&Stop/Go"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:142
+msgid "ProjectorControlDialog::&Test"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:95
+msgid "ProjectorControlDialog::0 % (off)"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:36
+msgid "ProjectorControlDialog::0"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:87
+msgid "ProjectorControlDialog::1&2.0 s"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:107
+msgid "ProjectorControlDialog::100 %"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:99
+msgid "ProjectorControlDialog::80 %"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:103
+msgid "ProjectorControlDialog::90 %"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:112
+msgid "ProjectorControlDialog::Autofocus"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:62
+msgid "ProjectorControlDialog::Dissolve"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:41
+msgid "ProjectorControlDialog::Get s&lide no"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:32
+msgid "ProjectorControlDialog::Info"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:146
+msgid "ProjectorControlDialog::Last cmd:"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:91
+msgid "ProjectorControlDialog::Light"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:151
+msgid "ProjectorControlDialog::Mode:"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:121
+msgid "ProjectorControlDialog::O&n"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:24
+msgid "ProjectorControlDialog::Projector Control"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:138
+msgid "ProjectorControlDialog::St&atus"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:156
+msgid "ProjectorControlDialog::not connected"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:161
+msgid "ProjectorControlDialog::ok"
+msgstr ""
+
+#: ZProjectorControlDlg.cpp:116
+msgid "ProjectorControlDialog::unknown"
+msgstr ""
+
+#: pcdlgimpl.cpp:323
+msgid "ProjectorControlDlgImpl::MinDia - Warning"
+msgstr ""
+
+#: pcdlgimpl.cpp:323
+msgid "ProjectorControlDlgImpl::Projector is not connected !"
+msgstr ""
+
+#: pcdlgimpl.cpp:276
+msgid "ProjectorControlDlgImpl::direct mode"
+msgstr ""
+
+#: pcdlgimpl.cpp:53
+msgid "ProjectorControlDlgImpl::error"
+msgstr ""
+
+#: pcdlgimpl.cpp:288
+msgid "ProjectorControlDlgImpl::keyboard mode"
+msgstr ""
+
+#: pcdlgimpl.cpp:269
+msgid "ProjectorControlDlgImpl::not connected"
+msgstr ""
+
+#: pcdlgimpl.cpp:49
+msgid "ProjectorControlDlgImpl::ok"
+msgstr ""
+
+#: scriptfcn.cpp:43
+msgid "QObject::&Cancel"
+msgstr ""
+
+#: scriptfcn.cpp:42
+msgid "QObject::&Ok"
+msgstr ""
+
+#: hitem.cpp:250
+msgid "QObject::<script>"
+msgstr ""
+
+#: soundinfo.cpp:600
+msgid "QObject::Plot comments"
+msgstr ""
+
+#: soundinfo.cpp:369
+msgid "QObject::Sound comments"
+msgstr ""
+
+#: soundinfo.cpp:626
+msgid "QObject::comment"
+msgstr ""
+
+#: diapresentation.cpp:986
+msgid "QObject::no=%d/%d ** op=%s ** timer=%6.1lf s --> cmd=\"%s\""
+msgstr ""
+
+#: diapresentation.cpp:984
+msgid "QObject::no=%d/%d op=%s tmr=%6.1lfs->cmd=\"%s\""
+msgstr ""
+
+#: soundinfo.cpp:616
+msgid "QObject::start index"
+msgstr ""
+
+#: soundinfo.cpp:621
+msgid "QObject::stop index"
+msgstr ""
+
+#: soundinfo.cpp:385
+msgid "QObject::time pos. [ms]"
+msgstr ""
+
+#: SaveAsDlg.cpp:46
+msgid "SaveAsDlg::CF Card"
+msgstr ""
+
+#: SaveAsDlg.cpp:26
+msgid "SaveAsDlg::File name:"
+msgstr ""
+
+#: SaveAsDlg.cpp:35
+msgid "SaveAsDlg::Folder:"
+msgstr ""
+
+#: SaveAsDlg.cpp:45
+msgid "SaveAsDlg::Internal Storage"
+msgstr ""
+
+#: SaveAsDlg.cpp:47
+msgid "SaveAsDlg::SD Card"
+msgstr ""
+
+#: SaveAsDlg.cpp:20
+msgid "SaveAsDlg::Save as"
+msgstr ""
+
+#: SaveAsDlg.cpp:40
+msgid "SaveAsDlg::Type:"
+msgstr ""
+
+#: SaveAsDlg.cpp:54
+msgid "SaveAsDlg::text/minscript"
+msgstr ""
+
+#: SaveAsDlg.cpp:53
+msgid "SaveAsDlg::text/perl"
+msgstr ""
+
+#: SaveAsDlg.cpp:55
+msgid "SaveAsDlg::text/plain"
+msgstr ""
+
+#: SaveAsDlg.cpp:52
+msgid "SaveAsDlg::text/python"
+msgstr ""
+
+#: ScriptDlg.cpp:105
+msgid "ScriptDlg::&Cancel"
+msgstr ""
+
+#: ScriptDlg.cpp:64
+msgid "ScriptDlg::&Execute"
+msgstr ""
+
+#: ScriptDlg.cpp:94
+msgid "ScriptDlg::&Help"
+msgstr ""
+
+#: ScriptDlg.cpp:81
+msgid "ScriptDlg::&Load script..."
+msgstr ""
+
+#: ScriptDlg.cpp:109
+msgid "ScriptDlg::&Ok"
+msgstr ""
+
+#: ScriptDlg.cpp:68
+msgid "ScriptDlg::&Save script..."
+msgstr ""
+
+#: ScriptDlg.cpp:77
+msgid "ScriptDlg::Clear O&utput"
+msgstr ""
+
+#: ScriptDlg.cpp:90
+msgid "ScriptDlg::Clear Scri&pt"
+msgstr ""
+
+#: ScriptDlg.cpp:46
+msgid "ScriptDlg::Output:"
+msgstr ""
+
+#: ScriptDlg.cpp:19
+msgid "ScriptDlg::Script"
+msgstr ""
+
+#: ScriptDlg.cpp:30
+msgid "ScriptDlg::Script:"
+msgstr ""
+
+#: ScriptDlg.cpp:34
+msgid "ScriptDlg::[]"
+msgstr ""
+
+#: scriptdlgimpl.cpp:170
+msgid "ScriptDlgImpl::Can not read script file "
+msgstr ""
+
+#: scriptdlgimpl.cpp:144
+msgid "ScriptDlgImpl::Can not write script file "
+msgstr ""
+
+#: scriptdlgimpl.cpp:54
+msgid "ScriptDlgImpl::Cancel"
+msgstr ""
+
+#: scriptdlgimpl.cpp:54
+msgid "ScriptDlgImpl::No"
+msgstr ""
+
+#: scriptdlgimpl.cpp:245
+msgid "ScriptDlgImpl::Script *"
+msgstr ""
+
+#: scriptdlgimpl.cpp:53
+msgid "ScriptDlgImpl::Script was changed, save file now ?"
+msgstr ""
+
+#: scriptdlgimpl.cpp:249
+msgid "ScriptDlgImpl::Script"
+msgstr ""
+
+#: scriptdlgimpl.cpp:169
+msgid "ScriptDlgImpl::Warning"
+msgstr ""
+
+#: scriptdlgimpl.cpp:54
+msgid "ScriptDlgImpl::Yes"
+msgstr ""
+
+#: scriptdlgimpl.cpp:91
+msgid "ScriptDlgImpl::script done."
+msgstr ""
+
+#: scriptdlgimpl.cpp:95
+msgid "ScriptDlgImpl::script error !"
+msgstr ""
+
+#: scriptfcn.cpp:227
+msgid "ScriptMenuHandler::&Modify Python scripts..."
+msgstr ""
+
+#: scriptfcn.cpp:239
+msgid "ScriptMenuHandler::&Run Python scripts"
+msgstr ""
+
+#: scriptfcn.cpp:227
+msgid "ScriptMenuHandler::Modify Python scripts"
+msgstr ""
+
+#: scriptfcn.cpp:240
+msgid "ScriptMenuHandler::Run a Python script"
+msgstr ""
+
+#: scriptfcn.cpp:377
+msgid "ScriptMenuHandler::Script %s returned: %d"
+msgstr ""
+
+#: SoundInfoDlg.cpp:46
+msgid "SoundInfoDlg::"
+msgstr ""
+
+#: SoundInfoDlg.cpp:88
+msgid "SoundInfoDlg::&Cancel"
+msgstr ""
+
+#: SoundInfoDlg.cpp:75
+msgid "SoundInfoDlg::&Delete Line"
+msgstr ""
+
+#: SoundInfoDlg.cpp:60
+msgid "SoundInfoDlg::&Down"
+msgstr ""
+
+#: SoundInfoDlg.cpp:70
+msgid "SoundInfoDlg::&New Line"
+msgstr ""
+
+#: SoundInfoDlg.cpp:82
+msgid "SoundInfoDlg::&OK"
+msgstr ""
+
+#: SoundInfoDlg.cpp:56
+msgid "SoundInfoDlg::&Up"
+msgstr ""
+
+#: SoundInfoDlg.cpp:22
+msgid "SoundInfoDlg::Sound Info"
+msgstr ""
+
+#: SoundInfoDlg.cpp:41
+msgid "SoundInfoDlg::Total play time [min:sec]:"
+msgstr ""
+
+#: sndinfodlgimpl.cpp:38
+msgid "SoundInfoDlgImpl::delta [min:sec]"
+msgstr ""
+
+#: sndinfodlgimpl.cpp:36
+msgid "SoundInfoDlgImpl::delta [ms]"
+msgstr ""
+
+#: sndinfodlgimpl.cpp:47
+msgid "SoundInfoDlgImpl::fade_in length [ms]"
+msgstr ""
+
+#: sndinfodlgimpl.cpp:45
+msgid "SoundInfoDlgImpl::fade_in start [ms]"
+msgstr ""
+
+#: sndinfodlgimpl.cpp:51
+msgid "SoundInfoDlgImpl::fade_out length [ms]"
+msgstr ""
+
+#: sndinfodlgimpl.cpp:49
+msgid "SoundInfoDlgImpl::fade_out start [ms]"
+msgstr ""
+
+#: sndinfodlgimpl.cpp:32
+msgid "SoundInfoDlgImpl::start-pos [ms]"
+msgstr ""
+
+#: sndinfodlgimpl.cpp:34
+msgid "SoundInfoDlgImpl::stop-pos [ms]"
+msgstr ""
+
+#: sndinfodlgimpl.cpp:42
+msgid "SoundInfoDlgImpl::total [min:sec]"
+msgstr ""
+
+#: sndinfodlgimpl.cpp:40
+msgid "SoundInfoDlgImpl::total length [ms]"
+msgstr ""
+
+#: sndinfodlgimpl.cpp:30
+msgid "SoundInfoDlgImpl::wav-filename"
+msgstr ""
+
+#: timelineview.cpp:84
+msgid "TimeLineView::&Add dyn. text..."
+msgstr ""
+
+#: timelineview.cpp:82
+msgid "TimeLineView::&Plot comments..."
+msgstr ""
+
+#: timelineview.cpp:271
+msgid "TimeLineView::Enter text"
+msgstr ""
+
+#: timelineview.cpp:81
+msgid "TimeLineView::Sound &comments..."
+msgstr ""
+
+#: timelineview.cpp:80
+msgid "TimeLineView::Sound &data..."
+msgstr ""
+
+#: timelineview.cpp:272
+msgid "TimeLineView::text:"
+msgstr ""
+
+#: zmindia.cpp:483
+msgid "ZMinDia:: *** count: "
+msgstr ""
+
+#: zmindia.cpp:477
+msgid "ZMinDia:: *** next: "
+msgstr ""
+
+#: zmindia.cpp:473
+msgid "ZMinDia:: min"
+msgstr ""
+
+#: zmindia.cpp:477
+msgid "ZMinDia:: s"
+msgstr ""
+
+#: zmindia.cpp:143
+msgid "ZMinDia::About..."
+msgstr ""
+
+#: zmindia.cpp:102
+msgid "ZMinDia::Actions"
+msgstr ""
+
+#: zmindia.cpp:400
+msgid "ZMinDia::Can't close the application, because\nthe presentation is still playing!"
+msgstr ""
+
+#: zmindia.cpp:132
+msgid "ZMinDia::Clear logging"
+msgstr ""
+
+#: zmindia.cpp:193
+msgid "ZMinDia::Comment"
+msgstr ""
+
+#: zmindia.cpp:114
+msgid "ZMinDia::Configuration..."
+msgstr ""
+
+#: zmindia.cpp:126
+msgid "ZMinDia::Dia info..."
+msgstr ""
+
+#: zmindia.cpp:194
+msgid "ZMinDia::Dissolve time [s]"
+msgstr ""
+
+#: zmindia.cpp:100
+msgid "ZMinDia::File"
+msgstr ""
+
+#: zmindia.cpp:196
+msgid "ZMinDia::Id"
+msgstr ""
+
+#: zmindia.cpp:197
+msgid "ZMinDia::Image"
+msgstr ""
+
+#: zmindia.cpp:400
+msgid "ZMinDia::MinDia - Warning"
+msgstr ""
+
+#: zmindia.cpp:106
+msgid "ZMinDia::Open"
+msgstr ""
+
+#: zmindia.cpp:164
+msgid "ZMinDia::Pause"
+msgstr ""
+
+#: zmindia.cpp:101
+msgid "ZMinDia::Play"
+msgstr ""
+
+#: zmindia.cpp:118
+msgid "ZMinDia::Player configuration..."
+msgstr ""
+
+#: zmindia.cpp:122
+msgid "ZMinDia::Projector control..."
+msgstr ""
+
+#: zmindia.cpp:195
+msgid "ZMinDia::Show time [s]"
+msgstr ""
+
+#: zmindia.cpp:153
+msgid "ZMinDia::Start at selected"
+msgstr ""
+
+#: zmindia.cpp:149
+msgid "ZMinDia::Start from seleted"
+msgstr ""
+
+#: zmindia.cpp:159
+msgid "ZMinDia::Start"
+msgstr ""
+
+#: zmindia.cpp:169
+msgid "ZMinDia::Stop"
+msgstr ""
+
+#: zmindia.cpp:136
+msgid "ZMinDia::Test read"
+msgstr ""
+
+#: zmindia.cpp:576
+msgid "ZMinDia::ZMinDia - Error"
+msgstr ""
+
+#: zmindia.cpp:581
+msgid "ZMinDia::ZMinDia - Warning"
+msgstr ""
+
+#: zmindia.cpp:388
+msgid "ZMinDia::ZMinDia"
+msgstr ""
+
+#: zmindia.cpp:466
+msgid "ZMinDia::play"
+msgstr ""
+
+#: zmindia.cpp:468
+msgid "ZMinDia::total time: "
+msgstr ""
+

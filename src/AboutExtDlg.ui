@@ -1,0 +1,305 @@
+<!DOCTYPE UI><UI>
+<class>AboutExtDlg</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>AboutExtDlg</cstring>
+    </property>
+    <property>
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>464</width>
+            <height>372</height>
+        </rect>
+    </property>
+    <property>
+        <name>caption</name>
+        <string>About MinDia</string>
+    </property>
+    <property>
+        <name>sizeGripEnabled</name>
+        <bool>true</bool>
+    </property>
+    <vbox>
+        <property>
+            <name>margin</name>
+            <number>11</number>
+        </property>
+        <property>
+            <name>spacing</name>
+            <number>6</number>
+        </property>
+        <widget>
+            <class>QTabWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pTabWidget</cstring>
+            </property>
+            <widget>
+                <class>QWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>About</cstring>
+                </property>
+                <attribute>
+                    <name>title</name>
+                    <string>&amp;About</string>
+                </attribute>
+                <vbox>
+                    <property>
+                        <name>margin</name>
+                        <number>11</number>
+                    </property>
+                    <property>
+                        <name>spacing</name>
+                        <number>6</number>
+                    </property>
+                    <widget>
+                        <class>QTextView</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>m_pAboutEdit</cstring>
+                        </property>
+                        <property>
+                            <name>font</name>
+                            <font>
+                            </font>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>&lt;br&gt;
+&lt;center&gt;
+&lt;b&gt;MinDia&lt;/b&gt;
+&lt;br&gt;&lt;br&gt;
+ver. 0.97.1 from 22.6.2003
+&lt;br&gt;&lt;br&gt;
+Copyright 2001-2003 by Michael Neuroth
+&lt;br&gt;&lt;br&gt;
+Homepage: &lt;a href="http://mindia.sourceforge.net"&gt; http://mindia.sourceforge.net&lt;/a&gt;
+&lt;br&gt;&lt;br&gt;
+This program is intented to create, modify and run multimedia slide shows on a computer. &lt;br&gt;&lt;br&gt;
+The programm supports also the direct control of Rollei dia-projectors &lt;br&gt;(&lt;i&gt;Rolleivision 35 twin digital P&lt;/i&gt; and &lt;i&gt;Rollei twin MSC 3x0 P&lt;/i&gt;).
+&lt;/center&gt;</string>
+                        </property>
+                    </widget>
+                </vbox>
+            </widget>
+            <widget>
+                <class>QWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>Autor</cstring>
+                </property>
+                <attribute>
+                    <name>title</name>
+                    <string>A&amp;uthor</string>
+                </attribute>
+                <vbox>
+                    <property>
+                        <name>margin</name>
+                        <number>11</number>
+                    </property>
+                    <property>
+                        <name>spacing</name>
+                        <number>6</number>
+                    </property>
+                    <widget>
+                        <class>QTextView</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>m_pAuthorEdit</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>&lt;br&gt;
+Michael Neuroth, 
+&lt;a href="mailto:mindia@users.sourceforge.net"&gt;mindia@users.sourceforge.net&lt;/a&gt;</string>
+                        </property>
+                    </widget>
+                </vbox>
+            </widget>
+            <widget>
+                <class>QWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>Contributions</cstring>
+                </property>
+                <attribute>
+                    <name>title</name>
+                    <string>&amp;Contributions</string>
+                </attribute>
+                <vbox>
+                    <property>
+                        <name>margin</name>
+                        <number>11</number>
+                    </property>
+                    <property>
+                        <name>spacing</name>
+                        <number>6</number>
+                    </property>
+                    <widget>
+                        <class>QTextView</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>m_pContributionsEdit</cstring>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string>&lt;br&gt;
+MinDia would not existing without this software:
+&lt;ul&gt;
+&lt;li&gt;&lt;b&gt;Qt&lt;/b&gt; from Trolltech&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+MinDia is using code from this projects:
+&lt;ul&gt;
+&lt;li&gt;&lt;b&gt;minicom&lt;/b&gt;: com-port support for linux --&gt; sysdep.h, sysdep1.c&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;kwav&lt;/b&gt;: wav-file import, wav-file playing for linux --&gt; wavfile.h, wavfile.cpp (modified)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;jpgd&lt;/b&gt;: Small JPEG Decoder Library v0.93b for jpg-image support for Windows&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Python&lt;/b&gt;: the script-language for this application&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;SWIG&lt;/b&gt;: for python (and other script languages) bindings&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+Other usefull programs to create a multimedia slide show:
+&lt;ul&gt;
+&lt;li&gt;&lt;b&gt;xsane&lt;/b&gt;: for scanning images&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;cdparanoia&lt;/b&gt;: for wav-file generation from audio cd's (Linux)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;LAME&lt;/b&gt;: for mp3-file encoding from wav-files&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;CDex&lt;/b&gt;: for wav- and mp3-file creation from audiao cd's (Windows)&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;madplay&lt;/b&gt;: a command-line mp3-player (Linux)&lt;/li&gt;
+&lt;/ul&gt;</string>
+                        </property>
+                    </widget>
+                </vbox>
+            </widget>
+            <widget>
+                <class>QWidget</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>License</cstring>
+                </property>
+                <attribute>
+                    <name>title</name>
+                    <string>&amp;License</string>
+                </attribute>
+                <vbox>
+                    <property>
+                        <name>margin</name>
+                        <number>11</number>
+                    </property>
+                    <property>
+                        <name>spacing</name>
+                        <number>6</number>
+                    </property>
+                    <widget>
+                        <class>QTextView</class>
+                        <property stdset="1">
+                            <name>name</name>
+                            <cstring>m_pLicenseEdit</cstring>
+                        </property>
+                        <property>
+                            <name>font</name>
+                            <font>
+                                <family>Courier</family>
+                            </font>
+                        </property>
+                        <property>
+                            <name>text</name>
+                            <string></string>
+                        </property>
+                    </widget>
+                </vbox>
+            </widget>
+        </widget>
+        <widget>
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout5</cstring>
+            </property>
+            <hbox>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <spacer>
+                    <property>
+                        <name>name</name>
+                        <cstring>Horizontal Spacing2</cstring>
+                    </property>
+                    <property>
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property>
+                        <name>sizeType</name>
+                        <enum>Expanding</enum>
+                    </property>
+                    <property>
+                        <name>sizeHint</name>
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>buttonOk</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Close</string>
+                    </property>
+                    <property>
+                        <name>autoDefault</name>
+                        <bool>true</bool>
+                    </property>
+                    <property>
+                        <name>default</name>
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <spacer>
+                    <property>
+                        <name>name</name>
+                        <cstring>Spacer12</cstring>
+                    </property>
+                    <property>
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property>
+                        <name>sizeType</name>
+                        <enum>Expanding</enum>
+                    </property>
+                    <property>
+                        <name>sizeHint</name>
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+    </vbox>
+</widget>
+<connections>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>AboutExtDlg</receiver>
+        <slot>accept()</slot>
+    </connection>
+</connections>
+</UI>

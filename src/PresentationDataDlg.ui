@@ -1,0 +1,152 @@
+<!DOCTYPE UI><UI>
+<class>PresentationDataDlg</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>PresentationDataDlg</cstring>
+    </property>
+    <property>
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>366</width>
+            <height>270</height>
+        </rect>
+    </property>
+    <property>
+        <name>sizePolicy</name>
+        <sizepolicy>
+            <hsizetype>5</hsizetype>
+            <vsizetype>5</vsizetype>
+        </sizepolicy>
+    </property>
+    <property>
+        <name>minimumSize</name>
+        <size>
+            <width>0</width>
+            <height>0</height>
+        </size>
+    </property>
+    <property>
+        <name>maximumSize</name>
+        <size>
+            <width>32767</width>
+            <height>32767</height>
+        </size>
+    </property>
+    <property>
+        <name>caption</name>
+        <string>Presentation data</string>
+    </property>
+    <property>
+        <name>sizeGripEnabled</name>
+        <bool>true</bool>
+    </property>
+    <vbox>
+        <property>
+            <name>margin</name>
+            <number>11</number>
+        </property>
+        <property>
+            <name>spacing</name>
+            <number>6</number>
+        </property>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pCommentLabel</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Comment:</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QMultiLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>m_pComment</cstring>
+            </property>
+        </widget>
+        <widget>
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout10</cstring>
+            </property>
+            <hbox>
+                <property>
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property>
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>m_pOk</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Ok</string>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QPushButton</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>m_pCancel</cstring>
+                    </property>
+                    <property>
+                        <name>text</name>
+                        <string>&amp;Cancel</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property>
+                        <name>name</name>
+                        <cstring>Spacer18</cstring>
+                    </property>
+                    <property>
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property>
+                        <name>sizeType</name>
+                        <enum>Expanding</enum>
+                    </property>
+                    <property>
+                        <name>sizeHint</name>
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+    </vbox>
+</widget>
+<connections>
+    <connection>
+        <sender>m_pOk</sender>
+        <signal>clicked()</signal>
+        <receiver>PresentationDataDlg</receiver>
+        <slot>sltCloseDialog()</slot>
+    </connection>
+    <connection>
+        <sender>m_pCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>PresentationDataDlg</receiver>
+        <slot>sltCancelDialog()</slot>
+    </connection>
+    <slot access="public">sltCancelDialog()</slot>
+    <slot access="public">sltCloseDialog()</slot>
+</connections>
+</UI>

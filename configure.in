@@ -1,0 +1,73 @@
+# Process this file with autoconf to produce a configure script.
+
+#AC_INIT(MinDia, 0.97.x, mindia@users.sourceforge.net)
+
+AC_INIT(acinclude.m4) dnl a source file from your sub dir
+
+AC_CONFIG_SRCDIR([mindiawindow.h])
+AC_CONFIG_HEADER([config.h])
+
+s# Checks for programs.
+AC_PROG_CXX
+AC_PROG_CC
+
+# Checks for libraries.
+
+# Checks for header files.
+AC_HEADER_DIRENT
+AC_HEADER_STDC
+AC_HEADER_SYS_WAIT
+AC_CHECK_HEADERS([fcntl.h sgtty.h stdlib.h string.h sys/ioctl.h sys/time.h termios.h unistd.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+AC_C_INLINE
+AC_HEADER_TIME
+AC_STRUCT_TM
+
+# Checks for library functions.
+# AC_ENABLE_SHARED(yes)
+# KDE_PROG_LIBTOOL
+
+AC_PROG_GCC_TRADITIONAL
+AC_FUNC_MALLOC
+AC_FUNC_STAT
+AC_FUNC_FORK
+AC_CHECK_FUNCS([getcwd gettimeofday memset mkdir rmdir select strstr])
+
+dnl Checking host/target/build systems, for make, install etc.
+dnl AC_CANONICAL_SYSTEM
+dnl Perform program name transformation
+dnl AC_ARG_PROGRAM
+
+KDE_CHECK_THREADING
+dnl KDE_CHECK_DYNAMIC_LOADING
+dnl KDE_CHECK_NAMESPACES
+KDE_CHECK_STL
+KDE_CHECK_PYTHON
+
+dnl check for Qt
+AC_PATH_QT
+
+AC_CHECK_TMAKE
+
+
+dnl AC_SUBST(PYTHONINC)
+dnl AC_SUBST(PYTHONLIB)
+dnl AC_SUBST(LIBPYTHON)
+AC_SUBST(python_incdir)
+
+dnl AC_SUBST(LIB_QT)
+dnl AC_SUBST(LIB_X11)
+
+dnl AC_SUBST(qt_includes)
+AC_SUBST(kde_qt_verstring)
+
+AC_SUBST(ac_found_tmake)
+AC_SUBST(ac_tmake)
+
+AC_SUBST(ac_default_prefix)
+AC_DEFINE_UNQUOTED( MINDIA_INSTALLATION_DIR, "$ac_default_prefix/share/mindia", [The installation directory for MinDia])
+
+AC_CONFIG_FILES([lmindia.mak])
+AC_OUTPUT

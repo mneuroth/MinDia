@@ -1,0 +1,10 @@
+Files: bin/zmindia apps/Applications/zmindia.desktop i18n/de/zmindia.qm pics/Zmindia.png help/html/zmindia.html help/de/html/zmindia.html
+Priority: optional
+Section: qpe/applications
+Maintainer: Michael Neuroth <min@developer.zaurus.de>
+Architecture: arm
+Version: 0.97.1
+Depends: qpe-base ($QPE_VERSION)
+License: GPL
+Description: ZMinDia
+ A player running on a Zaurus for data files of the MinDia program.

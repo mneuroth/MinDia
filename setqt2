@@ -1,0 +1,6 @@
+#!/bin/bash
+export TMAKEPATH=/usr/lib/tmake/linux-g++
+export QTDIR=/usr/lib/qt2
+export PATH=$PATH:/usr/lib/qt2/bin
+
+#tmake mindia.pro -o Makefile

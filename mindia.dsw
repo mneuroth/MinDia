@@ -1,0 +1,92 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNUNG: DIESE ARBEITSBEREICHSDATEI DARF NICHT BEARBEITET ODER GELÖSCHT WERDEN!
+
+###############################################################################
+
+Project: "jpgdlib"=.\jpg\jpgdlib\jpgdlib.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "mindia"=.\mindia.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name jpgdlib
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name mindiapyc
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name minsrv
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "mindiapyc"=.\mindiapyc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name pythoncore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name minsrv
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "minsrv"=.\minsrv.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "pythoncore"="..\..\OPEN\Python-2.2.2\PCbuild\pythoncore.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+
