@@ -90,14 +90,14 @@ TMAKEFLAGS 	=
 endif
 
 # use python if found with autoconf !
-ifneq "$(PYTHON_INC)" ""
+ifneq "$(PYTHON_INC)" "no"
 WITH_PYTHON	= _with_python
 else
 WITH_PYTHON	=
 endif
 
 # on linux the python modul has to be linked to the application !
-ifneq "$(PYTHON_INC)" ""
+ifneq "$(PYTHON_INC)" "no"
 LIBMINDIAPYC_SO = libmindiapyc.so
 else
 LIBMINDIAPYC_SO = 
