@@ -683,7 +683,7 @@ InputDir=.
 InputPath=.\dyntextdlgimpl.h
 InputName=dyntextdlgimpl
 
-"$(InputDir)\moc_dyntextdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"moc\moc_dyntextdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe dyntextdlgimpl.h -o moc\moc_dyntextdlgimpl.cpp
 
 # End Custom Build
@@ -696,7 +696,7 @@ InputDir=.
 InputPath=.\dyntextdlgimpl.h
 InputName=dyntextdlgimpl
 
-"$(InputDir)\moc_dyntextdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"moc\moc_dyntextdlgimpl.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe dyntextdlgimpl.h -o moc\moc_dyntextdlgimpl.cpp
 
 # End Custom Build
