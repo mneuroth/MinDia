@@ -96,6 +96,10 @@ SOURCE=.\AboutExtDlg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\appconfig.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\applscriptenv.cpp
 # End Source File
 # Begin Source File
@@ -429,6 +433,10 @@ SOURCE=.\writexml.cpp
 # Begin Source File
 
 SOURCE=.\AboutExtDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\appconfig.h
 # End Source File
 # Begin Source File
 
