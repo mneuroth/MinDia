@@ -41,7 +41,7 @@
 		findtr *.h *.cpp >mindia.po
 		mergetr mindia_de.po mindia.po
 
-		findtr src/*.h src/*.cpp mindiapyc/*.h mindiapyc/*.cpp >mindia.po
+		findtr src\*.h src\*.cpp mindiapyc\*.h mindiapyc\*.cpp >mindia.po
 
     Create bindist:
 
@@ -81,9 +81,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.h,v $
  *
- *  $Revision: 1.6 $
+ *  $Revision: 1.7 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.6  2004/02/21 14:58:21  min
+ *	Help dialog improved
+ *	
  *	Revision 1.5  2004/02/20 23:32:08  min
  *	Update comment.
  *	
@@ -118,9 +121,9 @@
 #define _MINDIAWINDOW_h
 
 #include <qmainwindow.h>
-#include <qhbox.h> 
+#include <qhbox.h>
 #include <qvbox.h>
-#include <qcanvas.h> 
+#include <qcanvas.h>
 #include <qmultilineedit.h>
 
 #include "iscript.h"
@@ -133,6 +136,7 @@ class QAction;
 class QTimer;
 class QLabel;
 class QToolButton;
+class QTranslator;
 
 class ConfigurationDlgImpl;
 class ConfigPlayerDlgImpl;
@@ -423,6 +427,8 @@ private:
 	QToolButton *	m_pPlayRun;
 	QToolButton *	m_pPlayPause;
 	QToolButton *	m_pPlayStop;
+
+	QTranslator *	m_pTranslator;
 
 	// ** temp data **
 	int				m_iCount;

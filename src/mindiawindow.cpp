@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.cpp,v $
  *
- *  $Revision: 1.10 $
+ *  $Revision: 1.11 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.10  2004/02/21 14:58:21  min
+ *	Help dialog improved
+ *	
  *	Revision 1.9  2004/02/21 00:54:52  min
  *	Automatic language detection implemented.
  *	
@@ -25,7 +28,7 @@
  *	
  *	Revision 1.5  2004/01/28 19:11:37  min
  *	Plugins menuitem changed
- *	
+ *
  *	Revision 1.4  2004/01/18 23:52:36  min
  *	Updated.
  *	
@@ -92,7 +95,7 @@
 #include <qtextbrowser.h>
 #include <qlineedit.h>
 #include <qtextview.h>
-#include <qtextcodec.h> 
+#include <qtextcodec.h>
 
 //#include <qsound.h>
 
@@ -109,12 +112,12 @@
 	with the computer controlable projectors from Rollei:
 	this are the Rolleivision 35 twin digital P dia projector
 	and the Rollei twin MSC 3x0 P dia projector family.
-	
+
 	@author		Michael Neuroth
 	@version	1.0
 	@date		2001-2004
 
-	./COPYING  
+	./COPYING
 
 */
 
@@ -130,6 +133,7 @@ string GetMinDiaSharedDirectory();
 
 // ** this function is defined in main.cpp */
 QApplication * GetApplication();
+QString ProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, QApplication * qApp );
 
 // ***********************************************************************
 
@@ -162,24 +166,8 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 	  m_iPosY( 350 )
 {
 	// ** prepare application for different languages...**
-	QString sLangTemp = sLanguage;
-	if( sLangTemp.length()==0 )
-	{
-		// if language is not given as command line argument
-		// than get the actual language now...
-		sLangTemp = QTextCodec::locale();
-		m_sLanguage = sLangTemp;
-	}
-	QTranslator aTranslator( this );
-	QString sLang = GetMinDiaSharedDirectory().c_str();
-	sLang += "mindia_";
-	sLang += sLangTemp;
-	sLang += ".qm";
-	if( sLangTemp != "en" )
-	{
-		/*bool bOk =*/ aTranslator.load( sLang, "." );
-		qApp->installTranslator( &aTranslator );
-	}
+	m_pTranslator = new QTranslator( this );
+	m_sLanguage = ProcessLanguage( m_pTranslator, sLanguage, qApp );
 
 	setCaption( tr( "MinDia" ) );
 
@@ -226,6 +214,8 @@ MinDiaWindow::~MinDiaWindow()
 
 	delete m_pStatusUpdateTimer;
 	delete m_pAutoStartTimer;
+
+	delete m_pTranslator;
 }
 
 DocumentAndControler * MinDiaWindow::GetDocument()
@@ -1313,7 +1303,7 @@ void MinDiaWindow::SetHelpFile( HelpDlgImpl * pHelpDialog, const QString & sHelp
 {
 	// ** help-file is language sensitive
 	QString sHelp = GetMinDiaSharedDirectory().c_str();
-	sHelp += "mindia_";	
+	sHelp += "mindia_";
 	sHelp += m_sLanguage;
 	sHelp += ".html";
 

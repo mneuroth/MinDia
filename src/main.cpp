@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/main.cpp,v $
  *
- *  $Revision: 1.8 $
+ *  $Revision: 1.9 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.8  2004/02/21 00:54:52  min
+ *	Automatic language detection implemented.
+ *	
  *	Revision 1.7  2004/02/16 19:49:03  min
  *	Fixes for Borland C++
  *	
@@ -25,13 +28,13 @@
  *	
  *	Revision 1.3  2003/10/26 17:25:01  min
  *	Added new directories: images, sounds, data, scripts
- *	
+ *
  *	Revision 1.2  2003/10/03 23:05:26  min
  *	Scripts in own directory moved, python conform dll nameing: mindiapy_d.dll
- *	
+ *
  *	Revision 1.1.1.1  2003/08/15 16:38:21  min
  *	Initial checkin of MinDia Ver. 0.97.1
- *	
+ *
  *
  ***************************************************************************/
 /***************************************************************************
@@ -48,6 +51,7 @@
  ***************************************************************************/
 
 #include <qapplication.h>
+#include <qtextcodec.h>
 
 #include "mindiawindow.h"
 #include "doccontroler.h"
@@ -91,7 +95,7 @@ string GetMinDiaSharedDirectory()
 #ifdef __linux__
 	// ** if MinDia is installed, than the german language file is in this directory
 	string sTestFileInShared;
-	
+
 	sTestFileInShared += MINDIA_INSTALLATION_DIR;		//_LINUX_MINDIA_SHARED;
 	sTestFileInShared += sSep;
 	sTestFileInShared += "mindia_de.qm";
@@ -329,6 +333,33 @@ QApplication * GetApplication()
 	return g_pApplication;
 }
 
+QString ProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, QApplication * qApp )
+{
+	// ** need global Translator for the other dialogs...
+	QString sLangTemp = sLanguage;
+	if( sLangTemp.length()==0 )
+	{
+		// if language is not given as command line argument
+		// than get the actual language now...
+		sLangTemp = QTextCodec::locale();
+		if( sLangTemp.length()>=2 )
+		{
+			sLangTemp = sLangTemp.left(2);
+		}
+	}
+	QString sLang = GetMinDiaSharedDirectory().c_str();
+	sLang += "mindia_";
+	sLang += sLangTemp;
+	sLang += ".qm";
+	if( sLangTemp != "en" )
+	{
+		bool bOk = pTranslator->load( sLang, "." );
+		//cout << "==>> " << (const char *)sLang << " bOk=" << bOk << " " << (const char *)sLangTemp << endl;
+		qApp->installTranslator( pTranslator );
+	}
+	return sLangTemp;
+}
+
 int main( int argc, char** argv )
 {
 	QApplication aApp( argc, argv );
@@ -482,16 +513,8 @@ int main( int argc, char** argv )
 	// ** done **
 
 	// ** need global Translator for the other dialogs...
-	QTranslator aTranslator( &aWindow );
-	QString sLang = GetMinDiaSharedDirectory().c_str();
-	sLang += "mindia_";
-	sLang += sLanguage;
-	sLang += ".qm";
-	if( sLanguage != "en" )
-	{
-		/*bool bOk =*/ aTranslator.load( sLang, "." );
-		qApp->installTranslator( &aTranslator );
-	}
+	QTranslator * pTranslator = new QTranslator( &aWindow );
+	ProcessLanguage( pTranslator, sLanguage, qApp );
 
 	// ** load file if any filename is given as an argument
 	if( !sFileName.isEmpty() )
@@ -522,6 +545,8 @@ int main( int argc, char** argv )
 	delete pSrvManager;
 
 	g_pApplication = 0;
+
+	delete pTranslator;
 
 	return iRet;
 }
