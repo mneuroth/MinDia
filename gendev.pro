@@ -7,5 +7,6 @@ SOURCES         = gendev/gendev.cpp
 TARGET			= gendev
 unix:OBJECTS_DIR		= tmp
 unix:LIBS				+= -ldl
+unix:INCLUDEPATH   		= ./minsrv ./src
 win32:TMAKE_CXXFLAGS	= -GX -MD
 win32:DEFINES			= QT_DLL _DEBUG

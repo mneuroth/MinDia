@@ -102,11 +102,11 @@ unix:HEADERS			+= src/mp3file.h
 unix:SOURCES			+= src/sysdep1.c \
 						  src/mp3file.cpp
 unix:DEFINES    		= _POSIX HAVE_CONFIG_H LOCALEDIR=\"/usr/local/share/locale\"
-#unix:INCLUDEPATH   		= .
+unix:INCLUDEPATH   		= ./gendev ./minsrv
 win32:TMAKE_UIC			= $(QTDIR)\bin\uic.exe
 win32:TMAKE_CXXFLAGS 	= -GX -MD
-win32-borland:TMAKE_CXXFLAGS 	= 
-win32:DEFINES			= QT_DLL QT_NO_DEBUG QT_THREAD_SUPPORT QT_NON_COMMERCIAL 
+win32-borland:TMAKE_CXXFLAGS 	=
+win32:DEFINES			= QT_DLL QT_NO_DEBUG QT_THREAD_SUPPORT QT_NON_COMMERCIAL
 #_DEBUG
 win32:LIBS				+= minsrv.lib
 
