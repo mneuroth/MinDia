@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.cpp,v $
  *
- *  $Revision: 1.11 $
+ *  $Revision: 1.12 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.11  2004/02/22 11:00:10  min
+ *	QTranslator better handled.
+ *	
  *	Revision 1.10  2004/02/21 14:58:21  min
  *	Help dialog improved
  *	
@@ -73,6 +76,7 @@
 #include "pddlgimpl.h"
 #include "sndinfodlgimpl.h"
 #include "commentdlgimpl.h"
+#include "createmoviedlgimpl.h"
 #include "helpdlgimpl.h"
 #include "EnterValueDlg.h"
 #include "LicenseDlg.h"
@@ -91,6 +95,7 @@
 #include <qclipboard.h>
 #include <qtimer.h>
 #include <qlabel.h>
+#include <qspinbox.h>
 #include <qtranslator.h>
 #include <qtextbrowser.h>
 #include <qlineedit.h>
@@ -283,6 +288,8 @@ void MinDiaWindow::CreateMenus()
 	connect( m_pFileExportXMLAction, SIGNAL( activated() ), this, SLOT( sltExportXMLDoc() ) );
 	m_pFileExportAction = new QAction( tr( "Export data" ), tr( "Expo&rt..." ), 0, this, "export" );
 	connect( m_pFileExportAction, SIGNAL( activated() ), this, SLOT( sltExportDoc() ) );
+	m_pFileExportAVIAction = new QAction( tr( "Export as AVI video" ), tr( "Export as &AVI..." ), 0, this, "export_avi" );
+	connect( m_pFileExportAVIAction, SIGNAL( activated() ), this, SLOT( sltExportAVI() ) );
 	m_pFileExportDynGraphAction = new QAction( tr( "Export dynamic graphic data" ), tr( "Export dyn. &graphics..." ), 0, this, "export_dyn_graph" );
 	connect( m_pFileExportDynGraphAction, SIGNAL( activated() ), this, SLOT( sltExportDynGraphData() ) );
 	m_pFileImportDynGraphAction = new QAction( tr( "Import dynamic graphic data" ), tr( "Import d&yn. graphics..." ), 0, this, "import_dyn_graph" );
@@ -306,6 +313,7 @@ void MinDiaWindow::CreateMenus()
     m_pFileExportDynGraphAction->addTo( m_pImportExportFilesSubMenu );
 	m_pImportExportFilesSubMenu->insertSeparator();
     m_pFileExportAction->addTo( m_pImportExportFilesSubMenu );
+	m_pFileExportAVIAction->addTo( m_pImportExportFilesSubMenu );
 
     m_pFileNewAction->addTo( m_pFile );
 	m_pFile->insertSeparator();
@@ -1076,6 +1084,39 @@ void MinDiaWindow::sltExportDoc()
 {
 	// use script interface for exporting data in other formats (i.e. csv)
 	sltShowErrorMessage( tr( "Use scripts to export the presentation-data for other applications." ) );
+}
+
+void MinDiaWindow::sltExportAVI()
+{
+	CreateMovieDlgImpl * pDlg = new CreateMovieDlgImpl( m_pControler->GetPresentation().GetTotalTime()*1000, this, "create_move", /*modal*/TRUE );
+		
+	int iRet = pDlg->exec();
+
+	if( iRet == 1 )
+	{
+		QString sName = pDlg->m_pImageNameOffset->text();
+		QString sDir = pDlg->m_pDirectoryName->text();
+		QString sCmd = pDlg->m_pGeneratorCmd->text();
+		int iImagesPerSecond = pDlg->m_pImagesPerSecond->text().toInt();
+		int iWidth = pDlg->m_pImageWidth->text().toInt();
+		int iHeight = pDlg->m_pImageHeight->text().toInt();
+
+		double dDeltaInMS = 1/((double)iImagesPerSecond)*1000.0;
+
+		int iCount = m_pControler->CreateImagesForMovie( 
+			    (const char *)sDir, (const char *)sName, 
+				iWidth, iHeight,
+				0, m_pControler->GetPresentation().GetTotalTime()*1000, dDeltaInMS );
+
+		if( iCount>0 )
+		{
+//			int iRet = system( (const char *)sCmd );
+//			cerr << "system(\"" << (const char *)sCmd << "\") = " << iRet << endl;
+		}
+	}
+
+	delete pDlg;
+
 }
 
 void MinDiaWindow::sltExportDynGraphData()

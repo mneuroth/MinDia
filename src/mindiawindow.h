@@ -81,9 +81,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.h,v $
  *
- *  $Revision: 1.7 $
+ *  $Revision: 1.8 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.7  2004/02/22 11:00:10  min
+ *	QTranslator better handled.
+ *	
  *	Revision 1.6  2004/02/21 14:58:21  min
  *	Help dialog improved
  *	
@@ -243,6 +246,7 @@ public slots:
 	void sltMakeRelPaths();
 	void sltPrintDoc();
 	void sltExportDoc();
+	void sltExportAVI();
 	void sltExportDynGraphData();
 	void sltImportDynGraphData();
 	void sltExportXMLDoc();
@@ -417,6 +421,7 @@ private:
 	QAction *		m_pFileExportXMLAction;
 	QAction *		m_pFileImportXMLAction;
 	QAction *		m_pFileExportAction;
+	QAction *		m_pFileExportAVIAction;
 	QAction *		m_pFileExportDynGraphAction;
 	QAction *		m_pFileImportDynGraphAction;
 	QAction *		m_pFilePrintAction;
