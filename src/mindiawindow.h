@@ -2,7 +2,7 @@
 	Program name:	MinDia
 
 		Start: 27. 8.2001
-		Now:   19. 2.2003
+		Now:   24. 9.2003
 
 	Program to create a slide show and run the show
 	with dia-projectors from rollei:
@@ -40,6 +40,11 @@
 		findtr *.h *.cpp >mindia.po
 		mergetr mindia_de.po mindia.po
 
+
+    Create bindist:
+
+		nmake -f wmindia.mak bindist
+
     Create autoconf support:
 
         change configure.in and lmindia.mak.in, aclocal.m4, acinclude.m4
@@ -74,9 +79,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
