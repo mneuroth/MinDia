@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/dyngraphop.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -1588,18 +1591,18 @@ void DynText::CreateDefaultOperations( double dStartTimeInMS, double dShowTimeIn
 
 void DynText::ChangeDefaultData( double dStartTimeInMS, double dShowTimeInMS )
 {
-	minHandle<OpItem_Base> hItem = m_aOpContainer.at( 1 );
+	minHandle<OpItem_Base> hItem = m_aOpContainer[ 1 ];
 	hItem->SetShowAtTimeInMS( dStartTimeInMS );
-	hItem = m_aOpContainer.at( 2 );
+	hItem = m_aOpContainer[ 2 ];
 	hItem->SetDelayInMS( dStartTimeInMS + dShowTimeInMS );
 	Sync();
 }
 
 void DynText::GetDefaultData( double & dStartTimeInMS, double & dShowTimeInMS )
 {
-	minHandle<OpItem_Base> hItem = m_aOpContainer.at( 1 );
+	minHandle<OpItem_Base> hItem = m_aOpContainer[ 1 ];
 	dStartTimeInMS = hItem->GetShowAtTimeInMS();
-	hItem = m_aOpContainer.at( 2 );
+	hItem = m_aOpContainer[ 2 ];
 	dShowTimeInMS = hItem->GetDelayInMS() - dStartTimeInMS;
 }
 
@@ -1608,9 +1611,9 @@ void DynText::Delta( double dDeltaTimeInMS )
 // min todo gulp --> hier genau den Typ ueberpruefen oder an alle weitergeben... (eher falsch!)
 // --> ggf. Probleme mit importierten Dateien !
 
-	minHandle<OpItem_Base> hItem = m_aOpContainer.at( 1 );
+	minHandle<OpItem_Base> hItem = m_aOpContainer[ 1 ];
 	hItem->SetShowAtTimeInMS( hItem->GetShowAtTimeInMS() + dDeltaTimeInMS );
 
-	hItem = m_aOpContainer.at( 2 );
+	hItem = m_aOpContainer[ 2 ];
 	hItem->SetDelayInMS( hItem->GetDelayInMS() + dDeltaTimeInMS );
 }
