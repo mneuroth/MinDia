@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/zaurus/zmindia.h,v $
  *
- *  $Revision: 1.4 $
+ *  $Revision: 1.5 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.4  2004/04/09 15:49:29  min
+ *	PlayInfo dialog for the Zaurus implemented, Optimizations for c860.
+ *	
  *	Revision 1.2  2004/02/26 22:15:24  min
  *	New slot sltPlayFinished() added.
  *	
@@ -70,6 +73,7 @@ public:
 
 public slots:
     void sltFileOpen();
+    void sltFileSave();
     void sltPlayStart();
     void sltPlayStop();
     void sltPlayPause();

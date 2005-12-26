@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/zaurus/zmindia.cpp,v $
  *
- *  $Revision: 1.4 $
+ *  $Revision: 1.5 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.4  2004/04/09 15:49:29  min
+ *	PlayInfo dialog for the Zaurus implemented, Optimizations for c860.
+ *	
  *	Revision 1.2  2004/02/26 22:16:04  min
  *	Disable screen saver while playing.
  *	
@@ -198,6 +201,11 @@ ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
     aAction->addTo( m_pButtonBar );
     aAction->addTo( pFile );
 
+    aAction = new QAction( tr( "Save" ), Resource::loadPixmap( "filesave" ), QString::null, 0, this, 0 );
+    connect( aAction, SIGNAL( activated() ), this, SLOT( sltFileSave() ) );
+    aAction->addTo( m_pButtonBar );
+    aAction->addTo( pFile );
+
 	pFile->insertSeparator();
 
 	// "settings"
@@ -368,6 +376,11 @@ void ZMinDia::sltFileOpen()
     m_pStack->raiseWidget( m_pFileSelector );
     m_pFileSelector->reread();
     updateCaption();
+}
+
+void ZMinDia::sltFileSave()
+{
+	m_aDocContrl.sltSaveDoc();
 }
 
 void ZMinDia::sltConfiguration()
