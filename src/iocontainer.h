@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/iocontainer.h,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:21  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -70,8 +73,8 @@ public:
 
 		aTree.SetAsContainer( true );
 
-		typename vector< minHandle<Type> >::const_iterator aIter = begin();
-		while( aIter != end() )
+		typename vector< minHandle<Type> >::const_iterator aIter = vector< minHandle<Type> >::begin();
+		while( aIter != vector< minHandle<Type> >::end() )
 		{
 			aTree.PushTag( (*aIter)->GetXMLTree() );
 
