@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/createmoviedlgimpl.h,v $
  *
- *  $Revision: 1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1  2004/04/09 19:27:27  min
+ *	Dialog for movie support
+ *	
  *	
  *
  ***************************************************************************/
@@ -32,6 +35,9 @@
 
 #include "CreateMovieDlg.h"
 
+class QProcess;
+class DocumentAndControler;
+
 // *******************************************************************
 /** Implementation of the Create-Movie-Dialog.
   */
@@ -40,15 +46,28 @@ class CreateMovieDlgImpl : public CreateMovieDlg
 	Q_OBJECT
 
 public:
-    CreateMovieDlgImpl( double dTotalTimeMS, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    CreateMovieDlgImpl( DocumentAndControler * pDocControler, double dTotalTimeMS, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
 	virtual ~CreateMovieDlgImpl();
 
 public slots:
     virtual void sltSelectOutputDirectory();
     virtual void sltImageRatioSelected( const QString &);
+    virtual void sltCreateImages();
+    virtual void sltCreateAVI();
+    virtual void sltAddSound();
+    virtual void sltCreateVCD();
+    virtual void sltMakeShow();
+    virtual void sltDeleteTempFiles();
+    virtual void sltUpdateCmds();
+    virtual void sltReadFromStdout();
+    virtual void sltReadFromStderr();
 
 private:
-	double	m_dTotalTimeMS;
+	void UpdateCmds();
+
+	double					m_dTotalTimeMS;
+	DocumentAndControler *	m_pDocControler;	// not an owner !
+	QProcess *				m_pProcess;
 };
 
 #endif

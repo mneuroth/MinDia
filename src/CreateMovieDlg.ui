@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>321</width>
-            <height>240</height>
+            <width>592</width>
+            <height>530</height>
         </rect>
     </property>
     <property name="caption">
@@ -18,347 +18,530 @@
     <property name="sizeGripEnabled">
         <bool>true</bool>
     </property>
-    <widget class="QLabel">
+    <vbox>
         <property name="name">
-            <cstring>textLabel5</cstring>
+            <cstring>unnamed</cstring>
         </property>
-        <property name="geometry">
-            <rect>
-                <x>10</x>
-                <y>118</y>
-                <width>93</width>
-                <height>21</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Images per second:</string>
-        </property>
-    </widget>
-    <widget class="QLabel">
-        <property name="name">
-            <cstring>textLabel4</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>10</x>
-                <y>92</y>
-                <width>93</width>
-                <height>20</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Image height:</string>
-        </property>
-    </widget>
-    <widget class="QLabel">
-        <property name="name">
-            <cstring>textLabel3</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>10</x>
-                <y>65</y>
-                <width>93</width>
-                <height>21</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Image width:</string>
-        </property>
-    </widget>
-    <widget class="QLabel">
-        <property name="name">
-            <cstring>textLabel2</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>10</x>
-                <y>10</y>
-                <width>93</width>
-                <height>20</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Image name offset:</string>
-        </property>
-    </widget>
-    <widget class="QLabel">
-        <property name="name">
-            <cstring>textLabel1</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>10</x>
-                <y>39</y>
-                <width>93</width>
-                <height>21</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Output directory:</string>
-        </property>
-    </widget>
-    <widget class="QSpinBox">
-        <property name="name">
-            <cstring>m_pImagesPerSecond</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>113</x>
-                <y>118</y>
-                <width>89</width>
-                <height>20</height>
-            </rect>
-        </property>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>m_pSelectDirectory</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>276</x>
-                <y>36</y>
-                <width>35</width>
-                <height>25</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>&amp;...</string>
-        </property>
-        <property name="accel">
-            <string>Alt+.</string>
-        </property>
-    </widget>
-    <widget class="QLineEdit">
-        <property name="name">
-            <cstring>m_pDirectoryName</cstring>
-        </property>
-        <property name="enabled">
-            <bool>false</bool>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>113</x>
-                <y>38</y>
-                <width>156</width>
-                <height>20</height>
-            </rect>
-        </property>
-    </widget>
-    <widget class="QLineEdit">
-        <property name="name">
-            <cstring>m_pImageHeight</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>113</x>
-                <y>92</y>
-                <width>55</width>
-                <height>20</height>
-            </rect>
-        </property>
-    </widget>
-    <widget class="QLabel">
-        <property name="name">
-            <cstring>textLabel1_2</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>175</x>
-                <y>68</y>
-                <width>30</width>
-                <height>16</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>pixel</string>
-        </property>
-    </widget>
-    <widget class="QLabel">
-        <property name="name">
-            <cstring>textLabel1_2_2</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>176</x>
-                <y>93</y>
-                <width>30</width>
-                <height>16</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>pixel</string>
-        </property>
-    </widget>
-    <widget class="QLineEdit">
-        <property name="name">
-            <cstring>m_pImageNameOffset</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>113</x>
-                <y>11</y>
-                <width>155</width>
-                <height>20</height>
-            </rect>
-        </property>
-    </widget>
-    <widget class="QComboBox">
-        <property name="name">
-            <cstring>m_pImageRatio</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>211</x>
-                <y>67</y>
-                <width>100</width>
-                <height>20</height>
-            </rect>
-        </property>
-    </widget>
-    <widget class="QLineEdit">
-        <property name="name">
-            <cstring>m_pImageWidth</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>113</x>
-                <y>66</y>
-                <width>55</width>
-                <height>20</height>
-            </rect>
-        </property>
-    </widget>
-    <widget class="QLabel">
-        <property name="name">
-            <cstring>textLabel2_2</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>12</x>
-                <y>150</y>
-                <width>93</width>
-                <height>16</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Generator cmd:</string>
-        </property>
-    </widget>
-    <widget class="QLayoutWidget">
-        <property name="name">
-            <cstring>Layout1</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>9</x>
-                <y>197</y>
-                <width>303</width>
-                <height>33</height>
-            </rect>
-        </property>
-        <hbox>
+        <widget class="QTabWidget">
             <property name="name">
-                <cstring>unnamed</cstring>
+                <cstring>tabWidgetOps</cstring>
             </property>
-            <property name="margin">
-                <number>0</number>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Operations</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QGroupBox" row="3" column="0">
+                        <property name="name">
+                            <cstring>groupBox2_2_2</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Video CD</string>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>textLabel2_2_2_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Generator cmd:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="1" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>m_pVCDGeneratorCmd</cstring>
+                                </property>
+                                <property name="readOnly">
+                                    <bool>true</bool>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton" row="2" column="1">
+                                <property name="name">
+                                    <cstring>m_pCreateVCD</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Create &amp;VCD (4)</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+V</string>
+                                </property>
+                            </widget>
+                            <spacer row="2" column="0">
+                                <property name="name">
+                                    <cstring>spacer7_2</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>308</width>
+                                        <height>16</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </grid>
+                    </widget>
+                    <widget class="QGroupBox" row="1" column="0">
+                        <property name="name">
+                            <cstring>groupBox2</cstring>
+                        </property>
+                        <property name="title">
+                            <string>AVI</string>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>textLabel2_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Generator cmd:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="1" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>m_pGeneratorCmd</cstring>
+                                </property>
+                                <property name="readOnly">
+                                    <bool>true</bool>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton" row="2" column="1">
+                                <property name="name">
+                                    <cstring>m_pCreateAVI</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Create &amp;AVI (2)</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+A</string>
+                                </property>
+                            </widget>
+                            <spacer row="2" column="0">
+                                <property name="name">
+                                    <cstring>spacer4</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>203</width>
+                                        <height>15</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </grid>
+                    </widget>
+                    <widget class="QGroupBox" row="2" column="0">
+                        <property name="name">
+                            <cstring>groupBox2_2</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Sound</string>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>textLabel2_2_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Generator cmd:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="1" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>m_pSoundGeneratorCmd</cstring>
+                                </property>
+                                <property name="readOnly">
+                                    <bool>true</bool>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton" row="2" column="1">
+                                <property name="name">
+                                    <cstring>m_pAddSound</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Add &amp;Sound (3)</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+S</string>
+                                </property>
+                            </widget>
+                            <spacer row="2" column="0">
+                                <property name="name">
+                                    <cstring>spacer7</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>203</width>
+                                        <height>15</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </grid>
+                    </widget>
+                    <widget class="QGroupBox" row="1" column="1" rowspan="3" colspan="1">
+                        <property name="name">
+                            <cstring>m_pMisc</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Misc.</string>
+                        </property>
+                        <vbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QPushButton">
+                                <property name="name">
+                                    <cstring>m_pMakeShow</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>&amp;Make Show (1)+(2)+(3)</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+M</string>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton">
+                                <property name="name">
+                                    <cstring>m_pDeleteTemp</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>&amp;Delete temp. files</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+D</string>
+                                </property>
+                            </widget>
+                        </vbox>
+                    </widget>
+                    <widget class="QGroupBox" row="0" column="0" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>groupBox1</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Images</string>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLabel" row="3" column="0">
+                                <property name="name">
+                                    <cstring>textLabel4</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Image height:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="2" column="1">
+                                <property name="name">
+                                    <cstring>m_pImageWidth</cstring>
+                                </property>
+                                <property name="frameShape">
+                                    <enum>LineEditPanel</enum>
+                                </property>
+                                <property name="frameShadow">
+                                    <enum>Sunken</enum>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="2" column="0">
+                                <property name="name">
+                                    <cstring>textLabel3</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Image width:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="4" column="0">
+                                <property name="name">
+                                    <cstring>textLabel5</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Images per second:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="2" column="2">
+                                <property name="name">
+                                    <cstring>textLabel1_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>pixel</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="3" column="2">
+                                <property name="name">
+                                    <cstring>textLabel1_2_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>pixel</string>
+                                </property>
+                            </widget>
+                            <widget class="QSpinBox" row="4" column="1" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>m_pImagesPerSecond</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="3" column="1">
+                                <property name="name">
+                                    <cstring>m_pImageHeight</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QComboBox" row="2" column="3" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>m_pImageRatio</cstring>
+                                </property>
+                            </widget>
+                            <spacer row="3" column="3" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>spacer6</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>101</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>textLabel2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Image name offset:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="1" column="1" rowspan="1" colspan="3">
+                                <property name="name">
+                                    <cstring>m_pDirectoryName</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="1" column="0">
+                                <property name="name">
+                                    <cstring>textLabel1</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Output directory:</string>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton" row="4" column="3" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>m_pCreateImages</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Create &amp;Images (1)</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+I</string>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton" row="1" column="4">
+                                <property name="name">
+                                    <cstring>m_pSelectDirectory</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>1</hsizetype>
+                                        <vsizetype>0</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="text">
+                                    <string>&amp;...</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+.</string>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="0" column="1" rowspan="1" colspan="4">
+                                <property name="name">
+                                    <cstring>m_pImageNameOffset</cstring>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Protocol</string>
+                </attribute>
+                <hbox>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QGroupBox">
+                        <property name="name">
+                            <cstring>groupBox11</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Messages</string>
+                        </property>
+                        <vbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLabel">
+                                <property name="name">
+                                    <cstring>textLabel1_3</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Output:</string>
+                                </property>
+                            </widget>
+                            <widget class="QTextEdit">
+                                <property name="name">
+                                    <cstring>m_pOutput</cstring>
+                                </property>
+                                <property name="readOnly">
+                                    <bool>true</bool>
+                                </property>
+                            </widget>
+                            <widget class="QLayoutWidget">
+                                <property name="name">
+                                    <cstring>layout11</cstring>
+                                </property>
+                                <hbox>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="QPushButton">
+                                        <property name="name">
+                                            <cstring>m_pClear</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>&amp;Clear</string>
+                                        </property>
+                                        <property name="accel">
+                                            <string>Alt+C</string>
+                                        </property>
+                                    </widget>
+                                    <spacer>
+                                        <property name="name">
+                                            <cstring>spacer14</cstring>
+                                        </property>
+                                        <property name="orientation">
+                                            <enum>Horizontal</enum>
+                                        </property>
+                                        <property name="sizeType">
+                                            <enum>Expanding</enum>
+                                        </property>
+                                        <property name="sizeHint">
+                                            <size>
+                                                <width>429</width>
+                                                <height>22</height>
+                                            </size>
+                                        </property>
+                                    </spacer>
+                                </hbox>
+                            </widget>
+                        </vbox>
+                    </widget>
+                </hbox>
+            </widget>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout10</cstring>
             </property>
-            <property name="spacing">
-                <number>6</number>
-            </property>
-            <widget class="QPushButton">
+            <hbox>
                 <property name="name">
-                    <cstring>buttonHelp</cstring>
+                    <cstring>unnamed</cstring>
                 </property>
-                <property name="text">
-                    <string>&amp;Help</string>
-                </property>
-                <property name="accel">
-                    <string>F1</string>
-                </property>
-                <property name="autoDefault">
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <spacer>
-                <property name="name">
-                    <cstring>Horizontal Spacing2</cstring>
-                </property>
-                <property name="orientation">
-                    <enum>Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                    <enum>Expanding</enum>
-                </property>
-                <property name="sizeHint">
-                    <size>
-                        <width>20</width>
-                        <height>20</height>
-                    </size>
-                </property>
-            </spacer>
-            <widget class="QPushButton">
-                <property name="name">
-                    <cstring>buttonOk</cstring>
-                </property>
-                <property name="text">
-                    <string>&amp;OK</string>
-                </property>
-                <property name="accel">
-                    <string></string>
-                </property>
-                <property name="autoDefault">
-                    <bool>true</bool>
-                </property>
-                <property name="default">
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <widget class="QPushButton">
-                <property name="name">
-                    <cstring>buttonCancel</cstring>
-                </property>
-                <property name="text">
-                    <string>&amp;Cancel</string>
-                </property>
-                <property name="accel">
-                    <string></string>
-                </property>
-                <property name="autoDefault">
-                    <bool>true</bool>
-                </property>
-            </widget>
-        </hbox>
-    </widget>
-    <widget class="QLineEdit">
-        <property name="name">
-            <cstring>m_pGeneratorCmd</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>9</x>
-                <y>168</y>
-                <width>301</width>
-                <height>20</height>
-            </rect>
-        </property>
-    </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer13</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>307</width>
+                            <height>14</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonHelp</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Help</string>
+                    </property>
+                    <property name="accel">
+                        <string>F1</string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonOk</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Close</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+C</string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </vbox>
 </widget>
 <connections>
-    <connection>
-        <sender>buttonOk</sender>
-        <signal>clicked()</signal>
-        <receiver>CreateMovieDlg</receiver>
-        <slot>accept()</slot>
-    </connection>
-    <connection>
-        <sender>buttonCancel</sender>
-        <signal>clicked()</signal>
-        <receiver>CreateMovieDlg</receiver>
-        <slot>reject()</slot>
-    </connection>
     <connection>
         <sender>m_pSelectDirectory</sender>
         <signal>clicked()</signal>
@@ -366,28 +549,128 @@
         <slot>sltSelectOutputDirectory()</slot>
     </connection>
     <connection>
+        <sender>m_pCreateImages</sender>
+        <signal>clicked()</signal>
+        <receiver>CreateMovieDlg</receiver>
+        <slot>sltCreateImages()</slot>
+    </connection>
+    <connection>
+        <sender>m_pCreateAVI</sender>
+        <signal>clicked()</signal>
+        <receiver>CreateMovieDlg</receiver>
+        <slot>sltCreateAVI()</slot>
+    </connection>
+    <connection>
+        <sender>m_pAddSound</sender>
+        <signal>clicked()</signal>
+        <receiver>CreateMovieDlg</receiver>
+        <slot>sltAddSound()</slot>
+    </connection>
+    <connection>
+        <sender>m_pCreateVCD</sender>
+        <signal>clicked()</signal>
+        <receiver>CreateMovieDlg</receiver>
+        <slot>sltCreateVCD()</slot>
+    </connection>
+    <connection>
+        <sender>m_pMakeShow</sender>
+        <signal>clicked()</signal>
+        <receiver>CreateMovieDlg</receiver>
+        <slot>sltMakeShow()</slot>
+    </connection>
+    <connection>
+        <sender>m_pDeleteTemp</sender>
+        <signal>clicked()</signal>
+        <receiver>CreateMovieDlg</receiver>
+        <slot>sltDeleteTempFiles()</slot>
+    </connection>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>CreateMovieDlg</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>m_pClear</sender>
+        <signal>clicked()</signal>
+        <receiver>m_pOutput</receiver>
+        <slot>clear()</slot>
+    </connection>
+    <connection>
         <sender>m_pImageRatio</sender>
         <signal>activated(const QString&amp;)</signal>
         <receiver>CreateMovieDlg</receiver>
         <slot>sltImageRatioSelected(const QString&amp;)</slot>
     </connection>
+    <connection>
+        <sender>m_pImageNameOffset</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>CreateMovieDlg</receiver>
+        <slot>sltUpdateCmds()</slot>
+    </connection>
+    <connection>
+        <sender>m_pDirectoryName</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>CreateMovieDlg</receiver>
+        <slot>sltUpdateCmds()</slot>
+    </connection>
+    <connection>
+        <sender>m_pImageWidth</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>CreateMovieDlg</receiver>
+        <slot>sltUpdateCmds()</slot>
+    </connection>
+    <connection>
+        <sender>m_pImageHeight</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>CreateMovieDlg</receiver>
+        <slot>sltUpdateCmds()</slot>
+    </connection>
+    <connection>
+        <sender>m_pImagesPerSecond</sender>
+        <signal>valueChanged(const QString&amp;)</signal>
+        <receiver>CreateMovieDlg</receiver>
+        <slot>sltUpdateCmds()</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>m_pImageNameOffset</tabstop>
+    <tabstop>m_pDirectoryName</tabstop>
     <tabstop>m_pSelectDirectory</tabstop>
-    <tabstop>m_pImageRatio</tabstop>
     <tabstop>m_pImageWidth</tabstop>
     <tabstop>m_pImageHeight</tabstop>
+    <tabstop>m_pImageRatio</tabstop>
     <tabstop>m_pImagesPerSecond</tabstop>
+    <tabstop>m_pCreateImages</tabstop>
     <tabstop>m_pGeneratorCmd</tabstop>
-    <tabstop>buttonOk</tabstop>
-    <tabstop>buttonCancel</tabstop>
+    <tabstop>m_pCreateAVI</tabstop>
+    <tabstop>m_pSoundGeneratorCmd</tabstop>
+    <tabstop>m_pAddSound</tabstop>
+    <tabstop>m_pVCDGeneratorCmd</tabstop>
+    <tabstop>m_pCreateVCD</tabstop>
+    <tabstop>m_pMakeShow</tabstop>
+    <tabstop>m_pDeleteTemp</tabstop>
     <tabstop>buttonHelp</tabstop>
-    <tabstop>m_pDirectoryName</tabstop>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>m_pOutput</tabstop>
+    <tabstop>m_pClear</tabstop>
+    <tabstop>tabWidgetOps</tabstop>
 </tabstops>
+<includes>
+    <include location="local" impldecl="in implementation">CreateMovieDlg.ui.h</include>
+</includes>
 <slots>
     <slot>sltSelectOutputDirectory()</slot>
-    <slot>sltImageRatioSelected( const QString &amp;)</slot>
+    <slot>sltImageRatioSelected( const QString &amp; )</slot>
+    <slot>sltCreateImages()</slot>
+    <slot>sltCreateAVI()</slot>
+    <slot>sltAddSound()</slot>
+    <slot>sltCreateVCD()</slot>
+    <slot>sltMakeShow()</slot>
+    <slot>sltDeleteTempFiles()</slot>
+    <slot>sltUpdateCmds()</slot>
+    <slot>sltReadFromStdout()</slot>
+    <slot>sltReadFromStderr()</slot>
 </slots>
-<layoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="4" margin="6"/>
 </UI>
