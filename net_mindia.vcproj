@@ -2578,49 +2578,52 @@
 		<Filter
 			Name="Generated MOC Files">
 			<File
-				RelativePath=".\tmp\moc\moc_AboutExtDlg.cpp">
+				RelativePath=".\src\moc_AboutExtDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\tmp\moc\moc_ComLoggingDlg.cpp">
+				RelativePath=".\src\moc_ComLoggingDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\tmp\moc\moc_CommentDlg.cpp">
+				RelativePath=".\src\moc_CommentDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\tmp\moc\moc_ConfigPlayerDlg.cpp">
+				RelativePath=".\src\moc_ConfigPlayerDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\tmp\moc\moc_CreateMovieDlg.cpp">
+				RelativePath=".\tmp\moc\moc_ConfigurationDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\tmp\moc\moc_DiaInfoDlg.cpp">
+				RelativePath=".\src\moc_CreateMovieDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\tmp\moc\moc_DynTextDlg.cpp">
+				RelativePath=".\src\moc_DiaInfoDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\tmp\moc\moc_EnterValueDlg.cpp">
+				RelativePath=".\src\moc_DynTextDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\tmp\moc\moc_EventMapDlg.cpp">
+				RelativePath=".\src\moc_EnterValueDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\tmp\moc\moc_HelpDlg.cpp">
+				RelativePath=".\src\moc_EventMapDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\tmp\moc\moc_LicenseDlg.cpp">
+				RelativePath=".\src\moc_HelpDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\tmp\moc\moc_PlayInfoDlg.cpp">
+				RelativePath=".\src\moc_LicenseDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\tmp\moc\moc_PresentationDataDlg.cpp">
+				RelativePath=".\src\moc_PlayInfoDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\tmp\moc\moc_ProjectorControlDlg.cpp">
+				RelativePath=".\src\moc_PresentationDataDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\tmp\moc\moc_SoundInfoDlg.cpp">
+				RelativePath=".\src\moc_ProjectorControlDlg.cpp">
+			</File>
+			<File
+				RelativePath=".\src\moc_SoundInfoDlg.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -2648,6 +2651,12 @@
 			</File>
 			<File
 				RelativePath=".\src\ConfigPlayerDlg.h">
+			</File>
+			<File
+				RelativePath=".\src\ConfigurationDlg.cpp">
+			</File>
+			<File
+				RelativePath=".\src\ConfigurationDlg.h">
 			</File>
 			<File
 				RelativePath=".\src\CreateMovieDlg.cpp">
@@ -2725,20 +2734,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing AboutExtDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\AboutExtDlg.ui&quot; -o &quot;.\src\AboutExtDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\AboutExtDlg.ui&quot; -i &quot;.\src\AboutExtDlg.h&quot; -o &quot;.\src\AboutExtDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\AboutExtDlg.h&quot; -o &quot;tmp\moc\moc_AboutExtDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\AboutExtDlg.ui&quot; -o &quot;.\src\AboutExtDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\AboutExtDlg.ui&quot; -i &quot;.\src\AboutExtDlg.h&quot; -o &quot;.\src\AboutExtDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\AboutExtDlg.h&quot; -o &quot;.\src\moc_AboutExtDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\AboutExtDlg.h&quot;;&quot;.\src\AboutExtDlg.cpp&quot;;&quot;tmp\moc\moc_AboutExtDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\AboutExtDlg.h&quot;;&quot;.\src\AboutExtDlg.cpp&quot;;&quot;.\src\moc_AboutExtDlg.cpp&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing AboutExtDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\AboutExtDlg.ui&quot; -o &quot;.\src\AboutExtDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\AboutExtDlg.ui&quot; -i &quot;.\src\AboutExtDlg.h&quot; -o &quot;.\src\AboutExtDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\AboutExtDlg.h&quot; -o &quot;tmp\moc\moc_AboutExtDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\AboutExtDlg.ui&quot; -o &quot;.\src\AboutExtDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\AboutExtDlg.ui&quot; -i &quot;.\src\AboutExtDlg.h&quot; -o &quot;.\src\AboutExtDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\AboutExtDlg.h&quot; -o &quot;.\src\moc_AboutExtDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\AboutExtDlg.h&quot;;&quot;.\src\AboutExtDlg.cpp&quot;;&quot;tmp\moc\moc_AboutExtDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\AboutExtDlg.h&quot;;&quot;.\src\AboutExtDlg.cpp&quot;;&quot;.\src\moc_AboutExtDlg.cpp&quot;"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2748,20 +2757,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing ComLoggingDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\ComLoggingDlg.ui&quot; -o &quot;.\src\ComLoggingDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\ComLoggingDlg.ui&quot; -i &quot;.\src\ComLoggingDlg.h&quot; -o &quot;.\src\ComLoggingDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\ComLoggingDlg.h&quot; -o &quot;tmp\moc\moc_ComLoggingDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\ComLoggingDlg.ui&quot; -o &quot;.\src\ComLoggingDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\ComLoggingDlg.ui&quot; -i &quot;.\src\ComLoggingDlg.h&quot; -o &quot;.\src\ComLoggingDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\ComLoggingDlg.h&quot; -o &quot;.\src\moc_ComLoggingDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\ComLoggingDlg.h&quot;;&quot;.\src\ComLoggingDlg.cpp&quot;;&quot;tmp\moc\moc_ComLoggingDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\ComLoggingDlg.h&quot;;&quot;.\src\ComLoggingDlg.cpp&quot;;&quot;.\src\moc_ComLoggingDlg.cpp&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing ComLoggingDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\ComLoggingDlg.ui&quot; -o &quot;.\src\ComLoggingDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\ComLoggingDlg.ui&quot; -i &quot;.\src\ComLoggingDlg.h&quot; -o &quot;.\src\ComLoggingDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\ComLoggingDlg.h&quot; -o &quot;tmp\moc\moc_ComLoggingDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\ComLoggingDlg.ui&quot; -o &quot;.\src\ComLoggingDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\ComLoggingDlg.ui&quot; -i &quot;.\src\ComLoggingDlg.h&quot; -o &quot;.\src\ComLoggingDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\ComLoggingDlg.h&quot; -o &quot;.\src\moc_ComLoggingDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\ComLoggingDlg.h&quot;;&quot;.\src\ComLoggingDlg.cpp&quot;;&quot;tmp\moc\moc_ComLoggingDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\ComLoggingDlg.h&quot;;&quot;.\src\ComLoggingDlg.cpp&quot;;&quot;.\src\moc_ComLoggingDlg.cpp&quot;"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2771,20 +2780,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing CommentDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\CommentDlg.ui&quot; -o &quot;.\src\CommentDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\CommentDlg.ui&quot; -i &quot;.\src\CommentDlg.h&quot; -o &quot;.\src\CommentDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\CommentDlg.h&quot; -o &quot;tmp\moc\moc_CommentDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\CommentDlg.ui&quot; -o &quot;.\src\CommentDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\CommentDlg.ui&quot; -i &quot;.\src\CommentDlg.h&quot; -o &quot;.\src\CommentDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\CommentDlg.h&quot; -o &quot;.\src\moc_CommentDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\CommentDlg.h&quot;;&quot;.\src\CommentDlg.cpp&quot;;&quot;tmp\moc\moc_CommentDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\CommentDlg.h&quot;;&quot;.\src\CommentDlg.cpp&quot;;&quot;.\src\moc_CommentDlg.cpp&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing CommentDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\CommentDlg.ui&quot; -o &quot;.\src\CommentDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\CommentDlg.ui&quot; -i &quot;.\src\CommentDlg.h&quot; -o &quot;.\src\CommentDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\CommentDlg.h&quot; -o &quot;tmp\moc\moc_CommentDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\CommentDlg.ui&quot; -o &quot;.\src\CommentDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\CommentDlg.ui&quot; -i &quot;.\src\CommentDlg.h&quot; -o &quot;.\src\CommentDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\CommentDlg.h&quot; -o &quot;.\src\moc_CommentDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\CommentDlg.h&quot;;&quot;.\src\CommentDlg.cpp&quot;;&quot;tmp\moc\moc_CommentDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\CommentDlg.h&quot;;&quot;.\src\CommentDlg.cpp&quot;;&quot;.\src\moc_CommentDlg.cpp&quot;"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2794,20 +2803,43 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing ConfigPlayerDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\ConfigPlayerDlg.ui&quot; -o &quot;.\src\ConfigPlayerDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\ConfigPlayerDlg.ui&quot; -i &quot;.\src\ConfigPlayerDlg.h&quot; -o &quot;.\src\ConfigPlayerDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\ConfigPlayerDlg.h&quot; -o &quot;tmp\moc\moc_ConfigPlayerDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\ConfigPlayerDlg.ui&quot; -o &quot;.\src\ConfigPlayerDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\ConfigPlayerDlg.ui&quot; -i &quot;.\src\ConfigPlayerDlg.h&quot; -o &quot;.\src\ConfigPlayerDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\ConfigPlayerDlg.h&quot; -o &quot;.\src\moc_ConfigPlayerDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\ConfigPlayerDlg.h&quot;;&quot;.\src\ConfigPlayerDlg.cpp&quot;;&quot;tmp\moc\moc_ConfigPlayerDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\ConfigPlayerDlg.h&quot;;&quot;.\src\ConfigPlayerDlg.cpp&quot;;&quot;.\src\moc_ConfigPlayerDlg.cpp&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing ConfigPlayerDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\ConfigPlayerDlg.ui&quot; -o &quot;.\src\ConfigPlayerDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\ConfigPlayerDlg.ui&quot; -i &quot;.\src\ConfigPlayerDlg.h&quot; -o &quot;.\src\ConfigPlayerDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\ConfigPlayerDlg.h&quot; -o &quot;tmp\moc\moc_ConfigPlayerDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\ConfigPlayerDlg.ui&quot; -o &quot;.\src\ConfigPlayerDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\ConfigPlayerDlg.ui&quot; -i &quot;.\src\ConfigPlayerDlg.h&quot; -o &quot;.\src\ConfigPlayerDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\ConfigPlayerDlg.h&quot; -o &quot;.\src\moc_ConfigPlayerDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\ConfigPlayerDlg.h&quot;;&quot;.\src\ConfigPlayerDlg.cpp&quot;;&quot;tmp\moc\moc_ConfigPlayerDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\ConfigPlayerDlg.h&quot;;&quot;.\src\ConfigPlayerDlg.cpp&quot;;&quot;.\src\moc_ConfigPlayerDlg.cpp&quot;"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\src\ConfigurationDlg.ui">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing ConfigurationDlg.ui..."
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\ConfigurationDlg.ui&quot; -o &quot;.\src\ConfigurationDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\ConfigurationDlg.ui&quot; -i &quot;.\src\ConfigurationDlg.h&quot; -o &quot;.\src\ConfigurationDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\ConfigurationDlg.h&quot; -o &quot;.\src\moc_ConfigurationDlg.cpp&quot;
+"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;.\src\ConfigurationDlg.h&quot;;&quot;.\src\ConfigurationDlg.cpp&quot;;&quot;.\src\moc_ConfigurationDlg.cpp&quot;"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing ConfigurationDlg.ui..."
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\ConfigurationDlg.ui&quot; -o &quot;.\src\ConfigurationDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\ConfigurationDlg.ui&quot; -i &quot;.\src\ConfigurationDlg.h&quot; -o &quot;.\src\ConfigurationDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\ConfigurationDlg.h&quot; -o &quot;tmp\moc\moc_ConfigurationDlg.cpp&quot;
+"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;.\src\ConfigurationDlg.h&quot;;&quot;.\src\ConfigurationDlg.cpp&quot;;&quot;tmp\moc\moc_ConfigurationDlg.cpp&quot;"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2817,20 +2849,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing CreateMovieDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\CreateMovieDlg.ui&quot; -o &quot;.\src\CreateMovieDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\CreateMovieDlg.ui&quot; -i &quot;.\src\CreateMovieDlg.h&quot; -o &quot;.\src\CreateMovieDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\CreateMovieDlg.h&quot; -o &quot;tmp\moc\moc_CreateMovieDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\CreateMovieDlg.ui&quot; -o &quot;.\src\CreateMovieDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\CreateMovieDlg.ui&quot; -i &quot;.\src\CreateMovieDlg.h&quot; -o &quot;.\src\CreateMovieDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\CreateMovieDlg.h&quot; -o &quot;.\src\moc_CreateMovieDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\CreateMovieDlg.h&quot;;&quot;.\src\CreateMovieDlg.cpp&quot;;&quot;tmp\moc\moc_CreateMovieDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\CreateMovieDlg.h&quot;;&quot;.\src\CreateMovieDlg.cpp&quot;;&quot;.\src\moc_CreateMovieDlg.cpp&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing CreateMovieDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\CreateMovieDlg.ui&quot; -o &quot;.\src\CreateMovieDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\CreateMovieDlg.ui&quot; -i &quot;.\src\CreateMovieDlg.h&quot; -o &quot;.\src\CreateMovieDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\CreateMovieDlg.h&quot; -o &quot;tmp\moc\moc_CreateMovieDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\CreateMovieDlg.ui&quot; -o &quot;.\src\CreateMovieDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\CreateMovieDlg.ui&quot; -i &quot;.\src\CreateMovieDlg.h&quot; -o &quot;.\src\CreateMovieDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\CreateMovieDlg.h&quot; -o &quot;.\src\moc_CreateMovieDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\CreateMovieDlg.h&quot;;&quot;.\src\CreateMovieDlg.cpp&quot;;&quot;tmp\moc\moc_CreateMovieDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\CreateMovieDlg.h&quot;;&quot;.\src\CreateMovieDlg.cpp&quot;;&quot;.\src\moc_CreateMovieDlg.cpp&quot;"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2840,20 +2872,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing DiaInfoDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\DiaInfoDlg.ui&quot; -o &quot;.\src\DiaInfoDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\DiaInfoDlg.ui&quot; -i &quot;.\src\DiaInfoDlg.h&quot; -o &quot;.\src\DiaInfoDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\DiaInfoDlg.h&quot; -o &quot;tmp\moc\moc_DiaInfoDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\DiaInfoDlg.ui&quot; -o &quot;.\src\DiaInfoDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\DiaInfoDlg.ui&quot; -i &quot;.\src\DiaInfoDlg.h&quot; -o &quot;.\src\DiaInfoDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\DiaInfoDlg.h&quot; -o &quot;.\src\moc_DiaInfoDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\DiaInfoDlg.h&quot;;&quot;.\src\DiaInfoDlg.cpp&quot;;&quot;tmp\moc\moc_DiaInfoDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\DiaInfoDlg.h&quot;;&quot;.\src\DiaInfoDlg.cpp&quot;;&quot;.\src\moc_DiaInfoDlg.cpp&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing DiaInfoDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\DiaInfoDlg.ui&quot; -o &quot;.\src\DiaInfoDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\DiaInfoDlg.ui&quot; -i &quot;.\src\DiaInfoDlg.h&quot; -o &quot;.\src\DiaInfoDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\DiaInfoDlg.h&quot; -o &quot;tmp\moc\moc_DiaInfoDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\DiaInfoDlg.ui&quot; -o &quot;.\src\DiaInfoDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\DiaInfoDlg.ui&quot; -i &quot;.\src\DiaInfoDlg.h&quot; -o &quot;.\src\DiaInfoDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\DiaInfoDlg.h&quot; -o &quot;.\src\moc_DiaInfoDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\DiaInfoDlg.h&quot;;&quot;.\src\DiaInfoDlg.cpp&quot;;&quot;tmp\moc\moc_DiaInfoDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\DiaInfoDlg.h&quot;;&quot;.\src\DiaInfoDlg.cpp&quot;;&quot;.\src\moc_DiaInfoDlg.cpp&quot;"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2863,20 +2895,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing DynTextDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\DynTextDlg.ui&quot; -o &quot;.\src\DynTextDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\DynTextDlg.ui&quot; -i &quot;.\src\DynTextDlg.h&quot; -o &quot;.\src\DynTextDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\DynTextDlg.h&quot; -o &quot;tmp\moc\moc_DynTextDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\DynTextDlg.ui&quot; -o &quot;.\src\DynTextDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\DynTextDlg.ui&quot; -i &quot;.\src\DynTextDlg.h&quot; -o &quot;.\src\DynTextDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\DynTextDlg.h&quot; -o &quot;.\src\moc_DynTextDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\DynTextDlg.h&quot;;&quot;.\src\DynTextDlg.cpp&quot;;&quot;tmp\moc\moc_DynTextDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\DynTextDlg.h&quot;;&quot;.\src\DynTextDlg.cpp&quot;;&quot;.\src\moc_DynTextDlg.cpp&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing DynTextDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\DynTextDlg.ui&quot; -o &quot;.\src\DynTextDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\DynTextDlg.ui&quot; -i &quot;.\src\DynTextDlg.h&quot; -o &quot;.\src\DynTextDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\DynTextDlg.h&quot; -o &quot;tmp\moc\moc_DynTextDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\DynTextDlg.ui&quot; -o &quot;.\src\DynTextDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\DynTextDlg.ui&quot; -i &quot;.\src\DynTextDlg.h&quot; -o &quot;.\src\DynTextDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\DynTextDlg.h&quot; -o &quot;.\src\moc_DynTextDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\DynTextDlg.h&quot;;&quot;.\src\DynTextDlg.cpp&quot;;&quot;tmp\moc\moc_DynTextDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\DynTextDlg.h&quot;;&quot;.\src\DynTextDlg.cpp&quot;;&quot;.\src\moc_DynTextDlg.cpp&quot;"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2886,20 +2918,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing EnterValueDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\EnterValueDlg.ui&quot; -o &quot;.\src\EnterValueDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\EnterValueDlg.ui&quot; -i &quot;.\src\EnterValueDlg.h&quot; -o &quot;.\src\EnterValueDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\EnterValueDlg.h&quot; -o &quot;tmp\moc\moc_EnterValueDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\EnterValueDlg.ui&quot; -o &quot;.\src\EnterValueDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\EnterValueDlg.ui&quot; -i &quot;.\src\EnterValueDlg.h&quot; -o &quot;.\src\EnterValueDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\EnterValueDlg.h&quot; -o &quot;.\src\moc_EnterValueDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\EnterValueDlg.h&quot;;&quot;.\src\EnterValueDlg.cpp&quot;;&quot;tmp\moc\moc_EnterValueDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\EnterValueDlg.h&quot;;&quot;.\src\EnterValueDlg.cpp&quot;;&quot;.\src\moc_EnterValueDlg.cpp&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing EnterValueDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\EnterValueDlg.ui&quot; -o &quot;.\src\EnterValueDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\EnterValueDlg.ui&quot; -i &quot;.\src\EnterValueDlg.h&quot; -o &quot;.\src\EnterValueDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\EnterValueDlg.h&quot; -o &quot;tmp\moc\moc_EnterValueDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\EnterValueDlg.ui&quot; -o &quot;.\src\EnterValueDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\EnterValueDlg.ui&quot; -i &quot;.\src\EnterValueDlg.h&quot; -o &quot;.\src\EnterValueDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\EnterValueDlg.h&quot; -o &quot;.\src\moc_EnterValueDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\EnterValueDlg.h&quot;;&quot;.\src\EnterValueDlg.cpp&quot;;&quot;tmp\moc\moc_EnterValueDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\EnterValueDlg.h&quot;;&quot;.\src\EnterValueDlg.cpp&quot;;&quot;.\src\moc_EnterValueDlg.cpp&quot;"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2909,20 +2941,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing EventMapDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\EventMapDlg.ui&quot; -o &quot;.\src\EventMapDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\EventMapDlg.ui&quot; -i &quot;.\src\EventMapDlg.h&quot; -o &quot;.\src\EventMapDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\EventMapDlg.h&quot; -o &quot;tmp\moc\moc_EventMapDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\EventMapDlg.ui&quot; -o &quot;.\src\EventMapDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\EventMapDlg.ui&quot; -i &quot;.\src\EventMapDlg.h&quot; -o &quot;.\src\EventMapDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\EventMapDlg.h&quot; -o &quot;.\src\moc_EventMapDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\EventMapDlg.h&quot;;&quot;.\src\EventMapDlg.cpp&quot;;&quot;tmp\moc\moc_EventMapDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\EventMapDlg.h&quot;;&quot;.\src\EventMapDlg.cpp&quot;;&quot;.\src\moc_EventMapDlg.cpp&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing EventMapDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\EventMapDlg.ui&quot; -o &quot;.\src\EventMapDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\EventMapDlg.ui&quot; -i &quot;.\src\EventMapDlg.h&quot; -o &quot;.\src\EventMapDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\EventMapDlg.h&quot; -o &quot;tmp\moc\moc_EventMapDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\EventMapDlg.ui&quot; -o &quot;.\src\EventMapDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\EventMapDlg.ui&quot; -i &quot;.\src\EventMapDlg.h&quot; -o &quot;.\src\EventMapDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\EventMapDlg.h&quot; -o &quot;.\src\moc_EventMapDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\EventMapDlg.h&quot;;&quot;.\src\EventMapDlg.cpp&quot;;&quot;tmp\moc\moc_EventMapDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\EventMapDlg.h&quot;;&quot;.\src\EventMapDlg.cpp&quot;;&quot;.\src\moc_EventMapDlg.cpp&quot;"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2932,20 +2964,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing HelpDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\HelpDlg.ui&quot; -o &quot;.\src\HelpDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\HelpDlg.ui&quot; -i &quot;.\src\HelpDlg.h&quot; -o &quot;.\src\HelpDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\HelpDlg.h&quot; -o &quot;tmp\moc\moc_HelpDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\HelpDlg.ui&quot; -o &quot;.\src\HelpDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\HelpDlg.ui&quot; -i &quot;.\src\HelpDlg.h&quot; -o &quot;.\src\HelpDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\HelpDlg.h&quot; -o &quot;.\src\moc_HelpDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\HelpDlg.h&quot;;&quot;.\src\HelpDlg.cpp&quot;;&quot;tmp\moc\moc_HelpDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\HelpDlg.h&quot;;&quot;.\src\HelpDlg.cpp&quot;;&quot;.\src\moc_HelpDlg.cpp&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing HelpDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\HelpDlg.ui&quot; -o &quot;.\src\HelpDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\HelpDlg.ui&quot; -i &quot;.\src\HelpDlg.h&quot; -o &quot;.\src\HelpDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\HelpDlg.h&quot; -o &quot;tmp\moc\moc_HelpDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\HelpDlg.ui&quot; -o &quot;.\src\HelpDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\HelpDlg.ui&quot; -i &quot;.\src\HelpDlg.h&quot; -o &quot;.\src\HelpDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\HelpDlg.h&quot; -o &quot;.\src\moc_HelpDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\HelpDlg.h&quot;;&quot;.\src\HelpDlg.cpp&quot;;&quot;tmp\moc\moc_HelpDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\HelpDlg.h&quot;;&quot;.\src\HelpDlg.cpp&quot;;&quot;.\src\moc_HelpDlg.cpp&quot;"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2955,20 +2987,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing LicenseDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\LicenseDlg.ui&quot; -o &quot;.\src\LicenseDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\LicenseDlg.ui&quot; -i &quot;.\src\LicenseDlg.h&quot; -o &quot;.\src\LicenseDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\LicenseDlg.h&quot; -o &quot;tmp\moc\moc_LicenseDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\LicenseDlg.ui&quot; -o &quot;.\src\LicenseDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\LicenseDlg.ui&quot; -i &quot;.\src\LicenseDlg.h&quot; -o &quot;.\src\LicenseDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\LicenseDlg.h&quot; -o &quot;.\src\moc_LicenseDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\LicenseDlg.h&quot;;&quot;.\src\LicenseDlg.cpp&quot;;&quot;tmp\moc\moc_LicenseDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\LicenseDlg.h&quot;;&quot;.\src\LicenseDlg.cpp&quot;;&quot;.\src\moc_LicenseDlg.cpp&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing LicenseDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\LicenseDlg.ui&quot; -o &quot;.\src\LicenseDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\LicenseDlg.ui&quot; -i &quot;.\src\LicenseDlg.h&quot; -o &quot;.\src\LicenseDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\LicenseDlg.h&quot; -o &quot;tmp\moc\moc_LicenseDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\LicenseDlg.ui&quot; -o &quot;.\src\LicenseDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\LicenseDlg.ui&quot; -i &quot;.\src\LicenseDlg.h&quot; -o &quot;.\src\LicenseDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\LicenseDlg.h&quot; -o &quot;.\src\moc_LicenseDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\LicenseDlg.h&quot;;&quot;.\src\LicenseDlg.cpp&quot;;&quot;tmp\moc\moc_LicenseDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\LicenseDlg.h&quot;;&quot;.\src\LicenseDlg.cpp&quot;;&quot;.\src\moc_LicenseDlg.cpp&quot;"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2978,20 +3010,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing PlayInfoDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\PlayInfoDlg.ui&quot; -o &quot;.\src\PlayInfoDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\PlayInfoDlg.ui&quot; -i &quot;.\src\PlayInfoDlg.h&quot; -o &quot;.\src\PlayInfoDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\PlayInfoDlg.h&quot; -o &quot;tmp\moc\moc_PlayInfoDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\PlayInfoDlg.ui&quot; -o &quot;.\src\PlayInfoDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\PlayInfoDlg.ui&quot; -i &quot;.\src\PlayInfoDlg.h&quot; -o &quot;.\src\PlayInfoDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\PlayInfoDlg.h&quot; -o &quot;.\src\moc_PlayInfoDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\PlayInfoDlg.h&quot;;&quot;.\src\PlayInfoDlg.cpp&quot;;&quot;tmp\moc\moc_PlayInfoDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\PlayInfoDlg.h&quot;;&quot;.\src\PlayInfoDlg.cpp&quot;;&quot;.\src\moc_PlayInfoDlg.cpp&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing PlayInfoDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\PlayInfoDlg.ui&quot; -o &quot;.\src\PlayInfoDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\PlayInfoDlg.ui&quot; -i &quot;.\src\PlayInfoDlg.h&quot; -o &quot;.\src\PlayInfoDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\PlayInfoDlg.h&quot; -o &quot;tmp\moc\moc_PlayInfoDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\PlayInfoDlg.ui&quot; -o &quot;.\src\PlayInfoDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\PlayInfoDlg.ui&quot; -i &quot;.\src\PlayInfoDlg.h&quot; -o &quot;.\src\PlayInfoDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\PlayInfoDlg.h&quot; -o &quot;.\src\moc_PlayInfoDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\PlayInfoDlg.h&quot;;&quot;.\src\PlayInfoDlg.cpp&quot;;&quot;tmp\moc\moc_PlayInfoDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\PlayInfoDlg.h&quot;;&quot;.\src\PlayInfoDlg.cpp&quot;;&quot;.\src\moc_PlayInfoDlg.cpp&quot;"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -3001,20 +3033,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing PresentationDataDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\PresentationDataDlg.ui&quot; -o &quot;.\src\PresentationDataDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\PresentationDataDlg.ui&quot; -i &quot;.\src\PresentationDataDlg.h&quot; -o &quot;.\src\PresentationDataDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\PresentationDataDlg.h&quot; -o &quot;tmp\moc\moc_PresentationDataDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\PresentationDataDlg.ui&quot; -o &quot;.\src\PresentationDataDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\PresentationDataDlg.ui&quot; -i &quot;.\src\PresentationDataDlg.h&quot; -o &quot;.\src\PresentationDataDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\PresentationDataDlg.h&quot; -o &quot;.\src\moc_PresentationDataDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\PresentationDataDlg.h&quot;;&quot;.\src\PresentationDataDlg.cpp&quot;;&quot;tmp\moc\moc_PresentationDataDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\PresentationDataDlg.h&quot;;&quot;.\src\PresentationDataDlg.cpp&quot;;&quot;.\src\moc_PresentationDataDlg.cpp&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing PresentationDataDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\PresentationDataDlg.ui&quot; -o &quot;.\src\PresentationDataDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\PresentationDataDlg.ui&quot; -i &quot;.\src\PresentationDataDlg.h&quot; -o &quot;.\src\PresentationDataDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\PresentationDataDlg.h&quot; -o &quot;tmp\moc\moc_PresentationDataDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\PresentationDataDlg.ui&quot; -o &quot;.\src\PresentationDataDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\PresentationDataDlg.ui&quot; -i &quot;.\src\PresentationDataDlg.h&quot; -o &quot;.\src\PresentationDataDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\PresentationDataDlg.h&quot; -o &quot;.\src\moc_PresentationDataDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\PresentationDataDlg.h&quot;;&quot;.\src\PresentationDataDlg.cpp&quot;;&quot;tmp\moc\moc_PresentationDataDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\PresentationDataDlg.h&quot;;&quot;.\src\PresentationDataDlg.cpp&quot;;&quot;.\src\moc_PresentationDataDlg.cpp&quot;"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -3024,20 +3056,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing ProjectorControlDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\ProjectorControlDlg.ui&quot; -o &quot;.\src\ProjectorControlDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\ProjectorControlDlg.ui&quot; -i &quot;.\src\ProjectorControlDlg.h&quot; -o &quot;.\src\ProjectorControlDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\ProjectorControlDlg.h&quot; -o &quot;tmp\moc\moc_ProjectorControlDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\ProjectorControlDlg.ui&quot; -o &quot;.\src\ProjectorControlDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\ProjectorControlDlg.ui&quot; -i &quot;.\src\ProjectorControlDlg.h&quot; -o &quot;.\src\ProjectorControlDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\ProjectorControlDlg.h&quot; -o &quot;.\src\moc_ProjectorControlDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\ProjectorControlDlg.h&quot;;&quot;.\src\ProjectorControlDlg.cpp&quot;;&quot;tmp\moc\moc_ProjectorControlDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\ProjectorControlDlg.h&quot;;&quot;.\src\ProjectorControlDlg.cpp&quot;;&quot;.\src\moc_ProjectorControlDlg.cpp&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing ProjectorControlDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\ProjectorControlDlg.ui&quot; -o &quot;.\src\ProjectorControlDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\ProjectorControlDlg.ui&quot; -i &quot;.\src\ProjectorControlDlg.h&quot; -o &quot;.\src\ProjectorControlDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\ProjectorControlDlg.h&quot; -o &quot;tmp\moc\moc_ProjectorControlDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\ProjectorControlDlg.ui&quot; -o &quot;.\src\ProjectorControlDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\ProjectorControlDlg.ui&quot; -i &quot;.\src\ProjectorControlDlg.h&quot; -o &quot;.\src\ProjectorControlDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\ProjectorControlDlg.h&quot; -o &quot;.\src\moc_ProjectorControlDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\ProjectorControlDlg.h&quot;;&quot;.\src\ProjectorControlDlg.cpp&quot;;&quot;tmp\moc\moc_ProjectorControlDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\ProjectorControlDlg.h&quot;;&quot;.\src\ProjectorControlDlg.cpp&quot;;&quot;.\src\moc_ProjectorControlDlg.cpp&quot;"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -3047,20 +3079,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing SoundInfoDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\SoundInfoDlg.ui&quot; -o &quot;.\src\SoundInfoDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\SoundInfoDlg.ui&quot; -i &quot;.\src\SoundInfoDlg.h&quot; -o &quot;.\src\SoundInfoDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\SoundInfoDlg.h&quot; -o &quot;tmp\moc\moc_SoundInfoDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\SoundInfoDlg.ui&quot; -o &quot;.\src\SoundInfoDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\SoundInfoDlg.ui&quot; -i &quot;.\src\SoundInfoDlg.h&quot; -o &quot;.\src\SoundInfoDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\SoundInfoDlg.h&quot; -o &quot;.\src\moc_SoundInfoDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\SoundInfoDlg.h&quot;;&quot;.\src\SoundInfoDlg.cpp&quot;;&quot;tmp\moc\moc_SoundInfoDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\SoundInfoDlg.h&quot;;&quot;.\src\SoundInfoDlg.cpp&quot;;&quot;.\src\moc_SoundInfoDlg.cpp&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing SoundInfoDlg.ui..."
-						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\SoundInfoDlg.ui&quot; -o &quot;.\src\SoundInfoDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\SoundInfoDlg.ui&quot; -i &quot;.\src\SoundInfoDlg.h&quot; -o &quot;.\src\SoundInfoDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\SoundInfoDlg.h&quot; -o &quot;tmp\moc\moc_SoundInfoDlg.cpp&quot;
+						CommandLine="$(QTDIR)\bin\uic.exe &quot;.\src\SoundInfoDlg.ui&quot; -o &quot;.\src\SoundInfoDlg.h&quot; &amp;&amp; $(QTDIR)\bin\uic.exe &quot;.\src\SoundInfoDlg.ui&quot; -i &quot;.\src\SoundInfoDlg.h&quot; -o &quot;.\src\SoundInfoDlg.cpp&quot; &amp;&amp; $(QTDIR)\bin\moc.exe &quot;.\src\SoundInfoDlg.h&quot; -o &quot;.\src\moc_SoundInfoDlg.cpp&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\src\SoundInfoDlg.h&quot;;&quot;.\src\SoundInfoDlg.cpp&quot;;&quot;tmp\moc\moc_SoundInfoDlg.cpp&quot;"/>
+						Outputs="&quot;.\src\SoundInfoDlg.h&quot;;&quot;.\src\SoundInfoDlg.cpp&quot;;&quot;.\src\moc_SoundInfoDlg.cpp&quot;"/>
 				</FileConfiguration>
 			</File>
 		</Filter>
