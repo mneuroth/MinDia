@@ -81,9 +81,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.h,v $
  *
- *  $Revision: 1.8 $
+ *  $Revision: 1.9 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.8  2004/04/09 15:24:20  min
+ *	Added new menu item for avi export
+ *	
  *	Revision 1.7  2004/02/22 11:00:10  min
  *	QTranslator better handled.
  *	
@@ -278,7 +281,7 @@ public slots:
 	void sltDoUpdateAllViews();
 	void sltDoSyncAllViews();
 
-	void sltStartAutoStartTimer( bool bAutoRun, bool bShowScreen, bool bExitOnFinished, int iScreenX, int iScreenY, int iPosX, int iPosY );
+	void sltStartAutoStartTimer( bool bAutoRun, bool bShowScreen, bool bExpandImage, bool bExitOnFinished, int iScreenX, int iScreenY, int iPosX, int iPosY );
 	void sltAutoStartTimerEvent();
 	void sltStatusUpdateTimerEvent();
 
@@ -444,6 +447,7 @@ private:
 	double			m_dDissolveTime;			// in seconds
 	bool			m_bAutoRun;
 	bool			m_bShowScreen;
+	bool			m_bExpandImage;
 	bool			m_bExitOnFinished;
 	int				m_iScreenX;
 	int				m_iScreenY;

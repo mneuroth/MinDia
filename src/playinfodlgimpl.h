@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/playinfodlgimpl.h,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2004/04/09 15:43:28  min
+ *	Optimizations for Zaurus port.
+ *	
  *	Revision 1.2  2004/02/20 20:11:07  min
  *	Bugfixes and fullscreen button implemented.
  *
@@ -127,6 +130,8 @@ public:
 
 	bool IsFading() const;
 	void StartStopFade();
+
+	void SetExpandImage( bool bExpand );
 
 	// ** implements the IDiaOutputWindow-(Script)Interface **
 	virtual bool	IsValid() const;

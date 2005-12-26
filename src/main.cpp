@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/main.cpp,v $
  *
- *  $Revision: 1.9 $
+ *  $Revision: 1.10 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.9  2004/02/22 11:00:10  min
+ *	QTranslator better handled.
+ *	
  *	Revision 1.8  2004/02/21 00:54:52  min
  *	Automatic language detection implemented.
  *	
@@ -372,6 +375,7 @@ int main( int argc, char** argv )
 	bool bAutoRun = false;
 	bool bShowScreen = false;
 	bool bExitOnFinished = false;
+	bool bExpand = false;	// expand images
 	int  iScreenX = 0;
 	int  iScreenY = 0;
 	int  iPosX = 0;
@@ -445,6 +449,10 @@ int main( int argc, char** argv )
 		{
 			QString sSize = s.right( s.length()-3 );
 			iPosY = sSize.toInt();
+		}
+		else if( s == "-expand" )	// otherwise: original size !
+		{
+			bExpand = true;
 		}
 		else if( s == "-en" )
 		{
@@ -526,7 +534,7 @@ int main( int argc, char** argv )
 
 	if( bAutoRun || bShowScreen )
 	{
-		aWindow.sltStartAutoStartTimer( bAutoRun, bShowScreen, bExitOnFinished, iScreenX, iScreenY, iPosX, iPosY );
+		aWindow.sltStartAutoStartTimer( bAutoRun, bShowScreen, bExpand, bExitOnFinished, iScreenX, iScreenY, iPosX, iPosY );
 	}
     /* test code to checke which image-formats are supported.
 	QStringList aList = QImage::inputFormatList () ;

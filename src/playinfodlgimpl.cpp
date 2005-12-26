@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/playinfodlgimpl.cpp,v $
  *
- *  $Revision: 1.6 $
+ *  $Revision: 1.7 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.6  2004/04/09 15:43:10  min
+ *	Optimizations for Zaurus port.
+ *	
  *	Revision 1.5  2004/04/09 15:20:54  min
  *	removed inline for _FadeImage()
  *
@@ -1216,15 +1219,24 @@ void PlayInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 	}
 	else if( /*((pEvent->state() & ControlButton)==ControlButton) &&*/ (pEvent->ascii() == 'r') )
 	{
-		emit sigDoPlay();
+		if( m_pRun->isEnabled() )
+		{
+			emit sigDoPlay();
+		}
 	}
 	else if( (pEvent->ascii() == 'p') )
 	{
-		emit sigDoPause();
+		if( m_pPause->isEnabled() )
+		{
+			emit sigDoPause();
+		}
 	}
 	else if( (pEvent->ascii() == 't') )
 	{
-		emit sigDoStop();
+		if( m_pStop->isEnabled() )
+		{
+			emit sigDoStop();
+		}
 	}
 	else
 	{
@@ -1244,6 +1256,18 @@ void PlayInfoDlgImpl::resizeEvent( QResizeEvent * pEvent )
 	sltSetImage( m_aActImage );
 
 	PlayInfoDialog::resizeEvent( pEvent );
+}
+
+void PlayInfoDlgImpl::SetExpandImage( bool bExpand )
+{
+	if( bExpand )
+	{
+		m_pScaleExpand->setChecked( TRUE );
+	}
+	else
+	{
+		m_pScaleOriginal->setChecked( TRUE );
+	}
 }
 
 // *******************************************************************

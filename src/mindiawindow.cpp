@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.cpp,v $
  *
- *  $Revision: 1.12 $
+ *  $Revision: 1.13 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.12  2004/04/09 15:24:20  min
+ *	Added new menu item for avi export
+ *	
  *	Revision 1.11  2004/02/22 11:00:10  min
  *	QTranslator better handled.
  *	
@@ -101,6 +104,7 @@
 #include <qlineedit.h>
 #include <qtextview.h>
 #include <qtextcodec.h>
+#include <qradiobutton.h> 
 
 //#include <qsound.h>
 
@@ -779,6 +783,11 @@ void MinDiaWindow::sltDoPlayInfos()
 				m_pPlayInfoDialog->SetSize( m_iScreenX, m_iScreenY );
 			}
 
+			if( m_bExpandImage )
+			{
+				m_pPlayInfoDialog->SetExpandImage( true );
+			}
+
 			// update the states of the run, pause and stop buttons in this dialog
 			sltUpdatePlayMenu();
 		}
@@ -1088,12 +1097,13 @@ void MinDiaWindow::sltExportDoc()
 
 void MinDiaWindow::sltExportAVI()
 {
-	CreateMovieDlgImpl * pDlg = new CreateMovieDlgImpl( m_pControler->GetPresentation().GetTotalTime()*1000, this, "create_move", /*modal*/TRUE );
+	CreateMovieDlgImpl * pDlg = new CreateMovieDlgImpl( m_pControler, m_pControler->GetPresentation().GetTotalTime()*1000, this, "create_move", /*modal*/TRUE );
 		
 	int iRet = pDlg->exec();
 
 	if( iRet == 1 )
 	{
+/*
 		QString sName = pDlg->m_pImageNameOffset->text();
 		QString sDir = pDlg->m_pDirectoryName->text();
 		QString sCmd = pDlg->m_pGeneratorCmd->text();
@@ -1113,6 +1123,7 @@ void MinDiaWindow::sltExportAVI()
 //			int iRet = system( (const char *)sCmd );
 //			cerr << "system(\"" << (const char *)sCmd << "\") = " << iRet << endl;
 		}
+*/
 	}
 
 	delete pDlg;
@@ -1429,12 +1440,13 @@ void MinDiaWindow::sltDoSyncAllViews()
 	m_pTimeLineView->SyncViewWithData();
 }
 
-void MinDiaWindow::sltStartAutoStartTimer( bool bAutoRun, bool bShowScreen, bool bExitOnFinished, int iScreenX, int iScreenY, int iPosX, int iPosY )
+void MinDiaWindow::sltStartAutoStartTimer( bool bAutoRun, bool bShowScreen, bool bExpandImage, bool bExitOnFinished, int iScreenX, int iScreenY, int iPosX, int iPosY )
 {
 	m_pAutoStartTimer = new QTimer( this );
 
 	m_bAutoRun = bAutoRun;
 	m_bShowScreen = bShowScreen;
+	m_bExpandImage = bExpandImage;
 	m_bExitOnFinished = bExitOnFinished;
 	m_iScreenX = iScreenX;
 	m_iScreenY = iScreenY;
