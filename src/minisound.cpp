@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/minisound.cpp,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2004/02/16 19:47:25  min
+ *	Fixes for Borland C++
+ *	
  *	Revision 1.2  2004/01/18 23:38:18  min
  *	Disabling debug outputs.
  *	
@@ -47,6 +50,15 @@
 #include <qfile.h>
 
 #if defined( _MSC_VER ) || defined( __BORLANDC__ )
+#define _WINDOWS_SOUND
+//#define _UNIX_SOUND		// for debugging TESTS
+#else
+//#ifdef __linux__
+#define _UNIX_SOUND
+//#endif
+#endif
+
+#ifdef _WINDOWS_SOUND
 #include <windows.h>
 #include <mmsystem.h>
 
@@ -60,9 +72,9 @@ int mciGetErrorStringX( int iErrorNo, char * sBuffer, int iBufferLength )
 	return ::mciGetErrorString( iErrorNo, (LPTSTR)sBuffer, iBufferLength );
 }
 
-#endif
+#endif //_WINDOWS_SOUND
 
-#ifdef __linux__
+#ifdef _UNIX_SOUND
 
 #define DEBUG_OUT(x)	
 //#define DEBUG_OUT(x)	x
@@ -89,8 +101,9 @@ int mciGetErrorStringX( int iErrorNo, char * sBuffer, int iBufferLength )
 #define _FADE_IN		"fade_in"
 #define _FADE_OUT		"fade_out"
 
-
+#ifdef __linux__
 typedef int MCIERROR;
+#endif
 
 // ** some dummy implementions for linux **
 
@@ -394,7 +407,7 @@ int mciGetErrorStringX( int /*iErrorNo*/, char * /*sBuffer*/, int /*iBufferLengt
 	return 0;
 }
 
-#endif
+#endif //_UNIX_SOUND
 
 // *******************************************************************
 // *******************************************************************
@@ -893,14 +906,12 @@ void miniSound::Run()
 					// ** calculate time values
 					m_iTotalTimeInMS += iDeltaTime;
 					iNextRelStopPos = hItem->GetStopPos();
-// min todo gulp
-//cout << "NEXT STOP pos " <<iNextRelStopPos << endl;
+
 					if( iNextRelStopPos == -1 )
 					{
 						iNextRelStopPos = GetTotalLengthInMS();
 					}
-// min todo gulp
-//cout << "NEXT STOP pos (2) " <<iNextRelStopPos << endl;
+
 					iDeltaTime = iNextRelStopPos - hItem->GetStartPos();
 
 					// ** and start playing

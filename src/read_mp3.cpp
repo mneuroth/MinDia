@@ -22,7 +22,7 @@
 using namespace std;
 
 typedef unsigned long   ulong;
-typedef /*unsigned*/ char	byte;
+typedef /*unsigned*/ char	_byte;
 
 class MP3Header
 {
@@ -62,8 +62,8 @@ public:
 */
         lngFileSize = FileUtilityObj::GetFileSize(FileName.c_str()); //Length;
 
-        byte * bytHeader = new byte[4];
-        byte * bytVBitRate = new byte[12];
+        _byte * bytHeader = new _byte[4];
+        _byte * bytVBitRate = new _byte[12];
         int intPos = 0;
         
         // Keep reading 4 bytes from the header until we know for sure that in 
@@ -132,7 +132,7 @@ public:
     }
 
 private:
-    void LoadMP3Header(byte * c)
+    void LoadMP3Header(_byte * c)
     {
         // this thing is quite interesting, it works like the following
         // c[0] = 00000011
@@ -149,7 +149,7 @@ private:
         bithdr = (ulong)(((c[0] & 255) << 24) | ((c[1] & 255) << 16) | ((c[2] & 255) <<  8) | ((c[3] & 255))); 
     }
 
-    bool LoadVBRHeader(byte * inputheader)
+    bool LoadVBRHeader(_byte * inputheader)
     {
         // If it's a variable bitrate MP3, the first 4 bytes will read 'Xing'
         // since they're the ones who added variable bitrate-edness to MP3s
