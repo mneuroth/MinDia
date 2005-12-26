@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mp3file.h,v $
  *
- *  $Revision: 1.3 $
+ *  $Revision: 1.4 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.3  2004/02/16 19:45:42  min
+ *	Fixes for Borland C++
+ *	
  *	Revision 1.2  2003/10/26 17:28:55  min
  *	Implemented function to calculate mp3-file length for linux.
  *	
@@ -35,7 +38,7 @@
 #ifndef _MP3FILE_H
 #define _MP3FILE_H
 
-#if !defined( _MSC_VER ) && !defined( __BORLANDC__ )
+#include <qdatetime.h>
 
 #include <string>
 
@@ -69,6 +72,7 @@ public:
 private:
 	void UpdateSettingsFromIniFile();
 
+	QTime			m_aPlayTime;
 	string 			m_sFileName;
 	string			m_sMp3Player;
 	string			m_sMp3Options;
@@ -77,7 +81,5 @@ private:
 	int				m_iPID;
 	MiniIniDB *		m_pIniDB;			// no owner !
 };
-
-#endif
 
 #endif

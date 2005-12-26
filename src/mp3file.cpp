@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mp3file.cpp,v $
  *
- *  $Revision: 1.5 $
+ *  $Revision: 1.6 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.5  2004/02/16 19:45:58  min
+ *	Fixes for Borland C++
+ *	
  *	Revision 1.4  2004/01/18 23:37:05  min
  *	Unused variable commented
  *	
@@ -38,8 +41,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#if !defined( _MSC_VER ) && !defined( __BORLANDC__ )
-
 #include "mp3file.h"
 
 #include "osdep2.h"
@@ -51,8 +52,10 @@
 
 #include <vector>
 
+#ifdef __linux__
 #include <unistd.h>
 #include <sys/wait.h>
+#endif
 #include <signal.h>
 #include <stdio.h>
 
@@ -155,7 +158,11 @@ void Mp3File::stopPlay()
 {
 	if( m_iPID>0 )
 	{
+#ifdef __linux__
 		/*int iOk =*/ kill( m_iPID, SIGKILL );
+#else
+		// TODO min
+#endif
 	}
 
 	m_iPlayModus = 0;
@@ -165,7 +172,11 @@ void Mp3File::pausePlay()
 {
 	if( m_iPID>0 )
 	{
+#ifdef __linux__
 		kill( m_iPID, SIGSTOP );
+#else
+		// TODO min
+#endif
 	}
 }
 
@@ -173,7 +184,11 @@ void Mp3File::resumePlay()
 {
 	if( m_iPID>0 )
 	{
+#ifdef __linux__
 		kill( m_iPID, SIGCONT );
+#else
+		// TODO min
+#endif
 	}
 
 	m_iPlayModus = 1;
@@ -181,13 +196,17 @@ void Mp3File::resumePlay()
 
 void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
 {
+#ifdef __linux__
 	m_iPID = fork();
 
 	if( m_iPID==0 )
 	{
 		signal( SIGTERM, SIG_DFL );
 		setpgrp();
-
+#else
+	if( true )
+	{
+#endif
 		char sProgName[_MAX_LEN];
 		char sName[_MAX_LEN];
 		//char sStart[_MAX_LEN];
@@ -198,9 +217,11 @@ void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
 		int iCount = 0;
 		unsigned long i = 0;
 		char * sArgs[7];
+		string strArgs;
 
 		sprintf( sProgName, "%s", m_sMp3Player.c_str() );	// "mpg123"
 		sArgs[iCount] = sProgName;
+		strArgs += sProgName+string(" ");
 		iCount++;
 
 		vector<string> aOptionsVec;
@@ -208,6 +229,7 @@ void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
 		for( i=0; i<aOptionsVec.size(); i++ )
 		{
 			sArgs[iCount] = (char *)aOptionsVec[i].c_str();
+			strArgs += aOptionsVec[i]+" ";
 			iCount++;
 		}
 
@@ -226,13 +248,20 @@ void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
 */
 		sprintf( sName, "%s", m_sFileName.c_str() );
 		sArgs[iCount] = sName;
+		strArgs += sName+string(" ");
 		iCount++;
 
 		sArgs[iCount] = 0;
 		iCount++;
 
-		/*int iOk =*/ execvp( sArgs[0], sArgs );
+		// start the timer for the play-time...
+		m_aPlayTime.start();
 
+#ifdef __linux__
+		/*int iOk =*/ execvp( sArgs[0], sArgs );
+#else
+		int iOk = system(strArgs.c_str());
+#endif
 		//debug: printf( "child iRet=%d!\n", iOk );
 	}
 	else
@@ -255,8 +284,7 @@ void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
 
 double Mp3File::getCurrPlayPosInSeconds()
 {
-	// min todo
-	return 0;
+	return m_aPlayTime.elapsed()/1000;
 }
 
 double Mp3File::getTotalPlayTimeInSeconds()
@@ -286,8 +314,7 @@ int Mp3File::getActivePlay()
 
 int Mp3File::getCurrPlayPos()
 {
-	// min todo
-	return 0;
+	return m_aPlayTime.elapsed();
 }
 
 void Mp3File::playInThread()
@@ -310,5 +337,3 @@ void Mp3File::UpdateSettingsFromIniFile()
 		m_sMp3Options = m_pIniDB->GetValue( c_sActPlayerOptionsKey );
 	}
 }
-
-#endif
