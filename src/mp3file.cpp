@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mp3file.cpp,v $
  *
- *  $Revision: 1.6 $
+ *  $Revision: 1.7 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.6  2005/12/26 16:16:43  Michael
+ *	added support to compile file under windows and bugfix for playing multiple mp3 files under linux
+ *	
  *	Revision 1.5  2004/02/16 19:45:58  min
  *	Fixes for Borland C++
  *	
@@ -196,6 +199,9 @@ void Mp3File::resumePlay()
 
 void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
 {
+	// start the timer for the play-time... (important: start timer before fork() !!!)
+	m_aPlayTime.start();
+
 #ifdef __linux__
 	m_iPID = fork();
 
@@ -253,9 +259,6 @@ void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
 
 		sArgs[iCount] = 0;
 		iCount++;
-
-		// start the timer for the play-time...
-		m_aPlayTime.start();
 
 #ifdef __linux__
 		/*int iOk =*/ execvp( sArgs[0], sArgs );
