@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/dyngraphop.cpp,v $
  *
- *  $Revision: 1.5 $
+ *  $Revision: 1.6 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.5  2004/04/09 15:20:07  min
+ *	Added new methods for movie support
+ *	
  *	Revision 1.4  2004/03/19 13:24:48  min
  *	Disable dynamic graphic operations for the Zaurus.
  *	
@@ -1821,6 +1824,9 @@ void DynText::SetAttributesFrom( DynText * pOtherItem )
 
 void DynText::PaintForTime( QPainter & aPainter, double dTimeMS ) const
 {
+#ifdef ZAURUS
+    return;
+#else
 	double dStartTimeInMS; 
 	double dShowTimeInMS;
 	
@@ -1843,6 +1849,7 @@ void DynText::PaintForTime( QPainter & aPainter, double dTimeMS ) const
 			aPainter.drawText( x(), y(), GetString().c_str() );
 		}
 	}
+#endif
 }
 
 bool DynText::IsNextChanging( double dTimeMS, double dDeltaMS ) const

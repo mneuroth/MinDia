@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/sndinfodlgimpl.cpp,v $
  *
- *  $Revision: 1.1.1.1 $
+ *  $Revision: 1.2 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.1.1.1  2003/08/15 16:38:22  min
+ *	Initial checkin of MinDia Ver. 0.97.1
+ *	
  *
  ***************************************************************************/
 /***************************************************************************
@@ -77,7 +80,9 @@ SoundInfoDlgImpl::SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* pa
 	m_pTable->setColumnWidth( 10, 75 );
 
 	// ** cancel button not supported yet
+#ifndef ZAURUS
 	buttonCancel->setEnabled( false );
+#endif
 
 	TransferData( true );
 	UpdateCalculatedData();

@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/playinfodlgimpl.cpp,v $
  *
- *  $Revision: 1.7 $
+ *  $Revision: 1.8 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.7  2005/12/26 16:11:40  Michael
+ *	added new command line option -expand
+ *	
  *	Revision 1.6  2004/04/09 15:43:10  min
  *	Optimizations for Zaurus port.
  *	
@@ -1260,6 +1263,7 @@ void PlayInfoDlgImpl::resizeEvent( QResizeEvent * pEvent )
 
 void PlayInfoDlgImpl::SetExpandImage( bool bExpand )
 {
+#ifndef ZAURUS
 	if( bExpand )
 	{
 		m_pScaleExpand->setChecked( TRUE );
@@ -1268,6 +1272,7 @@ void PlayInfoDlgImpl::SetExpandImage( bool bExpand )
 	{
 		m_pScaleOriginal->setChecked( TRUE );
 	}
+#endif
 }
 
 // *******************************************************************
