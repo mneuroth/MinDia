@@ -319,7 +319,7 @@ change history:
 28. 1.2004  1h		prepare next release (created source zip file)
 29. 1.2004  2h		bugfixes: tooltips showed over status bar will be cleared, drag and drop was not disabled in run modus, -en commandline argument allowed
 31. 1.2004  3h		bugfix: handle simulation flag corret, create com port object if needed, prepare next release
- 1. 2.2004  2h		prepare next release and released
+ 1. 2.2004  2h		prepare next release and released Mindia version 0.97,2
 ---------------------------------------------------------------------------------------------------
 13. 2.2004  2h		ported mindia to Qt 3.2.1 non-commercial (--> set QTLIB for lib !), 
                     small fixes (QString), jpg support is buildin in qt3 (no ext. jpg lib needed)
@@ -333,6 +333,90 @@ change history:
 					automatic language detection implemented.
 21. 2.2004	6h		help dialog improved (search now possible), moved to Python 2.3.3, 
 					uninstall for linux implemented
+22. 2.2004  4h      Label for helpdialog implemented, QTranslator handling improved, makefile improved
+                    Mindia Version 0.97.3 released
+---------------------------------------------------------------------------------------------------
+					compile problem in misctools.cpp with tolower() solved
+26. 2.2004  3h		updating zmindia to version 0.97.3
+12. 3.2004  4h		improving zmindia, implemented zdiainfodlg for zaurus, added delete item in diainfodlgimpl
+13. 3.2004  4h      bugfix: 0s in timelineaxis for empty presentations removed, 
+                    bugfix: DocumentAndControler::GetDocName() worked on a local variable
+					bugfix: DynContainer-operations not executed for Zaurus,
+                    copy2zaurus.py started
+15. 3.2004  2h		tests with mjpeg-tools: creating avi and mpg files !!!
+19. 3.2004  4h		working on exporting presentation to avi
+20. 3.2004  5h		working on exporting presentation to avi, created new directory 'movie', created new dialog CreateMenuDlg
+23. 3.2004  2h		compiling mjpegtools for windows
+25. 3.2004  2h		working on the optimization of the avi export, compiling mjpegtools for windows
+ 2. 4.2004  4h		working on Zaurus implementation (optimization for c860)
+ 4. 4.2004  2h		optimization for c860
+ 5. 4.2004  3h		working on Zaurus implementation (ZPlayInfoDlg implemented)	 
+ 9. 4.2004  2h      updated cvs archiv, save menuitem for zmindia added
+13. 4.2004	3h		bugfix: crash by pressing 'p' in playinfo
+15. 4.2004  2h		tests for antialias fonts under linux --> use qtconfig to enable !
+25. 9.2004	1h		added new command line option: -expand (to scale the images in the PlayInfo-Dialog)
+27.10.2004	2h		new script createshow.py to create a new slide show, improved script copy2zaurus.py 
+
+23. 1.2005  2h		porting to MS-Visual C++.NET and Qt3_Net
+26.12.2005  5h		small bugfixes from Meinhard Ritscher, bugfix for sound support under linux (playing second mp3 file now, because of implementing Mp3File::getCurrPlayPosInSeconds())
+					mp3file.h, mp3file.cpp, read_mp3.cpp, minisound.cpp (support for other sound implementation under windows)
+					ported mindiapyc.dsp to .NET, added INNO Setup support for .NET compiler
+27.12.2005  5h      compiled application for zaurus, added filebrowser as file-dialog for zaurus platform, 
+                    added sound-info-dialog for zaurus platform, added menu-item for new for zaurus platform,
+                    enlarged play-info-dialog for zaurus platform
+
+//TODO: update3.zip einarbeiten
+//TODO: Speichern für ZMindia implementieren
+TODO: groesseren ZPlayInfoDlg implementieren
+
+//TODO: anti alias fonts...
+
+gnuplot: /usr/local/share/gnuplot/4.0/gnuplot.gih
+gnuplot-configure: ./configure --host=arm --with-x=no --with-gihdir=/opt/QtPalmtop/help
+
+TODO: Image-Funktionen (skalieren, etc.) als Skript-Funktionen zur Verfügung stellen...
+
+TODO: wie baue ich binary RPM ??? --> movie Verzeichnis
+
+TODO: PATH für mjpeg tools temporär anpassen...
+TODO: script mit image skalierung für zaurus
+TODO: Button für erzeugte Image Dateien löschen
+TODO: Button für Images erzeugen
+TODO: Button für AVI erzeugen (aus Images) --> cat ... | yuv2lav -o test.avi
+TODO: Button für Sound dran haengen
+TODO: Button für VCD erzeugen
+TODO: optimierte AVI Erzeugung wenn sich nichts ändert ggf. die Anzahl der Frames pro Sekunde erniedrigen ?
+//TODO: optimierung: wenn sich bild nicht ändert, altes image schreiben...
+TODO: implementiere FileUtilityObj::_CopyFile() für Linux
+
+Jpg's mit Groesse durch 8 teilbar erzeugen...
+
+AVI File erstellen:
+jpeg2yuv -I p -f 25 -j _fade%02d.jpg | yuv2lav -o test.avi
+lavaddwav test.avi test.wav test2.avi
+
+VCD File erstellen:
+lav2yuv test2.avi | yuvscaler -O VCD | mpeg2enc -f 1 -r 16 -o test2.mpg
+
+
+TODO: Icon für den Virtuelle-Leinwand Dialog in Toolleiste hinzufügen
+
+//TODO: Zaurus Bildschirmschoner Problem mit qcop lösen:
+//        shell> qcop QPE/System 'setScreenSaverInterval(int)' 120
+//        C++: #include <qcopenvelope_qws.h>
+//		     QCopEnvelope e("QPE/System","setScreenSaverInterval(int)");
+//		     e << 120;
+
+
+Homepage mit ht2html: python ht2html.py -s MindiaGenerator mindia\index.ht (links.h anpassen!)
+
+Home
+News
+Documentation
+Usage
+Examples
+Comunity/Feedback --> Forum, Bugs
+Other Links
 
 Referenzen:
 www.kde-apps.org
