@@ -2,6 +2,7 @@ TEMPLATE	= app
 #CONFIG		= qt warn_on debug
 CONFIG		= qt warn_on release
 HEADERS		= zaurus/zmindia.h \
+			  zaurus/filebrowser.h \
               src/sysdep.h \
               src/wavfile.h \
               src/writexml.h \
@@ -20,11 +21,13 @@ HEADERS		= zaurus/zmindia.h \
               src/mp3file.h \
 			  src/configplayerdlgimpl.h\
 			  src/playinfodlgimpl.h \
+			  src/sndinfodlgimpl.h \
               src/dyngraphop.h \
               src/misctools.h \
               src/configdlgimpl.h
 SOURCES		= zaurus/zmain.cpp \
               zaurus/zmindia.cpp \
+			  zaurus/filebrowser.cpp \
               src/wavfile.cpp \
               src/writexml.cpp \
               src/minutils.cpp \
@@ -42,6 +45,7 @@ SOURCES		= zaurus/zmain.cpp \
 			  src/configplayerdlgimpl.cpp\
               src/configdlgimpl.cpp \
 			  src/playinfodlgimpl.cpp \
+			  src/sndinfodlgimpl.cpp \
               src/dyngraphop.cpp \
               src/misctools.cpp \
               src/mp3file.cpp \
@@ -60,6 +64,7 @@ INTERFACES	= zaurus/SaveAsDlg.ui \
               zaurus/ZProjectorControlDlg.ui \
               zaurus/ZDiaInfoDlg.ui \
               zaurus/ZPlayInfoDlg.ui \
+              zaurus/ZSoundInfoDlg.ui \
               zaurus/ZConfigPlayerDlg.ui
 TARGET		= zmindia
 
