@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/zaurus/zmindia.h,v $
  *
- *  $Revision: 1.6 $
+ *  $Revision: 1.7 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.6  2005/12/27 16:55:57  Michael
+ *	using better file-dialog and addes support for sound-info-dialog for zaurus platform
+ *	
  *	Revision 1.5  2005/12/26 16:23:01  Michael
  *	added save support to zaurus platform
  *	
@@ -76,6 +79,7 @@ public:
     virtual void LogMsg( const char * sMsg );
 
 public slots:
+    void sltAskNewDoc();
     void sltFileOpen();
     void sltFileSave();
     void sltFileSaveAs();
@@ -129,7 +133,6 @@ private:
 
 	DiaInfoDlgImpl * 	m_pDiaInfo;
 	PlayInfoDlgImpl * 	m_pPlayInfo;
-    SoundInfoDlgImpl *  m_pSoundInfo;
 
 #ifdef WITH_ORGINAL_FILE_DIALOG
 	FileSelector *		m_pFileSelector;

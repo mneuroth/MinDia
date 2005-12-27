@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/zaurus/zmindia.cpp,v $
  *
- *  $Revision: 1.6 $
+ *  $Revision: 1.7 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.6  2005/12/27 16:55:57  Michael
+ *	using better file-dialog and addes support for sound-info-dialog for zaurus platform
+ *	
  *	Revision 1.5  2005/12/26 16:23:01  Michael
  *	added save support to zaurus platform
  *	
@@ -170,7 +173,6 @@ ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
 	  m_aDocContrl( /*bIgnoreComSettings*/false, /*bSimulation*/true, RolleiCom::TWIN_DIGITAL_P, this, 0, this ),
 	  m_pDiaInfo( 0 ),
 	  m_pPlayInfo( 0 ),
-      m_pSoundInfo( 0 ),
 #ifdef WITH_ORGINAL_FILE_DIALOG
 	  m_pFileSelector( 0 ),
 #endif
@@ -204,7 +206,11 @@ ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
 
 	// ++++++++++++++++++++++++++++++++++++++++++
 
-    QAction * aAction = new QAction( tr( "Open..." ), Resource::loadPixmap( "fileopen" ), QString::null, 0, this, 0 );
+    QAction * aAction = new QAction( tr( "New" ), QString::null, 0, this, 0 );
+    connect( aAction, SIGNAL( activated() ), this, SLOT( sltAskNewDoc() ) );
+    aAction->addTo( pFile );
+
+    aAction = new QAction( tr( "Open..." ), Resource::loadPixmap( "fileopen" ), QString::null, 0, this, 0 );
     connect( aAction, SIGNAL( activated() ), this, SLOT( sltFileOpen() ) );
     aAction->addTo( m_pButtonBar );
     aAction->addTo( pFile );
@@ -371,10 +377,6 @@ ZMinDia::~ZMinDia()
 	{
 		delete m_pPlayInfo;
 	}
-    if( m_pSoundInfo )
-    {
-        delete m_pSoundInfo;
-    }
 }
 
 void ZMinDia::updateFileSelector()
@@ -525,6 +527,19 @@ void ZMinDia::sltPlayStartAtSelected()
 	if( iSelectedIndex>=0 )
 	{
 		m_aDocContrl.sltPlayPresentationAt( iSelectedIndex );
+	}
+}
+
+void ZMinDia::sltAskNewDoc()
+{
+	// ask user before deleting the actual document...
+	int iRet = QMessageBox::warning( 0, tr( "ZMinDia - Question" ), 
+										tr( "Create new document and\nloose all changes?" ), 1, 2 );
+	if( iRet == 1 )
+	{
+		m_aDocContrl.sltNewDoc();
+		sltUpdateOutput();
+        updateCaption( "newfile.dia" );
 	}
 }
 
@@ -788,31 +803,22 @@ void ZMinDia::sltDiaInfo()
 
 void ZMinDia::sltSoundInfo()
 {
-	if( m_pSoundInfo==0 )
-	{
-		m_pSoundInfo = new SoundInfoDlgImpl( &m_aDocContrl.GetPresentation().GetSoundInfoData(), this, "sound_info", /*bModal*/TRUE );
+	SoundInfoDlgImpl * pSoundInfo = new SoundInfoDlgImpl( &m_aDocContrl.GetPresentation().GetSoundInfoData(), this, "sound_info", /*bModal*/TRUE );
 
-		if( width()<300 )
-		{
-			m_pSoundInfo->setFixedWidth(220);
-			//m_pSoundInfo->setFixedHeight(280);
-			m_pSoundInfo->updateGeometry();
-		}
-		else
-		{
-			m_pSoundInfo->adjustSize();
-		}
+	if( width()<300 )
+	{
+		pSoundInfo->setFixedWidth(240);
+		pSoundInfo->setFixedHeight(290);
+		pSoundInfo->updateGeometry();
+	}
+	else
+	{
+		pSoundInfo->adjustSize();
 	}
 
-	/*int iRet =*/ m_pSoundInfo->show();
-	m_pSoundInfo->raise();
-/*
-	if( iRet == 1 )
-	{
-		// ok, pressed
-	}
-*/
-//	delete m_pSoundInfo;
+    /*int iRet =*/ pSoundInfo->exec();
+
+    delete pSoundInfo;
 }
 
 void ZMinDia::sltPlayInfo()
