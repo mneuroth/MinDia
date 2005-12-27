@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/zaurus/zmindia.h,v $
  *
- *  $Revision: 1.5 $
+ *  $Revision: 1.6 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.5  2005/12/26 16:23:01  Michael
+ *	added save support to zaurus platform
+ *	
  *	Revision 1.4  2004/04/09 15:49:29  min
  *	PlayInfo dialog for the Zaurus implemented, Optimizations for c860.
  *	
@@ -59,6 +62,7 @@ class QTimer;
 
 class DiaInfoDlgImpl;
 class PlayInfoDlgImpl;
+class SoundInfoDlgImpl;
 
 class ZMinDia : public QMainWindow, public minLoggingInterface
 {
@@ -74,6 +78,7 @@ public:
 public slots:
     void sltFileOpen();
     void sltFileSave();
+    void sltFileSaveAs();
     void sltPlayStart();
     void sltPlayStop();
     void sltPlayPause();
@@ -86,7 +91,7 @@ public slots:
     void sltShowWarningMessage( const QString & sText );
     void sltSelectItem( int iIndex, int iDissolveTimeInMS );
     void sltUpdateOutput();
-    void sltFastRead();
+    //void sltFastRead();
     void sltModusIsSwitched();
 	void sltPlayFinished();
 
@@ -102,6 +107,7 @@ private slots:
     void sltClearLogging();
     void sltProjectorControl();
     void sltDiaInfo();
+    void sltSoundInfo();
     void sltPlayInfo();
     void sltShowWorkspace();
     void sltStatusUpdateTimerEvent();
@@ -123,8 +129,11 @@ private:
 
 	DiaInfoDlgImpl * 	m_pDiaInfo;
 	PlayInfoDlgImpl * 	m_pPlayInfo;
+    SoundInfoDlgImpl *  m_pSoundInfo;
 
+#ifdef WITH_ORGINAL_FILE_DIALOG
 	FileSelector *		m_pFileSelector;
+#endif
 	QToolBar *			m_pMenu;
 	QToolBar *			m_pButtonBar;
 	QPEMenuBar *		m_pMenuBar;

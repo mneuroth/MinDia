@@ -8,9 +8,12 @@
  *
  *  $Source: /Users/min/Documents/home/cvsroot/mindia/zaurus/zmindia.cpp,v $
  *
- *  $Revision: 1.5 $
+ *  $Revision: 1.6 $
  *
  *	$Log: not supported by cvs2svn $
+ *	Revision 1.5  2005/12/26 16:23:01  Michael
+ *	added save support to zaurus platform
+ *	
  *	Revision 1.4  2004/04/09 15:49:29  min
  *	PlayInfo dialog for the Zaurus implemented, Optimizations for c860.
  *	
@@ -103,8 +106,10 @@ class QtMTLock {};
 #include "pcdlgimpl.h"
 #include "diainfodlgimpl.h"
 #include "playinfodlgimpl.h"
+#include "sndinfodlgimpl.h"
 #include "SaveAsDlg.h"
 #include "AboutDlg.h"
+#include "filebrowser.h"
 
 const unsigned long c_ulStatusTimeout = 2000;
 const unsigned long c_ulStatusBarTimer = 100;
@@ -151,7 +156,7 @@ static string GetNextFreeID()
 static int GetPercentageWidth( int iMaxWidth, double dPercent )
 {
 	int iRet = (int)(dPercent*((double)iMaxWidth)/100.0);
-//cout << "Percentage: " << iRet << " " << iMaxWidth << " " << dPercent << endl;
+    //cout << "Percentage: " << iRet << " " << iMaxWidth << " " << dPercent << endl;
 	return iRet;
 }
 
@@ -165,7 +170,10 @@ ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
 	  m_aDocContrl( /*bIgnoreComSettings*/false, /*bSimulation*/true, RolleiCom::TWIN_DIGITAL_P, this, 0, this ),
 	  m_pDiaInfo( 0 ),
 	  m_pPlayInfo( 0 ),
+      m_pSoundInfo( 0 ),
+#ifdef WITH_ORGINAL_FILE_DIALOG
 	  m_pFileSelector( 0 ),
+#endif
 	  m_sScriptExtention( "text/plain" ),	// "text/mindia"
 	  m_iActRow( 0 )
 {
@@ -196,14 +204,17 @@ ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
 
 	// ++++++++++++++++++++++++++++++++++++++++++
 
-    QAction * aAction = new QAction( tr( "Open" ), Resource::loadPixmap( "fileopen" ), QString::null, 0, this, 0 );
+    QAction * aAction = new QAction( tr( "Open..." ), Resource::loadPixmap( "fileopen" ), QString::null, 0, this, 0 );
     connect( aAction, SIGNAL( activated() ), this, SLOT( sltFileOpen() ) );
     aAction->addTo( m_pButtonBar );
     aAction->addTo( pFile );
 
-    aAction = new QAction( tr( "Save" ), Resource::loadPixmap( "filesave" ), QString::null, 0, this, 0 );
+    aAction = new QAction( tr( "Save" ), QString::null, 0, this, 0 );
     connect( aAction, SIGNAL( activated() ), this, SLOT( sltFileSave() ) );
-    aAction->addTo( m_pButtonBar );
+    aAction->addTo( pFile );
+
+    aAction = new QAction( tr( "Save as..." ), QString::null, 0, this, 0 );
+    connect( aAction, SIGNAL( activated() ), this, SLOT( sltFileSaveAs() ) );
     aAction->addTo( pFile );
 
 	pFile->insertSeparator();
@@ -225,6 +236,10 @@ ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
     connect( aAction, SIGNAL( activated() ), this, SLOT( sltDiaInfo() ) );
     aAction->addTo( pFile );
 
+    aAction = new QAction( tr( "Sound info..." ), QString::null, 0, this, 0 );
+    connect( aAction, SIGNAL( activated() ), this, SLOT( sltSoundInfo() ) );
+    aAction->addTo( pFile );
+
     aAction = new QAction( tr( "Play info..." ), QString::null, 0, this, 0 );
     connect( aAction, SIGNAL( activated() ), this, SLOT( sltPlayInfo() ) );
     aAction->addTo( pFile );
@@ -234,11 +249,11 @@ ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
     aAction = new QAction( tr( "Clear logging" ), QString::null, 0, this, 0 );
     connect( aAction, SIGNAL( activated() ), this, SLOT( sltClearLogging() ) );
     aAction->addTo( pFile );
-
+/*
     aAction = new QAction( tr( "Fast read" ), QString::null, 0, this, 0 );
     connect( aAction, SIGNAL( activated() ), this, SLOT( sltFastRead() ) );
     aAction->addTo( pFile );
-
+*/
 	pFile->insertSeparator();
 
 	// "settings"
@@ -336,8 +351,8 @@ ZMinDia::ZMinDia( QWidget* parent,  const char* name, WFlags fl )
 
     //m_pStack->raiseWidget( m_pVBox );
 
-    sltFileOpen();
-//	sltShowWorkspace();
+//  sltFileOpen();
+	sltShowWorkspace();
 //	updateCaption( "example_nz.dia" );
 }
 
@@ -356,19 +371,26 @@ ZMinDia::~ZMinDia()
 	{
 		delete m_pPlayInfo;
 	}
+    if( m_pSoundInfo )
+    {
+        delete m_pSoundInfo;
+    }
 }
 
 void ZMinDia::updateFileSelector()
 {
+#ifdef WITH_ORGINAL_FILE_DIALOG
     delete m_pFileSelector;
 
     m_pFileSelector = new FileSelector( /*"text/plain"*/m_sScriptExtention, m_pStack, "fileselector" , FALSE, TRUE );
     connect( m_pFileSelector, SIGNAL( closeMe() ), this, SLOT( sltShowWorkspace() ) );
     connect( m_pFileSelector, SIGNAL( fileSelected( const DocLnk &) ), this, SLOT( sltOpenFile( const DocLnk & ) ) );
+#endif
 }
 
 void ZMinDia::sltFileOpen()
 {
+#ifdef WITH_ORGINAL_FILE_DIALOG
     m_pMenu->hide();
     m_pButtonBar->hide();
     clearWState (WState_Reserved1 );
@@ -376,11 +398,43 @@ void ZMinDia::sltFileOpen()
     m_pStack->raiseWidget( m_pFileSelector );
     m_pFileSelector->reread();
     updateCaption();
+#else
+	fileBrowser dlg(this, true, "*.dia");
+
+	if( dlg.exec() && !dlg.selectedFileName.isEmpty() )
+	{
+    	bool bOk = m_aDocContrl.LoadPresentation( (const char *)dlg.selectedFileName, false );
+    	//cout << "load doc: " << bok << " " << m_aDocContrl.GetDiaCount() << endl;
+    
+    	if( bOk )
+    	{
+    		sltUpdateOutput();
+            updateCaption( dlg.selectedFileName );
+    	}
+	}
+    sltShowWorkspace();
+#endif
 }
 
 void ZMinDia::sltFileSave()
 {
 	m_aDocContrl.sltSaveDoc();
+}
+
+void ZMinDia::sltFileSaveAs()
+{
+	fileBrowser dlg(this, false, "*.dia");
+
+	if( dlg.exec() && !dlg.selectedFileName.isEmpty() )
+	{
+        bool bOk = false;
+        m_aDocContrl.sltSaveAsDoc( dlg.selectedFileName, bOk );
+    
+    	if( bOk )
+    	{
+            updateCaption( dlg.selectedFileName );
+    	}
+	}	
 }
 
 void ZMinDia::sltConfiguration()
@@ -476,6 +530,7 @@ void ZMinDia::sltPlayStartAtSelected()
 
 void ZMinDia::sltOpenFile( const DocLnk & f )
 {
+#ifdef WITH_ORGINAL_FILE_DIALOG
 	// ACHTUNG: man MUSS eine deep-copy durchfuehren !!!
 	//error:	m_aDoc = f;
 	copyDocLnk( f, m_aDoc );
@@ -499,11 +554,30 @@ void ZMinDia::sltOpenFile( const DocLnk & f )
     sltShowWorkspace();
 
     updateCaption( m_aDoc.name() );
+#else
+	fileBrowser dlg(this, true);
+
+	if( dlg.exec() && !dlg.selectedFileName.isEmpty() )
+	{
+    	bool bOk = m_aDocContrl.LoadPresentation( (const char *)dlg.selectedFileName, false );
+    	//cout << "load doc: " << bok << " " << m_aDocContrl.GetDiaCount() << endl;
+    
+    	if( bOk )
+    	{
+    		sltUpdateOutput();
+            updateCaption( dlg.selectedFileName );
+    	}
+	}
+
+    sltShowWorkspace();
+#endif
 }
 
 void ZMinDia::sltShowWorkspace()
 {
+#ifdef WITH_ORGINAL_FILE_DIALOG
     m_pFileSelector->hide();
+#endif
     m_pMenu->show();
     m_pButtonBar->show();
     m_pStack->raiseWidget( m_pVBox );
@@ -712,6 +786,35 @@ void ZMinDia::sltDiaInfo()
 //	delete m_pDiaInfo;
 }
 
+void ZMinDia::sltSoundInfo()
+{
+	if( m_pSoundInfo==0 )
+	{
+		m_pSoundInfo = new SoundInfoDlgImpl( &m_aDocContrl.GetPresentation().GetSoundInfoData(), this, "sound_info", /*bModal*/TRUE );
+
+		if( width()<300 )
+		{
+			m_pSoundInfo->setFixedWidth(220);
+			//m_pSoundInfo->setFixedHeight(280);
+			m_pSoundInfo->updateGeometry();
+		}
+		else
+		{
+			m_pSoundInfo->adjustSize();
+		}
+	}
+
+	/*int iRet =*/ m_pSoundInfo->show();
+	m_pSoundInfo->raise();
+/*
+	if( iRet == 1 )
+	{
+		// ok, pressed
+	}
+*/
+//	delete m_pSoundInfo;
+}
+
 void ZMinDia::sltPlayInfo()
 {
 	if( m_pPlayInfo==0 )
@@ -766,15 +869,15 @@ void ZMinDia::sltUpdateOutput()
 		m_pOutput->setText( i, 4, hDia->GetImageFile() );
 	}
 }
-
+/*
 void ZMinDia::sltFastRead()
 {
-	/*bool bOk =*/ m_aDocContrl.LoadPresentation( "/mnt/cf/diapresentation.dia", false );
+	m_aDocContrl.LoadPresentation( "/mnt/cf/diapresentation.dia", false );
 
 	sltShowWorkspace();
 	updateCaption( "diapresentation.dia" );
 }
-
+*/
 void ZMinDia::sltSelectPrev()
 {
 	if( m_iActRow>0 )
