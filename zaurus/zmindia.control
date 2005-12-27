@@ -1,9 +1,9 @@
 Files: bin/zmindia apps/Applications/zmindia.desktop i18n/de/zmindia.qm pics/Zmindia.png help/html/zmindia.html help/de/html/zmindia.html
 Priority: optional
 Section: qpe/applications
-Maintainer: Michael Neuroth <min@developer.zaurus.de>
+Maintainer: Michael Neuroth <zaurus@mneuroth.de>
 Architecture: arm
-Version: 0.97.3
+Version: 0.97.4
 Depends: qpe-base ($QPE_VERSION)
 License: GPL
 Description: ZMinDia

@@ -70,7 +70,7 @@ Player for Zaurus</string>
             </property>
             <property stdset="1">
                 <name>text</name>
-                <string>Version 0.97.3c (4.4.2004)</string>
+                <string>Version 0.97.4 (27.12.2005)</string>
             </property>
             <property stdset="1">
                 <name>alignment</name>
@@ -97,7 +97,7 @@ Player for Zaurus</string>
             </property>
             <property stdset="1">
                 <name>text</name>
-                <string>(c) 2004 by Michael Neuroth</string>
+                <string>(c) 2005 by Michael Neuroth</string>
             </property>
             <property stdset="1">
                 <name>alignment</name>
