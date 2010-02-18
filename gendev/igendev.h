@@ -39,9 +39,8 @@ const long g_IGeneralDeviceID			= 700;
 class IGeneralDevice : public minService
 {
 public:
-	IGeneralDevice( const string & sModuleName )
-	: minService( g_IGeneralDeviceID, sModuleName )
-	{}
+	IGeneralDevice( const string & sModuleName );
+    virtual ~IGeneralDevice();
 
 	virtual bool IsOk() const = 0;
 

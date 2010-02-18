@@ -57,7 +57,7 @@ minCmdProcessor::minCmdProcessor( RolleiCom * pProjector )
   m_ulThreadId( (unsigned long )-1 ),
   m_pProjector( pProjector )
 {
-	m_pSyncObj = new minSyncObject();
+//    m_pSyncObj = 0; // TODO: new minSyncObject();
 }
 
 minCmdProcessor::~minCmdProcessor()
@@ -65,7 +65,7 @@ minCmdProcessor::~minCmdProcessor()
 	Stop();
 	minSleep( 100 );
 
-	delete m_pSyncObj;
+//	delete m_pSyncObj;
 }
 
 bool minCmdProcessor::IsBusy() const
@@ -90,20 +90,24 @@ bool minCmdProcessor::IsStoped() const
 
 bool minCmdProcessor::AppendBatchCmd( const string & sCmd )
 {
-	minLock aLock( m_pSyncObj );
+//	minLock aLock( m_pSyncObj );
+    m_aSyncObj.lock();
 
 	m_aCmdQueue.push_back( sCmd );
 
+    m_aSyncObj.unlock();
 	return true;
 }
 
 bool minCmdProcessor::ExecuteRealtimeCmd( const string & sCmd )
 {
-	minLock aLock( m_pSyncObj );
+//	minLock aLock( m_pSyncObj );
+    m_aSyncObj.lock();
 
 	m_aCmdQueue.push_front( sCmd );
 
-	return true;
+    m_aSyncObj.unlock();
+    return true;
 }
 
 bool minCmdProcessor::Start()
@@ -131,7 +135,8 @@ void minCmdProcessor::Run()
 
 		// ** protect the container in multithreading environment
 		{
-			minLock aLock( m_pSyncObj );
+//			minLock aLock( m_pSyncObj );
+            m_aSyncObj.lock();
 
 			// ** something to do ?
 			if( !m_aCmdQueue.empty() )
@@ -141,6 +146,8 @@ void minCmdProcessor::Run()
 				m_aCmdQueue.pop_front();
 				bCmdExecute = true;
 			}
+
+            m_aSyncObj.unlock();
 		}
 
 		// ** execute the cmd

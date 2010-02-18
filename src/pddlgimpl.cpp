@@ -1,5 +1,5 @@
 /**************************************************************************
- *
+ *ƒ
  *	project				 : MinDia
  *
  *	copyright            : (C) 2002 by Michael Neuroth
@@ -30,10 +30,14 @@
 
 #include "diapresentation.h"
 
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
+//Added by qt3to4:
+#include <QShowEvent>
+#include <QKeyEvent>
+#include <QCloseEvent>
 
 
-PresentationDataDlgImpl::PresentationDataDlgImpl( DiaPresentation * pData, QWidget* parent, const char* name, bool modal, WFlags fl )
+PresentationDataDlgImpl::PresentationDataDlgImpl( DiaPresentation * pData, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
 : PresentationDataDlg( parent, name, modal, fl ),
   m_pData( pData )
 {
@@ -104,7 +108,7 @@ void PresentationDataDlgImpl::TransferDataFromControl()
 
 void PresentationDataDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 {
-	if( (pEvent->key() == Key_F1) )
+	if( (pEvent->key() == Qt::Key_F1) )
 	{
 		emit sigDialogHelp( this, "PresentationDataDialog" );
 	}

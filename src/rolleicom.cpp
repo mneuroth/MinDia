@@ -90,7 +90,7 @@
 #endif
 
 #if ! defined( CFILE_HFILE )
-#define CFILE_HFILE HANDLE
+#define CFILE_HFILE Qt::HANDLE
 #endif
 
 #if ! defined( CFILE_LENGTH )
@@ -106,7 +106,7 @@
 #endif
 
 #if ! defined( CFILE_HFILE )
-#define CFILE_HFILE HANDLE
+#define CFILE_HFILE Qt::HANDLE
 #endif
 
 #if ! defined( WFC_DONT_USE_NAMESPACES )
@@ -118,7 +118,7 @@
 
 #include "wfc/wfc_exceptions.h"
 namespace Win32FoundationClasses {
-BOOL PASCAL wfc_close_handle( HANDLE handle ) WFC_DOESNT_THROW_EXCEPTIONS;
+BOOL PASCAL wfc_close_handle( Qt::HANDLE handle ) WFC_DOESNT_THROW_EXCEPTIONS;
 }
 #include "wfc/Mfc2stl.h"
 using namespace Win32FoundationClasses;
@@ -456,7 +456,7 @@ struct RolleiComHelperData
 		return m_iLastError;
 	}
 
-	HANDLE	m_hFile;
+	Qt::HANDLE	m_hFile;
 	DWORD	m_iLastError;
 };
 
@@ -468,7 +468,7 @@ struct RolleiComHelperData
 // *******************************************************************
 // *******************************************************************
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 
 #include <unistd.h>
 #include <termios.h>
@@ -499,8 +499,15 @@ struct RolleiComHelperData
 	bool Open( int iComPortNo )
 	{
         char sDevice[255];
+#ifdef __linux__
         sprintf( sDevice, "/dev/ttyS%d", iComPortNo-1 );
-        m_hFile = open( sDevice, O_RDWR | O_NOCTTY );
+#endif
+#ifdef __APPLE__
+//        sprintf( sDevice, "/dev/ttys%d", iComPortNo-1 );
+        sprintf( sDevice, "/dev/tty.usbserial" );
+//        sprintf( sDevice, "/dev/ttys0" );
+#endif
+        m_hFile = open( sDevice, O_RDWR | O_NOCTTY | O_NONBLOCK );
         //dbg: cout << "open " << m_hFile << endl;
 		if( !m_hFile )
 		{
@@ -720,7 +727,7 @@ RolleiCom::RolleiCom( bool bIgnoreComSettings, bool bSimulation, int iProjectorT
   m_bIsPcMode(false),
   m_pComPortSync( 0 )
 {
-	m_pComPortSync = new minSyncObject();
+    m_pComPortSync = 0; //TODO: new minSyncObject();
 
 	// ** default values for projector type may be overwritten with ini-file values
 	SetDefaultValues( m_iProjectorType );
@@ -1462,7 +1469,7 @@ char RolleiCom::GetStatus( bool /*bSync*/ )
 		{
 			if( m_pLoggingChannel && m_bDoLogging )
 			{
-				string s = "--> ß";
+				string s = "--> ï¿½";
 				m_pLoggingChannel->LogMsg( s.c_str() );
 			}
 
@@ -1472,7 +1479,7 @@ char RolleiCom::GetStatus( bool /*bSync*/ )
 				//todo, problems with linux: minLock aLock( *m_pComPortSync );
 
 				// osc 2003-08-29 begin: fix character set problems
-				//bool bOk = m_pData->Write( "ß" );
+				//bool bOk = m_pData->Write( "ï¿½" );
 				string sStatusCmd ;
 				sStatusCmd += 225;
 				bool bOk = m_pData->Write( sStatusCmd );
@@ -1500,7 +1507,7 @@ char RolleiCom::GetStatus( bool /*bSync*/ )
 		{
 			if( m_pLoggingChannel && m_bDoLogging )
 			{
-				string s = "--> ß";
+				string s = "--> ï¿½";
 				m_pLoggingChannel->LogMsg( s.c_str() );
 				s = "<-- R";
 				m_pLoggingChannel->LogMsg( s.c_str() );

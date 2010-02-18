@@ -31,7 +31,7 @@
 
 /**************************************************************************
 *
-*	OSDEP2 --- Hilfs-Klassen und Funktionen zur Plattformunabhängigen 
+*	OSDEP2 --- Hilfs-Klassen und Funktionen zur Plattformunabhï¿½ngigen 
 *			   Behandlung von Threads
 *
 *				minBeginThread() 
@@ -193,7 +193,7 @@
 
 //************************** WNT ***********************************
 // +++ fuer Linux gcc +++
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 
 //#define _GCC_BUG			// nur fuer alten GCC 2.7.x notwendig (z.B. in SuSE 5.x)
 
@@ -258,7 +258,7 @@
 #define _SPAWN_WAIT			P_WAIT
 #define _SPAWN_NOWAIT		P_NOWAIT
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 #define _SPAWN_WAIT			0 	// P_WAIT
 #define _SPAWN_NOWAIT		1	// P_NOWAIT
 #endif
@@ -277,7 +277,7 @@ inline int minSpawn( int nModus, const char * sCmdName, const char * const * sAr
 #ifdef _OS2
 	return _spawnvp( nModus, (char *)sCmdName, (char **)sArgv );
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 	// 4.11.2000 aus mcp-Projekt
 	int nSpawnNo,iStatus,cstatus;
 
@@ -318,7 +318,7 @@ inline unsigned long minBeginThread( minThreadStartAddress start_address, unsign
 #ifdef _OS2
 	return _beginthread( start_address, /*Pointer-To-Stack*/0, stack_size, arglist );
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 #ifdef _USE_PTHREAD
 	pthread_t aThread;
 	/*int nRet =*/ pthread_create( &aThread, NULL, (minThreadStartAddress2)start_address, arglist );
@@ -344,8 +344,8 @@ inline unsigned long minGetThreadId()
  	return pTIB->tib_ptib2->tib2_ultid;
  	//return pTIB->tib_ordinal;
 #endif
-#ifdef __linux__
-	return pthread_self();
+#if defined(__linux__) || defined(__APPLE__)
+	return (unsigned long)pthread_self();
 #endif
 }
 
@@ -364,7 +364,7 @@ inline void * minEnterCriticalSection()
 	::DosEnterCritSec();
 	return 0;				// kein Handle notwendig !
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 	return 0;				// TODO
 #endif
 }
@@ -383,7 +383,7 @@ inline void minLeaveCriticalSection( void * hHandle )
 #ifdef _OS2
 	::DosExitCritSec();
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 							// TODO
 #endif
 }
@@ -393,13 +393,13 @@ inline void minLeaveCriticalSection( void * hHandle )
 inline int minSetThreadPriority( unsigned long nThreadId, long nClass, long nLevel = 0 )
 {
 #ifdef _WIN32
-	return ::SetPriorityClass( (HANDLE)nThreadId, nClass );
+	return ::SetPriorityClass( (Qt::HANDLE)nThreadId, nClass );
 	//return ::SetThreadPriority( (HANDLE)nThreadId, nLevel );
 #endif
 #ifdef _OS2
 	return DosSetPriority( PRTYS_THREAD, nClass, nLevel, nThreadId );				// TODO
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 	return 0;				// TODO
 #endif
 }
@@ -414,7 +414,7 @@ inline int minGetThreadPriority( unsigned long nThreadId, long & nClass, long & 
 #ifdef _OS2
 	return 0;				// TODO
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 	return 0;				// TODO
 #endif
 }
@@ -429,7 +429,7 @@ inline void minSleep( unsigned long nDelay )
 #ifdef _OS2
 	::DosSleep( nDelay );
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 	::usleep( nDelay*1000 );	// delay in micro seconds
 #endif
 }
@@ -444,7 +444,7 @@ inline void minBeep( unsigned long nFrequency, unsigned long nDurationInMS )
 #ifdef _OS2
 	::DosBeep( nFrequency, nDurationInMS );
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 							// TODO
 #endif
 }
@@ -461,7 +461,7 @@ inline unsigned long minGetCurrentTickCount()
 	::DosQuerySysInfo( QSV_MS_COUNT, QSV_MS_COUNT, &nRet, sizeof(nRet) );
 	return nRet;
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 	//static time_t g_nStartTime = time( 0 );
 	//return g_nStartTime+clock();
 	return (unsigned long)clock();	// siehe auch CLK_TCK und CLOCKS_PER_SEC	
@@ -502,7 +502,7 @@ private:
 };
 
 // statische Variable zum Initialisieren eines Rekursiven Mutex
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 #ifdef _USE_PTHREAD
 extern pthread_mutex_t g_aRecursiveMutex;
 #endif
@@ -580,7 +580,8 @@ public:
   		//cout << "ret = " << rc << endl;
 		//cout << "CreateMutex " << (void *)&m_aCritSec << "DONE" << endl;
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 //#error benannte Semaphore sind noch nicht implementiert !
 #ifdef _USE_PTHREAD
 		// statische Inititalisierung...
@@ -610,7 +611,8 @@ public:
 #ifdef _OS2
   		/*APIRET rc =*/ ::DosCloseMutexSem( m_aCritSec );
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 #ifdef _USE_PTHREAD
 		/*int nRet =*/ pthread_mutex_destroy( &m_aCritSec );
 //		cout << (void *) this << " mutex_destroy " << nRet << endl;
@@ -631,7 +633,8 @@ public:
     	if( DosQueryMutexSem( m_aCritSec, &pid, &tid, &ulCount ) == NO_ERROR )
      		return ((unsigned long)tid)==minGetThreadId();
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 							// TODO
 #endif
      	return 0;
@@ -645,7 +648,8 @@ public:
 #ifdef _OS2
  		::DosRequestMutexSem( m_aCritSec, _INFINITE );
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 #ifdef _USE_PTHREAD
 		/*int nRet =*/ pthread_mutex_lock( &m_aCritSec );
 //		cout << (void *) this << "mutex_lock " << nRet << endl;
@@ -661,7 +665,8 @@ public:
 #ifdef _OS2
 		::DosReleaseMutexSem( m_aCritSec );
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 #ifdef _USE_PTHREAD
 		/*int nRet =*/ pthread_mutex_unlock( &m_aCritSec );
 //		cout << (void *) this << "mutex_unlock " << nRet << endl;
@@ -672,12 +677,13 @@ public:
 private:
 	// +++ Daten +++
 #ifdef _WIN32
-	HANDLE				m_aCritSec;
+	Qt::HANDLE				m_aCritSec;
 #endif
 #ifdef _OS2
 	HMTX				m_aCritSec;
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 #ifdef _USE_PTHREAD
 	pthread_mutex_t		m_aCritSec;
 #endif
@@ -694,7 +700,7 @@ private:
 class UMDLLEXPORT minMultiSyncObject
 {
 #ifdef _WIN32
-	typedef HANDLE	MyHandleT;
+	typedef Qt::HANDLE	MyHandleT;
 #endif
 #ifdef _OS2
 	typedef HMUX	MyHandleT;
@@ -748,7 +754,8 @@ public:
 		/*APIRET rc =*/ ::DosWaitMuxWaitSem( m_hMultiMutex, SEM_INDEFINITE_WAIT, &ulData );
 		//cout << "OS2 WaitMultMutex " << rc << " " << (void *)m_hMultiMutex << " this=" << (void *)this << endl;
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 		// TODO
 #endif
 /*
@@ -794,7 +801,8 @@ public:
 #ifdef _OS2
 		/*APIRET rc =*/ ::DosCreateEventSem( NULL, &m_aHandle, DC_SEM_SHARED, FALSE );
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 #ifdef _USE_PTHREAD
 		pthread_mutex_init( &m_aMutex, NULL );	// Signal-Objekt benoetigt immer auch einen Mutex !
 		//m_aHandle = PTHREAD_COND_INITIALIZER;
@@ -810,7 +818,8 @@ public:
 #ifdef _OS2
 		::DosCloseEventSem( m_aHandle );
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 #ifdef _USE_PTHREAD
 		int nRet = pthread_cond_destroy( &m_aHandle );
 		// moeglich: nRet == EBUSY
@@ -832,7 +841,8 @@ public:
 #ifdef _OS2
   		::DosPostEventSem( m_aHandle );
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 #ifdef _USE_PTHREAD
 		pthread_mutex_lock( &m_aMutex );
 		pthread_cond_signal( &m_aHandle );
@@ -850,7 +860,8 @@ public:
 #ifdef _OS2
   		::DosPostEventSem( m_aHandle );
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 #ifdef _USE_PTHREAD
 		pthread_mutex_lock( &m_aMutex );
 		pthread_cond_signal( &m_aHandle );
@@ -901,7 +912,8 @@ public:
 			rc = _WAIT_ABANDONED;
 		return (int)rc;
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 #ifdef _USE_PTHREAD
 		int nRet;
 
@@ -949,12 +961,13 @@ public:
 private:
 	// +++ Daten +++
 #ifdef _WIN32
-	HANDLE				m_aHandle;
+	Qt::HANDLE				m_aHandle;
 #endif
 #ifdef _OS2
 	HEV					m_aHandle;  
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 #ifdef _USE_PTHREAD
 	pthread_mutex_t		m_aMutex;
 	pthread_cond_t		m_aHandle;
@@ -978,16 +991,25 @@ public:
 	minLock( minSyncObject & aSyncObj )	
 	{ 
  		m_pSyncObj = &aSyncObj; 
-		m_pSyncObj->Lock();
+        if( m_pSyncObj )
+        {
+            m_pSyncObj->Lock();
+        }
  	}
 	minLock( minSyncObject * pSyncObj )	
 	{ 
 		m_pSyncObj = pSyncObj; 
-		m_pSyncObj->Lock();
+        if( m_pSyncObj )
+        {
+            m_pSyncObj->Lock();
+        }
 	}
 	~minLock()												
 	{ 
-		m_pSyncObj->Unlock(); 
+        if( m_pSyncObj )
+        {
+            m_pSyncObj->Unlock();
+        }
     }
 
 private:

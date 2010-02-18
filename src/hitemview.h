@@ -33,7 +33,13 @@
 #define _HITEMVIEW_H
 
 // ** gui
-#include <qcanvas.h> 
+#include <q3canvas.h> 
+//Added by qt3to4:
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QMouseEvent>
+#include <QKeyEvent>
+#include <Q3PopupMenu>
 
 #include "hitem.h"
 #include "diainfo.h"
@@ -46,7 +52,7 @@ using namespace std;
 // *******************************************************************
 
 class DiaPresentation;
-class QPopupMenu;
+class Q3PopupMenu;
 
 /*
 class VectorHItem : public vector<HItem *>
@@ -60,7 +66,7 @@ public:
 /** Handels a container view for viewable
   * items. 
   */
-class HItemView : public QCanvasView 
+class HItemView : public Q3CanvasView 
 {
 	Q_OBJECT
 
@@ -134,8 +140,8 @@ private:
 	bool IsDragTargetNotDragSource( QMouseEvent * pEvent, int iActIndex );
 
 	// *** data ***
-	QPopupMenu *		m_pContextMenu;
-	QCanvas *			m_pCanvas;
+	Q3PopupMenu *		m_pContextMenu;
+	Q3Canvas *			m_pCanvas;
 	QSize				m_aSizeHint;
 
 	QPoint				m_aNextItemPos;

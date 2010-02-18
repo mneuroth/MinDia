@@ -1,6 +1,8 @@
 PROJECT			= mindia
 TEMPLATE        = app
-CONFIG          += qt warn_on release thread stl exceptions
+#CONFIG          += qt warn_on release thread stl exceptions
+CONFIG          += qt warn_on thread stl exceptions
+QT              += qt3support
 #CONFIG          += qt warn_on debug thread stl exceptions
 HEADERS         = src/diainfodlgimpl.h \
 				  src/playinfodlgimpl.h \
@@ -82,7 +84,8 @@ SOURCES         = src/diainfodlgimpl.cpp \
 				  src/misctools.cpp \
 				  src/appconfig.cpp \
                   src/main.cpp
-INTERFACES      = src/DiaInfoDlg.ui \
+#The following line was changed from INTERFACES to FORMS3 by qt3to4
+FORMS3      = src/DiaInfoDlg.ui \
 				  src/PlayInfoDlg.ui \
 				  src/ComLoggingDlg.ui \
 				  src/ProjectorControlDlg.ui \
@@ -100,9 +103,11 @@ INTERFACES      = src/DiaInfoDlg.ui \
 				  src/EnterValueDlg.ui
 TARGET					= mindia
 MOC_DIR					= moc
+#macx:LIBS               += -lpthread ./libminsrv.dylib $(LIBMINDIAPYC_SO)
+macx:LIBS               += -lpthread ./libminsrv.a $(LIBMINDIAPYC_SO)
 unix:OBJECTS_DIR		= tmp
-unix:TMAKE_UIC			= $(QTDIR)/bin/uic
-unix:LIBS       		+= -lpthread libminsrv.so $(LIBMINDIAPYC_SO)
+#unix:TMAKE_UIC			= $(QTDIR)/bin/uic
+#unix:LIBS       		+= -lpthread libminsrv.so $(LIBMINDIAPYC_SO)
 unix:HEADERS			+= src/mp3file.h
 unix:SOURCES			+= src/sysdep1.c \
 						  src/mp3file.cpp
@@ -115,3 +120,12 @@ win32:DEFINES			= QT_DLL QT_NO_DEBUG QT_THREAD_SUPPORT QT_NON_COMMERCIAL
 #_DEBUG
 win32:LIBS				+= minsrv.lib
 
+#The following line was inserted by qt3to4
+QT +=  
+#The following line was inserted by qt3to4
+CONFIG += uic3
+
+macx {
+CONFIG += x86 ppc
+}
+    

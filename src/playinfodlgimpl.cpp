@@ -53,23 +53,37 @@
 
 #ifndef ZAURUS
 #include "qtmtlock.h"
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <QKeyEvent>
+#include <Q3StrList>
+#include <QPixmap>
+#include <Q3Frame>
+#include <QResizeEvent>
+#include <QMouseEvent>
+#include <Q3VBoxLayout>
+#include <QShowEvent>
+#include <QCloseEvent>
+#include <QImageWriter>
+#include <QImage>
+#include <QPicture>
 #else
 class QtMTLock {};
 #endif
 
 #include "misctools.h"
 
-#include <qcanvas.h> 
+#include <q3canvas.h> 
 #include <qcheckbox.h> 
 #include <qradiobutton.h> 
 #include <qpainter.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qlayout.h>
 #include <qpushbutton.h>
 #include <qtoolbutton.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qdatetime.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 
 #include "icons.xpm"
 
@@ -107,13 +121,13 @@ static QImage CreateWhiteImage()
 #define CLOSE_ID		3
 
 PlayInfoContextMenu::PlayInfoContextMenu( QWidget * parent, PlayInfoDlgImpl * pMyDialog )
-: QPopupMenu( parent ),
+: Q3PopupMenu( parent ),
   m_pMyDialog( pMyDialog )
 {
-	m_pImageFormats = new QPopupMenu( this );
+	m_pImageFormats = new Q3PopupMenu( this );
 
 	// ** get all supported image formates and fill the menu with this formats
-	QStrList aList = QImage::outputFormats();
+	Q3StrList aList = QImageWriter::supportedImageFormats();
 	for( unsigned int i=0; i<aList.count(); i++ )
 	{
 		m_pImageFormats->insertItem( aList.at( i ), i );
@@ -138,11 +152,11 @@ PlayInfoContextMenu::~PlayInfoContextMenu()
 
 void PlayInfoContextMenu::sltImageFormatActivated( int iIndex )
 {
-	QStringList aList = QImage::outputFormatList();
+	QStringList aList = QPicture::outputFormatList();
 
 	if( m_pMyDialog && (iIndex>=0) && (iIndex<(int)aList.count()) )
 	{
-		m_pMyDialog->sltSaveActImage( *aList.at( iIndex ) );
+		m_pMyDialog->sltSaveActImage( aList.at( iIndex ) );
 	}
 }
 
@@ -191,24 +205,24 @@ void PlayInfoContextMenu::sltShowMenu()
 // *******************************************************************
 // *******************************************************************
 
-class MenuCanvasView : public QCanvasView
+class MenuCanvasView : public Q3CanvasView
 {
 public:
-	MenuCanvasView( QCanvas * viewing=0, QWidget * parent=0, const char * name=0, WFlags f=0 );
+	MenuCanvasView( Q3Canvas * viewing=0, QWidget * parent=0, const char * name=0, Qt::WFlags f=0 );
 	~MenuCanvasView();
 
 	// ** WARNING: takes the ownership of the given pointer !!!
-	void SetPopupMenu( QPopupMenu * pMenu );
+	void SetPopupMenu( Q3PopupMenu * pMenu );
 
 protected:
 	virtual void contentsMousePressEvent( QMouseEvent * pEvent );
 
 private:
-	QPopupMenu *	m_pPopupMenu;
+	Q3PopupMenu *	m_pPopupMenu;
 };
 
-MenuCanvasView::MenuCanvasView( QCanvas * viewing, QWidget * parent, const char * name, WFlags f )
-: QCanvasView( viewing, parent, name, f ),
+MenuCanvasView::MenuCanvasView( Q3Canvas * viewing, QWidget * parent, const char * name, Qt::WFlags f )
+: Q3CanvasView( viewing, parent, name, f ),
   m_pPopupMenu( 0 )
 {
 }
@@ -218,20 +232,20 @@ MenuCanvasView::~MenuCanvasView()
 	delete m_pPopupMenu;
 }
 
-void MenuCanvasView::SetPopupMenu( QPopupMenu * pMenu )
+void MenuCanvasView::SetPopupMenu( Q3PopupMenu * pMenu )
 {
 	m_pPopupMenu = pMenu;
 }
 
 void MenuCanvasView::contentsMousePressEvent( QMouseEvent * pEvent )
 {
-	if( (pEvent->button() == RightButton) && m_pPopupMenu )
+	if( (pEvent->button() == Qt::RightButton) && m_pPopupMenu )
 	{
 		m_pPopupMenu->exec( pEvent->globalPos() );
 	}
 	else
 	{
-		QCanvasView::contentsMousePressEvent( pEvent );
+		Q3CanvasView::contentsMousePressEvent( pEvent );
 	}
 }
 
@@ -239,11 +253,11 @@ void MenuCanvasView::contentsMousePressEvent( QMouseEvent * pEvent )
 // *******************************************************************
 // *******************************************************************
 
-class SimpleBitmapCanvas : public QCanvas
+class SimpleBitmapCanvas : public Q3Canvas
 {
 public:
 	SimpleBitmapCanvas( QObject * parent = 0, const char * name = 0 )
-	: QCanvas( parent, name ),
+	: Q3Canvas( parent, name ),
 	  m_pImage( 0 )
 	{
 	}
@@ -313,10 +327,10 @@ QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor )
 	QImage aRet( iWidth, iHeight, iDeep, 0, aVal );
 	uchar * pResultBuffer = aRet.bits();
 
-	uchar * pBuffer1 = aImage1.bits();
+	const uchar * pBuffer1 = aImage1.bits();
 
 	//QImage aImg2 = aImage2.smoothScale( iWidth, iHeight );
-	uchar * pBuffer2 = aImage2.bits();
+	const uchar * pBuffer2 = aImage2.bits();
 
 	if( pBuffer1 && pBuffer2 )
 	{
@@ -404,8 +418,8 @@ QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor )
 
 // *******************************************************************
 
-PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, const char* name, bool modal, WFlags fl )
-: PlayInfoDialog( parent, name, modal, fl | WStyle_Maximize ),
+PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, const char* name, bool modal, Qt::WFlags fl )
+: PlayInfoDialog( parent, name, modal, fl | Qt::WStyle_Maximize ),
   m_pParent( parent ),
   m_iFadeInTimeInMS( 0 ),
   m_iFadeInFactor( 0 ),
@@ -469,7 +483,8 @@ void PlayInfoDlgImpl::UpdateStatus( bool bIsPlaying, bool bIsPause )
 
 bool PlayInfoDlgImpl::IsFullScreen() const
 {
-	return (m_pButtonLayout == 0);
+//TODO	return (m_pButtonLayout == 0);
+    return false;
 }
 
 void PlayInfoDlgImpl::FullScreen()
@@ -477,8 +492,8 @@ void PlayInfoDlgImpl::FullScreen()
 	if( !IsFullScreen() )
 	{
 		// ** for full screen modus remove the controls in the control area
-		PlayInfoDialogLayout->setSpacing( 0 );
-		PlayInfoDialogLayout->setMargin( 0 );
+//TODO		PlayInfoDialogLayout->setSpacing( 0 );
+//TODO		PlayInfoDialogLayout->setMargin( 0 );
 
 		m_pDisplayImage->hide();
 		m_pRun->hide();
@@ -490,17 +505,17 @@ void PlayInfoDlgImpl::FullScreen()
 		m_pClose->hide();
 #endif
 
-		delete m_pButtonLayout;
-		m_pButtonLayout = 0;
+//TODO		delete m_pButtonLayout;
+//TODO		m_pButtonLayout = 0;
 
 		//m_pCanvasView->setLineWidth( 0 );
-		m_pCanvasView->setFrameShadow( QFrame::Plain );
+		m_pCanvasView->setFrameShadow( Q3Frame::Plain );
 		//m_pCanvasView->setFrameShape( QFrame::NoFrame );
 		//m_pCanvasView->setFrameStyle( QFrame::NoFrame );
 
 		// ** save flags and position before fullscreen modus
 		// ** this values have to be restored later !
-		m_flLastFlags = getWFlags();
+//TODO		m_flLastFlags = getWFlags();
 		m_aLastPos = pos();
 
 		showFullScreen();
@@ -509,19 +524,20 @@ void PlayInfoDlgImpl::FullScreen()
 
 void PlayInfoDlgImpl::RestoreSize()
 {
+#ifdef __old_code__todo__
 	if( IsFullScreen() )
 	{
-		m_pButtonLayout = new QHBoxLayout; 
+//TODO		m_pButtonLayout = new Q3HBoxLayout; 
 		// ** see PlayInfoDlg.cpp for the values **
-		m_pButtonLayout->setSpacing( 4 );	// 6
-		m_pButtonLayout->setMargin( 0 );
+//TODO		m_pButtonLayout->setSpacing( 4 );	// 6
+//TODO		m_pButtonLayout->setMargin( 0 );
 
 		// anscheinend werden auch Sub-Layouts zerstoert
 		// wenn der Eltern-Layout-Container zerstoert wird !
 #ifndef ZAURUS
 // TODO !!!
-		m_pLeftContainer = new QVBoxLayout( 0, 0, 6, "m_pLeftContainer");
-		m_pButtonContainer = new QHBoxLayout( 0, 1, 1, "m_pButtonContainer");
+		m_pLeftContainer = new Q3VBoxLayout( 0, 0, 6, "m_pLeftContainer");
+		m_pButtonContainer = new Q3HBoxLayout( 0, 1, 1, "m_pButtonContainer");
 		m_pButtonContainer->addWidget( m_pRun );
 		m_pButtonContainer->addWidget( m_pPause );
 		m_pButtonContainer->addWidget( m_pStop );
@@ -555,7 +571,7 @@ void PlayInfoDlgImpl::RestoreSize()
 #endif
 
 		//m_pCanvasView->setLineWidth( 2 );
-		m_pCanvasView->setFrameShadow( QFrame::Sunken );
+		m_pCanvasView->setFrameShadow( Q3Frame::Sunken );
 
 		showNormal();
 
@@ -563,6 +579,7 @@ void PlayInfoDlgImpl::RestoreSize()
 		// ** so this values should be restored now !
 		reparent( m_pParent, m_flLastFlags, m_aLastPos, TRUE );
 	}
+#endif    
 }
 
 bool PlayInfoDlgImpl::IsFading() const
@@ -705,7 +722,7 @@ int PlayInfoDlgImpl::SetTextXY( int x, int y, const char * sText )
 {
 	QtMTLock aMTLock;
 
-	QCanvasText * pText = new QCanvasText( sText, m_pCanvas );
+	Q3CanvasText * pText = new Q3CanvasText( sText, m_pCanvas );
 
 	pText->setFont( m_aActFont );
 	pText->setColor( m_aActColor );
@@ -806,7 +823,7 @@ bool PlayInfoDlgImpl::SetTextColor( int iTextID, int iRed, int iGreen, int iBlue
 
 		CanvasItem aItem = m_aItemContainer[ iTextID ];
 
-		QCanvasText * pText = (QCanvasText *)aItem.GetPtr();
+		Q3CanvasText * pText = (Q3CanvasText *)aItem.GetPtr();
 
 		if( pText )
 		{
@@ -828,7 +845,7 @@ IColor PlayInfoDlgImpl::GetTextColor( int iTextID ) const
 
 		CanvasItem aItem = m_aItemContainer[ iTextID ];
 
-		QCanvasText * pText = (QCanvasText *)aItem.GetPtr();
+		Q3CanvasText * pText = (Q3CanvasText *)aItem.GetPtr();
 
 		if( pText )
 		{
@@ -873,7 +890,7 @@ bool PlayInfoDlgImpl::DeleteText( int iTextID )
 	return false;
 }
 
-QCanvas * PlayInfoDlgImpl::GetCanvas()
+Q3Canvas * PlayInfoDlgImpl::GetCanvas()
 {
 	return m_pCanvas;
 }
@@ -1071,7 +1088,7 @@ void PlayInfoDlgImpl::sltSaveActImage( const QString & sImageFormat )
 	QString sExt( "*." );
 	sExt += sImageFormat;
 
-    QString sFileName = QFileDialog::getSaveFileName( /*QString::null*/GetImagePath().c_str(), sExt, this, "save", tr( "Save as" ) );
+    QString sFileName = Q3FileDialog::getSaveFileName( /*QString::null*/GetImagePath().c_str(), sExt, this, "save", tr( "Save as" ) );
 
     if( !sFileName.isEmpty() )
 	{
@@ -1204,7 +1221,7 @@ void PlayInfoDlgImpl::done( int iRet )
 
 void PlayInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 {
-	if( (pEvent->key() == Key_F1) )
+	if( (pEvent->key() == Qt::Key_F1) )
 	{
 		emit sigDialogHelp( "PlayInfoDialog" );
 	}

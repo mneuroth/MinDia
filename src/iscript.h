@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <Q3PopupMenu>
 /**************************************************************************
  *
  *	project				 : MinDia
@@ -216,8 +218,8 @@ const long g_IGeneralScriptFcnID			= 600;
 const long g_IMinDiaScriptFcnID				= 610;
 
 class QWidget;
-class QPopupMenu;
-class QCanvas;
+class Q3PopupMenu;
+class Q3Canvas;
 
 // *************************************************************************
 // internal helper Interface, needed for the implementation of 
@@ -225,7 +227,7 @@ class QCanvas;
 class IDiaOutputWindowInternal : public IDiaOutputWindow
 {
 public:
-	virtual QCanvas *	GetCanvas() = 0;
+	virtual Q3Canvas *	GetCanvas() = 0;
 };
 
 // *************************************************************************
@@ -242,7 +244,7 @@ public:
 	// ** get the main-window pointer to register the script-menus
 	virtual QWidget *			GetMainWindowPtr() = 0;
 	// ** get the menu pointer to register the plugin-submenus
-	virtual QPopupMenu *		GetPluginsMenuPtr() = 0;
+	virtual Q3PopupMenu *		GetPluginsMenuPtr() = 0;
 	// ** get the actual language, example: "en" or "de"
 	virtual const char *		GetLanguage() const = 0;
 	// ** get the help/shared directory of MinDia 

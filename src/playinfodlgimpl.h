@@ -48,13 +48,18 @@
 #include "minhandle.h"
 
 #include <qimage.h>
-#include <qcanvas.h>
-#include <qpopupmenu.h>
+#include <q3canvas.h>
+#include <q3popupmenu.h>
 #include <qtimer.h>
 #include <qdatetime.h>
+//Added by qt3to4:
+#include <QCloseEvent>
+#include <QShowEvent>
+#include <QResizeEvent>
+#include <QKeyEvent>
 
-class QCanvasView;
-class QCanvas;
+class Q3CanvasView;
+class Q3Canvas;
 
 class MenuCanvasView;
 class SimpleBitmapCanvas;
@@ -90,7 +95,7 @@ private:
 // *******************************************************************
 /** The context menu for the canvas view
   */
-class PlayInfoContextMenu : public QPopupMenu
+class PlayInfoContextMenu : public Q3PopupMenu
 {
 	Q_OBJECT
 
@@ -105,7 +110,7 @@ public slots:
 
 private:
 	PlayInfoDlgImpl *	m_pMyDialog;
-	QPopupMenu *		m_pImageFormats;
+	Q3PopupMenu *		m_pImageFormats;
 };
 
 // *******************************************************************
@@ -115,11 +120,11 @@ class PlayInfoDlgImpl : public PlayInfoDialog, public IDiaOutputWindowInternal
 {
 	Q_OBJECT
 
-	typedef minHandle< QCanvasItem >	CanvasItem;
+	typedef minHandle< Q3CanvasItem >	CanvasItem;
 	typedef vector< CanvasItem >		CanvasItemContainer;
 
 public:
-    PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
 	virtual ~PlayInfoDlgImpl();
 
 	void UpdateStatus( bool bIsPlaying, bool bIsPause );
@@ -160,7 +165,7 @@ public:
 	virtual IColor	GetTextColor( int iTextID ) const;
 	virtual bool	DeleteText( int iTextID );
 
-	virtual QCanvas *	GetCanvas();
+	virtual Q3Canvas *	GetCanvas();
 
 public slots:
 	virtual void sltCloseDialog();
@@ -209,7 +214,7 @@ private:
 	MenuCanvasView *		m_pCanvasView;
 	SimpleBitmapCanvas *	m_pCanvas;
 	QWidget *				m_pParent;			// no owner !
-	WFlags					m_flLastFlags;
+	Qt::WFlags				m_flLastFlags;
 	QPoint					m_aLastPos;
 
 	QImage					m_aActImage;		// the actual image !

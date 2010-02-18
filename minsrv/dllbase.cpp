@@ -70,9 +70,7 @@ static bool SplitPath( const char * sPath, string & sDrive, string & sDir, strin
 	char sDirBuf[512];
 	char sNameBuf[512];
 	char sExtBuf[512];
-#ifndef __linux__
-	_splitpath( /*(CHAR_CAST)*/sPath, sDriveBuf, sDirBuf, sNameBuf, sExtBuf );
-#else
+#if defined(__linux__) || defined(__APPLE__)
 	// Simuliere _splitpath fuer Linux...
 	strcpy( sDriveBuf, "" );
 	strcpy( sDirBuf, "" );
@@ -115,6 +113,8 @@ static bool SplitPath( const char * sPath, string & sDrive, string & sDir, strin
 	{
 		strcpy( sNameBuf, sBuffer );
 	}
+#else
+	_splitpath( /*(CHAR_CAST)*/sPath, sDriveBuf, sDirBuf, sNameBuf, sExtBuf );
 #endif
 	sDrive = sDriveBuf;
 	sDir = sDirBuf;
@@ -147,7 +147,7 @@ typedef PFN minGenDllProcT;
 typedef PFN minGenDllProcT;
 #endif
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 #define _LINUX
 #include <dlfcn.h>
 typedef void (*minGenDllProcT)();

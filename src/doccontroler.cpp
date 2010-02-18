@@ -58,6 +58,8 @@
 #include <qpainter.h>
 #include <qimage.h>
 #include <qapplication.h>
+//Added by qt3to4:
+#include <QPixmap>
 #else
 class QtMTLock {};
 #endif
@@ -72,7 +74,7 @@ class QtMTLock {};
 
 const string g_sLastFilesKey = "datafile";
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 #define _OFFSET_INI_FILE_PATH "~/"
 #else
 #include <windows.h>
@@ -88,7 +90,7 @@ const char * c_sProjectorTypeKey	= "projector_id";
 string GetPathToIniFile()
 {
 	string sPath;
-#if defined( __linux__ ) || defined( ZAURUS )
+#if defined( __linux__ ) || defined(__APPLE__) || defined( ZAURUS )
 	const char * s = getenv( "HOME" );
 	if( s )
 	{
@@ -979,12 +981,12 @@ static void ClearImageCache( QImageCache & aImageCache )
 #endif
 }
 
-#include <qprogressdialog.h>
+#include <q3progressdialog.h>
 
 static bool InitImageCache( QImageCache & aImageCache, const DiaPresentation & aPresentation, int iWidth, int iHeight )
 {
 #ifndef ZAURUS
-	QProgressDialog aProgress( QObject::tr("creating image cache"), QObject::tr("Cancel"), aPresentation.GetDiaCount(), 0, "progress", TRUE );
+	Q3ProgressDialog aProgress( QObject::tr("creating image cache"), QObject::tr("Cancel"), aPresentation.GetDiaCount(), 0, "progress", TRUE );
 
 	aProgress.show();
 	aProgress.setProgress( 0 );
@@ -1046,7 +1048,7 @@ int DocumentAndControler::CreateImagesForMovie(
 	int iCount = 0;
 	if( InitImageCache( aImageCache, GetPresentation(), iWidth, iHeight ) )
 	{		
-		QProgressDialog aProgress( QObject::tr("creating images for movie"), QObject::tr("Cancel"), (int)dStopMS, 0, "progress", TRUE );
+		Q3ProgressDialog aProgress( QObject::tr("creating images for movie"), QObject::tr("Cancel"), (int)dStopMS, 0, "progress", TRUE );
 
 		aProgress.show();
 		aProgress.setProgress( 0 );

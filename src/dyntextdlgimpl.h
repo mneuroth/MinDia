@@ -37,10 +37,13 @@
 #include "dyngraphop.h"
 
 #include <qfont.h>
-#include <qcanvas.h>
+#include <q3canvas.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QKeyEvent>
 
 
-class DrawingArea : public QCanvasView
+class DrawingArea : public Q3CanvasView
 {
 	Q_OBJECT
 
@@ -55,7 +58,7 @@ signals:
 	void sigTextMoved();
 
 private:
-	QCanvasItem *	m_pMovingItem;
+	Q3CanvasItem *	m_pMovingItem;
 	QPoint			m_aMovingStart;
 };
 
@@ -64,7 +67,7 @@ class DynamicTextDlgImpl : public DynamicTextDlg
 	Q_OBJECT
 
 public:
-    DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * parent = 0, QWidget * pMain = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * parent = 0, QWidget * pMain = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
 	virtual ~DynamicTextDlgImpl();
 
 	double GetRelX() const;
@@ -91,8 +94,8 @@ private:
 	minHandle<DynText>	m_hItem;
 	QFont				m_aInitFont;
 	DrawingArea *		m_pDrawingAreaCanvas;
-	QCanvas *			m_pCanvas;
-	QCanvasText *		m_pCanvasText;
+	Q3Canvas *			m_pCanvas;
+	Q3CanvasText *		m_pCanvasText;
 };
 
 #endif

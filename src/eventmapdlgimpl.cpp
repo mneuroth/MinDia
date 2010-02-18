@@ -32,11 +32,13 @@
 #include "diapresentation.h"
 
 #include <qcombobox.h> 
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
+//Added by qt3to4:
+#include <QKeyEvent>
 
 // *******************************************************************
 
-EventMapDlgImpl::EventMapDlgImpl( ApplScriptEnvironment * pScriptEnv, QWidget* parent, const char* name, bool modal, WFlags fl )
+EventMapDlgImpl::EventMapDlgImpl( ApplScriptEnvironment * pScriptEnv, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
 : EventMapDlg( parent, name, modal, fl ),
   m_pScriptEnv( pScriptEnv )
 {
@@ -141,7 +143,7 @@ void EventMapDlgImpl::FillComboBox()
 
 void EventMapDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 {
-	if( (pEvent->key() == Key_F1) )
+	if( (pEvent->key() == Qt::Key_F1) )
 	{
 		emit sigDialogHelp( this, "EventMapDialog" );
 	}

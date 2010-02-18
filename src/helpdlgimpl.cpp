@@ -31,7 +31,7 @@
 
 #include <qpushbutton.h>
 #include <qlineedit.h>
-#include <qtextbrowser.h>
+#include <q3textbrowser.h>
 #include <qpixmap.h>
 #include <qimage.h>
 #include <qmessagebox.h>
@@ -170,7 +170,7 @@ static char*closeicon[]={
 // *******************************************************************
 // *******************************************************************
 
-HelpDlgImpl::HelpDlgImpl( QWidget* parent, const char* name, bool modal, WFlags fl )
+HelpDlgImpl::HelpDlgImpl( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
 : HelpDialog( parent, name, modal, fl )
 {
 	QPixmap aBackIcon( back );

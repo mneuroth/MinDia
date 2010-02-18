@@ -36,6 +36,9 @@
 #endif
 
 #include <string>
+//Added by qt3to4:
+#include <QKeyEvent>
+#include <QCloseEvent>
 
 using namespace std;
 
@@ -51,7 +54,7 @@ class ProjectorControlDlgImpl : public ProjectorControlDialog
 	Q_OBJECT
 
 public:
-    ProjectorControlDlgImpl( RolleiCom * pProjectorCom, DiaPresentation * pPresentation, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    ProjectorControlDlgImpl( RolleiCom * pProjectorCom, DiaPresentation * pPresentation, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
 	virtual ~ProjectorControlDlgImpl();
 
 public slots:

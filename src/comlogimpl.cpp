@@ -29,9 +29,13 @@
 #include "comlogimpl.h"
 #include "qtmtlock.h"
 
-#include <qmultilineedit.h> 
+#include <q3multilineedit.h> 
 #include <qevent.h>
 #include <qapplication.h>
+//Added by qt3to4:
+#include <QCustomEvent>
+#include <QKeyEvent>
+#include <QCloseEvent>
 
 const int c_iCustomEvent_Logging = 12345;
 
@@ -39,7 +43,7 @@ const int c_iCustomEvent_Logging = 12345;
 // *******************************************************************
 // *******************************************************************
 
-ComLoggingDialogImpl::ComLoggingDialogImpl( QWidget* parent, const char* name, bool modal, WFlags fl )
+ComLoggingDialogImpl::ComLoggingDialogImpl( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
 : ComLoggingDialog( parent, name, modal, fl )
 {
     connect( this, SIGNAL( sigDialogClosed() ), parent, SLOT( sltLoggingDialogClosed() ) );
@@ -90,7 +94,7 @@ void ComLoggingDialogImpl::done( int iRet )
 
 void ComLoggingDialogImpl::keyPressEvent( QKeyEvent * pEvent )
 {
-	if( (pEvent->key() == Key_F1) )
+	if( (pEvent->key() == Qt::Key_F1) )
 	{
 		emit sigDialogHelp( "LoggingDialog" );
 	}

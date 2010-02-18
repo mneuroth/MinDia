@@ -74,7 +74,7 @@ using namespace std;
 #endif
 #endif
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 #define MINDLLEXPORT 
 #define MINPREDLLEXPORT 
 #endif

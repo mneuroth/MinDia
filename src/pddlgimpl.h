@@ -30,6 +30,10 @@
 #define _PDDLGIMPL_H
 
 #include "PresentationDataDlg.h"
+//Added by qt3to4:
+#include <QShowEvent>
+#include <QKeyEvent>
+#include <QCloseEvent>
 
 class DiaPresentation;
 
@@ -42,7 +46,7 @@ class PresentationDataDlgImpl : public PresentationDataDlg
 	Q_OBJECT
 
 public:
-    PresentationDataDlgImpl( DiaPresentation * pData, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    PresentationDataDlgImpl( DiaPresentation * pData, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
 	virtual ~PresentationDataDlgImpl();
 
 public slots:

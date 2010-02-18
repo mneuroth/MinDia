@@ -29,9 +29,9 @@
 #ifndef _TIMELINEITEM_H
 #define _TIMELINEITEM_H
 
-class QCanvas;
-class QCanvasPolygon;
-class QCanvasText;
+class Q3Canvas;
+class Q3CanvasPolygon;
+class Q3CanvasText;
 
 class DiaPresentation;
 
@@ -42,7 +42,7 @@ class DiaPresentation;
 class TimeLineItem 
 {
 public:
-	TimeLineItem( QCanvas *	pCanvas, DiaPresentation * pDiaPres, int iSlideNo, double dFactor, int iRampSize, bool bIsSelected );
+	TimeLineItem( Q3Canvas *	pCanvas, DiaPresentation * pDiaPres, int iSlideNo, double dFactor, int iRampSize, bool bIsSelected );
 	virtual ~TimeLineItem();
 
 	bool IsSelected() const;
@@ -65,9 +65,9 @@ private:
 	void CleanUp();
 
 	// ** gui data **
-	QCanvas *			m_pCanvas;				// !!! NO OWNER !!!
-	QCanvasPolygon *	m_pDissolveRamp;
-	QCanvasText *		m_pSlideLabel;
+	Q3Canvas *			m_pCanvas;				// !!! NO OWNER !!!
+	Q3CanvasPolygon *	m_pDissolveRamp;
+	Q3CanvasText *		m_pSlideLabel;
 
 	// ** document data **
 	DiaPresentation *	m_pDiaPres;				// !!! NO OWNER !!!

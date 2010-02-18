@@ -36,12 +36,12 @@
 // *******************************************************************
 // *******************************************************************
 
-TimeLineAxis::TimeLineAxis( QCanvas * pCanvas, double dFactor, int iStartPosY )
+TimeLineAxis::TimeLineAxis( Q3Canvas * pCanvas, double dFactor, int iStartPosY )
 : m_pCanvas( pCanvas ),
   m_dFactor( dFactor ),
   m_iStartPosY( iStartPosY )
 {
-	m_hTimeAxis	= minHandle<QCanvasLine>( new QCanvasLine( m_pCanvas ) );
+	m_hTimeAxis	= minHandle<Q3CanvasLine>( new Q3CanvasLine( m_pCanvas ) );
 	m_hTimeAxis->show();
 }
 
@@ -79,12 +79,12 @@ void TimeLineAxis::MakeSecondTicks()
 	{
 		int iPos = (int)(((double)i)*m_dFactor);
 
-		QCanvasLine * pLine = new QCanvasLine( m_pCanvas );
+		Q3CanvasLine * pLine = new Q3CanvasLine( m_pCanvas );
 		pLine->setPoints( 0, 0, 0, 6 );
 		pLine->move( iPos, m_iStartPosY );
 		pLine->show();
 		
-		QCanvasText * pText = new QCanvasText( m_pCanvas );
+		Q3CanvasText * pText = new Q3CanvasText( m_pCanvas );
 		QString sText;
 		if( i>60 )
 		{
@@ -101,6 +101,6 @@ void TimeLineAxis::MakeSecondTicks()
 		pText->move( iPos, m_iStartPosY+10 );
 		pText->show();
 
-		m_aTickContainer.push_back( AxisTick( minHandle<QCanvasLine>( pLine ), minHandle<QCanvasText>( pText ) ) );
+		m_aTickContainer.push_back( AxisTick( minHandle<Q3CanvasLine>( pLine ), minHandle<Q3CanvasText>( pText ) ) );
 	}
 }

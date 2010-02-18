@@ -1,3 +1,7 @@
+//Added by qt3to4:
+#include <QShowEvent>
+#include <QKeyEvent>
+#include <QCloseEvent>
 /**************************************************************************
  *
  *	project				 : MinDia
@@ -45,7 +49,7 @@ class ConfigurationDlgImpl : public ConfigurationDlg
 	Q_OBJECT
 
 public:
-    ConfigurationDlgImpl( DocumentAndControler * pControler, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    ConfigurationDlgImpl( DocumentAndControler * pControler, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
 	virtual ~ConfigurationDlgImpl();
 
 public slots:

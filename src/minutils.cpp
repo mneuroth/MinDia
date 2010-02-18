@@ -48,6 +48,8 @@
 #include <algorithm>
 #include <functional>
 
+#include <QRegExp>
+
 #include "minutils.h"
 
 #include "osdep2.h"
@@ -62,14 +64,15 @@
 #include <dos.h>
 #endif
 
-#ifndef __linux__
-#include <direct.h>
-#else
+// TODO
+#if defined(__linux__) || defined(__APPLE__)
 #include <unistd.h>
 #include <sys/stat.h>			// fuer: mkdir()
 #include <dirent.h>				// fuer scandir, seekdir, etc.
 #include <time.h>
 #include <qregexp.h>			// for wildcard search (*.py)
+#else
+#include <direct.h>
 #endif
 
 // *******************************************************************
@@ -77,7 +80,7 @@
 #ifdef _WIN32
 #define CHAR_CAST const char *
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 #define CHAR_CAST const char *
 #endif
 
@@ -312,9 +315,7 @@ const int MAX_BUFFER_LENGTH =	512;
 	char sDirBuf[MAX_BUFFER_LENGTH];
 	char sNameBuf[MAX_BUFFER_LENGTH];
 	char sExtBuf[MAX_BUFFER_LENGTH];
-#ifndef __linux__
-	_splitpath( /*(CHAR_CAST)*/sPath, sDriveBuf, sDirBuf, sNameBuf, sExtBuf );
-#else
+#if defined(__linux__) || defined(__APPLE__)
 	// Simuliere _splitpath fuer Linux...
 	strcpy( sDriveBuf, "" );
 	strcpy( sDirBuf, "" );
@@ -368,6 +369,8 @@ const int MAX_BUFFER_LENGTH =	512;
 	{
 		strcpy( sNameBuf, sBuffer );
 	}
+#else
+	_splitpath( /*(CHAR_CAST)*/sPath, sDriveBuf, sDirBuf, sNameBuf, sExtBuf );
 #endif
 	sDrive = sDriveBuf;
 	sDir = sDirBuf;
@@ -386,7 +389,8 @@ const int MAX_BUFFER_LENGTH =	512;
 	char * pBuffer;
 	::GetFullPathName( (LPCTSTR)sFileName, 2048, (LPTSTR)sBuffer, (LPTSTR *)&pBuffer );
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 #ifdef _do_not_ignore_linux_errors
 #error not implemented yet
 #endif
@@ -398,7 +402,8 @@ const int MAX_BUFFER_LENGTH =	512;
 
     char * FileUtilityObj::GetDirectorySeparatorStrg()
     {
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 	  return "/";
 #else
 	  return "\\";
@@ -407,7 +412,8 @@ const int MAX_BUFFER_LENGTH =	512;
 
   char FileUtilityObj::GetDirectorySeparator()
     {
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 	  return '/';
 #else
 	  return '\\';
@@ -456,7 +462,8 @@ const int MAX_BUFFER_LENGTH =	512;
 #ifdef _WIN32
 	  bOk = (bool)::MoveFile( (LPCTSTR)sSource, (LPCTSTR)sTarget );
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 #ifdef _do_not_ignore_linux_errors
 #error not implemented yet (move)
 #endif
@@ -470,7 +477,8 @@ const int MAX_BUFFER_LENGTH =	512;
 #ifdef _WIN32
 	  bOk = (bool)::CopyFile( (LPCTSTR)sSource, (LPCTSTR)sTarget, /*bFailIfExists*/(BOOL)false );	// immer ueberschreiben
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 #ifdef _do_not_ignore_linux_errors
 #error not implemented yet (?)
 #endif
@@ -493,7 +501,7 @@ const int MAX_BUFFER_LENGTH =	512;
 
   bool FileUtilityObj::_CreateDirectory( const char *sDirName )
   {
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 	  return mkdir( (CHAR_CAST)sDirName, /*mode*/0 )==0;		// TODO: was ist mit mode-Argument ?
 #else
 	  return mkdir( (CHAR_CAST)sDirName )==0;
@@ -525,10 +533,10 @@ const int MAX_BUFFER_LENGTH =	512;
 
   bool FileUtilityObj::ChangeActDrive( int nDriveNo )
   {
-#ifndef __linux__
-	  return _chdrive( nDriveNo )==0;
-#else
+#if defined(__linux__) || defined(__APPLE__)
 	  return false;		// Problem mit Linux ? gibt kein Aequivalent !
+#else
+	  return _chdrive( nDriveNo )==0;
 #endif
   }
 
@@ -546,7 +554,7 @@ const int MAX_BUFFER_LENGTH =	512;
 	  FILETIME aCreateTime;
 	  FILETIME aLastAccessTime;
 	  FILETIME aLastWriteTime;
-	  bOk = (bool)::GetFileTime( (HANDLE)hFile, &aCreateTime, &aLastAccessTime, &aLastWriteTime );
+	  bOk = (bool)::GetFileTime( (Qt::HANDLE)hFile, &aCreateTime, &aLastAccessTime, &aLastWriteTime );
 
 	  if( bOk )
 	  {
@@ -560,9 +568,10 @@ const int MAX_BUFFER_LENGTH =	512;
 		  aFileTimeOut = aFileTime;
 	  }
 
-	  CloseHandle( (HANDLE)hFile );
+	  CloseHandle( (Qt::HANDLE)hFile );
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 	// ** todo --> test
 
 	struct stat aStat_p;
@@ -1122,7 +1131,8 @@ bool FileSystemUtils::IsDirectory( const string & sPath )
 	return bOk;
 }
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 #define _PATH_SEP		'/'
 #define _BAD_PATH_SEP	'\\'
 #else
@@ -1161,7 +1171,7 @@ bool FileSystemUtils::GetDirectory( const string & sPath, int nShowFlagsIn, Dire
 #ifdef _WIN32
 	WIN32_FIND_DATA aData;
 	// WARNING: conversion problems in the case of unicode version !!!
- 	HANDLE hDir = ::FindFirstFile( (LPCTSTR)sSearchStrg.c_str(), &aData );
+ 	Qt::HANDLE hDir = ::FindFirstFile( (LPCTSTR)sSearchStrg.c_str(), &aData );
 	bool bContinue = (hDir !=  INVALID_HANDLE_VALUE);
 	if( !bContinue )
 	{
@@ -1201,7 +1211,8 @@ bool FileSystemUtils::GetDirectory( const string & sPath, int nShowFlagsIn, Dire
 	}
 	FindClose( hDir );
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
+
 	// ** use qt for wildcard search !
 	QRegExp aRegExp( sFileMask.c_str(), TRUE, TRUE );
 
@@ -1213,7 +1224,7 @@ bool FileSystemUtils::GetDirectory( const string & sPath, int nShowFlagsIn, Dire
 	while( (pDir != 0) && (pEntry = readdir( pDir )) != 0 )
 	{
 		// ** check for wildcards
-		int iRet = aRegExp.match( pEntry->d_name );
+		int iRet = aRegExp.exactMatch( pEntry->d_name );
 
 		if( iRet != -1 )
 		{

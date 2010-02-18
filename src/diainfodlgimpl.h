@@ -42,6 +42,9 @@
 #endif
 #include "minhandle.h"
 #include "diainfo.h"
+//Added by qt3to4:
+#include <QKeyEvent>
+#include <QCloseEvent>
 
 class QDoubleValidator;
 class QIntValidator;
@@ -53,7 +56,7 @@ class DiaInfoDlgImpl : public DiaInfoDlg
 	Q_OBJECT
 
 public:
-    DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
 	virtual ~DiaInfoDlgImpl();
 
 	void SetDataChanged( bool bState );

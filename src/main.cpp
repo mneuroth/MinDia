@@ -55,6 +55,9 @@
 
 #include <qapplication.h>
 #include <qtextcodec.h>
+//Added by qt3to4:
+#include <QTranslator>
+#include <Q3PopupMenu>
 
 #include "mindiawindow.h"
 #include "doccontroler.h"
@@ -62,7 +65,7 @@
 #include "minbase.h"
 #include "iscript.h"
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 #include "minutils.h"
 #include "config.h"				// for autoconf values...
 #define _MINDIAPYC_DLL_NAME		"libmindiapyc.so"
@@ -95,7 +98,7 @@ string GetMinDiaSharedDirectory()
 	string sRet;
 	string sSep( FileUtilityObj::GetDirectorySeparatorStrg() );
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 	// ** if MinDia is installed, than the german language file is in this directory
 	string sTestFileInShared;
 
@@ -163,7 +166,7 @@ public:
 	virtual bool IsOk() const;
 
 	virtual QWidget *		GetMainWindowPtr();
-	virtual QPopupMenu *	GetPluginsMenuPtr();
+	virtual Q3PopupMenu *	GetPluginsMenuPtr();
 	virtual const char *	GetLanguage() const;
 	virtual const char *	GetHelpDirecotry() const;
 	virtual const char *	GetScriptDirecotry() const;
@@ -193,7 +196,7 @@ QWidget * IGeneralScriptFcnImpl::GetMainWindowPtr()
 	return m_pMainWindow;
 }
 
-QPopupMenu * IGeneralScriptFcnImpl::GetPluginsMenuPtr()
+Q3PopupMenu * IGeneralScriptFcnImpl::GetPluginsMenuPtr()
 {
 	if( m_pMainWindow )
 	{
@@ -336,7 +339,7 @@ QApplication * GetApplication()
 	return g_pApplication;
 }
 
-QString ProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, QApplication * qApp )
+QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, QApplication * myApp )
 {
 	// ** need global Translator for the other dialogs...
 	QString sLangTemp = sLanguage;
@@ -365,12 +368,12 @@ QString ProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, Q
 
 int main( int argc, char** argv )
 {
-	QApplication aApp( argc, argv );
+	QApplication myApp( argc, argv );
 
-	g_pApplication = &aApp;
+	g_pApplication = &myApp;
 
 	bool bIgnoreComSettings = false;
-	bool bSimulation = true;
+    bool bSimulation = true;
 	bool bExecuteEvent = true;
 	bool bAutoRun = false;
 	bool bShowScreen = false;
@@ -478,7 +481,7 @@ int main( int argc, char** argv )
 	}
 
 	MinDiaWindow aWindow( sLanguage, bIgnoreComSettings, bSimulation, iProjectorType );
-	aApp.setMainWidget( &aWindow );
+	myApp.setMainWidget( &aWindow );
 
 	// ** environment for dll starting... **
 	minServiceManager * pSrvManager = new minServiceManager;
@@ -522,7 +525,7 @@ int main( int argc, char** argv )
 
 	// ** need global Translator for the other dialogs...
 	QTranslator * pTranslator = new QTranslator( &aWindow );
-	ProcessLanguage( pTranslator, sLanguage, qApp );
+	myProcessLanguage( pTranslator, sLanguage, qApp );
 
 	// ** load file if any filename is given as an argument
 	if( !sFileName.isEmpty() )
@@ -546,7 +549,7 @@ int main( int argc, char** argv )
 		++aIter;
 	}
     */
-	int iRet = aApp.exec();
+	int iRet = myApp.exec();
 
 	pSrvManager->GetDllManager().UnLoadAll();
 

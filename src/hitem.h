@@ -30,7 +30,7 @@
 #define _HTIEM_H
 
 // ** gui
-#include <qcanvas.h> 
+#include <q3canvas.h> 
 
 #include "minhandle.h"		// for the smart-ptr
 
@@ -45,10 +45,10 @@ class QImage;
 // *******************************************************************
 /** Represents an Item in an ItemView.
   */
-class HItem : public QCanvasRectangle
+class HItem : public Q3CanvasRectangle
 {
 public:
-	HItem( const QRect & aRect, QCanvas * pCanvas, minHandle<DiaInfo> hData );
+	HItem( const QRect & aRect, Q3Canvas * pCanvas, minHandle<DiaInfo> hData );
 	~HItem();
 
 	void SetSelected( bool bSelect );
@@ -70,15 +70,15 @@ private:
 
 #ifdef _with_canvas_items
 	// ** helper methods **
-	void CreateElements( QCanvas * pCanvas );
+	void CreateElements( Q3Canvas * pCanvas );
 	void DeleteElements();
 	void UpdateElements();
 
 	// ** the element data **
-	QCanvasText *		m_pPosText;
-	QCanvasText *		m_pIdText;
-	QCanvasText *		m_pCommentText;
-	QCanvasText *		m_pFileNameText;
+	Q3CanvasText *		m_pPosText;
+	Q3CanvasText *		m_pIdText;
+	Q3CanvasText *		m_pCommentText;
+	Q3CanvasText *		m_pFileNameText;
 	SlideItem *			m_pSlideItem;
 #else
 	QString				m_sImageFileNameCache;

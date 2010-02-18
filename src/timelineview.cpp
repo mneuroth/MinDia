@@ -42,18 +42,25 @@
 #include "misctools.h"
 
 #include <qcursor.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qpushbutton.h>
 #include <qtooltip.h>
 #include <qevent.h>
-#include <qdragobject.h>
-#include <qurl.h>
+#include <q3dragobject.h>
+#include <q3url.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
 #include <qlineedit.h>
+//Added by qt3to4:
+#include <Q3StrList>
+#include <QDragEnterEvent>
+#include <QDragMoveEvent>
+#include <QDropEvent>
+#include <QMouseEvent>
+#include <QToolTip>
 
 // *******************************************************************
-
+/* TODO Qt4
 class MyDynamicToolTip : public QToolTip
 {
 public:
@@ -87,7 +94,7 @@ void MyDynamicToolTip::maybeTip( const QPoint &pos )
     //s.sprintf( "position: %d,%d", r.center().x(), r.center().y() );
     tip( aRect, sText );
 }
-
+*/
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************
@@ -104,12 +111,12 @@ const int g_iStartPosY = g_iRampSize + 20;
 const int c_iDynOpOffset = 60;
 
 TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMainWin, QObject * pControler, DiaPresentation * pDoc )
-: QCanvasView( 0, pParent )
+: Q3CanvasView( 0, pParent )
 {
 	setAcceptDrops( TRUE );
 	setDragAutoScroll( TRUE );
 
-	m_pContextMenu		= new QPopupMenu( this );
+	m_pContextMenu		= new Q3PopupMenu( this );
 	m_pContextMenu->insertItem( tr( "Sound &data..." ), MODIFY_SOUNDDATA );
 	m_pContextMenu->insertItem( tr( "Sound &comments..." ), MODIFY_SOUNDCOMMENTS );
 	m_pContextMenu->insertItem( tr( "&Plot comments..." ), MODIFY_PLOTCOMMENTS );
@@ -119,7 +126,7 @@ TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget 
 	//connect( m_pContextMenu, SIGNAL( aboutToShow() ), this, SLOT( sltShowContextMenu() ) );
 	connect( m_pContextMenu, SIGNAL( activated(int) ), this, SLOT( sltContextMenuActivated(int) ) );
 
-	m_pCanvas			= new QCanvas( iWidth, iHeight );
+	m_pCanvas			= new Q3Canvas( iWidth, iHeight );
 	//m_pCanvas->setDoubleBuffering( true );
 	setCanvas( m_pCanvas );
 
@@ -138,12 +145,12 @@ TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget 
 	m_bMouseMovedWhilePressed = false;
 	m_iSelectedDynTextIndex	= -1;
 
-	setFocusPolicy( QWidget::ClickFocus );
+	setFocusPolicy( Qt::ClickFocus );
 	viewport()->setMouseTracking( true );
 
 	m_hTimeAxis = minHandle<TimeLineAxis>( new TimeLineAxis( m_pCanvas, g_dFactor, g_iStartPosY ) );
 
-	m_hPlayMark = minHandle<QCanvasLine>( new QCanvasLine( m_pCanvas ) );
+	m_hPlayMark = minHandle<Q3CanvasLine>( new Q3CanvasLine( m_pCanvas ) );
 	m_hPlayMark->setBrush( QColor( 255, 0, 0 ) );
 	m_hPlayMark->setPoints( 0, 0, 0, g_iStartPosY );
 	m_hPlayMark->show();
@@ -161,7 +168,8 @@ TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget 
 		connect( this, SIGNAL( sigLoadDoc(const QString &, bool) ), pMainWin, SLOT( sltLoadDoc(const QString &, bool) ) );
 	}
 
-	m_pToolTip = new MyDynamicToolTip( this );
+//TODO Qt4	m_pToolTip = new MyDynamicToolTip( this );
+    m_pToolTip = 0;
 }
 
 TimeLineView::~TimeLineView()
@@ -389,21 +397,21 @@ void TimeLineView::ShowPlotComments()
 			// to position (exclusive) !
 			int iPos2 = (int)(m_pDiaPres->GetDiaAbsStartDissolveTime( iStopIndex )*g_dFactor);
 
-			QCanvasLine * pLine1 = new QCanvasLine( m_pCanvas );
+			Q3CanvasLine * pLine1 = new Q3CanvasLine( m_pCanvas );
 			pLine1->setPoints( 0, 0, 0, 20 );
 			//pLine1->setBrush( QBrush( aColor ) );
 			pLine1->setPen( QPen( aColor ) );
 			pLine1->move( iPos, g_iStartPosY+c_iOffset );
 			pLine1->show();
 
-			QCanvasLine * pLine2 = new QCanvasLine( m_pCanvas );
+			Q3CanvasLine * pLine2 = new Q3CanvasLine( m_pCanvas );
 			pLine2->setPoints( 0, 0, 0, 20 );
 			//pLine2->setBrush( QBrush( aColor ) );
 			pLine2->setPen( QPen( aColor ) );
 			pLine2->move( iPos2, g_iStartPosY+c_iOffset );
 			pLine2->show();
 
-			QCanvasText * pText = new QCanvasText( m_pCanvas );
+			Q3CanvasText * pText = new Q3CanvasText( m_pCanvas );
 			QString sText = aCommentContainer[i]->GetComment().c_str();
 			sText = "<-- " + sText + " -->";
 			pText->setText( sText );
@@ -419,8 +427,8 @@ void TimeLineView::ShowPlotComments()
 			}
 
 			m_aPlotCommentContainer.push_back( PlotCommentItem( 
-					pair< minHandle<QCanvasLine>, minHandle<QCanvasLine> >( minHandle<QCanvasLine>( pLine1 ), minHandle<QCanvasLine>( pLine2 ) ),
-					minHandle<QCanvasText>( pText ) ) );
+					pair< minHandle<Q3CanvasLine>, minHandle<Q3CanvasLine> >( minHandle<Q3CanvasLine>( pLine1 ), minHandle<Q3CanvasLine>( pLine2 ) ),
+					minHandle<Q3CanvasText>( pText ) ) );
 		}
 	}
 }
@@ -445,21 +453,21 @@ void TimeLineView::ShowMusicComments()
 		// ** connect the sound comments to the sound play time
 		iPos += iOffset;
 
-		QCanvasLine * pLine = new QCanvasLine( m_pCanvas );
+		Q3CanvasLine * pLine = new Q3CanvasLine( m_pCanvas );
 		pLine->setPoints( 0, 0, 0, 20+iLength );
 		//pLine->setBrush( QBrush( aColor ) );
 		pLine->setPen( QPen( aColor ) );
 		pLine->move( iPos, g_iStartPosY+c_iOffset );
 		pLine->show();
 
-		QCanvasText * pText = new QCanvasText( m_pCanvas );
+		Q3CanvasText * pText = new Q3CanvasText( m_pCanvas );
 		QString sText = aCommentContainer[i]->GetComment().c_str();
 		pText->setText( sText );
 		pText->setColor( aColor );
 		pText->move( iPos+2, g_iStartPosY+c_iOffset+10+iLength );
 		pText->show(); 
 
-		m_aMusicCommentContainer.push_back( MusicCommentItem( MusicCommentItemHelper( minHandle<QCanvasLine>( pLine ), minHandle<QCanvasText>( pText ) ), ItemInfoHelper( sText, -1 ) ) );
+		m_aMusicCommentContainer.push_back( MusicCommentItem( MusicCommentItemHelper( minHandle<Q3CanvasLine>( pLine ), minHandle<Q3CanvasText>( pText ) ), ItemInfoHelper( sText, -1 ) ) );
 	}
 }
 
@@ -486,13 +494,13 @@ void TimeLineView::ShowMusicTracks()
 		int iStartPos = (int)(aSoundContainer.GetAbsPlayPos(i)*0.001*g_dFactor);
 		int iDelta = (int)(aSoundContainer[i]->GetDelta()*0.001*g_dFactor);
 
-		QCanvasRectangle * pRect = new QCanvasRectangle( m_pCanvas );
+		Q3CanvasRectangle * pRect = new Q3CanvasRectangle( m_pCanvas );
 		pRect->setSize( iDelta, c_iTrackHeight );
 		pRect->setBrush( QBrush( aColor1 ) );
 		pRect->move( iOffset+iStartPos, g_iStartPosY+c_iTrackHeight+c_iTrackOffset /*80*/ );
 		pRect->show();
 
-		QCanvasText * pText = new QCanvasText( m_pCanvas );
+		Q3CanvasText * pText = new Q3CanvasText( m_pCanvas );
 		QString sText = aSoundContainer[i]->GetFileName().c_str();
 		pText->setText( sText );
 		pText->setColor( aColor2 );
@@ -505,7 +513,7 @@ void TimeLineView::ShowMusicTracks()
 		int iFadeOutStart = (int)(aSoundContainer[i]->GetFadeOutStartPos()*0.001*g_dFactor);
 		int iFadeOutLength = (int)(aSoundContainer[i]->GetFadeOutLength()*0.001*g_dFactor);
 
-		QCanvasLine * pLineFadeIn = new QCanvasLine( m_pCanvas );
+		Q3CanvasLine * pLineFadeIn = new Q3CanvasLine( m_pCanvas );
 		pLineFadeIn->setPoints( 0, c_iTrackHeight, iFadeInLength, 0 );
 		//pLineFadeIn->setBrush( QBrush( aColor ) );
 		pLineFadeIn->move( iOffset+iStartPos+iFadeInStart, g_iStartPosY+c_iTrackHeight+c_iTrackOffset );
@@ -513,7 +521,7 @@ void TimeLineView::ShowMusicTracks()
 		pLineFadeIn->setSelected( true );
 		pLineFadeIn->setZ( 128 );
 
-		QCanvasLine * pLineFadeOut = new QCanvasLine( m_pCanvas );
+		Q3CanvasLine * pLineFadeOut = new Q3CanvasLine( m_pCanvas );
 		pLineFadeOut->setPoints( 0, 0, iFadeOutLength, c_iTrackHeight );
 		//pLineFadeOut->setBrush( QBrush( aColor ) );
 		pLineFadeOut->move( iOffset+iStartPos+iFadeOutStart, g_iStartPosY+c_iTrackHeight+c_iTrackOffset );
@@ -521,8 +529,8 @@ void TimeLineView::ShowMusicTracks()
 		pLineFadeOut->setSelected( true );
 		pLineFadeOut->setZ( 128 );
 
-		m_aMusicContainer.push_back( MusicItem( minHandle<QCanvasRectangle>( pRect ), minHandle<QCanvasText>( pText ) ) );
-		m_aFadeContainer.push_back( FadeItem( minHandle<QCanvasLine>( pLineFadeIn ), minHandle<QCanvasLine>( pLineFadeOut ) ) );
+		m_aMusicContainer.push_back( MusicItem( minHandle<Q3CanvasRectangle>( pRect ), minHandle<Q3CanvasText>( pText ) ) );
+		m_aFadeContainer.push_back( FadeItem( minHandle<Q3CanvasLine>( pLineFadeIn ), minHandle<Q3CanvasLine>( pLineFadeOut ) ) );
 	}
 }
 
@@ -554,14 +562,14 @@ void TimeLineView::ShowGraphicOperations()
 		// ** connect the sound comments to the sound play time
 		iPos += iOffset;
 
-		QCanvasLine * pLine = new QCanvasLine( m_pCanvas );
+		Q3CanvasLine * pLine = new Q3CanvasLine( m_pCanvas );
 		pLine->setPoints( 0, 0, 0, 20+iLength );
 		//pLine->setBrush( QBrush( aColor ) );
 		pLine->setPen( QPen( aColor ) );
 		pLine->move( iPos, g_iStartPosY+c_iDynOpOffset );
 		pLine->show();
 
-		QCanvasText * pText = new QCanvasText( m_pCanvas );
+		Q3CanvasText * pText = new Q3CanvasText( m_pCanvas );
 		QString sText = aDynGrOpContainer[i]->GetString().c_str();
 		QString sAddText;
 		if( sText.length()>4 )
@@ -573,7 +581,7 @@ void TimeLineView::ShowGraphicOperations()
 		pText->move( iPos+2, g_iStartPosY+c_iDynOpOffset+10+iLength );
 		pText->show(); 
 
-		m_aDynGrapOpContainer.push_back( MusicCommentItem( MusicCommentItemHelper( minHandle<QCanvasLine>( pLine ), minHandle<QCanvasText>( pText ) ), ItemInfoHelper( sText, i ) ) );
+		m_aDynGrapOpContainer.push_back( MusicCommentItem( MusicCommentItemHelper( minHandle<Q3CanvasLine>( pLine ), minHandle<Q3CanvasText>( pText ) ), ItemInfoHelper( sText, i ) ) );
 	}
 }
 
@@ -611,7 +619,7 @@ QRect TimeLineView::GetTipRect( const QPoint & aPoint, QString * psText, int * p
 
 void TimeLineView::contentsMousePressEvent( QMouseEvent * pEvent )
 {
-	if( (pEvent->button() == LeftButton) )
+	if( (pEvent->button() == Qt::LeftButton) )
 	{
 		// ** allow modifiying of items only in edit-modus
 		if( m_pDiaPres->IsEdit() )
@@ -636,7 +644,7 @@ void TimeLineView::contentsMousePressEvent( QMouseEvent * pEvent )
 					m_bDissolveSelected = false;
 					m_bTotalTimeConstant = false;
 
-					setCursor( SizeHorCursor );
+					setCursor( Qt::SizeHorCursor );
 
 					return;
 				}
@@ -645,7 +653,7 @@ void TimeLineView::contentsMousePressEvent( QMouseEvent * pEvent )
 					// ** yes, change dissolve time of selected dia
 
 					// ** should total time hold constant (shift button pressed)
-					if( (pEvent->state() & QEvent::ShiftButton) == QEvent::ShiftButton )
+					if( (pEvent->state() & Qt::ShiftModifier) == Qt::ShiftModifier )
 					{
 						// ** no
 						m_bTotalTimeConstant = false;
@@ -661,7 +669,7 @@ void TimeLineView::contentsMousePressEvent( QMouseEvent * pEvent )
 					m_iSelectedItemNo = iCount;
 					m_bDissolveSelected = true;
 
-					setCursor( SizeHorCursor );
+					setCursor( Qt::SizeHorCursor );
 
 					return;
 				}
@@ -691,7 +699,7 @@ void TimeLineView::contentsMousePressEvent( QMouseEvent * pEvent )
 		QRect aRect = GetTipRect( pEvent->pos(), &sText, &iIndexOut );
 	    if( aRect.isValid() )
 		{
-			if( (pEvent->state() & QEvent::ShiftButton) == QEvent::ShiftButton )
+			if( (pEvent->state() & Qt::ShiftModifier) == Qt::ShiftModifier )
 			{
 				ShowModifyDynObjectDialog( iIndexOut );
 			}
@@ -700,11 +708,11 @@ void TimeLineView::contentsMousePressEvent( QMouseEvent * pEvent )
 				m_iSelectedDynTextIndex = iIndexOut;
 				m_iSelectedItemStartPos = pEvent->x();
 
-				setCursor( SizeHorCursor );
+				setCursor( Qt::SizeHorCursor );
 			}
 		}
 	}
-	else if( (pEvent->button() == RightButton) )
+	else if( (pEvent->button() == Qt::RightButton) )
 	{
 		// ** handle popup menu...
 		m_aLastMousePos = pEvent->pos();
@@ -732,7 +740,7 @@ void TimeLineView::contentsMouseReleaseEvent( QMouseEvent * /*pEvent*/ )
 		m_hSelectedItem = minHandle<TimeLineItem>();
 		m_iSelectedDynTextIndex = -1;
 
-		setCursor( ArrowCursor );
+		setCursor( Qt::ArrowCursor );
 
 		if( m_iSelectedItemNo >= 0 )
 		{
@@ -831,13 +839,13 @@ void TimeLineView::contentsMouseMoveEvent( QMouseEvent * pEvent )
 
 				if( hItem->IsStopBorderSelected( pEvent->x(), pEvent->y() ) )
 				{
-					setCursor( SizeHorCursor );
+					setCursor( Qt::SizeHorCursor );
 
 					return;
 				}
 				else if( hItem->IsDissolveBorderSelected( pEvent->x(), pEvent->y() ) )
 				{
-					setCursor( SizeHorCursor );
+					setCursor( Qt::SizeHorCursor );
 
 					return;
 				}
@@ -849,12 +857,12 @@ void TimeLineView::contentsMouseMoveEvent( QMouseEvent * pEvent )
 			QRect aRect = GetTipRect( pEvent->pos() );
 			if( aRect.isValid() )
 			{
-				setCursor( SizeHorCursor );
+				setCursor( Qt::SizeHorCursor );
 
 				return;
 			}
 
-			setCursor( ArrowCursor );
+			setCursor( Qt::ArrowCursor );
 		}
 	}
 }
@@ -867,7 +875,7 @@ void TimeLineView::dragEnterEvent( QDragEnterEvent * pEvent )
 
 		if( IsDiaDataFileDrag( pEvent, sFileName ) )
 		{
-			pEvent->accept( QUriDrag::canDecode( pEvent ) );
+			pEvent->accept( Q3UriDrag::canDecode( pEvent ) );
 		}
 //        QTextDrag::canDecode(pEvent) ||
 	}
@@ -881,11 +889,11 @@ void TimeLineView::dragMoveEvent ( QDragMoveEvent * pEvent )
 
 		if( IsDiaDataFileDrag( pEvent, sFileName ) )
 		{
-			pEvent->accept( QUriDrag::canDecode( pEvent ) );
+			pEvent->accept( Q3UriDrag::canDecode( pEvent ) );
 		}
 		else if( IsSoundFileDrag( pEvent ) )
 		{
-			pEvent->accept( QUriDrag::canDecode( pEvent ) );
+			pEvent->accept( Q3UriDrag::canDecode( pEvent ) );
 		}
 		else
 		{
@@ -905,12 +913,12 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
 	{
 		QString sFileName;
 		QString sText;
-		QStrList aStrList;
+		Q3StrList aStrList;
 		QImage aImage;
 
 		QPoint aPos = pEvent->pos();
 
-		if( QImageDrag::decode( pEvent, aImage ) )
+		if( Q3ImageDrag::decode( pEvent, aImage ) )
 		{
 			int i = 0;
 			i = 2;
@@ -926,13 +934,13 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
 			const char * s;
 			QString sFileName;
 
-			if( QUriDrag::decode( pEvent, aStrList ) )
+			if( Q3UriDrag::decode( pEvent, aStrList ) )
 			{
 				for( int i=0; i<(int)aStrList.count(); i++ )
 				{
 					const QString sTest = aStrList.at(i);
 					s = (const char *)sTest;
-					sFileName = QUriDrag::uriToLocalFile( s );
+					sFileName = Q3UriDrag::uriToLocalFile( s );
 					s = (const char *)sFileName;
 
 					aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( s ) ) );
@@ -966,11 +974,11 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
 			bool bOk = ReadQImage( (const char *)sFileName, aImage );
 			//bool bOk = aImage.load( s1 );
 		}
-	*/	else if( QTextDrag::decode( pEvent, sText ) )
+	*/	else if( Q3TextDrag::decode( pEvent, sText ) )
 		{
 			const char * s = (const char *)sText;
 
-			QUrl aUrl( sText );
+			Q3Url aUrl( sText );
 
 			bool bOk = aUrl.isValid();
 			bOk = aUrl.isLocalFile();

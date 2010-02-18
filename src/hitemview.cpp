@@ -43,9 +43,15 @@
 
 #include <stdio.h>
 
-#include <qpopupmenu.h>
-#include <qdragobject.h>
-#include <qurl.h>
+#include <q3popupmenu.h>
+#include <q3dragobject.h>
+#include <q3url.h>
+//Added by qt3to4:
+#include <QDropEvent>
+#include <QMouseEvent>
+#include <Q3StrList>
+#include <QKeyEvent>
+#include <QDragEnterEvent>
 
 // *******************************************************************
 // *******************************************************************
@@ -70,7 +76,7 @@ static string GetNextFreeID()
 class _RestoreContents
 {
 public:
-	_RestoreContents( QScrollView * pScrollView )
+	_RestoreContents( Q3ScrollView * pScrollView )
 		: m_pScrollView( pScrollView )
 	{
 		m_x = m_pScrollView->contentsX();
@@ -82,7 +88,7 @@ public:
 	}
 
 private:
-	QScrollView *	m_pScrollView;
+	Q3ScrollView *	m_pScrollView;
 	int				m_x;
 	int				m_y;
 };
@@ -94,18 +100,18 @@ private:
 #define MODIFY_ENTRY	1
 
 HItemView::HItemView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMainWin, QObject * pControler, DiaPresentation * pDoc )
-: QCanvasView( 0, pParent )
+: Q3CanvasView( 0, pParent )
 {
 	setAcceptDrops( TRUE );
 	setDragAutoScroll( TRUE );
 	m_iDragTargetIndex = -1;
 
-	m_pContextMenu		= new QPopupMenu( this );
+	m_pContextMenu		= new Q3PopupMenu( this );
 	m_pContextMenu->insertItem( tr( "&Modify entry..." ), MODIFY_ENTRY );
 	//connect( m_pContextMenu, SIGNAL( aboutToShow() ), this, SLOT( sltShowContextMenu() ) );
 	connect( m_pContextMenu, SIGNAL( activated(int) ), this, SLOT( sltContextMenuActivated(int) ) );
 
-	m_pCanvas			= new QCanvas( iWidth, iHeight );
+	m_pCanvas			= new Q3Canvas( iWidth, iHeight );
 	//m_pCanvas->setDoubleBuffering( true );
 	setCanvas( m_pCanvas );
 
@@ -118,7 +124,7 @@ HItemView::HItemView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMai
 
 	m_pDiaPres			= pDoc;
 
-	setFocusPolicy( QWidget::ClickFocus );
+	setFocusPolicy( Qt::ClickFocus );
 
 	// *** connect signals to slots ***
 	if( pMainWin )
@@ -290,7 +296,7 @@ void HItemView::contentsMousePressEvent( QMouseEvent * pEvent )
 	bool bIsOneSelected = false;
 	HItem * pFirstSelectedItem = 0;
 
-	if( (pEvent->button() == LeftButton) )
+	if( (pEvent->button() == Qt::LeftButton) )
 	{
 		// ** disable mouse input in play-modus !
 		if( m_pDiaPres && !m_pDiaPres->IsEdit() )
@@ -300,7 +306,7 @@ void HItemView::contentsMousePressEvent( QMouseEvent * pEvent )
 
 		// ** multi-selection only if shift button is pressed !
 		// ** if no shift buttion is presed deselect all selected items
-		if( !( (pEvent->state() & ShiftButton) == ShiftButton) )
+		if( !( (pEvent->state() & Qt::ShiftModifier) == Qt::ShiftModifier) )
 		{
 			sltSelectAllItems( false, false	);		// no update needed, because update will be triggert later in this method !
 		}
@@ -333,7 +339,7 @@ void HItemView::contentsMousePressEvent( QMouseEvent * pEvent )
 		// ** update the view
 		sltUpdateSelected();
 	}
-	else if( (pEvent->button() == RightButton) )
+	else if( (pEvent->button() == Qt::RightButton) )
 	{
 		// ** handle popup menu...
 		m_pContextMenu->exec( pEvent->globalPos() );
@@ -374,9 +380,9 @@ void HItemView::contentsMouseMoveEvent( QMouseEvent * pEvent )
 
 		if( GetActClipboardData( sDragString, &aIndexContainer ) )
 		{
-			QDragObject *d = new QTextDrag( sDragString, this );
+			Q3DragObject *d = new Q3TextDrag( sDragString, this );
 
-			if( (pEvent->state() & QMouseEvent::ControlButton)==QMouseEvent::ControlButton )
+			if( (pEvent->state() & Qt::ControlModifier)==Qt::ControlModifier )
 			{
 				d->dragCopy();
 			}
@@ -435,33 +441,33 @@ void HItemView::keyPressEvent( QKeyEvent * pEvent )
 	{
 		sltDeleteAllSlectedItems();
 	}
-	else if( (pEvent->ascii() == 'n') || (pEvent->key() == Key_Right) )
+	else if( (pEvent->ascii() == 'n') || (pEvent->key() == Qt::Key_Right) )
 	{
 		sltSelectNext();
 	}
-	else if( (pEvent->ascii() == 'p') || (pEvent->key() == Key_Left) )
+	else if( (pEvent->ascii() == 'p') || (pEvent->key() == Qt::Key_Left) )
 	{
 		sltSelectPrev();
 	}
-	else if( (pEvent->key() == Key_Home) )
+	else if( (pEvent->key() == Qt::Key_Home) )
 	{
 		sltSelectItem( 0, 0 );
 	}
-	else if( (pEvent->key() == Key_End) )
+	else if( (pEvent->key() == Qt::Key_End) )
 	{
 		sltSelectItem( m_aItemContainer.size()-1, 0 );
 	}
-	else if( (pEvent->key() == Key_Escape) )
+	else if( (pEvent->key() == Qt::Key_Escape) )
 	{
 		sltSelectAllItems( false, true );
 	}
-	else if( (pEvent->key() == Key_F1) )
+	else if( (pEvent->key() == Qt::Key_F1) )
 	{
 		emit sigDialogHelp( "HItemView" );
 	}
 	else
 	{
-		QCanvasView::keyPressEvent( pEvent );
+		Q3CanvasView::keyPressEvent( pEvent );
 	}
 }
 
@@ -472,23 +478,23 @@ void HItemView::dragEnterEvent( QDragEnterEvent * pEvent )
 		// allow only *.dia files and imager files to drop !
 
 		QString sFileName;
-		QStrList aStrList;
+		Q3StrList aStrList;
 
 		if( IsDiaDataFileDrag( pEvent, sFileName ) )
 		{
-			pEvent->accept( QUriDrag::canDecode( pEvent ) );
+			pEvent->accept( Q3UriDrag::canDecode( pEvent ) );
 		}
 		else if( IsImageFileDrag( pEvent ) )
 		{
-			pEvent->accept( QUriDrag::canDecode( pEvent ) );
+			pEvent->accept( Q3UriDrag::canDecode( pEvent ) );
 		}
-		else if( QUriDrag::decode( pEvent, aStrList ) )
+		else if( Q3UriDrag::decode( pEvent, aStrList ) )
 		{
 			// do not accept other files than *.dia or images
 		}
 		else
 		{
-			pEvent->accept( QTextDrag::canDecode(pEvent) );
+			pEvent->accept( Q3TextDrag::canDecode(pEvent) );
 		}
 	}
 }
@@ -498,7 +504,7 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 	if( m_pDiaPres->IsEdit() )
 	{
 		QString sFileName;
-		QStrList aStrList;
+		Q3StrList aStrList;
 
 		if( IsDiaDataFileDrag( pEvent, sFileName ) )
 		{
@@ -524,13 +530,13 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 			}
 
 			// insert all droped image files at the found position 
-			if( QUriDrag::decode( pEvent, aStrList ) )
+			if( Q3UriDrag::decode( pEvent, aStrList ) )
 			{
 				for( int i=0; i<(int)aStrList.count(); i++ )
 				{
 					const QString sTest = aStrList.at( i );
 					const char * s = (const char *)sTest;
-					sFileName = QUriDrag::uriToLocalFile( s );
+					sFileName = Q3UriDrag::uriToLocalFile( s );
 					//s = (const char *)sFileName;
 					AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID(), (const char *)sFileName ) ), iIndex+i, /*bInsert*/true );
 				}
@@ -538,11 +544,11 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 
 			sltSelectItem( iIndex, 0 );
 		}
-		else if( QUriDrag::decode( pEvent, aStrList ) )
+		else if( Q3UriDrag::decode( pEvent, aStrList ) )
 		{
 			// do not accept other files than *.dia or images
 		}
-		else if( QTextDrag::decode( pEvent, sFileName ) ) 
+		else if( Q3TextDrag::decode( pEvent, sFileName ) ) 
 		{
 			int iIndex = -1;
 

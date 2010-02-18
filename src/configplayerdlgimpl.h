@@ -45,7 +45,7 @@ class ConfigPlayerDlgImpl : public ConfigPlayerDlg
 	Q_OBJECT
 
 public:
-    ConfigPlayerDlgImpl( MiniIniDB & aIniDB, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    ConfigPlayerDlgImpl( MiniIniDB & aIniDB, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
 	virtual ~ConfigPlayerDlgImpl();
 
 public slots:

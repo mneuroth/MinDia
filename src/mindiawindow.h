@@ -126,11 +126,17 @@
 #ifndef _MINDIAWINDOW_h
 #define _MINDIAWINDOW_h
 
-#include <qmainwindow.h>
-#include <qhbox.h>
-#include <qvbox.h>
-#include <qcanvas.h>
-#include <qmultilineedit.h>
+#include <q3mainwindow.h>
+#include <q3hbox.h>
+#include <q3vbox.h>
+#include <q3canvas.h>
+#include <q3multilineedit.h>
+//Added by qt3to4:
+#include <QTranslator>
+#include <QKeyEvent>
+#include <QLabel>
+#include <Q3PopupMenu>
+#include <QCloseEvent>
 
 #include "iscript.h"
 #include "doccontroler.h"
@@ -164,18 +170,18 @@ typedef HItemView	DiaStateView;
 // *******************************************************************
 /** The main window for the slide show program.
   */
-class MinDiaWindow : public QMainWindow, public IDiaOutputWindowInternal
+class MinDiaWindow : public Q3MainWindow, public IDiaOutputWindowInternal
 {
 	Q_OBJECT
 
 public:
-	MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, bool bSimulation, int iProjectorType, QWidget* parent = 0, const char* name = 0, WFlags f = WType_TopLevel );
+	MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, bool bSimulation, int iProjectorType, QWidget* parent = 0, const char* name = 0, Qt::WFlags f = Qt::WType_TopLevel );
 	virtual ~MinDiaWindow();
 
 	// ** access for script engine
 	DocumentAndControler * 	GetDocument();
 
-	QPopupMenu *			GetPluginsMenuPtr();
+	Q3PopupMenu *			GetPluginsMenuPtr();
 
 	// ** implements the IDiaOutputWindow-(Script)Interface **
 	// ** use this object as proxy for the output window, because the
@@ -206,7 +212,7 @@ public:
 	virtual IColor			GetTextColor( int iTextID ) const;
 	virtual bool			DeleteText( int iTextID );
 
-	virtual QCanvas *		GetCanvas();
+	virtual Q3Canvas *		GetCanvas();
 
 public slots:
 	void sltModifyItemDialogClosed();
@@ -336,9 +342,9 @@ private:
 	DocumentAndControler *		m_pControler;
 
 	// ** gui elements **
-	QHBox *						m_pHBox;
-	QVBox *						m_pTargetBox;
-	QVBox *						m_pSourceBox;
+	Q3HBox *						m_pHBox;
+	Q3VBox *						m_pTargetBox;
+	Q3VBox *						m_pSourceBox;
 
 	HItemView *					m_pSlideView;		// dia pult view
 	TimeLineView *				m_pTimeLineView;	// time line view
@@ -370,14 +376,14 @@ private:
 	QTimer *		m_pStatusUpdateTimer;
 	QTimer *		m_pAutoStartTimer;
 
-    QPopupMenu *	m_pFile;
-    QPopupMenu *	m_pEdit;
-    QPopupMenu *	m_pPlay;
-    QPopupMenu *	m_pExtras;
-    QPopupMenu *	m_pPlugins;
-    QPopupMenu *	m_pHelp;
-	QPopupMenu *	m_pLastFilesSubMenu;
-	QPopupMenu *	m_pImportExportFilesSubMenu;
+    Q3PopupMenu *	m_pFile;
+    Q3PopupMenu *	m_pEdit;
+    Q3PopupMenu *	m_pPlay;
+    Q3PopupMenu *	m_pExtras;
+    Q3PopupMenu *	m_pPlugins;
+    Q3PopupMenu *	m_pHelp;
+	Q3PopupMenu *	m_pLastFilesSubMenu;
+	Q3PopupMenu *	m_pImportExportFilesSubMenu;
 
 	QAction *		m_pPlayStartAction;
 	QAction *		m_pPlayPauseAction;

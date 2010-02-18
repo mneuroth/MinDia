@@ -35,13 +35,16 @@
 #include "diapresentation.h"
 
 #include <qlabel.h>
-#include <qobjectlist.h>
+#include <qobject.h>
 #include <qpushbutton.h> 
-#include <qbuttongroup.h> 
+#include <q3buttongroup.h> 
 #include <qmessagebox.h>
+//Added by qt3to4:
+#include <QCloseEvent>
+#include <QKeyEvent>
 
 
-ProjectorControlDlgImpl::ProjectorControlDlgImpl( RolleiCom * pProjectorCom, DiaPresentation * pPresentation, QWidget* parent, const char* name, bool modal, WFlags fl )
+ProjectorControlDlgImpl::ProjectorControlDlgImpl( RolleiCom * pProjectorCom, DiaPresentation * pPresentation, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
 : ProjectorControlDialog( parent, name, modal, fl )
 {
 	m_pProjectorCom = pProjectorCom;
@@ -85,11 +88,11 @@ string ProjectorControlDlgImpl::CheckReturn( const string & sValue )
 
 void ProjectorControlDlgImpl::DoDialogEnable( bool bEnable )
 {
-	QObjectList * pList = (QObjectList *)children();
+	/*QObjectList * */QList<QObject *> aList = /*(QObjectList *)*/children();
 
-	for( uint i=0; i<pList->count(); i++ )
+	for( uint i=0; i<aList.count(); i++ )
 	{
-		QObject * pItem = pList->at( i );
+		QObject * pItem = aList.at( i );
 
 		QWidget * pWidget = (QWidget *)pItem;
 		
@@ -397,7 +400,7 @@ void ProjectorControlDlgImpl::done( int iRet )
 
 void ProjectorControlDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 {
-	if( (pEvent->key() == Key_F1) )
+	if( (pEvent->key() == Qt::Key_F1) )
 	{
 		emit sigDialogHelp( "ProjectorControlDialog" );
 	}

@@ -67,6 +67,13 @@
 #include "minbase.h"
 #include "iscript.h"
 #include "qtmtlock.h"
+//Added by qt3to4:
+#include <QPixmap>
+#include <QCloseEvent>
+#include <QKeyEvent>
+#include <QApplication>
+#include <QTranslator>
+#include <QString>
 
 #include "appconfig.h"
 #include "configdlgimpl.h"
@@ -86,13 +93,13 @@
 #include "AboutExtDlg.h"
 
 #include <qapplication.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qmenubar.h>
 #include <qaction.h>
 #include <qmessagebox.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #include <qstatusbar.h>
-#include <qtoolbar.h>
+#include <q3toolbar.h>
 #include <qtoolbutton.h>
 #include <qprinter.h>
 #include <qclipboard.h>
@@ -100,9 +107,9 @@
 #include <qlabel.h>
 #include <qspinbox.h>
 #include <qtranslator.h>
-#include <qtextbrowser.h>
+#include <q3textbrowser.h>
 #include <qlineedit.h>
-#include <qtextview.h>
+#include <q3textview.h>
 #include <qtextcodec.h>
 #include <qradiobutton.h> 
 
@@ -142,12 +149,12 @@ string GetMinDiaSharedDirectory();
 
 // ** this function is defined in main.cpp */
 QApplication * GetApplication();
-QString ProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, QApplication * qApp );
+QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, QApplication * myqApp );
 
 // ***********************************************************************
 
-MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, bool bSimulation, int iProjectorType, QWidget* parent, const char* name, WFlags f )
-	: QMainWindow( parent, name, f ),
+MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, bool bSimulation, int iProjectorType, QWidget* parent, const char* name, Qt::WFlags f )
+	: Q3MainWindow( parent, name, f ),
 	  m_pConfigurationDialog( 0 ),
 	  m_pConfigPlayerDialog( 0 ),
 	  m_pLoggingDialog( 0 ),
@@ -176,7 +183,7 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 {
 	// ** prepare application for different languages...**
 	m_pTranslator = new QTranslator( this );
-	m_sLanguage = ProcessLanguage( m_pTranslator, sLanguage, qApp );
+	m_sLanguage = myProcessLanguage( m_pTranslator, sLanguage, qApp );
 
 	setCaption( tr( "MinDia" ) );
 
@@ -232,7 +239,7 @@ DocumentAndControler * MinDiaWindow::GetDocument()
 	return m_pControler;
 }
 
-QPopupMenu * MinDiaWindow::GetPluginsMenuPtr()
+Q3PopupMenu * MinDiaWindow::GetPluginsMenuPtr()
 {
 	return m_pPlugins;
 }
@@ -247,7 +254,7 @@ void MinDiaWindow::CreateMenus()
 	QPixmap aPauseIcon( pausescript );
 	QPixmap aStopIcon( stopscript );
 
-    QToolBar * pTools = new QToolBar( this, "file operations" );
+    Q3ToolBar * pTools = new Q3ToolBar( this, "file operations" );
     pTools->setLabel( tr("File Operations") );
 
     //QPixmap openIcon = QPixmap( fileopen );
@@ -259,12 +266,12 @@ void MinDiaWindow::CreateMenus()
     m_pPlayStop  = new QToolButton( aStopIcon, tr("Stop play"), QString::null, m_pControler, SLOT( sltStopPresentation() ), pTools, "stop play" );
 
     // *** create toplevel menu items ***
-    m_pFile		= new QPopupMenu( this );
-    m_pEdit		= new QPopupMenu( this );
-    m_pPlay		= new QPopupMenu( this );
-    m_pExtras	= new QPopupMenu( this );
-	m_pPlugins	= new QPopupMenu( this );
-    m_pHelp		= new QPopupMenu( this );
+    m_pFile		= new Q3PopupMenu( this );
+    m_pEdit		= new Q3PopupMenu( this );
+    m_pPlay		= new Q3PopupMenu( this );
+    m_pExtras	= new Q3PopupMenu( this );
+	m_pPlugins	= new Q3PopupMenu( this );
+    m_pHelp		= new Q3PopupMenu( this );
 
     menuBar()->insertItem( tr( "&File" ), m_pFile );
     menuBar()->insertItem( tr( "&Edit" ), m_pEdit );
@@ -274,42 +281,42 @@ void MinDiaWindow::CreateMenus()
     menuBar()->insertItem( tr( "&Help" ), m_pHelp );
 
 	// *** submenu: File ***
-    m_pFileNewAction = new QAction( tr( "New" ), tr( "&New" ), CTRL+Key_N, this, "new" );
+    m_pFileNewAction = new QAction( /*tr( "New" ), */tr( "&New" ), Qt::CTRL+Qt::Key_N, this, "new" );
     connect( m_pFileNewAction, SIGNAL( activated() ), this, SLOT( sltAskNewDoc() ) );
-    m_pFileLoadAction = new QAction( tr( "Open an existing file" ), aOpenIcon, tr( "&Open..." ), CTRL+Key_O, this, "open" );
+    m_pFileLoadAction = new QAction( /*tr( "Open an existing file" ),*/ aOpenIcon, tr( "&Open..." ), Qt::CTRL+Qt::Key_O, this, "open" );
     connect( m_pFileLoadAction, SIGNAL( activated() ), this, SLOT( sltAskLoadDoc() ) );
-	m_pFileLoadForEditAction = new QAction( tr( "Open an existing file for edit (script-events are not executed)" ), tr( "Open for &edit..." ), ALT+Key_O, this, "open_for_edit" );
+	m_pFileLoadForEditAction = new QAction( /*tr( "Open an existing file for edit (script-events are not executed)" ),*/ tr( "Open for &edit..." ), Qt::ALT+Qt::Key_O, this, "open_for_edit" );
     connect( m_pFileLoadForEditAction, SIGNAL( activated() ), this, SLOT( sltAskLoadForEditDoc() ) );
-    m_pFileSaveAction = new QAction( tr( "Save data" ), aSaveIcon, tr( "&Save" ), CTRL+Key_S, this, "save" );
+    m_pFileSaveAction = new QAction( /*tr( "Save data" ),*/ aSaveIcon, tr( "&Save" ), Qt::CTRL+Qt::Key_S, this, "save" );
     connect( m_pFileSaveAction, SIGNAL( activated() ), m_pControler, SLOT( sltSaveDoc() ) );
-    m_pFileSaveAsAction = new QAction( tr( "Save data as" ), tr( "Save &as..." ), 0, this, "saveas" );
+    m_pFileSaveAsAction = new QAction( /*tr( "Save data as" ),*/ tr( "Save &as..." ), 0, this, "saveas" );
     connect( m_pFileSaveAsAction, SIGNAL( activated() ), this, SLOT( sltAskSaveAsDoc() ) );
-	m_pFileMakeRelPathsAction = new QAction( tr( "Make absolute paths to reative paths" ), tr( "Make &relative paths" ), 0, this, "makerelpaths" );
+	m_pFileMakeRelPathsAction = new QAction( /*tr( "Make absolute paths to reative paths" ),*/ tr( "Make &relative paths" ), 0, this, "makerelpaths" );
     connect( m_pFileMakeRelPathsAction, SIGNAL( activated() ), this, SLOT( sltMakeRelPaths() ) );
-	m_pFileImportXMLAction = new QAction( tr( "Import data from a XML file" ), tr( "&Import XML..." ), 0, this, "import_xml" );
+	m_pFileImportXMLAction = new QAction( /*tr( "Import data from a XML file" ),*/ tr( "&Import XML..." ), 0, this, "import_xml" );
 	connect( m_pFileImportXMLAction, SIGNAL( activated() ), this, SLOT( sltImportXMLDoc() ) );
-	m_pFileExportXMLAction = new QAction( tr( "Export data as XML file" ), tr( "E&xport XML..." ), 0, this, "export_xml" );
+	m_pFileExportXMLAction = new QAction( /*tr( "Export data as XML file" ),*/ tr( "E&xport XML..." ), 0, this, "export_xml" );
 	connect( m_pFileExportXMLAction, SIGNAL( activated() ), this, SLOT( sltExportXMLDoc() ) );
-	m_pFileExportAction = new QAction( tr( "Export data" ), tr( "Expo&rt..." ), 0, this, "export" );
+	m_pFileExportAction = new QAction( /*tr( "Export data" ),*/ tr( "Expo&rt..." ), 0, this, "export" );
 	connect( m_pFileExportAction, SIGNAL( activated() ), this, SLOT( sltExportDoc() ) );
-	m_pFileExportAVIAction = new QAction( tr( "Export as AVI video" ), tr( "Export as &AVI..." ), 0, this, "export_avi" );
+	m_pFileExportAVIAction = new QAction( /*tr( "Export as AVI video" ),*/ tr( "Export as &AVI..." ), 0, this, "export_avi" );
 	connect( m_pFileExportAVIAction, SIGNAL( activated() ), this, SLOT( sltExportAVI() ) );
-	m_pFileExportDynGraphAction = new QAction( tr( "Export dynamic graphic data" ), tr( "Export dyn. &graphics..." ), 0, this, "export_dyn_graph" );
+	m_pFileExportDynGraphAction = new QAction( /*tr( "Export dynamic graphic data" ),*/ tr( "Export dyn. &graphics..." ), 0, this, "export_dyn_graph" );
 	connect( m_pFileExportDynGraphAction, SIGNAL( activated() ), this, SLOT( sltExportDynGraphData() ) );
-	m_pFileImportDynGraphAction = new QAction( tr( "Import dynamic graphic data" ), tr( "Import d&yn. graphics..." ), 0, this, "import_dyn_graph" );
+	m_pFileImportDynGraphAction = new QAction( /*tr( "Import dynamic graphic data" ),*/ tr( "Import d&yn. graphics..." ), 0, this, "import_dyn_graph" );
 	connect( m_pFileImportDynGraphAction, SIGNAL( activated() ), this, SLOT( sltImportDynGraphData() ) );
-    m_pFilePrintAction = new QAction( tr( "Print data" ), tr( "&Print..." ), 0, this, "print" );
+    m_pFilePrintAction = new QAction( /*tr( "Print data" ),*/ tr( "&Print..." ), 0, this, "print" );
     connect( m_pFilePrintAction, SIGNAL( activated() ), this, SLOT( sltPrintDoc() ) );
-    m_pFileExitAction = new QAction( tr( "Exit" ), tr( "E&xit" ), ALT+Key_F4, this, "exit" );
+    m_pFileExitAction = new QAction( /*tr( "Exit" ),*/ tr( "E&xit" ), Qt::ALT+Qt::Key_F4, this, "exit" );
     connect( m_pFileExitAction, SIGNAL( activated() ), this, SLOT( close() ) );
     //connect( m_pFileExitAction, SIGNAL( activated() ), qApp, SLOT( quit() ) );
 
 	// ** create menu item for last opend files
-	m_pLastFilesSubMenu = new QPopupMenu( m_pFile );
+	m_pLastFilesSubMenu = new Q3PopupMenu( m_pFile );
 	connect( m_pLastFilesSubMenu, SIGNAL( aboutToShow() ), this, SLOT( sltUpdateLastFilesMenu() ) );
 	connect( m_pLastFilesSubMenu, SIGNAL( activated(int) ), this, SLOT( sltLastFilesMenuActivated(int) ) );
 
-	m_pImportExportFilesSubMenu = new QPopupMenu( m_pFile );
+	m_pImportExportFilesSubMenu = new Q3PopupMenu( m_pFile );
     m_pFileImportXMLAction->addTo( m_pImportExportFilesSubMenu );
     m_pFileExportXMLAction->addTo( m_pImportExportFilesSubMenu );
 	m_pImportExportFilesSubMenu->insertSeparator();
@@ -335,32 +342,32 @@ void MinDiaWindow::CreateMenus()
     m_pFileExitAction->addTo( m_pFile );
 
 	// *** submenu: edit ***
-    m_pEditUndoAction = new QAction( tr( "Undo last operation" ), tr( "&Undo" ), ALT+Key_Backspace, this, "undo" );
+    m_pEditUndoAction = new QAction( /*tr( "Undo last operation" ),*/ tr( "&Undo" ), Qt::ALT+Qt::Key_Backspace, this, "undo" );
     connect( m_pEditUndoAction, SIGNAL( activated() ), m_pControler, SLOT( sltUndoOperation() ) );
 	m_pEditUndoAction->setEnabled( false );
-    m_pEditRedoAction = new QAction( tr( "Redo last operation" ), tr( "&Redo" ), CTRL+Key_Backspace, this, "redo" );
+    m_pEditRedoAction = new QAction( /*tr( "Redo last operation" ),*/ tr( "&Redo" ), Qt::CTRL+Qt::Key_Backspace, this, "redo" );
     connect( m_pEditRedoAction, SIGNAL( activated() ), m_pControler, SLOT( sltRedoOperation() ) );
 	m_pEditRedoAction->setEnabled( false );
 
-    m_pEditCutAction = new QAction( tr( "Cut" ), tr( "C&ut" ), CTRL+Key_X, this, "cut" );
+    m_pEditCutAction = new QAction( /*tr( "Cut" ),*/ tr( "C&ut" ), Qt::CTRL+Qt::Key_X, this, "cut" );
     connect( m_pEditCutAction, SIGNAL( activated() ), m_pControler, SLOT( sltCutClipboard() ) );
-    m_pEditCopyAction = new QAction( tr( "Copy" ), tr( "&Copy" ), CTRL+Key_C, this, "copy" );
+    m_pEditCopyAction = new QAction( /*tr( "Copy" ),*/ tr( "&Copy" ), Qt::CTRL+Qt::Key_C, this, "copy" );
     connect( m_pEditCopyAction, SIGNAL( activated() ), m_pControler, SLOT( sltCopyClipboard() ) );
-    m_pEditPasteAction = new QAction( tr( "Paste" ), tr( "&Paste" ), CTRL+Key_V, this, "paste" );
+    m_pEditPasteAction = new QAction( /*tr( "Paste" ),*/ tr( "&Paste" ), Qt::CTRL+Qt::Key_V, this, "paste" );
     connect( m_pEditPasteAction, SIGNAL( activated() ), m_pControler, SLOT( sltPasteClipboard() ) );
-    m_pEditSelectAllAction = new QAction( tr( "Select all" ), tr( "Select &all" ), CTRL+Key_A, this, "selectall" );
+    m_pEditSelectAllAction = new QAction( /*tr( "Select all" ),*/ tr( "Select &all" ), Qt::CTRL+Qt::Key_A, this, "selectall" );
     connect( m_pEditSelectAllAction, SIGNAL( activated() ), m_pControler, SLOT( sltSelectAllClipboard() ) );
-    m_pEditNewDiaAction = new QAction( tr( "Append dia" ), tr( "Append d&ia" ), CTRL+Key_I, this, "append_dia" );
+    m_pEditNewDiaAction = new QAction( /*tr( "Append dia" ),*/ tr( "Append d&ia" ), Qt::CTRL+Qt::Key_I, this, "append_dia" );
     connect( m_pEditNewDiaAction, SIGNAL( activated() ), this, SLOT( sltNewItem() ) );
-    m_pEditAddDiaAction = new QAction( tr( "Add dia at current position" ), tr( "Add &dia" ), ALT+Key_I, this, "add_dia" );
+    m_pEditAddDiaAction = new QAction( /*tr( "Add dia at current position" ),*/ tr( "Add &dia" ), Qt::ALT+Qt::Key_I, this, "add_dia" );
     connect( m_pEditAddDiaAction, SIGNAL( activated() ), this, SLOT( sltAddItem() ) );
     
-	m_pEditDeleteAction = new QAction( tr( "Delete" ), tr( "&Delete" ), Key_Delete, this, "delete" );
+	m_pEditDeleteAction = new QAction( /*tr( "Delete" ),*/ tr( "&Delete" ), Qt::Key_Delete, this, "delete" );
     connect( m_pEditDeleteAction, SIGNAL( activated() ), m_pControler, SLOT( sltDeleteSelectedItems() ) );
 
-    m_pEditFindAction = new QAction( tr( "Find" ), tr( "&Find..." ), CTRL+Key_F, this, "find" );
+    m_pEditFindAction = new QAction( /*tr( "Find" ),*/ tr( "&Find..." ), Qt::CTRL+Qt::Key_F, this, "find" );
     connect( m_pEditFindAction, SIGNAL( activated() ), this, SLOT( sltFindItem() ) );
-    m_pEditFindNextAction = new QAction( tr( "Find next" ), tr( "Find &next" ), Key_F3, this, "find_next" );
+    m_pEditFindNextAction = new QAction( /*tr( "Find next" ),*/ tr( "Find &next" ), Qt::Key_F3, this, "find_next" );
     connect( m_pEditFindNextAction, SIGNAL( activated() ), this, SLOT( sltFindNextItem() ) );
 
     m_pEditUndoAction->addTo( m_pEdit );
@@ -379,30 +386,30 @@ void MinDiaWindow::CreateMenus()
     m_pEditDeleteAction->addTo( m_pEdit );
 
 	// *** submenu: play ***
-    m_pPlayStartAction = new QAction( tr( "Start" ), aRunIcon, tr( "Sta&rt" ), CTRL+Key_R, this, "start" );
+    m_pPlayStartAction = new QAction( /*tr( "Start" ),*/ aRunIcon, tr( "Sta&rt" ), Qt::CTRL+Qt::Key_R, this, "start" );
     connect( m_pPlayStartAction, SIGNAL( activated() ), m_pControler, SLOT( sltPlayPresentation() ) );
-	m_pPlayPauseAction = new QAction( tr( "Pause" ), aPauseIcon, tr( "&Pause" ), CTRL+Key_P, this, "start" );
+	m_pPlayPauseAction = new QAction( /*tr( "Pause" ),*/ aPauseIcon, tr( "&Pause" ), Qt::CTRL+Qt::Key_P, this, "start" );
     connect( m_pPlayPauseAction, SIGNAL( activated() ), m_pControler, SLOT( sltPausePresentation() ) );
-    m_pPlayStopAction = new QAction( tr( "Stop" ), aStopIcon, tr( "S&top" ), CTRL+Key_T, this, "stop" );
+    m_pPlayStopAction = new QAction( /*tr( "Stop" ),*/ aStopIcon, tr( "S&top" ), Qt::CTRL+Qt::Key_T, this, "stop" );
     connect( m_pPlayStopAction, SIGNAL( activated() ), m_pControler, SLOT( sltStopPresentation() ) );
 	// ** go to position and start from that position:
-    m_pPlayStartFromAction = new QAction( tr( "Start from selected position (goto position and start)" ), tr( "Start &from selected" ), ALT+Key_R, this, "start_from" );
+    m_pPlayStartFromAction = new QAction( /*tr( "Start from selected position (goto position and start)" ),*/ tr( "Start &from selected" ), Qt::ALT+Qt::Key_R, this, "start_from" );
     connect( m_pPlayStartFromAction, SIGNAL( activated() ), this, SLOT( sltPlayFromSelected() ) );
 	// ** start from already selected position (dia is already positioned correctly):
-    m_pPlayStartAtAction = new QAction( tr( "Start at selected position (just start at position)" ), tr( "Start &at selected" ), CTRL+ALT+Key_R, this, "start_at" );
+    m_pPlayStartAtAction = new QAction( /*tr( "Start at selected position (just start at position)" ),*/ tr( "Start &at selected" ), Qt::CTRL+Qt::ALT+Qt::Key_R, this, "start_at" );
     connect( m_pPlayStartAtAction, SIGNAL( activated() ), this, SLOT( sltPlayAtSelected() ) );
 	// ** set a comment mark at actual time-position
-    m_pPlayAddSoundCommentAction = new QAction( tr( "Add sound comment" ), tr( "A&dd sound comment" ), CTRL+Key_B, this, "addsoundcomment" );
+    m_pPlayAddSoundCommentAction = new QAction( /*tr( "Add sound comment" ),*/ tr( "A&dd sound comment" ), Qt::CTRL+Qt::Key_B, this, "addsoundcomment" );
     connect( m_pPlayAddSoundCommentAction, SIGNAL( activated() ), m_pControler, SLOT( sltAddSoundComment() ) );
 	// ** set a dynamic graphic operation mark at actual time-position
-    m_pPlayAddGraphicOpAction = new QAction( tr( "Add graphic operation" ), tr( "Add &graphic operation" ), CTRL+Key_G, this, "addgraphicop" );
+    m_pPlayAddGraphicOpAction = new QAction( /*tr( "Add graphic operation" ),*/ tr( "Add &graphic operation" ), Qt::CTRL+Qt::Key_G, this, "addgraphicop" );
     connect( m_pPlayAddGraphicOpAction, SIGNAL( activated() ), m_pControler, SLOT( sltAddGraphicOperation() ) );
 
-    m_pPlayEditFadeTimeAction = new QAction( tr( "Edit dissolve time" ), tr( "&Dissolve time..." ), 0, this, "edit_fade_time" );
+    m_pPlayEditFadeTimeAction = new QAction( /*tr( "Edit dissolve time" ),*/ tr( "&Dissolve time..." ), 0, this, "edit_fade_time" );
     connect( m_pPlayEditFadeTimeAction, SIGNAL( activated() ), this, SLOT( sltEditFadeInTime() ) );
-    m_pPlayFadeInAction = new QAction( tr( "Fade in test" ), tr( "&Fade in test" ), ALT+Key_F, this, "fade_in" );
+    m_pPlayFadeInAction = new QAction( /*tr( "Fade in test" ),*/ tr( "&Fade in test" ), Qt::ALT+Qt::Key_F, this, "fade_in" );
     connect( m_pPlayFadeInAction, SIGNAL( activated() ), this, SLOT( sltFadeInTest() ) );
-    m_pPlayFadeOutAction = new QAction( tr( "Fade out test" ), tr( "Fade &out test" ), ALT+Key_O, this, "fade_out" );
+    m_pPlayFadeOutAction = new QAction( /*tr( "Fade out test" ),*/ tr( "Fade &out test" ), Qt::ALT+Qt::Key_O, this, "fade_out" );
     connect( m_pPlayFadeOutAction, SIGNAL( activated() ), this, SLOT( sltFadeOutTest() ) );
 
 	m_pPlayStartFromAction->addTo( m_pPlay );
@@ -420,32 +427,39 @@ void MinDiaWindow::CreateMenus()
     m_pPlayFadeOutAction->addTo( m_pPlay );
 
 	// *** submenu: extras ***
-    m_pExtrasConfigAction = new QAction( tr( "Configuration" ), tr( "&Configuration..." ), ALT+Key_C, this, "configuration"/*, TRUE*/ );
+    m_pExtrasConfigAction = new QAction( /*tr( "Configuration" ),*/ tr( "&Configuration..." ), Qt::ALT+Qt::Key_C, this, "configuration"/*, TRUE*/ );
     connect( m_pExtrasConfigAction, SIGNAL( activated() ), this, SLOT( sltDoConfiguration() ) );
-    m_pExtrasConfigPlayerAction = new QAction( tr( "mp3 player configuration" ), tr( "Pla&yer configuration..." ), ALT+Key_Y, this, "playerconfiguration"/*, TRUE*/ );
+    m_pExtrasConfigPlayerAction = new QAction( /*tr( "mp3 player configuration" ),*/ tr( "Pla&yer configuration..." ), Qt::ALT+Qt::Key_Y, this, "playerconfiguration"/*, TRUE*/ );
     connect( m_pExtrasConfigPlayerAction, SIGNAL( activated() ), this, SLOT( sltDoPlayerConfiguration() ) );
 #ifndef __linux__
-	m_pExtrasConfigPlayerAction->setEnabled( false );
+    m_pExtrasConfigPlayerAction->setEnabled( false );
 #endif
-	m_pExtrasLoggingAction = new QAction( tr( "Logging" ), tr( "&Logging..." ), ALT+Key_L, this, "logging", TRUE );
+	m_pExtrasLoggingAction = new QAction( /*tr( "Logging" ),*/ tr( "&Logging..." ), Qt::ALT+Qt::Key_L, this, "logging"/*TODO, TRUE*/ );
+    m_pExtrasLoggingAction->setCheckable(true);
     connect( m_pExtrasLoggingAction, SIGNAL( activated() ), this, SLOT( sltDoLogging() ) );
-	m_pExtrasControlProjectorAction = new QAction( tr( "Projector control dialog" ), tr( "Pro&jector control..." ), ALT+Key_J, this, "controlprojector", TRUE );
+	m_pExtrasControlProjectorAction = new QAction( /*tr( "Projector control dialog" ),*/ tr( "Pro&jector control..." ), Qt::ALT+Qt::Key_J, this, "controlprojector"/*TODO, TRUE*/ );
+    m_pExtrasControlProjectorAction->setCheckable(true);
     connect( m_pExtrasControlProjectorAction, SIGNAL( activated() ), this, SLOT( sltDoControlProjector() ) );
-	m_pExtrasPresentationDataAction = new QAction( tr( "Presentation data" ), tr( "Presentation &data..." ), CTRL+Key_D, this, "presentationdata"/*, TRUE*/ );
+	m_pExtrasPresentationDataAction = new QAction( /*tr( "Presentation data" ),*/ tr( "Presentation &data..." ), Qt::CTRL+Qt::Key_D, this, "presentationdata"/*, TRUE*/ );
+    m_pExtrasPresentationDataAction->setCheckable(true);
     connect( m_pExtrasPresentationDataAction, SIGNAL( activated() ), this, SLOT( sltDoPresentationData() ) );
-	m_pExtrasPresentationEventsAction = new QAction( tr( "Presentation events" ), tr( "Presentation &events..." ), CTRL+Key_E, this, "presentationevents"/*, TRUE*/ );
-    connect( m_pExtrasPresentationEventsAction, SIGNAL( activated() ), this, SLOT( sltDoPresentationEvents() ) );	
-	m_pExtrasSoundDataAction = new QAction( tr( "Sound data" ), tr( "So&und data..." ), CTRL+Key_U, this, "sounddata"/*, TRUE*/ );
+	m_pExtrasPresentationEventsAction = new QAction( /*tr( "Presentation events" ),*/ tr( "Presentation &events..." ), Qt::CTRL+Qt::Key_E, this, "presentationevents"/*, TRUE*/ );
+    m_pExtrasPresentationEventsAction->setCheckable(true);
+    connect( m_pExtrasPresentationEventsAction, SIGNAL( activated() ), this, SLOT( sltDoPresentationEvents() ) );
+	m_pExtrasSoundDataAction = new QAction( /*tr( "Sound data" ),*/ tr( "So&und data..." ), Qt::CTRL+Qt::Key_U, this, "sounddata"/*, TRUE*/ );
+    m_pExtrasSoundDataAction->setCheckable(true);
     connect( m_pExtrasSoundDataAction, SIGNAL( activated() ), this, SLOT( sltDoSoundData() ) );
-	m_pExtrasSoundCommentAction = new QAction( tr( "Sound comments" ), tr( "Sou&nd comments..." ), CTRL+Key_Z, this, "soundcomment"/*, TRUE*/ );
+	m_pExtrasSoundCommentAction = new QAction( /*tr( "Sound comments" ),*/ tr( "Sou&nd comments..." ), Qt::CTRL+Qt::Key_Z, this, "soundcomment"/*, TRUE*/ );
     connect( m_pExtrasSoundCommentAction, SIGNAL( activated() ), this, SLOT( sltDoSoundComment() ) );
-	m_pExtrasPlotCommentAction = new QAction( tr( "Plot comments" ), tr( "&Plot comments..." ), ALT+Key_Z, this, "plotcomment"/*, TRUE*/ );
+	m_pExtrasPlotCommentAction = new QAction( /*tr( "Plot comments" ),*/ tr( "&Plot comments..." ), Qt::ALT+Qt::Key_Z, this, "plotcomment"/*, TRUE*/ );
     connect( m_pExtrasPlotCommentAction, SIGNAL( activated() ), this, SLOT( sltDoPlotComment() ) );
 	m_pExtrasDynGraphOpAction = 0; //new QAction( tr( "Dynamic graphic operations" ), tr( "D&yn. graphic operations..." ), ALT+Key_G, this, "dyngraphops"/*, TRUE*/ );
     //connect( m_pExtrasDynGraphOpAction, SIGNAL( activated() ), this, SLOT( sltDoDynGraphicOp() ) );
-	m_pExtrasModifyItemAction = new QAction( tr( "Modify item" ), tr( "&Modify item..." ), CTRL+Key_M, this, "modifyitem", TRUE );
+	m_pExtrasModifyItemAction = new QAction( /*tr( "Modify item" ),*/ tr( "&Modify item..." ), Qt::CTRL+Qt::Key_M, this, "modifyitem"/*TODO, TRUE*/ );
+    m_pExtrasModifyItemAction->setCheckable(true);
     connect( m_pExtrasModifyItemAction, SIGNAL( activated() ), this, SLOT( sltDoModifyItem() ) );
-	m_pExtrasPlayStatusAction = new QAction( tr( "Play infos" ), tr( "Pla&y infos..." ), CTRL+Key_Y, this, "playinfos", TRUE );
+	m_pExtrasPlayStatusAction = new QAction( /*tr( "Play infos" ),*/ tr( "Pla&y infos..." ), Qt::CTRL+Qt::Key_Y, this, "playinfos"/*TODO, TRUE*/ );
+    m_pExtrasPlayStatusAction->setCheckable(true);
     connect( m_pExtrasPlayStatusAction, SIGNAL( activated() ), this, SLOT( sltDoPlayInfos() ) );
 
 	m_pExtrasConfigAction->addTo( m_pExtras );
@@ -467,13 +481,13 @@ void MinDiaWindow::CreateMenus()
 	// will be filled in the dll-module !
 
 	// *** submenu: help ***
-    QAction * helpAboutAction = new QAction( tr( "About" ), tr( "&About..." ), CTRL+Key_F1, this, "about" );
+    QAction * helpAboutAction = new QAction( /*tr( "About" ),*/ tr( "&About..." ), Qt::CTRL+Qt::Key_F1, this, "about" );
     connect( helpAboutAction, SIGNAL( activated() ), this, SLOT( sltShowAbout() ) );
-    QAction * helpAboutQtAction = new QAction( tr( "About Qt" ), tr( "About &Qt..." ), 0, this, "about_qt" );
+    QAction * helpAboutQtAction = new QAction( /*tr( "About Qt" ),*/ tr( "About &Qt..." ), 0, this, "about_qt" );
     connect( helpAboutQtAction, SIGNAL( activated() ), this, SLOT( sltShowQtAbout() ) );
     //QAction * helpLicenseAction = new QAction( tr( "License" ), tr( "&License..." ), 0, this, "license" );
     //connect( helpLicenseAction, SIGNAL( activated() ), this, SLOT( sltShowLicense() ) );
-    QAction * helpAction = new QAction( tr( "Help for mindia" ), tr( "&Help..." ), Key_F1, this, "help" );
+    QAction * helpAction = new QAction( /*tr( "Help for mindia" ),*/ tr( "&Help..." ), Qt::Key_F1, this, "help" );
     connect( helpAction, SIGNAL( activated() ), this, SLOT( sltShowHelpForMe() ) );
 
     helpAction->addTo( m_pHelp );
@@ -508,10 +522,10 @@ void MinDiaWindow::CreateChildWidgets()
 	const int iInitHeight2 = 260;
 
 	// *** create now all the widgets
-	m_pHBox			= new QHBox( this );
+	m_pHBox			= new Q3HBox( this );
 
-	m_pTargetBox	= new QVBox( m_pHBox );
-	m_pSourceBox	= new QVBox( m_pHBox );
+	m_pTargetBox	= new Q3VBox( m_pHBox );
+	m_pSourceBox	= new Q3VBox( m_pHBox );
 
 	m_pSlideView	= new HItemView( m_pTargetBox, iInitWidth, iInitHeight1, this, m_pControler, &m_pControler->GetPresentation() );
 	m_pTimeLineView	= new TimeLineView( m_pTargetBox, iInitWidth, iInitHeight2, this, m_pControler, &m_pControler->GetPresentation() );
@@ -863,7 +877,7 @@ void MinDiaWindow::sltDoPresentationEvents()
 
 void MinDiaWindow::sltDoControlProjector()
 {
-	if( !m_pExtrasControlProjectorAction->isOn() )
+    if( !m_pExtrasControlProjectorAction->isChecked() )
 	{
 		if( m_pProjectorControlDialog )
 		{
@@ -946,22 +960,22 @@ void MinDiaWindow::sltShowLicense()
 
 void MinDiaWindow::sltModifyItemDialogClosed()
 {
-	m_pExtrasModifyItemAction->setOn( false );
+    m_pExtrasModifyItemAction->setChecked( false );
 }
 
 void MinDiaWindow::sltPlayInfoDialogClosed()
 {
-	m_pExtrasPlayStatusAction->setOn( false );
+    m_pExtrasPlayStatusAction->setChecked( false );
 }
 
 void MinDiaWindow::sltProjectorControlDialogClosed()
 {
-	m_pExtrasControlProjectorAction->setOn( false );
+    m_pExtrasControlProjectorAction->setChecked( false );
 }
 
 void MinDiaWindow::sltLoggingDialogClosed()
 {
-	m_pExtrasLoggingAction->setOn( false );
+    m_pExtrasLoggingAction->setChecked( false );
 }
 
 void MinDiaWindow::sltSoundDataDialogClosed()
@@ -1024,21 +1038,21 @@ void MinDiaWindow::sltLoadDoc( const QString & sFileName, bool bExecuteEvent )
 
 void MinDiaWindow::sltAskLoadDoc()
 {
-    QString sFileName = QFileDialog::getOpenFileName( /*QString::null*/GetDataPath().c_str(), /*QString::null*/"*.dia", this, "load", tr( "Open" ) );
+    QString sFileName = Q3FileDialog::getOpenFileName( /*QString::null*/GetDataPath().c_str(), /*QString::null*/"*.dia", this, "load", tr( "Open" ) );
 
 	sltLoadDoc( sFileName, /*bExecuteEvent*/true );
 }
 
 void MinDiaWindow::sltAskLoadForEditDoc()
 {
-    QString sFileName = QFileDialog::getOpenFileName( /*QString::null*/GetDataPath().c_str(), /*QString::null*/"*.dia", this, "load_for_dit", tr( "Open for edit" ) );
+    QString sFileName = Q3FileDialog::getOpenFileName( /*QString::null*/GetDataPath().c_str(), /*QString::null*/"*.dia", this, "load_for_dit", tr( "Open for edit" ) );
 
 	sltLoadDoc( sFileName, /*bExecuteEvent*/false );
 }
 
 void MinDiaWindow::sltAskSaveAsDoc()
 {
-	QString sFileName = QFileDialog::getSaveFileName( /*QString::null*/GetDataPath().c_str(), /*QString::null*/"*.dia", this, "save", tr( "Save as" ) );
+	QString sFileName = Q3FileDialog::getSaveFileName( /*QString::null*/GetDataPath().c_str(), /*QString::null*/"*.dia", this, "save", tr( "Save as" ) );
 
     if( !sFileName.isEmpty() )
 	{
@@ -1077,7 +1091,7 @@ void MinDiaWindow::sltImportXMLDoc()
 
 void MinDiaWindow::sltExportXMLDoc()
 {
-    QString sFileName = QFileDialog::getSaveFileName( QString::null, /*QString::null*/"*.xml", this, "save", tr( "Export as XML" ) );
+    QString sFileName = Q3FileDialog::getSaveFileName( QString::null, /*QString::null*/"*.xml", this, "save", tr( "Export as XML" ) );
 
     if( !sFileName.isEmpty() )
 	{
@@ -1132,7 +1146,7 @@ void MinDiaWindow::sltExportAVI()
 
 void MinDiaWindow::sltExportDynGraphData()
 {
-    QString sFileName = QFileDialog::getSaveFileName( QString::null, /*QString::null*/"*.dat", this, "save", tr( "Export dynamic graphic data" ) );
+    QString sFileName = Q3FileDialog::getSaveFileName( QString::null, /*QString::null*/"*.dat", this, "save", tr( "Export dynamic graphic data" ) );
 
     if( !sFileName.isEmpty() )
 	{
@@ -1142,7 +1156,7 @@ void MinDiaWindow::sltExportDynGraphData()
 
 void MinDiaWindow::sltImportDynGraphData()
 {
-    QString sFileName = QFileDialog::getOpenFileName( QString::null, /*QString::null*/"*.dat", this, "read", tr( "Import dynamic graphic data" ) );
+    QString sFileName = Q3FileDialog::getOpenFileName( QString::null, /*QString::null*/"*.dat", this, "read", tr( "Import dynamic graphic data" ) );
 
     if( !sFileName.isEmpty() )
 	{
@@ -1416,7 +1430,7 @@ void MinDiaWindow::sltShowImageFile( const QString & sFileName )
 {
 	if( m_pPlayInfoDialog && m_pPlayInfoDialog->isVisible() )
 	{
-		m_pPlayInfoDialog->sltSetImage( sFileName );
+		m_pPlayInfoDialog->sltSetImage( QImage(sFileName) );
 	}
 }
 
@@ -1852,13 +1866,13 @@ void MinDiaWindow::closeEvent( QCloseEvent * pCloseEvent )
 
 void MinDiaWindow::keyPressEvent( QKeyEvent * pEvent )
 {
-	if( (pEvent->key() == Key_F1) )
+	if( (pEvent->key() == Qt::Key_F1) )
 	{
 		emit sigDialogHelp( "MinDiaWindow" );
 	}
 	else
 	{
-		QMainWindow::keyPressEvent( pEvent );
+		Q3MainWindow::keyPressEvent( pEvent );
 	}
 }
 
@@ -2082,7 +2096,7 @@ bool MinDiaWindow::DeleteText( int iTextID )
 	return false;
 }
 
-QCanvas * MinDiaWindow::GetCanvas()
+Q3Canvas * MinDiaWindow::GetCanvas()
 {
 	if( m_pPlayInfoDialog )
 	{

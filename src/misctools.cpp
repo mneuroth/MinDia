@@ -1,8 +1,12 @@
 
 #include "misctools.h"
 
-#include <qdragobject.h>
-#include <qurl.h>
+#include <q3dragobject.h>
+#include <q3url.h>
+//Added by qt3to4:
+#include <Q3StrList>
+#include <QImage>
+#include <QImageReader>
 
 #include <stdio.h>
 #include <ctype.h>
@@ -220,15 +224,15 @@ bool IsDiaDataFile( const char * sFileName )
 
 bool IsDiaDataFileDrag( const QMimeSource * pEvent, QString & sFileNameOut )
 {
-	QStrList aStrList;
+	Q3StrList aStrList;
 
-	if( QUriDrag::decode( pEvent, aStrList ) )
+	if( Q3UriDrag::decode( pEvent, aStrList ) )
 	{
 		if( aStrList.count() == 1 )
 		{
 			const QString sTest = aStrList.at( 0 );
 			const char * s = (const char *)sTest;
-			sFileNameOut = QUriDrag::uriToLocalFile( s );
+			sFileNameOut = Q3UriDrag::uriToLocalFile( s );
 			s = (const char *)sFileNameOut;
 
 			if( IsDiaDataFile( s ) )
@@ -243,19 +247,21 @@ bool IsDiaDataFileDrag( const QMimeSource * pEvent, QString & sFileNameOut )
 
 bool IsImageFileDrag( const QMimeSource * pEvent )
 {
-	QStrList aStrList;
+	Q3StrList aStrList;
 
-	if( QUriDrag::decode( pEvent, aStrList ) )
+	if( Q3UriDrag::decode( pEvent, aStrList ) )
 	{
 		// all droped file-names have to be images with known format !!!
 		for( int i=0; i<(int)aStrList.count(); i++ )
 		{
 			const QString sTest = aStrList.at( i );
 			const char * s = (const char *)sTest;
-			QString sFileName = QUriDrag::uriToLocalFile( s );
+			QString sFileName = Q3UriDrag::uriToLocalFile( s );
 			s = (const char *)sFileName;
-
-			if( (QImage::imageFormat( sFileName )==0) && !IsJPEG( s ) )
+    
+            QImageReader aReader;
+//TODO Qt4:			if( (aReader.imageFormat( sFileName )==/*0*/QImage::Format_Invalid) && !IsJPEG( s ) )
+			if( !IsJPEG( s ) )
 			{
 				return false;
 			}
@@ -288,16 +294,16 @@ static bool IsWAVorMP3( const char * sFileName )
 
 bool IsSoundFileDrag( const QMimeSource * pEvent )
 {
-	QStrList aStrList;
+	Q3StrList aStrList;
 
-	if( QUriDrag::decode( pEvent, aStrList ) )
+	if( Q3UriDrag::decode( pEvent, aStrList ) )
 	{
 		// all droped file-names have to be images with known format !!!
 		for( int i=0; i<(int)aStrList.count(); i++ )
 		{
 			const QString sTest = aStrList.at( i );
 			const char * s = (const char *)sTest;
-			QString sFileName = QUriDrag::uriToLocalFile( s );
+			QString sFileName = Q3UriDrag::uriToLocalFile( s );
 			s = (const char *)sFileName;
 
 			if( !IsWAVorMP3( s ) )

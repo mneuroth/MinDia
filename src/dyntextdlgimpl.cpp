@@ -37,6 +37,11 @@
 #include <qlineedit.h>
 #include <qcheckbox.h>
 #include <qlayout.h>
+//Added by qt3to4:
+#include <Q3BoxLayout>
+#include <QMouseEvent>
+#include <QKeyEvent>
+#include <Q3VBoxLayout>
 
 #include <stdio.h>
 
@@ -45,7 +50,7 @@
 // *******************************************************************
 
 DrawingArea::DrawingArea( QWidget * pParent, QWidget * pSignalClient )
-: QCanvasView( 0, pParent )
+: Q3CanvasView( 0, pParent )
 {
     connect( this, SIGNAL( sigTextMoved() ), pSignalClient, SLOT( sltUpdateData() ) );
 }
@@ -56,11 +61,11 @@ DrawingArea::~DrawingArea()
 
 void DrawingArea::contentsMousePressEvent( QMouseEvent * pEvent )
 {
-    QCanvasItemList l = canvas()->collisions( pEvent->pos() );
+    Q3CanvasItemList l = canvas()->collisions( pEvent->pos() );
 
-    for( QCanvasItemList::Iterator it=l.begin(); it!=l.end(); ++it ) 
+    for( Q3CanvasItemList::Iterator it=l.begin(); it!=l.end(); ++it ) 
 	{
-		QCanvasText * item = (QCanvasText *)(*it);
+		Q3CanvasText * item = (Q3CanvasText *)(*it);
 
 		// is the text hit by the mouse ?
 		int ix = pEvent->pos().x();
@@ -95,23 +100,23 @@ void DrawingArea::contentsMouseMoveEvent( QMouseEvent * pEvent )
 
 // *******************************************************************
 
-DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * parent, QWidget * pMain, const char* name, bool modal, WFlags fl )
+DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * parent, QWidget * pMain, const char* name, bool modal, Qt::WFlags fl )
 : DynamicTextDlg( parent, name, modal, fl ),
   m_hItem( hItem ),
   m_aInitFont( hItem->font() )
 {
 	int x = m_pDrawingArea->width()-5;
 	int y = m_pDrawingArea->height()-5;
-	m_pCanvas = new QCanvas(x,y);
+	m_pCanvas = new Q3Canvas(x,y);
 
-	QBoxLayout * l = new QVBoxLayout( m_pDrawingArea );
+	Q3BoxLayout * l = new Q3VBoxLayout( m_pDrawingArea );
 
 	m_pDrawingAreaCanvas = new DrawingArea( m_pDrawingArea, this );
 	m_pDrawingAreaCanvas->setCanvas( m_pCanvas );
 
     l->addWidget( m_pDrawingAreaCanvas );
 
-	m_pCanvasText = new QCanvasText( m_hItem->GetString().c_str(), m_pCanvas );
+	m_pCanvasText = new Q3CanvasText( m_hItem->GetString().c_str(), m_pCanvas );
 	m_pCanvasText->move(100,100);
 	m_pCanvasText->show();
 
@@ -212,7 +217,7 @@ void DynamicTextDlgImpl::sltUpdateData()
 
 void DynamicTextDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 {
-	if( (pEvent->key() == Key_F1) )
+	if( (pEvent->key() == Qt::Key_F1) )
 	{
 		emit sigDialogHelp( this, "DynGraphOpDlg" );
 	}

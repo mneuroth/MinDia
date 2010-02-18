@@ -39,18 +39,21 @@
 
 // *************************************************************************
 
+IGeneralDevice::IGeneralDevice( const string & sModuleName )
+: minService( g_IGeneralDeviceID, sModuleName )
+{}
+
+IGeneralDevice::~IGeneralDevice()
+{
+}
+
+// *************************************************************************
+
 class IGeneralDeviceImpl : public IGeneralDevice
 {
 public:
-	IGeneralDeviceImpl( const string & sModuleName, minDll * pDll )
-		: IGeneralDevice( sModuleName )
-	{
-		Init();
-	}
-	virtual ~IGeneralDeviceImpl()
-	{
-		Exit();
-	}
+	IGeneralDeviceImpl( const string & sModuleName, minDll * pDll );
+	virtual ~IGeneralDeviceImpl();
 
 	virtual bool IsOk() const;
 
@@ -91,6 +94,17 @@ private:
 };
 
 // *************************************************************************
+
+IGeneralDeviceImpl::IGeneralDeviceImpl( const string & sModuleName, minDll * pDll )
+: IGeneralDevice( sModuleName )
+{
+	Init();
+}
+
+IGeneralDeviceImpl::~IGeneralDeviceImpl()
+{
+	Exit();
+}
 
 bool IGeneralDeviceImpl::Init()
 {

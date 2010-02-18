@@ -42,9 +42,9 @@
 #include <qcombobox.h>
 #include <qspinbox.h>
 #include <qlineedit.h>
-#include <qtextedit.h>
-#include <qfiledialog.h>
-#include <qprocess.h>
+#include <q3textedit.h>
+#include <q3filedialog.h>
+#include <q3process.h>
 
 #include <stdio.h>		// for: sprintf
 
@@ -56,7 +56,7 @@ const QString g_sDefaultSize1 = QObject::tr("400:304");
 const QString g_sSizeOfFirstImage = QObject::tr("size of first image");
 const QString g_sUserValue = QObject::tr("user value");
 
-CreateMovieDlgImpl::CreateMovieDlgImpl( DocumentAndControler * pDocControler, double dTotalTimeMS, QWidget* parent, const char* name, bool modal, WFlags fl )
+CreateMovieDlgImpl::CreateMovieDlgImpl( DocumentAndControler * pDocControler, double dTotalTimeMS, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
 : CreateMovieDlg( parent, name, modal, fl ),
   m_pProcess( 0 )
 {
@@ -87,7 +87,7 @@ CreateMovieDlgImpl::~CreateMovieDlgImpl()
 
 void CreateMovieDlgImpl::sltSelectOutputDirectory()
 {
-	QString sDir = QFileDialog::getExistingDirectory( m_pDirectoryName->text() );
+	QString sDir = Q3FileDialog::getExistingDirectory( m_pDirectoryName->text() );
 
 	if( !sDir.isEmpty() )
 	{
@@ -152,13 +152,13 @@ void CreateMovieDlgImpl::sltCreateAVI()
 		m_pProcess = 0;
 	}
 
-	m_pProcess = new QProcess( this );
+	m_pProcess = new Q3Process( this );
 	//m_pProcess->setCommunication(0);
 
 	for( unsigned int i=0; i<aCmdList.size(); i++ )
 	{
-		m_pProcess->addArgument( *aCmdList.at(i) );
-		m_pOutput->append( *aCmdList.at(i) );
+		m_pProcess->addArgument( aCmdList.at(i) );
+		m_pOutput->append( aCmdList.at(i) );
 	}
 
 	connect( m_pProcess, SIGNAL(readyReadStdout()), this, SLOT(sltReadFromStdout()) );
@@ -182,7 +182,7 @@ void CreateMovieDlgImpl::sltAddSound()
 		m_pProcess = 0;
 	}
 
-	m_pProcess = new QProcess( this );
+	m_pProcess = new Q3Process( this );
 
 	m_pProcess->addArgument("cmd.exe");
 	m_pProcess->addArgument("/k");

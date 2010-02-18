@@ -30,6 +30,9 @@
 #define _COMMENTDLGIMPL_H
 
 #include "CommentDlg.h"
+//Added by qt3to4:
+#include <QKeyEvent>
+#include <QCloseEvent>
 
 class GenericCommentContainer;
 
@@ -41,7 +44,7 @@ class CommentDlgImpl : public CommentDlg
 	Q_OBJECT
 
 public:
-    CommentDlgImpl( GenericCommentContainer * pComments, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    CommentDlgImpl( GenericCommentContainer * pComments, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
 	virtual ~CommentDlgImpl();
 
 public slots:

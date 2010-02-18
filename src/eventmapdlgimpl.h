@@ -30,6 +30,8 @@
 #define _EVENTMAPDLGIMPL_H
 
 #include "EventMapDlg.h"
+//Added by qt3to4:
+#include <QKeyEvent>
 
 class ApplScriptEnvironment;
 
@@ -41,7 +43,7 @@ class EventMapDlgImpl : public EventMapDlg
 	Q_OBJECT
 
 public:
-    EventMapDlgImpl( ApplScriptEnvironment * pScriptEnv, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    EventMapDlgImpl( ApplScriptEnvironment * pScriptEnv, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
 	virtual ~EventMapDlgImpl();
 
 public slots:

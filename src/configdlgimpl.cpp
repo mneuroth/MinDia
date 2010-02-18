@@ -40,9 +40,13 @@
 #include <qcheckbox.h>
 #include <qlineedit.h>
 #include <qradiobutton.h>
+//Added by qt3to4:
+#include <QShowEvent>
+#include <QKeyEvent>
+#include <QCloseEvent>
 
 
-ConfigurationDlgImpl::ConfigurationDlgImpl( DocumentAndControler * pControler, QWidget* parent, const char* name, bool modal, WFlags fl )
+ConfigurationDlgImpl::ConfigurationDlgImpl( DocumentAndControler * pControler, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
 : ConfigurationDlg( parent, name, modal, fl ),
   m_pControler( pControler )
 {
@@ -148,12 +152,29 @@ void ConfigurationDlgImpl::TransferDataToControl()
 	m_pComPortList->insertItem( "COM2" );
 	m_pComPortList->insertItem( "COM3" );
 	m_pComPortList->insertItem( "COM4" );
+    m_pComPortList->insertItem( "COM5" );
+    m_pComPortList->insertItem( "COM6" );
+    m_pComPortList->insertItem( "COM7" );
+    m_pComPortList->insertItem( "COM8" );
+    m_pComPortList->insertItem( "COM9" );
 #endif
 #ifdef __linux__
 	m_pComPortList->insertItem( "/dev/ttyS0" );
 	m_pComPortList->insertItem( "/dev/ttyS1" );
 	m_pComPortList->insertItem( "/dev/ttyS2" );
 	m_pComPortList->insertItem( "/dev/ttyS3" );
+#endif
+#ifdef __APPLE__
+    m_pComPortList->insertItem( "/dev/ttys0" );
+    m_pComPortList->insertItem( "/dev/ttys1" );
+    m_pComPortList->insertItem( "/dev/ttys2" );
+    m_pComPortList->insertItem( "/dev/ttys3" );
+    m_pComPortList->insertItem( "/dev/ttys4" );
+    m_pComPortList->insertItem( "/dev/ttys5" );
+    m_pComPortList->insertItem( "/dev/ttys6" );
+    m_pComPortList->insertItem( "/dev/ttys7" );
+    m_pComPortList->insertItem( "/dev/ttys8" );
+    m_pComPortList->insertItem( "/dev/ttys9" );
 #endif
 	
 	m_pBaudRateList->insertItem( "110" );
@@ -291,7 +312,7 @@ void ConfigurationDlgImpl::SetCurrentItem( QComboBox * pList, const QString & s 
 
 void ConfigurationDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 {
-	if( (pEvent->key() == Key_F1) )
+	if( (pEvent->key() == Qt::Key_F1) )
 	{
 		emit sigDialogHelp( this, "ConfigurationDialog" );
 	}

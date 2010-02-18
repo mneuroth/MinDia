@@ -35,7 +35,7 @@
 
 #include "CreateMovieDlg.h"
 
-class QProcess;
+class Q3Process;
 class DocumentAndControler;
 
 // *******************************************************************
@@ -46,7 +46,7 @@ class CreateMovieDlgImpl : public CreateMovieDlg
 	Q_OBJECT
 
 public:
-    CreateMovieDlgImpl( DocumentAndControler * pDocControler, double dTotalTimeMS, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    CreateMovieDlgImpl( DocumentAndControler * pDocControler, double dTotalTimeMS, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
 	virtual ~CreateMovieDlgImpl();
 
 public slots:
@@ -67,7 +67,7 @@ private:
 
 	double					m_dTotalTimeMS;
 	DocumentAndControler *	m_pDocControler;	// not an owner !
-	QProcess *				m_pProcess;
+	Q3Process *				m_pProcess;
 };
 
 #endif

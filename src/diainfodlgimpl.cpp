@@ -42,16 +42,19 @@
 
 #include <qlineedit.h>
 #include <qpushbutton.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qvalidator.h>
 #include <qmessagebox.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
+//Added by qt3to4:
+#include <QCloseEvent>
+#include <QKeyEvent>
 
-DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, const char* name, bool modal, WFlags fl )
+DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
 : DiaInfoDlg( parent, name, modal, fl )
 {
 	m_pItem = 0;
@@ -70,8 +73,8 @@ DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, const 
 #endif
 
 	// ** set new accelerators for fast movement
-    m_pPrevious->setAccel( CTRL+Key_Left );
-    m_pNext->setAccel( CTRL+Key_Right );
+    m_pPrevious->setAccel( Qt::CTRL+Qt::Key_Left );
+    m_pNext->setAccel( Qt::CTRL+Qt::Key_Right );
 
 #ifndef ZAURUS
 	// min todo --> Effekte werden noch nicht unterstuezt
@@ -367,7 +370,7 @@ void DiaInfoDlgImpl::sltModifyScript()
 void DiaInfoDlgImpl::sltSelectFileName()
 {
 #ifndef ZAURUS
-	QString sFileName = QFileDialog::getOpenFileName( /*QString::null*/GetImagePath().c_str(), /*QString::null*/"*.bmp", this );
+	QString sFileName = Q3FileDialog::getOpenFileName( /*QString::null*/GetImagePath().c_str(), /*QString::null*/"*.bmp", this );
 
 	if( !sFileName.isEmpty() )
 	{
@@ -425,7 +428,7 @@ void DiaInfoDlgImpl::done( int iRet )
 
 void DiaInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 {
-	if( (pEvent->key() == Key_F1) )
+	if( (pEvent->key() == Qt::Key_F1) )
 	{
 		emit sigDialogHelp( "DiaInfoDialog" );
 	}

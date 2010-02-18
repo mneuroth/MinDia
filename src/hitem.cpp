@@ -56,10 +56,10 @@ const int c_iSlideOffsY2	= 39;	//40;
 
 /** class which draws a slide in a canvas.
  */
-class SlideItem : public QCanvasRectangle
+class SlideItem : public Q3CanvasRectangle
 {
 public:
-	SlideItem( const QRect & aRect, QCanvas * canvas, const QString & sImageFileName, bool bHorizontalSlide = true );
+	SlideItem( const QRect & aRect, Q3Canvas * canvas, const QString & sImageFileName, bool bHorizontalSlide = true );
 
 protected:
 	virtual void drawShape( QPainter & aPainter ); 
@@ -71,8 +71,8 @@ private:
 
 // *******************************************************************
 
-SlideItem::SlideItem( const QRect & aRect, QCanvas * canvas, const QString & sImageFileName, bool bHorizontalSlide )
-: QCanvasRectangle( aRect, canvas ), 
+SlideItem::SlideItem( const QRect & aRect, Q3Canvas * canvas, const QString & sImageFileName, bool bHorizontalSlide )
+: Q3CanvasRectangle( aRect, canvas ), 
   m_bHorizontalSlide( bHorizontalSlide ),
   m_sImageFileName( sImageFileName )
 {
@@ -140,8 +140,8 @@ void SlideItem::drawShape( QPainter & aPainter )
 // *******************************************************************
 // *******************************************************************
 
-HItem::HItem( const QRect & aRect, QCanvas * pCanvas, minHandle<DiaInfo> hData  )
-: QCanvasRectangle( aRect, pCanvas ),
+HItem::HItem( const QRect & aRect, Q3Canvas * pCanvas, minHandle<DiaInfo> hData  )
+: Q3CanvasRectangle( aRect, pCanvas ),
   m_pImageCache( 0 )
 {
 	m_hData = hData;
@@ -270,15 +270,15 @@ void HItem::drawShape( QPainter & aPainter )
 		char sBuffer[255];
 		sprintf( sBuffer, "pos=%d", m_hData->GetPosition()+1 );
 		aPainter.drawText( aTextStartPoint.x(), aTextStartPoint.y(),
-						   iMaxWidth, iMaxHeight, AlignLeft | AlignTop,
+						   iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
 						   sBuffer );
 		sprintf( sBuffer, "id=%s", m_hData->GetId() );
 		aPainter.drawText( aTextStartPoint.x(), aTextStartPoint.y()+c_iDY,
-						   iMaxWidth, iMaxHeight, AlignLeft | AlignTop,
+						   iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
 						   sBuffer );
 		sprintf( sBuffer, "comment=%s", m_hData->GetComment() );
 		aPainter.drawText( aTextStartPoint.x(), aTextStartPoint.y()+2*c_iDY,
-						   iMaxWidth, iMaxHeight, AlignLeft | AlignTop,
+						   iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
 						   sBuffer );
 
 		QString sTemp = m_hData->GetImageFile();
@@ -288,7 +288,7 @@ void HItem::drawShape( QPainter & aPainter )
 			sTemp += QObject::tr( "<script>" );
 		}
 		aPainter.drawText( aSlideStartPoint.x(), aSlideStartPoint.y() /*+c_iDY*/,
-						   c_iSlideWidth, iMaxHeight, AlignLeft | AlignTop,
+						   c_iSlideWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
 						   sTemp );
 
 		int iOffset = 3*c_iDY;
@@ -306,7 +306,7 @@ void HItem::drawShape( QPainter & aPainter )
 			}
 
 			aPainter.drawText( aTextStartPoint.x(), aTextStartPoint.y()+iOffset,
-							   iMaxWidth, iMaxHeight, AlignLeft | AlignTop,
+							   iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
 							   sBuffer );
 			iOffset += c_iDY;
 		}
@@ -356,15 +356,15 @@ bool HItem::IsPointInItem( int x, int y ) const
 
 #ifdef _with_canvas_items
 
-void HItem::CreateElements( QCanvas * pCanvas )
+void HItem::CreateElements( Q3Canvas * pCanvas )
 {
-	m_pPosText = new QCanvasText( pCanvas );
+	m_pPosText = new Q3CanvasText( pCanvas );
 	m_pPosText->show();
-	m_pIdText = new QCanvasText( pCanvas );
+	m_pIdText = new Q3CanvasText( pCanvas );
 	m_pIdText->show();
-	m_pCommentText = new QCanvasText( pCanvas );
+	m_pCommentText = new Q3CanvasText( pCanvas );
 	m_pCommentText->show();
-	m_pFileNameText = new QCanvasText( pCanvas );
+	m_pFileNameText = new Q3CanvasText( pCanvas );
 	m_pFileNameText->show();
 	m_pSlideItem = new SlideItem( QRect( 0, 0, width(), height() ), pCanvas, m_hData->GetImageFile() );
 	m_pSlideItem->show();

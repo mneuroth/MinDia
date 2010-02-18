@@ -113,9 +113,9 @@ bool dgoShowText::Run()
 {
 	if( m_pOwner )
 	{
-		QCanvas * pCanvas = m_pOwner->GetCanvas();
+		Q3Canvas * pCanvas = m_pOwner->GetCanvas();
 
-		m_pText = new QCanvasText( QString( m_sText.c_str() ), pCanvas );
+		m_pText = new Q3CanvasText( QString( m_sText.c_str() ), pCanvas );
 		m_pText->setColor( m_aColor );
 		m_pText->setFont( QFont( m_sFontName.c_str(), m_iFontSize ) );
 		m_pText->move( m_x, m_y );
@@ -144,7 +144,7 @@ void dgoShowText::sltTimerEvent()
 
 	m_pText->hide();
 
-	QCanvas * pCanvas = m_pOwner->GetCanvas();
+	Q3Canvas * pCanvas = m_pOwner->GetCanvas();
 	pCanvas->update();
 
 	delete m_pText;
@@ -208,11 +208,11 @@ bool dgoShowText::Write( ostream & aStream ) const
 	aFU.WriteSeparator( aStream );
 	WriteString( aStream, m_sFontName );
 	aFU.WriteSeparator( aStream );
-	aStream << m_aColor.red();
+	aStream << m_aColor.Qt::red();
 	aFU.WriteSeparator( aStream );
-	aStream << m_aColor.green();
+	aStream << m_aColor.Qt::green();
 	aFU.WriteSeparator( aStream );
-	aStream << m_aColor.blue();
+	aStream << m_aColor.Qt::blue();
 	aFU.WriteStructEnd( aStream );
 	
 	return aStream.good();
@@ -237,7 +237,7 @@ DynGraphicOpContainer::DynGraphicOpContainer( IDiaOutputWindowInternal * pOutput
 {
 }
 
-QCanvas * DynGraphicOpContainer::GetCanvas()
+Q3Canvas * DynGraphicOpContainer::GetCanvas()
 {
 	if( m_pOutputWindowProxy )
 	{
@@ -712,7 +712,7 @@ OpItem_SetRelPos::OpItem_SetRelPos( DynText * pItem, double dRelX, double dRelY,
 
 void OpItem_SetRelPos::Update()
 {
-	QCanvas * pCanvas = m_pItem->canvas();
+	Q3Canvas * pCanvas = m_pItem->canvas();
 
 	if( pCanvas && m_dRelX>=0 && m_dRelY>=0 )
 	{
@@ -982,16 +982,16 @@ void OpItem_Base::Run( int iStartFromPosInMS )
 {
     m_bDone = false;
 
-	int iRet = 0;
+	//int iRet = 0;
 	if( (iStartFromPosInMS==0) || (m_iDelayInMS-iStartFromPosInMS>0) )
 	{
 		if( m_iDelayInMS>0 )
 		{
-			iRet = m_aTimer->start( m_iDelayInMS - iStartFromPosInMS );		// bugfix 21.6.2003 subtract the start pos !
+			/*iRet =*/ m_aTimer->start( m_iDelayInMS - iStartFromPosInMS );		// bugfix 21.6.2003 subtract the start pos !
 		}
 		else
 		{
-			iRet = m_aTimer->start( /*m_iTimeout*/0 );
+			/*iRet =*/ m_aTimer->start( /*m_iTimeout*/0 );
 		}
 	}
     m_aTime.start();
@@ -1358,8 +1358,8 @@ bool DynContainer::IsNextElementChanging( double dTimeMS, double dDeltaMS ) cons
 
 //********************************************************************
 
-DynText::DynText( const string & sText, QCanvas * pOwner )
-: QCanvasText( sText.c_str(), pOwner ),
+DynText::DynText( const string & sText, Q3Canvas * pOwner )
+: Q3CanvasText( sText.c_str(), pOwner ),
   m_bIsSelected( false ),
   m_xOld( -1 ),
   m_yOld( -1 ),
@@ -1379,7 +1379,7 @@ XmlTree	DynText::GetXMLTree() const
 	return XmlTree( "DynText" );
 }
 
-void DynText::SetCanvas( QCanvas * pCanvas )
+void DynText::SetCanvas( Q3Canvas * pCanvas )
 {
 	setCanvas( pCanvas );
 
@@ -1410,7 +1410,7 @@ void DynText::SetSelected( bool bSelected )
 	{
 		if( !m_pSelectedHelper )
 		{
-			m_pSelectedHelper = new QCanvasRectangle( boundingRect(), canvas() );
+			m_pSelectedHelper = new Q3CanvasRectangle( boundingRect(), canvas() );
 			m_pSelectedHelper->setPen( QPen( QColor( 255,0,0 ) ) );
 		}
 		m_pSelectedHelper->setSize( boundingRect().width(), boundingRect().height() );
@@ -1465,16 +1465,16 @@ void DynText::DoMouseMove( int x, int y )
 	{
 		double dx = x-m_xOld;
 		double dy = y-m_yOld;
-		QCanvasText::move( (double)QCanvasText::x()+dx, (double)QCanvasText::y()+dy );
+		Q3CanvasText::move( (double)Q3CanvasText::x()+dx, (double)Q3CanvasText::y()+dy );
 		m_xOld = x;
 		m_yOld = y;
-		QCanvasText::canvas()->update();
+		Q3CanvasText::canvas()->update();
 	}
 }
 
 void DynText::move( double x, double y )
 {
-	QCanvasText::move( x, y ); 
+	Q3CanvasText::move( x, y ); 
 	if( m_pSelectedHelper )
 	{
 		m_pSelectedHelper->move( x, y );

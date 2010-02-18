@@ -32,6 +32,10 @@
 #include "ComLoggingDlg.h"
 
 #include "minlog.h"
+//Added by qt3to4:
+#include <QCustomEvent>
+#include <QKeyEvent>
+#include <QCloseEvent>
 
 
 // *******************************************************************
@@ -42,7 +46,7 @@ class ComLoggingDialogImpl : public ComLoggingDialog, public minLoggingInterface
 	Q_OBJECT
 
 public:
-    ComLoggingDialogImpl( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    ComLoggingDialogImpl( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
 	virtual ~ComLoggingDialogImpl();
 
 	// *** implements the minLoggingInterface ***

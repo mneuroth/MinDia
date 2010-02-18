@@ -38,6 +38,8 @@
 #include <string>
 #include <list>
 
+#include <QMutex>
+
 using namespace std;
 
 class RolleiCom;
@@ -76,6 +78,7 @@ private:
 	list<string>		m_aCmdQueue;
 	RolleiCom *			m_pProjector;	// no owner !
 	minSyncObject *		m_pSyncObj;
+    QMutex              m_aSyncObj;
 };
 
 #endif

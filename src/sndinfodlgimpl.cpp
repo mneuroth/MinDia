@@ -32,15 +32,18 @@
 #include "sndinfodlgimpl.h"
 #include "soundinfo.h"
 
-#include <qtable.h>
+#include <q3table.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QCloseEvent>
+#include <QKeyEvent>
 
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************
 
-SoundInfoDlgImpl::SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* parent, const char* name, bool modal, WFlags fl )
+SoundInfoDlgImpl::SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
 : SoundInfoDlg( parent, name, modal, fl ),
   m_pSoundData( pSoundData )
 {
@@ -51,7 +54,7 @@ SoundInfoDlgImpl::SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* pa
     connect( this, SIGNAL( sigDialogHelp(QWidget *, const QString &) ), parent, SLOT( sltShowModalHelp(QWidget *, const QString &) ) );
 
 	// ** init table **
-	m_pTable->setSelectionMode( QTable::Single );
+	m_pTable->setSelectionMode( Q3Table::Single );
 	m_pTable->setNumCols( 11 );
 	m_pTable->setNumRows( 1 );
 	//m_pTable->setText( 0, 0, "Filenamexyz" );
@@ -147,7 +150,7 @@ void SoundInfoDlgImpl::sltRowUp()
 			RepaintRow( iActRow );
 			RepaintRow( iActRow-1 );
 
-			QTableSelection aSelection;
+			Q3TableSelection aSelection;
 			aSelection.init( iActRow-1, -1 );
 			aSelection.expandTo( iActRow-1, m_pTable->numCols() );
 			m_pTable->addSelection( aSelection );
@@ -171,7 +174,7 @@ void SoundInfoDlgImpl::sltRowDown()
 			RepaintRow( iActRow );
 			RepaintRow( iActRow+1 );
 
-			QTableSelection aSelection;
+			Q3TableSelection aSelection;
 			aSelection.init( iActRow+1, -1 );
 			aSelection.expandTo( iActRow+1, m_pTable->numCols() );
 			m_pTable->addSelection( aSelection );
@@ -352,7 +355,7 @@ void SoundInfoDlgImpl::RepaintRow( int iRow )
 
 void SoundInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 {
-	if( (pEvent->key() == Key_F1) )
+	if( (pEvent->key() == Qt::Key_F1) )
 	{
 		emit sigDialogHelp( this, "SoundInfoDialog" );
 	}

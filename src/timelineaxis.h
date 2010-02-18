@@ -31,7 +31,7 @@
 
 #include "minhandle.h"
 
-#include <qcanvas.h>
+#include <q3canvas.h>
 
 #include <vector>
 
@@ -42,11 +42,11 @@ using namespace std;
   */
 class TimeLineAxis
 {
-	typedef pair< minHandle<QCanvasLine>, minHandle<QCanvasText> > AxisTick;
+	typedef pair< minHandle<Q3CanvasLine>, minHandle<Q3CanvasText> > AxisTick;
 	typedef vector< AxisTick >	AxisTickContainer;
 
 public:
-	TimeLineAxis( QCanvas * pCanvas, double dFactor, int iStartPosY );
+	TimeLineAxis( Q3Canvas * pCanvas, double dFactor, int iStartPosY );
 	virtual ~TimeLineAxis();
 
 	void	SetAxisLength( double dTotalTime );
@@ -57,8 +57,8 @@ private:
 	void MakeSecondTicks();
 
 	// ** gui data **
-	QCanvas *				m_pCanvas;				// !!! NO OWNER !!!
-	minHandle<QCanvasLine>	m_hTimeAxis;
+	Q3Canvas *				m_pCanvas;				// !!! NO OWNER !!!
+	minHandle<Q3CanvasLine>	m_hTimeAxis;
 	AxisTickContainer		m_aTickContainer;
 
 	// ** document data **

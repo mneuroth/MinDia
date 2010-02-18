@@ -101,7 +101,7 @@ int mciGetErrorStringX( int iErrorNo, char * sBuffer, int iBufferLength )
 #define _FADE_IN		"fade_in"
 #define _FADE_OUT		"fade_out"
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 typedef int MCIERROR;
 #endif
 

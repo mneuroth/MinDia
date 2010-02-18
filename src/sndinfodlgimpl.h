@@ -1,3 +1,6 @@
+//Added by qt3to4:
+#include <QKeyEvent>
+#include <QCloseEvent>
 /**************************************************************************
  *
  *	project				 : MinDia
@@ -48,7 +51,7 @@ class SoundInfoDlgImpl : public SoundInfoDlg
 	Q_OBJECT
 
 public:
-    SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
 	virtual ~SoundInfoDlgImpl();
 
 public slots:

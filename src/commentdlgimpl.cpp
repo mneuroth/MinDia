@@ -29,16 +29,19 @@
 #include "commentdlgimpl.h"
 #include "soundinfo.h"
 
-#include <qtable.h>
+#include <q3table.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
+//Added by qt3to4:
+#include <QKeyEvent>
+#include <QCloseEvent>
 
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************
 
-CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* parent, const char* name, bool modal, WFlags fl )
+CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
 : CommentDlg( parent, name, modal, fl ),
   m_pComments( pComments )
 {
@@ -49,7 +52,7 @@ CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* pa
     connect( this, SIGNAL( sigDialogHelp(QWidget *, const QString &) ), parent, SLOT( sltShowModalHelp(QWidget *, const QString &) ) );
 
 	// ** init table **
-	m_pTable->setSelectionMode( QTable::Single );
+	m_pTable->setSelectionMode( Q3Table::Single );
 	m_pTable->setNumRows( 1 );
 
 	// ** init the title text for the columns
@@ -244,7 +247,7 @@ void CommentDlgImpl::TransferData( bool bToTable )
 
 void CommentDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 {
-	if( (pEvent->key() == Key_F1) )
+	if( (pEvent->key() == Qt::Key_F1) )
 	{
 		emit sigDialogHelp( this, "CommentDialog" );
 	}

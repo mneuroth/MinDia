@@ -365,6 +365,11 @@ change history:
                     added sound-info-dialog for zaurus platform, added menu-item for new for zaurus platform,
                     enlarged play-info-dialog for zaurus platform
 
+14.2.2010   3h	    started to port program to qt4 and Mac OS X
+16.2.2010   1h      porting to qt4
+17.2.2010   1h      porting to qt4
+18.2.2010   2h      experiments with qextserialport library on Mac OS X --> working !
+
 //TODO: update3.zip einarbeiten
 //TODO: Speichern für ZMindia implementieren
 TODO: groesseren ZPlayInfoDlg implementieren

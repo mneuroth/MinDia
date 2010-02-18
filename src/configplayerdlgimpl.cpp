@@ -46,7 +46,7 @@ const char * c_sActPlayerKey		= "act_mp3";
 const char * c_sActPlayerOptionsKey	= "act_mp3_opt";
 
 
-ConfigPlayerDlgImpl::ConfigPlayerDlgImpl( MiniIniDB & aIniDB, QWidget* parent, const char* name, bool modal, WFlags fl )
+ConfigPlayerDlgImpl::ConfigPlayerDlgImpl( MiniIniDB & aIniDB, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
 : ConfigPlayerDlg( parent, name, modal, fl ),
   m_aIniDB( aIniDB )
 {

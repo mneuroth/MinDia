@@ -35,7 +35,13 @@
 #include "minhandle.h"
 
 // ** gui
-#include <qcanvas.h>
+#include <q3canvas.h>
+//Added by qt3to4:
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QMouseEvent>
+#include <QDragMoveEvent>
+#include <Q3PopupMenu>
 
 #include <vector>
 
@@ -45,28 +51,28 @@ using namespace std;
 #include "timelineaxis.h"
 
 class DiaPresentation;
-class QPopupMenu;
+class Q3PopupMenu;
 class MyDynamicToolTip;
 
 // *******************************************************************
 /** Handels a timeline view for the dia presentation.
   */
-class TimeLineView : public QCanvasView
+class TimeLineView : public Q3CanvasView
 {
 	Q_OBJECT
 
 	typedef vector< minHandle<TimeLineItem> >	MyItemContainer;
 
-	typedef pair< pair< minHandle<QCanvasLine>, minHandle<QCanvasLine> >, minHandle<QCanvasText> > PlotCommentItem;
+	typedef pair< pair< minHandle<Q3CanvasLine>, minHandle<Q3CanvasLine> >, minHandle<Q3CanvasText> > PlotCommentItem;
 	typedef vector< PlotCommentItem >	PlotCommentItemContainer;
 
-	typedef pair< minHandle<QCanvasLine>, minHandle<QCanvasText> > MusicCommentItemHelper;
+	typedef pair< minHandle<Q3CanvasLine>, minHandle<Q3CanvasText> > MusicCommentItemHelper;
 	typedef pair< QString, int > ItemInfoHelper;
 	typedef pair< MusicCommentItemHelper, ItemInfoHelper > MusicCommentItem;
 	typedef vector< MusicCommentItem >	MusicCommentItemContainer;
 
-	typedef pair< minHandle<QCanvasLine>, minHandle<QCanvasLine> > FadeItem;
-	typedef pair< minHandle<QCanvasRectangle>, minHandle<QCanvasText> > MusicItem;
+	typedef pair< minHandle<Q3CanvasLine>, minHandle<Q3CanvasLine> > FadeItem;
+	typedef pair< minHandle<Q3CanvasRectangle>, minHandle<Q3CanvasText> > MusicItem;
 	typedef vector< MusicItem >	MusicItemContainer;
 	typedef vector< FadeItem >	FadeItemContainer;
 
@@ -121,13 +127,13 @@ private:
 	int  GetItemForPosX( int x );
 
 	// ** data **
-	QPopupMenu *				m_pContextMenu;
-	QCanvas *					m_pCanvas;
+	Q3PopupMenu *				m_pContextMenu;
+	Q3Canvas *					m_pCanvas;
 	QSize						m_aSizeHint;
 	MyDynamicToolTip *			m_pToolTip;
 	QPoint						m_aLastMousePos;			// temp
 
-	minHandle<QCanvasLine>		m_hPlayMark;
+	minHandle<Q3CanvasLine>		m_hPlayMark;
 
 	minHandle<TimeLineAxis>		m_hTimeAxis;
 
