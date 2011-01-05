@@ -59,7 +59,7 @@
 // *******************************************************************
 // *******************************************************************
 
-#if defined( _MSC_VER ) || defined( __BORLANDC__ )
+#if defined( _MSC_VER ) || defined( __BORLANDC__ ) || defined( __MINGW32__ )
 
 #include <windows.h>
 
@@ -456,7 +456,7 @@ struct RolleiComHelperData
 		return m_iLastError;
 	}
 
-	Qt::HANDLE	m_hFile;
+	/*Qt::*/HANDLE	m_hFile;
 	DWORD	m_iLastError;
 };
 

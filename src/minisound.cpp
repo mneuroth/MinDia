@@ -49,7 +49,7 @@
 
 #include <qfile.h>
 
-#if defined( _MSC_VER ) || defined( __BORLANDC__ )
+#if defined( _MSC_VER ) || defined( __BORLANDC__ ) || defined( __MINGW32__ )
 #define _WINDOWS_SOUND
 //#define _UNIX_SOUND		// for debugging TESTS
 #else

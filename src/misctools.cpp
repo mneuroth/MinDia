@@ -259,11 +259,14 @@ bool IsImageFileDrag( const QMimeSource * pEvent )
 			QString sFileName = Q3UriDrag::uriToLocalFile( s );
 			s = (const char *)sFileName;
     
-            QImageReader aReader;
-//TODO Qt4:			if( (aReader.imageFormat( sFileName )==/*0*/QImage::Format_Invalid) && !IsJPEG( s ) )
-			if( !IsJPEG( s ) )
+//TODO Qt4:
+//            if( (aReader.imageFormat( sFileName )==/*0*/QImage::Format_Invalid) && !IsJPEG( s ) )
+//			if( !IsJPEG( s ) )
+  //          QImageReader aReader(sFileName);
+  //          if( !aReader.canRead() )
+            if( QImage(sFileName ).isNull() )
 			{
-				return false;
+                return false;
 			}
 		}
 		return true;

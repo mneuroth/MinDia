@@ -186,7 +186,7 @@ private:
 	  char ch_buffer;
 	  bool bOk;
 
-	  while( (bOk=Read(IS,ch_buffer)) && (ch_buffer != ch) && (ch_buffer != EOF) )
+	  while( (bOk=Read(IS,ch_buffer)) && (ch_buffer != ch) && (ch_buffer != IS.eof()) )
 	  {
 	  }
 	  /*
@@ -194,7 +194,7 @@ private:
 		bOk = Read(IS,ch_buffer);
 	  } while (bOk && (ch_buffer != ch) && (ch_buffer != EOF));
 	  */
-	  if ((ch_buffer==EOF) /*&& (ch_buffer!=EOF)*/ )		// auskommentiert am 27.1.1999
+	  if ((ch_buffer==IS.eof()/*std::eof*/) /*&& (ch_buffer!=EOF)*/ )		// auskommentiert am 27.1.1999
 		 { bOk = false; };
 	  return bOk;
 	}

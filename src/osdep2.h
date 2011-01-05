@@ -393,7 +393,7 @@ inline void minLeaveCriticalSection( void * hHandle )
 inline int minSetThreadPriority( unsigned long nThreadId, long nClass, long nLevel = 0 )
 {
 #ifdef _WIN32
-	return ::SetPriorityClass( (Qt::HANDLE)nThreadId, nClass );
+	return ::SetPriorityClass( (/*Qt::*/HANDLE)nThreadId, nClass );
 	//return ::SetThreadPriority( (HANDLE)nThreadId, nLevel );
 #endif
 #ifdef _OS2
@@ -677,7 +677,7 @@ public:
 private:
 	// +++ Daten +++
 #ifdef _WIN32
-	Qt::HANDLE				m_aCritSec;
+	/*Qt::*/HANDLE				m_aCritSec;
 #endif
 #ifdef _OS2
 	HMTX				m_aCritSec;
@@ -700,7 +700,7 @@ private:
 class UMDLLEXPORT minMultiSyncObject
 {
 #ifdef _WIN32
-	typedef Qt::HANDLE	MyHandleT;
+	typedef /*Qt::*/HANDLE	MyHandleT;
 #endif
 #ifdef _OS2
 	typedef HMUX	MyHandleT;

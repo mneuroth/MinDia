@@ -34,6 +34,7 @@
 #include <fstream>
 
 #include <stdio.h>			// for: sprintf
+#include <stdlib.h>         // for: atoi
 
 // *******************************************************************
 

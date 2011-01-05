@@ -26,10 +26,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <algorithm>		// fuer remove()
+#include <algorithm>		// for: remove()
+
+#include <string.h>         // for: strlen()
 
 #include "dllbase.h"
-//#include "minutils.h"		// fuer FileUtilityObj::SplitPath()
+//#include "minutils.h"		// for: FileUtilityObj::SplitPath()
 
 // *************************************************************************
 
@@ -156,7 +158,7 @@ typedef void (*minGenDllProcT)();
 inline long minLoadLibrary( const char * sDllName )
 {
 #ifdef _WIN32
-	return (long)LoadLibrary( sDllName );
+	return (long)LoadLibrary( (WCHAR*)sDllName );
 #endif
 #ifdef _OS2
 	// 3.2.2000: DLL-Name immer ohne .dll Extention angeben... (Modul-Name !!!)
