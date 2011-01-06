@@ -90,6 +90,9 @@
 #define _MUSIC_DIR		"music"
 #define _DATA_DIR		"data"
 
+// TEMP only !!! just for testing on min power book !
+#define APPLE_DIR_TEMP "/Users/min/Documents/home/Entwicklung/projects/mindia_qt4/src/mindia.app/Contents/Resources"
+
 // *************************************************************************
 
 /** Get the directory where all the help- and language-files are installed. */
@@ -102,13 +105,23 @@ string GetMinDiaSharedDirectory()
 	// ** if MinDia is installed, than the german language file is in this directory
 	string sTestFileInShared;
 
+#if defined(__linux__)
 	sTestFileInShared += MINDIA_INSTALLATION_DIR;		//_LINUX_MINDIA_SHARED;
-	sTestFileInShared += sSep;
+#endif
+#if defined(__APPLE__)
+    sTestFileInShared = APPLE_DIR_TEMP;		//_LINUX_MINDIA_SHARED;
+#endif
+    sTestFileInShared += sSep;
 	sTestFileInShared += "mindia_de.qm";
 
 	if( FileUtilityObj::ExistsFile( sTestFileInShared.c_str() ) )
 	{
-		sRet = MINDIA_INSTALLATION_DIR;		//_LINUX_MINDIA_SHARED;
+#if defined(__linux__)
+        sRet = MINDIA_INSTALLATION_DIR;		//_LINUX_MINDIA_SHARED;
+#endif
+#if defined(__APPLE__)
+        sRet = APPLE_DIR_TEMP;
+#endif
 		sRet += sSep;
 	}
 	else
