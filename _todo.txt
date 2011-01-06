@@ -4,6 +4,25 @@ Internal TODO
 
 // Diese (auskommentieren) Punkte sind schon erledigt !
 
+Porting to Qt4:
+- Skripte erstellen fuer binary releases (Mac, Linux, Windows)
+- Skripte erstellen fuer Source Code release
+- Quelltextdateien aufraeumen, bessere Struktur
+(- Internationalisierung fixen
+- File-Assoziationen fuer Mac realisieren
+- ggf. Python Unterstuetzung wieder aktivieren
+- qextserialport verwenden fuer die Ansteuerung der Porjektoren
+- Bessere Sound Unterstuetzung fuer alle Plattformen
+- verwende Qt Kostrukte anstatt eigene: pthreads, sound?, Konfiguration speichern, Internationalisierung, etc.
+- UI aufpolieren
+- Komfortablere Bedienung realisieren --> Drag&Drop
+- Manche Menu-Items sind checkbar, obwohl das keinen Sinn macht
+- ggf. Add Dyn. Text in Hauptmenu aufnehmen
+- Besseres Drag-and-Drop fuer Bilder realisieren (war schon mal besser)
+- Drag-and-Drop auch fuer Musik-Dateien realisieren
+- ggf. Undo/Redo realisieren
+- Filme erzeugen testen...
+
 //###########################################################################
 
 Vor Release zu tun:
