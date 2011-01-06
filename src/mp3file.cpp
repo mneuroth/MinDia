@@ -55,7 +55,7 @@
 
 #include <vector>
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 #include <unistd.h>
 #include <sys/wait.h>
 #endif
@@ -139,8 +139,13 @@ Mp3File::Mp3File()
 	  m_iPID( 0 ),	  
 	  m_pIniDB( 0 )
 {
-	m_sMp3Player = "madplay";
+#if defined(__linux__)
+    m_sMp3Player = "madplay";               	// "mpg123" or "afplay" (Mac)
 	m_sMp3Options = "--no-tty-control -v";
+#elif defined(__APPLE__)
+    m_sMp3Player = "afplay";
+    m_sMp3Options = "";
+#endif
 }
 
 Mp3File::~Mp3File()
@@ -161,8 +166,8 @@ void Mp3File::stopPlay()
 {
 	if( m_iPID>0 )
 	{
-#ifdef __linux__
-		/*int iOk =*/ kill( m_iPID, SIGKILL );
+#if defined(__linux__) || defined(__APPLE__)
+        /*int iOk =*/ kill( m_iPID, SIGKILL );
 #else
 		// TODO min
 #endif
@@ -175,8 +180,8 @@ void Mp3File::pausePlay()
 {
 	if( m_iPID>0 )
 	{
-#ifdef __linux__
-		kill( m_iPID, SIGSTOP );
+#if defined(__linux__) || defined(__APPLE__)
+        kill( m_iPID, SIGSTOP );
 #else
 		// TODO min
 #endif
@@ -187,8 +192,8 @@ void Mp3File::resumePlay()
 {
 	if( m_iPID>0 )
 	{
-#ifdef __linux__
-		kill( m_iPID, SIGCONT );
+#if defined(__linux__) || defined(__APPLE__)
+        kill( m_iPID, SIGCONT );
 #else
 		// TODO min
 #endif
@@ -202,13 +207,15 @@ void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
 	// start the timer for the play-time... (important: start timer before fork() !!!)
 	m_aPlayTime.start();
 
-#ifdef __linux__
-	m_iPID = fork();
+#if defined(__linux__) || defined(__APPLE__)
+    m_iPID = fork();
 
 	if( m_iPID==0 )
 	{
 		signal( SIGTERM, SIG_DFL );
-		setpgrp();
+#if defined(__linux__)
+        setpgrp();
+#endif
 #else
 	if( true )
 	{
@@ -225,7 +232,7 @@ void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
 		char * sArgs[7];
 		string strArgs;
 
-		sprintf( sProgName, "%s", m_sMp3Player.c_str() );	// "mpg123"
+        sprintf( sProgName, "%s", m_sMp3Player.c_str() );
 		sArgs[iCount] = sProgName;
 		strArgs += sProgName+string(" ");
 		iCount++;
@@ -260,8 +267,8 @@ void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
 		sArgs[iCount] = 0;
 		iCount++;
 
-#ifdef __linux__
-		/*int iOk =*/ execvp( sArgs[0], sArgs );
+#if defined(__linux__) || defined(__APPLE__)
+        /*int iOk =*/ execvp( sArgs[0], sArgs );
 #else
 		int iOk = system(strArgs.c_str());
 #endif
