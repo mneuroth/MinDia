@@ -1342,7 +1342,7 @@ bool DiaPresentation::IsNextSlideChanging( double dTimeMS, double dDeltaMS ) con
 	GetIndexForTime( dTimeMS, iIndex1a, iIndex2a, iFadeFactora );
 	GetIndexForTime( dTimeMS-dDeltaMS, iIndex1b, iIndex2b, iFadeFactorb );
 
-	if( iIndex1a==iIndex1b && iIndex2a==iIndex2b && iFadeFactora==iFadeFactorb )
+    if( iIndex1a==iIndex1b && iIndex2a==iIndex2b && iFadeFactora==iFadeFactorb && !GetDynGraphicData().IsNextElementChanging(dTimeMS,dDeltaMS) )
 	{
 		return false;
 	}
