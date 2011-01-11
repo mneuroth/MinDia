@@ -390,7 +390,8 @@ void HItemView::contentsMouseMoveEvent( QMouseEvent * pEvent )
 			{
 				bool bOk = d->dragMove();
 
-				if( bOk && d->target()==this )
+                // Bugfix 10.1.2011 --> for the MAC plattform the widget hirachy may be different for drag and drop
+                if( bOk && (d->target()==this || d->target()->parent()==this ))
 				{
 					int iOffset = 0;
 
@@ -496,7 +497,7 @@ void HItemView::dragEnterEvent( QDragEnterEvent * pEvent )
 		{
 			pEvent->accept( Q3TextDrag::canDecode(pEvent) );
 		}
-	}
+    }
 }
 
 void HItemView::dropEvent( QDropEvent * pEvent )
@@ -577,6 +578,8 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 			m_iDragTargetIndex = iIndex;
 
 			sltSelectItem( iIndex, 0 );
+
+            pEvent->accept();
 		}
 	}
 }
