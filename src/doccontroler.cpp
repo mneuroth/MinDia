@@ -63,6 +63,7 @@
 #else
 class QtMTLock {};
 #endif
+#include <QFile>
 
 #include <fstream>
 
@@ -1059,8 +1060,9 @@ int DocumentAndControler::CreateImagesForMovie(
 		{
 			bool bForcePainting = true;
 			char sBuffer[512];
-			sprintf( sBuffer, "%s/%s%05d.jpg", sOutputDirectory.c_str(), sFileNameOffset.c_str(), iCount );
-
+            // /Users/min/Documents/home/Entwicklung/projects/mindia_qt4/src/
+            sprintf( sBuffer, "%s/%s%05d.jpg", sOutputDirectory.c_str(), sFileNameOffset.c_str(), iCount );
+ 
 			if( GetPresentation().IsNextSlideChanging( dTimeMS, dDeltaMS ) )
 			{
 				aPixmap.fill();
@@ -1075,7 +1077,8 @@ int DocumentAndControler::CreateImagesForMovie(
 			else
 			{
 				// use last generated file for new movie image
-				FileUtilityObj::_CopyFile( sLastFileName.c_str(), sBuffer );
+                bool ok = QFile::copy(sLastFileName.c_str(), sBuffer );
+				//bool ok = FileUtilityObj::_CopyFile( sLastFileName.c_str(), sBuffer );
 			}
 
 			dTimeMS += dDeltaMS;
