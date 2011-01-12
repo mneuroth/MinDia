@@ -55,7 +55,7 @@ public:
 	RolleiCom( bool bIgnoreComSettings, bool bSimulation, int iProjectorType, minLoggingInterface * pLoggingChannel, MiniIniDB * pIniDB = 0, int iComPortNo = 1 /*, int iBaudrate = 1200, int iParityMode = EVEN, int iStopBits = TWO, int iDataBits = 7*/ );
 	~RolleiCom();
 
-	void	Start( int iComPortNo, int iBaudrate, int iParityMode, int iStopBits, int iDataBits, int iFlowMode );
+    void	Start( const string & sComPort, int iBaudrate, int iParityMode, int iStopBits, int iDataBits, int iFlowMode );
 	void	Stop();
 
 	bool	IsOk() const;
@@ -68,7 +68,7 @@ public:
 	bool	IsLogging() const;
 	void	SetLogging( bool bLogging );
 
-	int		GetComPortNo() const;
+    string	GetComPort() const;
 	int		GetBaudrate() const;
 	int		GetParityMode() const;
 	int		GetStopBits() const;
@@ -157,7 +157,7 @@ private:
 	bool						m_bDoLogging;
 	bool						m_bStopGoFlag;
 	bool						m_bIgnoreComSettings;
-	int							m_iComPortNo;
+    string                     m_sComPort;
 	int							m_iBaudrate;
 	int							m_iParityMode;
 	int							m_iStopBits;

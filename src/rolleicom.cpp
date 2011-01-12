@@ -55,6 +55,7 @@
 //#include <iostream>
 //using namespace std;
 
+#define BUFFER_MAX 255
 
 // *******************************************************************
 // *******************************************************************
@@ -221,13 +222,13 @@ struct RolleiComHelperData
 		return false;
 	}
 
-	bool Read( string & sMsgOut, int iCount )
+    bool Read( string & sMsgOut )
 	{
 		if( IsOk() )
 		{
-			char sBuffer[255];
+            char sBuffer[BUFFER_MAX];
 			strcpy( sBuffer, "" );
-			m_aCom.Read( sBuffer, iCount );
+            m_aCom.Read( sBuffer, BUFFER_MAX );
 			sMsgOut = sBuffer;
 			return true;
 		}
@@ -252,14 +253,16 @@ struct RolleiComHelperData
 
 #else
 
+#include <QString>
+
 /** OS depending helper data */
 struct RolleiComHelperData
 {
-	RolleiComHelperData( int iComPortNo )
+    RolleiComHelperData( const string & sComPort )
 	{
 		m_iLastError = 0;
 		m_hFile = INVALID_HANDLE_VALUE;
-		Open( iComPortNo );
+        Open( sComPort );
 	}
 	~RolleiComHelperData()
 	{
@@ -267,18 +270,17 @@ struct RolleiComHelperData
 		m_hFile = INVALID_HANDLE_VALUE;
 	}
 
-	bool Open( int iComPortNo )
+    bool Open( const string & sComPort )
 	{
-		char sBuffer[255];
-		sprintf( sBuffer, "COM%d", iComPortNo );
-		m_hFile = CreateFile( (LPCTSTR)sBuffer,
+        QString s(sComPort.c_str());
+        m_hFile = ::CreateFileA( s.toAscii(),
 							  (GENERIC_READ | GENERIC_WRITE),
 							  0,
 							  NULL,
 							  OPEN_EXISTING,
 							  0,
 							  NULL );
-		if( !m_hFile )
+		if( m_hFile==INVALID_HANDLE_VALUE )
 		{
 			m_iLastError = ::GetLastError();
 		}
@@ -356,8 +358,8 @@ struct RolleiComHelperData
 		}
 		else
 		{
-			if( BuildCommDCB( (LPCTSTR)sBuffer, &aDCB ) && IsOk() )
-			{
+            if( BuildCommDCBA( QString(sBuffer).toAscii(), &aDCB ) && IsOk() )
+            {
 				// search for DCB in MSDEVLIB
 				// see: MSDEVLIB: Serial Communications in Win32
 				//aDCB.fParity = iParity;
@@ -397,7 +399,6 @@ struct RolleiComHelperData
 				return bRet != 0;
 			}
 		}
-
 		return false;
 	}
 
@@ -412,7 +413,7 @@ struct RolleiComHelperData
 		{
 			DWORD dwCount = 0;
 			BOOL bOk = WriteFile( m_hFile, sMsg.c_str(), sMsg.length(), &dwCount, 0 );
-			/* in case of an error... */
+            /* in case of an error... */
 			if( !bOk )
 			{
 				m_iLastError = ::GetLastError();
@@ -423,16 +424,16 @@ struct RolleiComHelperData
 		return false;
 	}
 
-	bool Read( string & sMsgOut, int iCount )
+    bool Read( string & sMsgOut )
 	{
 		if( IsOk() )
 		{
-			char sBuffer[255];
+            char sBuffer[BUFFER_MAX];
 			DWORD dwCount = 0;
-			DWORD dwSize = iCount;		// ** expect: * or ! and CR
+            DWORD dwSize = BUFFER_MAX;		// ** expect: * or ! and CR
 
 			BOOL bRet = ReadFile( m_hFile, sBuffer, dwSize, &dwCount, 0 );
-			if( bRet )
+            if( bRet )
 			{
 				sBuffer[ dwCount ] = 0;
 				sMsgOut = sBuffer;
@@ -485,11 +486,11 @@ extern "C" void m_setparms( int fd, char * baudr, char * par, char * bits, char 
 /** OS depending helper data */
 struct RolleiComHelperData
 {
-	RolleiComHelperData( int iComPortNo )
+    RolleiComHelperData( const string & sComPort )
 	{
 		m_iLastError = 0;
 		m_hFile = 0;
-		Open( iComPortNo );
+        Open( sComPort );
 	}
 	~RolleiComHelperData()
 	{
@@ -497,18 +498,9 @@ struct RolleiComHelperData
 		m_hFile = 0;
 	}
 
-	bool Open( int iComPortNo )
+    bool Open( const string & sComPort )
 	{
-        char sDevice[255];
-#ifdef __linux__
-        sprintf( sDevice, "/dev/ttyS%d", iComPortNo-1 );
-#endif
-#ifdef __APPLE__
-//        sprintf( sDevice, "/dev/ttys%d", iComPortNo-1 );
-        sprintf( sDevice, "/dev/tty.usbserial" );
-//        sprintf( sDevice, "/dev/ttys0" );
-#endif
-        m_hFile = open( sDevice, O_RDWR | O_NOCTTY | O_NONBLOCK );
+        m_hFile = open( sComPort.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK );
         //dbg: cout << "open " << m_hFile << endl;
 		if( !m_hFile )
 		{
@@ -585,17 +577,18 @@ struct RolleiComHelperData
 			{
 				m_iLastError = errno;
 			}
-            //dbg: cout << "write: " << sMsg.c_str() << " wcount=" << iRet << endl;
+            //dbg: 
+//cout << "write: " << sMsg.c_str() << " wcount=" << iRet << endl;
             return (iRet != 0);
 		}
 		return false;
 	}
 
-	bool Read( string & sMsgOut, int iCount )
+    bool Read( string & sMsgOut/*, int iCount*/ )
 	{
 		if( IsOk() )
 		{
-            char sBuffer[255];
+            char sBuffer[BUFFER_MAX];
 
             // ** check if there is any response on the com-port --> timeout !
             fd_set aReadfs;    /* file descriptor set */
@@ -614,21 +607,42 @@ struct RolleiComHelperData
             }
 
             // ** if we are here, there is something to read !
-            int iRet = read( m_hFile, sBuffer, iCount );
+            int iRet = read( m_hFile, sBuffer, BUFFER_MAX );
 
             if( iRet>0 )
 			{
 				sBuffer[ iRet ] = 0;
-                //dbg: cout << "read: " << (int)sBuffer[0] << " == " << sBuffer[0] << " rcount=" << iRet << " size=" << iCount << endl;
+                //dbg: 
+//cout << "read: " << (int)sBuffer[0] << " == " << sBuffer[0] << " rcount=" << iRet << endl;
 				sMsgOut += sBuffer;
 
-                // ** read() has no timeout...
-                // ** read until the cmd-feedback is complete (CR/LF was send)
-                char ch = sMsgOut[ sMsgOut.length()-1 ];
-                if( (iCount>iRet) && !((ch=='\r') || (ch=='\n')) )
+                // remove CR/LF from beginning of the string:
+                bool ok = false;
+                while( sMsgOut.length()>0 && !ok )
                 {
-                    Delay( 10 );
-                    Read( sMsgOut, iCount-iRet );
+                    if( sMsgOut[0]=='\n' || sMsgOut[0]=='\r' )
+                    {
+                        sMsgOut = sMsgOut.substr(1);
+                    }
+                    else
+                    {
+                        ok = true;
+                    }
+                }
+
+                // ** read() has no timeout...
+                // ** read until the cmd-feedback is complete (CR/LF was send); CR+LF==\n  \r==CR
+                if( sMsgOut.length()>1 )
+                {
+                    char ch1 = sMsgOut[ sMsgOut.length()-1 ];
+                    char ch2 = sMsgOut[ sMsgOut.length()-2 ];
+  //cout << "msg:" << (int)ch2 << " " << (int)ch1 << endl;
+                    if( !((ch2=='\r') && (ch1=='\n')) )
+                    {
+                        Delay( 10 );
+                        cout << "TRY READ MORE: " << sMsgOut.c_str() << " len=" << sMsgOut.length() << endl;
+                        Read( sMsgOut/*, iCount-iRet*/ );
+                    }
                 }
 			}
 			else
@@ -643,7 +657,7 @@ struct RolleiComHelperData
 
 	void Delay( int iTimeInMS )
 	{
-        usleep( iTimeInMS );
+        usleep( iTimeInMS*1200 );       // 1500
 	}
 
 	int GetLastErrorCode() const
@@ -723,7 +737,7 @@ RolleiCom::RolleiCom( bool bIgnoreComSettings, bool bSimulation, int iProjectorT
   m_bDoLogging( true ),
   m_bStopGoFlag( false ),
   m_bIgnoreComSettings( bIgnoreComSettings ),
-  m_iComPortNo( iComPortNo ),
+  m_sComPort(""),
   m_iProjectorType( iProjectorType ),
   m_bIsPcMode(false),
   m_pComPortSync( 0 )
@@ -738,8 +752,8 @@ RolleiCom::RolleiCom( bool bIgnoreComSettings, bool bSimulation, int iProjectorT
 	{
 		if( m_pIniDB->HasKey( _PORT_NO ) )
 		{
-			m_iComPortNo = m_pIniDB->GetValueAsInt( _PORT_NO );
-		}
+            m_sComPort = m_pIniDB->GetValue( _PORT_NO );
+        }
 		if( m_pIniDB->HasKey( _BAUDRATE ) )
 		{
 			m_iBaudrate = m_pIniDB->GetValueAsInt( _BAUDRATE );
@@ -778,7 +792,7 @@ RolleiCom::RolleiCom( bool bIgnoreComSettings, bool bSimulation, int iProjectorT
 		}
 	}
 
-	Start( m_iComPortNo, m_iBaudrate, m_iParityMode, m_iStopBits, m_iDataBits, m_iFlowMode );
+    Start( m_sComPort, m_iBaudrate, m_iParityMode, m_iStopBits, m_iDataBits, m_iFlowMode );
 }
 
 RolleiCom::~RolleiCom()
@@ -789,7 +803,7 @@ RolleiCom::~RolleiCom()
 	{
 		char sResult[256];
 
-		sprintf( sResult, "%d", m_iComPortNo );
+        sprintf( sResult, "%s", m_sComPort.c_str() );
 		m_pIniDB->Add( _PORT_NO, sResult );
 		sprintf( sResult, "%d", m_iBaudrate );
 		m_pIniDB->Add( _BAUDRATE, sResult );
@@ -807,10 +821,10 @@ RolleiCom::~RolleiCom()
 	delete m_pComPortSync;
 }
 
-void RolleiCom::Start( int iComPortNo, int iBaudrate, int iParityMode, int iStopBits, int iDataBits, int iFlowMode )
+void RolleiCom::Start( const string & sComPort, int iBaudrate, int iParityMode, int iStopBits, int iDataBits, int iFlowMode )
 {
 	// ** save the current settings for access methods
-	m_iComPortNo = iComPortNo;
+    m_sComPort = sComPort;
 	m_iBaudrate = iBaudrate;
 	m_iParityMode = iParityMode;
 	m_iStopBits = iStopBits;
@@ -834,8 +848,8 @@ void RolleiCom::UpdateComPort()
 
 	if( !IsSimulation() )
 	{
-		m_pData = new RolleiComHelperData( m_iComPortNo );
-		bool bOk = m_pData->SetComData( m_bIgnoreComSettings, m_iBaudrate, m_iParityMode, GetStopBitsStrg( m_iStopBits ), m_iDataBits, m_iFlowMode );
+        m_pData = new RolleiComHelperData( m_sComPort );
+        bool bOk = m_pData->SetComData(m_bIgnoreComSettings, m_iBaudrate, m_iParityMode, GetStopBitsStrg( m_iStopBits ), m_iDataBits, m_iFlowMode );
 		// in case of an error...
 		if( !bOk && m_pLoggingChannel && m_bDoLogging )
 		{
@@ -906,9 +920,9 @@ void RolleiCom::SetLogging( bool bLogging )
 	m_bDoLogging = bLogging;
 }
 
-int RolleiCom::GetComPortNo() const
+string RolleiCom::GetComPort() const
 {
-	return m_iComPortNo;
+    return m_sComPort;
 }
 
 int RolleiCom::GetBaudrate() const
@@ -1101,7 +1115,7 @@ bool RolleiCom::ReceiveEcho( const string & sMsgCharacter, string & sEcho )
 		// now the synchronious stop-cmd can not interfere with cmd-thread command handling
 		//todo, problems with linux: minLock aLock( *m_pComPortSync );
 
-		if( m_pData->Read( sEcho, 1 ) )
+        if( m_pData->Read( sEcho ) )
 		{
 			if( !((sEcho.length()>0) && (sEcho[0]==sMsgCharacter[0])) )
 			{
@@ -1186,7 +1200,7 @@ string RolleiCom::GetMsg( int iCount )
 			// now the synchronious stop-cmd can not interfere with cmd-thread command handling
 			//todo, problems with linux: minLock aLock( *m_pComPortSync );
 
-			if( m_pData->Read( sRet, iCount ) )
+            if( m_pData->Read( sRet ) )
 			{
 				if( m_pLoggingChannel && m_bDoLogging )
 				{
@@ -1470,6 +1484,7 @@ char RolleiCom::GetStatus( bool /*bSync*/ )
 		{
 			if( m_pLoggingChannel && m_bDoLogging )
 			{
+// TODO encoding ?
 				string s = "--> �";
 				m_pLoggingChannel->LogMsg( s.c_str() );
 			}
@@ -1489,7 +1504,7 @@ char RolleiCom::GetStatus( bool /*bSync*/ )
 				{
 					string sRet;
 
-					bOk = m_pData->Read( sRet, 1 );
+                    bOk = m_pData->Read( sRet );
 
 					if( m_pLoggingChannel && m_bDoLogging )
 					{
