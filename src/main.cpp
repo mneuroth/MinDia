@@ -132,20 +132,20 @@ string GetMinDiaSharedDirectory()
 	}
 #endif
 
-#if defined( _MSC_VER ) || defined( __BORLANDC__ )
+#if defined( _MSC_VER ) || defined( __BORLANDC__ ) || defined(__MINGW32__)
 	sRet = ".";
 	// HKEY_CURRENT_USER.Software.mindia.inifile
 	HKEY hKey;
-	if( RegOpenKeyEx( HKEY_CURRENT_USER, "Software", 0, KEY_ALL_ACCESS, &hKey ) == ERROR_SUCCESS )
+	if( RegOpenKeyEx( HKEY_CURRENT_USER, (WCHAR *)"Software", 0, KEY_ALL_ACCESS, &hKey ) == ERROR_SUCCESS )
 	{
 		HKEY hKeyMindia;
-		if( RegOpenKeyEx( hKey, "mindia", 0, KEY_ALL_ACCESS, &hKeyMindia ) == ERROR_SUCCESS )
+		if( RegOpenKeyEx( hKey, (WCHAR *)"mindia", 0, KEY_ALL_ACCESS, &hKeyMindia ) == ERROR_SUCCESS )
 		{
 			char sBuffer[512];
 			DWORD dwLength = 512;
 			DWORD dwType = REG_SZ;
 
-			RegQueryValueEx( hKeyMindia, "inifile", NULL, &dwType, (LPBYTE)sBuffer, &dwLength );
+			RegQueryValueEx( hKeyMindia, (WCHAR *)"inifile", NULL, &dwType, (LPBYTE)sBuffer, &dwLength );
 
 			sRet = sBuffer;
 
