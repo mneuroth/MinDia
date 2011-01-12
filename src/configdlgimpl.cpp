@@ -44,7 +44,7 @@
 #include <QShowEvent>
 #include <QKeyEvent>
 #include <QCloseEvent>
-
+#include <QDir>
 
 ConfigurationDlgImpl::ConfigurationDlgImpl( DocumentAndControler * pControler, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
 : ConfigurationDlg( parent, name, modal, fl ),
@@ -147,37 +147,43 @@ void ConfigurationDlgImpl::TransferDataToControl()
 {
 	// ** fill the combo-boxes with all possible values **
 
-#if defined( _MSC_VER ) || defined( __BORLANDC__ )
-	m_pComPortList->insertItem( "COM1" );
-	m_pComPortList->insertItem( "COM2" );
-	m_pComPortList->insertItem( "COM3" );
-	m_pComPortList->insertItem( "COM4" );
-    m_pComPortList->insertItem( "COM5" );
-    m_pComPortList->insertItem( "COM6" );
-    m_pComPortList->insertItem( "COM7" );
-    m_pComPortList->insertItem( "COM8" );
-    m_pComPortList->insertItem( "COM9" );
+#if defined( _MSC_VER ) || defined( __BORLANDC__ ) || defined(__MINGW32__)
+    QStringList aDeviceLst;
+    // "\\\\.\\COM%d"
+    aDeviceLst.append(QString("COM1"));
+    aDeviceLst.append(QString("COM2"));
+    aDeviceLst.append(QString("COM3"));
+    aDeviceLst.append(QString("COM4"));
+    aDeviceLst.append(QString("COM5"));
+    aDeviceLst.append(QString("COM6"));
+    aDeviceLst.append(QString("COM7"));
+    aDeviceLst.append(QString("COM8"));
+    aDeviceLst.append(QString("COM9"));
 #endif
 #ifdef __linux__
-	m_pComPortList->insertItem( "/dev/ttyS0" );
-	m_pComPortList->insertItem( "/dev/ttyS1" );
-	m_pComPortList->insertItem( "/dev/ttyS2" );
-	m_pComPortList->insertItem( "/dev/ttyS3" );
+    // scan /dev directory for RS232 devices for unix plattforms
+    QDir aDevDir("/dev","ttyS*;ttyUSB*",QDir::Name|QDir::IgnoreCase,QDir::AllEntries|QDir::System);
+    QStringList aDeviceLst = aDevDir.entryList();
+    for( int i=0; i<aDeviceLst.size(); i++ )
+    {
+        aDeviceLst[i] = "/dev/"+aDeviceLst[i];
+    }
 #endif
 #ifdef __APPLE__
-    m_pComPortList->insertItem( "/dev/ttys0" );
-    m_pComPortList->insertItem( "/dev/ttys1" );
-    m_pComPortList->insertItem( "/dev/ttys2" );
-    m_pComPortList->insertItem( "/dev/ttys3" );
-    m_pComPortList->insertItem( "/dev/ttys4" );
-    m_pComPortList->insertItem( "/dev/ttys5" );
-    m_pComPortList->insertItem( "/dev/ttys6" );
-    m_pComPortList->insertItem( "/dev/ttys7" );
-    m_pComPortList->insertItem( "/dev/ttys8" );
-    m_pComPortList->insertItem( "/dev/ttys9" );
+    QDir aDevDir("/dev","ttys*;tty.usb*",QDir::Name|QDir::IgnoreCase,QDir::AllEntries|QDir::System);
+    QStringList aDeviceLst = aDevDir.entryList();
+    for( int i=0; i<aDeviceLst.size(); i++ )
+    {
+        aDeviceLst[i] = "/dev/"+aDeviceLst[i];
+    }
 #endif
-	
-	m_pBaudRateList->insertItem( "110" );
+    // update Combobox with available RS232 devices
+    for (int j=0; j<aDeviceLst.size(); j++)
+    {
+        m_pComPortList->insertItem( aDeviceLst.at(j) );
+    }
+
+    m_pBaudRateList->insertItem( "110" );
 	m_pBaudRateList->insertItem( "300" );
 	m_pBaudRateList->insertItem( "1200" );
 	m_pBaudRateList->insertItem( "2400" );
@@ -217,7 +223,7 @@ void ConfigurationDlgImpl::TransferDataToControl()
 	m_pDigitalTwinP->setChecked( aCom.IsTwinDigitalP() );
 	m_pMSC300P->setChecked( aCom.IsMSC300P() );
 
-	m_pComPortList->setCurrentItem( aCom.GetComPortNo()-1 );
+    m_pComPortList->setCurrentItem( m_pComPortList->findText(QString(aCom.GetComPort().c_str())) );
 
 	s.setNum( aCom.GetBaudrate() );
 	SetCurrentItem( m_pBaudRateList, s );
@@ -271,14 +277,14 @@ void ConfigurationDlgImpl::TransferDataFromControl()
 
 	QString s;
 	bool bOk;
-	int iComPortNo = aCom.GetComPortNo();
+    string sComPort = aCom.GetComPort();
 	int	iBaudrate = aCom.GetBaudrate();
 	int	iParityMode = aCom.GetParityMode();
 	int	iStopBits = aCom.GetStopBits();
 	int	iDataBits = aCom.GetDataBits();
 	int iFlowMode = aCom.GetFlowModus();
 
-	iComPortNo = m_pComPortList->currentItem()+1;
+    sComPort = string((const char *)m_pComPortList->currentText());
 
 	s = m_pBaudRateList->currentText();
 	iBaudrate = s.toInt( &bOk );
@@ -295,7 +301,7 @@ void ConfigurationDlgImpl::TransferDataFromControl()
 	// ** important: Combobox and constants in class must be the same !!!
 	iFlowMode = m_pFlowControlList->currentItem();
 
-	aCom.Start( iComPortNo, iBaudrate, iParityMode, iStopBits, iDataBits, iFlowMode );
+    aCom.Start( sComPort, iBaudrate, iParityMode, iStopBits, iDataBits, iFlowMode );
 }
 
 void ConfigurationDlgImpl::SetCurrentItem( QComboBox * pList, const QString & s )
