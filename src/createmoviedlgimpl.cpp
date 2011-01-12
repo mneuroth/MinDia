@@ -46,6 +46,9 @@
 #include <q3filedialog.h>
 #include <q3process.h>
 
+#include <QMessageBox>
+#include <QFileDialog>
+
 #include <stdio.h>		// for: sprintf
 
 // *******************************************************************
@@ -53,6 +56,7 @@
 // *******************************************************************
 
 const QString g_sDefaultSize1 = QObject::tr("400:304");
+const QString g_sDefaultSize2 = QObject::tr("576:400");
 const QString g_sSizeOfFirstImage = QObject::tr("size of first image");
 const QString g_sUserValue = QObject::tr("user value");
 
@@ -68,14 +72,16 @@ CreateMovieDlgImpl::CreateMovieDlgImpl( DocumentAndControler * pDocControler, do
 	m_pImagesPerSecond->setValue(10);
 
 	m_pImageRatio->insertItem( g_sDefaultSize1 );
-	m_pImageRatio->insertItem( g_sUserValue );
+    m_pImageRatio->insertItem( g_sDefaultSize2 );
+    m_pImageRatio->insertItem( g_sUserValue );
 	m_pImageRatio->insertItem( g_sSizeOfFirstImage );
 	m_pImageRatio->setCurrentItem( 0 );
 		sltImageRatioSelected( g_sDefaultSize1 );
 
 	m_pImageNameOffset->setText( "image" );
 
-	m_pDirectoryName->setText( "movie" );
+    QString sTempImagePath = QDir::tempPath()+QDir::separator()+"mindia_movie";
+    m_pDirectoryName->setText( sTempImagePath );
 
 	UpdateCmds();
 }
@@ -87,7 +93,7 @@ CreateMovieDlgImpl::~CreateMovieDlgImpl()
 
 void CreateMovieDlgImpl::sltSelectOutputDirectory()
 {
-	QString sDir = Q3FileDialog::getExistingDirectory( m_pDirectoryName->text() );
+    QString sDir = QFileDialog::getExistingDirectory(m_pDirectoryName->text() );
 
 	if( !sDir.isEmpty() )
 	{
@@ -104,7 +110,14 @@ void CreateMovieDlgImpl::sltImageRatioSelected( const QString & sValue )
 		m_pImageWidth->setEnabled( false );
 		m_pImageHeight->setEnabled( false );
 	}
-	else if( sValue==g_sUserValue )
+    if( sValue==g_sDefaultSize2 )
+    {
+        m_pImageWidth->setText( "576" );
+        m_pImageHeight->setText( "400" );
+        m_pImageWidth->setEnabled( false );
+        m_pImageHeight->setEnabled( false );
+    }
+    else if( sValue==g_sUserValue )
 	{
 		m_pImageWidth->setText( "" );
 		m_pImageHeight->setText( "" );
@@ -130,7 +143,18 @@ void CreateMovieDlgImpl::sltCreateImages()
 
 	double dDeltaInMS = 1/((double)iImagesPerSecond)*1000.0;
 
-	int iCount = m_pDocControler->CreateImagesForMovie( 
+    // create temporary path if not existing...
+    QDir aTempDir(m_pDirectoryName->text());
+    aTempDir.mkpath(m_pDirectoryName->text());
+    if( aTempDir.count()>0 )
+    {
+        if( QMessageBox::question(this,tr("Question"),tr("Temporary directory is not empty, remove all files in temporary directory?"),QMessageBox::Yes,QMessageBox::No)==QMessageBox::Yes)
+        {
+            // TODO --> temporary directory loeschen
+        }
+    }
+
+    int iCount = m_pDocControler->CreateImagesForMovie(
 			(const char *)sDir, (const char *)sName, 
 			iWidth, iHeight,
 			0, m_pDocControler->GetPresentation().GetTotalTime()*1000, dDeltaInMS );
@@ -184,6 +208,7 @@ void CreateMovieDlgImpl::sltAddSound()
 
 	m_pProcess = new Q3Process( this );
 
+// TODO --> nur fuer Windows !!!
 	m_pProcess->addArgument("cmd.exe");
 	m_pProcess->addArgument("/k");
 	m_pProcess->addArgument("dir");
@@ -235,7 +260,10 @@ void CreateMovieDlgImpl::UpdateCmds()
 	QString sCmd;
 	//sCmd.sprintf( "jpeg2yuv -I p -f %d -j movie\\image%05d.jpg | yuv2lav -o movie\\movie.avi", iImagesPerSecond );
 
-	m_pGeneratorCmd->setText( "jpeg2yuv -I p -f 10 -j movie\\image%05d.jpg | yuv2lav -o movie\\movie.avi" );
+    // for mac: use mjpegtools 2.0.0 (1.9.0 funktioniert nicht --> Segmentation fault) aber ggf. ist die Qualitaet nicht so gut !?
+
+// TODO --> pfade anpassen an Plattform !!! Qt immer / ?    
+	m_pGeneratorCmd->setText( "jpeg2yuv -I p -f 10 -j movie\\image%05d.jpg | yuv2lav -f avi -o movie\\movie.avi" );
 	m_pSoundGeneratorCmd->setText( "lavaddwav movie\\movie.avi movie.wav movie\\movie.avi" );
 	m_pVCDGeneratorCmd->setText( "lav2yuv movie\\movie.avi | yuvscaler -O VCD | mpeg2enc -f 1 -r 16 -o movie\\movie.mpg" );
 }
