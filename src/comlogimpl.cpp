@@ -56,9 +56,9 @@ ComLoggingDialogImpl::~ComLoggingDialogImpl()
 
 void ComLoggingDialogImpl::LogMsg( const char * sMsg )
 {
-	QCustomEvent * pEvent = new QCustomEvent( c_iCustomEvent_Logging );
+    QCustomEvent * pEvent = new QCustomEvent( c_iCustomEvent_Logging );
     pEvent->setData( new QString( sMsg ) );
-	QApplication::postEvent( this, pEvent);
+    QApplication::postEvent( this, pEvent );
 /*
 	if( m_pOutput )
 	{
@@ -104,8 +104,9 @@ void ComLoggingDialogImpl::keyPressEvent( QKeyEvent * pEvent )
 	}
 }
 
-void ComLoggingDialogImpl::customEvent( QCustomEvent * pEvent )
+void ComLoggingDialogImpl::customEvent( QEvent * pEventIn )
 {
+    QCustomEvent * pEvent = (QCustomEvent *)pEventIn;
     switch( pEvent->type() ) 
 	{
 		case c_iCustomEvent_Logging:

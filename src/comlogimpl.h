@@ -63,7 +63,7 @@ protected:
 	virtual void closeEvent( QCloseEvent * pCloseEvent );
 	virtual void done( int iRet );
 	virtual void keyPressEvent( QKeyEvent * pEvent ); 
-	virtual void customEvent( QCustomEvent * pEvent );
+    virtual void customEvent( QEvent * pEvent );
 };
 
 #endif
