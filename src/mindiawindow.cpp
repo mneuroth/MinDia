@@ -431,7 +431,7 @@ void MinDiaWindow::CreateMenus()
     connect( m_pExtrasConfigAction, SIGNAL( activated() ), this, SLOT( sltDoConfiguration() ) );
     m_pExtrasConfigPlayerAction = new QAction( /*tr( "mp3 player configuration" ),*/ tr( "Pla&yer configuration..." ), Qt::ALT+Qt::Key_Y, this, "playerconfiguration"/*, TRUE*/ );
     connect( m_pExtrasConfigPlayerAction, SIGNAL( activated() ), this, SLOT( sltDoPlayerConfiguration() ) );
-#ifndef __linux__
+#if defined(__linux__) || defined(__APPLE__)
     m_pExtrasConfigPlayerAction->setEnabled( false );
 #endif
 	m_pExtrasLoggingAction = new QAction( /*tr( "Logging" ),*/ tr( "&Logging..." ), Qt::ALT+Qt::Key_L, this, "logging"/*TODO, TRUE*/ );
@@ -441,13 +441,13 @@ void MinDiaWindow::CreateMenus()
     m_pExtrasControlProjectorAction->setCheckable(true);
     connect( m_pExtrasControlProjectorAction, SIGNAL( activated() ), this, SLOT( sltDoControlProjector() ) );
 	m_pExtrasPresentationDataAction = new QAction( /*tr( "Presentation data" ),*/ tr( "Presentation &data..." ), Qt::CTRL+Qt::Key_D, this, "presentationdata"/*, TRUE*/ );
-    m_pExtrasPresentationDataAction->setCheckable(true);
+    //m_pExtrasPresentationDataAction->setCheckable(true);
     connect( m_pExtrasPresentationDataAction, SIGNAL( activated() ), this, SLOT( sltDoPresentationData() ) );
 	m_pExtrasPresentationEventsAction = new QAction( /*tr( "Presentation events" ),*/ tr( "Presentation &events..." ), Qt::CTRL+Qt::Key_E, this, "presentationevents"/*, TRUE*/ );
-    m_pExtrasPresentationEventsAction->setCheckable(true);
+    //m_pExtrasPresentationEventsAction->setCheckable(true);
     connect( m_pExtrasPresentationEventsAction, SIGNAL( activated() ), this, SLOT( sltDoPresentationEvents() ) );
 	m_pExtrasSoundDataAction = new QAction( /*tr( "Sound data" ),*/ tr( "So&und data..." ), Qt::CTRL+Qt::Key_U, this, "sounddata"/*, TRUE*/ );
-    m_pExtrasSoundDataAction->setCheckable(true);
+    //m_pExtrasSoundDataAction->setCheckable(true);
     connect( m_pExtrasSoundDataAction, SIGNAL( activated() ), this, SLOT( sltDoSoundData() ) );
 	m_pExtrasSoundCommentAction = new QAction( /*tr( "Sound comments" ),*/ tr( "Sou&nd comments..." ), Qt::CTRL+Qt::Key_Z, this, "soundcomment"/*, TRUE*/ );
     connect( m_pExtrasSoundCommentAction, SIGNAL( activated() ), this, SLOT( sltDoSoundComment() ) );
@@ -1280,8 +1280,8 @@ void MinDiaWindow::sltUpdateExtrasMenu()
 	bool bEdit = !(bIsPlaying || bIsPause);
 
 	m_pExtrasConfigAction->setEnabled( bEdit );
-#ifndef __linux__
-	m_pExtrasConfigPlayerAction->setEnabled( false );
+#if defined(__linux__) || defined(__APPLE__)
+    m_pExtrasConfigPlayerAction->setEnabled( true );
 #else
 	m_pExtrasConfigPlayerAction->setEnabled( bEdit );
 #endif
