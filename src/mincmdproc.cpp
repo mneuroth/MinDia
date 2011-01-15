@@ -31,7 +31,7 @@
 #include "osdep2.h"
 #include "rolleicom.h"
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 pthread_mutex_t g_aRecursiveMutex;
 #endif
 
