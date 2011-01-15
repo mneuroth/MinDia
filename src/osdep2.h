@@ -533,7 +533,7 @@ public:
   		//cout << "ret = " << rc << endl;
 		//cout << "CreateMutex " << (void *)&m_aCritSec << "DONE" << endl;
 #endif
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 #ifdef _USE_PTHREAD
 		// statische Inititalisierung...
 		//m_aCritSec = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
