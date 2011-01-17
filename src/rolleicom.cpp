@@ -414,7 +414,7 @@ struct RolleiComHelperData
 			DWORD dwCount = 0;
 			BOOL bOk = WriteFile( m_hFile, sMsg.c_str(), sMsg.length(), &dwCount, 0 );
             /* in case of an error... */
-			if( !bOk )
+            if( !bOk )
 			{
 				m_iLastError = ::GetLastError();
 				cerr<< "Error: COM write errno=" << m_iLastError << endl;
@@ -480,8 +480,24 @@ struct RolleiComHelperData
 #include <sys/time.h>
 #include <errno.h>
 
+#define MAX_READ_TIMEOUT    50  /*ms*/
+
 // ** in sysdep1.c implemented (from the program minicom) **
 extern "C" void m_setparms( int fd, char * baudr, char * par, char * bits, char * stopb, int hwf, int swf);
+extern "C" void m_flush(int fd);
+extern "C" int m_readchk(int fd);
+
+// command should end with CR LF ! --> anything with ending CR LF is a command
+static bool IsCommandReceived(const string & sMsgOut)
+{
+    if( sMsgOut.length()>1 )
+    {
+        char ch1 = sMsgOut[ sMsgOut.length()-1 ];
+        char ch2 = sMsgOut[ sMsgOut.length()-2 ];
+        return ((ch2=='\n') && (ch1=='\r'));     // slash n == 10; slash r == 13
+    }
+    return false;
+}
 
 /** OS depending helper data */
 struct RolleiComHelperData
@@ -559,6 +575,8 @@ struct RolleiComHelperData
 			//org: m_setparms( m_hFile, "1200", "E", "7", "2", 1, 0 );
 		}
 
+        m_flush(m_hFile);
+
         return true;
 	}
 
@@ -577,8 +595,7 @@ struct RolleiComHelperData
 			{
 				m_iLastError = errno;
 			}
-            //dbg: 
-//cout << "write: " << sMsg.c_str() << " wcount=" << iRet << endl;
+            //dbg: cout << "write: " << sMsg.c_str() << " wcount=" << iRet << endl;
             return (iRet != 0);
 		}
 		return false;
@@ -592,6 +609,7 @@ struct RolleiComHelperData
 
             // ** check if there is any response on the com-port --> timeout !
             fd_set aReadfs;    /* file descriptor set */
+            FD_ZERO(&aReadfs);
             FD_SET( m_hFile, &aReadfs );  /* set testing for source 1 */
 
 			// hier ggf. optimierter timeout, z.b. beim Testen kleiner als waehrend der Praesentation !?
@@ -599,6 +617,7 @@ struct RolleiComHelperData
             aTimeout.tv_usec = 0;  /* milliseconds */
             aTimeout.tv_sec  = 20;  /* seconds */
 
+            // wait for first character which could be read...
             int iRes = select( m_hFile+1, &aReadfs, NULL, NULL, &aTimeout );
             if( iRes==0 )
             {
@@ -606,58 +625,41 @@ struct RolleiComHelperData
                 return false;
             }
 
-            // ** if we are here, there is something to read !
-            int iRet = read( m_hFile, sBuffer, BUFFER_MAX );
+            // a maximum nuber of 000<CR><LF> with delay of 10ms
+            //Delay(50);      // give a little bit time to read all characters...
+            // this is not needed since new handling of command reading below
 
-            if( iRet>0 )
-			{
-				sBuffer[ iRet ] = 0;
-                //dbg: 
-//cout << "read: " << (int)sBuffer[0] << " == " << sBuffer[0] << " rcount=" << iRet << endl;
-				sMsgOut += sBuffer;
-
-                // remove CR/LF from beginning of the string:
-                bool ok = false;
-                while( sMsgOut.length()>0 && !ok )
+            // new since 17.1.2011: try to read one command (ending with CR LF) or timeout when trying to read more characters
+            int iReadTimeout = 0;
+            while( !IsCommandReceived(sMsgOut) && /*NotTimeoutSinceLastSuccessfullRead==*/iReadTimeout<MAX_READ_TIMEOUT )
+            {
+                // ** if we are here, there is something to read !
+                int iRet = read( m_hFile, sBuffer, BUFFER_MAX );
+                if( iRet>0 )
                 {
-                    if( sMsgOut[0]=='\n' || sMsgOut[0]=='\r' )
-                    {
-                        sMsgOut = sMsgOut.substr(1);
-                    }
-                    else
-                    {
-                        ok = true;
-                    }
-                }
+                    sBuffer[ iRet ] = 0;
+                    //dbg: cout << "read: " << (int)sBuffer[0] << " == " << sBuffer << " rcount=" << iRet << endl;
+                    sMsgOut += sBuffer;
+                    // reset timeout, because we read something !
+                    iReadTimeout = 0;
 
-                // ** read() has no timeout...
-                // ** read until the cmd-feedback is complete (CR/LF was send); CR+LF==\n  \r==CR
-                if( sMsgOut.length()>1 )
+
+                }
+                else
                 {
-                    char ch1 = sMsgOut[ sMsgOut.length()-1 ];
-                    char ch2 = sMsgOut[ sMsgOut.length()-2 ];
-  //cout << "msg:" << (int)ch2 << " " << (int)ch1 << endl;
-                    if( !((ch2=='\r') && (ch1=='\n')) )
-                    {
-                        Delay( 10 );
-                        cout << "TRY READ MORE: " << sMsgOut.c_str() << " len=" << sMsgOut.length() << endl;
-                        Read( sMsgOut/*, iCount-iRet*/ );
-                    }
+                    iReadTimeout += 10;
+                    Delay(10);
+                    //old: m_iLastError = errno;
                 }
-			}
-			else
-			{
-				m_iLastError = errno;
-			}
-
-            return (iRet != 0);
+            }
+            return IsCommandReceived(sMsgOut);
 		}
 		return false;
 	}
 
 	void Delay( int iTimeInMS )
 	{
-        usleep( iTimeInMS*1200 );       // 1500
+        usleep( iTimeInMS*1000 );
 	}
 
 	int GetLastErrorCode() const
