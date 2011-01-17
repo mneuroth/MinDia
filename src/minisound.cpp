@@ -446,8 +446,8 @@ miniSound::miniSound( MiniIniDB * pIniDB, const char * sWavFileName )
   m_pIniDB( pIniDB )
 {
 	SetWavFile( sWavFileName );
-#ifdef __linux__
-	// min todo ... unschoen !
+#if defined(__linux__) || defined(__APPLE__)
+    // min todo ... unschoen !
 	// WARNING: this is a side effect !!! Setting a global variable !
 	if( m_pIniDB )
 	{
@@ -643,8 +643,8 @@ bool miniSound::StartPlayImpl( int iStartPosInMs, int iStopPosInMs,
 		strcpy( sBuffer, "" );
 
 		// ** fade in / fade out is only supported under linux !
-#ifdef __linux__
-		sprintf( sBuffer, "fade_in from %d length %d", iFadeInStartPosInMS, iFadeInLengthInMS );
+#if defined(__linux__) || defined(__APPLE__)
+        sprintf( sBuffer, "fade_in from %d length %d", iFadeInStartPosInMS, iFadeInLengthInMS );
 		{
 			MCIERROR iRet = mciSendStringX( sBuffer, lpszReturnString, _MAXLENGTH, NULL );
 			CheckSoundError( (int)iRet );
