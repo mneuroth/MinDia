@@ -48,6 +48,7 @@ HEADERS         = diainfodlgimpl.h \
 				  misctools.h \
 				  appconfig.h \
                   osdep2.h \
+                  CreateMovieDlg4.h \
                   ../gendev/igendev.h \
                   ../minsrv/minbase.h \
                   ../minsrv/miniini.h \
@@ -89,6 +90,7 @@ SOURCES         = diainfodlgimpl.cpp \
 				  misctools.cpp \
 				  appconfig.cpp \
                   main.cpp \
+                  CreateMovieDlg4.cpp \
                   ../gendev/gendev.cpp \
                   ../minsrv/minbase.cpp \
                   ../minsrv/miniini.cpp \
@@ -110,6 +112,7 @@ FORMS3      = DiaInfoDlg.ui \
 				  DynTextDlg.ui \
 				  CreateMovieDlg.ui \
 				  EnterValueDlg.ui
+FORMS           = CreateMovieDlg4.ui
 MOC_DIR					= moc
 #macx:LIBS               += -lpthread ./libminsrv.dylib $(LIBMINDIAPYC_SO)
 #macx:LIBS               += -lpthread ../minsrv/libminsrv.a $(LIBMINDIAPYC_SO)

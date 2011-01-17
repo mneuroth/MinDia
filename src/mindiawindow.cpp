@@ -91,6 +91,7 @@
 #include "EnterValueDlg.h"
 #include "LicenseDlg.h"
 #include "AboutExtDlg.h"
+#include "CreateMovieDlg4.h"
 
 #include <qapplication.h>
 #include <q3popupmenu.h>
@@ -1111,7 +1112,8 @@ void MinDiaWindow::sltExportDoc()
 
 void MinDiaWindow::sltExportAVI()
 {
-	CreateMovieDlgImpl * pDlg = new CreateMovieDlgImpl( m_pControler, m_pControler->GetPresentation().GetTotalTime()*1000, this, "create_move", /*modal*/TRUE );
+    //CreateMovieDlgImpl * pDlg = new CreateMovieDlgImpl( m_pControler, m_pControler->GetPresentation().GetTotalTime()*1000, this, "create_move", /*modal*/TRUE );
+    CreateMovieDlg4 * pDlg = new CreateMovieDlg4(m_pControler, m_pControler->GetPresentation().GetTotalTime()*1000,this);
 		
 	int iRet = pDlg->exec();
 
@@ -1280,8 +1282,8 @@ void MinDiaWindow::sltUpdateExtrasMenu()
 	bool bEdit = !(bIsPlaying || bIsPause);
 
 	m_pExtrasConfigAction->setEnabled( bEdit );
-#if defined(__linux__) || defined(__APPLE__)
-    m_pExtrasConfigPlayerAction->setEnabled( true );
+#if !defined(__linux__) && !defined(__APPLE__)
+    m_pExtrasConfigPlayerAction->setEnabled( false );
 #else
 	m_pExtrasConfigPlayerAction->setEnabled( bEdit );
 #endif
