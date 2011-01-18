@@ -505,7 +505,7 @@ struct RolleiComHelperData
     RolleiComHelperData( const string & sComPort )
 	{
 		m_iLastError = 0;
-		m_hFile = 0;
+        m_hFile = -1;
         Open( sComPort );
 	}
 	~RolleiComHelperData()
@@ -518,7 +518,7 @@ struct RolleiComHelperData
 	{
         m_hFile = open( sComPort.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK );
         //dbg: cout << "open " << m_hFile << endl;
-		if( !m_hFile )
+        if( m_hFile == -1 )
 		{
 			m_iLastError = errno;
 		}
@@ -526,7 +526,7 @@ struct RolleiComHelperData
 	}
 	bool Close()
 	{
-		if( m_hFile != 0 )
+        if( m_hFile != -1 )
 		{
 	        int iRet = close( m_hFile );
 		    //dbg: cout << "close " << m_hFile << endl;
@@ -571,18 +571,23 @@ struct RolleiComHelperData
 				iSwFlow = 1;
 			}
 			// ** use code from minicom-program **
-			m_setparms( m_hFile, sBaudRate, sParity, sDataBits, sStopBits, iHwFlow, iSwFlow );
+            if( IsOk() )
+            {
+                m_setparms( m_hFile, sBaudRate, sParity, sDataBits, sStopBits, iHwFlow, iSwFlow );
+            }
 			//org: m_setparms( m_hFile, "1200", "E", "7", "2", 1, 0 );
 		}
 
-        m_flush(m_hFile);
-
+        if( IsOk() )
+        {
+            m_flush(m_hFile);
+        }
         return true;
 	}
 
 	bool IsOk() const
 	{
-		return (m_hFile != 0);
+        return ( m_hFile != -1 );
 	}
 
 	bool Write( const string & sMsg )
