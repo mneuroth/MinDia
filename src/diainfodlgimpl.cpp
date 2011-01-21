@@ -358,12 +358,15 @@ void DiaInfoDlgImpl::sltModifyScript()
 	const char * s = (const char *)sQt;
 	string sScript = (s ? s : "");
 
-	bool bOk = hScriptEnv->ModifyScript( "event: ", sScript, aLanguage );
+    if( hScriptEnv.IsValid() )
+    {
+        bool bOk = hScriptEnv->ModifyScript( "event: ", sScript, aLanguage );
 
-	if( bOk )
-	{
-		m_pScript->setText( sScript.c_str() );
-	}
+        if( bOk )
+        {
+            m_pScript->setText( sScript.c_str() );
+        }
+    }
 #endif
 }
 
