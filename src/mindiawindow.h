@@ -2,14 +2,14 @@
 	Program name:	MinDia
 
 		Start: 27. 8.2001
-		Now:   20. 2.2004
+		Now:   21. 1.2011
 
 	Program to create a slide show and run the show
 	with dia-projectors from rollei:
 	  - Rolleivision 35 twin digital P
 	  - Rolleivision twin MSC 3x0 P
 
-	(c) by Michael Neuroth, 2001-2003
+	(c) by Michael Neuroth, 2001-2011
 
 
 	Contributions:
@@ -126,17 +126,17 @@
 #ifndef _MINDIAWINDOW_h
 #define _MINDIAWINDOW_h
 
-#include <q3mainwindow.h>
+#include <QMainWindow>
+
 #include <q3hbox.h>
 #include <q3vbox.h>
 #include <q3canvas.h>
-#include <q3multilineedit.h>
 //Added by qt3to4:
 #include <QTranslator>
 #include <QKeyEvent>
 #include <QLabel>
-#include <Q3PopupMenu>
 #include <QCloseEvent>
+#include <QByteArray>
 
 #include "iscript.h"
 #include "doccontroler.h"
@@ -170,7 +170,7 @@ typedef HItemView	DiaStateView;
 // *******************************************************************
 /** The main window for the slide show program.
   */
-class MinDiaWindow : public Q3MainWindow, public IDiaOutputWindowInternal
+class MinDiaWindow : public QMainWindow, public IDiaOutputWindowInternal
 {
 	Q_OBJECT
 
@@ -181,7 +181,7 @@ public:
 	// ** access for script engine
 	DocumentAndControler * 	GetDocument();
 
-	Q3PopupMenu *			GetPluginsMenuPtr();
+	QMenu *			        GetPluginsMenuPtr();
 
 	// ** implements the IDiaOutputWindow-(Script)Interface **
 	// ** use this object as proxy for the output window, because the
@@ -332,6 +332,8 @@ protected:
 
 private:
 	// *** some helper methods ***
+    void SaveSettings();
+    void LoadSettings();
 	void CreateMenus();
 	void CreateChildWidgets();
 	bool IsValidClipboardData();
@@ -376,14 +378,14 @@ private:
 	QTimer *		m_pStatusUpdateTimer;
 	QTimer *		m_pAutoStartTimer;
 
-    Q3PopupMenu *	m_pFile;
-    Q3PopupMenu *	m_pEdit;
-    Q3PopupMenu *	m_pPlay;
-    Q3PopupMenu *	m_pExtras;
-    Q3PopupMenu *	m_pPlugins;
-    Q3PopupMenu *	m_pHelp;
-	Q3PopupMenu *	m_pLastFilesSubMenu;
-	Q3PopupMenu *	m_pImportExportFilesSubMenu;
+    QMenu *	        m_pFile;
+    QMenu *	        m_pEdit;
+    QMenu *	        m_pPlay;
+    QMenu *	        m_pExtras;
+    QMenu *	        m_pPlugins;
+    QMenu *	        m_pHelp;
+	QMenu *	        m_pLastFilesSubMenu;
+	QMenu *	        m_pImportExportFilesSubMenu;
 
 	QAction *		m_pPlayStartAction;
 	QAction *		m_pPlayPauseAction;
@@ -436,18 +438,20 @@ private:
 	QAction *		m_pFilePrintAction;
 	QAction *		m_pFileExitAction;
 
-	QToolButton *	m_pFileOpen;
-	QToolButton *	m_pFileSave;
-	QToolButton *	m_pPlayRun;
-	QToolButton *	m_pPlayPause;
-	QToolButton *	m_pPlayStop;
-
 	QTranslator *	m_pTranslator;
+
+    QByteArray      m_aPlayInfoDialogGeometry;
+    QByteArray      m_aLoggingDialogGeometry;
+    QByteArray      m_aProjectorControlDialogGeometry;
+    QByteArray      m_aDiaInfoDialogGeometry;
+    QByteArray      m_aConfigDialogGeometry;
+    QByteArray      m_aCreateMovieDialogGeometry;
 
 	// ** temp data **
 	int				m_iCount;
 	HItem *			m_pFirstSelectedItem;
 	int				m_iFirstSelectedItemNo;
+    QString         m_sLastFileName;
 	QString			m_sFindText;
 	QString			m_sLanguage;
 	double			m_dDissolveTime;			// in seconds

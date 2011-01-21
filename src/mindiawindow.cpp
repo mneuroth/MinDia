@@ -75,6 +75,10 @@
 #include <QTranslator>
 #include <QString>
 
+#include <QToolBar>
+#include <QMenu>
+#include <QFileDialog>
+
 #include "appconfig.h"
 #include "configdlgimpl.h"
 #include "configplayerdlgimpl.h"
@@ -94,25 +98,21 @@
 #include "CreateMovieDlg4.h"
 
 #include <qapplication.h>
-#include <q3popupmenu.h>
 #include <qmenubar.h>
 #include <qaction.h>
 #include <qmessagebox.h>
-#include <q3filedialog.h>
 #include <qstatusbar.h>
-#include <q3toolbar.h>
-#include <qtoolbutton.h>
 #include <qprinter.h>
 #include <qclipboard.h>
 #include <qtimer.h>
 #include <qlabel.h>
 #include <qspinbox.h>
 #include <qtranslator.h>
-#include <q3textbrowser.h>
 #include <qlineedit.h>
-#include <q3textview.h>
 #include <qtextcodec.h>
 #include <qradiobutton.h> 
+
+#include <QSettings>
 
 //#include <qsound.h>
 
@@ -132,7 +132,7 @@
 
 	@author		Michael Neuroth
 	@version	1.0
-	@date		2001-2004
+	@date		2001-2011
 
 	./COPYING
 
@@ -155,7 +155,7 @@ QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage,
 // ***********************************************************************
 
 MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, bool bSimulation, int iProjectorType, QWidget* parent, const char* name, Qt::WFlags f )
-	: Q3MainWindow( parent, name, f ),
+	: QMainWindow( parent, name, f ),
 	  m_pConfigurationDialog( 0 ),
 	  m_pConfigPlayerDialog( 0 ),
 	  m_pLoggingDialog( 0 ),
@@ -179,12 +179,16 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 	  m_bExitOnFinished( false ),
       m_iScreenX( 0 ),
       m_iScreenY( 0 ),
-	  m_iPosX( 10 ),
-	  m_iPosY( 350 )
+	  m_iPosX( 0 ),     // 10
+	  m_iPosY( 0 )      // 350
 {
 	// ** prepare application for different languages...**
 	m_pTranslator = new QTranslator( this );
 	m_sLanguage = myProcessLanguage( m_pTranslator, sLanguage, qApp );
+
+    QCoreApplication::setOrganizationName("mneuroth");          // mindia
+    QCoreApplication::setOrganizationDomain("mneuroth.de");     // mindia.sf.net
+    QCoreApplication::setApplicationName("mindia");         
 
 	setCaption( tr( "MinDia" ) );
 
@@ -207,7 +211,14 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 	CreateMenus();
 
     resize( 800, 600 );
-	move( 5, 5 );
+	move( 25, 25 );
+    LoadSettings();
+    
+    // autoload last file
+    if( !m_sLastFileName.isEmpty() )
+    {
+        sltLoadDoc( m_sLastFileName, /*bExecuteEvent*/true );
+    }
 
 	sltModusIsSwitched();
 	sltDoDocumentStateUpdate();
@@ -215,6 +226,8 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 
 MinDiaWindow::~MinDiaWindow()
 {
+    SaveSettings();
+    
 	delete m_pControler;
 
 	delete m_pDiaStateView;
@@ -240,7 +253,7 @@ DocumentAndControler * MinDiaWindow::GetDocument()
 	return m_pControler;
 }
 
-Q3PopupMenu * MinDiaWindow::GetPluginsMenuPtr()
+QMenu * MinDiaWindow::GetPluginsMenuPtr()
 {
 	return m_pPlugins;
 }
@@ -255,24 +268,16 @@ void MinDiaWindow::CreateMenus()
 	QPixmap aPauseIcon( pausescript );
 	QPixmap aStopIcon( stopscript );
 
-    Q3ToolBar * pTools = new Q3ToolBar( this, "file operations" );
-    pTools->setLabel( tr("File Operations") );
-
-    //QPixmap openIcon = QPixmap( fileopen );
-    m_pFileOpen  = new QToolButton( aOpenIcon, tr("Open File"), QString::null, this, SLOT(sltAskLoadDoc()), pTools, "open file" );
-    m_pFileSave	 = new QToolButton( aSaveIcon, tr("Save File"), QString::null, m_pControler, SLOT( sltSaveDoc() ), pTools, "save file" );
-	pTools->addSeparator();
-    m_pPlayRun   = new QToolButton( aRunIcon, tr("Start play"), QString::null, m_pControler, SLOT( sltPlayPresentation() ), pTools, "start play" );
-    m_pPlayPause = new QToolButton( aPauseIcon, tr("Pause play"), QString::null, m_pControler, SLOT( sltPausePresentation() ), pTools, "pause play" );
-    m_pPlayStop  = new QToolButton( aStopIcon, tr("Stop play"), QString::null, m_pControler, SLOT( sltStopPresentation() ), pTools, "stop play" );
+    QToolBar * pTools = addToolBar("file_operations");
+    pTools->setIconSize(QSize(14,14));
 
     // *** create toplevel menu items ***
-    m_pFile		= new Q3PopupMenu( this );
-    m_pEdit		= new Q3PopupMenu( this );
-    m_pPlay		= new Q3PopupMenu( this );
-    m_pExtras	= new Q3PopupMenu( this );
-	m_pPlugins	= new Q3PopupMenu( this );
-    m_pHelp		= new Q3PopupMenu( this );
+    m_pFile		= new QMenu( this );
+    m_pEdit		= new QMenu( this );
+    m_pPlay		= new QMenu( this );
+    m_pExtras	= new QMenu( this );
+	m_pPlugins	= new QMenu( this );
+    m_pHelp		= new QMenu( this );
 
     menuBar()->insertItem( tr( "&File" ), m_pFile );
     menuBar()->insertItem( tr( "&Edit" ), m_pEdit );
@@ -286,9 +291,12 @@ void MinDiaWindow::CreateMenus()
     connect( m_pFileNewAction, SIGNAL( activated() ), this, SLOT( sltAskNewDoc() ) );
     m_pFileLoadAction = new QAction( /*tr( "Open an existing file" ),*/ aOpenIcon, tr( "&Open..." ), Qt::CTRL+Qt::Key_O, this, "open" );
     connect( m_pFileLoadAction, SIGNAL( activated() ), this, SLOT( sltAskLoadDoc() ) );
+    pTools->addAction(m_pFileLoadAction);
 	m_pFileLoadForEditAction = new QAction( /*tr( "Open an existing file for edit (script-events are not executed)" ),*/ tr( "Open for &edit..." ), Qt::ALT+Qt::Key_O, this, "open_for_edit" );
     connect( m_pFileLoadForEditAction, SIGNAL( activated() ), this, SLOT( sltAskLoadForEditDoc() ) );
     m_pFileSaveAction = new QAction( /*tr( "Save data" ),*/ aSaveIcon, tr( "&Save" ), Qt::CTRL+Qt::Key_S, this, "save" );
+    pTools->addAction(m_pFileSaveAction);
+    pTools->addSeparator();
     connect( m_pFileSaveAction, SIGNAL( activated() ), m_pControler, SLOT( sltSaveDoc() ) );
     m_pFileSaveAsAction = new QAction( /*tr( "Save data as" ),*/ tr( "Save &as..." ), 0, this, "saveas" );
     connect( m_pFileSaveAsAction, SIGNAL( activated() ), this, SLOT( sltAskSaveAsDoc() ) );
@@ -313,11 +321,11 @@ void MinDiaWindow::CreateMenus()
     //connect( m_pFileExitAction, SIGNAL( activated() ), qApp, SLOT( quit() ) );
 
 	// ** create menu item for last opend files
-	m_pLastFilesSubMenu = new Q3PopupMenu( m_pFile );
+	m_pLastFilesSubMenu = new QMenu( m_pFile );
 	connect( m_pLastFilesSubMenu, SIGNAL( aboutToShow() ), this, SLOT( sltUpdateLastFilesMenu() ) );
 	connect( m_pLastFilesSubMenu, SIGNAL( activated(int) ), this, SLOT( sltLastFilesMenuActivated(int) ) );
 
-	m_pImportExportFilesSubMenu = new Q3PopupMenu( m_pFile );
+	m_pImportExportFilesSubMenu = new QMenu( m_pFile );
     m_pFileImportXMLAction->addTo( m_pImportExportFilesSubMenu );
     m_pFileExportXMLAction->addTo( m_pImportExportFilesSubMenu );
 	m_pImportExportFilesSubMenu->insertSeparator();
@@ -389,10 +397,13 @@ void MinDiaWindow::CreateMenus()
 	// *** submenu: play ***
     m_pPlayStartAction = new QAction( /*tr( "Start" ),*/ aRunIcon, tr( "Sta&rt" ), Qt::CTRL+Qt::Key_R, this, "start" );
     connect( m_pPlayStartAction, SIGNAL( activated() ), m_pControler, SLOT( sltPlayPresentation() ) );
+    pTools->addAction(m_pPlayStartAction);
 	m_pPlayPauseAction = new QAction( /*tr( "Pause" ),*/ aPauseIcon, tr( "&Pause" ), Qt::CTRL+Qt::Key_P, this, "start" );
     connect( m_pPlayPauseAction, SIGNAL( activated() ), m_pControler, SLOT( sltPausePresentation() ) );
+    pTools->addAction(m_pPlayPauseAction);
     m_pPlayStopAction = new QAction( /*tr( "Stop" ),*/ aStopIcon, tr( "S&top" ), Qt::CTRL+Qt::Key_T, this, "stop" );
     connect( m_pPlayStopAction, SIGNAL( activated() ), m_pControler, SLOT( sltStopPresentation() ) );
+    pTools->addAction(m_pPlayStopAction);
 	// ** go to position and start from that position:
     m_pPlayStartFromAction = new QAction( /*tr( "Start from selected position (goto position and start)" ),*/ tr( "Start &from selected" ), Qt::ALT+Qt::Key_R, this, "start_from" );
     connect( m_pPlayStartFromAction, SIGNAL( activated() ), this, SLOT( sltPlayFromSelected() ) );
@@ -432,7 +443,7 @@ void MinDiaWindow::CreateMenus()
     connect( m_pExtrasConfigAction, SIGNAL( activated() ), this, SLOT( sltDoConfiguration() ) );
     m_pExtrasConfigPlayerAction = new QAction( /*tr( "mp3 player configuration" ),*/ tr( "Pla&yer configuration..." ), Qt::ALT+Qt::Key_Y, this, "playerconfiguration"/*, TRUE*/ );
     connect( m_pExtrasConfigPlayerAction, SIGNAL( activated() ), this, SLOT( sltDoPlayerConfiguration() ) );
-#if defined(__linux__) || defined(__APPLE__)
+#if !defined(__linux__) || !defined(__APPLE__)
     m_pExtrasConfigPlayerAction->setEnabled( false );
 #endif
 	m_pExtrasLoggingAction = new QAction( /*tr( "Logging" ),*/ tr( "&Logging..." ), Qt::ALT+Qt::Key_L, this, "logging"/*TODO, TRUE*/ );
@@ -442,13 +453,10 @@ void MinDiaWindow::CreateMenus()
     m_pExtrasControlProjectorAction->setCheckable(true);
     connect( m_pExtrasControlProjectorAction, SIGNAL( activated() ), this, SLOT( sltDoControlProjector() ) );
 	m_pExtrasPresentationDataAction = new QAction( /*tr( "Presentation data" ),*/ tr( "Presentation &data..." ), Qt::CTRL+Qt::Key_D, this, "presentationdata"/*, TRUE*/ );
-    //m_pExtrasPresentationDataAction->setCheckable(true);
     connect( m_pExtrasPresentationDataAction, SIGNAL( activated() ), this, SLOT( sltDoPresentationData() ) );
 	m_pExtrasPresentationEventsAction = new QAction( /*tr( "Presentation events" ),*/ tr( "Presentation &events..." ), Qt::CTRL+Qt::Key_E, this, "presentationevents"/*, TRUE*/ );
-    //m_pExtrasPresentationEventsAction->setCheckable(true);
     connect( m_pExtrasPresentationEventsAction, SIGNAL( activated() ), this, SLOT( sltDoPresentationEvents() ) );
 	m_pExtrasSoundDataAction = new QAction( /*tr( "Sound data" ),*/ tr( "So&und data..." ), Qt::CTRL+Qt::Key_U, this, "sounddata"/*, TRUE*/ );
-    //m_pExtrasSoundDataAction->setCheckable(true);
     connect( m_pExtrasSoundDataAction, SIGNAL( activated() ), this, SLOT( sltDoSoundData() ) );
 	m_pExtrasSoundCommentAction = new QAction( /*tr( "Sound comments" ),*/ tr( "Sou&nd comments..." ), Qt::CTRL+Qt::Key_Z, this, "soundcomment"/*, TRUE*/ );
     connect( m_pExtrasSoundCommentAction, SIGNAL( activated() ), this, SLOT( sltDoSoundComment() ) );
@@ -602,6 +610,11 @@ void MinDiaWindow::sltDoConfiguration()
 		{
 			m_pConfigurationDialog = new ConfigurationDlgImpl( m_pControler, this, "configdlg", /*modal*/TRUE );
 			//m_pConfigurationDialog->move( 450, 10 );
+            
+            if( m_aConfigDialogGeometry.count()>0 )
+            {
+                m_pConfigurationDialog->restoreGeometry(m_aConfigDialogGeometry);
+            }
 		}
 
 		int iRet = m_pConfigurationDialog->exec();
@@ -611,6 +624,8 @@ void MinDiaWindow::sltDoConfiguration()
 			// ** ok 
 			// ** nothing to do, all things will be done in the dialog !
 		}
+        
+        m_aConfigDialogGeometry = m_pConfigurationDialog->saveGeometry();
 
 		// ** destroy modal dialog ! **
 		delete m_pConfigurationDialog;
@@ -787,6 +802,11 @@ void MinDiaWindow::sltDoPlayInfos()
 		{
 			m_pPlayInfoDialog = new PlayInfoDlgImpl( m_pControler, this );
 			m_pPlayInfoDialog->move( 10, 350 );
+            
+            if( m_aPlayInfoDialogGeometry.count()>0 )
+            {
+                m_pPlayInfoDialog->restoreGeometry(m_aPlayInfoDialogGeometry);
+            }            
 
 			if( m_iPosX>0 && m_iPosY>0 )
 			{
@@ -891,6 +911,11 @@ void MinDiaWindow::sltDoControlProjector()
 		{
 			m_pProjectorControlDialog = new ProjectorControlDlgImpl( &(m_pControler->GetDiaCom()), &(m_pControler->GetPresentation()), this );
 			m_pProjectorControlDialog->move( 450, 10 );
+            
+            if( m_aProjectorControlDialogGeometry.count()>0 )
+            {            
+                m_pProjectorControlDialog->restoreGeometry(m_aProjectorControlDialogGeometry);
+            }
 		}
 
 		m_pProjectorControlDialog->show();
@@ -905,7 +930,12 @@ void MinDiaWindow::sltDoLogging()
 	}
 	else
 	{
-		m_pLoggingDialog->show();
+        if( m_aLoggingDialogGeometry.count()>0 )
+        {            
+            m_pLoggingDialog->restoreGeometry(m_aLoggingDialogGeometry); 
+        }
+        
+		m_pLoggingDialog->show();                
 	}
 }
 
@@ -961,49 +991,59 @@ void MinDiaWindow::sltShowLicense()
 
 void MinDiaWindow::sltModifyItemDialogClosed()
 {
+    m_aDiaInfoDialogGeometry = m_pDiaInfoDialog->saveGeometry();
     m_pExtrasModifyItemAction->setChecked( false );
 }
 
 void MinDiaWindow::sltPlayInfoDialogClosed()
 {
+    m_aPlayInfoDialogGeometry = m_pPlayInfoDialog->saveGeometry();            
     m_pExtrasPlayStatusAction->setChecked( false );
 }
 
 void MinDiaWindow::sltProjectorControlDialogClosed()
 {
+    m_aProjectorControlDialogGeometry = m_pProjectorControlDialog->saveGeometry();
     m_pExtrasControlProjectorAction->setChecked( false );
 }
 
 void MinDiaWindow::sltLoggingDialogClosed()
 {
+    m_aLoggingDialogGeometry = m_pLoggingDialog->saveGeometry();            
     m_pExtrasLoggingAction->setChecked( false );
 }
 
+// TODO --> not used, because this is a modal dialog !
 void MinDiaWindow::sltSoundDataDialogClosed()
 {
 	m_pExtrasSoundDataAction->setOn( false );
 }
 
+// TODO --> not used, because this is a modal dialog !
 void MinDiaWindow::sltSoundCommentDialogClosed()
 {
 	m_pExtrasSoundCommentAction->setOn( false );
 }
 
+// TODO --> not used, because this is a modal dialog !
 void MinDiaWindow::sltPlotCommentDialogClosed()
 {
 	m_pExtrasPlotCommentAction->setOn( false );
 }
 
+// TODO --> not used, because this is a modal dialog !
 void MinDiaWindow::sltPresentationDataDialogClosed()
 {
 	m_pExtrasPresentationDataAction->setOn( false );
 }
 
+// TODO --> not used, because this is a modal dialog !
 void MinDiaWindow::sltPresentationEventsDialogClosed()
 {
 	m_pExtrasPresentationEventsAction->setOn( false );
 }
 
+// TODO --> not used, because this is a modal dialog !
 void MinDiaWindow::sltConfigurationDialogClosed()
 {
 	m_pExtrasConfigAction->setOn( false );
@@ -1026,6 +1066,8 @@ void MinDiaWindow::sltLoadDoc( const QString & sFileName, bool bExecuteEvent )
 	{
     	sltCheckCloseApplication();
 
+        m_sLastFileName = sFileName;
+        
 		emit sigLoadDocFromFile( sFileName, bExecuteEvent );
 
 		// ** select the first slide after reading the file
@@ -1039,21 +1081,21 @@ void MinDiaWindow::sltLoadDoc( const QString & sFileName, bool bExecuteEvent )
 
 void MinDiaWindow::sltAskLoadDoc()
 {
-    QString sFileName = Q3FileDialog::getOpenFileName( /*QString::null*/GetDataPath().c_str(), /*QString::null*/"*.dia", this, "load", tr( "Open" ) );
+    QString sFileName = QFileDialog::getOpenFileName( this, tr("Open"), /*QString::null*/GetDataPath().c_str(), /*QString::null*/"*.dia" );
 
 	sltLoadDoc( sFileName, /*bExecuteEvent*/true );
 }
 
 void MinDiaWindow::sltAskLoadForEditDoc()
 {
-    QString sFileName = Q3FileDialog::getOpenFileName( /*QString::null*/GetDataPath().c_str(), /*QString::null*/"*.dia", this, "load_for_dit", tr( "Open for edit" ) );
+    QString sFileName = QFileDialog::getOpenFileName( this, tr( "Open for edit" ), /*QString::null*/GetDataPath().c_str(), /*QString::null*/"*.dia" );
 
 	sltLoadDoc( sFileName, /*bExecuteEvent*/false );
 }
 
 void MinDiaWindow::sltAskSaveAsDoc()
 {
-	QString sFileName = Q3FileDialog::getSaveFileName( /*QString::null*/GetDataPath().c_str(), /*QString::null*/"*.dia", this, "save", tr( "Save as" ) );
+	QString sFileName = QFileDialog::getSaveFileName( this, tr( "Save as" ), /*QString::null*/GetDataPath().c_str(), /*QString::null*/"*.dia" );
 
     if( !sFileName.isEmpty() )
 	{
@@ -1092,7 +1134,7 @@ void MinDiaWindow::sltImportXMLDoc()
 
 void MinDiaWindow::sltExportXMLDoc()
 {
-    QString sFileName = Q3FileDialog::getSaveFileName( QString::null, /*QString::null*/"*.xml", this, "save", tr( "Export as XML" ) );
+    QString sFileName = QFileDialog::getSaveFileName( this, tr( "Export as XML" ), QString::null, /*QString::null*/"*.xml" );
 
     if( !sFileName.isEmpty() )
 	{
@@ -1114,8 +1156,15 @@ void MinDiaWindow::sltExportAVI()
 {
     //CreateMovieDlgImpl * pDlg = new CreateMovieDlgImpl( m_pControler, m_pControler->GetPresentation().GetTotalTime()*1000, this, "create_move", /*modal*/TRUE );
     CreateMovieDlg4 * pDlg = new CreateMovieDlg4(m_pControler, m_pControler->GetPresentation().GetTotalTime()*1000,this);
-		
+
+    if( m_aCreateMovieDialogGeometry.count()>0 )
+    {
+        pDlg->restoreGeometry(m_aCreateMovieDialogGeometry);
+    }
+
 	int iRet = pDlg->exec();
+
+    m_aCreateMovieDialogGeometry = pDlg->saveGeometry();
 
 	if( iRet == 1 )
 	{
@@ -1148,7 +1197,7 @@ void MinDiaWindow::sltExportAVI()
 
 void MinDiaWindow::sltExportDynGraphData()
 {
-    QString sFileName = Q3FileDialog::getSaveFileName( QString::null, /*QString::null*/"*.dat", this, "save", tr( "Export dynamic graphic data" ) );
+    QString sFileName = QFileDialog::getSaveFileName( this, tr( "Export dynamic graphic data" ), QString::null, /*QString::null*/"*.dat" );
 
     if( !sFileName.isEmpty() )
 	{
@@ -1158,7 +1207,7 @@ void MinDiaWindow::sltExportDynGraphData()
 
 void MinDiaWindow::sltImportDynGraphData()
 {
-    QString sFileName = Q3FileDialog::getOpenFileName( QString::null, /*QString::null*/"*.dat", this, "read", tr( "Import dynamic graphic data" ) );
+    QString sFileName = QFileDialog::getOpenFileName( this, tr( "Import dynamic graphic data" ), QString::null, /*QString::null*/"*.dat" );
 
     if( !sFileName.isEmpty() )
 	{
@@ -1235,9 +1284,7 @@ void MinDiaWindow::sltUpdateFileMenu()
 	m_pFileNewAction->setEnabled( bValue );
 	m_pFileLoadAction->setEnabled( bValue );
 	m_pFileLoadForEditAction->setEnabled( bValue );
-	m_pFileOpen->setEnabled( bValue );
 	m_pFileSaveAction->setEnabled( bValue );
-	m_pFileSave->setEnabled( bValue );
 	m_pFileSaveAsAction->setEnabled( bValue );
 	m_pFileExportAction->setEnabled( bValue );
 	m_pFilePrintAction->setEnabled( bValue );
@@ -1261,10 +1308,6 @@ void MinDiaWindow::sltUpdatePlayMenu()
 	m_pPlayAddSoundCommentAction->setEnabled( !bEdit );
 	m_pPlayAddGraphicOpAction->setEnabled( !bEdit );
 
-	m_pPlayRun->setEnabled( !bIsPlaying );
-	m_pPlayPause->setEnabled( bIsPlaying && !bIsPause );
-	m_pPlayStop->setEnabled( bIsPlaying || bIsPause );
-
 	if( m_pPlayInfoDialog )
 	{
 		m_pPlayInfoDialog->UpdateStatus( bIsPlaying, bIsPause );
@@ -1283,7 +1326,7 @@ void MinDiaWindow::sltUpdateExtrasMenu()
 
 	m_pExtrasConfigAction->setEnabled( bEdit );
 #if !defined(__linux__) && !defined(__APPLE__)
-    m_pExtrasConfigPlayerAction->setEnabled( false );
+	m_pExtrasConfigPlayerAction->setEnabled( false );
 #else
 	m_pExtrasConfigPlayerAction->setEnabled( bEdit );
 #endif
@@ -1874,7 +1917,7 @@ void MinDiaWindow::keyPressEvent( QKeyEvent * pEvent )
 	}
 	else
 	{
-		Q3MainWindow::keyPressEvent( pEvent );
+		QMainWindow::keyPressEvent( pEvent );
 	}
 }
 
@@ -2105,4 +2148,66 @@ Q3Canvas * MinDiaWindow::GetCanvas()
 		return m_pPlayInfoDialog->GetCanvas();
 	}
 	return 0;
+}
+
+void MinDiaWindow::SaveSettings()
+{
+    QSettings aSettings;
+    
+    aSettings.setValue("App/DataFileName",m_sLastFileName);
+    aSettings.setValue("App/WindowState",saveState());
+    aSettings.setValue("App/WindowGeometry",saveGeometry());       
+    // update all non modal dialog geometries when exiting application 
+    if( m_pPlayInfoDialog )
+    {
+        m_aPlayInfoDialogGeometry = m_pPlayInfoDialog->saveGeometry();            
+        aSettings.setValue("App/GeometryPlayInfoDlg",m_aPlayInfoDialogGeometry);
+    }    
+    if( m_pLoggingDialog )
+    {
+        m_aLoggingDialogGeometry = m_pLoggingDialog->saveGeometry();            
+        aSettings.setValue("App/GeometryLoggingDlg",m_aLoggingDialogGeometry);
+    }    
+    if( m_pProjectorControlDialog )
+    {
+        m_aProjectorControlDialogGeometry = m_pProjectorControlDialog->saveGeometry();            
+        aSettings.setValue("App/GeometryProjectorControlDlg",m_aProjectorControlDialogGeometry);
+    }
+    if( m_pDiaInfoDialog )        
+    {
+        m_aDiaInfoDialogGeometry = m_pDiaInfoDialog->saveGeometry();
+        aSettings.setValue("App/GeometryDiaInfoDlg",m_aDiaInfoDialogGeometry);
+    }
+    if( m_aConfigDialogGeometry.count()>0 )
+    { 
+        aSettings.setValue("App/GeometryConfigDlg",m_aConfigDialogGeometry);
+    }
+    if( m_aCreateMovieDialogGeometry.count()>0 )
+    {
+        aSettings.setValue("App/GeometryCreateMovieDlg",m_aCreateMovieDialogGeometry);
+    }
+    // TODO: ggf.
+    // create movie dialog
+    // presentation data
+    // presentation events
+    // sound data
+    // sound comments
+    // plot comments
+    // ggf. dissolve time dialog 
+    // ggf. find dialog
+}
+
+void MinDiaWindow::LoadSettings()
+{
+    QSettings aSettings;
+   
+    m_sLastFileName = aSettings.value("App/DataFileName",QString()).toString();
+    restoreState(aSettings.value("App/WindowState").toByteArray());
+    restoreGeometry(aSettings.value("App/WindowGeometry").toByteArray());
+    m_aPlayInfoDialogGeometry = aSettings.value("App/GeometryPlayInfoDlg",QVariant(QByteArray())).toByteArray();
+    m_aLoggingDialogGeometry = aSettings.value("App/GeometryLoggingDlg",QVariant(QByteArray())).toByteArray();
+    m_aProjectorControlDialogGeometry = aSettings.value("App/GeometryProjectorControlDlg",QVariant(QByteArray())).toByteArray();    
+    m_aDiaInfoDialogGeometry = aSettings.value("App/GeometryDiaInfoDlg",QVariant(QByteArray())).toByteArray();
+    m_aConfigDialogGeometry = aSettings.value("App/GeometryConfigDlg",QVariant(QByteArray())).toByteArray();
+    m_aCreateMovieDialogGeometry = aSettings.value("App/GeometryCreateMovieDlg",QVariant(QByteArray())).toByteArray();
 }
