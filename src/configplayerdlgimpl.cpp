@@ -59,10 +59,16 @@ ConfigPlayerDlgImpl::ConfigPlayerDlgImpl( MiniIniDB & aIniDB, QWidget* parent, c
 	{
 		m_pPlayer->insertItem( "madplay" );
 		m_pPlayer->insertItem( "mpg123" );
+#ifdef __APPLE__
+        m_pPlayer->insertItem( "afplay" );
+#endif
 
 		m_pPlayerSettings->insertItem( "-q -v --no-tty-control" );
 		m_pPlayerSettings->insertItem( "-q -v" );
-	}
+#ifdef __APPLE__
+        m_pPlayerSettings->insertItem( "-v" );
+#endif
+    }
 	else
 	{
 		ReadComboBoxes();
