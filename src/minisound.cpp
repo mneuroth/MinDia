@@ -148,7 +148,7 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 		{
 			// mp3 handling
 			//aMp3.startPlay( ((double)iFromPos)*0.001, ((double)iToPos)*0.001 );
-			aMp3.playInThread();
+            aMp3.playInThread( ((double)iFromPos)*0.001, ((double)iToPos)*0.001 );
 		}
 	}
 	else if( strncmp( lpszCommand, _FADE_IN, strlen( _FADE_IN ) ) == 0 )
