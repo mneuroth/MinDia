@@ -218,7 +218,7 @@ const long g_IGeneralScriptFcnID			= 600;
 const long g_IMinDiaScriptFcnID				= 610;
 
 class QWidget;
-class Q3PopupMenu;
+class QMenu;
 class Q3Canvas;
 
 // *************************************************************************
@@ -244,7 +244,7 @@ public:
 	// ** get the main-window pointer to register the script-menus
 	virtual QWidget *			GetMainWindowPtr() = 0;
 	// ** get the menu pointer to register the plugin-submenus
-	virtual Q3PopupMenu *		GetPluginsMenuPtr() = 0;
+	virtual QMenu *		        GetPluginsMenuPtr() = 0;
 	// ** get the actual language, example: "en" or "de"
 	virtual const char *		GetLanguage() const = 0;
 	// ** get the help/shared directory of MinDia 

@@ -57,7 +57,7 @@
 #include <qtextcodec.h>
 //Added by qt3to4:
 #include <QTranslator>
-#include <Q3PopupMenu>
+#include <QMenu>
 
 #include "mindiawindow.h"
 #include "doccontroler.h"
@@ -179,7 +179,7 @@ public:
 	virtual bool IsOk() const;
 
 	virtual QWidget *		GetMainWindowPtr();
-	virtual Q3PopupMenu *	GetPluginsMenuPtr();
+	virtual QMenu *	        GetPluginsMenuPtr();
 	virtual const char *	GetLanguage() const;
 	virtual const char *	GetHelpDirecotry() const;
 	virtual const char *	GetScriptDirecotry() const;
@@ -209,7 +209,7 @@ QWidget * IGeneralScriptFcnImpl::GetMainWindowPtr()
 	return m_pMainWindow;
 }
 
-Q3PopupMenu * IGeneralScriptFcnImpl::GetPluginsMenuPtr()
+QMenu * IGeneralScriptFcnImpl::GetPluginsMenuPtr()
 {
 	if( m_pMainWindow )
 	{
