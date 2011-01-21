@@ -1,13 +1,10 @@
-<!DOCTYPE UI><UI>
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>EnterValueDlg</class>
-<widget>
-    <class>QDialog</class>
-    <property stdset="1">
-        <name>name</name>
+<widget class="QDialog">
+    <property name="name">
         <cstring>EnterValueDlg</cstring>
     </property>
-    <property>
-        <name>geometry</name>
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -15,161 +12,126 @@
             <height>91</height>
         </rect>
     </property>
-    <property>
-        <name>caption</name>
+    <property name="caption">
         <string>Enter</string>
     </property>
-    <property>
-        <name>sizeGripEnabled</name>
+    <property name="sizeGripEnabled">
         <bool>true</bool>
     </property>
-    <widget>
-        <class>QLayoutWidget</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>Layout6</cstring>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
         </property>
-        <property>
-            <name>geometry</name>
-            <rect>
-                <x>11</x>
-                <y>12</y>
-                <width>366</width>
-                <height>24</height>
-            </rect>
-        </property>
-        <hbox>
-            <property>
-                <name>margin</name>
-                <number>0</number>
+        <widget class="QLayoutWidget" row="0" column="0">
+            <property name="name">
+                <cstring>Layout6</cstring>
             </property>
-            <property>
-                <name>spacing</name>
-                <number>6</number>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>m_pTextLabel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Enter value:</string>
+                    </property>
+                    <property name="alignment">
+                        <set>AlignVCenter|AlignRight</set>
+                    </property>
+                    <property name="hAlign" stdset="0">
+                    </property>
+                </widget>
+                <widget class="QLineEdit">
+                    <property name="name">
+                        <cstring>m_pEnterValue</cstring>
+                    </property>
+                    <property name="frameShape">
+                        <enum>LineEditPanel</enum>
+                    </property>
+                    <property name="frameShadow">
+                        <enum>Sunken</enum>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="1" column="0">
+            <property name="name">
+                <cstring>Layout4</cstring>
             </property>
-            <widget>
-                <class>QLabel</class>
-                <property stdset="1">
-                    <name>name</name>
-                    <cstring>m_pTextLabel</cstring>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
                 </property>
-                <property>
-                    <name>text</name>
-                    <string>Enter value:</string>
+                <property name="margin">
+                    <number>0</number>
                 </property>
-                <property>
-                    <name>alignment</name>
-                    <set>AlignVCenter|AlignRight</set>
+                <property name="spacing">
+                    <number>6</number>
                 </property>
-                <property>
-                    <name>hAlign</name>
-                </property>
-            </widget>
-            <widget>
-                <class>QLineEdit</class>
-                <property stdset="1">
-                    <name>name</name>
-                    <cstring>m_pEnterValue</cstring>
-                </property>
-            </widget>
-        </hbox>
-    </widget>
-    <widget>
-        <class>QLayoutWidget</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>Layout4</cstring>
-        </property>
-        <property>
-            <name>geometry</name>
-            <rect>
-                <x>11</x>
-                <y>49</y>
-                <width>366</width>
-                <height>28</height>
-            </rect>
-        </property>
-        <hbox>
-            <property>
-                <name>margin</name>
-                <number>0</number>
-            </property>
-            <property>
-                <name>spacing</name>
-                <number>6</number>
-            </property>
-            <widget>
-                <class>QPushButton</class>
-                <property stdset="1">
-                    <name>name</name>
-                    <cstring>buttonHelp</cstring>
-                </property>
-                <property>
-                    <name>text</name>
-                    <string>&amp;Help</string>
-                </property>
-                <property>
-                    <name>autoDefault</name>
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <spacer>
-                <property>
-                    <name>name</name>
-                    <cstring>Spacer6</cstring>
-                </property>
-                <property>
-                    <name>orientation</name>
-                    <enum>Horizontal</enum>
-                </property>
-                <property>
-                    <name>sizeType</name>
-                    <enum>Expanding</enum>
-                </property>
-                <property>
-                    <name>sizeHint</name>
-                    <size>
-                        <width>20</width>
-                        <height>20</height>
-                    </size>
-                </property>
-            </spacer>
-            <widget>
-                <class>QPushButton</class>
-                <property stdset="1">
-                    <name>name</name>
-                    <cstring>buttonOk</cstring>
-                </property>
-                <property>
-                    <name>text</name>
-                    <string>&amp;OK</string>
-                </property>
-                <property>
-                    <name>autoDefault</name>
-                    <bool>true</bool>
-                </property>
-                <property>
-                    <name>default</name>
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <widget>
-                <class>QPushButton</class>
-                <property stdset="1">
-                    <name>name</name>
-                    <cstring>buttonCancel</cstring>
-                </property>
-                <property>
-                    <name>text</name>
-                    <string>&amp;Cancel</string>
-                </property>
-                <property>
-                    <name>autoDefault</name>
-                    <bool>true</bool>
-                </property>
-            </widget>
-        </hbox>
-    </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonHelp</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Help</string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer6</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonOk</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;OK</string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonCancel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Cancel</string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
 </widget>
 <connections>
     <connection>
@@ -190,11 +152,14 @@
         <receiver>EnterValueDlg</receiver>
         <slot>sltShowHelp()</slot>
     </connection>
-    <slot access="public">sltShowHelp()</slot>
 </connections>
 <tabstops>
     <tabstop>m_pEnterValue</tabstop>
     <tabstop>buttonOk</tabstop>
     <tabstop>buttonCancel</tabstop>
 </tabstops>
+<slots>
+    <slot>sltShowHelp()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
 </UI>
