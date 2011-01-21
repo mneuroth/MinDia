@@ -53,13 +53,10 @@
 
 #include "read_mp3.cpp"
 
+#include <QProcess>
+
 #include <vector>
 
-#if defined(__linux__) || defined(__APPLE__)
-#include <unistd.h>
-#include <sys/wait.h>
-#endif
-#include <signal.h>
 #include <stdio.h>
 
 extern "C" void _CALLING_CONV _mp3SoundThreadStarter( void * pData )
@@ -68,7 +65,7 @@ extern "C" void _CALLING_CONV _mp3SoundThreadStarter( void * pData )
 
 	if( pMp3 )
 	{
-		pMp3->startPlay();
+        pMp3->startPlay(pMp3->GetStartTime(),pMp3->GetStopTime());
 	}
 }
 
@@ -134,10 +131,12 @@ static int ParseOptions( const string & sOptions, vector<string> & aOptionsVec )
 // *******************************************************************
 
 Mp3File::Mp3File()
-	: m_iLengthInSeconds( -1 ),
+	: m_pProcess( 0 ),
+      m_iLengthInSeconds( -1 ),
 	  m_iPlayModus( 0 ),
-	  m_iPID( 0 ),	  
-	  m_pIniDB( 0 )
+      m_pIniDB( 0 ),
+      m_dStartPosInSeconds( 0 ),
+      m_dStopPosInSeconds( 0 )
 {
 #if defined(__linux__)
     m_sMp3Player = "madplay";               	// "mpg123" or "afplay" (Mac)
@@ -150,6 +149,17 @@ Mp3File::Mp3File()
 
 Mp3File::~Mp3File()
 {
+    delete m_pProcess;
+}
+
+double Mp3File::GetStartTime() const
+{
+    return m_dStartPosInSeconds;
+}
+
+double Mp3File::GetStopTime() const
+{
+    return m_dStopPosInSeconds;
 }
 
 int Mp3File::openFile( char * sFileName )
@@ -157,49 +167,40 @@ int Mp3File::openFile( char * sFileName )
 	m_sFileName = sFileName;
 
 	// reset the length information of the file
-	m_iLengthInSeconds = -1;
+    m_iLengthInSeconds = -1;
 
 	return 0;
 }
 
 void Mp3File::stopPlay()
 {
-	if( m_iPID>0 )
-	{
-#if defined(__linux__) || defined(__APPLE__)
-        /*int iOk =*/ kill( m_iPID, SIGKILL );
-#else
-		// TODO min
-#endif
-	}
+    DoKill();
 
 	m_iPlayModus = 0;
 }
 
 void Mp3File::pausePlay()
 {
-	if( m_iPID>0 )
-	{
-#if defined(__linux__) || defined(__APPLE__)
-        kill( m_iPID, SIGSTOP );
-#else
-		// TODO min
-#endif
-	}
+    DoKill();
 }
 
 void Mp3File::resumePlay()
 {
-	if( m_iPID>0 )
-	{
-#if defined(__linux__) || defined(__APPLE__)
-        kill( m_iPID, SIGCONT );
-#else
-		// TODO min
-#endif
-	}
+// TODO --> einfach neu starten an der zuletzt gespeicherten position/frame no    
+    DoKill();
 
 	m_iPlayModus = 1;
+}
+
+void Mp3File::DoKill()
+{
+    if( m_pProcess )
+    {
+        m_pProcess->kill();
+        m_pProcess->waitForFinished();
+        delete m_pProcess;
+        m_pProcess = 0;
+    }
 }
 
 void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
@@ -207,113 +208,89 @@ void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
 	// start the timer for the play-time... (important: start timer before fork() !!!)
 	m_aPlayTime.start();
 
-#if defined(__linux__) || defined(__APPLE__)
-    m_iPID = fork();
+    DoKill();
+    
+    QStringList aArgs;
+//    QString sProgramName(/*m_sMp3Player.c_str()*/"afplay");
+//    QString sProgramName(/*m_sMp3Player.c_str()*/"mpg123");
+//    QString sProgramName(/*m_sMp3Player.c_str()*/"/usr/bin/afplay");
+    QString sProgramName(/*m_sMp3Player.c_str()*/"/opt/local/bin/mpg123");
+//    if( dStartPosInSeconds>0 )
+//    {
+//        MP3Header aMP3Header;
 
-	if( m_iPID==0 )
-	{
-		signal( SIGTERM, SIG_DFL );
-#if defined(__linux__)
-        setpgrp();
-#endif
-#else
-	if( true )
-	{
-#endif
-		char sProgName[_MAX_LEN];
-		char sName[_MAX_LEN];
-		//char sStart[_MAX_LEN];
-		//char sLength[_MAX_LEN];
-		//char sFade[_MAX_LEN];
-		//char sOption1[_MAX_LEN];
-		//char sOption2[_MAX_LEN];
-		int iCount = 0;
-		unsigned long i = 0;
-		char * sArgs[7];
-		string strArgs;
+//        bool boolIsMP3 = aMP3Header.ReadMP3Information( m_sFileName.c_str() );
+//        if(boolIsMP3)
+//        {
+//           QString sFrames;
+//           sFrames = sFrames.setNum((int)(aMP3Header.getNumberOfFrames()*(int)dStartPosInSeconds/aMP3Header.getLengthInSeconds()));
+//           aArgs << "-k" << sFrames;
+//        }
+//    }
+    aArgs << m_sFileName.c_str();
+    //    QString sProgramName("/bin/sh");
+//    string s = string("mpg123 ")+m_sFileName;
+//    aArgs << "-c" << s.c_str();
 
-        sprintf( sProgName, "%s", m_sMp3Player.c_str() );
-		sArgs[iCount] = sProgName;
-		strArgs += sProgName+string(" ");
-		iCount++;
+    m_pProcess = new QProcess(0);
 
-		vector<string> aOptionsVec;
-		ParseOptions( m_sMp3Options, aOptionsVec );
-		for( i=0; i<aOptionsVec.size(); i++ )
-		{
-			sArgs[iCount] = (char *)aOptionsVec[i].c_str();
-			strArgs += aOptionsVec[i]+" ";
-			iCount++;
-		}
+//    QProcessEnvironment aEnv = QProcessEnvironment::systemEnvironment();
+//    aEnv.insert("PATH", "/opt/local/bin:"+aEnv.value("PATH"));
+//    m_pProcess->setProcessEnvironment(aEnv);
 
-/*
-		sprintf( sProgName, "%s", "madplay" );	// "mpg123"
-		sArgs[iCount] = sProgName;
-		iCount++;
+//    QStringList aLst = m_pProcess->systemEnvironment();
+//    aLst.replaceInStrings(QRegExp("^PATH=(.*)", Qt::CaseInsensitive), "PATH=\\1:/opt/local/bin");
+//    m_pProcess->setEnvironment(aLst);
 
-		sprintf( sOption1, "%s", "--no-tty-control" );
-		sArgs[iCount] = sOption1;
-		iCount++;
+//    QProcessEnvironment aPE = m_pProcess->processEnvironment();
+//    m_pProcess->setEnvironment(QProcessEnvironment::systemEnvironment().toStringList());
 
-		sprintf( sOption2, "%s", "-v" );
-		sArgs[iCount] = sOption2;
-		iCount++;
-*/
-		sprintf( sName, "%s", m_sFileName.c_str() );
-		sArgs[iCount] = sName;
-		strArgs += sName+string(" ");
-		iCount++;
+//    QStringList aLst2 = aPE.toStringList();
 
-		sArgs[iCount] = 0;
-		iCount++;
+//    for(int j=0; j<aLst2.length(); j++ )
+//    {
+//        cout << "j=" << j << " " << (const char *)aLst2[j] << endl;
+//    }
 
-#if defined(__linux__) || defined(__APPLE__)
-        /*int iOk =*/ execvp( sArgs[0], sArgs );
-#else
-		int iOk = system(strArgs.c_str());
-#endif
-		//debug: printf( "child iRet=%d!\n", iOk );
-	}
-	else
-	{
-		//int iStatus = 0;
-		//waitpid( m_iPID, &iStatus, WNOHANG );
 
-		//debug: printf( "child PID=%d! this=%x\n", m_iPID, (void *)this );
+    m_pProcess->start(sProgramName,aArgs);
 
-		if( m_iPID != -1 )
-		{
-			m_iPlayModus = 1;
-		}
-		else
-		{
-			m_iPlayModus = 0;
-		}
-	}
+//    int iState = m_pProcess->state();
+//    cout << "STARTED: " << iState << endl;
+
+    if( m_pProcess->state()!=QProcess::NotRunning )
+    {
+        m_iPlayModus = 1;
+    }
+    else
+    {
+        m_iPlayModus = 0;
+    }
+
 }
 
 double Mp3File::getCurrPlayPosInSeconds()
 {
-	return m_aPlayTime.elapsed()/1000;
+    return m_aPlayTime.elapsed()/1000;
 }
 
 double Mp3File::getTotalPlayTimeInSeconds()
 {
-	if( m_iLengthInSeconds<0 )
+    if( m_iLengthInSeconds<0 )
 	{
 		MP3Header aMP3Header;
 
 		bool boolIsMP3 = aMP3Header.ReadMP3Information( m_sFileName.c_str() );
 		if(boolIsMP3)
 		{
-			m_iLengthInSeconds = aMP3Header.intLength;
+            m_iLengthInSeconds = aMP3Header.intLength;
 		}
 		else
 		{
-			m_iLengthInSeconds = 0;
+            m_iLengthInSeconds = 0;
 		}
 	}
-	return (double)m_iLengthInSeconds;
+    return (double)m_iLengthInSeconds;
 }
 
 int Mp3File::getActivePlay()
@@ -327,9 +304,12 @@ int Mp3File::getCurrPlayPos()
 	return m_aPlayTime.elapsed();
 }
 
-void Mp3File::playInThread()
+void Mp3File::playInThread( double dStartPosInSeconds, double dStopPosInSeconds )
 {
 	UpdateSettingsFromIniFile();
+
+    m_dStartPosInSeconds = dStartPosInSeconds;
+    m_dStopPosInSeconds = dStopPosInSeconds;
 
 	/*unsigned long ulThreadID =*/ minBeginThread( _mp3SoundThreadStarter, _DEFAULT_STACK_SIZE, this );
 }

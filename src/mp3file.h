@@ -49,6 +49,8 @@ using namespace std;
 struct player;
 
 class MiniIniDB;
+    
+class QProcess;
 
 class Mp3File
 {
@@ -65,21 +67,27 @@ public:
 	double getTotalPlayTimeInSeconds();
 	int getActivePlay();
 	int getCurrPlayPos();
-	void playInThread();
+    void playInThread( double dStartPosInSeconds = 0, double dStopPosInSeconds = 0 );
+
+    double GetStartTime() const;
+    double GetStopTime() const;
 
 	void SetIniDB( MiniIniDB * pIniDB );
 
 private:
 	void UpdateSettingsFromIniFile();
+    void DoKill();
 
+    QProcess *      m_pProcess;
 	QTime			m_aPlayTime;
 	string 			m_sFileName;
-	string			m_sMp3Player;
-	string			m_sMp3Options;
-	int				m_iLengthInSeconds;
+    string			m_sMp3Player;
+    string			m_sMp3Options;
+    int				m_iLengthInSeconds;
 	int				m_iPlayModus;
-	int				m_iPID;
 	MiniIniDB *		m_pIniDB;			// no owner !
+    double          m_dStartPosInSeconds;
+    double          m_dStopPosInSeconds;
 };
 
 #endif
