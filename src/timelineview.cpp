@@ -340,6 +340,7 @@ void TimeLineView::sltContextMenuActivated( int iMenuIndex )
 
 void TimeLineView::SetPlayMark( double dActPlayTime )
 {
+// TODO --> ist dies noch notwendig ?
 #ifndef __linux__
 	const int iDelta = 4;
 #endif
@@ -351,6 +352,7 @@ void TimeLineView::SetPlayMark( double dActPlayTime )
 	// ** repaint only needet in play or pause modus
 	if( iActPos >= 0 )
 	{
+// TODO --> ist dies noch notwendig ?
 #ifdef __linux__
 		repaintContents( contentsX(), contentsY(), /*contents*/visibleWidth(), g_iStartPosY );
 #else
