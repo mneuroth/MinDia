@@ -5,6 +5,9 @@ TEMPLATE        = app
 CONFIG          += qt warn_on thread stl exceptions
 QT              += qt3support
 #CONFIG          += qt warn_on debug thread stl exceptions
+#				  createmoviedlgimpl.h \
+#				  createmoviedlgimpl.cpp \
+#                  CreateMovieDlg.ui \
 HEADERS         = diainfodlgimpl.h \
 				  playinfodlgimpl.h \
 				  comlogimpl.h \
@@ -16,7 +19,6 @@ HEADERS         = diainfodlgimpl.h \
 				  commentdlgimpl.h \
 				  eventmapdlgimpl.h \
 				  dyntextdlgimpl.h \
-				  createmoviedlgimpl.h \
 				  helpdlgimpl.h \
 				  iocontainer.h \
 				  minisound.h \
@@ -64,7 +66,6 @@ SOURCES         = diainfodlgimpl.cpp \
 				  commentdlgimpl.cpp \
 				  eventmapdlgimpl.cpp \
 				  dyntextdlgimpl.cpp \
-				  createmoviedlgimpl.cpp \
 				  helpdlgimpl.cpp \
 				  minisound.cpp \
 				  soundinfo.cpp \
@@ -110,7 +111,6 @@ FORMS3      = DiaInfoDlg.ui \
 				  LicenseDlg.ui \
 				  AboutExtDlg.ui \
 				  DynTextDlg.ui \
-				  CreateMovieDlg.ui \
 				  EnterValueDlg.ui
 FORMS           = CreateMovieDlg4.ui
 MOC_DIR					= moc
