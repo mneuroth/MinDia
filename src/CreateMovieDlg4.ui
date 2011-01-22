@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>592</width>
-    <height>578</height>
+    <width>791</width>
+    <height>729</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,85 +32,7 @@
          <property name="title">
           <string>Images</string>
          </property>
-         <layout class="QGridLayout">
-          <item row="3" column="0">
-           <widget class="QLabel" name="textLabel4">
-            <property name="text">
-             <string>Image height:</string>
-            </property>
-            <property name="wordWrap">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="m_pImageWidth"/>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="textLabel3">
-            <property name="text">
-             <string>Image width:</string>
-            </property>
-            <property name="wordWrap">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="textLabel5">
-            <property name="text">
-             <string>Images per second:</string>
-            </property>
-            <property name="wordWrap">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QLabel" name="textLabel1_2">
-            <property name="text">
-             <string>pixel</string>
-            </property>
-            <property name="wordWrap">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QLabel" name="textLabel1_2_2">
-            <property name="text">
-             <string>pixel</string>
-            </property>
-            <property name="wordWrap">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1" colspan="2">
-           <widget class="QSpinBox" name="m_pImagesPerSecond"/>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLineEdit" name="m_pImageHeight"/>
-          </item>
-          <item row="2" column="3" colspan="2">
-           <widget class="QComboBox" name="m_pImageRatio"/>
-          </item>
-          <item row="3" column="3" colspan="2">
-           <spacer name="spacer6">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>101</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
+         <layout class="QGridLayout" name="gridLayout_3">
           <item row="0" column="0">
            <widget class="QLabel" name="textLabel2">
             <property name="text">
@@ -121,14 +43,46 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1" colspan="3">
-           <widget class="QLineEdit" name="m_pDirectoryName">
-            <property name="enabled">
-             <bool>false</bool>
+          <item row="0" column="1" colspan="3">
+           <widget class="QLineEdit" name="m_pImageNameOffset"/>
+          </item>
+          <item row="0" column="4">
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="lblMovieName">
+            <property name="text">
+             <string>Movie file name:</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
+          <item row="1" column="1" colspan="3">
+           <widget class="QLineEdit" name="m_pMovieFileName"/>
+          </item>
+          <item row="1" column="4">
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="2" column="0">
            <widget class="QLabel" name="textLabel1">
             <property name="text">
              <string>Output directory:</string>
@@ -138,17 +92,14 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="3" colspan="2">
-           <widget class="QPushButton" name="m_pCreateImages">
-            <property name="text">
-             <string>Create &amp;Images (1)</string>
-            </property>
-            <property name="shortcut">
-             <string>Alt+I</string>
+          <item row="2" column="1" colspan="3">
+           <widget class="QLineEdit" name="m_pDirectoryName">
+            <property name="enabled">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
-          <item row="1" column="4">
+          <item row="2" column="4">
            <widget class="QPushButton" name="m_pSelectDirectory">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -164,8 +115,140 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1" colspan="4">
-           <widget class="QLineEdit" name="m_pImageNameOffset"/>
+          <item row="4" column="0">
+           <widget class="QLabel" name="textLabel3">
+            <property name="text">
+             <string>Image width:</string>
+            </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="m_pImageWidth"/>
+          </item>
+          <item row="4" column="2">
+           <widget class="QLabel" name="textLabel1_2">
+            <property name="text">
+             <string>pixel</string>
+            </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="3">
+           <widget class="QComboBox" name="m_pImageRatio"/>
+          </item>
+          <item row="4" column="4">
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="textLabel4">
+            <property name="text">
+             <string>Image height:</string>
+            </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLineEdit" name="m_pImageHeight"/>
+          </item>
+          <item row="5" column="2">
+           <widget class="QLabel" name="textLabel1_2_2">
+            <property name="text">
+             <string>pixel</string>
+            </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="3" colspan="2">
+           <spacer name="spacer6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>101</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="textLabel5">
+            <property name="text">
+             <string>Images per second:</string>
+            </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QSpinBox" name="m_pImagesPerSecond"/>
+          </item>
+          <item row="6" column="2" colspan="2">
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="6" column="4">
+           <widget class="QPushButton" name="m_pCreateImages">
+            <property name="text">
+             <string>Create &amp;Images (1)</string>
+            </property>
+            <property name="shortcut">
+             <string>Alt+I</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="lblMjpegToolsDir">
+            <property name="text">
+             <string>mjpegtools directory:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1" colspan="3">
+           <widget class="QLineEdit" name="m_pMjpegtoolsDirectory">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="4">
+           <widget class="QPushButton" name="m_pChangeMjpegToolsDirectory">
+            <property name="text">
+             <string>...</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -482,11 +565,14 @@
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
   <tabstop>m_pImageNameOffset</tabstop>
+  <tabstop>m_pMovieFileName</tabstop>
   <tabstop>m_pDirectoryName</tabstop>
   <tabstop>m_pSelectDirectory</tabstop>
+  <tabstop>m_pMjpegtoolsDirectory</tabstop>
+  <tabstop>m_pChangeMjpegToolsDirectory</tabstop>
   <tabstop>m_pImageWidth</tabstop>
-  <tabstop>m_pImageHeight</tabstop>
   <tabstop>m_pImageRatio</tabstop>
+  <tabstop>m_pImageHeight</tabstop>
   <tabstop>m_pImagesPerSecond</tabstop>
   <tabstop>m_pCreateImages</tabstop>
   <tabstop>m_pGeneratorCmd</tabstop>
@@ -496,10 +582,12 @@
   <tabstop>m_pVCDGeneratorCmd</tabstop>
   <tabstop>m_pCreateVCD</tabstop>
   <tabstop>m_pMakeShow</tabstop>
+  <tabstop>m_pDeleteTemp</tabstop>
   <tabstop>buttonHelp</tabstop>
   <tabstop>buttonOk</tabstop>
-  <tabstop>m_pClear</tabstop>
   <tabstop>tabWidgetOps</tabstop>
+  <tabstop>m_pOutput</tabstop>
+  <tabstop>m_pClear</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -510,8 +598,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>527</x>
-     <y>565</y>
+     <x>778</x>
+     <y>716</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -526,12 +614,12 @@
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>72</x>
-     <y>501</y>
+     <x>96</x>
+     <y>635</y>
     </hint>
     <hint type="destinationlabel">
-     <x>117</x>
-     <y>379</y>
+     <x>147</x>
+     <y>120</y>
     </hint>
    </hints>
   </connection>
@@ -539,11 +627,11 @@
    <sender>m_pCreateImages</sender>
    <signal>clicked()</signal>
    <receiver>CreateMovieDlg4</receiver>
-   <slot>OnCreateImages()</slot>
+   <slot>sltCreateImages()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>512</x>
-     <y>174</y>
+     <x>608</x>
+     <y>256</y>
     </hint>
     <hint type="destinationlabel">
      <x>589</x>
@@ -558,8 +646,8 @@
    <slot>sltSelectOutputDirectory()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>513</x>
-     <y>102</y>
+     <x>588</x>
+     <y>124</y>
     </hint>
     <hint type="destinationlabel">
      <x>586</x>
@@ -574,8 +662,8 @@
    <slot>sltImageRatioSelected(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>499</x>
-     <y>123</y>
+     <x>486</x>
+     <y>184</y>
     </hint>
     <hint type="destinationlabel">
      <x>587</x>
@@ -590,12 +678,156 @@
    <slot>sltCreateAVI()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>361</x>
-     <y>286</y>
+     <x>524</x>
+     <y>384</y>
     </hint>
     <hint type="destinationlabel">
      <x>588</x>
      <y>292</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pAddSound</sender>
+   <signal>clicked()</signal>
+   <receiver>CreateMovieDlg4</receiver>
+   <slot>sltAddSound()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>487</x>
+     <y>489</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>588</x>
+     <y>454</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pCreateVCD</sender>
+   <signal>clicked()</signal>
+   <receiver>CreateMovieDlg4</receiver>
+   <slot>sltCreateVCD()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>495</x>
+     <y>616</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>587</x>
+     <y>587</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pDeleteTemp</sender>
+   <signal>clicked()</signal>
+   <receiver>CreateMovieDlg4</receiver>
+   <slot>sltDeleteTempFiles()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>725</x>
+     <y>346</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>588</x>
+     <y>330</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pMakeShow</sender>
+   <signal>clicked()</signal>
+   <receiver>CreateMovieDlg4</receiver>
+   <slot>sltMakeShow()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>683</x>
+     <y>317</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>586</x>
+     <y>261</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pImagesPerSecond</sender>
+   <signal>valueChanged(QString)</signal>
+   <receiver>CreateMovieDlg4</receiver>
+   <slot>sltImagesPerSecondsChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>356</x>
+     <y>243</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>588</x>
+     <y>229</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pImageNameOffset</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>CreateMovieDlg4</receiver>
+   <slot>sltImageOutputChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>299</x>
+     <y>75</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>585</x>
+     <y>68</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pMovieFileName</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>CreateMovieDlg4</receiver>
+   <slot>sltMovieOutputChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>284</x>
+     <y>97</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>779</x>
+     <y>91</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pChangeMjpegToolsDirectory</sender>
+   <signal>clicked()</signal>
+   <receiver>CreateMovieDlg4</receiver>
+   <slot>sltChangeMjpegToolsDirectory()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>674</x>
+     <y>154</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>785</x>
+     <y>178</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pImageRatio</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>CreateMovieDlg4</receiver>
+   <slot>sltImageRatioSelected(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>460</x>
+     <y>185</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>786</x>
+     <y>282</y>
     </hint>
    </hints>
   </connection>
@@ -605,5 +837,13 @@
   <slot>sltSelectOutputDirectory()</slot>
   <slot>sltImageRatioSelected(QString)</slot>
   <slot>sltCreateAVI()</slot>
+  <slot>sltAddSound()</slot>
+  <slot>sltCreateVCD()</slot>
+  <slot>sltDeleteTempFiles()</slot>
+  <slot>sltMakeShow()</slot>
+  <slot>sltImagesPerSecondsChanged(QString)</slot>
+  <slot>sltImageOutputChanged(QString)</slot>
+  <slot>sltMovieOutputChanged(QString)</slot>
+  <slot>sltChangeMjpegToolsDirectory()</slot>
  </slots>
 </ui>

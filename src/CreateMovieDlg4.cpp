@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QProcess>
+#include <QSettings>
 
 #include "doccontroler.h"
 
@@ -43,15 +44,6 @@ CreateMovieDlg4::CreateMovieDlg4(DocumentAndControler * pDocControler, double dT
     ui.m_pImageRatio->insertItem( g_sDefaultSize2 );
     ui.m_pImageRatio->insertItem( g_sUserValue );
     ui.m_pImageRatio->insertItem( g_sSizeOfFirstImage );
-    ui.m_pImageRatio->setCurrentItem( 0 );
-    sltImageRatioSelected( g_sDefaultSize1 );
-
-    ui.m_pImageNameOffset->setText( "image" );
-
-    QString sTempImagePath = QDir::tempPath()+QDir::separator()+"mindia_movie";
-    ui.m_pDirectoryName->setText( sTempImagePath );
-
-    UpdateCmds();
 }
 
 CreateMovieDlg4::~CreateMovieDlg4()
@@ -150,6 +142,69 @@ void CreateMovieDlg4::sltCreateAVI()
     }
 }
 
+void CreateMovieDlg4::sltAddSound()
+{
+//    if( m_pProcess )
+//    {
+//        delete m_pProcess;
+//        m_pProcess = 0;
+//    }
+
+//    m_pProcess = new Q3Process( this );
+
+//// TODO --> nur fuer Windows !!!
+//    m_pProcess->addArgument("cmd.exe");
+//    m_pProcess->addArgument("/k");
+//    m_pProcess->addArgument("dir");
+//    m_pProcess->addArgument("/od");
+//    m_pProcess->addArgument("|");
+//    m_pProcess->addArgument("grep");
+//    m_pProcess->addArgument("INSTALL");
+
+//    connect( m_pProcess, SIGNAL(readyReadStdout()), this, SLOT(sltReadFromStdout()) );
+
+//    m_pProcess->start();
+}
+
+void CreateMovieDlg4::sltCreateVCD()
+{
+}
+
+void CreateMovieDlg4::sltMakeShow()
+{
+}
+
+void CreateMovieDlg4::sltDeleteTempFiles()
+{
+}
+
+void CreateMovieDlg4::sltChangeMjpegToolsDirectory()
+{
+    QString sDir = QFileDialog::getExistingDirectory(ui.m_pMjpegtoolsDirectory->text() );
+
+    if( !sDir.isEmpty() )
+    {
+        ui.m_pMjpegtoolsDirectory->setText( sDir );
+    }
+}
+
+void CreateMovieDlg4::sltImagesPerSecondsChanged( const QString & sValue )
+{
+    UpdateCmds();
+}
+
+
+void CreateMovieDlg4::sltImageOutputChanged( const QString & sValue )
+{
+    UpdateCmds();
+}
+
+void CreateMovieDlg4::sltMovieOutputChanged( const QString &)
+{
+    UpdateCmds();
+}
+
+
 void CreateMovieDlg4::UpdateCmds()
 {
     QString sCmd;
@@ -158,7 +213,40 @@ void CreateMovieDlg4::UpdateCmds()
     // for mac: use mjpegtools 2.0.0 (1.9.0 funktioniert nicht --> Segmentation fault) aber ggf. ist die Qualitaet nicht so gut !?
 
 // TODO --> pfade anpassen an Plattform !!! Qt immer / ?
-    ui.m_pGeneratorCmd->setText( "jpeg2yuv -I p -f 10 -j movie\\image%05d.jpg | yuv2lav -f avi -o movie\\movie.avi" );
+//    ui.m_pGeneratorCmd->setText( QString("jpeg2yuv -I p -f %1 -j <output_dir>%2%3.jpg | yuv2lav -f avi -o <output_dir>%4%5.avi").arg(ui.m_pImagesPerSecond->value()).arg(QDir::separator()).arg(ui.m_pImageNameOffset->text()).arg(QDir::separator()).arg(ui.m_pMovieFileName->text()));
+
+    ui.m_pGeneratorCmd->setText( QString("jpeg2yuv -I p -f %1 -j <output_dir>%2%3.jpg | yuv2lav -f avi -o <output_dir>%4%5.avi").arg(ui.m_pImagesPerSecond->text(),QString(QDir::separator()),ui.m_pImageNameOffset->text(),QString(QDir::separator()),ui.m_pMovieFileName->text() ) );
     ui.m_pSoundGeneratorCmd->setText( "lavaddwav movie\\movie.avi movie.wav movie\\movie.avi" );
     ui.m_pVCDGeneratorCmd->setText( "lav2yuv movie\\movie.avi | yuvscaler -O VCD | mpeg2enc -f 1 -r 16 -o movie\\movie.mpg" );
+}
+
+void CreateMovieDlg4::saveSettings()
+{
+    QSettings aSettings;
+
+    aSettings.setValue("CreateMoveDlg/OutputDir",ui.m_pDirectoryName->text());
+    aSettings.setValue("CreateMoveDlg/OutputName",ui.m_pImageNameOffset->text());
+    aSettings.setValue("CreateMoveDlg/OutputMovieName",ui.m_pMovieFileName->text());
+    aSettings.setValue("CreateMoveDlg/MjpegToolsDir",ui.m_pMjpegtoolsDirectory->text());
+    aSettings.setValue("CreateMoveDlg/ImagesPerSeconds",ui.m_pImagesPerSecond->value());
+    aSettings.setValue("CreateMoveDlg/ImageSizeItem",ui.m_pImageRatio->currentItem());
+}
+
+
+void CreateMovieDlg4::restoreSettings()
+{
+    QSettings aSettings;
+
+    QString sTempImagePath = QDir::tempPath()+QDir::separator()+"mindia_movie";
+    ui.m_pDirectoryName->setText(aSettings.value("CreateMoveDlg/OutputDir",sTempImagePath).toString());
+    QString sTempImageName("image%05d");
+    ui.m_pImageNameOffset->setText(aSettings.value("CreateMoveDlg/OutputName",sTempImageName).toString());
+    QString sTempMovieName("movie");
+    ui.m_pMovieFileName->setText(aSettings.value("CreateMoveDlg/OutputMovieName",sTempMovieName).toString());
+    QString sMjpegToolsDir = "/opt/local/bin";
+    ui.m_pMjpegtoolsDirectory->setText(aSettings.value("CreateMoveDlg/MjpegToolsDir",sMjpegToolsDir).toString());
+    ui.m_pImagesPerSecond->setValue(aSettings.value("CreateMoveDlg/ImagesPerSeconds",10).toInt());
+    ui.m_pImageRatio->setCurrentItem(aSettings.value("CreateMoveDlg/ImageSizeItem",0).toInt());
+
+    UpdateCmds();
 }

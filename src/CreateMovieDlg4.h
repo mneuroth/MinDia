@@ -17,11 +17,22 @@ public:
     CreateMovieDlg4(DocumentAndControler * pDocControler = 0, double dTotalTimeMS = 0.0, QWidget *parent = 0);
     virtual ~CreateMovieDlg4();
 
+    void saveSettings();
+    void restoreSettings();
+
 public slots:
-    void sltImageRatioSelected( const QString &);
+    void sltImageRatioSelected( const QString & );
     void sltSelectOutputDirectory();
     void sltCreateImages();
     void sltCreateAVI();
+    void sltAddSound();
+    void sltCreateVCD();
+    void sltMakeShow();
+    void sltDeleteTempFiles();
+    void sltChangeMjpegToolsDirectory();
+    void sltImagesPerSecondsChanged( const QString & );
+    void sltImageOutputChanged( const QString & );
+    void sltMovieOutputChanged( const QString &);
 
 private:
     void UpdateCmds();

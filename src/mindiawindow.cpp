@@ -1162,33 +1162,15 @@ void MinDiaWindow::sltExportAVI()
         pDlg->restoreGeometry(m_aCreateMovieDialogGeometry);
     }
 
+    pDlg->restoreSettings();
+
 	int iRet = pDlg->exec();
 
     m_aCreateMovieDialogGeometry = pDlg->saveGeometry();
 
 	if( iRet == 1 )
 	{
-/*
-		QString sName = pDlg->m_pImageNameOffset->text();
-		QString sDir = pDlg->m_pDirectoryName->text();
-		QString sCmd = pDlg->m_pGeneratorCmd->text();
-		int iImagesPerSecond = pDlg->m_pImagesPerSecond->text().toInt();
-		int iWidth = pDlg->m_pImageWidth->text().toInt();
-		int iHeight = pDlg->m_pImageHeight->text().toInt();
-
-		double dDeltaInMS = 1/((double)iImagesPerSecond)*1000.0;
-
-		int iCount = m_pControler->CreateImagesForMovie( 
-			    (const char *)sDir, (const char *)sName, 
-				iWidth, iHeight,
-				0, m_pControler->GetPresentation().GetTotalTime()*1000, dDeltaInMS );
-
-		if( iCount>0 )
-		{
-//			int iRet = system( (const char *)sCmd );
-//			cerr << "system(\"" << (const char *)sCmd << "\") = " << iRet << endl;
-		}
-*/
+        pDlg->saveSettings();
 	}
 
 	delete pDlg;
@@ -2153,6 +2135,7 @@ Q3Canvas * MinDiaWindow::GetCanvas()
 void MinDiaWindow::SaveSettings()
 {
     QSettings aSettings;
+    // settings could be found for Mac plattform: $home/Library/Preferences/de.mneuroth.mindia.plist
     
     aSettings.setValue("App/DataFileName",m_sLastFileName);
     aSettings.setValue("App/WindowState",saveState());
