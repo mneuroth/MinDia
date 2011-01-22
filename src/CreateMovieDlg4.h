@@ -30,6 +30,7 @@ public slots:
     void sltMakeShow();
     void sltDeleteTempFiles();
     void sltChangeMjpegToolsDirectory();
+    void sltSetToTemp();
     void sltImagesPerSecondsChanged( const QString & );
     void sltImageOutputChanged( const QString & );
     void sltMovieOutputChanged( const QString &);

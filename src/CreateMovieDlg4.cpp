@@ -126,20 +126,32 @@ void CreateMovieDlg4::sltCreateImages()
 
 void CreateMovieDlg4::sltCreateAVI()
 {
-   // if( m_pProcess==0 )
-    {
-        //m_pProcess = new QProcess(this);
+    // TODO: hier muss %05d stehen, noch nicht beim image erzeugen !
+    QString sCmd("%1%2jpeg2yuv -I p -f %3 -j %6%2%4%7.jpg | %1%2yuv2lav -f avi -o %6%2%5.avi");
+    sCmd = sCmd.arg(ui.m_pMjpegtoolsDirectory->text(),QString(QDir::separator()),ui.m_pImagesPerSecond->text(),ui.m_pImageNameOffset->text(),ui.m_pMovieFileName->text(),ui.m_pDirectoryName->text(),QString("%05d") );
 
-        QString sProg = CMD_SHELL;
-        QStringList aArgs;
-        //aArgs << "/c" << "notepad.exe d:\\home\\no_error.txt";
-        aArgs << CMD_SHELL_ARG << CMD_TEST;
-        bool bOk = QProcess::execute(sProg,aArgs);
-        QString sOut;
-        sOut.sprintf("started %d",(int)bOk);
-        ui.m_pOutput->append(sOut);
+    cout << "CREATE AVI " <<(const char *)sCmd << endl;
 
-    }
+    QString sProg = CMD_SHELL;
+    QStringList aArgs;
+    aArgs << CMD_SHELL_ARG << sCmd;
+    bool bOk = QProcess::execute(sProg,aArgs);
+    cout << "execute = " << bOk << endl;
+
+//   // if( m_pProcess==0 )
+//    {
+//        //m_pProcess = new QProcess(this);
+
+//        QString sProg = CMD_SHELL;
+//        QStringList aArgs;
+//        //aArgs << "/c" << "notepad.exe d:\\home\\no_error.txt";
+//        aArgs << CMD_SHELL_ARG << CMD_TEST;
+//        bool bOk = QProcess::execute(sProg,aArgs);
+//        QString sOut;
+//        sOut.sprintf("started %d",(int)bOk);
+//        ui.m_pOutput->append(sOut);
+
+//    }
 }
 
 void CreateMovieDlg4::sltAddSound()
@@ -168,14 +180,17 @@ void CreateMovieDlg4::sltAddSound()
 
 void CreateMovieDlg4::sltCreateVCD()
 {
+    QMessageBox::warning(this,"Warning","Not implemented yet !");
 }
 
 void CreateMovieDlg4::sltMakeShow()
 {
+    QMessageBox::warning(this,"Warning","Not implemented yet !");
 }
 
 void CreateMovieDlg4::sltDeleteTempFiles()
 {
+    QMessageBox::warning(this,"Warning","Not implemented yet !");
 }
 
 void CreateMovieDlg4::sltChangeMjpegToolsDirectory()
@@ -204,6 +219,10 @@ void CreateMovieDlg4::sltMovieOutputChanged( const QString &)
     UpdateCmds();
 }
 
+void CreateMovieDlg4::sltSetToTemp()
+{
+    ui.m_pDirectoryName->setText(QDir::tempPath());
+}
 
 void CreateMovieDlg4::UpdateCmds()
 {
@@ -215,9 +234,10 @@ void CreateMovieDlg4::UpdateCmds()
 // TODO --> pfade anpassen an Plattform !!! Qt immer / ?
 //    ui.m_pGeneratorCmd->setText( QString("jpeg2yuv -I p -f %1 -j <output_dir>%2%3.jpg | yuv2lav -f avi -o <output_dir>%4%5.avi").arg(ui.m_pImagesPerSecond->value()).arg(QDir::separator()).arg(ui.m_pImageNameOffset->text()).arg(QDir::separator()).arg(ui.m_pMovieFileName->text()));
 
-    ui.m_pGeneratorCmd->setText( QString("jpeg2yuv -I p -f %1 -j <output_dir>%2%3.jpg | yuv2lav -f avi -o <output_dir>%4%5.avi").arg(ui.m_pImagesPerSecond->text(),QString(QDir::separator()),ui.m_pImageNameOffset->text(),QString(QDir::separator()),ui.m_pMovieFileName->text() ) );
+    ui.m_pGeneratorCmd->setText( QString("<mjpegtools_dir>%2jpeg2yuv -I p -f %1 -j <output_dir>%2%3%6.jpg | <mjpegtools_dir>%2yuv2lav -f avi -o <output_dir>%4%5.avi").arg(ui.m_pImagesPerSecond->text(),QString(QDir::separator()),ui.m_pImageNameOffset->text(),QString(QDir::separator()),ui.m_pMovieFileName->text(),QString("%05d") ) );
     ui.m_pSoundGeneratorCmd->setText( "lavaddwav movie\\movie.avi movie.wav movie\\movie.avi" );
     ui.m_pVCDGeneratorCmd->setText( "lav2yuv movie\\movie.avi | yuvscaler -O VCD | mpeg2enc -f 1 -r 16 -o movie\\movie.mpg" );
+
 }
 
 void CreateMovieDlg4::saveSettings()
