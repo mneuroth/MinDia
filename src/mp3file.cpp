@@ -214,26 +214,35 @@ void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
 //    QString sProgramName(/*m_sMp3Player.c_str()*/"afplay");
 //    QString sProgramName(/*m_sMp3Player.c_str()*/"mpg123");
 //    QString sProgramName(/*m_sMp3Player.c_str()*/"/usr/bin/afplay");
-    QString sProgramName(/*m_sMp3Player.c_str()*/"/opt/local/bin/mpg123");
-//    if( dStartPosInSeconds>0 )
-//    {
-//        MP3Header aMP3Header;
+//    QString sProgramName(/*m_sMp3Player.c_str()*/"/opt/local/bin/mpg123");
+    QString sProgramName(m_sMp3Player.c_str());
+    if( dStartPosInSeconds>0 && sProgramName.indexOf("mpg123")!=-1 )
+    {
+        MP3Header aMP3Header;
 
-//        bool boolIsMP3 = aMP3Header.ReadMP3Information( m_sFileName.c_str() );
-//        if(boolIsMP3)
-//        {
-//           QString sFrames;
-//           sFrames = sFrames.setNum((int)(aMP3Header.getNumberOfFrames()*(int)dStartPosInSeconds/aMP3Header.getLengthInSeconds()));
-//           aArgs << "-k" << sFrames;
-//        }
-//    }
+        bool boolIsMP3 = aMP3Header.ReadMP3Information( m_sFileName.c_str() );
+        if(boolIsMP3)
+        {
+           QString sFrames;
+           sFrames = sFrames.setNum((int)(aMP3Header.getNumberOfFrames()*(int)dStartPosInSeconds/aMP3Header.getLengthInSeconds()));
+           aArgs << "-k" << sFrames;
+        }
+    }
+    if( m_sMp3Options!="<none>" )
+    {
+        aArgs << m_sMp3Options.c_str();
+    }
+
     aArgs << m_sFileName.c_str();
-    //    QString sProgramName("/bin/sh");
+
+// TODO test:
+//    QString sProgramName("/bin/sh");
 //    string s = string("mpg123 ")+m_sFileName;
 //    aArgs << "-c" << s.c_str();
 
     m_pProcess = new QProcess(0);
 
+// TODO test:
 //    QProcessEnvironment aEnv = QProcessEnvironment::systemEnvironment();
 //    aEnv.insert("PATH", "/opt/local/bin:"+aEnv.value("PATH"));
 //    m_pProcess->setProcessEnvironment(aEnv);

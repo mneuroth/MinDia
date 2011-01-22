@@ -131,7 +131,7 @@ public:
         return false;
     }
 
-private:
+//private:  // patch to start inbetween the song with mpg123
     void LoadMP3Header(_byte * c)
     {
         // this thing is quite interesting, it works like the following
