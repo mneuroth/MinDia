@@ -57,13 +57,15 @@ ConfigPlayerDlgImpl::ConfigPlayerDlgImpl( MiniIniDB & aIniDB, QWidget* parent, c
 	// if no elements are found, insert some default values !
 	if( sPlayer.length()==0 )
 	{
-		m_pPlayer->insertItem( "madplay" );
-		m_pPlayer->insertItem( "mpg123" );
 #ifdef __APPLE__
         m_pPlayer->insertItem( "afplay" );
+        m_pPlayer->insertItem( "/opt/local/bin/mpg123" );
 #endif
+        m_pPlayer->insertItem( "madplay" );
+		m_pPlayer->insertItem( "mpg123" );
 
-		m_pPlayerSettings->insertItem( "-q -v --no-tty-control" );
+        m_pPlayerSettings->insertItem( "<none>" );
+        m_pPlayerSettings->insertItem( "-q -v --no-tty-control" );
 		m_pPlayerSettings->insertItem( "-q -v" );
 #ifdef __APPLE__
         m_pPlayerSettings->insertItem( "-v" );
