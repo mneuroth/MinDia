@@ -37,7 +37,7 @@
 
 static char _GetDirectorySeparator()
 {
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 	return '/';
 #else
 	return '\\';
