@@ -130,6 +130,8 @@ void CreateMovieDlg4::sltCreateAVI()
     QString sCmd("%1%2jpeg2yuv -I p -f %3 -j %6%2%4%7.jpg | %1%2yuv2lav -f avi -o %6%2%5.avi");
     sCmd = sCmd.arg(ui.m_pMjpegtoolsDirectory->text(),QString(QDir::separator()),ui.m_pImagesPerSecond->text(),ui.m_pImageNameOffset->text(),ui.m_pMovieFileName->text(),ui.m_pDirectoryName->text(),QString("%05d") );
 
+    ui.m_pOutput->append( sCmd );
+
     cout << "CREATE AVI " <<(const char *)sCmd << endl;
 
     QString sProg = CMD_SHELL;
@@ -138,20 +140,22 @@ void CreateMovieDlg4::sltCreateAVI()
     bool bOk = QProcess::execute(sProg,aArgs);
     cout << "execute = " << bOk << endl;
 
-//   // if( m_pProcess==0 )
-//    {
-//        //m_pProcess = new QProcess(this);
+    if( m_pProcess==0 )
+    {
+        m_pProcess = new QProcess(this);
 
-//        QString sProg = CMD_SHELL;
-//        QStringList aArgs;
-//        //aArgs << "/c" << "notepad.exe d:\\home\\no_error.txt";
-//        aArgs << CMD_SHELL_ARG << CMD_TEST;
+        QString sProg = CMD_SHELL;
+        QStringList aArgs;
+        aArgs << CMD_SHELL_ARG << sCmd;
+        m_pProcess->start(sProg,aArgs);
 //        bool bOk = QProcess::execute(sProg,aArgs);
 //        QString sOut;
 //        sOut.sprintf("started %d",(int)bOk);
 //        ui.m_pOutput->append(sOut);
-
-//    }
+        connect(m_pProcess,SIGNAL( readyReadStandardOutput() ), this, SLOT( sltReadyReadStdOutput() ) );
+        connect(m_pProcess,SIGNAL( readyReadStandardError() ), this, SLOT( sltReadyReadStdError() ) );
+        connect(m_pProcess,SIGNAL( finished( int, QProcess::ExitStatus ) ), this, SLOT( sltProcessFinished( int, QProcess::ExitStatus ) ) );
+    }
 }
 
 void CreateMovieDlg4::sltAddSound()
@@ -224,6 +228,30 @@ void CreateMovieDlg4::sltSetToTemp()
     ui.m_pDirectoryName->setText(QDir::tempPath());
 }
 
+void CreateMovieDlg4::sltReadyReadStdOutput()
+{
+    if( m_pProcess )
+    {
+        ui.m_pOutput->append(m_pProcess->readAllStandardOutput());
+    }
+}
+
+void CreateMovieDlg4::sltReadyReadStdError()
+{
+    if( m_pProcess )
+    {
+        ui.m_pOutput->append(m_pProcess->readAllStandardError());
+    }
+}
+
+void CreateMovieDlg4::sltProcessFinished( int exitCode, QProcess::ExitStatus exitStatus )
+{
+    ui.m_pOutput->append("done.");
+
+    delete m_pProcess;
+    m_pProcess = 0;
+}
+
 void CreateMovieDlg4::UpdateCmds()
 {
     QString sCmd;
@@ -234,9 +262,23 @@ void CreateMovieDlg4::UpdateCmds()
 // TODO --> pfade anpassen an Plattform !!! Qt immer / ?
 //    ui.m_pGeneratorCmd->setText( QString("jpeg2yuv -I p -f %1 -j <output_dir>%2%3.jpg | yuv2lav -f avi -o <output_dir>%4%5.avi").arg(ui.m_pImagesPerSecond->value()).arg(QDir::separator()).arg(ui.m_pImageNameOffset->text()).arg(QDir::separator()).arg(ui.m_pMovieFileName->text()));
 
+
     ui.m_pGeneratorCmd->setText( QString("<mjpegtools_dir>%2jpeg2yuv -I p -f %1 -j <output_dir>%2%3%6.jpg | <mjpegtools_dir>%2yuv2lav -f avi -o <output_dir>%4%5.avi").arg(ui.m_pImagesPerSecond->text(),QString(QDir::separator()),ui.m_pImageNameOffset->text(),QString(QDir::separator()),ui.m_pMovieFileName->text(),QString("%05d") ) );
-    ui.m_pSoundGeneratorCmd->setText( "lavaddwav movie\\movie.avi movie.wav movie\\movie.avi" );
-    ui.m_pVCDGeneratorCmd->setText( "lav2yuv movie\\movie.avi | yuvscaler -O VCD | mpeg2enc -f 1 -r 16 -o movie\\movie.mpg" );
+    ui.m_pSoundGeneratorCmd->setText( QString("<mjpegtools_dir>%1lavaddwav <output_dir>%1%2.avi <sound_for_movie>.wav <output_dir>%1%2.avi").arg(QString(QDir::separator()),ui.m_pMovieFileName->text()) );
+
+    // convert mp3 to wav: mpg123 -w 01_WalkThroughTheWorld.wav 01_WalkThroughTheWorld.mp3
+    // cat mp3file1.mp3 >movie.mp3
+    // cat mp3file2.mp3 >>movie.mp3     --> geht nicht !
+
+    // lavaddwav mit mehreren wav files moeglich? --> wohl nicht !
+
+    // mpg123 -w sound.wav sound.mp3
+    // sox sound1.wav sound2.wav sound_out.wav
+
+    // http://sox.sourceforge.net/Main/HomePage
+
+
+    ui.m_pVCDGeneratorCmd->setText( QString("<mjpegtools_dir>%1lav2yuv <output_dir>%1%2.avi | <mjpegtools_dir>%1yuvscaler -O VCD | <mjpegtools_dir>%1mpeg2enc -f 1 -r 16 -o <output_dir>%1%2.mpg").arg(QString(QDir::separator()),ui.m_pMovieFileName->text()) );
 
 }
 

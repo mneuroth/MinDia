@@ -5,9 +5,10 @@
 #include "ui_CreateMovieDlg4.h"
 
 #include <QDialog>
+#include <QProcess>
 
 class DocumentAndControler;
-class QProcess;
+//class QProcess;
 
 class CreateMovieDlg4 : public QDialog
 {
@@ -34,6 +35,9 @@ public slots:
     void sltImagesPerSecondsChanged( const QString & );
     void sltImageOutputChanged( const QString & );
     void sltMovieOutputChanged( const QString &);
+    void sltReadyReadStdOutput();
+    void sltReadyReadStdError();
+    void sltProcessFinished( int exitCode, QProcess::ExitStatus exitStatus );
 
 private:
     void UpdateCmds();
