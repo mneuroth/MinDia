@@ -373,9 +373,25 @@ change history:
 4.1.2011    2h      porting to qt4 (mac)
 5.1.2011    4h      porting to qt4 (windows and linux)
 6.1.2011    2h      porting to qt4 (optimizing for mac)
+8.1.2011    2h      bufixing communiction via RS232 for mac (greater delay time, try more than once), test with mjpeg tools -> linux, win ok, mac !ok (because of jpeg-6 problem)
+9.1.2011    2h      RS232 communication under Windows repaired, RS232 communication under Linux works again (somehow, but not perfect!), Analyzed Drag&Drop problem on Mac --> target()!=this !!!???     
+10.1.2011   2h      repaired output of dyn. texts into movies
+11.1.2011   2h      use strings for RS232 devices instead of numbers (COM1), scan rs232 devices under unix
+12.1.2011   2h      repaired QCustomEvents --> customEvent(QEvent *) instead of customEvent(QCustomEvent *)
+14.1.2011   2h      Porting CreatMovieDlg to Qt4, experimenting with QtProcess
+16.1.2011   1h      Testing with isightcapture and mpg123
+17.1.2011   1h      New handling of reading RS232 command under unix/mac --> wait until full command red or timeout reading next character ==> seems to fix problems with communication under linux/mac
+18.1.2011   2h      rewriting mp3file.cpp using QProcess using mpg123 for starting inbetween the mp3 file  
+21.1.2011   3h      saved and restored some dialog positions and main window positions, replaced some Qt3 menu handling with Qt4, added auto loading of last file    
+22.1.2011   2h      saved and restored settings of createmoviedlg4, first version of configplaymp3 dilog for Mac
+23.1.2011   2h      tests to concat multiple mp3 files in one mp3 file (not successfull), implemented file assignement for mac, added scripts to build installer for windows
+ 
+//TODO: RS232 communication under linux does not work... --> verwende /dev/ttyUSB0, aber anscheinend ist Kommunikation nicht ganz stabil, ggf. weitere Tests notwendig (manchmal werden nicht alle zeichen gelesen?)
+// TODO: BUG Dyn-Text wird nicht als veraenderlich angesehen --> daher werden texte nur angezeigt wenn sie waehrend der ueberblendung eingeschaltet werden !!!            
+// TODO: BUG anscheinend muessen Dyn-Texte auch relativ positioniert werden damit sie angezeigt werden !!!
 
 //TODO: update3.zip einarbeiten
-//TODO: Speichern für ZMindia implementieren
+//TODO: Speichern f?r ZMindia implementieren
 TODO: groesseren ZPlayInfoDlg implementieren
 
 //TODO: anti alias fonts...
@@ -383,20 +399,20 @@ TODO: groesseren ZPlayInfoDlg implementieren
 gnuplot: /usr/local/share/gnuplot/4.0/gnuplot.gih
 gnuplot-configure: ./configure --host=arm --with-x=no --with-gihdir=/opt/QtPalmtop/help
 
-TODO: Image-Funktionen (skalieren, etc.) als Skript-Funktionen zur Verfügung stellen...
+TODO: Image-Funktionen (skalieren, etc.) als Skript-Funktionen zur Verf?gung stellen...
 
 TODO: wie baue ich binary RPM ??? --> movie Verzeichnis
 
-TODO: PATH für mjpeg tools temporär anpassen...
-TODO: script mit image skalierung für zaurus
-TODO: Button für erzeugte Image Dateien löschen
-TODO: Button für Images erzeugen
-TODO: Button für AVI erzeugen (aus Images) --> cat ... | yuv2lav -o test.avi
-TODO: Button für Sound dran haengen
-TODO: Button für VCD erzeugen
-TODO: optimierte AVI Erzeugung wenn sich nichts ändert ggf. die Anzahl der Frames pro Sekunde erniedrigen ?
-//TODO: optimierung: wenn sich bild nicht ändert, altes image schreiben...
-TODO: implementiere FileUtilityObj::_CopyFile() für Linux
+TODO: PATH f?r mjpeg tools tempor?r anpassen...
+TODO: script mit image skalierung f?r zaurus
+TODO: Button f?r erzeugte Image Dateien l?schen
+TODO: Button f?r Images erzeugen
+TODO: Button f?r AVI erzeugen (aus Images) --> cat ... | yuv2lav -o test.avi
+TODO: Button f?r Sound dran haengen
+TODO: Button f?r VCD erzeugen
+TODO: optimierte AVI Erzeugung wenn sich nichts ?ndert ggf. die Anzahl der Frames pro Sekunde erniedrigen ?
+//TODO: optimierung: wenn sich bild nicht ?ndert, altes image schreiben...
+TODO: implementiere FileUtilityObj::_CopyFile() f?r Linux
 
 Jpg's mit Groesse durch 8 teilbar erzeugen...
 
@@ -408,9 +424,9 @@ VCD File erstellen:
 lav2yuv test2.avi | yuvscaler -O VCD | mpeg2enc -f 1 -r 16 -o test2.mpg
 
 
-TODO: Icon für den Virtuelle-Leinwand Dialog in Toolleiste hinzufügen
+TODO: Icon f?r den Virtuelle-Leinwand Dialog in Toolleiste hinzuf?gen
 
-//TODO: Zaurus Bildschirmschoner Problem mit qcop lösen:
+//TODO: Zaurus Bildschirmschoner Problem mit qcop l?sen:
 //        shell> qcop QPE/System 'setScreenSaverInterval(int)' 120
 //        C++: #include <qcopenvelope_qws.h>
 //		     QCopEnvelope e("QPE/System","setScreenSaverInterval(int)");
@@ -433,7 +449,7 @@ www.freshmeat.net
 www.winload.de
 http://www.spieleutilities.de/spieleutilitie_anzeigen.php?id=598
 
-//linguist Unterstützung in *.pro einschalten
+//linguist Unterst?tzung in *.pro einschalten
 
 kdevelop:
 Project-Properties: -fexceptions -D_POSIX -DHAVE_CONFIG_H

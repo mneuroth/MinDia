@@ -7,21 +7,49 @@ Internal TODO
 Porting to Qt4:
 - Skripte erstellen fuer binary releases (Mac, Linux, Windows)
 - Skripte erstellen fuer Source Code release
-- Quelltextdateien aufraeumen, bessere Struktur
-(- Internationalisierung fixen
+//- Problem mit Rs232 Kommunikation: ggf. wird das CR/LF am Ende eines Kommandos nicht gelesen, bevor der naechste Befehl gelesen wird --> ggf. ein flush verwenden bevor CMD schreiben und Antwort lesen
 - File-Assoziationen fuer Mac realisieren
-- ggf. Python Unterstuetzung wieder aktivieren
-- qextserialport verwenden fuer die Ansteuerung der Porjektoren
-- Bessere Sound Unterstuetzung fuer alle Plattformen
+- mp3 Unterstuetzung fue MAC verbessern --> mpg123 verwenden, QProcess verwenden
+- Filme erzeugen verbessern...
+- mpg123 und mjpegtools in application bundle und windows installer hinzufuegen, abhaengigkeit zu mpg123 und mjpegtools in .deb hinzufuegen
+- Diashow mit iSight Kamera aufnehmen (einfache Digitalisierunng) 
+   (http://www.command-tab.com/2005/07/03/command-line-isight-tool/
+    http://stackoverflow.com/questions/1576593/how-can-i-capture-isight-frames-with-python-in-snow-leopard
+    http://www.osxentwicklerforum.de/index.php?page=Thread&threadID=3709  
+    http://developer.apple.com/library/mac/#samplecode/hacktv/Introduction/Intro.html  
+    http://iloveco.de/adding-isight/  
+    http://developer.apple.com/library/mac/#documentation/DeviceDrivers/Conceptual/IOKitFundamentals/Introduction/Introduction.html)
+- eigenes ini-file durch QSettings ersetzen
+- eigene Threads durch QThread ersetzen  
+- ungenutzte Quelldateien aus projekt entfernen (z.B. alter createmoviedlg)
+- vor Release die TODOs aus dem Quellcode entfernen  
+- Dyn. Texte an Dias 'kleben' lassen, wenn standzeit veraendert wird, muss sich text ggf. mit bewegen...
+- ggf. Dia-Rahmen/Bild-Groesse aenderbar machen
+- gendev ist Beispiel fuer externe Hardware --> kann umorganisiert werden, ggf. idev.h verschieben
+- ggf. Temporaeres Ausgabeverzeichnis fuer bilder in INI-Datei aufnehmen
+- mjpegtools mit libjpg-6 uebersetzen
+- ggf. Musik direkt mit Einblenden anfangen koennen... --> funktioniert ggf. auch mit dummy Dia, welches nicht eingeblendet wird...; Aber vielleicht mit echtem Dia-Vortrag via Projektor notwendig ? 
+- ggf. zoomen fuer Timeline realisieren
 - verwende Qt Kostrukte anstatt eigene: pthreads, sound?, Konfiguration speichern, Internationalisierung, etc.
-- UI aufpolieren
-- Komfortablere Bedienung realisieren --> Drag&Drop
-- Manche Menu-Items sind checkbar, obwohl das keinen Sinn macht
+//- Manche Menu-Items sind checkbar, obwohl das keinen Sinn macht
+- qextserialport verwenden fuer die Ansteuerung der Porjektoren
 - ggf. Add Dyn. Text in Hauptmenu aufnehmen
-- Besseres Drag-and-Drop fuer Bilder realisieren (war schon mal besser)
 - Drag-and-Drop auch fuer Musik-Dateien realisieren
+- Bessere Sound Unterstuetzung fuer alle Plattformen (starten von Sound auch von der Mitte einer Datei, zum Testen von Dia-Shows)
+- Quelltextdateien aufraeumen, bessere Struktur
 - ggf. Undo/Redo realisieren
-- Filme erzeugen testen...
+- UI aufpolieren --> nach Qt4 portieren
+- ggf. Python Unterstuetzung wieder aktivieren oder auf JavaScript umsteigen
+- wav unterstuetzung nur fuer linux !S
+
+(- Internationalisierung fixen
+(- Komfortablere Bedienung realisieren --> Drag&Drop
+//- Besseres Drag-and-Drop fuer Bilder realisieren (war schon mal besser)
+//- Dia Drag&Drop fuer Mac reparieren...
+//- pruefen ob nicht gesetztes define MINGW32 das Problem der RS232 Kommunikation verursacht ==> verwende QString anstatt string beim Aufruf von Betriebssystem Funktionen von win32
+//- Bessere Behandlung der COM Port No --> durch String ersetzen
+//- Fernseh-Aufloesung als default Wert mit aufnehmen
+//- Logging reparieren
 
 //###########################################################################
 
@@ -69,15 +97,15 @@ ok  * HISTORY
 
 ok  * example.txt
 
-ok  * script-verzeichnis aufräumen
+ok  * script-verzeichnis aufr?umen
 
   * Screenshots
 
 ok  * Projektor testen...
 
-ok  * nicht benötigte Datein entfernen: configure_qt2
+ok  * nicht ben?tigte Datein entfernen: configure_qt2
 
-ok  * Bug mit der Status Zeile bei Play einer Präsentation
+ok  * Bug mit der Status Zeile bei Play einer Pr?sentation
 
 ok  * Bug mit -en als Argument
 
@@ -88,31 +116,31 @@ ok  * in INSTALL: export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
 
 BUG: anscheinend funktionieren Events unter Linux nicht !!!
 
-//- Installations-Programm fuer Windows (inkl. Registry-Eintrag für .mindia.ini, Desktop-Icon erzeugen, Start-Menu-Eintrag erzeugen)
-//- niederländische Version erzeugen
+//- Installations-Programm fuer Windows (inkl. Registry-Eintrag f?r .mindia.ini, Desktop-Icon erzeugen, Start-Menu-Eintrag erzeugen)
+//- niederl?ndische Version erzeugen
 //- Demo Vortrag mit allen Features (inkl. dyn. Text)
-//- bessere autoconf / configure Unterstützung
+//- bessere autoconf / configure Unterst?tzung
 //- BUG: Absturz bei Script-Sub-Menu unter linux
-//- Dokumentation ins englische übersetzen
+//- Dokumentation ins englische ?bersetzen
 - bessere Device-Interface Anbindung realisieren: z.B. Device configurieren
 - Performance-Optimierungen fuer Drag-and-Drop --> gcc -pg --> gprof
-- ggf. KDevelop Unterstützung
-- komfortablere Text-Eingabe ermöglichen
-(- bessere Installation unter Linux (make install) implementieren --> html Dateien für Hilfe)
-- Zmindia schaltet sich immer im Play-Modus aus (wenn keine Aktivität mit Eingabe erfolgt)
+- ggf. KDevelop Unterst?tzung
+- komfortablere Text-Eingabe erm?glichen
+(- bessere Installation unter Linux (make install) implementieren --> html Dateien f?r Hilfe)
+- Zmindia schaltet sich immer im Play-Modus aus (wenn keine Aktivit?t mit Eingabe erfolgt)
 //- Skripte in eigenes Verzeichnis verschieben --> probleme mit PYTHONPATH !!!
-//- data-Verzeichnis, images-Verzeichnis, music-Verzeichnis unterstützen
+//- data-Verzeichnis, images-Verzeichnis, music-Verzeichnis unterst?tzen
 //- Bug: in release kein setzen des Skript-Verzeichnisses
-//- relative Pfade für Sound und Bilder speichern (und Diapresentation)
-//- bessere mp3 Unterstützung für Linux (Länge der mp3-Datei bestimmen)
+//- relative Pfade f?r Sound und Bilder speichern (und Diapresentation)
+//- bessere mp3 Unterst?tzung f?r Linux (L?nge der mp3-Datei bestimmen)
 //- INI-Datei unter Unix aus User-Home Verzeichnis lesen ~/.mindia.ini
-//- Änderungen von Oliver Schlachter einbauen
-//- Hilfe aktualisieren für Menupunkt "make relative paths"
-//- Interface für andere Diaprojektoren implementieren
-(- diverse Configurierungs-Daten in INI-Datei speichern, z.B. Logging on/off, Bildschirmposition und Größe etc.)
+//- ?nderungen von Oliver Schlachter einbauen
+//- Hilfe aktualisieren f?r Menupunkt "make relative paths"
+//- Interface f?r andere Diaprojektoren implementieren
+(- diverse Configurierungs-Daten in INI-Datei speichern, z.B. Logging on/off, Bildschirmposition und Gr??e etc.)
 
 - Einlesen von Dia-Shows vom Projektor implementieren
-- Sonderfunktionen unterstützen
+- Sonderfunktionen unterst?tzen
 - bessere Sound-Manipulation (mit Maus verschieben)
 
 - Dokumentation verbessern _Online-Doku (User+Entwickler)
@@ -262,7 +290,7 @@ Skripte:
 - Aktualisierung des Document-Changed Flags nach Script-Ausfuehrung implementieren
 - sound infos an sound-datei haengen, ggf. script zum schreiben der sound infos fuer ein lied imortiert/exportiert!!!
 - Bild-Namen parsen und in ID-Feld einsortieren
-- Einlesen eines Verzeichnisses mit Bildern und automatisches anlegen einer Diashow für dieses Verzeichnis...
+- Einlesen eines Verzeichnisses mit Bildern und automatisches anlegen einer Diashow f?r dieses Verzeichnis...
 
 Features:
 - Bilder ueberblenden (fade) implementieren
@@ -273,7 +301,7 @@ Bugfixes:
 - Bugfix fuer Linux: repaint Problem, wenn mit Dialog ueber timelineview gefahren wird
 - Bugfix fuer Windows: Sound kann nicht gestoppt bzw. in pause gesetzt werden
 - Bugfix fuer Windows: Ansteuerung des Projektors ueber COM ist nicht sehr robust ?
-- Bugfix: anscheinend funktioniert der Pause-Modus, bzw. die Continue-Funktion noch nicht richtig... (es wird ein Bild übersprungen!)
+- Bugfix: anscheinend funktioniert der Pause-Modus, bzw. die Continue-Funktion noch nicht richtig... (es wird ein Bild ?bersprungen!)
 - Bugfix: Umschalten von Simulation auf Com funktioniert wohl nicht ganz zuverlaessig !
 - Bugfix: Problem mit Appl-Close unter Linux wenn kein Diaprojektor angeschlossen ist
 - Bugfix: Synchronisation funktioniert nicht, wenn Bilder angezeigt werden... (laueft auseinander) !
@@ -417,7 +445,7 @@ Done:
 //  * Bugfix: starten an einer silent.wav Stelle funktioniert mit dem sound noch nicht richtig
 //      --->  positionsangabe im silent modus beachtet nicht ein starten mitten im stueck !!!
 
-//  * Bugfix: datei lesen, ändern, neue datei lesen, speichern ignorieren, --> neue datei ist gleich modifiziert !
+//  * Bugfix: datei lesen, ?ndern, neue datei lesen, speichern ignorieren, --> neue datei ist gleich modifiziert !
 //	  --->	changed Behandlung fuer sound-infos fehlerhaft --> SoundInfoContainer und SoundCommentContainer muessen nach read das ObjectChanged-Flag zuruecksetzen
 
 //  * Scale-Image-Buttons implementieren
