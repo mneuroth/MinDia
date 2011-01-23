@@ -1,0 +1,13 @@
+Source: mindia
+Section: utility
+Priority: extra
+Maintainer: ubuntu <michael.neuroth@freenet.de>
+Build-Depends: debhelper (>= 7)
+Standards-Version: 3.8.0
+Homepage: http://www.mneuroth.de/privat/mindia/index.html
+
+Package: mindia
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: mindia, a application to create slide shows,
+ control rollei projectors and create movies.
