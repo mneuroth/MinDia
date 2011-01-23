@@ -137,9 +137,9 @@ win32:LIBS				+= libwinmm
 #The following line was inserted by qt3to4
 CONFIG += uic3
 
-debug {
-    CONFIG -= release
-}
+#debug {
+#    CONFIG -= release
+#}
 
 macx {
     UI_DIR = .ui
