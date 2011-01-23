@@ -345,6 +345,67 @@ char * * IMinDiaScriptFcnImpl::GetArgVec() const
 // *************************************************************************
 // *************************************************************************
 
+class MindiaApp : public QApplication
+{
+public:
+    MindiaApp(int & argc, char ** argv);
+    ~MindiaApp();
+
+    void init(const QString & sFileName, MinDiaWindow * pWindow);
+
+#if defined( Q_WS_MACX )
+protected:
+    bool event(QEvent *event);
+#endif
+
+private:
+    MinDiaWindow *      m_pMainWindow;  // not an owner
+    QString             m_sMacFile;
+};
+
+MindiaApp::MindiaApp(int & argc, char ** argv)
+: QApplication(argc,argv),
+  m_pMainWindow(0)
+{
+}
+
+MindiaApp::~MindiaApp()
+{
+}
+
+void MindiaApp::init(const QString & sFileName, MinDiaWindow * pWindow)
+{
+    m_pMainWindow = pWindow;
+    m_pMainWindow->show();
+//    if( !m_sMacFile.isEmpty() )
+//    {
+//        m_pMainWindow->sltLoadDoc(m_sMacFile,/*bExecuteEvent*/true);
+//    }
+    if( !sFileName.isEmpty() )
+    {
+        m_pMainWindow->sltLoadDoc(sFileName,/*bExecuteEvent*/true);
+    }
+}
+
+#if defined( Q_WS_MACX )
+bool MindiaApp::event( QEvent * event )
+{
+    if( event->type() == QEvent::FileOpen )
+    {
+        QFileOpenEvent *oe = static_cast<QFileOpenEvent *>(event);
+        if ( m_pMainWindow )
+        {
+            m_pMainWindow->sltLoadDoc( oe->file(), /*bExecuteEvent*/true );
+        }
+        else
+        {
+            m_sMacFile = oe->file();
+        }
+    }
+    return QApplication::event(event);
+}
+#endif
+
 static QApplication * g_pApplication = 0;
 
 QApplication * GetApplication()
@@ -381,7 +442,7 @@ QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage,
 
 int main( int argc, char** argv )
 {
-	QApplication myApp( argc, argv );
+    MindiaApp myApp( argc, argv );
 
 	g_pApplication = &myApp;
 
@@ -541,12 +602,14 @@ int main( int argc, char** argv )
 	myProcessLanguage( pTranslator, sLanguage, qApp );
 
 	// ** load file if any filename is given as an argument
-	if( !sFileName.isEmpty() )
-	{
-		aWindow.sltLoadDoc( sFileName, bExecuteEvent );
-	}
+//	if( !sFileName.isEmpty() )
+//	{
+//		aWindow.sltLoadDoc( sFileName, bExecuteEvent );
+//	}
 
-	aWindow.show();
+    myApp.init(sFileName,&aWindow);
+
+    aWindow.show();
 
 	if( bAutoRun || bShowScreen )
 	{
@@ -562,6 +625,7 @@ int main( int argc, char** argv )
 		++aIter;
 	}
     */
+
 	int iRet = myApp.exec();
 
 	pSrvManager->GetDllManager().UnLoadAll();
