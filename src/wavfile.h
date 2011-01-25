@@ -11,12 +11,14 @@
 #include <iostream>
 #include <fstream>
 
+#include <QThread>
+
 using namespace std;
 
 class ReadBufferQueue;
 
 //class for wave-file
-class Wave
+class Wave : public QThread
 {
  public:
   Wave();
@@ -85,6 +87,8 @@ class Wave
   void setFadeInInfos( double dStartTimeInSeconds, double dLengthInSeconds );
   void setFadeOutInfos( double dStartTimeInSeconds, double dLengthInSeconds );
 
+  virtual void run();
+  
  private:
   bool HasFadeInInfo() const;
   bool HasFadeOutInfo() const;

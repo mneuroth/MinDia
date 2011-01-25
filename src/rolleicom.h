@@ -45,14 +45,12 @@ class minSyncObject;
 
 struct RolleiComHelperData;
 
-class MiniIniDB;
-
 // *******************************************************************
 /** Access to the serial communication port (COM). */
 class RolleiCom
 {
 public:
-	RolleiCom( bool bIgnoreComSettings, bool bSimulation, int iProjectorType, minLoggingInterface * pLoggingChannel, MiniIniDB * pIniDB = 0, int iComPortNo = 1 /*, int iBaudrate = 1200, int iParityMode = EVEN, int iStopBits = TWO, int iDataBits = 7*/ );
+	RolleiCom( bool bIgnoreComSettings, bool bSimulation, int iProjectorType, minLoggingInterface * pLoggingChannel );
 	~RolleiCom();
 
     void	Start( const string & sComPort, int iBaudrate, int iParityMode, int iStopBits, int iDataBits, int iFlowMode );
@@ -145,11 +143,12 @@ protected:
 	bool	CheckReady();
 
 private:
+    void SaveSettings();
+    void RestoreSettings();
 	void SetDefaultValues( int iProjectorType );
 	void UpdateComPort();
 
 	// ** data **
-	MiniIniDB *					m_pIniDB;				// no owner !
 	minLoggingInterface *		m_pLoggingChannel;		// no owner !
 	RolleiComHelperData *		m_pData;
 	minCmdProcessor *			m_pCmdProcessor;

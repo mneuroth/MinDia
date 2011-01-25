@@ -52,7 +52,6 @@
 #include "minisound.h"
 #include "minexception.h"
 #include "minutils.h"		// for: FileUtilityObj
-#include "miniini.h"
 #include "minlog.h"
 
 #include <stdio.h>
@@ -75,15 +74,13 @@ const int DiaPresentation::ACT_FILE_VERSION = 6;
 				
 const char * DiaPresentation::MAGIC_FILE_STRING = "MINDIA";
 
-const char * _SCRIPT_ENABLED			= "script_events.enabled";
-
 // ** XML Tags **
 const char * _DIA_PROJECTOR_CONTAINER	= "diaprojectors";
 const char * _DIA_INFO_CONTAINER		= "diainfos";
 
 // *******************************************************************
 
-DiaPresentation::DiaPresentation( DiaCallback * pCallback, const string & sName, MiniIniDB * pIniDB, minLoggingInterface * pLogging, IDiaOutputWindowInternal *	pOutputWindowProxy )
+DiaPresentation::DiaPresentation( bool bEnableScript, DiaCallback * pCallback, const string & sName, minLoggingInterface * pLogging, IDiaOutputWindowInternal *	pOutputWindowProxy )
 :
   //m_pOutputWindowProxy( pOutputWindowProxy ),
   //m_aDynGraphicOpContainer( pOutputWindowProxy ),
@@ -111,17 +108,8 @@ DiaPresentation::DiaPresentation( DiaCallback * pCallback, const string & sName,
 	m_aScriptEnv.AddEventType( _PRESENTATION_PAUSED );
 	m_aScriptEnv.AddEventType( _PRESENTATION_SAVED );
 	m_aScriptEnv.AddEventType( _PRESENTATION_LOADED );
+	m_aScriptEnv.SetEnabled( bEnableScript );
 #endif
-	if( pIniDB )
-	{
-		if( pIniDB->HasKey( _SCRIPT_ENABLED ) )
-		{
-			int iEnabled = pIniDB->GetValueAsInt( _SCRIPT_ENABLED );
-#ifndef ZAURUS
-			m_aScriptEnv.SetEnabled( (bool)iEnabled );
-#endif
-		}
-	}
 }
 
 void DiaPresentation::Init()

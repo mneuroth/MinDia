@@ -74,6 +74,7 @@
 #include <QApplication>
 #include <QTranslator>
 #include <QString>
+#include <QStringList>
 
 #include <QToolBar>
 #include <QMenu>
@@ -205,15 +206,16 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 	m_pHelpDialog = new HelpDlgImpl( this, "help" );
 	m_pHelpDialog->move( 470, 5 );
 
-	m_pControler = new DocumentAndControler( bIgnoreComSettings, bSimulation, iProjectorType, this, this, m_pLoggingDialog );
+	m_pControler = new DocumentAndControler( /*bEnableScript*/true, bIgnoreComSettings, bSimulation, iProjectorType, this, this, m_pLoggingDialog );
+    // bEnableScript will be changed in LoadSettings
 
-	CreateChildWidgets();
+    CreateChildWidgets();
 	CreateMenus();
 
     resize( 800, 600 );
 	move( 25, 25 );
     LoadSettings();
-    
+
     // autoload last file
     if( !m_sLastFileName.isEmpty() )
     {
@@ -578,7 +580,7 @@ void MinDiaWindow::sltDoPlayerConfiguration()
 {
 	if( !m_pConfigPlayerDialog )
 	{
-		m_pConfigPlayerDialog = new ConfigPlayerDlgImpl( m_pControler->GetIniDB(), this, "configplayerdlg", /*modal*/TRUE );
+		m_pConfigPlayerDialog = new ConfigPlayerDlgImpl( this, "configplayerdlg", /*modal*/TRUE );
 		//m_pConfigPlayerDialog->move( 450, 10 );
 	}
 
@@ -1308,7 +1310,7 @@ void MinDiaWindow::sltUpdateExtrasMenu()
 
 	m_pExtrasConfigAction->setEnabled( bEdit );
 #if !defined(__linux__) && !defined(__APPLE__)
-	m_pExtrasConfigPlayerAction->setEnabled( false );
+	m_pExtrasConfigPlayerAction->setEnabled( true );    // for testing...
 #else
 	m_pExtrasConfigPlayerAction->setEnabled( bEdit );
 #endif
@@ -1323,37 +1325,28 @@ void MinDiaWindow::sltUpdateLastFilesMenu()
 {
 	m_pLastFilesSubMenu->clear();
 
-	MiniIniDB & aIniDB = m_pControler->GetIniDB();
-
-	int iMax = aIniDB.GetHistoryQueueCount( g_sLastFilesKey );
-
+    QStringList aFileHistory = m_pControler->GetFileHistoryList();
+    int iMax = aFileHistory.size();
+    
 	for( int i=iMax-1; i>=0; i-- )
 	{
-		string sValue;
+		// ** show filename with number 
+		QString s;
 
-		if( aIniDB.GetHistoryQueueValue( g_sLastFilesKey, i, sValue ) )
-		{
-			// ** show filename with number 
+		s.sprintf( "&%d ", iMax-i );
+        s += aFileHistory[i];
 
-			QString s;
-
-			s.sprintf( "&%d ", iMax-i );
-			s += sValue.c_str();
-
-			m_pLastFilesSubMenu->insertItem( s, i );
-		}
+		m_pLastFilesSubMenu->insertItem( s, i );
 	}
 }
 
 void MinDiaWindow::sltLastFilesMenuActivated( int iIndex )
 {
-	MiniIniDB & aIniDB = m_pControler->GetIniDB();
+    QStringList aFileHistory = m_pControler->GetFileHistoryList();
 
-	string sFileName;
-
-	if( aIniDB.GetHistoryQueueValue( g_sLastFilesKey, iIndex, sFileName ) )
+    if( iIndex>=0 && iIndex<aFileHistory.size() )
 	{
-		sltLoadDoc( sFileName.c_str(), /*bExecuteEvent*/true );
+		sltLoadDoc( (const char *)aFileHistory[iIndex], /*bExecuteEvent*/true );        
 	}
 }
 
@@ -2138,6 +2131,7 @@ void MinDiaWindow::SaveSettings()
     // settings could be found for Mac plattform: $home/Library/Preferences/de.mneuroth.mindia.plist
     
     aSettings.setValue("App/DataFileName",m_sLastFileName);
+    aSettings.setValue("App/HistoryFileNames",m_pControler->GetFileHistoryList());
     aSettings.setValue("App/WindowState",saveState());
     aSettings.setValue("App/WindowGeometry",saveGeometry());       
     // update all non modal dialog geometries when exiting application 
@@ -2169,8 +2163,8 @@ void MinDiaWindow::SaveSettings()
     {
         aSettings.setValue("App/GeometryCreateMovieDlg",m_aCreateMovieDialogGeometry);
     }
+	aSettings.setValue("App/EnableScript",m_pControler->GetPresentation().GetScriptEnvironment().IsEnabled());
     // TODO: ggf.
-    // create movie dialog
     // presentation data
     // presentation events
     // sound data
@@ -2185,6 +2179,7 @@ void MinDiaWindow::LoadSettings()
     QSettings aSettings;
    
     m_sLastFileName = aSettings.value("App/DataFileName",QString()).toString();
+    m_pControler->SetFileHistoryList(aSettings.value("App/HistoryFileNames",QVariant(QStringList())).toStringList());
     restoreState(aSettings.value("App/WindowState").toByteArray());
     restoreGeometry(aSettings.value("App/WindowGeometry").toByteArray());
     m_aPlayInfoDialogGeometry = aSettings.value("App/GeometryPlayInfoDlg",QVariant(QByteArray())).toByteArray();
@@ -2193,4 +2188,6 @@ void MinDiaWindow::LoadSettings()
     m_aDiaInfoDialogGeometry = aSettings.value("App/GeometryDiaInfoDlg",QVariant(QByteArray())).toByteArray();
     m_aConfigDialogGeometry = aSettings.value("App/GeometryConfigDlg",QVariant(QByteArray())).toByteArray();
     m_aCreateMovieDialogGeometry = aSettings.value("App/GeometryCreateMovieDlg",QVariant(QByteArray())).toByteArray();
+    
+	m_pControler->GetPresentation().GetScriptEnvironment().SetEnabled( aSettings.value("App/EnableScript",true).toBool() );
 }

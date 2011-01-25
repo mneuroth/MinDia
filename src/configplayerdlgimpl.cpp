@@ -33,48 +33,28 @@
 
 #include <qcombobox.h>
 
-#include <stdio.h>		// for: sprintf
+#include <QSettings>
 
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************
 
-const char * c_sPlayerKey			= "mp3player";
-const char * c_sPlayerOptionsKey	= "mp3options";
-
-const char * c_sActPlayerKey		= "act_mp3";
-const char * c_sActPlayerOptionsKey	= "act_mp3_opt";
-
-
-ConfigPlayerDlgImpl::ConfigPlayerDlgImpl( MiniIniDB & aIniDB, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: ConfigPlayerDlg( parent, name, modal, fl ),
-  m_aIniDB( aIniDB )
+ConfigPlayerDlgImpl::ConfigPlayerDlgImpl(QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
+: ConfigPlayerDlg( parent, name, modal, fl )
 {
-	char sBuffer[256];
-	sprintf( sBuffer, "%s.%d", c_sPlayerKey, 0 );
-	string sPlayer = m_aIniDB.GetValue( sBuffer );
-
-	// if no elements are found, insert some default values !
-	if( sPlayer.length()==0 )
-	{
 #ifdef __APPLE__
-        m_pPlayer->insertItem( "afplay" );
-        m_pPlayer->insertItem( "/opt/local/bin/mpg123" );
+    m_pPlayer->insertItem( "afplay" );
+    m_pPlayer->insertItem( "/opt/local/bin/mpg123" );
 #endif
-        m_pPlayer->insertItem( "madplay" );
-		m_pPlayer->insertItem( "mpg123" );
+    m_pPlayer->insertItem( "madplay" );
+    m_pPlayer->insertItem( "mpg123" );
 
-        m_pPlayerSettings->insertItem( "<none>" );
-        m_pPlayerSettings->insertItem( "-q -v --no-tty-control" );
-		m_pPlayerSettings->insertItem( "-q -v" );
-#ifdef __APPLE__
-        m_pPlayerSettings->insertItem( "-v" );
-#endif
-    }
-	else
-	{
-		ReadComboBoxes();
-	}
+    m_pPlayerSettings->insertItem( "<none>" );
+    m_pPlayerSettings->insertItem( "-q -v --no-tty-control" );
+    m_pPlayerSettings->insertItem( "-q -v" );
+    m_pPlayerSettings->insertItem( "-v" );
+        
+    RestoreSettings();
 }
 
 ConfigPlayerDlgImpl::~ConfigPlayerDlgImpl()
@@ -88,7 +68,7 @@ void ConfigPlayerDlgImpl::sltCancel()
 
 void ConfigPlayerDlgImpl::sltOk()
 {
-	WriteComboBoxes();
+	SaveSettings();
 
 	emit accept();
 }
@@ -97,93 +77,18 @@ void ConfigPlayerDlgImpl::sltPlayerChanged(int)
 {
 }
 
-void ConfigPlayerDlgImpl::WriteComboBoxes()
+void ConfigPlayerDlgImpl::RestoreSettings()
 {
-	char sBuffer[256];
-	int i;
-
-	m_aIniDB[ c_sActPlayerKey ] = (const char *)m_pPlayer->currentText();
-	m_aIniDB[ c_sActPlayerOptionsKey ] = (const char *)m_pPlayerSettings->currentText();
-
-	for( i=0; i<m_pPlayer->count(); i++ )
-	{
-		sprintf( sBuffer, "%s.%d", c_sPlayerKey, i );
-		m_aIniDB[ sBuffer ] = (const char *)m_pPlayer->text( i );
-	}
-	for( i=0; i<m_pPlayerSettings->count(); i++ )
-	{
-		sprintf( sBuffer, "%s.%d", c_sPlayerOptionsKey, i );
-		m_aIniDB[ sBuffer ] = (const char *)m_pPlayerSettings->text( i );
-	}
-
-	m_aIniDB.Save();
+    QSettings aSettings;
+    
+    m_pPlayer->setCurrentIndex(m_pPlayer->findText(aSettings.value("Mp3/PlayerName",QString()).toString()));
+    m_pPlayerSettings->setCurrentIndex(m_pPlayerSettings->findText(aSettings.value("Mp3/PlayerOptions",QString()).toString()));
 }
 
-void ConfigPlayerDlgImpl::ReadComboBoxes()
+void ConfigPlayerDlgImpl::SaveSettings()
 {
-	char	sBuffer[256];
-	string	sActPlayer;
-	string	sActPlayerOptions;
-	bool	bFound = true;
-	int		i = 0;
-	int		iActPlayerPos = 0;
-	int		iActPlayerOptionsPos = 0;
-
-	MiniIniDB::const_iterator aIter = m_aIniDB.find( c_sActPlayerKey );
-	if( aIter != m_aIniDB.end() )
-	{
-		sActPlayer = (*aIter).second.c_str();
-	}
-	aIter = m_aIniDB.find( c_sActPlayerOptionsKey );
-	if( aIter != m_aIniDB.end() )
-	{
-		sActPlayerOptions = (*aIter).second.c_str();
-	}
-
-	do {
-		sprintf( sBuffer, "%s.%d", c_sPlayerKey, i );
-
-		MiniIniDB::const_iterator aIter = m_aIniDB.find( sBuffer );
-		if( aIter != m_aIniDB.end() )
-		{
-			m_pPlayer->insertItem( (*aIter).second.c_str() );
-
-			if( sActPlayer == (*aIter).second )
-			{
-				iActPlayerPos = i;
-			}
-		}
-		else
-		{
-			bFound = false;
-		}
-
-		i++;
-	} while( bFound );
-
-	bFound = true;
-	i = 0;
-	do {
-		sprintf( sBuffer, "%s.%d", c_sPlayerOptionsKey, i );
-
-		MiniIniDB::const_iterator aIter = m_aIniDB.find( sBuffer );
-		if( aIter != m_aIniDB.end() )
-		{
-			m_pPlayerSettings->insertItem( (*aIter).second.c_str() );
-
-			if( sActPlayerOptions == (*aIter).second )
-			{
-				iActPlayerOptionsPos = i;
-			}
-		}
-		else
-		{
-			bFound = false;
-		}
-
-		i++;
-	} while( bFound );
-
-	m_pPlayer->setCurrentItem( iActPlayerPos );
-	m_pPlayerSettings->setCurrentItem( iActPlayerOptionsPos );
+    QSettings aSettings;
+    
+    aSettings.setValue("Mp3/PlayerName",m_pPlayer->currentText());
+    aSettings.setValue("Mp3/PlayerOptions",m_pPlayerSettings->currentText());
 }

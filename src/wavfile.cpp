@@ -26,6 +26,8 @@ Wave addW;
 
 // *******************************************************************
 
+#include <QThread>
+
 #include "minhandle.h"
 #include "osdep2.h"
 
@@ -159,7 +161,7 @@ class FadeContainer : public vector<FadeWaveFilter>
 typedef ReadBuffer<short>	ShortReadBuffer;
 
 // *******************************************************************
-class ReadBufferQueue
+class ReadBufferQueue : public QThread
 {
 	typedef queue< minHandle< ShortReadBuffer > >		BufferContainer;
 
@@ -181,6 +183,8 @@ public:
 	minHandle<ShortReadBuffer> GetNextBuffer();
 
 	void FillQueueInThread();
+
+    void run();
 
 private:
 	// ** help methods **
@@ -207,6 +211,7 @@ private:
 
 // *******************************************************************
 
+#ifdef _with_min_threads
 extern "C" void _CALLING_CONV _bufferReaderThreadStarter( void * pData )
 {
 #ifndef ZAURUS
@@ -216,7 +221,7 @@ extern "C" void _CALLING_CONV _bufferReaderThreadStarter( void * pData )
 
 		if( pQueue )
 		{
-			pQueue->FillQueueInThread();
+			pQueue->run();
 		}
 #ifndef ZAURUS
 	}
@@ -227,6 +232,7 @@ extern "C" void _CALLING_CONV _bufferReaderThreadStarter( void * pData )
 #endif
 	//cout << "READ THREAD DONE." << endl;
 }
+#endif
 
 // *******************************************************************
 /*
@@ -266,9 +272,25 @@ cout << "~ReadBufferQueue this=" << (void *)this << endl;
 	}
 }
 
+void ReadBufferQueue::run()
+{
+    try {
+        FillQueueInThread();
+    }
+	catch( ... )
+	{
+		cerr << "Exception in bufferReaderThread" << endl;
+	}
+}
+
 void ReadBufferQueue::StartThread()
 {
+#ifdef _with_min_threads
 	m_ulThreadID = minBeginThread( _bufferReaderThreadStarter, _DEFAULT_STACK_SIZE, this );
+#else
+    start();
+    m_ulThreadID = 1;   // dummy id
+#endif    
 }
 
 bool ReadBufferQueue::IsReadDone() const
@@ -510,6 +532,7 @@ void ReadBufferQueue::CheckBuffer( minHandle<ShortReadBuffer> hBuffer )
 
 #ifndef _with_main
 
+#ifdef _with_min_threads
 extern "C" void _CALLING_CONV _wavSoundThreadStarter( void * pData )
 {
 #ifndef ZAURUS
@@ -519,17 +542,7 @@ extern "C" void _CALLING_CONV _wavSoundThreadStarter( void * pData )
 
 		if( pWave )
 		{
-			while( pWave->getActivePlay() )
-			{
-				if( pWave->isAsync() )
-				{
-					pWave->playAsync();
-				}
-				else
-				{
-					pWave->play();
-				}
-			}
+            pWav->run();
 		}
 #ifndef ZAURUS
 	}
@@ -540,6 +553,7 @@ extern "C" void _CALLING_CONV _wavSoundThreadStarter( void * pData )
 #endif
 	//cout << "**PLAY** THREAD DONE." << endl;
 }
+#endif //_with_min_threads
 
 #endif
 
@@ -582,6 +596,26 @@ Wave::~Wave()
 	}
 }
 
+void Wave::run()
+{
+	try {
+        while( getActivePlay() )
+        {
+            if( isAsync() )
+            {
+                playAsync();
+            }
+            else
+            {
+                play();
+            }
+        }
+	}
+	catch( ... )
+	{
+		cerr << "Exception in wavSoundThread" << endl;
+	}
+}
 
 int Wave::getSize()
 {
@@ -1689,7 +1723,12 @@ void Wave::setFadeOutInfos( double dStartTimeInSeconds, double dLengthInSeconds 
 void Wave::playInThread()
 {
 #ifndef _with_main
+#ifdef _with_min_threads
 	m_ulThreadID = minBeginThread( _wavSoundThreadStarter, _DEFAULT_STACK_SIZE, this );
+#else
+    start();
+    m_ulThreadID = 1;   // dummy id
+#endif //_with_min_threads    
 #endif
 }
 

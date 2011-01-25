@@ -35,8 +35,6 @@
 #include "ConfigPlayerDlg.h"
 #endif
 
-#include "miniini.h"
-
 // *******************************************************************
 /** Implementation of the (global) mp3 player Configuration-Dialog
   */
@@ -45,7 +43,7 @@ class ConfigPlayerDlgImpl : public ConfigPlayerDlg
 	Q_OBJECT
 
 public:
-    ConfigPlayerDlgImpl( MiniIniDB & aIniDB, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
+    ConfigPlayerDlgImpl( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
 	virtual ~ConfigPlayerDlgImpl();
 
 public slots:
@@ -54,10 +52,8 @@ public slots:
     virtual void sltPlayerChanged(int);
 
 private:
-	void WriteComboBoxes();
-	void ReadComboBoxes();
-
-	MiniIniDB &		m_aIniDB;
+	void SaveSettings();
+    void RestoreSettings();
 };
 
 #endif

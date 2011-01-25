@@ -33,17 +33,17 @@
 
 #include <qdatetime.h>		// for QTime
 
-class MiniIniDB;
+#include <QThread>
 
 // *******************************************************************
 /** a very simple interface for playing sounds.
   */
-class miniSound
+class miniSound : public QThread
 {
 	enum MciCmdType { _MCI_NONE, _MCI_PLAY, _MCI_STOP, _MCI_PAUSE, _MCI_CONTINUE };
 
 public:
-	miniSound( MiniIniDB * pIniDB, const char * sWavFileName = "" );
+	miniSound( const char * sWavFileName = "" );
 	~miniSound();
 
 	bool SetWavFile( const char * sWavFileName );
@@ -64,7 +64,7 @@ public:
 	bool Continue();
 	bool Stop();
 
-	void Run();
+	void run();
 
 private:
 	// ** help methods **
@@ -104,7 +104,6 @@ private:
 	unsigned long					m_ulThreadID;
 	SoundInfoContainer *			m_pSoundInfoContainer;	// no owner !
 	SoundInfoContainer::iterator	m_aIterator;
-	MiniIniDB *						m_pIniDB;				// no owner !
 };
 
 #endif

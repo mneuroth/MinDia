@@ -53,7 +53,6 @@ HEADERS         = diainfodlgimpl.h \
                   CreateMovieDlg4.h \
                   ../gendev/igendev.h \
                   ../minsrv/minbase.h \
-                  ../minsrv/miniini.h \
                   ../minsrv/dllbase.h
 SOURCES         = diainfodlgimpl.cpp \
 				  playinfodlgimpl.cpp \
@@ -94,7 +93,6 @@ SOURCES         = diainfodlgimpl.cpp \
                   CreateMovieDlg4.cpp \
                   ../gendev/gendev.cpp \
                   ../minsrv/minbase.cpp \
-                  ../minsrv/miniini.cpp \
                   ../minsrv/dllbase.cpp
 #The following line was changed from INTERFACES to FORMS3 by qt3to4
 FORMS3      = DiaInfoDlg.ui \

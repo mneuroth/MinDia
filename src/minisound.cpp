@@ -40,8 +40,6 @@
 
 #include "osdep2.h"
 
-#include "miniini.h"
-
 #include "minisound.h"
 
 #include <stdio.h>
@@ -413,15 +411,17 @@ int mciGetErrorStringX( int /*iErrorNo*/, char * /*sBuffer*/, int /*iBufferLengt
 // *******************************************************************
 // *******************************************************************
 
+#ifdef _with_min_threads
 extern "C" void _CALLING_CONV _miniSoundThreadStarter( void * pData )
 {
 	miniSound * pSound = (miniSound *)pData;
 
 	if( pSound )
 	{
-		pSound->Run();
+		pSound->run();
 	}
 }
+#endif
 
 // *******************************************************************
 
@@ -429,7 +429,7 @@ extern "C" void _CALLING_CONV _miniSoundThreadStarter( void * pData )
 
 #define CHANGE_NEEDED -2
 
-miniSound::miniSound( MiniIniDB * pIniDB, const char * sWavFileName )
+miniSound::miniSound( const char * sWavFileName )
 : m_bIsOk( false ),
   m_bReadError( true ),
   m_bIsSilent( false ),
@@ -442,18 +442,9 @@ miniSound::miniSound( MiniIniDB * pIniDB, const char * sWavFileName )
   m_iMciCmdId( _MCI_NONE ),
   m_ulMciThreadID( (unsigned long)-1 ),
   m_ulThreadID( (unsigned long)-1 ),
-  m_pSoundInfoContainer( 0 ),
-  m_pIniDB( pIniDB )
+  m_pSoundInfoContainer( 0 )
 {
 	SetWavFile( sWavFileName );
-#if defined(__linux__) || defined(__APPLE__)
-    // min todo ... unschoen !
-	// WARNING: this is a side effect !!! Setting a global variable !
-	if( m_pIniDB )
-	{
-		aMp3.SetIniDB( m_pIniDB );
-	}
-#endif
 }
 
 miniSound::~miniSound()
@@ -853,10 +844,15 @@ void miniSound::StartThread()
 		minSleep( 5 );
 	}
 
+#ifdef _with_min_threads
 	m_ulThreadID = minBeginThread( _miniSoundThreadStarter, _DEFAULT_STACK_SIZE, this );
+#else
+    start();
+    m_ulThreadID = 1;   // dummy id    
+#endif    
 }
 
-void miniSound::Run()
+void miniSound::run()
 {
 	bool bStopedInThread = false;
 

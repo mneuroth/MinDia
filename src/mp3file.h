@@ -38,21 +38,13 @@
 #ifndef _MP3FILE_H
 #define _MP3FILE_H
 
-#include <qdatetime.h>
-
-#include <string>
-
-using namespace std;
-
-#include <stdio.h>
-
-struct player;
-
-class MiniIniDB;
+#include <QTime>
+#include <QString>
+#include <QThread>
     
 class QProcess;
 
-class Mp3File
+class Mp3File : public QThread
 {
 public:
 	Mp3File();
@@ -72,20 +64,19 @@ public:
     double GetStartTime() const;
     double GetStopTime() const;
 
-	void SetIniDB( MiniIniDB * pIniDB );
-
+    virtual void run();
+    
 private:
 	void UpdateSettingsFromIniFile();
     void DoKill();
 
     QProcess *      m_pProcess;
 	QTime			m_aPlayTime;
-	string 			m_sFileName;
-    string			m_sMp3Player;
-    string			m_sMp3Options;
+	QString 		m_sFileName;
+    QString			m_sMp3Player;
+    QString			m_sMp3Options;
     int				m_iLengthInSeconds;
 	int				m_iPlayModus;
-	MiniIniDB *		m_pIniDB;			// no owner !
     double          m_dStartPosInSeconds;
     double          m_dStopPosInSeconds;
 };

@@ -64,6 +64,7 @@
 class QtMTLock {};
 #endif
 #include <QFile>
+#include <QSettings>
 
 #include <fstream>
 
@@ -73,20 +74,12 @@ class QtMTLock {};
 
 // *******************************************************************
 
-const string g_sLastFilesKey = "datafile";
-
 #if defined(__linux__) || defined(__APPLE__)
 #define _OFFSET_INI_FILE_PATH "~/"
 #else
 #include <windows.h>
 #define _OFFSET_INI_FILE_PATH ""
 #endif
-
-const char * c_sConfigKey			= "config";
-const char * c_sSimulationKey		= "simulation";
-const char * c_sLoggingKey			= "logging";
-const char * c_sScriptEventsKey		= "scriptEvents";
-const char * c_sProjectorTypeKey	= "projector_id";
 
 string GetPathToIniFile()
 {
@@ -129,17 +122,17 @@ string GetPathToIniFile()
 // *******************************************************************
 // *******************************************************************
 
-DocumentAndControler::DocumentAndControler( bool bIgnoreComSettings,
+DocumentAndControler::DocumentAndControler( bool bEnableScript,
+                                            bool bIgnoreComSettings,
 											bool bSimulation,
 											int iProjectorType,
 											QWidget * pMainWindow,
 											IDiaOutputWindowInternal * pOutputWindowProxy,
 											minLoggingInterface * pLoggingChannel
 											)
-: m_aIniDB( GetPathToIniFile()+string( ".mindia.ini" ) ),
-  m_aCom( bIgnoreComSettings, bSimulation, iProjectorType, pLoggingChannel, &m_aIniDB ),
-  m_aSoundPlayer( &m_aIniDB ),
-  m_aPresentation( this, "newpresentation.dia", &m_aIniDB, pLoggingChannel, pOutputWindowProxy ),
+: 
+  m_aCom( bIgnoreComSettings, bSimulation, iProjectorType, pLoggingChannel ),
+  m_aPresentation( bEnableScript, this, "newpresentation.dia", pLoggingChannel, pOutputWindowProxy ),
   m_pLoggingChannel( pLoggingChannel ),
   m_pTimer( 0 ),
   m_iLastFoundPos( -1 ),
@@ -185,55 +178,22 @@ DocumentAndControler::~DocumentAndControler()
 
 void DocumentAndControler::ReadIniValues()
 {
-	MiniIniDB &	aIniDB = GetIniDB();
-
-	char sBuffer[256];
-
-	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sSimulationKey );
-	if( aIniDB.HasKey( sBuffer ) )
-	{
-		SetSimulation( (bool)aIniDB.GetValueAsInt( sBuffer ) );
-	}
-	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sLoggingKey );
-	if( aIniDB.HasKey( sBuffer ) )
-	{
-		GetDiaCom().SetLogging( (bool)aIniDB.GetValueAsInt( sBuffer ) );
-	}
-#ifndef ZAURUS
-	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sScriptEventsKey );
-	if( aIniDB.HasKey( sBuffer ) )
-	{
-		GetPresentation().GetScriptEnvironment().SetEnabled( (bool)aIniDB.GetValueAsInt( sBuffer ) );
-	}
-#endif
-	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sProjectorTypeKey );
-	if( aIniDB.HasKey( sBuffer ) )
-	{
-		GetDiaCom().SetProjectorType( aIniDB.GetValueAsInt( sBuffer ) );
-	}
+    QSettings aSettings;
+   
+    SetSimulation( aSettings.value("App/IsSimulation",true).toBool() );
+    GetDiaCom().SetLogging( aSettings.value("App/IsLogging",true).toBool() );
+    GetPresentation().GetScriptEnvironment().SetEnabled( aSettings.value("App/EnableScript",true).toBool() );
+    GetDiaCom().SetProjectorType( aSettings.value("App/ProjectorType",RolleiCom::TWIN_DIGITAL_P).toInt() );
 }
 
 void DocumentAndControler::WriteIniValues()
 {
-	MiniIniDB &	aIniDB = GetIniDB();
+    QSettings aSettings;
 
-	char sBuffer[256];
-	char sResult[256];
-
-	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sSimulationKey );
-	sprintf( sResult, "%d", (int)IsSimulation() );
-	aIniDB.Add( sBuffer, sResult );
-	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sLoggingKey );
-	sprintf( sResult, "%d", (int)GetDiaCom().IsLogging() );
-	aIniDB.Add( sBuffer, sResult );
-#ifndef ZAURUS
-	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sScriptEventsKey );
-	sprintf( sResult, "%d", (int)GetPresentation().GetScriptEnvironment().IsEnabled() );
-	aIniDB.Add( sBuffer, sResult );
-#endif
-	sprintf( sBuffer, "%s.%s", c_sConfigKey, c_sProjectorTypeKey );
-	sprintf( sResult, "%d", GetDiaCom().GetProjectorType() );
-	aIniDB.Add( sBuffer, sResult );
+    aSettings.setValue("App/IsSimulation",IsSimulation());
+    aSettings.setValue("App/IsLogging",GetDiaCom().IsLogging());
+    aSettings.setValue("App/EnableScript",GetPresentation().GetScriptEnvironment().IsEnabled());
+    aSettings.setValue("App/ProjectorType",GetDiaCom().GetProjectorType());
 }
 
 bool DocumentAndControler::IsChanged() const
@@ -335,11 +295,6 @@ RolleiCom & DocumentAndControler::GetDiaCom()
 	return m_aCom;
 }
 
-MiniIniDB &	DocumentAndControler::GetIniDB()
-{
-	return m_aIniDB;
-}
-
 void DocumentAndControler::sltNewDoc()
 {
 	m_aPresentation.Clear();
@@ -416,8 +371,8 @@ void DocumentAndControler::sltLoadDoc( const QString & sFileName, bool & bOk, bo
 				//emit sigShowWarningMessage( tr( "Path of file has changed !" ) );
 			}
 
-			m_aIniDB.PushUniqueToHistoryQueue( g_sLastFilesKey, s );
-			m_aIniDB.Save();
+            AddToFileHistory(sFileName);
+            
 #ifndef ZAURUS
 		}
 		catch( MinException & aException )
@@ -456,8 +411,7 @@ void DocumentAndControler::sltSaveAsDoc( const QString & sFileName, bool & bOk )
 	const char * s = (const char *)sFileName;
 	m_aPresentation.SetName( s );
 	// ** if a file is saved with a new name, update the last-file history
-	m_aIniDB.PushUniqueToHistoryQueue( g_sLastFilesKey, s );
-	m_aIniDB.Save();
+    AddToFileHistory(sFileName);
 
 	sltSaveDoc( bOk );
 
@@ -1058,7 +1012,7 @@ int DocumentAndControler::CreateImagesForMovie(
 		double dTimeMS = dStartMS;
 		while( dTimeMS < dStopMS )
 		{
-			bool bForcePainting = true;
+			//bool bForcePainting = true;
 			char sBuffer[512];
             // /Users/min/Documents/home/Entwicklung/projects/mindia_qt4/src/
             sprintf( sBuffer, "%s/%s%05d.jpg", sOutputDirectory.c_str(), sFileNameOffset.c_str(), iCount );
@@ -1077,7 +1031,7 @@ int DocumentAndControler::CreateImagesForMovie(
 			else
 			{
 				// use last generated file for new movie image
-                bool ok = QFile::copy(sLastFileName.c_str(), sBuffer );
+                /*bool ok =*/ QFile::copy(sLastFileName.c_str(), sBuffer );
 				//bool ok = FileUtilityObj::_CopyFile( sLastFileName.c_str(), sBuffer );
 			}
 
@@ -1099,4 +1053,24 @@ int DocumentAndControler::CreateImagesForMovie(
 
 	return iCount;
 #endif // ZAURUS
+}
+
+QStringList DocumentAndControler::GetFileHistoryList() const
+{
+    return m_aFileHistoryList;
+}
+
+void DocumentAndControler::SetFileHistoryList(const QStringList & aLst)
+{
+    m_aFileHistoryList = aLst;
+}
+
+void DocumentAndControler::AddToFileHistory( const QString & sFileName )
+{
+    m_aFileHistoryList.push_back(sFileName);
+    m_aFileHistoryList.removeDuplicates();
+    while( m_aFileHistoryList.size()>9 )
+    {
+        m_aFileHistoryList.removeFirst();
+    }
 }

@@ -67,7 +67,6 @@ typedef QMap<QString,QImage>	QImageCache;
 // ** pre-declarations
 class RolleiCom;
 class miniSound;
-class MiniIniDB;
 class DiaCallback;
 class minLoggingInterface;
 
@@ -118,7 +117,7 @@ public:
 class DiaPresentation
 {
 public:
-	DiaPresentation( DiaCallback * pCallback, const string & sName = g_sDefPresentationFileName, MiniIniDB * pIniDB = 0, minLoggingInterface * pLogging = 0, IDiaOutputWindowInternal *	pOutputWindowProxy = 0 );
+	DiaPresentation( bool bEnableScript, DiaCallback * pCallback, const string & sName = g_sDefPresentationFileName, minLoggingInterface * pLogging = 0, IDiaOutputWindowInternal *	pOutputWindowProxy = 0 );
 
 	void Clear();
 

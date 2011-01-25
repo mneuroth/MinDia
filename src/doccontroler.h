@@ -51,11 +51,13 @@ class IDiaOutputWindowInternal;
 #include "diapresentation.h"
 #include "rolleicom.h"
 #include "minisound.h"
-#include "miniini.h"
 #include "minlog.h"
 
 #include <qobject.h>
 #include <qwidget.h>
+
+#include <QString>
+#include <QStringList>
 
 // *******************************************************************
 
@@ -72,7 +74,8 @@ class DocumentAndControler : public QObject,
 	Q_OBJECT
 
 public:
-	DocumentAndControler( bool bIgnoreComSettings,
+	DocumentAndControler( bool bEnableScript,
+                          bool bIgnoreComSettings,
 						  bool bSimulation,
 						  int iProjectorType,
 						  QWidget * pMainWindow,
@@ -99,7 +102,8 @@ public:
 	//int						GetProjectorCount() const;
 	//minHandle<DiaProjector>	GetProjectorPtr( int iNo ) const;
 
-	MiniIniDB &			GetIniDB();
+    QStringList         GetFileHistoryList() const;
+    void                SetFileHistoryList(const QStringList & aLst);
 
 	RolleiCom &			GetDiaCom();
 
@@ -209,9 +213,9 @@ private:
 	void ExecuteScript( bool bDissolve, const char * sScript, int iNo );
 	void ReadIniValues();
 	void WriteIniValues();
+    void AddToFileHistory( const QString & sFileName );
 
 	// *** data ***
-	MiniIniDB			m_aIniDB;				// a database for configuration data
 	RolleiCom			m_aCom;					// the projector control
 	miniSound			m_aSoundPlayer;			// to play the sound for the presentation
 	DiaPresentation		m_aPresentation;		// this is the document !
@@ -222,6 +226,8 @@ private:
 	// *** temp data ***
 	int					m_iLastFoundPos;
 	string				m_sFullName;			// helper data for Script interface
+
+    QStringList         m_aFileHistoryList;
 
 	IDiaOutputWindowInternal *	m_pOutputWindowProxy;
 };

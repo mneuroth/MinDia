@@ -31,6 +31,11 @@
 #include "osdep2.h"
 #include "rolleicom.h"
 
+//#define _with_min_threads
+
+//#include <iostream>
+//using namespace std;
+
 #if defined(__linux__) || defined(__APPLE__)
 pthread_mutex_t g_aRecursiveMutex;
 #endif
@@ -39,15 +44,17 @@ pthread_mutex_t g_aRecursiveMutex;
 // *******************************************************************
 // *******************************************************************
 
+#ifdef _with_min_threads
 extern "C" void _CALLING_CONV _MinCmdProcThreadStarter( void * pData )
 {
 	minCmdProcessor * pCmdProcessor = (minCmdProcessor *)pData;
 
 	if( pCmdProcessor )
 	{
-		pCmdProcessor->Run();
+		pCmdProcessor->run();
 	}
 }
+#endif
 
 // *******************************************************************
 
@@ -114,7 +121,12 @@ bool minCmdProcessor::Start()
 {
 	if( !IsRunning() )
 	{
+#ifdef _with_min_threads
 		m_ulThreadId = minBeginThread( _MinCmdProcThreadStarter, _DEFAULT_STACK_SIZE, this );
+#else
+        start();
+        m_ulThreadId = 1;   // dummy id
+#endif
 	}
 	return IsRunning();
 }
@@ -124,7 +136,7 @@ void minCmdProcessor::Stop()
 	m_bStop = true;
 }
 
-void minCmdProcessor::Run()
+void minCmdProcessor::run()
 {
 	m_bStop = false;
 

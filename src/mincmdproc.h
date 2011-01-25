@@ -39,6 +39,7 @@
 #include <list>
 
 #include <QMutex>
+#include <QThread>
 
 using namespace std;
 
@@ -49,7 +50,7 @@ class minSyncObject;
 /** Implements a command processor. 
     Executes commands in an own thread.
   */
-class minCmdProcessor
+class minCmdProcessor : public QThread
 {
 public:
 	minCmdProcessor( RolleiCom * pProjector );
@@ -66,7 +67,7 @@ public:
 	bool Start();
 	void Stop();
 
-	void Run();
+	void run();
 
 private:
 	// ** helper methods **
@@ -77,7 +78,7 @@ private:
 	unsigned long		m_ulThreadId;
 	list<string>		m_aCmdQueue;
 	RolleiCom *			m_pProjector;	// no owner !
-	minSyncObject *		m_pSyncObj;
+//	minSyncObject *		m_pSyncObj;
     QMutex              m_aSyncObj;
 };
 

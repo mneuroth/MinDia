@@ -125,7 +125,7 @@ int SoundInfo::GetTotalLength() const
 int SoundInfo::GetTotalLengthImpl() const
 {
 // min todo --> hier besser noch inidb uebergeben !
-	miniSound aSound( 0, m_sFileName.c_str() );
+	miniSound aSound( m_sFileName.c_str() );
 
 	return aSound.GetTotalLengthInMS();
 }

@@ -48,26 +48,23 @@
 
 #include "osdep2.h"
 
-#include "iniconst.h"
-#include "miniini.h"
-
 #include "read_mp3.cpp"
 
 #include <QProcess>
+#include <QSettings>
 
-#include <vector>
 
-#include <stdio.h>
-
+#ifdef _with_min_threads
 extern "C" void _CALLING_CONV _mp3SoundThreadStarter( void * pData )
 {
 	Mp3File * pMp3 = (Mp3File *)pData;
 
 	if( pMp3 )
 	{
-        pMp3->startPlay(pMp3->GetStartTime(),pMp3->GetStopTime());
+        pMp3->run();
 	}
 }
+#endif
 
 #define _MAX_LEN  512
 
@@ -134,7 +131,6 @@ Mp3File::Mp3File()
 	: m_pProcess( 0 ),
       m_iLengthInSeconds( -1 ),
 	  m_iPlayModus( 0 ),
-      m_pIniDB( 0 ),
       m_dStartPosInSeconds( 0 ),
       m_dStopPosInSeconds( 0 )
 {
@@ -215,12 +211,12 @@ void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
 //    QString sProgramName(/*m_sMp3Player.c_str()*/"mpg123");
 //    QString sProgramName(/*m_sMp3Player.c_str()*/"/usr/bin/afplay");
 //    QString sProgramName(/*m_sMp3Player.c_str()*/"/opt/local/bin/mpg123");
-    QString sProgramName(m_sMp3Player.c_str());
+    QString sProgramName(m_sMp3Player);
     if( dStartPosInSeconds>0 && sProgramName.indexOf("mpg123")!=-1 )
     {
         MP3Header aMP3Header;
 
-        bool boolIsMP3 = aMP3Header.ReadMP3Information( m_sFileName.c_str() );
+        bool boolIsMP3 = aMP3Header.ReadMP3Information( (const char *)m_sFileName );
         if(boolIsMP3)
         {
            QString sFrames;
@@ -230,10 +226,10 @@ void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
     }
     if( m_sMp3Options!="<none>" )
     {
-        aArgs << m_sMp3Options.c_str();
+        aArgs << m_sMp3Options;
     }
 
-    aArgs << m_sFileName.c_str();
+    aArgs << m_sFileName;
 
 // TODO test:
 //    QString sProgramName("/bin/sh");
@@ -289,7 +285,7 @@ double Mp3File::getTotalPlayTimeInSeconds()
 	{
 		MP3Header aMP3Header;
 
-		bool boolIsMP3 = aMP3Header.ReadMP3Information( m_sFileName.c_str() );
+		bool boolIsMP3 = aMP3Header.ReadMP3Information( (const char *)m_sFileName );
 		if(boolIsMP3)
 		{
             m_iLengthInSeconds = aMP3Header.intLength;
@@ -304,7 +300,6 @@ double Mp3File::getTotalPlayTimeInSeconds()
 
 int Mp3File::getActivePlay()
 {
-	//return m_pPlayer->control;
 	return m_iPlayModus;
 }
 
@@ -320,19 +315,22 @@ void Mp3File::playInThread( double dStartPosInSeconds, double dStopPosInSeconds 
     m_dStartPosInSeconds = dStartPosInSeconds;
     m_dStopPosInSeconds = dStopPosInSeconds;
 
+#ifdef _with_min_threads
 	/*unsigned long ulThreadID =*/ minBeginThread( _mp3SoundThreadStarter, _DEFAULT_STACK_SIZE, this );
-}
-
-void Mp3File::SetIniDB( MiniIniDB * pIniDB )
-{
-	m_pIniDB = pIniDB;
+#else 
+    start();
+#endif    
 }
 
 void Mp3File::UpdateSettingsFromIniFile()
 {
-	if( m_pIniDB )
-	{
-		m_sMp3Player = m_pIniDB->GetValue( c_sActPlayerKey );
-		m_sMp3Options = m_pIniDB->GetValue( c_sActPlayerOptionsKey );
-	}
+    QSettings aSettings;
+   
+    m_sMp3Player = aSettings.value("Mp3/PlayerName",QString()).toString();
+    m_sMp3Options = aSettings.value("Mp3/PlayerOptions",QString()).toString();    
+}
+
+void Mp3File::run()
+{
+    startPlay(GetStartTime(),GetStopTime());
 }

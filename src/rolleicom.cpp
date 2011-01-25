@@ -47,13 +47,14 @@
 
 #include "mincmdproc.h"
 #include "minlog.h"
-#include "miniini.h"
 
 #include <stdio.h>
 #include <string.h>
 
-//#include <iostream>
-//using namespace std;
+#include <iostream>
+using namespace std;
+
+#include <QSettings>
 
 #define BUFFER_MAX 255
 
@@ -712,16 +713,8 @@ const int RolleiCom::LIGHT_DISPLAY_HIGH		= 5;
 const int RolleiCom::TWIN_DIGITAL_P			= 1;
 const int RolleiCom::MSC_300_P				= 2;
 
-const char * _PORT_NO		= "com.port_no";
-const char * _BAUDRATE		= "com.baudrate";
-const char * _PARITIY_MODE	= "com.parity_mode";
-const char * _STOPBITS		= "com.stopbits";
-const char * _DATABITS		= "com.databits";
-const char * _FLOW_CONTROL	= "com.flow";
-const char * _COM_LOGGING	= "com.logging";
-
 #ifdef _WIN32
-const int c_iDelay = 15;
+const int c_iDelay = 15;        /* TODO check for Windows !!! */
 #else
 const int c_iDelay = 10;
 #endif
@@ -735,9 +728,8 @@ com.databits=6
 com.logging=0
 */
 
-RolleiCom::RolleiCom( bool bIgnoreComSettings, bool bSimulation, int iProjectorType, minLoggingInterface * pLoggingChannel, MiniIniDB * pIniDB, int iComPortNo /*, int iBaudrate, int iParityMode, int iStopBits, int iDataBits*/ )
-: m_pIniDB( pIniDB ),
-  m_pLoggingChannel( pLoggingChannel ),
+RolleiCom::RolleiCom( bool bIgnoreComSettings, bool bSimulation, int iProjectorType, minLoggingInterface * pLoggingChannel )
+: m_pLoggingChannel( pLoggingChannel ),
   m_pData( 0 ),
   m_pCmdProcessor( 0 ),
   m_bIsSimulation( bSimulation ),
@@ -754,51 +746,8 @@ RolleiCom::RolleiCom( bool bIgnoreComSettings, bool bSimulation, int iProjectorT
 	// ** default values for projector type may be overwritten with ini-file values
 	SetDefaultValues( m_iProjectorType );
 
-	// ** if there is a ini-db available, try to find values in it...
-	if( m_pIniDB )
-	{
-		if( m_pIniDB->HasKey( _PORT_NO ) )
-		{
-            m_sComPort = m_pIniDB->GetValue( _PORT_NO );
-        }
-		if( m_pIniDB->HasKey( _BAUDRATE ) )
-		{
-			m_iBaudrate = m_pIniDB->GetValueAsInt( _BAUDRATE );
-		}
-		if( m_pIniDB->HasKey( _PARITIY_MODE ) )
-		{
-			string sValue = m_pIniDB->GetValue( _PARITIY_MODE );
-
-			int iTempValue;
-			if( GetParityModeFromStrg( sValue, iTempValue ) )
-			{
-				m_iParityMode = iTempValue;
-			}
-		}
-		if( m_pIniDB->HasKey( _STOPBITS ) )
-		{
-			string sValue = m_pIniDB->GetValue( _STOPBITS );
-
-			int iTempValue;
-			if( GetStopBitsFromStrg( sValue, iTempValue ) )
-			{
-				m_iStopBits = iTempValue;
-			}
-		}
-		if( m_pIniDB->HasKey( _DATABITS ) )
-		{
-			m_iDataBits = m_pIniDB->GetValueAsInt( _DATABITS );
-		}
-		if( m_pIniDB->HasKey( _FLOW_CONTROL ) )
-		{
-			m_iFlowMode = m_pIniDB->GetValueAsInt( _FLOW_CONTROL );
-		}
-		if( m_pIniDB->HasKey( _COM_LOGGING ) )
-		{
-			m_bDoLogging = (bool)m_pIniDB->GetValueAsInt( _COM_LOGGING );
-		}
-	}
-
+    RestoreSettings();
+    
     Start( m_sComPort, m_iBaudrate, m_iParityMode, m_iStopBits, m_iDataBits, m_iFlowMode );
 }
 
@@ -806,26 +755,45 @@ RolleiCom::~RolleiCom()
 {
 	Stop();
 
-	if( m_pIniDB )
-	{
-		char sResult[256];
-
-        sprintf( sResult, "%s", m_sComPort.c_str() );
-		m_pIniDB->Add( _PORT_NO, sResult );
-		sprintf( sResult, "%d", m_iBaudrate );
-		m_pIniDB->Add( _BAUDRATE, sResult );
-		m_pIniDB->Add( _PARITIY_MODE, GetParityModeStrg( m_iParityMode ) );
-		m_pIniDB->Add( _STOPBITS, GetStopBitsStrg( m_iStopBits ) );
-		sprintf( sResult, "%d", m_iDataBits );
-		m_pIniDB->Add( _DATABITS, sResult );
-		sprintf( sResult, "%d", m_iFlowMode );
-		m_pIniDB->Add( _FLOW_CONTROL, sResult );
-
-		sprintf( sResult, "%d", (int)m_bDoLogging );
-		m_pIniDB->Add( _COM_LOGGING, sResult );
-	}
-
+    SaveSettings();
+    
 	delete m_pComPortSync;
+}
+
+void RolleiCom::SaveSettings()
+{
+    QSettings aSettings;
+    
+    aSettings.setValue("RolleiCom/ComPort",m_sComPort.c_str());
+    aSettings.setValue("RolleiCom/BaudRate",m_iBaudrate);
+    aSettings.setValue("RolleiCom/ParityMode",GetParityModeStrg( m_iParityMode ).c_str());
+    aSettings.setValue("RolleiCom/StopBits",GetStopBitsStrg( m_iStopBits ).c_str());
+    aSettings.setValue("RolleiCom/DataBits",m_iDataBits);
+    aSettings.setValue("RolleiCom/FlowControl",m_iFlowMode);
+    aSettings.setValue("RolleiCom/Logging",(int)m_bDoLogging);
+}
+
+void RolleiCom::RestoreSettings()
+{
+    QSettings aSettings;
+    QString sTemp;
+    int iTempValue;
+   
+    m_sComPort = (const char *)aSettings.value("RolleiCom/ComPort",QString()).toString();
+    m_iBaudrate = aSettings.value("RolleiCom/BaudRate",9600).toInt();
+    sTemp = aSettings.value("RolleiCom/ParityMode",QString()).toString();
+	if( GetParityModeFromStrg( (const char*)sTemp, iTempValue ) )
+	{
+		m_iParityMode = iTempValue;
+	}
+    sTemp = aSettings.value("RolleiCom/StopBits",QString()).toString();
+	if( GetStopBitsFromStrg( (const char*)sTemp, iTempValue ) )
+	{
+		m_iStopBits = iTempValue;
+	}
+    m_iDataBits = aSettings.value("RolleiCom/DataBits",8).toInt();
+    m_iFlowMode = aSettings.value("RolleiCom/FlowControl",0).toInt();
+    m_bDoLogging = (bool)aSettings.value("RolleiCom/Logging",0).toInt();
 }
 
 void RolleiCom::Start( const string & sComPort, int iBaudrate, int iParityMode, int iStopBits, int iDataBits, int iFlowMode )
