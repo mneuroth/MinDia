@@ -29,8 +29,6 @@
 #ifndef _IGENDEV_H
 #define _IGENDEV_H
 
-class MiniIniDB;
-
 const long g_IGeneralDeviceID			= 700;
 
 // *************************************************************************
@@ -48,12 +46,12 @@ public:
 	virtual int GetDeviceCount() = 0;
 
 	// ** this method should implement a configuration dialog for a single device
-	virtual bool GetConfigureData( int iDeviceNo, MiniIniDB & aConfigureDataInOut ) = 0;
+	//virtual bool GetConfigureData( int iDeviceNo ) = 0;
 
 	// ** get the status of the device
 	virtual int  GetDeviceStatus( int iDeviceNo ) = 0;
 	// ** set the configuration data for device iDeviceNo
-	virtual bool SetDeviceConfigureData( int iDeviceNo, const MiniIniDB & aConfigureData ) = 0;
+	//virtual bool SetDeviceConfigureData( int iDeviceNo ) = 0;
 
 	// ** opens the device
 	virtual bool OpenDevice( int iDeviceNo ) = 0;

@@ -33,8 +33,6 @@
 #include "minhandle.h"
 //#include "minutils.h"
 
-#include "miniini.h"
-
 #include "igendev.h"
 
 // *************************************************************************
@@ -61,12 +59,12 @@ public:
 	virtual int GetDeviceCount();
 
 	// ** this method should implement a configuration dialog for a single device
-	virtual bool GetConfigureData( int iDeviceNo, MiniIniDB & aConfigureDataInOut );
+	//virtual bool GetConfigureData( int iDeviceNo );
 
 	// ** get the status of the device
 	virtual int  GetDeviceStatus( int iDeviceNo );
 	// ** set the configuration data for device iDeviceNo
-	virtual bool SetDeviceConfigureData( int iDeviceNo, const MiniIniDB & aConfigureData );
+	//virtual bool SetDeviceConfigureData( int iDeviceNo );
 
 	// ** opens the device
 	virtual bool OpenDevice( int iDeviceNo );
@@ -141,12 +139,12 @@ int IGeneralDeviceImpl::GetDeviceCount()
 	return 2;
 }
 
-bool IGeneralDeviceImpl::GetConfigureData( int iDeviceNo, MiniIniDB & aConfigureDataInOut )
-{
-	aConfigureDataInOut.Clear();
-
-	return false;
-}
+//bool IGeneralDeviceImpl::GetConfigureData( int iDeviceNo )
+//{
+//	aConfigureDataInOut.Clear();
+//
+//	return false;
+//}
 
 bool IGeneralDeviceImpl::OpenDevice( int iDeviceNo )
 {
@@ -169,10 +167,10 @@ int IGeneralDeviceImpl::GetDeviceStatus( int iDeviceNo )
 	return 0;
 }
 
-bool IGeneralDeviceImpl::SetDeviceConfigureData( int iDeviceNo, const MiniIniDB & aConfigureData )
-{
-	return false;
-}
+//bool IGeneralDeviceImpl::SetDeviceConfigureData( int iDeviceNo )
+//{
+//	return false;
+//}
 
 bool IGeneralDeviceImpl::SetNextSlide( int iDeviceNo, int iSlideNo )
 {
