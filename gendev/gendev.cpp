@@ -93,7 +93,7 @@ private:
 
 // *************************************************************************
 
-IGeneralDeviceImpl::IGeneralDeviceImpl( const string & sModuleName, minDll * pDll )
+IGeneralDeviceImpl::IGeneralDeviceImpl( const string & sModuleName, minDll * /*pDll*/ )
 : IGeneralDevice( sModuleName )
 {
 	Init();
