@@ -36,8 +36,8 @@
 
 #include "minutils.h"
 
-#include <strstream>
-//#include <sstream>
+//#include <strstream>  // was deprecated !
+#include <sstream>
 
 using namespace std;
 
@@ -86,11 +86,11 @@ bool DiaInfo::IsChanged() const
 
 string DiaInfo::GetData() const
 {
-	ostrstream aStrStream;
+	ostringstream aStrStream;
 
 	Write( aStrStream );
 
-	return string( aStrStream.str(), aStrStream.pcount() );  
+	return string( aStrStream.str() ); //, aStrStream.tellp/*pcount*/() );  
 }
 
 void DiaInfo::SkipWhitespaces( string & sString )
@@ -112,7 +112,7 @@ bool DiaInfo::IsWhitespace( char ch ) const
 
 bool DiaInfo::SetFromData( string & sStringStreamInOut )
 {
-	istrstream aStrStream( sStringStreamInOut.c_str() );
+	istringstream aStrStream( sStringStreamInOut.c_str() );
 
 	if( Read( aStrStream ) )
 	{

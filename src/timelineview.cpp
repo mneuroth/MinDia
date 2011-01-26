@@ -176,7 +176,7 @@ TimeLineView::~TimeLineView()
 {
 	//let qt delete the object: delete m_pCanvas;
 
-	delete m_pToolTip;
+//TODO Qt4	delete m_pToolTip;
 
 	delete m_pContextMenu;
 }
@@ -536,15 +536,15 @@ void TimeLineView::ShowMusicTracks()
 	}
 }
 
-static bool IsInGraphicOperationsArea( const QPoint & aPoint )
-{
-	if( (aPoint.y() > g_iStartPosY+c_iDynOpOffset) &&
-		(aPoint.y() < g_iStartPosY+c_iDynOpOffset+20) )
-	{
-		return true;
-	}
-	return false;
-}
+//static bool IsInGraphicOperationsArea( const QPoint & aPoint )
+//{
+//	if( (aPoint.y() > g_iStartPosY+c_iDynOpOffset) &&
+//		(aPoint.y() < g_iStartPosY+c_iDynOpOffset+20) )
+//	{
+//		return true;
+//	}
+//	return false;
+//}
 
 void TimeLineView::ShowGraphicOperations()
 {

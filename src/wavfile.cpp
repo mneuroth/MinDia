@@ -754,7 +754,7 @@ int Wave::openWaveAsync( const char * filename )
  return ok;
 }
 
-int Wave::openWave( char *filename )
+int Wave::openWave( const char *filename )
 {
  int ok;
  int i, avBpS;
@@ -885,7 +885,7 @@ int Wave::openWave( char *filename )
  return ok;
 }
 
-void Wave::saveWave( char *filename, int startpos, int endpos )
+void Wave::saveWave( const char *filename, int startpos, int endpos )
 {
  int i, length;
  char str[40];

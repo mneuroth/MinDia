@@ -41,7 +41,7 @@
 /* XPM */
 /* Drawn  by Mark Donohoe for the K Desktop Environment */
 /* See http://www.kde.org */
-static char*back[]={
+static const char*back[]={
 "16 16 5 1",
 "# c #000000",
 "a c #ffffff",
@@ -68,7 +68,7 @@ static char*back[]={
 /* XPM */
 /* Drawn  by Mark Donohoe for the K Desktop Environment */
 /* See http://www.kde.org */
-static char*forward[]={
+static const char*forward[]={
 "16 16 5 1",
 "# c #000000",
 "a c #ffffff",
@@ -96,7 +96,7 @@ static char*forward[]={
 /* XPM */
 /* Drawn  by Mark Donohoe for the K Desktop Environment */
 /* See http://www.kde.org */
-static char*home[]={
+static const char*home[]={
 "16 16 4 1",
 "# c #000000",
 "a c #ffffff",
@@ -120,7 +120,7 @@ static char*home[]={
 "..#####.######..",
 "................"};
 
-static char*findsearch[]={
+static const char*findsearch[]={
 "16 16 4 1",
 "# c #000000",
 "a c #ffffff",
@@ -143,7 +143,7 @@ static char*findsearch[]={
 "...........###..",
 "................"};
 
-static char*closeicon[]={
+static const char*closeicon[]={
 "16 16 4 1",
 "# c #FF0000",
 "a c #ffffff",
@@ -210,7 +210,7 @@ void HelpDlgImpl::sltFindClicked()
 	}
 }
 
-void HelpDlgImpl::sltSearchTextChanged(const QString & sText)
+void HelpDlgImpl::sltSearchTextChanged(const QString & /*sText*/)
 {
 	// reset the position for search
 	m_iParagraph = 0;

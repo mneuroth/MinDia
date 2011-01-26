@@ -207,18 +207,18 @@ void CreateMovieDlg4::sltChangeMjpegToolsDirectory()
     }
 }
 
-void CreateMovieDlg4::sltImagesPerSecondsChanged( const QString & sValue )
+void CreateMovieDlg4::sltImagesPerSecondsChanged( const QString & /*sValue*/ )
 {
     UpdateCmds();
 }
 
 
-void CreateMovieDlg4::sltImageOutputChanged( const QString & sValue )
+void CreateMovieDlg4::sltImageOutputChanged( const QString & /*sValue*/ )
 {
     UpdateCmds();
 }
 
-void CreateMovieDlg4::sltMovieOutputChanged( const QString &)
+void CreateMovieDlg4::sltMovieOutputChanged( const QString & /*sValue*/ )
 {
     UpdateCmds();
 }
@@ -244,7 +244,7 @@ void CreateMovieDlg4::sltReadyReadStdError()
     }
 }
 
-void CreateMovieDlg4::sltProcessFinished( int exitCode, QProcess::ExitStatus exitStatus )
+void CreateMovieDlg4::sltProcessFinished( int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/ )
 {
     ui.m_pOutput->append("done.");
 

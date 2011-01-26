@@ -107,6 +107,7 @@ const int MAX_BUFFER_LENGTH =	512;
 
 // *******************************************************************
 
+#if defined(__linux__) || defined(__APPLE__)
   // Hilfsfunktion fuer SplitPath()
   static void _InsertChar( char * sBuffer, char ch )
   {
@@ -129,6 +130,8 @@ const int MAX_BUFFER_LENGTH =	512;
 	strcpy( sBuffer, sBuf );
   }
 
+#endif
+  
   // function necassary because of linux gcc3.3
   static char _mytolower( char ch )
   {
@@ -400,10 +403,9 @@ const int MAX_BUFFER_LENGTH =	512;
 	return sBuffer;
   }
 
-    char * FileUtilityObj::GetDirectorySeparatorStrg()
+    const char * FileUtilityObj::GetDirectorySeparatorStrg()
     {
 #if defined(__linux__) || defined(__APPLE__)
-
 	  return "/";
 #else
 	  return "\\";
@@ -463,7 +465,8 @@ const int MAX_BUFFER_LENGTH =	512;
 	  bOk = (bool)::MoveFile( (LPCTSTR)sSource, (LPCTSTR)sTarget );
 #endif
 #if defined(__linux__) || defined(__APPLE__)
-
+    sSource = sSource;
+    sTarget = sTarget;
 #ifdef _do_not_ignore_linux_errors
 #error not implemented yet (move)
 #endif
@@ -478,7 +481,8 @@ const int MAX_BUFFER_LENGTH =	512;
 	  bOk = (bool)::CopyFile( (LPCTSTR)sSource, (LPCTSTR)sTarget, /*bFailIfExists*/(BOOL)false );	// immer ueberschreiben
 #endif
 #if defined(__linux__) || defined(__APPLE__)
-
+    sSource = sSource;
+    sTarget = sTarget;
 #ifdef _do_not_ignore_linux_errors
 #error not implemented yet (?)
 #endif
@@ -534,6 +538,7 @@ const int MAX_BUFFER_LENGTH =	512;
   bool FileUtilityObj::ChangeActDrive( int nDriveNo )
   {
 #if defined(__linux__) || defined(__APPLE__)
+      nDriveNo = nDriveNo;
 	  return false;		// Problem mit Linux ? gibt kein Aequivalent !
 #else
 	  return _chdrive( nDriveNo )==0;

@@ -109,7 +109,7 @@ public:
   static string GetTmpPath();
   static bool IsOnlyFileName( const char * sFullFileName );
   static bool IsWhiteSpaceChar( char ch );
-  static char * GetDirectorySeparatorStrg();
+  static const char * GetDirectorySeparatorStrg();
   static char GetDirectorySeparator();
 //  static bool IsDirectory( FileAttributesT aAttributesIn );
 //  static bool IsHidden( FileAttributesT aAttributesIn );

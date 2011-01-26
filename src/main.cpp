@@ -413,7 +413,7 @@ QApplication * GetApplication()
 	return g_pApplication;
 }
 
-QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, QApplication * myApp )
+QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, QApplication * /*myApp*/ )
 {
 	// ** need global Translator for the other dialogs...
 	QString sLangTemp = sLanguage;
@@ -433,7 +433,7 @@ QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage,
 	sLang += ".qm";
 	if( sLangTemp != "en" )
 	{
-		bool bOk = pTranslator->load( sLang, "." );
+        /*bool bOk =*/ pTranslator->load( sLang, "." );
 		//cout << "==>> " << (const char *)sLang << " bOk=" << bOk << " " << (const char *)sLangTemp << endl;
 		qApp->installTranslator( pTranslator );
 	}

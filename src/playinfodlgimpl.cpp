@@ -917,14 +917,14 @@ void PlayInfoDlgImpl::sltSetImage( const QString & sImageFileName, bool bIsPlayi
 	{
 		QImage aImage;
 
-		bool bOk = ReadQImage( sImageFileName, aImage );
+        /*bool bOk =*/ ReadQImage( sImageFileName, aImage );
 
 		if( bIsPlaying )
 		{
 			// ** because of performace: first scaling (ca. 110ms), than fading (ca. 80ms) !!!
 			// ** values for 1024x768 images on 700MHz PIII.
 			// ** ATTENTION: comment the next line out, if first fading and than scaling is needed !
-			aImage = DoScaleImage( aImage );
+            aImage = DoScaleImage( aImage );
 
 			sltFadeInImage( aImage, iDissolveTimeInMS );
 		}

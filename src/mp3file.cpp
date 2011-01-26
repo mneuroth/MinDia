@@ -83,45 +83,45 @@ inline int seconds( double dSeconds )
 	return (int)(dSeconds-60.0*hours( dSeconds )-60.0*60.0*minutes( dSeconds ));
 }
 
-static bool IsWhiteSpace( char ch )
-{
-	if( (ch == ' ') || (ch == '\t') )
-	{
-		return true;
-	}
-	return false;
-}
-
-static int ParseOptions( const string & sOptions, vector<string> & aOptionsVec )
-{
-	aOptionsVec.erase( aOptionsVec.begin(), aOptionsVec.end() );
-
-	string sTemp;
-	unsigned long iCount = 0;
-
-	while( iCount < sOptions.length() )
-	{
-		if( IsWhiteSpace( sOptions[iCount] ) )
-		{
-			if( sTemp.length()>0 )
-			{
-				aOptionsVec.push_back( sTemp );
-			}
-			sTemp = "";
-		}
-		else
-		{
-			sTemp += sOptions[iCount];
-		}
-		iCount++;
-	}
-	if( sTemp.length()>0 )
-	{
-		aOptionsVec.push_back( sTemp );
-	}
-
-	return aOptionsVec.size();
-}
+//static bool IsWhiteSpace( char ch )
+//{
+//	if( (ch == ' ') || (ch == '\t') )
+//	{
+//		return true;
+//	}
+//	return false;
+//}
+//
+//static int ParseOptions( const string & sOptions, vector<string> & aOptionsVec )
+//{
+//	aOptionsVec.erase( aOptionsVec.begin(), aOptionsVec.end() );
+//
+//	string sTemp;
+//	unsigned long iCount = 0;
+//
+//	while( iCount < sOptions.length() )
+//	{
+//		if( IsWhiteSpace( sOptions[iCount] ) )
+//		{
+//			if( sTemp.length()>0 )
+//			{
+//				aOptionsVec.push_back( sTemp );
+//			}
+//			sTemp = "";
+//		}
+//		else
+//		{
+//			sTemp += sOptions[iCount];
+//		}
+//		iCount++;
+//	}
+//	if( sTemp.length()>0 )
+//	{
+//		aOptionsVec.push_back( sTemp );
+//	}
+//
+//	return aOptionsVec.size();
+//}
 
 // *******************************************************************
 // *******************************************************************
@@ -199,7 +199,7 @@ void Mp3File::DoKill()
     }
 }
 
-void Mp3File::startPlay( double dStartPosInSeconds, double dStopPosInSeconds )
+void Mp3File::startPlay( double dStartPosInSeconds, double /*dStopPosInSeconds*/ )
 {
 	// start the timer for the play-time... (important: start timer before fork() !!!)
 	m_aPlayTime.start();

@@ -323,6 +323,7 @@ inline unsigned long minBeginThread( minThreadStartAddress start_address, unsign
 	pthread_t aThread;
 	/*int nRet =*/ pthread_create( &aThread, NULL, (minThreadStartAddress2)start_address, arglist );
 	//return (unsigned long)&aThread;
+    stack_size = stack_size;
 	return 0;
 #endif
 #else
@@ -385,6 +386,7 @@ inline void minLeaveCriticalSection( void * hHandle )
 #endif
 #if defined(__linux__) || defined(__APPLE__)
 							// TODO
+    hHandle = hHandle;
 #endif
 }
 
@@ -400,6 +402,9 @@ inline int minSetThreadPriority( unsigned long nThreadId, long nClass, long nLev
 	return DosSetPriority( PRTYS_THREAD, nClass, nLevel, nThreadId );				// TODO
 #endif
 #if defined(__linux__) || defined(__APPLE__)
+    nThreadId = nThreadId;
+    nClass = nClass;
+    nLevel = nLevel;
 	return 0;				// TODO
 #endif
 }
@@ -415,7 +420,10 @@ inline int minGetThreadPriority( unsigned long nThreadId, long & nClass, long & 
 	return 0;				// TODO
 #endif
 #if defined(__linux__) || defined(__APPLE__)
-	return 0;				// TODO
+    nThreadId = nThreadId;
+    nClass = nClass;
+    nLevel = nLevel;
+    return 0;				// TODO
 #endif
 }
  
@@ -446,6 +454,8 @@ inline void minBeep( unsigned long nFrequency, unsigned long nDurationInMS )
 #endif
 #if defined(__linux__) || defined(__APPLE__)
 							// TODO
+    nFrequency = nFrequency;
+    nDurationInMS = nDurationInMS;
 #endif
 }
  
@@ -581,7 +591,7 @@ public:
 		//cout << "CreateMutex " << (void *)&m_aCritSec << "DONE" << endl;
 #endif
 #if defined(__linux__) || defined(__APPLE__)
-
+        sSemName = sSemName;
 //#error benannte Semaphore sind noch nicht implementiert !
 #ifdef _USE_PTHREAD
 		// statische Inititalisierung...

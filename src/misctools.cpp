@@ -26,6 +26,8 @@ char mytolower( char ch )
 	return tolower( ch );
 }
 
+#if defined( _MSC_VER ) && defined( _WITH_EXT_JPG_LIB )
+
 static bool IsJPEG( const char * sFileName )
 {
 	//ctype<string::value_type> aConverter;
@@ -45,8 +47,6 @@ static bool IsJPEG( const char * sFileName )
 	}
 	return false;
 }
-
-#if defined( _MSC_VER ) && defined( _WITH_EXT_JPG_LIB )
 
 #include "jpg/inc/jpegdecoder.h"
 

@@ -90,7 +90,7 @@ void ProjectorControlDlgImpl::DoDialogEnable( bool bEnable )
 {
 	/*QObjectList * */QList<QObject *> aList = /*(QObjectList *)*/children();
 
-	for( uint i=0; i<aList.count(); i++ )
+    for( int i=0; i<aList.count(); i++ )
 	{
 		QObject * pItem = aList.at( i );
 

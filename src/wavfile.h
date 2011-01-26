@@ -28,10 +28,10 @@ class Wave : public QThread
   int getBit();
   int getChannels();
   int getNumSamples();			// get size
-  int openWave( char * );
+  int openWave( const char * );
   int openWaveAsync( const char * );
   int isAsync() const;
-  void saveWave( char *, int, int );
+  void saveWave( const char *, int, int );
   void freemem();
   int getWloadStat();
   void setWloadStat( int );
