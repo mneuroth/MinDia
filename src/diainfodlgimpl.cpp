@@ -42,17 +42,14 @@
 
 #include <qlineedit.h>
 #include <qpushbutton.h>
-#include <q3buttongroup.h>
 #include <qradiobutton.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
-#include <q3multilineedit.h>
 #include <qvalidator.h>
 #include <qmessagebox.h>
-#include <q3filedialog.h>
-//Added by qt3to4:
 #include <QCloseEvent>
 #include <QKeyEvent>
+#include <QFileDialog>
 
 DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
 : DiaInfoDlg( parent, name, modal, fl )
@@ -73,8 +70,8 @@ DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, const 
 #endif
 
 	// ** set new accelerators for fast movement
-    m_pPrevious->setAccel( Qt::CTRL+Qt::Key_Left );
-    m_pNext->setAccel( Qt::CTRL+Qt::Key_Right );
+    m_pPrevious->setShortcut( Qt::CTRL+Qt::Key_Left );
+    m_pNext->setShortcut( Qt::CTRL+Qt::Key_Right );
 
 #ifndef ZAURUS
 	// min todo --> Effekte werden noch nicht unterstuezt
@@ -240,7 +237,7 @@ void DiaInfoDlgImpl::sltApplyData()
 #ifndef ZAURUS
 		s4 = m_pScript->text();
 #endif
-		hData->SetData( (const char *)s1, (const char *)s2, (const char *)s3, (const char *)s4 );
+		hData->SetData( (const char *)s1.toAscii().constData(), (const char *)s2.toAscii().constData(), (const char *)s3.toAscii().constData(), (const char *)s4.toAscii().constData() );
 
 #ifndef ZAURUS
 		hData->SetHorizontalFormat( m_pHorizontalFormat->isChecked() );
@@ -355,7 +352,7 @@ void DiaInfoDlgImpl::sltModifyScript()
 	IGeneralScriptEnvironment::ScriptLanguage aLanguage = IGeneralScriptEnvironment::PYTHON;
 
 	QString sQt = m_pScript->text();
-	const char * s = (const char *)sQt;
+	const char * s = (const char *)sQt.toAscii().constData();
 	string sScript = (s ? s : "");
 
     if( hScriptEnv.IsValid() )
@@ -373,7 +370,7 @@ void DiaInfoDlgImpl::sltModifyScript()
 void DiaInfoDlgImpl::sltSelectFileName()
 {
 #ifndef ZAURUS
-	QString sFileName = Q3FileDialog::getOpenFileName( /*QString::null*/GetImagePath().c_str(), /*QString::null*/"*.bmp", this );
+	QString sFileName = QFileDialog::getOpenFileName( this, tr("Select"), /*QString::null*/GetImagePath().c_str(), /*QString::null*/"*.bmp");
 
 	if( !sFileName.isEmpty() )
 	{

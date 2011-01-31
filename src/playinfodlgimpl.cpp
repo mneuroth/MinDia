@@ -53,15 +53,10 @@
 
 #ifndef ZAURUS
 #include "qtmtlock.h"
-//Added by qt3to4:
-#include <Q3HBoxLayout>
 #include <QKeyEvent>
-#include <Q3StrList>
 #include <QPixmap>
-#include <Q3Frame>
 #include <QResizeEvent>
 #include <QMouseEvent>
-#include <Q3VBoxLayout>
 #include <QShowEvent>
 #include <QCloseEvent>
 #include <QImageWriter>
@@ -77,13 +72,12 @@ class QtMTLock {};
 #include <qcheckbox.h> 
 #include <qradiobutton.h> 
 #include <qpainter.h>
-#include <q3popupmenu.h>
 #include <qlayout.h>
 #include <qpushbutton.h>
 #include <qtoolbutton.h>
-#include <q3buttongroup.h>
 #include <qdatetime.h>
-#include <q3filedialog.h>
+
+#include <QFileDialog>
 
 #include "icons.xpm"
 
@@ -94,7 +88,7 @@ static QImage CreateWhiteImage()
 	const int c_iWidth = 3;
 	const int c_iHeight = 3;
 
-	QImage aImage( c_iWidth, c_iHeight, 32 );
+	QImage aImage( c_iWidth, c_iHeight, /*32*/QImage::Format_RGB32 );
 
 	for( int y=0; y<c_iHeight; y++ )
 	{
@@ -116,38 +110,55 @@ static QImage CreateWhiteImage()
 // *******************************************************************
 // *******************************************************************
 
-#define STOP_START_ID	1
-#define MAXIMIZE_ID		2
-#define CLOSE_ID		3
-
 PlayInfoContextMenu::PlayInfoContextMenu( QWidget * parent, PlayInfoDlgImpl * pMyDialog )
-: Q3PopupMenu( parent ),
+: QMenu( parent ),
   m_pMyDialog( pMyDialog )
 {
-	m_pImageFormats = new Q3PopupMenu( this );
+	m_pImageFormats = new QMenu( tr( "Save &image..." ), 0 );
 
 	// ** get all supported image formates and fill the menu with this formats
-	Q3StrList aList = QImageWriter::supportedImageFormats();
-	for( unsigned int i=0; i<aList.count(); i++ )
+    QList<QByteArray> aList = QImageWriter::supportedImageFormats();
+	for( int i=0; i<aList.count(); i++ )
 	{
-		m_pImageFormats->insertItem( aList.at( i ), i );
+		m_pImageFormats->addAction( new QAction( QString(aList.at( i )), 0 ) );
 	}
+// TODO --> funktioniert das ?    
 	connect( m_pImageFormats, SIGNAL( activated(int) ), this, SLOT( sltImageFormatActivated(int) ) );
 
-	insertItem( tr( "Dissolve &Start/Stop" ), STOP_START_ID );
-	insertItem( tr( "Save &image..." ), m_pImageFormats );
-	insertSeparator();
-	insertItem( tr( "&Full screen" ), MAXIMIZE_ID );
-	insertSeparator();
-	insertItem( tr( "&Close" ), CLOSE_ID );
+    QAction * pAction = new QAction( tr( "Dissolve &Start/Stop" ), 0 );
+	addAction( pAction );
+    connect( pAction, SIGNAL(activated()), this, SLOT(sltStartStopFade()) );
+
+    addMenu( m_pImageFormats);
+    
+    addSeparator();
+    
+    m_pActionFullScreen = new QAction( tr( "&Full screen" ), 0 );
+	addAction( m_pActionFullScreen );
+    connect( m_pActionFullScreen, SIGNAL(activated()), this, SLOT(sltToggleFullScreen()) );
+
+    addSeparator();
+
+    pAction = new QAction( tr( "&Close" ), 0 );
+	addAction( pAction );
+    connect( pAction, SIGNAL(activated()), this, SLOT(sltClose()) );
+    
+    //insertItem( tr( "Dissolve &Start/Stop" ), STOP_START_ID ) );
+	//insertItem( tr( "Save &image..." ), m_pImageFormats );
+	//insertSeparator();
+	//insertItem( tr( "&Full screen" ), MAXIMIZE_ID );
+	//insertSeparator();
+	//insertItem( tr( "&Close" ), CLOSE_ID );
 
 	connect( this, SIGNAL( aboutToShow() ), this, SLOT( sltShowMenu() ) );
-	connect( this, SIGNAL( activated(int) ), this, SLOT( sltActivated(int) ) );
+	//connect( this, SIGNAL( activated(int) ), this, SLOT( sltActivated(int) ) );
 }
 
 PlayInfoContextMenu::~PlayInfoContextMenu()
 {
 	delete m_pImageFormats;
+    delete m_pActionFullScreen;
+// TODO ---> andere actions auch zerstoreren ?    
 }
 
 void PlayInfoContextMenu::sltImageFormatActivated( int iIndex )
@@ -160,30 +171,52 @@ void PlayInfoContextMenu::sltImageFormatActivated( int iIndex )
 	}
 }
 
-void PlayInfoContextMenu::sltActivated( int iIndex )
+//void PlayInfoContextMenu::sltActivated( int iIndex )
+//{
+//	if( m_pMyDialog )
+//	{
+//		switch( iIndex )
+//		{	
+//			case STOP_START_ID:
+//				m_pMyDialog->StartStopFade();
+//				break;
+//			case MAXIMIZE_ID :
+//				if( !m_pMyDialog->IsFullScreen() )
+//				{
+//					m_pMyDialog->FullScreen();
+//				}
+//				else
+//				{
+//					m_pMyDialog->RestoreSize();
+//				}
+//				break;
+//			case CLOSE_ID :
+//				m_pMyDialog->close();
+//				break;
+//		}
+//	}
+//}
+
+void PlayInfoContextMenu::sltStartStopFade()
 {
-	if( m_pMyDialog )
-	{
-		switch( iIndex )
-		{	
-			case STOP_START_ID:
-				m_pMyDialog->StartStopFade();
-				break;
-			case MAXIMIZE_ID :
-				if( !m_pMyDialog->IsFullScreen() )
-				{
-					m_pMyDialog->FullScreen();
-				}
-				else
-				{
-					m_pMyDialog->RestoreSize();
-				}
-				break;
-			case CLOSE_ID :
-				m_pMyDialog->close();
-				break;
-		}
+	m_pMyDialog->StartStopFade();
+}
+
+void PlayInfoContextMenu::sltToggleFullScreen()
+{
+	if( !m_pMyDialog->IsFullScreen() )
+    {
+		m_pMyDialog->FullScreen();
 	}
+	else
+	{
+		m_pMyDialog->RestoreSize();
+	}
+}
+
+void PlayInfoContextMenu::sltClose()
+{
+	m_pMyDialog->close();
 }
 
 void PlayInfoContextMenu::sltShowMenu()
@@ -192,11 +225,11 @@ void PlayInfoContextMenu::sltShowMenu()
 	{
 		if( m_pMyDialog->IsFullScreen() )
 		{
-			changeItem( MAXIMIZE_ID, tr( "&Normal" ) );
+            m_pActionFullScreen->setText( tr("&Normal") );
 		}
 		else
 		{
-			changeItem( MAXIMIZE_ID, tr( "&Full screen" ) );
+            m_pActionFullScreen->setText( tr("&Full screen") );
 		}
 	}
 }
@@ -212,13 +245,13 @@ public:
 	~MenuCanvasView();
 
 	// ** WARNING: takes the ownership of the given pointer !!!
-	void SetPopupMenu( Q3PopupMenu * pMenu );
+	void SetPopupMenu( QMenu * pMenu );
 
 protected:
 	virtual void contentsMousePressEvent( QMouseEvent * pEvent );
 
 private:
-	Q3PopupMenu *	m_pPopupMenu;
+	QMenu *	m_pPopupMenu;
 };
 
 MenuCanvasView::MenuCanvasView( Q3Canvas * viewing, QWidget * parent, const char * name, Qt::WFlags f )
@@ -232,7 +265,7 @@ MenuCanvasView::~MenuCanvasView()
 	delete m_pPopupMenu;
 }
 
-void MenuCanvasView::SetPopupMenu( Q3PopupMenu * pMenu )
+void MenuCanvasView::SetPopupMenu( QMenu * pMenu )
 {
 	m_pPopupMenu = pMenu;
 }
@@ -318,13 +351,14 @@ QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor )
 	int iWidth = aImage1.width();
 	int iHeight = aImage1.height();
 	//int iColors = aImage1.numColors();	// nur falls palette verwendet wird !
-	int iDeep = aImage1.depth();
+	//int iDeep = aImage1.depth();
 	int iBytes = aImage1.numBytes();
 	//int iLinie = aImage1.bytesPerLine();
-	QImage::Endian aVal = aImage1.bitOrder();
+	//QImage::Endian aVal = aImage1.bitOrder();
 	//bool bHasAlphaBuff = aImage1.hasAlphaBuffer();
 
-	QImage aRet( iWidth, iHeight, iDeep, 0, aVal );
+	//QImage aRet( iWidth, iHeight, iDeep, 0, aVal );
+	QImage aRet( iWidth, iHeight, aImage1.format() );
 	uchar * pResultBuffer = aRet.bits();
 
 	const uchar * pBuffer1 = aImage1.bits();
@@ -419,7 +453,7 @@ QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor )
 // *******************************************************************
 
 PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, const char* name, bool modal, Qt::WFlags fl )
-: PlayInfoDialog( parent, name, modal, fl | Qt::WStyle_Maximize ),
+: PlayInfoDialog( parent, name, modal, fl /*| Qt::WStyle_Maximize*/ ),      // TODO style for maximize ?
   m_pParent( parent ),
   m_iFadeInTimeInMS( 0 ),
   m_iFadeInFactor( 0 ),
@@ -432,10 +466,10 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, co
 	QPixmap aStopIcon( stopscript );
 	QPixmap aRunIcon( runscript );
 	QPixmap aFullscreenIcon( fullscreen );
-	m_pRun->setIconSet( aRunIcon );	
-	m_pStop->setIconSet( aStopIcon );
-	m_pPause->setIconSet( aPauseIcon );
-	m_pFullScreen->setIconSet( aFullscreenIcon );
+	m_pRun->setIcon( aRunIcon );	
+	m_pStop->setIcon( aStopIcon );
+	m_pPause->setIcon( aPauseIcon );
+	m_pFullScreen->setIcon( aFullscreenIcon );
 
 	m_pFadeInTimer = new QTimer( this );
 	connect( m_pFadeInTimer, SIGNAL( timeout() ), this, SLOT( sltFadeInTimer() ) );
@@ -483,8 +517,7 @@ void PlayInfoDlgImpl::UpdateStatus( bool bIsPlaying, bool bIsPause )
 
 bool PlayInfoDlgImpl::IsFullScreen() const
 {
-//TODO	return (m_pButtonLayout == 0);
-    return false;
+    return isFullScreen();
 }
 
 void PlayInfoDlgImpl::FullScreen()
@@ -524,51 +557,50 @@ void PlayInfoDlgImpl::FullScreen()
 
 void PlayInfoDlgImpl::RestoreSize()
 {
-#ifdef __old_code__todo__
 	if( IsFullScreen() )
 	{
-//TODO		m_pButtonLayout = new Q3HBoxLayout; 
-		// ** see PlayInfoDlg.cpp for the values **
-//TODO		m_pButtonLayout->setSpacing( 4 );	// 6
-//TODO		m_pButtonLayout->setMargin( 0 );
-
-		// anscheinend werden auch Sub-Layouts zerstoert
-		// wenn der Eltern-Layout-Container zerstoert wird !
-#ifndef ZAURUS
-// TODO !!!
-		m_pLeftContainer = new Q3VBoxLayout( 0, 0, 6, "m_pLeftContainer");
-		m_pButtonContainer = new Q3HBoxLayout( 0, 1, 1, "m_pButtonContainer");
-		m_pButtonContainer->addWidget( m_pRun );
-		m_pButtonContainer->addWidget( m_pPause );
-		m_pButtonContainer->addWidget( m_pStop );
-		m_pButtonContainer->addWidget( m_pFullScreen );
-		m_pLeftContainer->addLayout( m_pButtonContainer );
-		m_pLeftContainer->addWidget( m_pDisplayImage );
-
-		m_pButtonLayout->addLayout( m_pLeftContainer );
-#endif
-	    QSpacerItem* spacer1 = new QSpacerItem( 19, 15, QSizePolicy::Expanding, QSizePolicy::Minimum );
-	    m_pButtonLayout->addItem( spacer1 );
-#ifndef ZAURUS
-		m_pButtonLayout->addWidget( m_pScaleImageGroup );
-	    QSpacerItem* spacer2 = new QSpacerItem( 16, 16, QSizePolicy::Expanding, QSizePolicy::Minimum );
-	    m_pButtonLayout->addItem( spacer2 );
-	    m_pButtonLayout->addWidget( m_pClose );
-#endif
-		// ** see PlayInfoDlg.cpp for the values **
-	    PlayInfoDialogLayout->setSpacing( 2 );	// 6
-		PlayInfoDialogLayout->setMargin( 2 );	// 11
-	    PlayInfoDialogLayout->addLayout( m_pButtonLayout );
-
+////TODO		m_pButtonLayout = new Q3HBoxLayout; 
+//		// ** see PlayInfoDlg.cpp for the values **
+////TODO		m_pButtonLayout->setSpacing( 4 );	// 6
+////TODO		m_pButtonLayout->setMargin( 0 );
+//
+//		// anscheinend werden auch Sub-Layouts zerstoert
+//		// wenn der Eltern-Layout-Container zerstoert wird !
+//#ifndef ZAURUS
+//// TODO !!!
+//		m_pLeftContainer = new Q3VBoxLayout( 0, 0, 6, "m_pLeftContainer");
+//		m_pButtonContainer = new Q3HBoxLayout( 0, 1, 1, "m_pButtonContainer");
+//		m_pButtonContainer->addWidget( m_pRun );
+//		m_pButtonContainer->addWidget( m_pPause );
+//		m_pButtonContainer->addWidget( m_pStop );
+//		m_pButtonContainer->addWidget( m_pFullScreen );
+//		m_pLeftContainer->addLayout( m_pButtonContainer );
+//		m_pLeftContainer->addWidget( m_pDisplayImage );
+//
+//		m_pButtonLayout->addLayout( m_pLeftContainer );
+//#endif
+//	    QSpacerItem* spacer1 = new QSpacerItem( 19, 15, QSizePolicy::Expanding, QSizePolicy::Minimum );
+//	    m_pButtonLayout->addItem( spacer1 );
+//#ifndef ZAURUS
+//		m_pButtonLayout->addWidget( m_pScaleImageGroup );
+//	    QSpacerItem* spacer2 = new QSpacerItem( 16, 16, QSizePolicy::Expanding, QSizePolicy::Minimum );
+//	    m_pButtonLayout->addItem( spacer2 );
+//	    m_pButtonLayout->addWidget( m_pClose );
+//#endif
+//		// ** see PlayInfoDlg.cpp for the values **
+//	    PlayInfoDialogLayout->setSpacing( 2 );	// 6
+//		PlayInfoDialogLayout->setMargin( 2 );	// 11
+//	    PlayInfoDialogLayout->addLayout( m_pButtonLayout );
+//
 		m_pDisplayImage->show();
 		m_pRun->show();
 		m_pPause->show();
 		m_pStop->show();
 		m_pFullScreen->show();
-#ifndef ZAURUS
+//#ifndef ZAURUS
 		m_pScaleImageGroup->show();
 		m_pClose->show();
-#endif
+//#endif
 
 		//m_pCanvasView->setLineWidth( 2 );
 		m_pCanvasView->setFrameShadow( Q3Frame::Sunken );
@@ -577,9 +609,8 @@ void PlayInfoDlgImpl::RestoreSize()
 
 		// ** the method showFullScreen changes the parent and the flags
 		// ** so this values should be restored now !
-		reparent( m_pParent, m_flLastFlags, m_aLastPos, TRUE );
+//		reparent( m_pParent, m_flLastFlags, m_aLastPos, TRUE );
 	}
-#endif    
 }
 
 bool PlayInfoDlgImpl::IsFading() const
@@ -983,26 +1014,26 @@ void PlayInfoDlgImpl::sltFadeInImage( const QImage & aNewImage, int iFadeInTimeI
 	m_aFadeInImage = aNewImage;
 	if( m_aFadeInImage.isNull() )
 	{
-		m_aFadeInImage = QImage( m_aActImage.width(), m_aActImage.height(), m_aActImage.depth() );
+		m_aFadeInImage = QImage( m_aActImage.width(), m_aActImage.height(), m_aActImage.format() );
 		m_aFadeInImage.fill( 0 );
 	}
 	// ** for fade int we need true color, 
 	// ** fade in is difficult for images with different color paletts !
 	if( m_aFadeInImage.depth()<32 )
 	{
-		m_aFadeInImage = m_aFadeInImage.convertDepth( 32 );
+		m_aFadeInImage = m_aFadeInImage.convertToFormat( QImage::Format_RGB32 );
 	}
 
 	// ** both images should have the same size !!!
-	m_aPreviousImage = m_aActImage.smoothScale( m_aFadeInImage.width(), m_aFadeInImage.height() );;
+	m_aPreviousImage = m_aActImage.scaled( m_aFadeInImage.width(), m_aFadeInImage.height() );;
 	if( m_aPreviousImage.isNull() )
 	{
-		m_aPreviousImage = QImage( m_aFadeInImage.width(), m_aFadeInImage.height(), m_aFadeInImage.depth() );
+		m_aPreviousImage = QImage( m_aFadeInImage.width(), m_aFadeInImage.height(), m_aFadeInImage.format() );
 		m_aPreviousImage.fill( 0 );
 	}
 	if( m_aPreviousImage.depth()<32 )
 	{
-		m_aPreviousImage = m_aPreviousImage.convertDepth( 32 );
+        m_aPreviousImage = m_aPreviousImage.convertToFormat( QImage::Format_RGB32 );
 	}
 
 	// ** update the fade in data
@@ -1088,11 +1119,11 @@ void PlayInfoDlgImpl::sltSaveActImage( const QString & sImageFormat )
 	QString sExt( "*." );
 	sExt += sImageFormat;
 
-    QString sFileName = Q3FileDialog::getSaveFileName( /*QString::null*/GetImagePath().c_str(), sExt, this, "save", tr( "Save as" ) );
+    QString sFileName = QFileDialog::getSaveFileName( this, tr( "Save as" ), /*QString::null*/GetImagePath().c_str(), sExt );
 
     if( !sFileName.isEmpty() )
 	{
-		/*bool bOk =*/ m_aActImage.save( sFileName, (const char *)sImageFormat );
+		/*bool bOk =*/ m_aActImage.save( sFileName, (const char *)sImageFormat.toAscii().constData() );
 	}
 #endif
 }
@@ -1169,21 +1200,20 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
 			else if( m_pScaleFillX->isChecked() )
 			{
 				int iCalcHeight = aFrameRect.width() * aImage.height() / aImage.width();
-				aScaledImage = aImage.smoothScale( aFrameRect.width(), iCalcHeight );
+				aScaledImage = aImage.scaled( aFrameRect.width(), iCalcHeight );
 			}
 			else if( m_pScaleFillY->isChecked() )
 			{
 				int iCalcWidth = aFrameRect.height() * aImage.width() / aImage.height();
-				aScaledImage = aImage.smoothScale( iCalcWidth, aFrameRect.height() );
+				aScaledImage = aImage.scaled( iCalcWidth, aFrameRect.height() );
 			}
 			else if( m_pScaleExpand->isChecked() )
 			{
-				aScaledImage = aImage.smoothScale( aFrameRect.width(), aFrameRect.height() );
+				aScaledImage = aImage.scaled( aFrameRect.width(), aFrameRect.height() );
 				// Performance remark: 548x360 --> 1024x768 takes ca. 110ms
 			}
 #else
-			aScaledImage = aImage.smoothScale( aFrameRect.width(), aFrameRect.height() );
-			//aScaledImage = aImage;
+			aScaledImage = aImage.scaled( aFrameRect.width(), aFrameRect.height() );
 #endif
 		}
 		else
@@ -1225,33 +1255,33 @@ void PlayInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 	{
 		emit sigDialogHelp( "PlayInfoDialog" );
 	}
-	else if( (pEvent->ascii() == 'm') )
+	else if( (pEvent->text() == "m") )
 	{
 		FullScreen();
 	}
-	else if( (pEvent->ascii() == 'n') || (IsFullScreen() && (pEvent->ascii() == /*ESC*/27)) )
+	else if( (pEvent->text() == "n") || (IsFullScreen() && (pEvent->key() == Qt::Key_Escape /*ESC*//*27*/)) )
 	{
 		RestoreSize();
 	}
-	else if( (pEvent->ascii() == 's') )
+	else if( (pEvent->text() == "s") )
 	{
 		StartStopFade();
 	}
-	else if( /*((pEvent->state() & ControlButton)==ControlButton) &&*/ (pEvent->ascii() == 'r') )
+	else if( /*((pEvent->state() & ControlButton)==ControlButton) &&*/ (pEvent->text() == "r") )
 	{
 		if( m_pRun->isEnabled() )
 		{
 			emit sigDoPlay();
 		}
 	}
-	else if( (pEvent->ascii() == 'p') )
+	else if( (pEvent->text() == "p") )
 	{
 		if( m_pPause->isEnabled() )
 		{
 			emit sigDoPause();
 		}
 	}
-	else if( (pEvent->ascii() == 't') )
+	else if( (pEvent->text() == "t") )
 	{
 		if( m_pStop->isEnabled() )
 		{

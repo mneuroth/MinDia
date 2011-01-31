@@ -31,6 +31,7 @@
 
 // ** gui
 #include <q3canvas.h> 
+//#include <QGraphicsScene>
 
 #include "minhandle.h"		// for the smart-ptr
 
@@ -45,7 +46,7 @@ class QImage;
 // *******************************************************************
 /** Represents an Item in an ItemView.
   */
-class HItem : public Q3CanvasRectangle
+class HItem : public Q3CanvasRectangle //QGraphicsScene // Q3CanvasRectangle
 {
 public:
 	HItem( const QRect & aRect, Q3Canvas * pCanvas, minHandle<DiaInfo> hData );

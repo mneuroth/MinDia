@@ -49,17 +49,18 @@
 
 #include <qimage.h>
 #include <q3canvas.h>
-#include <q3popupmenu.h>
 #include <qtimer.h>
 #include <qdatetime.h>
-//Added by qt3to4:
 #include <QCloseEvent>
 #include <QShowEvent>
 #include <QResizeEvent>
 #include <QKeyEvent>
+#include <QMenu>
 
 class Q3CanvasView;
 class Q3Canvas;
+
+class QAction;
 
 class MenuCanvasView;
 class SimpleBitmapCanvas;
@@ -95,7 +96,7 @@ private:
 // *******************************************************************
 /** The context menu for the canvas view
   */
-class PlayInfoContextMenu : public Q3PopupMenu
+class PlayInfoContextMenu : public QMenu    //Q3PopupMenu
 {
 	Q_OBJECT
 
@@ -104,13 +105,18 @@ public:
 	~PlayInfoContextMenu();
 
 public slots:
+    void sltStartStopFade();
+    void sltToggleFullScreen();
+    void sltClose();
+
 	void sltImageFormatActivated( int iIndex );
-	void sltActivated( int iIndex );
+	//void sltActivated( int iIndex );
 	void sltShowMenu();
 
 private:
 	PlayInfoDlgImpl *	m_pMyDialog;
-	Q3PopupMenu *		m_pImageFormats;
+	QMenu *		        m_pImageFormats;
+    QAction *           m_pActionFullScreen;
 };
 
 // *******************************************************************
