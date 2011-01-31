@@ -387,6 +387,8 @@ change history:
 23.1.2011   3h      tests to concat multiple mp3 files in one mp3 file (not successfull), implemented file assignement for mac, added scripts to build installer for windows and mac, started for linux binary distribution (deb)
 25.1.2011   3h      removed miniini.* with QSettings, used QThread instead of minThread
 26.1.2011   1h      removed some compiler warnings
+28.1.2011   2h      replaced some Qt3 elements with Qt4 elements
+31.1.2011   1h      improved make_src_tar.sh
  
 //TODO: RS232 communication under linux does not work... --> verwende /dev/ttyUSB0, aber anscheinend ist Kommunikation nicht ganz stabil, ggf. weitere Tests notwendig (manchmal werden nicht alle zeichen gelesen?)
 // TODO: BUG Dyn-Text wird nicht als veraenderlich angesehen --> daher werden texte nur angezeigt wenn sie waehrend der ueberblendung eingeschaltet werden !!!            
