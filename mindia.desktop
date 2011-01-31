@@ -1,0 +1,11 @@
+[Desktop Entry]
+Categories=Utility;Office;X-SuSE-Core-Office;X-Mandriva-Office-Publishing;X-Misc;
+Exec=mindia
+GenericName=Mindia
+Comment=Mindia application
+Comment[de]=Mindia Anwendung
+Icon=mindia_64x64
+Name=mindia
+StartupNotify=false
+Terminal=false
+Type=Application

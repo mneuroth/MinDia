@@ -384,7 +384,9 @@ change history:
 18.1.2011   2h      rewriting mp3file.cpp using QProcess using mpg123 for starting inbetween the mp3 file  
 21.1.2011   3h      saved and restored some dialog positions and main window positions, replaced some Qt3 menu handling with Qt4, added auto loading of last file    
 22.1.2011   2h      saved and restored settings of createmoviedlg4, first version of configplaymp3 dilog for Mac
-23.1.2011   2h      tests to concat multiple mp3 files in one mp3 file (not successfull), implemented file assignement for mac, added scripts to build installer for windows
+23.1.2011   3h      tests to concat multiple mp3 files in one mp3 file (not successfull), implemented file assignement for mac, added scripts to build installer for windows and mac, started for linux binary distribution (deb)
+25.1.2011   3h      removed miniini.* with QSettings, used QThread instead of minThread
+26.1.2011   1h      removed some compiler warnings
  
 //TODO: RS232 communication under linux does not work... --> verwende /dev/ttyUSB0, aber anscheinend ist Kommunikation nicht ganz stabil, ggf. weitere Tests notwendig (manchmal werden nicht alle zeichen gelesen?)
 // TODO: BUG Dyn-Text wird nicht als veraenderlich angesehen --> daher werden texte nur angezeigt wenn sie waehrend der ueberblendung eingeschaltet werden !!!            

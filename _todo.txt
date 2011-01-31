@@ -8,8 +8,8 @@ Porting to Qt4:
 - Skripte erstellen fuer binary releases (Mac, Linux, Windows)
 - Skripte erstellen fuer Source Code release
 //- Problem mit Rs232 Kommunikation: ggf. wird das CR/LF am Ende eines Kommandos nicht gelesen, bevor der naechste Befehl gelesen wird --> ggf. ein flush verwenden bevor CMD schreiben und Antwort lesen
-- File-Assoziationen fuer Mac realisieren
-- mp3 Unterstuetzung fue MAC verbessern --> mpg123 verwenden, QProcess verwenden
+((- File-Assoziationen fuer Mac realisieren
+((- mp3 Unterstuetzung fue MAC verbessern --> mpg123 verwenden, QProcess verwenden
 - Filme erzeugen verbessern...
 - mpg123 und mjpegtools in application bundle und windows installer hinzufuegen, abhaengigkeit zu mpg123 und mjpegtools in .deb hinzufuegen
 - Diashow mit iSight Kamera aufnehmen (einfache Digitalisierunng) 
@@ -19,8 +19,8 @@ Porting to Qt4:
     http://developer.apple.com/library/mac/#samplecode/hacktv/Introduction/Intro.html  
     http://iloveco.de/adding-isight/  
     http://developer.apple.com/library/mac/#documentation/DeviceDrivers/Conceptual/IOKitFundamentals/Introduction/Introduction.html)
-- eigenes ini-file durch QSettings ersetzen
-- eigene Threads durch QThread ersetzen  
+//- eigenes ini-file durch QSettings ersetzen
+//- eigene Threads durch QThread ersetzen  
 - ungenutzte Quelldateien aus projekt entfernen (z.B. alter createmoviedlg)
 - vor Release die TODOs aus dem Quellcode entfernen  
 - Dyn. Texte an Dias 'kleben' lassen, wenn standzeit veraendert wird, muss sich text ggf. mit bewegen...
