@@ -36,12 +36,10 @@
 
 // ** gui
 #include <q3canvas.h>
-//Added by qt3to4:
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QMouseEvent>
 #include <QDragMoveEvent>
-#include <Q3PopupMenu>
 
 #include <vector>
 
@@ -51,7 +49,7 @@ using namespace std;
 #include "timelineaxis.h"
 
 class DiaPresentation;
-class Q3PopupMenu;
+class QMenu;
 class MyDynamicToolTip;
 
 // *******************************************************************
@@ -107,14 +105,12 @@ public slots:
 	void sltUpdateSelected();
 	void sltSelectItem( int iNo, int iDissolveTimeInMS );
 	void sltItemSelected( int iCount, int iFirstSelectedItemNo );
-	void sltContextMenuActivated( int iMenuIndex );
+    void sltAddDynText();
+    void sltEditDynText();
 
 signals:
 	void sigViewDataChanged();
 	void sigItemSelected( int iNo, int iDissolveTimeInMS );
-	void sigModifySoundData();
-	void sigModifySoundComment();
-	void sigModifyPlotComment();
 	void sigLoadDoc( const QString & sFileName, bool bExecuteEvent );
 
 private:
@@ -127,7 +123,8 @@ private:
 	int  GetItemForPosX( int x );
 
 	// ** data **
-	Q3PopupMenu *				m_pContextMenu;
+	QMenu *				        m_pContextMenu;
+    QAction *                   m_pMenuDynTextEdit;
 	Q3Canvas *					m_pCanvas;
 	QSize						m_aSizeHint;
 	MyDynamicToolTip *			m_pToolTip;

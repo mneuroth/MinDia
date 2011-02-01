@@ -42,7 +42,6 @@
 #include "misctools.h"
 
 #include <qcursor.h>
-#include <q3popupmenu.h>
 #include <qpushbutton.h>
 #include <qtooltip.h>
 #include <qevent.h>
@@ -51,13 +50,13 @@
 #include <qlabel.h>
 #include <qcheckbox.h>
 #include <qlineedit.h>
-//Added by qt3to4:
 #include <Q3StrList>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QMouseEvent>
 #include <QToolTip>
+#include <QMenu>
 
 // *******************************************************************
 /* TODO Qt4
@@ -99,12 +98,6 @@ void MyDynamicToolTip::maybeTip( const QPoint &pos )
 // *******************************************************************
 // *******************************************************************
 
-#define MODIFY_SOUNDDATA		1
-#define MODIFY_SOUNDCOMMENTS	2
-#define MODIFY_PLOTCOMMENTS		3
-#define MODIFY_ADDDYNTEXT		4
-#define MODIFY_MODIFYDYNTEXT	5
-
 const double g_dFactor = 10.0;		// one pixel is one tenth of a second !
 const int g_iRampSize= 60;
 const int g_iStartPosY = g_iRampSize + 20;
@@ -116,16 +109,25 @@ TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget 
 	setAcceptDrops( TRUE );
 	setDragAutoScroll( TRUE );
 
-	m_pContextMenu		= new Q3PopupMenu( this );
-	m_pContextMenu->insertItem( tr( "Sound &data..." ), MODIFY_SOUNDDATA );
-	m_pContextMenu->insertItem( tr( "Sound &comments..." ), MODIFY_SOUNDCOMMENTS );
-	m_pContextMenu->insertItem( tr( "&Plot comments..." ), MODIFY_PLOTCOMMENTS );
-	m_pContextMenu->insertSeparator();
-	m_pContextMenu->insertItem( tr( "&Add dyn. text..." ), MODIFY_ADDDYNTEXT );
-	m_pContextMenu->insertItem( tr( "&Modify dyn. text..." ), MODIFY_MODIFYDYNTEXT );
-	//connect( m_pContextMenu, SIGNAL( aboutToShow() ), this, SLOT( sltShowContextMenu() ) );
-	connect( m_pContextMenu, SIGNAL( activated(int) ), this, SLOT( sltContextMenuActivated(int) ) );
-
+	m_pContextMenu		= new QMenu( this );
+    
+    QAction * pAction = new QAction( tr( "Sound &data..." ), this );
+	connect( pAction, SIGNAL( triggered() ), pMainWin, SLOT( sltShowSoundData() ) );
+    m_pContextMenu->addAction( pAction );
+    pAction = new QAction( tr( "Sound &comments..." ), this );
+	connect( pAction, SIGNAL( triggered() ), pMainWin, SLOT( sltShowSoundComment() ) );
+    m_pContextMenu->addAction( pAction );
+    pAction = new QAction( tr( "&Plot comments..." ), this );
+	connect( pAction, SIGNAL( triggered() ), pMainWin, SLOT( sltShowPlotComment() ) );
+    m_pContextMenu->addAction( pAction );
+    m_pContextMenu->addSeparator();
+    pAction = new QAction( tr( "&Add dyn. text..." ), this );
+    connect( pAction, SIGNAL(triggered()), this, SLOT(sltAddDynText()) );
+    m_pContextMenu->addAction( pAction );
+    m_pMenuDynTextEdit= new QAction( tr( "&Modify dyn. text..." ), this );
+    connect( m_pMenuDynTextEdit, SIGNAL(triggered()), this, SLOT(sltEditDynText()) );
+    m_pContextMenu->addAction( m_pMenuDynTextEdit );
+    
 	m_pCanvas			= new Q3Canvas( iWidth, iHeight );
 	//m_pCanvas->setDoubleBuffering( true );
 	setCanvas( m_pCanvas );
@@ -162,9 +164,9 @@ TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget 
 
 	if( pMainWin )
 	{
-   		connect( this, SIGNAL( sigModifySoundData() ), pMainWin, SLOT( sltShowSoundData() ) );
-   		connect( this, SIGNAL( sigModifySoundComment() ), pMainWin, SLOT( sltShowSoundComment() ) );
-   		connect( this, SIGNAL( sigModifyPlotComment() ), pMainWin, SLOT( sltShowPlotComment() ) );
+//   		connect( this, SIGNAL( sigModifySoundData() ), pMainWin, SLOT( sltShowSoundData() ) );
+//   		connect( this, SIGNAL( sigModifySoundComment() ), pMainWin, SLOT( sltShowSoundComment() ) );
+//   		connect( this, SIGNAL( sigModifyPlotComment() ), pMainWin, SLOT( sltShowPlotComment() ) );
 		connect( this, SIGNAL( sigLoadDoc(const QString &, bool) ), pMainWin, SLOT( sltLoadDoc(const QString &, bool) ) );
 	}
 
@@ -178,6 +180,8 @@ TimeLineView::~TimeLineView()
 
 //TODO Qt4	delete m_pToolTip;
 
+    delete m_pMenuDynTextEdit;
+    
 	delete m_pContextMenu;
 }
 
@@ -194,6 +198,35 @@ void TimeLineView::setSizeHint( const QSize & aSize )
 void TimeLineView::SyncViewWithData()
 {
 	sltUpdateView();
+}
+
+void TimeLineView::sltAddDynText()
+{
+	DynContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
+
+	EnterValueDlg aEnterDlg( this, "enter_text", /*modal*/TRUE );
+
+	aEnterDlg.setCaption( tr( "Enter text" ) );
+	aEnterDlg.m_pTextLabel->setText( tr( "text:" ) );
+	aEnterDlg.m_pEnterValue->setFocus();
+
+	int iRet = aEnterDlg.exec();
+
+	if( iRet == 1 )
+	{
+		QString s = aEnterDlg.m_pEnterValue->text();
+
+		int x = m_aLastMousePos.x();	
+
+		aDynGrOpContainer.AddDefaultDynText( (const char *)s, x*1000/g_dFactor-m_pDiaPres->GetOffsetForSound()*1000, 5000 );
+
+        emit sigViewDataChanged();
+	}
+}
+
+void TimeLineView::sltEditDynText()
+{
+    ShowModifyDynObjectDialog( m_iSelectedDynTextIndex );
 }
 
 void TimeLineView::sltDoUpdateView( bool bErase )
@@ -291,51 +324,6 @@ void TimeLineView::sltItemSelected( int iCount, int iFirstSelectedItemNo )
 	}
 
 	sltUpdateSelected();
-}
-
-void TimeLineView::sltContextMenuActivated( int iMenuIndex )
-{
-	switch( iMenuIndex )
-	{
-		case MODIFY_SOUNDDATA:
-			emit sigModifySoundData();
-			break;
-		case MODIFY_SOUNDCOMMENTS:
-			emit sigModifySoundComment();
-			break;
-		case MODIFY_PLOTCOMMENTS:
-			emit sigModifyPlotComment();
-			break;
-		case MODIFY_ADDDYNTEXT:
-			{
-				DynContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
-
-				EnterValueDlg aEnterDlg( this, "enter_text", /*modal*/TRUE );
-
-				aEnterDlg.setCaption( tr( "Enter text" ) );
-				aEnterDlg.m_pTextLabel->setText( tr( "text:" ) );
-				aEnterDlg.m_pEnterValue->setFocus();
-
-				int iRet = aEnterDlg.exec();
-
-				if( iRet == 1 )
-				{
-					QString s = aEnterDlg.m_pEnterValue->text();
-
-					int x = m_aLastMousePos.x();	
-
-					aDynGrOpContainer.AddDefaultDynText( (const char *)s, x*1000/g_dFactor-m_pDiaPres->GetOffsetForSound()*1000, 5000 );
-
-					emit sigViewDataChanged();
-				}
-			}
-			break;
-		case MODIFY_MODIFYDYNTEXT:
-			{
-				ShowModifyDynObjectDialog( m_iSelectedDynTextIndex );
-			}
-			break;
-	}
 }
 
 void TimeLineView::SetPlayMark( double dActPlayTime )
@@ -723,7 +711,7 @@ void TimeLineView::contentsMousePressEvent( QMouseEvent * pEvent )
 		// enable the item to allow the modification of the dynamic text
 		int iTemp = m_iSelectedDynTextIndex;	// save info of the selected item
 		QRect aRect = GetTipRect( pEvent->pos(), 0, &m_iSelectedDynTextIndex );
-		m_pContextMenu->setItemEnabled( MODIFY_MODIFYDYNTEXT, aRect.isValid() );
+        m_pMenuDynTextEdit->setEnabled( aRect.isValid() );
 				
 		m_pContextMenu->exec( pEvent->globalPos() );
 
@@ -879,6 +867,10 @@ void TimeLineView::dragEnterEvent( QDragEnterEvent * pEvent )
 		{
 			pEvent->accept( Q3UriDrag::canDecode( pEvent ) );
 		}
+        else if( IsSoundFileDrag( pEvent ) )
+		{
+			pEvent->accept( Q3UriDrag::canDecode( pEvent ) );
+		}
 //        QTextDrag::canDecode(pEvent) ||
 	}
 }
@@ -914,18 +906,18 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
 	if( m_pDiaPres->IsEdit() )
 	{
 		QString sFileName;
-		QString sText;
+		//QString sText;
 		Q3StrList aStrList;
-		QImage aImage;
+		//QImage aImage;
 
 		QPoint aPos = pEvent->pos();
 
-		if( Q3ImageDrag::decode( pEvent, aImage ) )
+		/*if( Q3ImageDrag::decode( pEvent, aImage ) )
 		{
 			int i = 0;
 			i = 2;
 		}
-		else if( IsDiaDataFileDrag( pEvent, sFileName ) )
+		else*/ if( IsDiaDataFileDrag( pEvent, sFileName ) )
 		{
 			emit sigLoadDoc( sFileName, true );
 		}
@@ -976,7 +968,7 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
 			bool bOk = ReadQImage( (const char *)sFileName, aImage );
 			//bool bOk = aImage.load( s1 );
 		}
-	*/	else if( Q3TextDrag::decode( pEvent, sText ) )
+	*/	/*else if( Q3TextDrag::decode( pEvent, sText ) )
 		{
 			const char * s = (const char *)sText;
 
@@ -995,7 +987,7 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
 			sFullName = sFullName.left( sFullName.length()-2 );
 			s = (const char *)sFullName;
 			bOk = aImage.load( sFullName );
-		}
+		}*/
 	}
 }
 
@@ -1004,79 +996,83 @@ void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
 	// ** change data of the dynamic text with a dialog **
 	DynContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
 
-	minHandle<DynText> hItem = aDynGrOpContainer[ iIndexOut ];
-
-	DynamicTextDlgImpl aDlg( hItem, this, m_pParent, "enter_dynamic_text", /*modal*/TRUE );
-//remove vector
-	aDlg.m_pText->setText( QString( hItem->text() ) );
-	aDlg.m_pText->setFocus();
-	aDlg.m_pFontName->setText( hItem->font().family() );
-	QString sTemp;
-	sTemp = sTemp.setNum( hItem->font().pointSize() );
-	aDlg.m_pFontSize->setText( sTemp );
-	sTemp = sTemp.setNum( hItem->x() );
-	aDlg.m_pPosX->setText( sTemp );
-	sTemp = sTemp.setNum( hItem->y() );
-	aDlg.m_pPosY->setText( sTemp );
-	QColor aColor = hItem->color();
-	aDlg.m_pSelectFontcolor->setPalette( QPalette( aColor ) );
-	double xRel,yRel;
-	if( hItem->GetRelativePos( xRel, yRel ) )
-	{
-		aDlg.SetRelPos( xRel, yRel );
-	}
-
-	double dStart, dDelta;
-	hItem->GetDefaultData( dStart, dDelta );
-
-	sTemp = sTemp.setNum( /*hItem->GetStartTime()*/dStart );
-	aDlg.m_pShowAtTime->setText( sTemp );
-	sTemp = sTemp.setNum( dDelta );
-	aDlg.m_pShowTime->setText( sTemp );
-
-	int iRet = aDlg.exec();
-
-	if( iRet == 2 )
-	{
-		// delete the selected item !
-		aDynGrOpContainer.erase( aDynGrOpContainer.begin()+iIndexOut );
-
-		aDynGrOpContainer.SetChanged();
-
-		emit sigViewDataChanged();
-	}
-	else if( iRet == 1 )
-	{
-		hItem->setText( aDlg.m_pText->text() );
-		hItem->setFont( aDlg.GetFont() );
-		if( aDlg.m_pRelPos->isChecked() )
-		{
-			hItem->SetRelativePos( aDlg.GetRelX(), aDlg.GetRelY() );
-		}
-		else
-		{
-			hItem->setX( aDlg.m_pPosX->text().toInt() );
-			hItem->setY( aDlg.m_pPosY->text().toInt() );
-			hItem->SetRelativePos( -1.0, -1.0 );
-		}
-		QColor aColor = aDlg.m_pSelectFontcolor->backgroundColor();
-		hItem->setColor( aColor );
-
-		dStart = aDlg.m_pShowAtTime->text().toDouble();
-		dDelta = aDlg.m_pShowTime->text().toDouble();
-
-		hItem->ChangeDefaultData( dStart, dDelta );
-
-		if( aDlg.m_pAttributesForAll->isChecked() )
-		{
-			aDynGrOpContainer.SetAttributesForAllItems( hItem );
-		}
-
-		aDynGrOpContainer.SetChanged();
-
-
-		emit sigViewDataChanged();
-	}
+    if( iIndexOut>=0 && iIndexOut<aDynGrOpContainer.size() )
+    {
+        
+    	minHandle<DynText> hItem = aDynGrOpContainer[ iIndexOut ];
+    
+    	DynamicTextDlgImpl aDlg( hItem, this, m_pParent, "enter_dynamic_text", /*modal*/TRUE );
+    //remove vector
+    	aDlg.m_pText->setText( QString( hItem->text() ) );
+    	aDlg.m_pText->setFocus();
+    	aDlg.m_pFontName->setText( hItem->font().family() );
+    	QString sTemp;
+    	sTemp = sTemp.setNum( hItem->font().pointSize() );
+    	aDlg.m_pFontSize->setText( sTemp );
+    	sTemp = sTemp.setNum( hItem->x() );
+    	aDlg.m_pPosX->setText( sTemp );
+    	sTemp = sTemp.setNum( hItem->y() );
+    	aDlg.m_pPosY->setText( sTemp );
+    	QColor aColor = hItem->color();
+    	aDlg.m_pSelectFontcolor->setPalette( QPalette( aColor ) );
+    	double xRel,yRel;
+    	if( hItem->GetRelativePos( xRel, yRel ) )
+    	{
+    		aDlg.SetRelPos( xRel, yRel );
+    	}
+    
+    	double dStart, dDelta;
+    	hItem->GetDefaultData( dStart, dDelta );
+    
+    	sTemp = sTemp.setNum( /*hItem->GetStartTime()*/dStart );
+    	aDlg.m_pShowAtTime->setText( sTemp );
+    	sTemp = sTemp.setNum( dDelta );
+    	aDlg.m_pShowTime->setText( sTemp );
+    
+    	int iRet = aDlg.exec();
+    
+    	if( iRet == 2 )
+    	{
+    		// delete the selected item !
+    		aDynGrOpContainer.erase( aDynGrOpContainer.begin()+iIndexOut );
+    
+    		aDynGrOpContainer.SetChanged();
+    
+    		emit sigViewDataChanged();
+    	}
+    	else if( iRet == 1 )
+    	{
+    		hItem->setText( aDlg.m_pText->text() );
+    		hItem->setFont( aDlg.GetFont() );
+    		if( aDlg.m_pRelPos->isChecked() )
+    		{
+    			hItem->SetRelativePos( aDlg.GetRelX(), aDlg.GetRelY() );
+    		}
+    		else
+    		{
+    			hItem->setX( aDlg.m_pPosX->text().toInt() );
+    			hItem->setY( aDlg.m_pPosY->text().toInt() );
+    			hItem->SetRelativePos( -1.0, -1.0 );
+    		}
+    		QColor aColor = aDlg.m_pSelectFontcolor->backgroundColor();
+    		hItem->setColor( aColor );
+    
+    		dStart = aDlg.m_pShowAtTime->text().toDouble();
+    		dDelta = aDlg.m_pShowTime->text().toDouble();
+    
+    		hItem->ChangeDefaultData( dStart, dDelta );
+    
+    		if( aDlg.m_pAttributesForAll->isChecked() )
+    		{
+    			aDynGrOpContainer.SetAttributesForAllItems( hItem );
+    		}
+    
+    		aDynGrOpContainer.SetChanged();
+    
+    
+    		emit sigViewDataChanged();
+    	}
+    }
 }
 
 int TimeLineView::GetItemForPosX( int x )
