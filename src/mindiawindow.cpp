@@ -67,7 +67,6 @@
 #include "minbase.h"
 #include "iscript.h"
 #include "qtmtlock.h"
-//Added by qt3to4:
 #include <QPixmap>
 #include <QCloseEvent>
 #include <QKeyEvent>
@@ -91,7 +90,6 @@
 #include "pddlgimpl.h"
 #include "sndinfodlgimpl.h"
 #include "commentdlgimpl.h"
-#include "createmoviedlgimpl.h"
 #include "helpdlgimpl.h"
 #include "EnterValueDlg.h"
 #include "LicenseDlg.h"
@@ -1156,7 +1154,6 @@ void MinDiaWindow::sltExportDoc()
 
 void MinDiaWindow::sltExportAVI()
 {
-    //CreateMovieDlgImpl * pDlg = new CreateMovieDlgImpl( m_pControler, m_pControler->GetPresentation().GetTotalTime()*1000, this, "create_move", /*modal*/TRUE );
     CreateMovieDlg4 * pDlg = new CreateMovieDlg4(m_pControler, m_pControler->GetPresentation().GetTotalTime()*1000,this);
 
     if( m_aCreateMovieDialogGeometry.count()>0 )
