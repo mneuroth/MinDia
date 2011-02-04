@@ -31,16 +31,16 @@
 
 #include <qimage.h>
 
-class QMimeSource;
+class QDropEvent;
 
 bool ReadQImage( const char * sFileName, QImage & aImageOut );
 
 bool IsDiaDataFile( const char * sFileName );
 
-bool IsDiaDataFileDrag( const QMimeSource * pEvent, QString & sFileNameOut );
+bool IsDiaDataFileDrag( const QDropEvent * pEvent, QString & sFileNameOut );
 
-bool IsImageFileDrag( const QMimeSource * pEvent );
+bool IsImageFileDrag( const QDropEvent * pEvent );
 
-bool IsSoundFileDrag( const QMimeSource * pEvent );
+bool IsSoundFileDrag( const QDropEvent * pEvent );
 
 #endif

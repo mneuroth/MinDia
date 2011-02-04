@@ -29,10 +29,8 @@
 #include "comlogimpl.h"
 #include "qtmtlock.h"
 
-#include <q3multilineedit.h> 
 #include <qevent.h>
 #include <qapplication.h>
-//Added by qt3to4:
 #include <QCustomEvent>
 #include <QKeyEvent>
 #include <QCloseEvent>

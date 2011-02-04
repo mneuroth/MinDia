@@ -1,12 +1,13 @@
 
 #include "misctools.h"
 
-#include <q3dragobject.h>
-#include <q3url.h>
-//Added by qt3to4:
-#include <Q3StrList>
 #include <QImage>
 #include <QImageReader>
+#include <QList>
+#include <QUrl>
+#include <QMimeData>
+#include <QMimeSource>
+#include <QDropEvent>
 
 #include <stdio.h>
 #include <ctype.h>
@@ -222,53 +223,54 @@ bool IsDiaDataFile( const char * sFileName )
 	return false;
 }
 
-bool IsDiaDataFileDrag( const QMimeSource * pEvent, QString & sFileNameOut )
+bool IsDiaDataFileDrag( const QDropEvent * pEvent, QString & sFileNameOut )
 {
-	Q3StrList aStrList;
-
-	if( Q3UriDrag::decode( pEvent, aStrList ) )
+	if( pEvent->mimeData()->hasUrls() )
 	{
-		if( aStrList.count() == 1 )
-		{
-			const QString sTest = aStrList.at( 0 );
-			const char * s = (const char *)sTest;
-			sFileNameOut = Q3UriDrag::uriToLocalFile( s );
-			s = (const char *)sFileNameOut;
+        QList<QUrl> aLst = pEvent->mimeData()->urls();
+        
+        if( aLst.count() == 1 ) 
+        {
+			const QString sTest = aLst.at( 0 ).toLocalFile();
 
-			if( IsDiaDataFile( s ) )
+			if( IsDiaDataFile( (const char *)sTest ) )
 			{
+                sFileNameOut = sTest;
 				return true;
 			}
-		}
+        }        
 	}
 
 	return false;
 }
 
-bool IsImageFileDrag( const QMimeSource * pEvent )
+bool IsImageFileDrag( const QDropEvent * pEvent )
 {
-	Q3StrList aStrList;
-
-	if( Q3UriDrag::decode( pEvent, aStrList ) )
+	if( pEvent->mimeData()->hasUrls() )
 	{
+        QList<QUrl> aLst = pEvent->mimeData()->urls();
+
 		// all droped file-names have to be images with known format !!!
-		for( int i=0; i<(int)aStrList.count(); i++ )
+		for( int i=0; i<(int)aLst.count(); i++ )
 		{
-			const QString sTest = aStrList.at( i );
-			const char * s = (const char *)sTest;
-			QString sFileName = Q3UriDrag::uriToLocalFile( s );
-			s = (const char *)sFileName;
+			const QString sTest = aLst.at( i ).toLocalFile();
     
-//TODO Qt4:
-//            if( (aReader.imageFormat( sFileName )==/*0*/QImage::Format_Invalid) && !IsJPEG( s ) )
-//			if( !IsJPEG( s ) )
-  //          QImageReader aReader(sFileName);
-  //          if( !aReader.canRead() )
-            if( QImage(sFileName ).isNull() )
+            if( QImage((const char *)sTest).isNull() )
 			{
                 return false;
 			}
-		}
+
+////TODO Qt4:
+////            if( (aReader.imageFormat( sFileName )==/*0*/QImage::Format_Invalid) && !IsJPEG( s ) )
+////			if( !IsJPEG( s ) )
+//  //          QImageReader aReader(sFileName);
+//  //          if( !aReader.canRead() )
+//            if( QImage(sFileName ).isNull() )
+//			{
+//                return false;
+//			}
+        }
+        
 		return true;
 	}
 
@@ -295,25 +297,23 @@ static bool IsWAVorMP3( const char * sFileName )
 	return false;
 }
 
-bool IsSoundFileDrag( const QMimeSource * pEvent )
+bool IsSoundFileDrag( const QDropEvent * pEvent )
 {
-	Q3StrList aStrList;
-
-	if( Q3UriDrag::decode( pEvent, aStrList ) )
-	{
+	if( pEvent->mimeData()->hasUrls() )
+	{        
+        QList<QUrl> aLst = pEvent->mimeData()->urls();
+        
 		// all droped file-names have to be images with known format !!!
-		for( int i=0; i<(int)aStrList.count(); i++ )
+		for( int i=0; i<(int)aLst.count(); i++ )
 		{
-			const QString sTest = aStrList.at( i );
-			const char * s = (const char *)sTest;
-			QString sFileName = Q3UriDrag::uriToLocalFile( s );
-			s = (const char *)sFileName;
-
-			if( !IsWAVorMP3( s ) )
+			const QString sTest = aLst.at( i ).toLocalFile();
+    
+			if( !IsWAVorMP3( (const char *)sTest ) )
 			{
 				return false;
 			}
 		}
+        
 		return true;
 	}
 

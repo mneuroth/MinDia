@@ -96,7 +96,7 @@ private:
 // *******************************************************************
 /** The context menu for the canvas view
   */
-class PlayInfoContextMenu : public QMenu    //Q3PopupMenu
+class PlayInfoContextMenu : public QMenu
 {
 	Q_OBJECT
 

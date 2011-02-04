@@ -128,10 +128,7 @@
 
 #include <QMainWindow>
 
-#include <q3hbox.h>
-#include <q3vbox.h>
 #include <q3canvas.h>
-//Added by qt3to4:
 #include <QTranslator>
 #include <QKeyEvent>
 #include <QLabel>
@@ -149,6 +146,7 @@ class QTimer;
 class QLabel;
 class QToolButton;
 class QTranslator;
+class QWidget;    
 
 class ConfigurationDlgImpl;
 class ConfigPlayerDlgImpl;
@@ -344,9 +342,9 @@ private:
 	DocumentAndControler *		m_pControler;
 
 	// ** gui elements **
-	Q3HBox *						m_pHBox;
-	Q3VBox *						m_pTargetBox;
-	Q3VBox *						m_pSourceBox;
+	QWidget *						m_pHBox;
+	QWidget *						m_pTargetBox;
+	QWidget *						m_pSourceBox;
 
 	HItemView *					m_pSlideView;		// dia pult view
 	TimeLineView *				m_pTimeLineView;	// time line view

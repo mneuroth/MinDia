@@ -112,6 +112,8 @@
 #include <qradiobutton.h> 
 
 #include <QSettings>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 
 //#include <qsound.h>
 
@@ -531,10 +533,10 @@ void MinDiaWindow::CreateChildWidgets()
 	const int iInitHeight2 = 260;
 
 	// *** create now all the widgets
-	m_pHBox			= new Q3HBox( this );
+	m_pHBox			= new QWidget( this );
 
-	m_pTargetBox	= new Q3VBox( m_pHBox );
-	m_pSourceBox	= new Q3VBox( m_pHBox );
+	m_pTargetBox	= new QWidget( m_pHBox );
+	m_pSourceBox	= 0; //new QWidget( m_pHBox );
 
 	m_pSlideView	= new HItemView( m_pTargetBox, iInitWidth, iInitHeight1, this, m_pControler, &m_pControler->GetPresentation() );
 	m_pTimeLineView	= new TimeLineView( m_pTargetBox, iInitWidth, iInitHeight2, this, m_pControler, &m_pControler->GetPresentation() );
@@ -553,6 +555,18 @@ void MinDiaWindow::CreateChildWidgets()
 	m_pDiaPultView = 0;
 	m_pAudioPultView = 0;
 
+    QHBoxLayout * pLayout = new QHBoxLayout;
+    pLayout->setContentsMargins(0,0,0,0);
+    pLayout->addWidget(m_pTargetBox);
+    //pLayout->addWidget(m_pSourceBox);
+    m_pHBox->setLayout(pLayout);
+    
+    QVBoxLayout * pVLayout = new QVBoxLayout;
+    pVLayout->setContentsMargins(0,0,0,0);
+    pVLayout->addWidget(m_pSlideView);
+    pVLayout->addWidget(m_pTimeLineView);
+    m_pTargetBox->setLayout(pVLayout);
+        
 	setCentralWidget( m_pHBox );
 
 	// ** create statusbar **

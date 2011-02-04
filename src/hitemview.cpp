@@ -43,15 +43,15 @@
 
 #include <stdio.h>
 
-#include <q3popupmenu.h>
-#include <q3dragobject.h>
-#include <q3url.h>
-//Added by qt3to4:
 #include <QDropEvent>
 #include <QMouseEvent>
-#include <Q3StrList>
 #include <QKeyEvent>
 #include <QDragEnterEvent>
+#include <QMenu>
+#include <QMimeData>
+#include <QList>
+#include <QUrl>
+#include <QDrag>
 
 // *******************************************************************
 // *******************************************************************
@@ -72,7 +72,7 @@ static string GetNextFreeID()
 
 // *******************************************************************
 
-/** Helper class to resotre the contents of a Qt-ScrollView */
+/** Helper class to restore the contents of a Qt-ScrollView */
 class _RestoreContents
 {
 public:
@@ -106,11 +106,12 @@ HItemView::HItemView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMai
 	setDragAutoScroll( TRUE );
 	m_iDragTargetIndex = -1;
 
-	m_pContextMenu		= new Q3PopupMenu( this );
-	m_pContextMenu->insertItem( tr( "&Modify entry..." ), MODIFY_ENTRY );
-	//connect( m_pContextMenu, SIGNAL( aboutToShow() ), this, SLOT( sltShowContextMenu() ) );
-	connect( m_pContextMenu, SIGNAL( activated(int) ), this, SLOT( sltContextMenuActivated(int) ) );
-
+	m_pContextMenu		= new QMenu( this );
+    
+    QAction * pAction = new QAction( tr( "&Modify entry..." ), this );
+	connect( pAction, SIGNAL( triggered() ), pMainWin, SLOT( sltShowModifyItem() ) );
+    m_pContextMenu->addAction( pAction );
+    
 	m_pCanvas			= new Q3Canvas( iWidth, iHeight );
 	//m_pCanvas->setDoubleBuffering( true );
 	setCanvas( m_pCanvas );
@@ -133,7 +134,7 @@ HItemView::HItemView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMai
     	connect( this, SIGNAL( sigSelectItem(int,int) ), pMainWin, SLOT( sltSelectItem(int,int) ) );
     	connect( this, SIGNAL( sigViewDataChanged() ), pControler, SLOT( sltDataChanged() ) );
 	    connect( this, SIGNAL( sigDialogHelp(const QString &) ), pMainWin, SLOT( sltShowHelp(const QString &) ) );
-    	connect( this, SIGNAL( sigModifySelectedEntry() ), pMainWin, SLOT( sltShowModifyItem() ) );
+//    	connect( this, SIGNAL( sigModifySelectedEntry() ), pMainWin, SLOT( sltShowModifyItem() ) );
 		connect( this, SIGNAL( sigLoadDoc(const QString &, bool) ), pMainWin, SLOT( sltLoadDoc(const QString &, bool) ) );
 	}
 }
@@ -380,15 +381,19 @@ void HItemView::contentsMouseMoveEvent( QMouseEvent * pEvent )
 
 		if( GetActClipboardData( sDragString, &aIndexContainer ) )
 		{
-			Q3DragObject *d = new Q3TextDrag( sDragString, this );
+			QDrag *d = new QDrag( this );
+            QMimeData * pMimeData = new QMimeData();
+            pMimeData->setText(sDragString);
+            d->setMimeData(pMimeData);            
 
 			if( (pEvent->state() & Qt::ControlModifier)==Qt::ControlModifier )
 			{
-				d->dragCopy();
+                /*Qt::DropAction dropAction =*/ d->exec(Qt::CopyAction);
 			}
 			else
 			{
-				bool bOk = d->dragMove();
+                Qt::DropAction dropAction = d->exec(Qt::MoveAction);
+                bool bOk = Qt::MoveAction==dropAction;
 
                 // Bugfix 10.1.2011 --> for the MAC plattform the widget hirachy may be different for drag and drop
                 if( bOk && (d->target()==this || d->target()->parent()==this ))
@@ -479,23 +484,18 @@ void HItemView::dragEnterEvent( QDragEnterEvent * pEvent )
 		// allow only *.dia files and imager files to drop !
 
 		QString sFileName;
-		Q3StrList aStrList;
 
 		if( IsDiaDataFileDrag( pEvent, sFileName ) )
 		{
-			pEvent->accept( Q3UriDrag::canDecode( pEvent ) );
+			pEvent->accept();
 		}
 		else if( IsImageFileDrag( pEvent ) )
 		{
-			pEvent->accept( Q3UriDrag::canDecode( pEvent ) );
-		}
-		else if( Q3UriDrag::decode( pEvent, aStrList ) )
-		{
-			// do not accept other files than *.dia or images
+			pEvent->accept();
 		}
 		else
 		{
-			pEvent->accept( Q3TextDrag::canDecode(pEvent) );
+			pEvent->accept( pEvent->mimeData()->hasText() );
 		}
     }
 }
@@ -505,7 +505,6 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 	if( m_pDiaPres->IsEdit() )
 	{
 		QString sFileName;
-		Q3StrList aStrList;
 
 		if( IsDiaDataFileDrag( pEvent, sFileName ) )
 		{
@@ -520,7 +519,7 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 			int x = aPoint.x() + contentsX();
 			int y = aPoint.y() + contentsY();
 
-			// find the index for the selected image
+			// find the index for the selected image ?
 			for( int i=0; i<(int)m_aItemContainer.size(); i++ )
 			{
 				HItem * pItem = m_aItemContainer[ i ];
@@ -531,25 +530,16 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 			}
 
 			// insert all droped image files at the found position 
-			if( Q3UriDrag::decode( pEvent, aStrList ) )
+            QList<QUrl> aLst = pEvent->mimeData()->urls();
+			for( int i=0; i<(int)aLst.count(); i++ )
 			{
-				for( int i=0; i<(int)aStrList.count(); i++ )
-				{
-					const QString sTest = aStrList.at( i );
-					const char * s = (const char *)sTest;
-					sFileName = Q3UriDrag::uriToLocalFile( s );
-					//s = (const char *)sFileName;
-					AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID(), (const char *)sFileName ) ), iIndex+i, /*bInsert*/true );
-				}
+                sFileName = aLst.at( i ).toLocalFile();
+				AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID(), (const char *)sFileName ) ), iIndex+i, /*bInsert*/true );
 			}
 
 			sltSelectItem( iIndex, 0 );
 		}
-		else if( Q3UriDrag::decode( pEvent, aStrList ) )
-		{
-			// do not accept other files than *.dia or images
-		}
-		else if( Q3TextDrag::decode( pEvent, sFileName ) ) 
+		else if( pEvent->mimeData()->hasText() ) 
 		{
 			int iIndex = -1;
 
@@ -558,6 +548,8 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 			int x = aPoint.x() + contentsX();
 			int y = aPoint.y() + contentsY();
 
+            sFileName = pEvent->mimeData()->text();
+            
 			// find the index for the selected image
 			for( int i=0; i<(int)m_aItemContainer.size(); i++ )
 			{
@@ -683,16 +675,6 @@ void HItemView::sltDeleteSelectedItem()
 	if( iIndex>0 )
 	{
 		sltSelectItem( iIndex-1, 0 );
-	}
-}
-
-void HItemView::sltContextMenuActivated( int iMenuIndex )
-{
-	switch( iMenuIndex )
-	{
-		case MODIFY_ENTRY:
-			emit sigModifySelectedEntry();
-			break;
 	}
 }
 

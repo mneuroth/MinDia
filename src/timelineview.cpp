@@ -45,18 +45,17 @@
 #include <qpushbutton.h>
 #include <qtooltip.h>
 #include <qevent.h>
-#include <q3dragobject.h>
-#include <q3url.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
 #include <qlineedit.h>
-#include <Q3StrList>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QMouseEvent>
 #include <QToolTip>
 #include <QMenu>
+#include <QList>
+#include <QUrl>
 
 // *******************************************************************
 /* TODO Qt4
@@ -865,13 +864,12 @@ void TimeLineView::dragEnterEvent( QDragEnterEvent * pEvent )
 
 		if( IsDiaDataFileDrag( pEvent, sFileName ) )
 		{
-			pEvent->accept( Q3UriDrag::canDecode( pEvent ) );
+			pEvent->accept();
 		}
         else if( IsSoundFileDrag( pEvent ) )
 		{
-			pEvent->accept( Q3UriDrag::canDecode( pEvent ) );
+			pEvent->accept();
 		}
-//        QTextDrag::canDecode(pEvent) ||
 	}
 }
 
@@ -883,11 +881,11 @@ void TimeLineView::dragMoveEvent ( QDragMoveEvent * pEvent )
 
 		if( IsDiaDataFileDrag( pEvent, sFileName ) )
 		{
-			pEvent->accept( Q3UriDrag::canDecode( pEvent ) );
+			pEvent->accept();
 		}
 		else if( IsSoundFileDrag( pEvent ) )
 		{
-			pEvent->accept( Q3UriDrag::canDecode( pEvent ) );
+			pEvent->accept();
 		}
 		else
 		{
@@ -906,18 +904,10 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
 	if( m_pDiaPres->IsEdit() )
 	{
 		QString sFileName;
-		//QString sText;
-		Q3StrList aStrList;
-		//QImage aImage;
 
 		QPoint aPos = pEvent->pos();
 
-		/*if( Q3ImageDrag::decode( pEvent, aImage ) )
-		{
-			int i = 0;
-			i = 2;
-		}
-		else*/ if( IsDiaDataFileDrag( pEvent, sFileName ) )
+		if( IsDiaDataFileDrag( pEvent, sFileName ) )
 		{
 			emit sigLoadDoc( sFileName, true );
 		}
@@ -928,20 +918,34 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
 			const char * s;
 			QString sFileName;
 
-			if( Q3UriDrag::decode( pEvent, aStrList ) )
+			if( pEvent->mimeData()->hasUrls() )
 			{
-				for( int i=0; i<(int)aStrList.count(); i++ )
+                QList<QUrl> aLst = pEvent->mimeData()->urls();
+				for( int i=0; i<(int)aLst.count(); i++ )
 				{
-					const QString sTest = aStrList.at(i);
-					s = (const char *)sTest;
-					sFileName = Q3UriDrag::uriToLocalFile( s );
-					s = (const char *)sFileName;
-
-					aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( s ) ) );
+					aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( (const char *)aLst.at(i).toLocalFile() ) ) );
 					aSoundContainer.SetChanged();
 				}
 				emit sigViewDataChanged();
 			}
+            
+//			const char * s;
+//			QString sFileName;
+//
+//			if( Q3UriDrag::decode( pEvent, aStrList ) )
+//			{
+//				for( int i=0; i<(int)aStrList.count(); i++ )
+//				{
+//					const QString sTest = aStrList.at(i);
+//					s = (const char *)sTest;
+//					sFileName = Q3UriDrag::uriToLocalFile( s );
+//					s = (const char *)sFileName;
+//
+//					aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( s ) ) );
+//					aSoundContainer.SetChanged();
+//				}
+//				emit sigViewDataChanged();
+//			}
 		}
 	/*	else if( QUriDrag::decode( pEvent, aStrList ) )
 		{

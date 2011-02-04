@@ -58,13 +58,13 @@
 #include <qpainter.h>
 #include <qimage.h>
 #include <qapplication.h>
-//Added by qt3to4:
 #include <QPixmap>
 #else
 class QtMTLock {};
 #endif
 #include <QFile>
 #include <QSettings>
+#include <QProgressDialog>
 
 #include <fstream>
 
@@ -936,15 +936,13 @@ static void ClearImageCache( QImageCache & aImageCache )
 #endif
 }
 
-#include <q3progressdialog.h>
-
 static bool InitImageCache( QImageCache & aImageCache, const DiaPresentation & aPresentation, int iWidth, int iHeight )
 {
 #ifndef ZAURUS
-	Q3ProgressDialog aProgress( QObject::tr("creating image cache"), QObject::tr("Cancel"), aPresentation.GetDiaCount(), 0, "progress", TRUE );
+    QProgressDialog aProgress( QObject::tr("creating image cache"), QObject::tr("Cancel"), 0, aPresentation.GetDiaCount()/*, 0, "progress"*//*, TRUE*/ );
 
 	aProgress.show();
-	aProgress.setProgress( 0 );
+    aProgress.setValue( 0 );
 
 	ClearImageCache( aImageCache );
 	
@@ -967,7 +965,7 @@ static bool InitImageCache( QImageCache & aImageCache, const DiaPresentation & a
 			aImageCache[""] = aEmptyImage;
 		}
 
-		aProgress.setProgress( i+1 );
+        aProgress.setValue( i+1 );
 		GetApplication()->processEvents();
 		if( aProgress.wasCanceled() )
 		{
@@ -975,8 +973,8 @@ static bool InitImageCache( QImageCache & aImageCache, const DiaPresentation & a
 		}
 	}
 	
-	aProgress.setProgress( aPresentation.GetDiaCount() );
-	
+    aProgress.setValue( aPresentation.GetDiaCount() );
+
 	return true;
 #endif
 }
@@ -1003,10 +1001,10 @@ int DocumentAndControler::CreateImagesForMovie(
 	int iCount = 0;
 	if( InitImageCache( aImageCache, GetPresentation(), iWidth, iHeight ) )
 	{		
-		Q3ProgressDialog aProgress( QObject::tr("creating images for movie"), QObject::tr("Cancel"), (int)dStopMS, 0, "progress", TRUE );
+        QProgressDialog aProgress( QObject::tr("creating images for movie"), QObject::tr("Cancel"), 0, (int)dStopMS/*, 0, "progress", TRUE*/ );
 
 		aProgress.show();
-		aProgress.setProgress( 0 );
+        aProgress.setValue( 0 );
 
 		string sLastFileName;
 		double dTimeMS = dStartMS;
@@ -1038,15 +1036,15 @@ int DocumentAndControler::CreateImagesForMovie(
 			dTimeMS += dDeltaMS;
 			iCount++;
 
-			aProgress.setProgress( (int)dTimeMS );
-			GetApplication()->processEvents();
+            aProgress.setValue( (int)dTimeMS );
+            GetApplication()->processEvents();
 			if( aProgress.wasCanceled() )
 			{
 				dTimeMS = dStopMS;
 			}
 		}
 
-		aProgress.setProgress( (int)dStopMS );
+        aProgress.setValue( (int)dStopMS );
 	}
 
 	ClearImageCache( aImageCache );

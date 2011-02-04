@@ -36,12 +36,9 @@
 #include <qpushbutton.h>
 #include <qlineedit.h>
 #include <qcheckbox.h>
-#include <qlayout.h>
-//Added by qt3to4:
-#include <Q3BoxLayout>
+#include <QBoxLayout>
 #include <QMouseEvent>
 #include <QKeyEvent>
-#include <Q3VBoxLayout>
 
 #include <stdio.h>
 
@@ -109,7 +106,8 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * pare
 	int y = m_pDrawingArea->height()-5;
 	m_pCanvas = new Q3Canvas(x,y);
 
-	Q3BoxLayout * l = new Q3VBoxLayout( m_pDrawingArea );
+	QBoxLayout * l = new QVBoxLayout( m_pDrawingArea );
+    l->setContentsMargins(0,0,0,0);
 
 	m_pDrawingAreaCanvas = new DrawingArea( m_pDrawingArea, this );
 	m_pDrawingAreaCanvas->setCanvas( m_pCanvas );

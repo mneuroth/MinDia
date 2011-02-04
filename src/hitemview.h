@@ -33,13 +33,10 @@
 #define _HITEMVIEW_H
 
 // ** gui
-#include <q3canvas.h> 
-//Added by qt3to4:
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QMouseEvent>
 #include <QKeyEvent>
-#include <Q3PopupMenu>
 
 #include "hitem.h"
 #include "diainfo.h"
@@ -52,8 +49,9 @@ using namespace std;
 // *******************************************************************
 
 class DiaPresentation;
-class Q3PopupMenu;
-
+class QMenu;
+class Q3Canvas;
+    
 /*
 class VectorHItem : public vector<HItem *>
 {
@@ -113,14 +111,12 @@ public slots:
 	void sltItemSelected( int iCount, int iFirstSelectedItemNo );
 	void sltNewItemAfterSelected();
 	void sltDeleteSelectedItem();
-	void sltContextMenuActivated( int iMenuIndex );
 
 signals:
 	void sigItemSelected( int iCount, HItem * pFirstSelectedItem, int iFirstSelectedItemNo, int iDissolveTimeInMS );
 	void sigSelectItem( int iIndex, int iDissolveTimeInMS );
 	void sigViewDataChanged();
 	void sigDialogHelp( const QString & sHelpTag);
-	void sigModifySelectedEntry();
 	void sigLoadDoc( const QString & sFileName, bool bExecuteEvent );
 
 private:
@@ -140,7 +136,7 @@ private:
 	bool IsDragTargetNotDragSource( QMouseEvent * pEvent, int iActIndex );
 
 	// *** data ***
-	Q3PopupMenu *		m_pContextMenu;
+	QMenu *		        m_pContextMenu;
 	Q3Canvas *			m_pCanvas;
 	QSize				m_aSizeHint;
 
