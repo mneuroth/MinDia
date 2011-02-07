@@ -915,9 +915,6 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
 		{
 			SoundInfoContainer & aSoundContainer = m_pDiaPres->GetSoundInfoData();
 
-			const char * s;
-			QString sFileName;
-
 			if( pEvent->mimeData()->hasUrls() )
 			{
                 QList<QUrl> aLst = pEvent->mimeData()->urls();
@@ -1000,7 +997,7 @@ void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
 	// ** change data of the dynamic text with a dialog **
 	DynContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
 
-    if( iIndexOut>=0 && iIndexOut<aDynGrOpContainer.size() )
+    if( iIndexOut>=0 && iIndexOut<(int)aDynGrOpContainer.size() )
     {
         
     	minHandle<DynText> hItem = aDynGrOpContainer[ iIndexOut ];
