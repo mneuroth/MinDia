@@ -30,17 +30,17 @@
 
 #include "diapresentation.h"
 
-#include <q3multilineedit.h>
-//Added by qt3to4:
 #include <QShowEvent>
 #include <QKeyEvent>
 #include <QCloseEvent>
 
 
 PresentationDataDlgImpl::PresentationDataDlgImpl( DiaPresentation * pData, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: PresentationDataDlg( parent, name, modal, fl ),
-  m_pData( pData )
+  : QDialog(parent, name, modal, fl),
+    m_pData( pData )
 {
+    setupUi(this);
+
     connect( this, SIGNAL( sigDialogClosed() ), parent, SLOT( sltPresentationDataDialogClosed() ) );
     connect( this, SIGNAL( sigDocumentUpdate() ), parent, SLOT( sltDoDocumentStateUpdate() ) );
     connect( this, SIGNAL( sigDialogHelp(QWidget *, const QString &) ), parent, SLOT( sltShowModalHelp(QWidget *, const QString &) ) );
@@ -114,6 +114,6 @@ void PresentationDataDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 	}
 	else
 	{
-		PresentationDataDlg::keyPressEvent( pEvent );
+        QDialog::keyPressEvent( pEvent );
 	}
 }

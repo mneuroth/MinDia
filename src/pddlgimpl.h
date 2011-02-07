@@ -29,8 +29,8 @@
 #ifndef _PDDLGIMPL_H
 #define _PDDLGIMPL_H
 
-#include "PresentationDataDlg.h"
-//Added by qt3to4:
+#include "ui_PresentationDataDlg4.h"
+
 #include <QShowEvent>
 #include <QKeyEvent>
 #include <QCloseEvent>
@@ -41,7 +41,7 @@ class DiaPresentation;
 // *******************************************************************
 /** Implementation of the Presentation-Data-Dialog
   */
-class PresentationDataDlgImpl : public PresentationDataDlg
+class PresentationDataDlgImpl : public QDialog, public Ui_PresentationDataDlg
 {
 	Q_OBJECT
 
