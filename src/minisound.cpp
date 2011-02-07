@@ -464,7 +464,11 @@ bool miniSound::SetWavFile( const char * sWavFileName )
 		//MCIERROR iRet = mciSendStringX( "close sound", lpszReturnString, _MAXLENGTH, NULL );
 		//CheckSoundError( (int)iRet );
 
+#ifdef Q_OS_WIN32
         sprintf( sBuffer, "open \"%s\" alias sound", sWavFileName );    // type waveaudio
+#else
+        sprintf( sBuffer, "open %s alias sound", sWavFileName );    // type waveaudio
+#endif
         MCIERROR iRet = mciSendStringX( sBuffer, lpszReturnString, _MAXLENGTH, NULL );
 		m_iOpenCount++;
 
