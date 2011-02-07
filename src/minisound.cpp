@@ -60,14 +60,31 @@
 #include <windows.h>
 #include <mmsystem.h>
 
+#include <QString>
+
 int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned int cchReturn, void * hwndCallback )
 {
-	return ::mciSendString( (LPCTSTR)lpszCommand, (LPTSTR)lpszReturnString, cchReturn, (HWND)hwndCallback );
+    QString s(lpszCommand);
+    wchar_t sBuffer[1024];
+    wchar_t sRetBuffer[1024];
+    s.toWCharArray(sBuffer);
+//    QString s("e:\\home\\Entwicklung\\projects\\mindia_qt4\\madeleen\\Musik\\WhistleTheme.mp3");
+    int iRet = ::mciSendStringW( (LPCTSTR)/*lpszCommand*/sBuffer, (LPTSTR)/*lpszReturnString*/sRetBuffer, cchReturn, (HWND)hwndCallback );
+    QString sRetStrg = QString::fromStdWString(sRetBuffer);
+
+    cout << "mciSendString >" << lpszCommand << "< sBuffer=" << sBuffer << " return->" << /*lpszReturnString*/(const char *)sRetStrg.toAscii().constData() << " ret=" << iRet << endl;
+    return iRet;
 }
 
 int mciGetErrorStringX( int iErrorNo, char * sBuffer, int iBufferLength )
 {
-	return ::mciGetErrorString( iErrorNo, (LPTSTR)sBuffer, iBufferLength );
+    wchar_t sRetBuffer[1024];
+    cout << "mciGetErrorStringX" << endl;
+    int i = ::mciGetErrorStringW( iErrorNo, (LPTSTR)sRetBuffer, iBufferLength );
+    QString sRetStrg = QString::fromStdWString(sRetBuffer);
+    strcpy(sBuffer,sRetStrg.toAscii().constData());
+    cout << ">>> " << i << " >" << sBuffer << "<" << endl;
+    return i;
 }
 
 #endif //_WINDOWS_SOUND
@@ -464,15 +481,21 @@ bool miniSound::SetWavFile( const char * sWavFileName )
 		//MCIERROR iRet = mciSendStringX( "close sound", lpszReturnString, _MAXLENGTH, NULL );
 		//CheckSoundError( (int)iRet );
 
-		sprintf( sBuffer, "open %s alias sound", sWavFileName );
-		MCIERROR iRet = mciSendStringX( sBuffer, lpszReturnString, _MAXLENGTH, NULL );
+//       sprintf( sBuffer, "open waveaudio!\"%s\" alias MySound", sWavFileName );
+//        sprintf( sBuffer, "open \"%s\" alias sound", sWavFileName );
+//        sprintf( sBuffer, "open \"%s\" type mpegvideo alias MediaFile", sWavFileName );
+//        sprintf( sBuffer, "open \"%s\" type waveaudio alias MediaFile", sWavFileName );
+//        sprintf( sBuffer, "open waveaudio!\"%s\" alias y", sWavFileName );
+        sprintf( sBuffer, "open \"%s\" type waveaudio alias YFile", sWavFileName );
+        MCIERROR iRet = mciSendStringX( sBuffer, lpszReturnString, _MAXLENGTH, NULL );
 		m_iOpenCount++;
 
 		m_bReadError = !CheckSoundError( (int)iRet );
 
-		//sprintf( sBuffer, "status sound length" );
-		//iRet = mciSendStringX( sBuffer, lpszReturnString, _MAXLENGTH, NULL );
-		//CheckSoundError( (int)iRet );
+        sprintf( sBuffer, "play YFile" );
+//        sprintf( sBuffer, "status sound length" );
+        iRet = mciSendStringX( sBuffer, lpszReturnString, _MAXLENGTH, NULL );
+        CheckSoundError( (int)iRet );
 
 		return m_bReadError;
 	}
