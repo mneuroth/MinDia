@@ -1,0 +1,767 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ProjectorControlDialog</class>
+ <widget class="QDialog" name="ProjectorControlDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>356</width>
+    <height>410</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Projector Control</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_4">
+   <item row="0" column="0" colspan="3">
+    <widget class="QGroupBox" name="m_pOperations">
+     <property name="title">
+      <string>Operations</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QPushButton" name="m_pBack">
+        <property name="text">
+         <string>&amp;Back</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="m_pForward">
+        <property name="text">
+         <string>&amp;Forward</string>
+        </property>
+        <property name="default">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="m_pDirectMode">
+        <property name="text">
+         <string>&amp;Direct Mode</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="m_pReset">
+        <property name="text">
+         <string>&amp;Reset</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" rowspan="2">
+    <widget class="QGroupBox" name="m_pDissolve">
+     <property name="title">
+      <string>Dissolve</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="m_pDissolve1">
+        <property name="text">
+         <string>&amp;0.5 s</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="m_pStopGo">
+        <property name="text">
+         <string>&amp;Stop / Go</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QRadioButton" name="m_pDissolve2">
+        <property name="text">
+         <string>&amp;1.5 s</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QRadioButton" name="m_pDissolve3">
+        <property name="text">
+         <string>&amp;3.0 s</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QRadioButton" name="m_pDissolve4">
+        <property name="text">
+         <string>&amp;6.0 s</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QRadioButton" name="m_pDissolve5">
+        <property name="text">
+         <string>1&amp;2.0 s</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="2">
+    <widget class="QGroupBox" name="m_pLight">
+     <property name="title">
+      <string>Light</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="m_pLightInt0">
+        <property name="text">
+         <string>0 % (off)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>86</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="m_pLightInt1">
+        <property name="text">
+         <string>80 %</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QRadioButton" name="m_pLightInt2">
+        <property name="text">
+         <string>90 %</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QRadioButton" name="m_pLightInt3">
+        <property name="text">
+         <string>100 %</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="1" rowspan="2" colspan="2">
+    <widget class="QGroupBox" name="m_pAutoFocus">
+     <property name="title">
+      <string>Autofocus</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_5">
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="m_pAF_On">
+        <property name="text">
+         <string>O&amp;n</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="m_pAF_Off">
+        <property name="text">
+         <string>&amp;Off</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="m_pAF_minus">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>&amp;-</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="m_pAF_plus">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>&amp;+</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QGroupBox" name="m_pInfoGroup">
+     <property name="title">
+      <string>Info</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QPushButton" name="m_pGetDiaNo">
+        <property name="text">
+         <string>Get s&amp;lide no</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="m_pSlideNoLabel">
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="3">
+    <widget class="QGroupBox" name="m_pOther">
+     <property name="title">
+      <string>Other</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QPushButton" name="m_pStatusButton">
+        <property name="text">
+         <string>St&amp;atus</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" colspan="2">
+       <widget class="QLabel" name="m_pStatusLabel">
+        <property name="text">
+         <string>unknown</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="m_pModeLabel">
+        <property name="text">
+         <string>Mode:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="m_pMode">
+        <property name="text">
+         <string>not connected</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="m_pTestButton">
+        <property name="text">
+         <string>&amp;Test</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>107</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="2" colspan="2">
+       <widget class="QLabel" name="m_pLastCmdLabel">
+        <property name="text">
+         <string>Last cmd:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLabel" name="m_pLastCmd">
+        <property name="text">
+         <string>ok</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="2">
+    <spacer name="horizontalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>240</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="5" column="2">
+    <widget class="QPushButton" name="m_pCloseButton">
+     <property name="text">
+      <string>&amp;Close</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <tabstops>
+  <tabstop>m_pForward</tabstop>
+  <tabstop>m_pBack</tabstop>
+  <tabstop>m_pDirectMode</tabstop>
+  <tabstop>m_pReset</tabstop>
+  <tabstop>m_pStopGo</tabstop>
+  <tabstop>m_pDissolve3</tabstop>
+  <tabstop>m_pLightInt3</tabstop>
+  <tabstop>m_pAF_On</tabstop>
+  <tabstop>m_pAF_plus</tabstop>
+  <tabstop>m_pAF_minus</tabstop>
+  <tabstop>m_pCloseButton</tabstop>
+  <tabstop>m_pGetDiaNo</tabstop>
+  <tabstop>m_pLightInt2</tabstop>
+  <tabstop>m_pLightInt0</tabstop>
+  <tabstop>m_pLightInt1</tabstop>
+  <tabstop>m_pDissolve4</tabstop>
+  <tabstop>m_pDissolve5</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>m_pBack</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltSlideBack()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>34</x>
+     <y>46</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pForward</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltSlideForward()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>100</x>
+     <y>46</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pReset</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltResetProjector()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>46</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pDirectMode</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltDirectMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>181</x>
+     <y>46</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pCloseButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltCloseDialog()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>268</x>
+     <y>378</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pTestButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltTestProjector()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>19</x>
+     <y>339</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pStatusButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltGetStatus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>30</x>
+     <y>310</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pAF_plus</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltAFForward()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>326</x>
+     <y>258</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>352</x>
+     <y>257</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pAF_minus</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltAFBackward()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>252</x>
+     <y>252</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>353</x>
+     <y>222</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pStopGo</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltStopGo()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>116</x>
+     <y>105</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>5</x>
+     <y>104</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pGetDiaNo</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltGetSlideNo()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>55</x>
+     <y>258</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1</x>
+     <y>250</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pAF_Off</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltAutofocusOffToggled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>194</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>353</x>
+     <y>293</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pAF_On</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltAutofocusOnToggled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>190</x>
+     <y>231</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>350</x>
+     <y>182</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pLightInt0</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltLight1Toggled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>221</x>
+     <y>99</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>351</x>
+     <y>72</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pLightInt1</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltLight2Toggled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>125</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>354</x>
+     <y>104</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pLightInt2</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltLight3Toggled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>198</x>
+     <y>153</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>353</x>
+     <y>140</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pLightInt3</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltLight4Toggled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>192</x>
+     <y>177</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>352</x>
+     <y>170</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pDissolve1</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltDissolve1Toggled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>46</x>
+     <y>107</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>3</x>
+     <y>84</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pDissolve2</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltDissolve2Toggled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>37</x>
+     <y>130</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>5</x>
+     <y>136</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pDissolve3</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltDissolve3Toggled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>23</x>
+     <y>153</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>3</x>
+     <y>166</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pDissolve4</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltDissolve4Toggled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>43</x>
+     <y>180</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>4</x>
+     <y>194</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pDissolve5</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ProjectorControlDialog</receiver>
+   <slot>sltDissolve5Toggled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>52</x>
+     <y>204</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>5</x>
+     <y>223</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>sltStopGo()</slot>
+  <slot>sltAFBackward()</slot>
+  <slot>sltAFForward()</slot>
+  <slot>sltGetSlideNo()</slot>
+  <slot>sltDissolve1Toggled(bool)</slot>
+  <slot>sltDissolve2Toggled(bool)</slot>
+  <slot>sltDissolve3Toggled(bool)</slot>
+  <slot>sltDissolve4Toggled(bool)</slot>
+  <slot>sltDissolve5Toggled(bool)</slot>
+  <slot>sltAutofocusOffToggled(bool)</slot>
+  <slot>sltAutofocusOnToggled(bool)</slot>
+  <slot>sltLight1Toggled(bool)</slot>
+  <slot>sltLight2Toggled(bool)</slot>
+  <slot>sltLight3Toggled(bool)</slot>
+  <slot>sltLight4Toggled(bool)</slot>
+  <slot>sltGetStatus()</slot>
+ </slots>
+</ui>

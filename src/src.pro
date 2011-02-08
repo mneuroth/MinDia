@@ -9,6 +9,7 @@ QT              += qt3support
 #				  createmoviedlgimpl.cpp \
 #                  CreateMovieDlg.ui \
 #				  PresentationDataDlg.ui\
+#				  ProjectorControlDlg.ui \
 
 HEADERS         = diainfodlgimpl.h \
 				  playinfodlgimpl.h \
@@ -100,7 +101,6 @@ SOURCES         = diainfodlgimpl.cpp \
 FORMS3      = DiaInfoDlg.ui \
 				  PlayInfoDlg.ui \
 				  ComLoggingDlg.ui \
-				  ProjectorControlDlg.ui \
 				  EventMapDlg.ui \
 				  ConfigurationDlg.ui\
 				  ConfigPlayerDlg.ui\
@@ -112,7 +112,8 @@ FORMS3      = DiaInfoDlg.ui \
 				  DynTextDlg.ui \
 				  EnterValueDlg.ui
 FORMS           = CreateMovieDlg4.ui \
-                    PresentationDataDlg4.ui
+                    PresentationDataDlg4.ui \
+                    ProjectorControlDlg4.ui
 MOC_DIR					= moc
 #macx:LIBS               += -lpthread ./libminsrv.dylib $(LIBMINDIAPYC_SO)
 #macx:LIBS               += -lpthread ../minsrv/libminsrv.a $(LIBMINDIAPYC_SO)

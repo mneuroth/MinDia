@@ -37,16 +37,17 @@
 #include <qlabel.h>
 #include <qobject.h>
 #include <qpushbutton.h> 
-#include <q3buttongroup.h> 
+//#include <q3buttongroup.h>
 #include <qmessagebox.h>
-//Added by qt3to4:
 #include <QCloseEvent>
 #include <QKeyEvent>
 
 
 ProjectorControlDlgImpl::ProjectorControlDlgImpl( RolleiCom * pProjectorCom, DiaPresentation * pPresentation, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: ProjectorControlDialog( parent, name, modal, fl )
+: QDialog(parent, name, modal, fl) //ProjectorControlDialog( parent, name, modal, fl )
 {
+    setupUi(this);
+
 	m_pProjectorCom = pProjectorCom;
 	m_pPresentation = pPresentation;
 
@@ -93,10 +94,15 @@ void ProjectorControlDlgImpl::DoDialogEnable( bool bEnable )
     for( int i=0; i<aList.count(); i++ )
 	{
 		QObject * pItem = aList.at( i );
-
+        
 		QWidget * pWidget = (QWidget *)pItem;
-		
-		pWidget->setEnabled( bEnable );
+
+//TODO: cout << "enable: " << (const char *)pWidget->objectName() << endl;
+
+        if( pWidget->isWidgetType() )
+        {
+            pWidget->setEnabled( bEnable );
+        }
 	}
 
 	// ** close-, status- and test-button is always active
@@ -395,7 +401,7 @@ void ProjectorControlDlgImpl::done( int iRet )
 {
 	emit sigDialogClosed();
 	
-	ProjectorControlDialog::done( iRet );
+	/*ProjectorControlDialog::*/QDialog::done( iRet );
 }
 
 void ProjectorControlDlgImpl::keyPressEvent( QKeyEvent * pEvent )
@@ -406,6 +412,6 @@ void ProjectorControlDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 	}
 	else
 	{
-		ProjectorControlDialog::keyPressEvent( pEvent );
+		/*ProjectorControlDialog::*/QDialog::keyPressEvent( pEvent );
 	}
 }

@@ -29,14 +29,16 @@
 #ifndef _PCDLGIMPL_H
 #define _PCDLGIMPL_H
 
-#ifdef ZAURUS
-#include "ZProjectorControlDlg.h"
-#else
-#include "ProjectorControlDlg.h"
-#endif
+//#ifdef ZAURUS
+//#include "ZProjectorControlDlg.h"
+//#else
+//#include "ProjectorControlDlg.h"
+//#endif
+//#include "ProjectorControlDlg.h"
+
+#include "ui_ProjectorControlDlg4.h"
 
 #include <string>
-//Added by qt3to4:
 #include <QKeyEvent>
 #include <QCloseEvent>
 
@@ -49,7 +51,7 @@ class DiaPresentation;
 // *******************************************************************
 /** Implementation of the ProjectorControl-Dialog
   */
-class ProjectorControlDlgImpl : public ProjectorControlDialog
+class ProjectorControlDlgImpl  : public QDialog, Ui_ProjectorControlDialog   // public ProjectorControlDialog
 {
 	Q_OBJECT
 
