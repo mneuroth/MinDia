@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ConfigPlayerDlg</class>
+ <widget class="QDialog" name="ConfigPlayerDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>257</width>
+    <height>126</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Player Configuration</string>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>false</bool>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0" colspan="3">
+    <widget class="QGroupBox" name="GroupBox4">
+     <property name="title">
+      <string>mp3 player settings</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="m_pPlayerLabel">
+        <property name="text">
+         <string>mp3 player:</string>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="m_pPlayer">
+        <property name="editable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="m_pPlayeSettingsLabel">
+        <property name="text">
+         <string>mp3 player settings:</string>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="m_pPlayerSettings">
+        <property name="editable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <spacer name="Spacer1">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>74</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="1">
+    <widget class="QPushButton" name="m_pOk">
+     <property name="text">
+      <string>&amp;Ok</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QPushButton" name="m_pCancel">
+     <property name="text">
+      <string>&amp;Cancel</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>m_pOk</sender>
+   <signal>clicked()</signal>
+   <receiver>ConfigPlayerDlg</receiver>
+   <slot>sltOk()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>ConfigPlayerDlg</receiver>
+   <slot>sltCancel()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
