@@ -91,7 +91,7 @@
 #include "sndinfodlgimpl.h"
 #include "commentdlgimpl.h"
 #include "helpdlgimpl.h"
-#include "EnterValueDlg.h"
+
 #include "LicenseDlg.h"
 #include "AboutExtDlg.h"
 #include "CreateMovieDlg4.h"
@@ -114,6 +114,7 @@
 #include <QSettings>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QInputDialog>
 
 //#include <qsound.h>
 
@@ -1683,21 +1684,14 @@ void MinDiaWindow::sltAddItem()
 
 void MinDiaWindow::sltFindItem()
 {
-	EnterValueDlg aEnterDlg( this, "enter_text", /*modal*/TRUE );
-
-	aEnterDlg.setCaption( tr( "Find" ) );
-	aEnterDlg.m_pTextLabel->setText( tr( "search for:" ) );
-	aEnterDlg.m_pEnterValue->setFocus();
-	aEnterDlg.m_pEnterValue->setText( m_sFindText );
-
-	int iRet = aEnterDlg.exec();
-
-	if( iRet == 1 )
-	{
-		m_sFindText = aEnterDlg.m_pEnterValue->text();
+    bool ok;
+    QString sFind = QInputDialog::getText(this,tr("Find"),tr("search for:"),/*QLineEdit::EchoMode mode=*/QLineEdit::Normal,/*text=*/m_sFindText,&ok,/*Qt::WindowFlags flags =*/0);
+    if( ok && !sFind.isEmpty() )
+    {
+		m_sFindText = sFind;
 
 		m_pControler->sltSelectItemWithText( m_sFindText );
-	}
+    }
 }
 
 void MinDiaWindow::sltFindNextItem()
@@ -1714,24 +1708,16 @@ void MinDiaWindow::sltFindNextItem()
 
 void MinDiaWindow::sltEditFadeInTime()
 {
-	EnterValueDlg aEnterDlg( this, "enter_dissolve_time", /*modal*/TRUE );
+    bool ok;
 
-	aEnterDlg.setCaption( tr( "Enter new dissolve time" ) );
-	aEnterDlg.m_pTextLabel->setText( tr( "dissolve time [s]:" ) );
-	aEnterDlg.m_pEnterValue->setFocus();
-
-	char sBuffer[255];
+   	char sBuffer[255];
 	sprintf( sBuffer, "%4.1f", m_dDissolveTime );
-	aEnterDlg.m_pEnterValue->setText( sBuffer );
-
-	int iRet = aEnterDlg.exec();
-
-	if( iRet == 1 )
-	{
-		QString s = aEnterDlg.m_pEnterValue->text();
-
-		m_dDissolveTime = s.toDouble();
-	}
+	
+    QString sTxt = QInputDialog::getText(this,tr("Enter new dissolve time"),tr("dissolve time [s]:"),/*QLineEdit::EchoMode mode=*/QLineEdit::Normal,/*text=*/sBuffer,&ok,/*Qt::WindowFlags flags =*/0);
+    if( ok && !sTxt.isEmpty() )
+    {
+		m_dDissolveTime = sTxt.toDouble();
+    }
 }
 
 void MinDiaWindow::sltFadeInTest()

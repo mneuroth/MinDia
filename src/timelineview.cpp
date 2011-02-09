@@ -36,7 +36,6 @@
 
 #include "timelineitem.h"
 #include "diapresentation.h"
-#include "EnterValueDlg.h"
 #include "dyntextdlgimpl.h"
 
 #include "misctools.h"
@@ -56,6 +55,7 @@
 #include <QMenu>
 #include <QList>
 #include <QUrl>
+#include <QInputDialog>
 
 // *******************************************************************
 /* TODO Qt4
@@ -203,21 +203,13 @@ void TimeLineView::sltAddDynText()
 {
 	DynContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
 
-	EnterValueDlg aEnterDlg( this, "enter_text", /*modal*/TRUE );
-
-	aEnterDlg.setCaption( tr( "Enter text" ) );
-	aEnterDlg.m_pTextLabel->setText( tr( "text:" ) );
-	aEnterDlg.m_pEnterValue->setFocus();
-
-	int iRet = aEnterDlg.exec();
-
-	if( iRet == 1 )
+    bool ok;
+    QString sTxt = QInputDialog::getText(this,tr("Enter text"),tr("text:"),/*QLineEdit::EchoMode mode=*/QLineEdit::Normal,/*text=*/"",&ok,/*Qt::WindowFlags flags =*/0);
+    if( ok && !sTxt.isEmpty() )    
 	{
-		QString s = aEnterDlg.m_pEnterValue->text();
-
 		int x = m_aLastMousePos.x();	
 
-		aDynGrOpContainer.AddDefaultDynText( (const char *)s, x*1000/g_dFactor-m_pDiaPres->GetOffsetForSound()*1000, 5000 );
+		aDynGrOpContainer.AddDefaultDynText( (const char *)sTxt, x*1000/g_dFactor-m_pDiaPres->GetOffsetForSound()*1000, 5000 );
 
         emit sigViewDataChanged();
 	}
