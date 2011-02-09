@@ -279,14 +279,14 @@ void MinDiaWindow::CreateMenus()
     m_pEdit		= new QMenu( this );
     m_pPlay		= new QMenu( this );
     m_pExtras	= new QMenu( this );
-	m_pPlugins	= new QMenu( this );
+    m_pPlugins	= 0; //new QMenu( this );
     m_pHelp		= new QMenu( this );
 
     menuBar()->insertItem( tr( "&File" ), m_pFile );
     menuBar()->insertItem( tr( "&Edit" ), m_pEdit );
     menuBar()->insertItem( tr( "&Play" ), m_pPlay );
     menuBar()->insertItem( tr( "E&xtras" ), m_pExtras );
-    menuBar()->insertItem( tr( "Plu&gins" ), m_pPlugins );
+    //menuBar()->insertItem( tr( "Plu&gins" ), m_pPlugins );
     menuBar()->insertItem( tr( "&Help" ), m_pHelp );
 
 	// *** submenu: File ***
@@ -457,8 +457,9 @@ void MinDiaWindow::CreateMenus()
     connect( m_pExtrasControlProjectorAction, SIGNAL( activated() ), this, SLOT( sltDoControlProjector() ) );
 	m_pExtrasPresentationDataAction = new QAction( /*tr( "Presentation data" ),*/ tr( "Presentation &data..." ), Qt::CTRL+Qt::Key_D, this, "presentationdata"/*, TRUE*/ );
     connect( m_pExtrasPresentationDataAction, SIGNAL( activated() ), this, SLOT( sltDoPresentationData() ) );
-	m_pExtrasPresentationEventsAction = new QAction( /*tr( "Presentation events" ),*/ tr( "Presentation &events..." ), Qt::CTRL+Qt::Key_E, this, "presentationevents"/*, TRUE*/ );
-    connect( m_pExtrasPresentationEventsAction, SIGNAL( activated() ), this, SLOT( sltDoPresentationEvents() ) );
+    m_pExtrasPresentationEventsAction = 0;
+//	m_pExtrasPresentationEventsAction = new QAction( /*tr( "Presentation events" ),*/ tr( "Presentation &events..." ), Qt::CTRL+Qt::Key_E, this, "presentationevents"/*, TRUE*/ );
+//    connect( m_pExtrasPresentationEventsAction, SIGNAL( activated() ), this, SLOT( sltDoPresentationEvents() ) );
 	m_pExtrasSoundDataAction = new QAction( /*tr( "Sound data" ),*/ tr( "So&und data..." ), Qt::CTRL+Qt::Key_U, this, "sounddata"/*, TRUE*/ );
     connect( m_pExtrasSoundDataAction, SIGNAL( activated() ), this, SLOT( sltDoSoundData() ) );
 	m_pExtrasSoundCommentAction = new QAction( /*tr( "Sound comments" ),*/ tr( "Sou&nd comments..." ), Qt::CTRL+Qt::Key_Z, this, "soundcomment"/*, TRUE*/ );
@@ -480,7 +481,7 @@ void MinDiaWindow::CreateMenus()
 	m_pExtrasControlProjectorAction->addTo( m_pExtras );
 	m_pExtras->insertSeparator();
 	m_pExtrasPresentationDataAction->addTo( m_pExtras );
-	m_pExtrasPresentationEventsAction->addTo( m_pExtras );
+//	m_pExtrasPresentationEventsAction->addTo( m_pExtras );
 	m_pExtrasSoundDataAction->addTo( m_pExtras );
 	m_pExtrasSoundCommentAction->addTo( m_pExtras );
 	m_pExtrasPlotCommentAction->addTo( m_pExtras );
@@ -1327,7 +1328,10 @@ void MinDiaWindow::sltUpdateExtrasMenu()
 	m_pExtrasConfigPlayerAction->setEnabled( bEdit );
 #endif
 	m_pExtrasPresentationDataAction->setEnabled( bEdit );
-	m_pExtrasPresentationEventsAction->setEnabled( bEdit );
+    if( m_pExtrasPresentationEventsAction )
+    {
+        m_pExtrasPresentationEventsAction->setEnabled( bEdit );
+    }
 	m_pExtrasSoundDataAction->setEnabled( bEdit );
 	m_pExtrasSoundCommentAction->setEnabled( bEdit );
 	m_pExtrasPlotCommentAction->setEnabled( bEdit );
