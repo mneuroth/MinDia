@@ -38,11 +38,7 @@
 #ifndef _PLAYINFODLGIMPL_H
 #define _PLAYINFODLGIMPL_H
 
-#ifndef ZAURUS
-#include "PlayInfoDlg.h"
-#else
-#include "ZPlayInfoDlg.h"
-#endif
+#include "ui_PlayInfoDlg4.h"
 
 #include "iscript.h"
 #include "minhandle.h"
@@ -56,6 +52,7 @@
 #include <QResizeEvent>
 #include <QKeyEvent>
 #include <QMenu>
+#include <QDialog>
 
 class Q3CanvasView;
 class Q3Canvas;
@@ -122,7 +119,7 @@ private:
 // *******************************************************************
 /** Implementation of the Play-Info-Dialog
   */
-class PlayInfoDlgImpl : public PlayInfoDialog, public IDiaOutputWindowInternal
+class PlayInfoDlgImpl : public QDialog, Ui_PlayInfoDialog, public IDiaOutputWindowInternal
 {
 	Q_OBJECT
 

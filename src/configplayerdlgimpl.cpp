@@ -40,8 +40,10 @@
 // *******************************************************************
 
 ConfigPlayerDlgImpl::ConfigPlayerDlgImpl(QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: ConfigPlayerDlg( parent, name, modal, fl )
+: QDialog( parent, name, modal, fl )
 {
+    setupUi(this);
+
 #ifdef __APPLE__
     m_pPlayer->insertItem( "afplay" );
     m_pPlayer->insertItem( "/opt/local/bin/mpg123" );

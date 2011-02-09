@@ -10,6 +10,11 @@ QT              += qt3support
 #                  CreateMovieDlg.ui \
 #				  PresentationDataDlg.ui\
 #				  ProjectorControlDlg.ui \
+#				  ComLoggingDlg.ui \
+#                 ConfigurationDlg.ui\
+#				  ConfigPlayerDlg.ui\
+#				  PlayInfoDlg.ui \
+#				  EnterValueDlg.ui
 
 HEADERS         = diainfodlgimpl.h \
 				  playinfodlgimpl.h \
@@ -99,21 +104,20 @@ SOURCES         = diainfodlgimpl.cpp \
                   ../minsrv/dllbase.cpp
 #The following line was changed from INTERFACES to FORMS3 by qt3to4
 FORMS3      = DiaInfoDlg.ui \
-				  PlayInfoDlg.ui \
-				  ComLoggingDlg.ui \
-				  EventMapDlg.ui \
-				  ConfigurationDlg.ui\
-				  ConfigPlayerDlg.ui\
+				  EventMapDlg.ui \				  
 				  SoundInfoDlg.ui \
 				  CommentDlg.ui \
 				  HelpDlg.ui \
 				  LicenseDlg.ui \
 				  AboutExtDlg.ui \
-				  DynTextDlg.ui \
-				  EnterValueDlg.ui
+				  DynTextDlg.ui 
 FORMS           = CreateMovieDlg4.ui \
                     PresentationDataDlg4.ui \
-                    ProjectorControlDlg4.ui
+                    ProjectorControlDlg4.ui \
+				    ComLoggingDlg4.ui \
+                    ConfigurationDlg4.ui \
+   				    ConfigPlayerDlg4.ui \
+ 				    PlayInfoDlg4.ui 
 MOC_DIR					= moc
 #macx:LIBS               += -lpthread ./libminsrv.dylib $(LIBMINDIAPYC_SO)
 #macx:LIBS               += -lpthread ../minsrv/libminsrv.a $(LIBMINDIAPYC_SO)

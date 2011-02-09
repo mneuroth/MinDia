@@ -29,10 +29,10 @@
 #ifndef _COMLOGIMPL_H
 #define _COMLOGIMPL_H
 
-#include "ComLoggingDlg.h"
+#include "ui_ComLoggingDlg4.h"
 
 #include "minlog.h"
-//Added by qt3to4:
+#include <QDialog>
 #include <QCustomEvent>
 #include <QKeyEvent>
 #include <QCloseEvent>
@@ -41,7 +41,7 @@
 // *******************************************************************
 /** Implementation of the Logging-Dialog
   */
-class ComLoggingDialogImpl : public ComLoggingDialog, public minLoggingInterface
+class ComLoggingDialogImpl : public QDialog, Ui_ComLoggingDialog, public minLoggingInterface
 {
 	Q_OBJECT
 

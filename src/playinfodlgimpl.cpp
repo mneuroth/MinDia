@@ -453,7 +453,7 @@ QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor )
 // *******************************************************************
 
 PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, const char* name, bool modal, Qt::WFlags fl )
-: PlayInfoDialog( parent, name, modal, fl /*| Qt::WStyle_Maximize*/ ),      // TODO style for maximize ?
+: QDialog( parent, name, modal, fl /*| Qt::WStyle_Maximize*/ ),      // TODO style for maximize ?
   m_pParent( parent ),
   m_iFadeInTimeInMS( 0 ),
   m_iFadeInFactor( 0 ),
@@ -462,6 +462,8 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, co
   m_aFadeTime( 25 ),
   m_pFadeInTimer( 0 )
 {
+    setupUi(this);
+
 	QPixmap aPauseIcon( pausescript );
 	QPixmap aStopIcon( stopscript );
 	QPixmap aRunIcon( runscript );
@@ -1246,7 +1248,7 @@ void PlayInfoDlgImpl::done( int iRet )
 {
 	emit sigDialogClosed();
 	
-	PlayInfoDialog::done( iRet );
+	QDialog::done( iRet );
 }
 
 void PlayInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
@@ -1290,7 +1292,7 @@ void PlayInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 	}
 	else
 	{
-		PlayInfoDialog::keyPressEvent( pEvent );
+		QDialog::keyPressEvent( pEvent );
 	}
 }
 
@@ -1305,7 +1307,7 @@ void PlayInfoDlgImpl::resizeEvent( QResizeEvent * pEvent )
 	// ** update the background image with the new size
 	sltSetImage( m_aActImage );
 
-	PlayInfoDialog::resizeEvent( pEvent );
+	QDialog::resizeEvent( pEvent );
 }
 
 void PlayInfoDlgImpl::SetExpandImage( bool bExpand )

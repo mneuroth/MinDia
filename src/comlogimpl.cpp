@@ -42,8 +42,10 @@ const int c_iCustomEvent_Logging = 12345;
 // *******************************************************************
 
 ComLoggingDialogImpl::ComLoggingDialogImpl( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: ComLoggingDialog( parent, name, modal, fl )
+: QDialog( parent, name, modal, fl )
 {
+    setupUi(this);
+
     connect( this, SIGNAL( sigDialogClosed() ), parent, SLOT( sltLoggingDialogClosed() ) );
     connect( this, SIGNAL( sigDialogHelp(const QString &) ), parent, SLOT( sltShowHelp(const QString &) ) );
 }
@@ -87,7 +89,7 @@ void ComLoggingDialogImpl::done( int iRet )
 {
 	emit sigDialogClosed();
 	
-	ComLoggingDialog::done( iRet );
+	QDialog::done( iRet );
 }
 
 void ComLoggingDialogImpl::keyPressEvent( QKeyEvent * pEvent )
@@ -98,7 +100,7 @@ void ComLoggingDialogImpl::keyPressEvent( QKeyEvent * pEvent )
 	}
 	else
 	{
-		ComLoggingDialog::keyPressEvent( pEvent );
+		QDialog::keyPressEvent( pEvent );
 	}
 }
 
@@ -115,9 +117,10 @@ void ComLoggingDialogImpl::customEvent( QEvent * pEventIn )
 
 			    QString * psMsg = (QString *)pEvent->data();
 
-				m_pOutput->insertLine( *psMsg );
+                m_pOutput->setPlainText( m_pOutput->toPlainText()+*psMsg+"\n");
 				// ** update the visible area, so that the last output is visible
-				m_pOutput->setCursorPosition( m_pOutput->numLines(), 1 );
+                m_pOutput->moveCursor(QTextCursor::End);
+                m_pOutput->ensureCursorVisible();                
 
 				delete psMsg;
 			}

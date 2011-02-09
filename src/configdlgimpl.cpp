@@ -40,16 +40,17 @@
 #include <qcheckbox.h>
 #include <qlineedit.h>
 #include <qradiobutton.h>
-//Added by qt3to4:
 #include <QShowEvent>
 #include <QKeyEvent>
 #include <QCloseEvent>
 #include <QDir>
 
 ConfigurationDlgImpl::ConfigurationDlgImpl( DocumentAndControler * pControler, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: ConfigurationDlg( parent, name, modal, fl ),
+: QDialog( parent, name, modal, fl ),
   m_pControler( pControler )
 {
+    setupUi(this);
+    
     connect( this, SIGNAL( sigDialogClosed() ), parent, SLOT( sltConfigurationDialogClosed() ) );
     connect( this, SIGNAL( sigDocumentUpdate() ), parent, SLOT( sltDoDocumentStateUpdate() ) );
     connect( this, SIGNAL( sigDialogHelp(QWidget *, const QString &) ), parent, SLOT( sltShowModalHelp(QWidget *, const QString &) ) );
@@ -324,6 +325,6 @@ void ConfigurationDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 	}
 	else
 	{
-		ConfigurationDlg::keyPressEvent( pEvent );
+		QDialog::keyPressEvent( pEvent );
 	}
 }

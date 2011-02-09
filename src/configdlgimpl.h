@@ -33,18 +33,14 @@
 #ifndef _CONFIGDLGIMPL_H
 #define _CONFIGDLGIMPL_H
 
-#ifdef ZAURUS
-#include "ZConfigurationDlg.h"
-#else
-#include "ConfigurationDlg.h"
-#endif
+#include "ui_ConfigurationDlg4.h"
 
 class DocumentAndControler;
 
 // *******************************************************************
 /** Implementation of the (global) Configuration-Dialog
   */
-class ConfigurationDlgImpl : public ConfigurationDlg
+class ConfigurationDlgImpl : public QDialog, Ui_ConfigurationDlg
 {
 	Q_OBJECT
 

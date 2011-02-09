@@ -37,7 +37,6 @@
 #include <qlabel.h>
 #include <qobject.h>
 #include <qpushbutton.h> 
-//#include <q3buttongroup.h>
 #include <qmessagebox.h>
 #include <QCloseEvent>
 #include <QKeyEvent>

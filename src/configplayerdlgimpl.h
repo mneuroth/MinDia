@@ -29,16 +29,14 @@
 #ifndef _CONFIGPLAYERDLGIMPL_H
 #define _CONFIGPLAYERDLGIMPL_H
 
-#ifdef ZAURUS
-#include "ZConfigPlayerDlg.h"
-#else
-#include "ConfigPlayerDlg.h"
-#endif
+#include "ui_ConfigPlayerDlg4.h"
+
+#include <QDialog>
 
 // *******************************************************************
 /** Implementation of the (global) mp3 player Configuration-Dialog
   */
-class ConfigPlayerDlgImpl : public ConfigPlayerDlg
+class ConfigPlayerDlgImpl : public QDialog, Ui_ConfigPlayerDlg
 {
 	Q_OBJECT
 
