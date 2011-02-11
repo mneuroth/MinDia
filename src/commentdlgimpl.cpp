@@ -132,7 +132,11 @@ void CommentDlgImpl::sltDialogCanceled()
 
 void CommentDlgImpl::sltNewRow()
 {
-	m_pTable->/*setNumRows*/setRowCount( m_pTable->/*numRows*/rowCount()+1 );
+    m_pTable->setRowCount( m_pTable->rowCount()+1 );
+    for( int j=0; j<m_pTable->columnCount(); j++ )
+    {
+        m_pTable->setItem(m_pTable->rowCount()-1,j,new QTableWidgetItem( "" ) );
+    }
 }
 
 void CommentDlgImpl::sltDeleteRow()
@@ -179,11 +183,14 @@ void CommentDlgImpl::sltTableSelectionChanged()
 
 void CommentDlgImpl::sltValueChanged( int /*iRow*/, int /*iColumn*/ )
 {
+// wird nicht benoetigt, da beim schliessen des dialogs die uebertragung der daten erfolgt
+// waehrend dialog offen ist braucht man eigentlich keine aktualisierung !
+// Ansonsten ist dies hier eine rekursive endlos-schleife ! Event wird durch TransferData() ausgeloest !!!
 	// ** first: data from gui to container
 // TODO ? --> crash !    
-//	TransferData( false );
-//	// ** than update view with new data from container
-//	TransferData( true );
+//    TransferData( false );
+//    // ** than update view with new data from container
+//    TransferData( true );
 }
 
 void CommentDlgImpl::sltSortTable()
