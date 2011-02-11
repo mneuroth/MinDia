@@ -29,17 +29,18 @@
 #ifndef _COMMENTDLGIMPL_H
 #define _COMMENTDLGIMPL_H
 
-#include "CommentDlg.h"
-//Added by qt3to4:
+#include "ui_CommentDlg4.h"
+
 #include <QKeyEvent>
 #include <QCloseEvent>
+#include <QDialog>
 
 class GenericCommentContainer;
 
 // *******************************************************************
 /** Implementation of the SoundInfo-Dialog
   */
-class CommentDlgImpl : public CommentDlg
+class CommentDlgImpl : public QDialog, Ui_CommentDlg
 {
 	Q_OBJECT
 

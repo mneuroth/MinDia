@@ -42,9 +42,11 @@
 // *******************************************************************
 
 CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: CommentDlg( parent, name, modal, fl ),
+: QDialog( parent, name, modal, fl ),
   m_pComments( pComments )
 {
+    setupUi(this);
+
     connect( this, SIGNAL( sigDialogClosed() ), parent, SLOT( sltSoundDataDialogClosed() ) );
     connect( this, SIGNAL( sigDocumentUpdate() ), parent, SLOT( sltDoDocumentStateUpdate() ) );
     connect( this, SIGNAL( sigUpdateViews() ), parent, SLOT( sltDoUpdateAllViews() ) );
@@ -52,8 +54,8 @@ CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* pa
     connect( this, SIGNAL( sigDialogHelp(QWidget *, const QString &) ), parent, SLOT( sltShowModalHelp(QWidget *, const QString &) ) );
 
 	// ** init table **
-	m_pTable->setSelectionMode( Q3Table::Single );
-	m_pTable->setNumRows( 1 );
+	m_pTable->setSelectionMode( QAbstractItemView::SingleSelection );
+	m_pTable->/*setNumRows*/setRowCount( 1 );
 
 	// ** init the title text for the columns
 	// ** get one item to inspect the name for the columns
@@ -70,11 +72,17 @@ CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* pa
 		int iCount = pItem->GetDataCount();
 		int iDefWidth = m_pTable->width() / (iCount+1);
 
-		m_pTable->setNumCols( iCount );
+		m_pTable->/*setNumCols*/setColumnCount( iCount );
 
+        QStringList aLabels;
 		for( int i=0; i<iCount; i++ )
 		{
-			m_pTable->horizontalHeader()->setLabel( i, pItem->GetDataName( i ).c_str() );
+            //if( m_pTable->horizontalHeaderItem(i) )
+            //{
+            //    m_pTable->horizontalHeaderItem(i)->setText( pItem->GetDataName( i ).c_str() );
+            //}
+            aLabels.push_back( QString(pItem->GetDataName( i ).c_str()) );
+			//m_pTable->horizontalHeader->setLabel( i, pItem->GetDataName( i ).c_str() );
 			// ** last column for the comment should be bigger than the other columns !
 			if( i==iCount-1 )
 			{
@@ -85,6 +93,7 @@ CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* pa
 				m_pTable->setColumnWidth( i, iDefWidth );
 			}
 		}
+        m_pTable->setHorizontalHeaderLabels( aLabels );
 
 		// ** update the title of the dialog
 		setCaption( caption() + " (" + QString( pItem->GetName().c_str() ) + ")" );
@@ -123,32 +132,34 @@ void CommentDlgImpl::sltDialogCanceled()
 
 void CommentDlgImpl::sltNewRow()
 {
-	m_pTable->setNumRows( m_pTable->numRows()+1 );
+	m_pTable->/*setNumRows*/setRowCount( m_pTable->/*numRows*/rowCount()+1 );
 }
 
 void CommentDlgImpl::sltDeleteRow()
 {
 	// ** move contents of act row to the end of the table 
-	if( m_pTable->currentSelection() != -1 )
+	if( /*m_pTable->currentSelection() != -1*/m_pTable->selectedItems().count()>0 )
 	{
 		// ** get the actual selected row, only one row can be selected !
-		int iActRow = m_pTable->numRows();
-		for( int j=0; j<m_pTable->numRows(); j++ )
+		int iActRow = m_pTable->/*numRows*/rowCount();
+		for( int j=0; j<m_pTable->/*numRows*/rowCount(); j++ )
 		{
-			if( m_pTable->isRowSelected( j, TRUE ) )
+			//if( m_pTable->isRowSelected( j, TRUE ) )
+			if( m_pTable->item(j,0)->isSelected() )
 			{
 				iActRow = j;
 				break;
 			}
 		}
+        m_pTable->removeRow(iActRow);
 
-		for( int i=iActRow; i<m_pTable->numRows()-1; i++ )
-		{
-			m_pTable->swapRows( i, i+1 );
-		}
-
-		// ** and than delete the last row of the table 
-		m_pTable->setNumRows( m_pTable->numRows()-1 );
+//		for( int i=iActRow; i<m_pTable->/*numRows*/rowCount()-1; i++ )
+//		{
+////TODO			m_pTable->swapRows( i, i+1 );
+//		}
+//
+//		// ** and than delete the last row of the table 
+//		m_pTable->/*setNumRows*/setRowCount( m_pTable->/*numRows*/rowCount()-1 );
 
 		// ** update the document data ***
 		TransferData( false );
@@ -158,9 +169,10 @@ void CommentDlgImpl::sltDeleteRow()
 void CommentDlgImpl::sltTableSelectionChanged()
 {
 	bool bSel = false;
-	for( int i=0; i<m_pTable->numRows(); i++ )
+	for( int i=0; i<m_pTable->/*numRows*/rowCount(); i++ )
 	{
-		bSel = bSel || m_pTable->isRowSelected( i, TRUE );
+        bSel = bSel || m_pTable->item(i,0)->isSelected();
+		//bSel = bSel || m_pTable->isRowSelected( i, TRUE );
 	}
 	m_pDeleteLine->setEnabled( bSel );
 }
@@ -168,9 +180,10 @@ void CommentDlgImpl::sltTableSelectionChanged()
 void CommentDlgImpl::sltValueChanged( int /*iRow*/, int /*iColumn*/ )
 {
 	// ** first: data from gui to container
-	TransferData( false );
-	// ** than update view with new data from container
-	TransferData( true );
+// TODO ? --> crash !    
+//	TransferData( false );
+//	// ** than update view with new data from container
+//	TransferData( true );
 }
 
 void CommentDlgImpl::sltSortTable()
@@ -198,7 +211,8 @@ void CommentDlgImpl::TransferData( bool bToTable )
 		if( bToTable )
 		{
 			// ** transfer data from data-container to gui
-			m_pTable->setNumRows( m_pComments->size() );
+			m_pTable->/*setNumRows*/setRowCount( m_pComments->size() );
+//m_pTable->/*setNumRows*/setColumnCount( 10 );
 
 			for( int i=0; i<m_pComments->size(); i++ )
 			{
@@ -207,7 +221,12 @@ void CommentDlgImpl::TransferData( bool bToTable )
 				for( int j=0; j<pItem->GetDataCount(); j++ )
 				{
 					string s = pItem->GetDataValue( j );
-					m_pTable->setText( i, j, s.c_str() );
+                    m_pTable->setItem(i,j,new QTableWidgetItem( s.c_str() ) );
+					//m_pTable->setText( i, j, s.c_str() );
+//                    if( m_pTable->item(i,j) )
+//                    {
+//                        m_pTable->item(i,j)->setText( s.c_str() );
+//                    }
 				}
 			}
 		}
@@ -217,13 +236,13 @@ void CommentDlgImpl::TransferData( bool bToTable )
 			m_pComments->clear();
 
 			// ** and than fill the new data from the gui into the container
-			for( int i=0; i<m_pTable->numRows(); i++ )
+			for( int i=0; i<m_pTable->/*numRows*/rowCount(); i++ )
 			{
 				GenericDataInterface * pItem = m_pComments->push_back_new_item();
 
 				for( int j=0; j<pItem->GetDataCount(); j++ )
 				{
-					QString sTemp = m_pTable->text( i, j );
+					QString sTemp = m_pTable->item(i,j) ? m_pTable->item(i,j)->text() : ""; //m_pTable->text( i, j );
 					const char * s = (const char *)sTemp;
 					string sStrg( (s ? s : "") );
 
@@ -253,6 +272,6 @@ void CommentDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 	}
 	else
 	{
-		CommentDlg::keyPressEvent( pEvent );
+		QDialog::keyPressEvent( pEvent );
 	}
 }

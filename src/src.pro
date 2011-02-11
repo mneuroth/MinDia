@@ -15,6 +15,7 @@ QT              += qt3support
 #				  ConfigPlayerDlg.ui\
 #				  PlayInfoDlg.ui \
 #				  EnterValueDlg.ui
+#           	  CommentDlg.ui \
 
 HEADERS         = diainfodlgimpl.h \
 				  playinfodlgimpl.h \
@@ -106,7 +107,6 @@ SOURCES         = diainfodlgimpl.cpp \
 FORMS3      = DiaInfoDlg.ui \
 				  EventMapDlg.ui \				  
 				  SoundInfoDlg.ui \
-				  CommentDlg.ui \
 				  HelpDlg.ui \
 				  LicenseDlg.ui \
 				  AboutExtDlg.ui \
@@ -117,7 +117,8 @@ FORMS           = CreateMovieDlg4.ui \
 				    ComLoggingDlg4.ui \
                     ConfigurationDlg4.ui \
    				    ConfigPlayerDlg4.ui \
- 				    PlayInfoDlg4.ui 
+ 				    PlayInfoDlg4.ui \
+				    CommentDlg4.ui
 MOC_DIR					= moc
 #macx:LIBS               += -lpthread ./libminsrv.dylib $(LIBMINDIAPYC_SO)
 #macx:LIBS               += -lpthread ../minsrv/libminsrv.a $(LIBMINDIAPYC_SO)
