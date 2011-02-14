@@ -16,6 +16,11 @@ QT              += qt3support
 #				  PlayInfoDlg.ui \
 #				  EnterValueDlg.ui
 #           	  CommentDlg.ui \
+#				  LicenseDlg.ui \   # not ported
+#				  EventMapDlg.ui \
+#				  eventmapdlgimpl.h \
+#				  eventmapdlgimpl.cpp \
+
 
 HEADERS         = diainfodlgimpl.h \
 				  playinfodlgimpl.h \
@@ -26,7 +31,6 @@ HEADERS         = diainfodlgimpl.h \
 				  sndinfodlgimpl.h \
 				  pcdlgimpl.h \
 				  commentdlgimpl.h \
-				  eventmapdlgimpl.h \
 				  dyntextdlgimpl.h \
 				  helpdlgimpl.h \
 				  iocontainer.h \
@@ -72,7 +76,6 @@ SOURCES         = diainfodlgimpl.cpp \
 				  pddlgimpl.cpp \
 				  sndinfodlgimpl.cpp \
 				  commentdlgimpl.cpp \
-				  eventmapdlgimpl.cpp \
 				  dyntextdlgimpl.cpp \
 				  helpdlgimpl.cpp \
 				  minisound.cpp \
@@ -105,20 +108,18 @@ SOURCES         = diainfodlgimpl.cpp \
                   ../minsrv/dllbase.cpp
 #The following line was changed from INTERFACES to FORMS3 by qt3to4
 FORMS3      = DiaInfoDlg.ui \
-				  EventMapDlg.ui \				  
 				  SoundInfoDlg.ui \
 				  HelpDlg.ui \
-				  LicenseDlg.ui \
 				  AboutExtDlg.ui \
 				  DynTextDlg.ui 
-FORMS           = CreateMovieDlg4.ui \
-                    PresentationDataDlg4.ui \
-                    ProjectorControlDlg4.ui \
-				    ComLoggingDlg4.ui \
-                    ConfigurationDlg4.ui \
-   				    ConfigPlayerDlg4.ui \
- 				    PlayInfoDlg4.ui \
-				    CommentDlg4.ui
+FORMS       = CreateMovieDlg4.ui \
+                  PresentationDataDlg4.ui \
+                  ProjectorControlDlg4.ui \
+                  ComLoggingDlg4.ui \
+                  ConfigurationDlg4.ui \
+                  ConfigPlayerDlg4.ui \
+                  PlayInfoDlg4.ui \
+                  CommentDlg4.ui
 MOC_DIR					= moc
 #macx:LIBS               += -lpthread ./libminsrv.dylib $(LIBMINDIAPYC_SO)
 #macx:LIBS               += -lpthread ../minsrv/libminsrv.a $(LIBMINDIAPYC_SO)

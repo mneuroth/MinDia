@@ -43,8 +43,8 @@
 #include "iscript.h"
 #include "minhandle.h"
 
+#include <QGraphicsScene>
 #include <qimage.h>
-#include <q3canvas.h>
 #include <qtimer.h>
 #include <qdatetime.h>
 #include <QCloseEvent>
@@ -54,8 +54,7 @@
 #include <QMenu>
 #include <QDialog>
 
-class Q3CanvasView;
-class Q3Canvas;
+class QGraphicsScene;
 
 class QAction;
 
@@ -123,7 +122,7 @@ class PlayInfoDlgImpl : public QDialog, Ui_PlayInfoDialog, public IDiaOutputWind
 {
 	Q_OBJECT
 
-	typedef minHandle< Q3CanvasItem >	CanvasItem;
+    typedef minHandle< QGraphicsItem >	CanvasItem;
 	typedef vector< CanvasItem >		CanvasItemContainer;
 
 public:
@@ -168,7 +167,7 @@ public:
 	virtual IColor	GetTextColor( int iTextID ) const;
 	virtual bool	DeleteText( int iTextID );
 
-	virtual Q3Canvas *	GetCanvas();
+    virtual QGraphicsScene *	GetCanvas();
 
 public slots:
 	virtual void sltCloseDialog();
@@ -214,7 +213,6 @@ private:
 	QImage DoScaleImage( const QImage & aImage );
 	bool IsIndexOk( int iTextID ) const;
 
-	MenuCanvasView *		m_pCanvasView;
 	SimpleBitmapCanvas *	m_pCanvas;
 	QWidget *				m_pParent;			// no owner !
 	Qt::WFlags				m_flLastFlags;

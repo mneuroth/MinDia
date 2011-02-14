@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>898</width>
-    <height>534</height>
+    <width>1010</width>
+    <height>540</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -48,14 +48,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="0">
-       <widget class="QFrame" name="m_pFrame">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
+       <widget class="QGraphicsView" name="m_pCanvasView"/>
       </item>
      </layout>
     </widget>
@@ -112,7 +105,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="4">
+      <item row="0" column="5">
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -125,7 +118,7 @@
         </property>
        </spacer>
       </item>
-      <item row="0" column="5">
+      <item row="0" column="6">
        <widget class="QCheckBox" name="m_pDisplayImage">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -156,7 +149,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="6">
+      <item row="0" column="7">
        <spacer name="spacer9">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -172,89 +165,7 @@
         </property>
        </spacer>
       </item>
-      <item row="0" column="7">
-       <widget class="QGroupBox" name="m_pScaleImageGroup">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>280</width>
-          <height>50</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>280</width>
-          <height>50</height>
-         </size>
-        </property>
-        <property name="title">
-         <string>Scale image</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="0">
-          <widget class="QRadioButton" name="m_pScaleFillX">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Fill &amp;X</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QRadioButton" name="m_pScaleFillY">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Fill &amp;Y</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QRadioButton" name="m_pScaleExpand">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>&amp;Expand</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <widget class="QRadioButton" name="m_pScaleOriginal">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>&amp;Original size</string>
-           </property>
-           <property name="shortcut">
-            <string>Alt+O</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="0" column="8">
+      <item row="0" column="9">
        <spacer name="spacer6">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -270,7 +181,7 @@
         </property>
        </spacer>
       </item>
-      <item row="0" column="9">
+      <item row="0" column="10">
        <widget class="QPushButton" name="m_pClose">
         <property name="text">
          <string>&amp;Close</string>
@@ -284,6 +195,43 @@
         <property name="default">
          <bool>true</bool>
         </property>
+       </widget>
+      </item>
+      <item row="0" column="8">
+       <widget class="QGroupBox" name="m_pScaleImageGroup">
+        <property name="title">
+         <string>Scale image</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <item row="0" column="0">
+          <widget class="QRadioButton" name="m_pScaleFillX">
+           <property name="text">
+            <string>Fill &amp;X</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QRadioButton" name="m_pScaleFillY">
+           <property name="text">
+            <string>Fill &amp;Y</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QRadioButton" name="m_pScaleExpand">
+           <property name="text">
+            <string>&amp;Expand</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QRadioButton" name="m_pScaleOriginal">
+           <property name="text">
+            <string>&amp;Original size</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>
@@ -302,8 +250,8 @@
    <slot>sltCloseDialog()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>643</x>
-     <y>511</y>
+     <x>1253</x>
+     <y>506</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -318,8 +266,8 @@
    <slot>sltDispImageToggled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>218</x>
-     <y>498</y>
+     <x>838</x>
+     <y>516</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -334,8 +282,8 @@
    <slot>sltPlay()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>29</x>
-     <y>511</y>
+     <x>50</x>
+     <y>506</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -350,8 +298,8 @@
    <slot>sltPause()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>67</x>
-     <y>511</y>
+     <x>165</x>
+     <y>506</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -366,8 +314,8 @@
    <slot>sltStop()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>105</x>
-     <y>511</y>
+     <x>249</x>
+     <y>506</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -382,8 +330,8 @@
    <slot>sltFullScreen()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>143</x>
-     <y>511</y>
+     <x>326</x>
+     <y>506</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -398,12 +346,12 @@
    <slot>sltScaleImageToggled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>358</x>
-     <y>507</y>
+     <x>372</x>
+     <y>490</y>
     </hint>
     <hint type="destinationlabel">
-     <x>303</x>
-     <y>505</y>
+     <x>496</x>
+     <y>537</y>
     </hint>
    </hints>
   </connection>
@@ -414,12 +362,12 @@
    <slot>sltScaleImageToggled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>419</x>
-     <y>505</y>
+     <x>442</x>
+     <y>493</y>
     </hint>
     <hint type="destinationlabel">
-     <x>410</x>
-     <y>532</y>
+     <x>711</x>
+     <y>536</y>
     </hint>
    </hints>
   </connection>
@@ -430,12 +378,12 @@
    <slot>sltScaleImageToggled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>451</x>
-     <y>508</y>
+     <x>519</x>
+     <y>497</y>
     </hint>
     <hint type="destinationlabel">
-     <x>458</x>
-     <y>531</y>
+     <x>197</x>
+     <y>534</y>
     </hint>
    </hints>
   </connection>
@@ -446,12 +394,12 @@
    <slot>sltScaleImageToggled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>533</x>
-     <y>508</y>
+     <x>609</x>
+     <y>491</y>
     </hint>
     <hint type="destinationlabel">
-     <x>613</x>
-     <y>524</y>
+     <x>5</x>
+     <y>520</y>
     </hint>
    </hints>
   </connection>

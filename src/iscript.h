@@ -217,7 +217,7 @@ const long g_IMinDiaScriptFcnID				= 610;
 
 class QWidget;
 class QMenu;
-class Q3Canvas;
+class QGraphicsScene;
 
 // *************************************************************************
 // internal helper Interface, needed for the implementation of 
@@ -225,7 +225,7 @@ class Q3Canvas;
 class IDiaOutputWindowInternal : public IDiaOutputWindow
 {
 public:
-	virtual Q3Canvas *	GetCanvas() = 0;
+    virtual QGraphicsScene *	 GetCanvas() = 0;
 };
 
 // *************************************************************************

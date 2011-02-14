@@ -40,13 +40,12 @@
 
 #include <qobject.h>
 #include <qcolor.h>
-#include <q3canvas.h>
 #include <qtimer.h>
 #include <qpainter.h>
+#include <QGraphicsSimpleTextItem>
+#include <QGraphicsRectItem>
 
 class QTimer;
-class Q3Canvas;
-class Q3CanvasText;
 
 class DynGraphicOpContainer;
 class IDiaOutputWindowInternal;
@@ -431,18 +430,18 @@ protected:
 };
 
 // *******************************************************************
-class DynText : public Q3CanvasText
+class DynText : public QGraphicsSimpleTextItem
 {
 public:
 	typedef minHandle<OpItem_Base>		OperationT;
 	typedef vector< OperationT >		OperationContainer;
 
-	DynText( const string & sText = "", Q3Canvas * pOwner = 0 );
+    DynText( const string & sText = "", QGraphicsScene * pOwner = 0 );
 	virtual ~DynText();
 
 	XmlTree	GetXMLTree() const;
 
-	void SetCanvas( Q3Canvas * pCanvas );
+    void SetCanvas( QGraphicsScene * pCanvas );
 
 	// to update internal state of this object
 	void Sync();
@@ -502,7 +501,7 @@ private:
 	int					m_yOld;
 	QFont				m_aInitFont;
 	QColor				m_aInitColor;
-	Q3CanvasRectangle *	m_pSelectedHelper;
+    QGraphicsRectItem *	m_pSelectedHelper;
 	OperationContainer	m_aOpContainer;
 };
 

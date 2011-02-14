@@ -84,7 +84,7 @@
 #include "configplayerdlgimpl.h"
 #include "comlogimpl.h"
 #include "pcdlgimpl.h"
-#include "eventmapdlgimpl.h"
+//#include "eventmapdlgimpl.h"
 #include "diainfodlgimpl.h"
 #include "playinfodlgimpl.h"
 #include "pddlgimpl.h"
@@ -92,7 +92,7 @@
 #include "commentdlgimpl.h"
 #include "helpdlgimpl.h"
 
-#include "LicenseDlg.h"
+//#include "LicenseDlg.h"
 #include "AboutExtDlg.h"
 #include "CreateMovieDlg4.h"
 
@@ -466,6 +466,7 @@ void MinDiaWindow::CreateMenus()
     connect( m_pExtrasSoundCommentAction, SIGNAL( activated() ), this, SLOT( sltDoSoundComment() ) );
 	m_pExtrasPlotCommentAction = new QAction( /*tr( "Plot comments" ),*/ tr( "&Plot comments..." ), Qt::ALT+Qt::Key_Z, this, "plotcomment"/*, TRUE*/ );
     connect( m_pExtrasPlotCommentAction, SIGNAL( activated() ), this, SLOT( sltDoPlotComment() ) );
+// TODO ?    
 	m_pExtrasDynGraphOpAction = 0; //new QAction( tr( "Dynamic graphic operations" ), tr( "D&yn. graphic operations..." ), ALT+Key_G, this, "dyngraphops"/*, TRUE*/ );
     //connect( m_pExtrasDynGraphOpAction, SIGNAL( activated() ), this, SLOT( sltDoDynGraphicOp() ) );
 	m_pExtrasModifyItemAction = new QAction( /*tr( "Modify item" ),*/ tr( "&Modify item..." ), Qt::CTRL+Qt::Key_M, this, "modifyitem"/*TODO, TRUE*/ );
@@ -515,7 +516,7 @@ void MinDiaWindow::CreateMenus()
     connect( this, SIGNAL( sigSaveDocToFile(const QString &) ), m_pControler, SLOT( sltSaveAsDoc(const QString &) ) );
     connect( this, SIGNAL( sigSaveDocAsXML(const QString &) ), m_pControler, SLOT( sltSaveDocAsXML(const QString &) ) );
     connect( this, SIGNAL( sigQuit() ), qApp, SLOT( quit() ) );
-	connect( this, SIGNAL( sigStartPresentation() ), m_pControler, SLOT( sltPlayPresentation() ) );
+    connect( this, SIGNAL( sigStartPresentation() ), m_pControler, SLOT( sltPlayPresentation() ) );
 	connect( this, SIGNAL( sigShowPlayInfos() ), this, SLOT( sltDoPlayInfos() ) );
 
 	connect( m_pEdit, SIGNAL( aboutToShow() ), this, SLOT( sltUpdateEditMenu() ) );
@@ -844,7 +845,10 @@ void MinDiaWindow::sltDoPlayInfos()
 		}
 
 		m_pPlayInfoDialog->show();
-	}
+        // workaround for showing dialog with updated view-rect
+        m_pPlayInfoDialog->resize(m_pPlayInfoDialog->width()-1,m_pPlayInfoDialog->height()-1);
+        m_pPlayInfoDialog->resize(m_pPlayInfoDialog->width()+1,m_pPlayInfoDialog->height()+1);
+    }
 }
 
 void MinDiaWindow::sltShowPlayStatus()
@@ -883,34 +887,34 @@ void MinDiaWindow::sltDoPresentationData()
 	}
 }
 
-void MinDiaWindow::sltDoPresentationEvents()
-{
-/*
-	if( !m_pExtrasPresentationEventsAction->isOn() )
-	{
-		if( m_pPresentationEventsDialog )
-		{
-			m_pPresentationEventsDialog->hide();
-		}
-	}
-	else
-*/	{
-		if( !m_pPresentationEventsDialog )
-		{
-			m_pPresentationEventsDialog = new EventMapDlgImpl( &(m_pControler->GetPresentation().GetScriptEnvironment()), this, "presentationevents", /*modal*/TRUE );
-			//m_pPresentationEventsDialog->move( 450, 10 );
-		}
+//void MinDiaWindow::sltDoPresentationEvents()
+//{
+///*
+//	if( !m_pExtrasPresentationEventsAction->isOn() )
+//	{
+//		if( m_pPresentationEventsDialog )
+//		{
+//			m_pPresentationEventsDialog->hide();
+//		}
+//	}
+//	else
+//*/	{
+//		if( !m_pPresentationEventsDialog )
+//		{
+//			m_pPresentationEventsDialog = new EventMapDlgImpl( &(m_pControler->GetPresentation().GetScriptEnvironment()), this, "presentationevents", /*modal*/TRUE );
+//			//m_pPresentationEventsDialog->move( 450, 10 );
+//		}
 
-		m_pPresentationEventsDialog->exec();
+//		m_pPresentationEventsDialog->exec();
 
-		// ** destroy modal dialog ! **
-		delete m_pPresentationEventsDialog;
-		m_pPresentationEventsDialog = 0;
+//		// ** destroy modal dialog ! **
+//		delete m_pPresentationEventsDialog;
+//		m_pPresentationEventsDialog = 0;
 
-		// ** update the document state, scripts maybe changed
-		sltDoDocumentStateUpdate();
-	}
-}
+//		// ** update the document state, scripts maybe changed
+//		sltDoDocumentStateUpdate();
+//	}
+//}
 
 void MinDiaWindow::sltDoControlProjector()
 {
@@ -985,25 +989,25 @@ void MinDiaWindow::sltShowQtAbout()
 	QMessageBox::aboutQt( this, "MinDia Qt Version" );
 }
 
-void MinDiaWindow::sltShowLicense()
-{
-	LicenseDlg * pLicenseDlg = new LicenseDlg( this, "license", /*modal*/TRUE );
+//void MinDiaWindow::sltShowLicense()
+//{
+//	LicenseDlg * pLicenseDlg = new LicenseDlg( this, "license", /*modal*/TRUE );
 
-	string sText;
-	bool bOk = ReadTextFile( "COPYING", sText );
+//	string sText;
+//	bool bOk = ReadTextFile( "COPYING", sText );
 
-	if( bOk )
-	{
-		QString sLicense = tr( "This program is released under the GPL Version 2:\n\n" );
-		sLicense += sText.c_str();
+//	if( bOk )
+//	{
+//		QString sLicense = tr( "This program is released under the GPL Version 2:\n\n" );
+//		sLicense += sText.c_str();
 
-		pLicenseDlg->m_pEdit->setText( sLicense );
+//		pLicenseDlg->m_pEdit->setText( sLicense );
 
-		pLicenseDlg->exec();
-	}
+//		pLicenseDlg->exec();
+//	}
 
-	delete pLicenseDlg;
-}
+//	delete pLicenseDlg;
+//}
 
 void MinDiaWindow::sltModifyItemDialogClosed()
 {
@@ -2117,13 +2121,13 @@ bool MinDiaWindow::DeleteText( int iTextID )
 	return false;
 }
 
-Q3Canvas * MinDiaWindow::GetCanvas()
+QGraphicsScene * MinDiaWindow::GetCanvas()
 {
-	if( m_pPlayInfoDialog )
-	{
-		return m_pPlayInfoDialog->GetCanvas();
-	}
-	return 0;
+    if( m_pPlayInfoDialog )
+    {
+        return m_pPlayInfoDialog->GetCanvas();
+    }
+    return 0;
 }
 
 void MinDiaWindow::SaveSettings()

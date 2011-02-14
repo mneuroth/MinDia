@@ -47,288 +47,8 @@
 
 #include "minutils.h"
 
-// *******************************************************************
-#ifdef _old_
-bool DynamicTyp::Read( istream & aStream )
-{
-	FileUtilityObj aFU;
+#include <QGraphicsScene>
 
-	aFU.ReadTypeBegin( aStream );
-	aStream >> m_iTypeId;
-	aFU.ReadTypeEnd( aStream );
-
-	return aStream.good();
-}
-
-bool DynamicTyp::Write( ostream & aStream ) const
-{
-	FileUtilityObj aFU;
-
-	aFU.WriteTypeBegin( aStream );
-	aStream << m_iTypeId;
-	aFU.WriteTypeEnd( aStream );
-
-	return aStream.good();
-}
-
-Job * DynamicTyp::CreateJob( int iTypeId, DynGraphicOpContainer * pOwner )
-{
-	switch( iTypeId )
-	{
-		case ID_SHOW_TEXT:
-			return new dgoShowText( pOwner );
-		
-		default:
-			return 0;
-	}
-	return 0;
-}
-
-// *******************************************************************
-
-dgoShowText::dgoShowText( DynGraphicOpContainer * pOwner, const string & sText, int x, int y, int iStartTimeInMS, int iShowTimeInMS, const QColor aColor, int iFontSize, const string & sFontName )
-: Job( iStartTimeInMS ),
-  DynamicTyp( ID_SHOW_TEXT ),
-  m_pOwner( pOwner ),
-  m_pText( 0 ),
-  m_sText( sText ),
-  m_pTimer( 0 ),
-  m_x( x ),
-  m_y( y ),
-  m_iStartTimeInMS( iStartTimeInMS ),
-  m_iShowTimeInMS( iShowTimeInMS ),
-  m_iFontSize( iFontSize ),
-  m_sFontName( sFontName ),
-  m_aColor( aColor )		   
-{
-}
-
-dgoShowText::~dgoShowText()
-{
-	delete m_pText;
-	delete m_pTimer;
-}
-
-bool dgoShowText::Run()
-{
-	if( m_pOwner )
-	{
-		Q3Canvas * pCanvas = m_pOwner->GetCanvas();
-
-		m_pText = new Q3CanvasText( QString( m_sText.c_str() ), pCanvas );
-		m_pText->setColor( m_aColor );
-		m_pText->setFont( QFont( m_sFontName.c_str(), m_iFontSize ) );
-		m_pText->move( m_x, m_y );
-		m_pText->show();
-
-		pCanvas->update();
-
-		m_pTimer = new QTimer(); 
-		connect( m_pTimer, SIGNAL( timeout() ), this, SLOT( sltTimerEvent() ) );
-		m_pTimer->start( m_iShowTimeInMS );
-
-		return true;
-	}
-	return false;
-}
-
-void dgoShowText::Cancel()
-{
-	// reset this object
-	sltTimerEvent();
-}
-
-void dgoShowText::sltTimerEvent()
-{
-	m_pTimer->stop();
-
-	m_pText->hide();
-
-	Q3Canvas * pCanvas = m_pOwner->GetCanvas();
-	pCanvas->update();
-
-	delete m_pText;
-	m_pText = 0;
-
-	delete m_pTimer;
-	m_pTimer = 0;
-}
-
-bool dgoShowText::Read( istream & aStream )
-{
-	FileUtilityObj aFU;
-	int iRed, iGreen, iBlue;
-
-	aFU.ReadStructBegin( aStream );
-	ReadString( aStream, m_sText );
-	aFU.ReadSeparator( aStream );
-	aStream >> m_x;
-	aFU.ReadSeparator( aStream );
-	aStream >> m_y;
-	aFU.ReadSeparator( aStream );
-	aStream >> m_iStartTimeInMS;
-	aFU.ReadSeparator( aStream );
-	aStream >> m_iShowTimeInMS;
-	aFU.ReadSeparator( aStream );
-	aStream >> m_iFontSize;
-	aFU.ReadSeparator( aStream );
-	ReadString( aStream, m_sFontName );
-	aFU.ReadSeparator( aStream );
-	aStream >> iRed;
-	aFU.ReadSeparator( aStream );
-	aStream >> iGreen;
-	aFU.ReadSeparator( aStream );
-	aStream >> iBlue;
-	m_aColor = QColor( iRed, iGreen, iBlue ); 
-	aFU.ReadStructEnd( aStream );
-
-	Job::SetStartTime( m_iStartTimeInMS );
-
-	return aStream.good();
-}
-
-bool dgoShowText::Write( ostream & aStream ) const
-{
-	FileUtilityObj aFU;
-
-	DynamicTyp::Write( aStream );
-
-	aFU.WriteStructBegin( aStream );
-	WriteString( aStream, m_sText );
-	aFU.WriteSeparator( aStream );
-	aStream << m_x;
-	aFU.WriteSeparator( aStream );
-	aStream << m_y;
-	aFU.WriteSeparator( aStream );
-	aStream << m_iStartTimeInMS;
-	aFU.WriteSeparator( aStream );
-	aStream << m_iShowTimeInMS;
-	aFU.WriteSeparator( aStream );
-	aStream << m_iFontSize;
-	aFU.WriteSeparator( aStream );
-	WriteString( aStream, m_sFontName );
-	aFU.WriteSeparator( aStream );
-	aStream << m_aColor.Qt::red();
-	aFU.WriteSeparator( aStream );
-	aStream << m_aColor.Qt::green();
-	aFU.WriteSeparator( aStream );
-	aStream << m_aColor.Qt::blue();
-	aFU.WriteStructEnd( aStream );
-	
-	return aStream.good();
-}
-
-// *******************************************************************
-
-template <class Type>
-class HandleCompare
-{
-public:
-	bool operator()( minHandle<Type> hVal1, minHandle<Type> hVal2 )
-	{
-		return hVal1->GetStartTime() < hVal2->GetStartTime();
-	}
-};
-
-// *******************************************************************
-
-DynGraphicOpContainer::DynGraphicOpContainer( IDiaOutputWindowInternal * pOutputWindowProxy )
-: m_pOutputWindowProxy( pOutputWindowProxy )
-{
-}
-
-Q3Canvas * DynGraphicOpContainer::GetCanvas()
-{
-	if( m_pOutputWindowProxy )
-	{
-		return m_pOutputWindowProxy->GetCanvas();
-	}
-	return 0;
-}
-
-void DynGraphicOpContainer::AddJob( JobHandle hJob )
-{
-	// sort all the jobs after the start time !
-
-	JobContainerT::iterator aFound = upper_bound( begin(), end(), hJob, HandleCompare<Job>() );
-	
-	insert( aFound, hJob );
-}
-
-void DynGraphicOpContainer::AddOperation( double dTimeInMS, const string & sText )
-{
-	minHandle<Job> hNew( new dgoShowText( this, sText, 100, 100, dTimeInMS, 5000 ) );
-
-	AddJob( hNew );
-}
-
-XmlTree	DynGraphicOpContainer::GetXMLTree() const
-{
-	XmlTree aTree( "dyngraphicop" );
-
-	// min todo gulp
-
-	return aTree;
-}
-
-bool DynGraphicOpContainer::Read( istream & aStream )
-{
-	FileUtilityObj aFU;
-
-	// clear the container first !
-	erase( begin(), end() );
-
-	aFU.ReadStructBegin( aStream );
-
-	while( !aStream.eof() && !aFU.PeekStructEnd( aStream ) && aStream.good() )
-	{
-		DynamicTyp aDummy( 0 );
-
-		if( aDummy.Read( aStream ) )
-		{
-			/*value_type*/minHandle<Job> hElement( aDummy.CreateJob( aDummy.GetTypeId(), this ) );
-
-			hElement->Read( aStream );
-
-			push_back( hElement );
-		}
-
-		if( aFU.PeekSeparator( aStream ) )
-		{
-			aFU.ReadSeparator( aStream );
-		}
-	}
-	
-	aFU.ReadStructEnd( aStream );
-
-	return aStream.good();
-}
-
-bool DynGraphicOpContainer::Write( ostream & aStream ) const
-{
-	FileUtilityObj aFU;
-
-	aFU.WriteStructBegin( aStream );
-
-	const_iterator aIter = begin();
-	while( aIter != end() )
-	{
-		(*aIter)->Write( aStream );
-
-		++aIter;
-
-		if( aIter != end() )
-		{
-			aFU.WriteSeparator( aStream );
-			aStream << endl;
-		}
-	}
-	
-	aFU.WriteStructEnd( aStream );
-
-	return aStream.good();
-}
-#endif
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************
@@ -369,7 +89,7 @@ void OpItem_ChangeColor::Update()
 void OpItem_ChangeColor::Reset()
 {
 	OpItem_Base::Reset();
-    m_pItem->setColor( m_aStartColor );
+    m_pItem->setBrush( QColor(m_aStartColor) );
 }
 
 bool OpItem_ChangeColor::Write( ostream & aStream ) const
@@ -442,11 +162,11 @@ void OpItem_ChangeColor::sltOnTimer()
     if( m_iCount < m_dSteps )
 	{
         QColor aColor = QColor( m_aRedDelta.GetActValue(m_iCount), m_aGreenDelta.GetActValue(m_iCount), m_aBlueDelta.GetActValue(m_iCount));
-        m_pItem->setColor( aColor );
+        m_pItem->setBrush( QColor(aColor) );
         m_iCount++;
-		if( m_pItem->canvas() )
+        if( m_pItem->scene() )
 		{
-	        m_pItem->canvas()->update();
+            m_pItem->scene()->update();
 		}
         m_aTimer->start( m_iTimeout );
 	}
@@ -471,18 +191,18 @@ void OpItem_FadeInOut::Update()
 	{
 		if( m_bFadeIn )
 		{
-			if( m_pItem->canvas() )
+            if( m_pItem->scene() )
 			{
-				m_aStartColor = m_pItem->canvas()->backgroundColor();
+                m_aStartColor = m_pItem->scene()->backgroundBrush().color();
 			}
-			m_aStopColor = m_pItem->color();
+            m_aStopColor = m_pItem->brush().color();
 		}
 		else
 		{
-			m_aStartColor = m_pItem->color();
-			if( m_pItem->canvas() )
+            m_aStartColor = m_pItem->brush().color();
+            if( m_pItem->scene() )
 			{
-				m_aStopColor = m_pItem->canvas()->backgroundColor();
+                m_aStopColor = m_pItem->scene()->backgroundBrush().color();
 			}
 		}
 	}
@@ -575,9 +295,9 @@ void OpItem_Hide::sltOnTimer()
 {
     m_aTimer->stop();
     m_pItem->hide();
-	if( m_pItem->canvas() )
+    if( m_pItem->scene() )
 	{
-		m_pItem->canvas()->update();
+        m_pItem->scene()->update();
 	}
     m_bDone = true;
 }
@@ -593,9 +313,9 @@ void OpItem_Show::sltOnTimer()
 {
     m_aTimer->stop();
     m_pItem->show();
-	if( m_pItem->canvas() )
+    if( m_pItem->scene() )
 	{
-		m_pItem->canvas()->update();
+        m_pItem->scene()->update();
 	}
     m_bDone = true;
 }
@@ -689,9 +409,9 @@ void OpItem_ChangeFontSize::sltOnTimer()
         aFont.setPointSize( iSize );
         m_pItem->setFont( aFont );
         m_iCount++;
-		if( m_pItem->canvas() )
+        if( m_pItem->scene() )
 		{
-	        m_pItem->canvas()->update();
+            m_pItem->scene()->update();
 		}
         m_aTimer->start( m_iTimeout );
 	}
@@ -712,7 +432,7 @@ OpItem_SetRelPos::OpItem_SetRelPos( DynText * pItem, double dRelX, double dRelY,
 
 void OpItem_SetRelPos::Update()
 {
-	Q3Canvas * pCanvas = m_pItem->canvas();
+    QGraphicsScene * pCanvas = m_pItem->scene();
 
 	if( pCanvas && m_dRelX>=0 && m_dRelY>=0 )
 	{
@@ -817,9 +537,9 @@ void OpItem_MoveTo::sltOnTimer()
 	{
         MoveMe( m_iStartPosX+m_iCount*m_dDeltaX, m_iStartPosY+m_iCount*m_dDeltaY );
         m_iCount++;
-		if( m_pItem->canvas() )
+        if( m_pItem->scene() )
 		{
-	        m_pItem->canvas()->update();
+            m_pItem->scene()->update();
 		}
         m_aTimer->start( m_iTimeout );
 	}
@@ -890,10 +610,10 @@ OpItem_MoveToRel::OpItem_MoveToRel( DynText * pItem, int iFromPosX, int iFromPos
 void OpItem_MoveToRel::MoveMe( double x, double y )
 {
 	int iMaxX = 0, iMaxY = 0;
-	if( m_pItem->canvas() )
+    if( m_pItem->scene() )
 	{
-	    iMaxX = m_pItem->canvas()->width();
-		iMaxY = m_pItem->canvas()->height();
+        iMaxX = m_pItem->scene()->width();
+        iMaxY = m_pItem->scene()->height();
 	}
     double relX = x*iMaxX/100;
     double relY = y*iMaxY/100;
@@ -1110,9 +830,9 @@ DynContainer::DynContainer( IDiaOutputWindowInternal * pOutputWindowProxy )
 
 void DynContainer::Update()
 {
-	if( m_pOutputWindowProxy && m_pOutputWindowProxy->GetCanvas() )
+    if( m_pOutputWindowProxy && m_pOutputWindowProxy->GetCanvas() )
 	{
-		m_pOutputWindowProxy->GetCanvas()->update();
+        m_pOutputWindowProxy->GetCanvas()->update();
 	}
 }
 
@@ -1122,7 +842,7 @@ void DynContainer::UpdateInfos()
 
 	while( aIter != end() )
 	{
-		(*aIter)->SetCanvas( m_pOutputWindowProxy->GetCanvas() );
+        (*aIter)->SetCanvas( m_pOutputWindowProxy->GetCanvas() );
 		++aIter;
 	}
 }
@@ -1151,9 +871,9 @@ bool DynContainer::Write( ostream & aStream ) const
 	bool bOk = IOContainer< DynText >::Write( aStream );
 
 	//Update();
-	if( m_pOutputWindowProxy && m_pOutputWindowProxy->GetCanvas() )
+    if( m_pOutputWindowProxy && m_pOutputWindowProxy->GetCanvas() )
 	{
-		m_pOutputWindowProxy->GetCanvas()->update();
+        m_pOutputWindowProxy->GetCanvas()->update();
 	}
 
 	return bOk;
@@ -1358,13 +1078,17 @@ bool DynContainer::IsNextElementChanging( double dTimeMS, double dDeltaMS ) cons
 
 //********************************************************************
 
-DynText::DynText( const string & sText, Q3Canvas * pOwner )
-: Q3CanvasText( sText.c_str(), pOwner ),
+DynText::DynText( const string & sText, QGraphicsScene * pOwner )
+: QGraphicsSimpleTextItem( sText.c_str(), 0 ),
   m_bIsSelected( false ),
   m_xOld( -1 ),
   m_yOld( -1 ),
   m_pSelectedHelper( 0 )
 {
+    if( pOwner )
+    {
+        pOwner->addItem(this);
+    }
 	Sync();
 }
 
@@ -1379,18 +1103,18 @@ XmlTree	DynText::GetXMLTree() const
 	return XmlTree( "DynText" );
 }
 
-void DynText::SetCanvas( Q3Canvas * pCanvas )
+void DynText::SetCanvas( QGraphicsScene * pCanvas )
 {
-	setCanvas( pCanvas );
+    pCanvas->addItem(this);
 
 	setFont( m_aInitFont );
-	setColor( m_aInitColor );
+    setBrush( QColor(m_aInitColor) );
 }
 
 void DynText::Sync()
 {
 	m_aInitFont = font();
-	m_aInitColor = color();
+    m_aInitColor = brush().color();
 }
 
 void DynText::Deselect()
@@ -1410,10 +1134,11 @@ void DynText::SetSelected( bool bSelected )
 	{
 		if( !m_pSelectedHelper )
 		{
-			m_pSelectedHelper = new Q3CanvasRectangle( boundingRect(), canvas() );
+            m_pSelectedHelper = new QGraphicsRectItem( boundingRect() );
+            scene()->addItem(m_pSelectedHelper);
 			m_pSelectedHelper->setPen( QPen( QColor( 255,0,0 ) ) );
 		}
-		m_pSelectedHelper->setSize( boundingRect().width(), boundingRect().height() );
+        m_pSelectedHelper->setRect( 0, 0, boundingRect().width(), boundingRect().height() );
 		m_pSelectedHelper->show();
 	}
 	else
@@ -1423,12 +1148,12 @@ void DynText::SetSelected( bool bSelected )
 			m_pSelectedHelper->hide();
 		}
 	}
-	canvas()->update();
+    scene()->update();
 }
 
 bool DynText::IsPosInElement( int x, int y ) const
 {
-	QRect aRect = boundingRect();
+    QRectF aRect = boundingRect();
 
 	if( aRect.left()<=x && aRect.right()>=x && aRect.top()<=y && aRect.bottom()>=y )
 	{
@@ -1465,19 +1190,19 @@ void DynText::DoMouseMove( int x, int y )
 	{
 		double dx = x-m_xOld;
 		double dy = y-m_yOld;
-		Q3CanvasText::move( (double)Q3CanvasText::x()+dx, (double)Q3CanvasText::y()+dy );
+        move( (double)pos().x()+dx, (double)pos().y()+dy );
 		m_xOld = x;
 		m_yOld = y;
-		Q3CanvasText::canvas()->update();
+        scene()->update();
 	}
 }
 
 void DynText::move( double x, double y )
 {
-	Q3CanvasText::move( x, y ); 
+    move( x, y );
 	if( m_pSelectedHelper )
 	{
-		m_pSelectedHelper->move( x, y );
+        m_pSelectedHelper->setPos( x, y );
 	}
 }
 
@@ -1501,11 +1226,11 @@ bool DynText::Write( ostream & aStream ) const
 	aFU.WriteSeparator( aStream );
 	aStream << font().pointSize();
 	aFU.WriteSeparator( aStream );
-	aStream << color().red();
+    aStream << brush().color().red();
 	aFU.WriteSeparator( aStream );
-	aStream << color().green();
+    aStream << brush().color().green();
 	aFU.WriteSeparator( aStream );
-	aStream << color().blue();
+    aStream << brush().color().blue();
 	aFU.WriteSeparator( aStream );
 	WriteOpContainer( aStream );
 	aFU.WriteStructEnd( aStream );
@@ -1567,7 +1292,7 @@ bool DynText::Read( istream & aStream )
 	aFU.ReadSeparator( aStream );
 	aStream >> iBlue;
 	QColor aColor( iRed, iGreen, iBlue );
-	setColor( aColor );
+    setBrush( aColor );
 	m_aInitColor = aColor;
 	aFU.ReadSeparator( aStream );
 	ReadOpContainer( aStream );
@@ -1690,7 +1415,7 @@ void DynText::Stop()
 void DynText::Reset()
 {
 	setFont( m_aInitFont );
-	setColor( m_aInitColor );
+    setBrush( m_aInitColor );
 
 	OperationContainer::iterator aIter = m_aOpContainer.begin();
 	
@@ -1749,7 +1474,7 @@ void DynText::CreateDefaultOperations( double dStartTimeInMS, double dShowTimeIn
 {
 	setX( 100 );
 	setY( 100 );
-	setColor( QColor( 255, 0, 0 ) );
+    setBrush( QColor( 255, 0, 0 ) );
 	setFont( QFont( "Arial", 20 ) );
 	AddOperation( minHandle<OpItem_Base>( new OpItem_Hide( this, 0 ) ) );
 	//AddOperation( minHandle<OpItem_Base>( new OpItem_MoveTo( this, 0, 0, 100, 100, 10 ) ) );
@@ -1817,7 +1542,7 @@ void DynText::SetAttributesFrom( DynText * pOtherItem )
 	if( pOtherItem )
 	{
 		setFont( pOtherItem->font() );
-		setColor( pOtherItem->color() );
+        setBrush( pOtherItem->brush() );
 		Sync();
 	}
 }
@@ -1836,7 +1561,7 @@ void DynText::PaintForTime( QPainter & aPainter, double dTimeMS ) const
 	{
 		double xRel, yRel;
 
-		aPainter.setPen( QPen( color() ) );
+        aPainter.setPen( QPen( brush().color() ) );
 		aPainter.setFont( font() );
 		if( GetRelativePos( xRel, yRel ) )
 		{

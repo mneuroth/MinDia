@@ -68,7 +68,9 @@ class QtMTLock {};
 
 #include "misctools.h"
 
-#include <q3canvas.h> 
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QGraphicsSimpleTextItem>
 #include <qcheckbox.h> 
 #include <qradiobutton.h> 
 #include <qpainter.h>
@@ -238,59 +240,78 @@ void PlayInfoContextMenu::sltShowMenu()
 // *******************************************************************
 // *******************************************************************
 
-class MenuCanvasView : public Q3CanvasView
-{
-public:
-	MenuCanvasView( Q3Canvas * viewing=0, QWidget * parent=0, const char * name=0, Qt::WFlags f=0 );
-	~MenuCanvasView();
+//class MenuCanvasView : public QGraphicsView // Q3CanvasView
+//{
+//public:
+//    MenuCanvasView( /*Q3Canvas*/QGraphicsScene * viewing=0, QWidget * parent=0, const char * name=0, Qt::WFlags f=0 );
+//	~MenuCanvasView();
 
-	// ** WARNING: takes the ownership of the given pointer !!!
-	void SetPopupMenu( QMenu * pMenu );
+//    void SetImagePtr( QImage * pImage )
+//    {
+//        m_pImage = pImage;
+//    }
 
-protected:
-	virtual void contentsMousePressEvent( QMouseEvent * pEvent );
+//    // ** WARNING: takes the ownership of the given pointer !!!
+//	void SetPopupMenu( QMenu * pMenu );
 
-private:
-	QMenu *	m_pPopupMenu;
-};
+//protected:
+//	virtual void contentsMousePressEvent( QMouseEvent * pEvent );
 
-MenuCanvasView::MenuCanvasView( Q3Canvas * viewing, QWidget * parent, const char * name, Qt::WFlags f )
-: Q3CanvasView( viewing, parent, name, f ),
-  m_pPopupMenu( 0 )
-{
-}
+//protected:
+//    virtual void drawBackground( QPainter &, const QRect & area );
 
-MenuCanvasView::~MenuCanvasView()
-{
-	delete m_pPopupMenu;
-}
+//private:
+//    QMenu *         m_pPopupMenu;
+//    QImage *        m_pImage;
+//};
 
-void MenuCanvasView::SetPopupMenu( QMenu * pMenu )
-{
-	m_pPopupMenu = pMenu;
-}
+//MenuCanvasView::MenuCanvasView( /*Q3Canvas*/QGraphicsScene * viewing, QWidget * parent, const char * name, Qt::WFlags f )
+//: /*Q3CanvasView*/QGraphicsView( viewing, parent/*, name, f*/ ),
+//  m_pPopupMenu( 0 ),
+//  m_pImage( 0 )
 
-void MenuCanvasView::contentsMousePressEvent( QMouseEvent * pEvent )
-{
-	if( (pEvent->button() == Qt::RightButton) && m_pPopupMenu )
-	{
-		m_pPopupMenu->exec( pEvent->globalPos() );
-	}
-	else
-	{
-		Q3CanvasView::contentsMousePressEvent( pEvent );
-	}
-}
+//{
+//}
+
+//MenuCanvasView::~MenuCanvasView()
+//{
+//	delete m_pPopupMenu;
+//}
+
+//void MenuCanvasView::SetPopupMenu( QMenu * pMenu )
+//{
+//	m_pPopupMenu = pMenu;
+//}
+
+//void MenuCanvasView::contentsMousePressEvent( QMouseEvent * pEvent )
+//{
+//	if( (pEvent->button() == Qt::RightButton) && m_pPopupMenu )
+//	{
+//		m_pPopupMenu->exec( pEvent->globalPos() );
+//	}
+//	else
+//	{
+////TODO        /*Q3CanvasView*/QGraphicsView::contentsMousePressEvent( pEvent );
+//	}
+//}
+
+//void MenuCanvasView::drawBackground( QPainter & aPainter, const QRect & area )
+//{
+//    // ** OPTIMIZE HERE: erase is not needed all the time !?
+//    aPainter.eraseRect( area );
+
+//    aPainter.drawImage( 0, 0, *m_pImage );
+//}
 
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************
 
-class SimpleBitmapCanvas : public Q3Canvas
+class SimpleBitmapCanvas : public QGraphicsScene //Q3Canvas
 {
 public:
 	SimpleBitmapCanvas( QObject * parent = 0, const char * name = 0 )
-	: Q3Canvas( parent, name ),
+    : QGraphicsScene/*Q3Canvas*/( parent/*, name*/ ),
 	  m_pImage( 0 )
 	{
 	}
@@ -301,18 +322,18 @@ public:
 	}
 
 protected:
-	virtual void drawBackground( QPainter &, const QRect & area );
+    virtual void drawBackground( QPainter *, const QRectF & area );
 
 private:
 	QImage *		m_pImage;
 };
 
-void SimpleBitmapCanvas::drawBackground( QPainter & aPainter, const QRect & area )
+void SimpleBitmapCanvas::drawBackground( QPainter * pPainter, const QRectF & area )
 {
 	// ** OPTIMIZE HERE: erase is not needed all the time !?
-	aPainter.eraseRect( area );
+    pPainter->eraseRect( area );
 
-	aPainter.drawImage( 0, 0, *m_pImage );
+    pPainter->drawImage( 0, 0, *m_pImage );
 }
 
 // *******************************************************************
@@ -484,9 +505,16 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, co
     connect( this, SIGNAL( sigDoPause() ), pShowControler, SLOT( sltPausePresentation() ) );
     connect( this, SIGNAL( sigDoStop() ), pShowControler, SLOT( sltStopPresentation() ) );
 
-	m_pCanvas = new SimpleBitmapCanvas( m_pFrame );
-	m_pCanvasView = new MenuCanvasView( m_pCanvas, m_pFrame );
-	m_pCanvasView->SetPopupMenu( new PlayInfoContextMenu( this, this ) );
+    m_pCanvas = new SimpleBitmapCanvas( /*m_pFrame*/ );
+
+    QRect aFrameRect = m_pCanvasView->frameRect();
+    // ** update size of the canvas
+    m_pCanvas->setSceneRect(0,0,aFrameRect.width(), aFrameRect.height());
+
+//	m_pCanvasView->SetPopupMenu( new PlayInfoContextMenu( this, this ) );
+// TODO --> context Menu am Canvas/Graphics Scene setzen !
+    m_pCanvasView->setScene(m_pCanvas);
+    m_pCanvasView->show();
 
 	m_pDisplayImage->setChecked( true );
 #ifndef ZAURUS
@@ -494,7 +522,7 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, co
 	m_pScaleOriginal->setChecked( true );
 #endif
 
-	m_pCanvas->SetImagePtr( &m_aScaledImage );
+    m_pCanvas->SetImagePtr( &m_aScaledImage );
 }
 
 PlayInfoDlgImpl::~PlayInfoDlgImpl()
@@ -544,7 +572,7 @@ void PlayInfoDlgImpl::FullScreen()
 //TODO		m_pButtonLayout = 0;
 
 		//m_pCanvasView->setLineWidth( 0 );
-		m_pCanvasView->setFrameShadow( Q3Frame::Plain );
+//		m_pCanvasView->setFrameShadow( Q3Frame::Plain );
 		//m_pCanvasView->setFrameShape( QFrame::NoFrame );
 		//m_pCanvasView->setFrameStyle( QFrame::NoFrame );
 
@@ -605,7 +633,7 @@ void PlayInfoDlgImpl::RestoreSize()
 //#endif
 
 		//m_pCanvasView->setLineWidth( 2 );
-		m_pCanvasView->setFrameShadow( Q3Frame::Sunken );
+//		m_pCanvasView->setFrameShadow( Q3Frame::Sunken );
 
 		showNormal();
 
@@ -701,14 +729,14 @@ int PlayInfoDlgImpl::GetDrawWidth() const
 {
 	QtMTLock aMTLock;
 
-	return m_pCanvasView->contentsWidth();
+    return m_pCanvasView->width();
 }
 
 int PlayInfoDlgImpl::GetDrawHeight() const
 {
 	QtMTLock aMTLock;
 
-	return m_pCanvasView->contentsHeight();
+    return m_pCanvasView->height();
 }
 
 bool PlayInfoDlgImpl::Clear()
@@ -755,12 +783,14 @@ int PlayInfoDlgImpl::SetTextXY( int x, int y, const char * sText )
 {
 	QtMTLock aMTLock;
 
-	Q3CanvasText * pText = new Q3CanvasText( sText, m_pCanvas );
+    QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
+    pText->setText(sText);
+    m_pCanvas->addItem(pText);
 
 	pText->setFont( m_aActFont );
-	pText->setColor( m_aActColor );
-	pText->move( x, y );
-	pText->setZ( 100 );
+    pText->setBrush( QBrush( m_aActColor ) );
+    pText->setPos( x, y );
+//	pText->setZ( 100 );
 	pText->show();
 
 	m_aItemContainer.push_back( CanvasItem( pText ) );
@@ -783,7 +813,7 @@ bool PlayInfoDlgImpl::MoveText( int iTextID, int x, int y )
 
 		CanvasItem aItem = m_aItemContainer[ iTextID ];
 
-		aItem->move( x, y );
+        aItem->setPos( x, y );
 
 		m_pCanvas->update();
 
@@ -826,7 +856,7 @@ int PlayInfoDlgImpl::GetTextWidth( int iTextID ) const
 
 		CanvasItem aItem = m_aItemContainer[ iTextID ];
 
-		QRect aRect = aItem->boundingRect();
+        QRectF aRect = aItem->boundingRect();
 
 		return aRect.width();
 	}
@@ -841,7 +871,7 @@ int PlayInfoDlgImpl::GetTextHeight( int iTextID ) const
 
 		CanvasItem aItem = m_aItemContainer[ iTextID ];
 
-		QRect aRect = aItem->boundingRect();
+        QRectF aRect = aItem->boundingRect();
 
 		return aRect.height();
 	}
@@ -856,11 +886,11 @@ bool PlayInfoDlgImpl::SetTextColor( int iTextID, int iRed, int iGreen, int iBlue
 
 		CanvasItem aItem = m_aItemContainer[ iTextID ];
 
-		Q3CanvasText * pText = (Q3CanvasText *)aItem.GetPtr();
+        QGraphicsSimpleTextItem * pText = (QGraphicsSimpleTextItem *)aItem.GetPtr();
 
 		if( pText )
 		{
-			pText->setColor( QColor( iRed, iGreen, iBlue ) );
+            pText->setBrush( QColor( iRed, iGreen, iBlue ) );
 
 			m_pCanvas->update();
 
@@ -878,11 +908,11 @@ IColor PlayInfoDlgImpl::GetTextColor( int iTextID ) const
 
 		CanvasItem aItem = m_aItemContainer[ iTextID ];
 
-		Q3CanvasText * pText = (Q3CanvasText *)aItem.GetPtr();
+        QGraphicsSimpleTextItem * pText = (QGraphicsSimpleTextItem *)aItem.GetPtr();
 
 		if( pText )
 		{
-			QColor aQtColor = pText->color();
+            QColor aQtColor = pText->brush().color();
 
 			IColor aColor;
 			aColor.iRed = aQtColor.red();
@@ -923,9 +953,9 @@ bool PlayInfoDlgImpl::DeleteText( int iTextID )
 	return false;
 }
 
-Q3Canvas * PlayInfoDlgImpl::GetCanvas()
+QGraphicsScene * PlayInfoDlgImpl::GetCanvas()
 {
-	return m_pCanvas;
+    return m_pCanvas;
 }
 
 void PlayInfoDlgImpl::sltCloseDialog()
@@ -990,7 +1020,7 @@ void PlayInfoDlgImpl::sltSetImage( const QImage & aImage )
 
 	UpdateScaledImage();
 
-	m_pCanvasView->repaintContents( m_pCanvasView->contentsX(), m_pCanvasView->contentsY(), m_pCanvasView->/*contents*/visibleWidth(), m_pCanvasView->/*contents*/visibleHeight(), /*bErase*/FALSE );
+    m_pCanvas->update();
 }
 
 void PlayInfoDlgImpl::sltFadeInDone()
@@ -1298,11 +1328,11 @@ void PlayInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 
 void PlayInfoDlgImpl::resizeEvent( QResizeEvent * pEvent )
 {
-	QRect aFrameRect = m_pFrame->frameRect();
+    QRect aFrameRect = m_pCanvasView->frameRect();
 
 	// ** update size of the canvas
 	m_pCanvasView->resize( aFrameRect.width(), aFrameRect.height() );
-	m_pCanvas->resize( aFrameRect.width()-5, aFrameRect.height()-5 );
+    m_pCanvas->setSceneRect(0,0,aFrameRect.width()-5, aFrameRect.height()-5);
 
 	// ** update the background image with the new size
 	sltSetImage( m_aActImage );

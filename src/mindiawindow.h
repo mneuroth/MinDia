@@ -128,7 +128,6 @@
 
 #include <QMainWindow>
 
-#include <q3canvas.h>
 #include <QTranslator>
 #include <QKeyEvent>
 #include <QLabel>
@@ -146,7 +145,8 @@ class QTimer;
 class QLabel;
 class QToolButton;
 class QTranslator;
-class QWidget;    
+class QWidget;
+class QGraphicsScene;
 
 class ConfigurationDlgImpl;
 class ConfigPlayerDlgImpl;
@@ -210,7 +210,7 @@ public:
 	virtual IColor			GetTextColor( int iTextID ) const;
 	virtual bool			DeleteText( int iTextID );
 
-	virtual Q3Canvas *		GetCanvas();
+    virtual QGraphicsScene * 	 GetCanvas();
 
 public slots:
 	void sltModifyItemDialogClosed();
@@ -237,12 +237,12 @@ public slots:
 	void sltDoDynGraphicOp();
 	void sltShowPlotComment();
 	void sltDoPresentationData();
-	void sltDoPresentationEvents();
+//	void sltDoPresentationEvents();
 	void sltDoControlProjector();
 	void sltDoLogging();
 	void sltShowAbout();
 	void sltShowQtAbout();
-	void sltShowLicense();
+//	void sltShowLicense();
 
 	// handle gui request in this class and pass file-name to document
 	void sltLoadDoc( const QString & sFileName, bool bExecuteEvent );

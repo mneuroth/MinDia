@@ -1006,7 +1006,7 @@ void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
     	aDlg.m_pPosX->setText( sTemp );
     	sTemp = sTemp.setNum( hItem->y() );
     	aDlg.m_pPosY->setText( sTemp );
-    	QColor aColor = hItem->color();
+        QColor aColor = hItem->brush().color();
     	aDlg.m_pSelectFontcolor->setPalette( QPalette( aColor ) );
     	double xRel,yRel;
     	if( hItem->GetRelativePos( xRel, yRel ) )
@@ -1048,7 +1048,7 @@ void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
     			hItem->SetRelativePos( -1.0, -1.0 );
     		}
     		QColor aColor = aDlg.m_pSelectFontcolor->backgroundColor();
-    		hItem->setColor( aColor );
+            hItem->setBrush( aColor );
     
     		dStart = aDlg.m_pShowAtTime->text().toDouble();
     		dDelta = aDlg.m_pShowTime->text().toDouble();
