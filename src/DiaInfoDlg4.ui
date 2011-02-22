@@ -443,7 +443,6 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
   <tabstop>m_pNoEffect</tabstop>
   <tabstop>m_pIDEdit</tabstop>

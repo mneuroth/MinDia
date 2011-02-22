@@ -167,7 +167,6 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
   <tabstop>buttonOk</tabstop>
   <tabstop>buttonCancel</tabstop>

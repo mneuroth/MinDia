@@ -582,7 +582,6 @@
   </layout>
  </widget>
  <layoutdefault spacing="4" margin="6"/>
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
   <tabstop>m_pImageNameOffset</tabstop>
   <tabstop>m_pMovieFileName</tabstop>

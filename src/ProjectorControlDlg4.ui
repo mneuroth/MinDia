@@ -368,7 +368,6 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
   <tabstop>m_pBack</tabstop>
   <tabstop>m_pForward</tabstop>
