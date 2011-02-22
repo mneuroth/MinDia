@@ -166,7 +166,7 @@ void CreateMovieDlg4::sltAddSound()
 //        m_pProcess = 0;
 //    }
 
-//    m_pProcess = new Q3Process( this );
+//    m_pProcess = new QProcess( this );
 
 //// TODO --> nur fuer Windows !!!
 //    m_pProcess->addArgument("cmd.exe");

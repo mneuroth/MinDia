@@ -29,11 +29,9 @@
 #include "commentdlgimpl.h"
 #include "soundinfo.h"
 
-#include <q3table.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
-//Added by qt3to4:
 #include <QKeyEvent>
 #include <QCloseEvent>
 

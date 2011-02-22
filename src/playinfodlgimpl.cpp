@@ -307,11 +307,11 @@ void PlayInfoContextMenu::sltShowMenu()
 // *******************************************************************
 // *******************************************************************
 
-class SimpleBitmapCanvas : public QGraphicsScene //Q3Canvas
+class SimpleBitmapCanvas : public QGraphicsScene
 {
 public:
 	SimpleBitmapCanvas( QObject * parent = 0, const char * name = 0 )
-    : QGraphicsScene/*Q3Canvas*/( parent/*, name*/ ),
+    : QGraphicsScene( parent/*, name*/ ),
 	  m_pImage( 0 )
 	{
 	}
@@ -572,7 +572,7 @@ void PlayInfoDlgImpl::FullScreen()
 //TODO		m_pButtonLayout = 0;
 
 		//m_pCanvasView->setLineWidth( 0 );
-//		m_pCanvasView->setFrameShadow( Q3Frame::Plain );
+//		m_pCanvasView->setFrameShadow( QFrame::Plain );
 		//m_pCanvasView->setFrameShape( QFrame::NoFrame );
 		//m_pCanvasView->setFrameStyle( QFrame::NoFrame );
 
