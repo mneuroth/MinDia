@@ -32,21 +32,22 @@
 #include "sndinfodlgimpl.h"
 #include "soundinfo.h"
 
-#include <q3table.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
-//Added by qt3to4:
 #include <QCloseEvent>
 #include <QKeyEvent>
+#include <QTableWidget>
 
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************
 
 SoundInfoDlgImpl::SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: SoundInfoDlg( parent, name, modal, fl ),
+: QDialog( parent, name, modal, fl ),
   m_pSoundData( pSoundData )
 {
+    setupUi(this);
+
     connect( this, SIGNAL( sigDialogClosed() ), parent, SLOT( sltSoundDataDialogClosed() ) );
     connect( this, SIGNAL( sigDocumentUpdate() ), parent, SLOT( sltDoDocumentStateUpdate() ) );
     connect( this, SIGNAL( sigUpdateViews() ), parent, SLOT( sltDoUpdateAllViews() ) );
@@ -54,32 +55,32 @@ SoundInfoDlgImpl::SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* pa
     connect( this, SIGNAL( sigDialogHelp(QWidget *, const QString &) ), parent, SLOT( sltShowModalHelp(QWidget *, const QString &) ) );
 
 	// ** init table **
-	m_pTable->setSelectionMode( Q3Table::Single );
-	m_pTable->setNumCols( 11 );
-	m_pTable->setNumRows( 1 );
+    m_pTable->setSelectionMode( QAbstractItemView::SingleSelection );
+    m_pTable->setColumnCount( 11 );
+    m_pTable->setRowCount( 1 );
 	//m_pTable->setText( 0, 0, "Filenamexyz" );
-	m_pTable->horizontalHeader()->setLabel( 0, tr( "wav-filename" ) );
+    m_pTable->setHorizontalHeaderItem(0,new QTableWidgetItem( tr( "wav-filename" ) ) );
 	m_pTable->setColumnWidth( 0, 186 );
-	m_pTable->horizontalHeader()->setLabel( 1, tr( "start-pos [ms]" ) );
+    m_pTable->setHorizontalHeaderItem(1,new QTableWidgetItem( tr( "start-pos [ms]" ) ) );
 	m_pTable->setColumnWidth( 1, 75 );
-	m_pTable->horizontalHeader()->setLabel( 2, tr( "stop-pos [ms]" ) );
+    m_pTable->setHorizontalHeaderItem(2,new QTableWidgetItem( tr( "stop-pos [ms]" ) ) );
 	m_pTable->setColumnWidth( 2, 75 );
-	m_pTable->horizontalHeader()->setLabel( 3, tr( "delta [ms]" ) );
+    m_pTable->setHorizontalHeaderItem(3,new QTableWidgetItem( tr( "delta [ms]" ) ) );
 	m_pTable->setColumnWidth( 3, 75 );
-	m_pTable->horizontalHeader()->setLabel( 4, tr( "delta [min:sec]" ) );
+    m_pTable->setHorizontalHeaderItem(4,new QTableWidgetItem( tr( "delta [min:sec]" ) ) );
 	m_pTable->setColumnWidth( 4, 75 );
-	m_pTable->horizontalHeader()->setLabel( 5, tr( "total length [ms]" ) );
+    m_pTable->setHorizontalHeaderItem(5,new QTableWidgetItem( tr( "total length [ms]" ) ) );
 	m_pTable->setColumnWidth( 5, 75 );
-	m_pTable->horizontalHeader()->setLabel( 6, tr( "total [min:sec]" ) );
+    m_pTable->setHorizontalHeaderItem(6,new QTableWidgetItem( tr( "total [min:sec]" ) ) );
 	m_pTable->setColumnWidth( 6, 75 );
 
-	m_pTable->horizontalHeader()->setLabel( 7, tr( "fade_in start [ms]" ) );
+    m_pTable->setHorizontalHeaderItem(7,new QTableWidgetItem( tr( "fade_in start [ms]" ) ) );
 	m_pTable->setColumnWidth( 7, 75 );
-	m_pTable->horizontalHeader()->setLabel( 8, tr( "fade_in length [ms]" ) );
+    m_pTable->setHorizontalHeaderItem(8,new QTableWidgetItem( tr( "fade_in length [ms]" ) ) );
 	m_pTable->setColumnWidth( 8, 75 );
-	m_pTable->horizontalHeader()->setLabel( 9, tr( "fade_out start [ms]" ) );
+    m_pTable->setHorizontalHeaderItem(9,new QTableWidgetItem( tr( "fade_out start [ms]" ) ) );
 	m_pTable->setColumnWidth( 9, 75 );
-	m_pTable->horizontalHeader()->setLabel( 10, tr( "fade_out length [ms]" ) );
+    m_pTable->setHorizontalHeaderItem(10,new QTableWidgetItem( tr( "fade_out length [ms]" ) ) );
 	m_pTable->setColumnWidth( 10, 75 );
 
 	// ** cancel button not supported yet
@@ -113,24 +114,25 @@ void SoundInfoDlgImpl::sltDialogCanceled()
 
 void SoundInfoDlgImpl::sltNewRow()
 {
-	m_pTable->setNumRows( m_pTable->numRows()+1 );
+    m_pTable->setRowCount( m_pTable->rowCount()+1 );
 }
 
 void SoundInfoDlgImpl::sltDeleteRow()
 {
 	// ** move contents of act row to the end of the table
-	if( m_pTable->currentSelection() != -1 )
+    if( m_pTable->selectedItems().count()>0 )
 	{
 		// ** get the actual selected row, only one row can be selected !
 		int iActRow = GetSelectedRow();
+        m_pTable->removeRow(iActRow);
 
-		for( int i=iActRow; i<m_pTable->numRows()-1; i++ )
-		{
-			m_pTable->swapRows( i, i+1 );
-		}
-
-		// ** and than delete the last row of the table
-		m_pTable->setNumRows( m_pTable->numRows()-1 );
+//        for( int i=iActRow; i<m_pTable->rowCount()-1; i++ )
+//		{
+//			m_pTable->swapRows( i, i+1 );
+//		}
+//
+//		// ** and than delete the last row of the table
+//        m_pTable->setRowCount( m_pTable->rowCount()-1 );
 
 		// ** update the document data ***
 		TransferData( false );
@@ -139,22 +141,22 @@ void SoundInfoDlgImpl::sltDeleteRow()
 
 void SoundInfoDlgImpl::sltRowUp()
 {
-	if( m_pTable->currentSelection() != -1 )
+    if( m_pTable->selectedItems().count()>0 )
 	{
 		int iActRow = GetSelectedRow();
 
 		if( iActRow>0 )
 		{
-			m_pTable->swapRows( iActRow, iActRow-1 );
+// TODO porting			m_pTable->swapRows( iActRow, iActRow-1 );
 			m_pTable->clearSelection();
 			RepaintRow( iActRow );
 			RepaintRow( iActRow-1 );
-
+/* TODO
 			Q3TableSelection aSelection;
 			aSelection.init( iActRow-1, -1 );
-			aSelection.expandTo( iActRow-1, m_pTable->numCols() );
+            aSelection.expandTo( iActRow-1, m_pTable->columnCount() );
 			m_pTable->addSelection( aSelection );
-
+*/
 			// ** update the document data ***
 			TransferData( false );
 		}
@@ -163,22 +165,23 @@ void SoundInfoDlgImpl::sltRowUp()
 
 void SoundInfoDlgImpl::sltRowDown()
 {
-	if( m_pTable->currentSelection() != -1 )
+    if( m_pTable->selectedItems().count()>0 )
 	{
 		int iActRow = GetSelectedRow();
 
-		if( iActRow<m_pTable->numRows()-1 )
+        if( iActRow<m_pTable->rowCount()-1 )
 		{
-			m_pTable->swapRows( iActRow, iActRow+1 );
+//TODO porting			m_pTable->swapRows( iActRow, iActRow+1 );
 			m_pTable->clearSelection();
 			RepaintRow( iActRow );
 			RepaintRow( iActRow+1 );
 
-			Q3TableSelection aSelection;
+  /* TODO
+            Q3TableSelection aSelection;
 			aSelection.init( iActRow+1, -1 );
-			aSelection.expandTo( iActRow+1, m_pTable->numCols() );
+            aSelection.expandTo( iActRow+1, m_pTable->columnCount() );
 			m_pTable->addSelection( aSelection );
-
+*/
 			// ** update the document data ***
 			TransferData( false );
 		}
@@ -188,9 +191,9 @@ void SoundInfoDlgImpl::sltRowDown()
 void SoundInfoDlgImpl::sltTableSelectionChanged()
 {
 	bool bSel = false;
-	for( int i=0; i<m_pTable->numRows(); i++ )
+    for( int i=0; i<m_pTable->rowCount(); i++ )
 	{
-		bSel = bSel || m_pTable->isRowSelected( i, TRUE );
+        bSel = bSel || GetSelectedRow()<m_pTable->rowCount(); //m_pTable->isRowSelected( i, TRUE );
 	}
 	m_pDeleteLine->setEnabled( bSel );
 	m_pLineUp->setEnabled( bSel );
@@ -199,8 +202,12 @@ void SoundInfoDlgImpl::sltTableSelectionChanged()
 
 void SoundInfoDlgImpl::sltValueChanged( int /*iRow*/, int /*iColumn*/ )
 {
-	TransferData( false );
-	TransferData( true );
+    // wird nicht benoetigt, da beim schliessen des dialogs die uebertragung der daten erfolgt
+    // waehrend dialog offen ist braucht man eigentlich keine aktualisierung !
+    // Ansonsten ist dies hier eine rekursive endlos-schleife ! Event wird durch TransferData() ausgeloest !!!
+// TODO
+//	TransferData( false );
+//	TransferData( true );
 	UpdateCalculatedData();
 }
 
@@ -218,7 +225,7 @@ void SoundInfoDlgImpl::TransferData( bool bToTable )
 		if( bToTable )
 		{
 			// ** transfer data from data-container to gui
-			m_pTable->setNumRows( m_pSoundData->size() );
+            m_pTable->setRowCount( m_pSoundData->size() );
 
 			for( unsigned int i=0; i<m_pSoundData->size(); i++ )
 			{
@@ -226,46 +233,46 @@ void SoundInfoDlgImpl::TransferData( bool bToTable )
 				int iPos;
 
 				s = (*m_pSoundData)[i]->GetFileName().c_str();
-				m_pTable->setText( i, 0, s );
+                m_pTable->setItem(i,0,new QTableWidgetItem( s ) );
 
 				iPos = (*m_pSoundData)[i]->GetStartPos();
 				s = s.setNum( iPos );
-				m_pTable->setText( i, 1, s );
-				iPos = (*m_pSoundData)[i]->GetStopPos();
+                m_pTable->setItem(i,1,new QTableWidgetItem( s ) );
+                iPos = (*m_pSoundData)[i]->GetStopPos();
 				s = s.setNum( iPos );
-				m_pTable->setText( i, 2, s );
-				iPos = (*m_pSoundData)[i]->GetDelta();
+                m_pTable->setItem(i,2,new QTableWidgetItem( s ) );
+                iPos = (*m_pSoundData)[i]->GetDelta();
 				//QTableItem * pItem = m_pTable->item( 0, 3 );
 				//pItem->EditType = QTableItem::None;
 				s = s.setNum( iPos );
-				m_pTable->setText( i, 3, s );
-				s = SecondsInMinSec( iPos / 1000 ).c_str();
-				m_pTable->setText( i, 4, s );
-				iPos = (*m_pSoundData)[i]->GetTotalLength();
+                m_pTable->setItem(i,3,new QTableWidgetItem( s ) );
+                s = SecondsInMinSec( iPos / 1000 ).c_str();
+                m_pTable->setItem(i,4,new QTableWidgetItem( s ) );
+                iPos = (*m_pSoundData)[i]->GetTotalLength();
 				s = s.setNum( iPos );
-				m_pTable->setText( i, 5, s );
-				s = SecondsInMinSec( iPos / 1000 ).c_str();
-				m_pTable->setText( i, 6, s );
+                m_pTable->setItem(i,5,new QTableWidgetItem( s ) );
+                s = SecondsInMinSec( iPos / 1000 ).c_str();
+                m_pTable->setItem(i,6,new QTableWidgetItem( s ) );
 
 				iPos = (*m_pSoundData)[i]->GetFadeInStartPos();
 				s = s.setNum( iPos );
-				m_pTable->setText( i, 7, s );
-				iPos = (*m_pSoundData)[i]->GetFadeInLength();
+                m_pTable->setItem(i,7,new QTableWidgetItem( s ) );
+                iPos = (*m_pSoundData)[i]->GetFadeInLength();
 				s = s.setNum( iPos );
-				m_pTable->setText( i, 8, s );
-				iPos = (*m_pSoundData)[i]->GetFadeOutStartPos();
+                m_pTable->setItem(i,8,new QTableWidgetItem( s ) );
+                iPos = (*m_pSoundData)[i]->GetFadeOutStartPos();
 				s = s.setNum( iPos );
-				m_pTable->setText( i, 9, s );
-				iPos = (*m_pSoundData)[i]->GetFadeOutLength();
+                m_pTable->setItem(i,9,new QTableWidgetItem( s ) );
+                iPos = (*m_pSoundData)[i]->GetFadeOutLength();
 				s = s.setNum( iPos );
-				m_pTable->setText( i, 10, s );
-			}
+                m_pTable->setItem(i,10,new QTableWidgetItem( s ) );
+            }
 		}
 		else
 		{
 			m_pSoundData->erase( m_pSoundData->begin(), m_pSoundData->end() );
 
-			for( int i=0; i<m_pTable->numRows(); i++ )
+            for( int i=0; i<m_pTable->rowCount(); i++ )
 			{
 				string	sFileName;
 				int		iStartPos;
@@ -275,16 +282,16 @@ void SoundInfoDlgImpl::TransferData( bool bToTable )
 				QString s;
 				bool	bOk;
 
-				const char * sTemp =(const char *)m_pTable->text( i, 0 );
+                const char * sTemp =(const char *)(m_pTable->item( i, 0 ) ? m_pTable->item( i, 0 )->text() : "");
 				sFileName = (sTemp ? sTemp : "" );
-				sTemp = m_pTable->text( i, 1 );
+                sTemp = m_pTable->item( i, 1 ) ? m_pTable->item( i, 1 )->text() : "";
 				s = ( sTemp ? sTemp : "" );
 				iStartPos = s.toInt( &bOk );
 				if( !bOk )
 				{
 					iStartPos = -1;
 				}
-				sTemp = m_pTable->text( i, 2 );
+                sTemp = m_pTable->item( i, 2 ) ? m_pTable->item( i, 2 )->text() : "";
 				s = ( sTemp ? sTemp : "" );
 				iStopPos = s.toInt( &bOk );
 				if( !bOk || (iStartPos>iStopPos) )
@@ -292,16 +299,16 @@ void SoundInfoDlgImpl::TransferData( bool bToTable )
 					iStopPos = -1;
 				}
 
-				sTemp = m_pTable->text( i, 7 );
+                sTemp = m_pTable->item( i, 7 ) ? m_pTable->item( i, 7 )->text() : "";
 				s = ( sTemp ? sTemp : "" );
 				iFadeInStart = s.toInt( &bOk );
-				sTemp = m_pTable->text( i, 8 );
+                sTemp = m_pTable->item( i, 8 ) ? m_pTable->item( i, 8 )->text() : "";
 				s = ( sTemp ? sTemp : "" );
 				iFadeInLength = s.toInt( &bOk );
-				sTemp = m_pTable->text( i, 9 );
+                sTemp = m_pTable->item( i, 9 ) ? m_pTable->item( i, 9 )->text() : "";
 				s = ( sTemp ? sTemp : "" );
 				iFadeOutStart = s.toInt( &bOk );
-				sTemp = m_pTable->text( i, 10 );
+                sTemp = m_pTable->item( i, 10 ) ? m_pTable->item( i, 10 )->text() : "";
 				s = ( sTemp ? sTemp : "" );
 				iFadeOutLength = s.toInt( &bOk );
 
@@ -314,8 +321,8 @@ void SoundInfoDlgImpl::TransferData( bool bToTable )
 			// min todo --> hier ggf. optimierte changed-Behandlung
 			m_pSoundData->SetChanged();
 
-			emit sigDocumentUpdate();
-			emit sigUpdateViews();
+            emit sigDocumentUpdate();
+            emit sigUpdateViews();
 		}
 	}
 }
@@ -333,23 +340,23 @@ void SoundInfoDlgImpl::UpdateCalculatedData()
 int SoundInfoDlgImpl::GetSelectedRow() const
 {
 	// ** get the actual selected row, only one row can be selected !
-	int iActRow = m_pTable->numRows();	// ** means: no row selected
-	for( int j=0; j<m_pTable->numRows(); j++ )
+    int iActRow = m_pTable->rowCount();	// ** means: no row selected
+    for( int j=0; j<m_pTable->rowCount(); j++ )
 	{
-		if( m_pTable->isRowSelected( j, TRUE ) )
-		{
-			iActRow = j;
-			break;
-		}
+        if( m_pTable->item(j,0) && m_pTable->item(j,0)->isSelected() )
+        {
+            iActRow = j;
+            break;
+        }
 	}
 	return iActRow;
 }
 
 void SoundInfoDlgImpl::RepaintRow( int iRow )
 {
-	for( int i=0; i<m_pTable->numCols(); i++ )
+    for( int i=0; i<m_pTable->columnCount(); i++ )
 	{
-		m_pTable->updateCell( iRow, i );
+//TODO		m_pTable->updateCell( iRow, i );
 	}
 }
 
@@ -361,6 +368,6 @@ void SoundInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 	}
 	else
 	{
-		SoundInfoDlg::keyPressEvent( pEvent );
+        QDialog::keyPressEvent( pEvent );
 	}
 }

@@ -52,9 +52,11 @@
 #include <QFileDialog>
 
 DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: DiaInfoDlg( parent, name, modal, fl )
+: QDialog( parent, name, modal, fl )
 {
-	m_pItem = 0;
+    setupUi(this);
+
+    m_pItem = 0;
 	m_bDataChanged = false;
 
 	m_pDissolveValidator = new QDoubleValidator( 0, 10.0, 1, m_pDissolveEdit );
@@ -121,7 +123,7 @@ void DiaInfoDlgImpl::sltDisableDialog( bool bCheckData )
 	m_pTimerEdit->setText( "" );
 #ifndef ZAURUS
 	m_pScript->setEnabled( bValue );
-	m_pScript->setText( "" );
+    m_pScript->setPlainText( "" );
 	m_pFileNameButton->setEnabled( bValue );
 	m_pModifyScript->setEnabled( bValue );
 	m_pSlideFormat->setEnabled( bValue );
@@ -177,7 +179,7 @@ void DiaInfoDlgImpl::sltUpdateData( minHandle<DiaInfo> hData, bool bEnable )
 		m_pFileNameEdit->setText( hData->GetImageFile() );
 		m_pCommentEdit->setText( hData->GetComment() );
 #ifndef ZAURUS
-		m_pScript->setText( hData->GetScript() );
+        m_pScript->setPlainText( hData->GetScript() );
 
 		if( hData->IsHorizontalFormat() )
 		{
@@ -235,7 +237,7 @@ void DiaInfoDlgImpl::sltApplyData()
 		QString s4;
 
 #ifndef ZAURUS
-		s4 = m_pScript->text();
+        s4 = m_pScript->toPlainText();
 #endif
 		hData->SetData( (const char *)s1.toAscii().constData(), (const char *)s2.toAscii().constData(), (const char *)s3.toAscii().constData(), (const char *)s4.toAscii().constData() );
 
@@ -351,7 +353,7 @@ void DiaInfoDlgImpl::sltModifyScript()
 
 	IGeneralScriptEnvironment::ScriptLanguage aLanguage = IGeneralScriptEnvironment::PYTHON;
 
-	QString sQt = m_pScript->text();
+    QString sQt = m_pScript->toPlainText();
 	const char * s = (const char *)sQt.toAscii().constData();
 	string sScript = (s ? s : "");
 
@@ -361,7 +363,7 @@ void DiaInfoDlgImpl::sltModifyScript()
 
         if( bOk )
         {
-            m_pScript->setText( sScript.c_str() );
+            m_pScript->setPlainText( sScript.c_str() );
         }
     }
 #endif
@@ -423,7 +425,7 @@ void DiaInfoDlgImpl::done( int iRet )
 {
 	emit sigDialogClosed();
 	
-	DiaInfoDlg::done( iRet );
+    QDialog::done( iRet );
 }
 
 void DiaInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
@@ -434,6 +436,6 @@ void DiaInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 	}
 	else
 	{
-		DiaInfoDlg::keyPressEvent( pEvent );
+        QDialog::keyPressEvent( pEvent );
 	}
 }

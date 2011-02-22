@@ -35,14 +35,19 @@
 #ifndef _DIAINFODLGIMPL_H
 #define _DIAINFODLGIMPL_H
 
-#ifndef ZAURUS
-#include "DiaInfoDlg.h"
-#else
-#include "ZDiaInfoDlg.h"
-#endif
+//#ifndef ZAURUS
+//#include "DiaInfoDlg.h"
+//#else
+//#include "ZDiaInfoDlg.h"
+//#endif
+
+#include "ui_DiaInfoDlg4.h"
+
+
 #include "minhandle.h"
 #include "diainfo.h"
-//Added by qt3to4:
+#include "hitem.h"
+#include <QDialog>
 #include <QKeyEvent>
 #include <QCloseEvent>
 
@@ -51,7 +56,7 @@ class QIntValidator;
 
 /** Implementation of the Dia-Info Dialog
   */
-class DiaInfoDlgImpl : public DiaInfoDlg
+class DiaInfoDlgImpl : public QDialog, Ui_DiaInfoDlg
 {
 	Q_OBJECT
 

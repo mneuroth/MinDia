@@ -35,18 +35,16 @@
 #ifndef _SNDINFODLGIMPL_H
 #define _SNDINFODLGIMPL_H
 
-#ifndef ZAURUS
-#include "SoundInfoDlg.h"
-#else
-#include "ZSoundInfoDlg.h"
-#endif
+#include "ui_SoundInfoDlg4.h"
+
+#include <QDialog>
 
 class SoundInfoContainer;
 
 // *******************************************************************
 /** Implementation of the SoundComment-Dialog
   */
-class SoundInfoDlgImpl : public SoundInfoDlg
+class SoundInfoDlgImpl :  public QDialog, public Ui_SoundInfoDlg
 {
 	Q_OBJECT
 

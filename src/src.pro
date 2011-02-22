@@ -20,6 +20,8 @@ QT              += qt3support
 #				  EventMapDlg.ui \
 #				  eventmapdlgimpl.h \
 #				  eventmapdlgimpl.cpp \
+#				  SoundInfoDlg.ui \
+#                 DiaInfoDlg.ui \
 
 
 HEADERS         = diainfodlgimpl.h \
@@ -106,10 +108,10 @@ SOURCES         = diainfodlgimpl.cpp \
                   ../gendev/gendev.cpp \
                   ../minsrv/minbase.cpp \
                   ../minsrv/dllbase.cpp
+#                  ../qextserialport/src/qextserialenumerator_osx.cpp \
+#                  ../qextserialport/src/qextserialport.cpp
 #The following line was changed from INTERFACES to FORMS3 by qt3to4
-FORMS3      = DiaInfoDlg.ui \
-				  SoundInfoDlg.ui \
-				  HelpDlg.ui \
+FORMS3      = HelpDlg.ui \
 				  AboutExtDlg.ui \
 				  DynTextDlg.ui 
 FORMS       = CreateMovieDlg4.ui \
@@ -119,7 +121,9 @@ FORMS       = CreateMovieDlg4.ui \
                   ConfigurationDlg4.ui \
                   ConfigPlayerDlg4.ui \
                   PlayInfoDlg4.ui \
-                  CommentDlg4.ui
+                  CommentDlg4.ui  \
+                  SoundInfoDlg4.ui \
+                  DiaInfoDlg4.ui
 MOC_DIR					= moc
 #macx:LIBS               += -lpthread ./libminsrv.dylib $(LIBMINDIAPYC_SO)
 #macx:LIBS               += -lpthread ../minsrv/libminsrv.a $(LIBMINDIAPYC_SO)
@@ -138,6 +142,8 @@ INCLUDEPATH   		= ../gendev ../minsrv
 #_DEBUG
 #win32:LIBS				+= minsrv.lib
 win32:LIBS				+= libwinmm
+#LIBS                += /Users/min/Documents/home/Entwicklung/projects/mindia_qt4/qextserialport/src/build/libqextserialportd.a
+LIBS                += ../qextserialport/src/build/libqextserialportd.a
 
 #The following line was inserted by qt3to4
 #QT +=
@@ -152,8 +158,8 @@ macx {
     UI_DIR = .ui
     MOC_DIR = .moc
     OBJECTS_DIR = .obj
-    CONFIG += x86 \
-        ppc
+    CONFIG += x86 #\
+#        ppc
 
     # QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.5u.sdk
     # QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
