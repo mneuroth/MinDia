@@ -60,7 +60,7 @@ minsrv/minbase.h
 minsrv/miniini.cpp
 minsrv/miniini.h
 minsrv/minsrv.pro
-src/AboutExtDlg.ui
+src/AboutExtDlg4.ui
 src/ComLoggingDlg4.ui
 src/CommentDlg4.ui
 src/ConfigPlayerDlg4.ui

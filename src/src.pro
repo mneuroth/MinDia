@@ -22,7 +22,7 @@ QT              += qt3support
 #				  eventmapdlgimpl.cpp \
 #				  SoundInfoDlg.ui \
 #                 DiaInfoDlg.ui \
-
+#                 AboutExtDlg4.ui \
 
 HEADERS         = diainfodlgimpl.h \
 				  playinfodlgimpl.h \
@@ -112,7 +112,6 @@ SOURCES         = diainfodlgimpl.cpp \
 #                  ../qextserialport/src/qextserialport.cpp
 #The following line was changed from INTERFACES to FORMS3 by qt3to4
 FORMS3      = HelpDlg.ui \
-				  AboutExtDlg.ui \
 				  DynTextDlg.ui 
 FORMS       = CreateMovieDlg4.ui \
                   PresentationDataDlg4.ui \
@@ -123,7 +122,8 @@ FORMS       = CreateMovieDlg4.ui \
                   PlayInfoDlg4.ui \
                   CommentDlg4.ui  \
                   SoundInfoDlg4.ui \
-                  DiaInfoDlg4.ui
+                  DiaInfoDlg4.ui \
+                  AboutExtDlg4.ui
 MOC_DIR					= moc
 #macx:LIBS               += -lpthread ./libminsrv.dylib $(LIBMINDIAPYC_SO)
 #macx:LIBS               += -lpthread ../minsrv/libminsrv.a $(LIBMINDIAPYC_SO)

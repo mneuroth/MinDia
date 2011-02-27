@@ -93,7 +93,8 @@
 #include "helpdlgimpl.h"
 
 //#include "LicenseDlg.h"
-#include "AboutExtDlg.h"
+#include "ui_AboutExtDlg4.h"
+
 #include "CreateMovieDlg4.h"
 
 #include <qapplication.h>
@@ -959,6 +960,18 @@ void MinDiaWindow::sltDoLogging()
 	}
 }
 
+class AboutExtDlg : public QDialog, public Ui_AboutExtDlg
+{
+public:
+    AboutExtDlg( QWidget* parent, const char* name, bool modal, Qt::WFlags fl=0 );
+};
+
+AboutExtDlg::AboutExtDlg( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
+: QDialog(parent, name, modal, fl)
+{
+    setupUi(this);
+}
+
 void MinDiaWindow::sltShowAbout()
 {
 	AboutExtDlg * pAboutDlg = new AboutExtDlg( this, "about", /*modal*/TRUE );
@@ -977,7 +990,7 @@ void MinDiaWindow::sltShowAbout()
 		sLicense += "http://www.fsf.org/licenses/gpl.html";
 	}
 
-	pAboutDlg->m_pLicenseEdit->setText( sLicense );	
+    pAboutDlg->m_pLicenseEdit->setPlainText( sLicense );
 	
 	pAboutDlg->exec();
 
