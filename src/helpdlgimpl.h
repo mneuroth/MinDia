@@ -33,12 +33,14 @@
 #ifndef _HELPDLGIMPL_H
 #define _HELPDLGIMPL_H
 
-#include "HelpDlg.h"
+#include "ui_HelpDlg4.h"
+
+#include <QDialog>
 
 // *******************************************************************
 /** Implementation of the Help-Dialog
   */
-class HelpDlgImpl : public HelpDialog
+class HelpDlgImpl : public QDialog, public Ui_HelpDialog
 {
 	Q_OBJECT
 

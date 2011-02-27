@@ -70,9 +70,9 @@ src/CreateMovieDlg4.cpp
 src/CreateMovieDlg4.h
 src/CreateMovieDlg4.ui
 src/DiaInfoDlg4.ui
-src/DynTextDlg.ui
+src/DynTextDlg4.ui
 src/EventMapDlg.ui
-src/HelpDlg.ui
+src/HelpDlg4.ui
 src/Info.plist
 src/PlayInfoDlg4.ui
 src/PresentationDataDlg4.ui

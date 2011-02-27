@@ -23,6 +23,7 @@ QT              += qt3support
 #				  SoundInfoDlg.ui \
 #                 DiaInfoDlg.ui \
 #                 AboutExtDlg4.ui \
+#                 HelpDlg.ui \
 
 HEADERS         = diainfodlgimpl.h \
 				  playinfodlgimpl.h \
@@ -111,8 +112,8 @@ SOURCES         = diainfodlgimpl.cpp \
 #                  ../qextserialport/src/qextserialenumerator_osx.cpp \
 #                  ../qextserialport/src/qextserialport.cpp
 #The following line was changed from INTERFACES to FORMS3 by qt3to4
-FORMS3      = HelpDlg.ui \
-				  DynTextDlg.ui 
+#FORMS3      = 	  DynTextDlg.ui
+
 FORMS       = CreateMovieDlg4.ui \
                   PresentationDataDlg4.ui \
                   ProjectorControlDlg4.ui \
@@ -123,7 +124,9 @@ FORMS       = CreateMovieDlg4.ui \
                   CommentDlg4.ui  \
                   SoundInfoDlg4.ui \
                   DiaInfoDlg4.ui \
-                  AboutExtDlg4.ui
+                  AboutExtDlg4.ui \
+                  HelpDlg4.ui \
+                  DynTextDlg4.ui
 MOC_DIR					= moc
 #macx:LIBS               += -lpthread ./libminsrv.dylib $(LIBMINDIAPYC_SO)
 #macx:LIBS               += -lpthread ../minsrv/libminsrv.a $(LIBMINDIAPYC_SO)
@@ -131,8 +134,8 @@ OBJECTS_DIR		        = obj
 #unix:TMAKE_UIC			= $(QTDIR)/bin/uic
 #unix:LIBS       		+= -lpthread libminsrv.so $(LIBMINDIAPYC_SO)
 unix:HEADERS			+= mp3file.h
-unix:SOURCES			+= sysdep1.c \
-						  mp3file.cpp
+unix:SOURCES			+= mp3file.cpp
+                            # sysdep1.c
 unix:DEFINES    		= _POSIX HAVE_CONFIG_H LOCALEDIR=\"/usr/local/share/locale\"
 INCLUDEPATH   		= ../gendev ../minsrv
 #win32:TMAKE_UIC			= $(QTDIR)\bin\uic.exe
@@ -148,7 +151,7 @@ LIBS                += ../qextserialport/src/build/libqextserialportd.a
 #The following line was inserted by qt3to4
 #QT +=
 #The following line was inserted by qt3to4
-CONFIG += uic3
+#CONFIG += uic3
 
 #debug {
 #    CONFIG -= release

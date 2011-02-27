@@ -1447,8 +1447,8 @@ void MinDiaWindow::SetHelpFile( HelpDlgImpl * pHelpDialog, const QString & sHelp
 		ScriptModifyDialog
 	*/
 
-    pHelpDialog->m_pTextBrowser->mimeSourceFactory()->setFilePath( "." );
-	pHelpDialog->m_pTextBrowser->mimeSourceFactory()->setExtensionType("html", "text/html;charset=iso8859-1");
+//TODO Qt4:    pHelpDialog->m_pTextBrowser->mimeSourceFactory()->setFilePath( "." );
+//TODO Qt4:	pHelpDialog->m_pTextBrowser->mimeSourceFactory()->setExtensionType("html", "text/html;charset=iso8859-1");
 
 	//pHelpDialog->m_pTextBrowser->setText( sHelp );
 	pHelpDialog->m_pTextBrowser->setSource( sHelp );

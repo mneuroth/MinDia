@@ -32,37 +32,37 @@
 #ifndef _DYNTEXTDLGIMPL_H
 #define _DYNTEXTDLGIMPL_H
 
-#include "DynTextDlg.h"
+#include "ui_DynTextDlg4.h"
 
 #include "dyngraphop.h"
 
-#include <qfont.h>
-#include <q3canvas.h>
-//Added by qt3to4:
+#include <QFont>
 #include <QMouseEvent>
 #include <QKeyEvent>
+#include <QDialog>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
+//class DrawingArea : public QGraphicsView //Q3CanvasView
+//{
+//	Q_OBJECT
 
-class DrawingArea : public Q3CanvasView
-{
-	Q_OBJECT
+//public:
+//	DrawingArea( QWidget * pParent, QWidget * pSignalClient );
+//	virtual ~DrawingArea();
 
-public:
-	DrawingArea( QWidget * pParent, QWidget * pSignalClient );
-	virtual ~DrawingArea();
+//	virtual void contentsMousePressEvent( QMouseEvent * pEvent );
+//	virtual void contentsMouseMoveEvent( QMouseEvent * pEvent );
 
-	virtual void contentsMousePressEvent( QMouseEvent * pEvent );
-	virtual void contentsMouseMoveEvent( QMouseEvent * pEvent );
+//signals:
+//	void sigTextMoved();
 
-signals:
-	void sigTextMoved();
+//private:
+//    QGraphicsItem *	m_pMovingItem;
+//	QPoint			m_aMovingStart;
+//};
 
-private:
-	Q3CanvasItem *	m_pMovingItem;
-	QPoint			m_aMovingStart;
-};
-
-class DynamicTextDlgImpl : public DynamicTextDlg
+class DynamicTextDlgImpl : public QDialog, public Ui_DynamicTextDlg
 {
 	Q_OBJECT
 
@@ -91,11 +91,11 @@ protected:
 	virtual void keyPressEvent( QKeyEvent * pEvent ); 
 
 private:
-	minHandle<DynText>	m_hItem;
-	QFont				m_aInitFont;
-	DrawingArea *		m_pDrawingAreaCanvas;
-	Q3Canvas *			m_pCanvas;
-	Q3CanvasText *		m_pCanvasText;
+    minHandle<DynText>         m_hItem;
+    QFont                      m_aInitFont;
+   // DrawingArea *              m_pDrawingAreaCanvas;
+    QGraphicsScene *           m_pCanvas;
+    QGraphicsSimpleTextItem *	m_pCanvasText;
 };
 
 #endif

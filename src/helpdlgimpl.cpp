@@ -30,8 +30,7 @@
 #include "helpdlgimpl.h"
 
 #include <qpushbutton.h>
-#include <qlineedit.h>
-#include <q3textbrowser.h>
+//#include <qlineedit.h>
 #include <qpixmap.h>
 #include <qimage.h>
 #include <qmessagebox.h>
@@ -171,9 +170,11 @@ static const char*closeicon[]={
 // *******************************************************************
 
 HelpDlgImpl::HelpDlgImpl( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: HelpDialog( parent, name, modal, fl )
+: QDialog( parent, name, modal, fl )
 {
-	QPixmap aBackIcon( back );
+    setupUi(this);
+
+    QPixmap aBackIcon( back );
 	QPixmap aForwardIcon( forward );
 	QPixmap aHomeIcon( home );
 	QPixmap aFindIcon( findsearch );
@@ -194,19 +195,20 @@ HelpDlgImpl::~HelpDlgImpl()
 
 void HelpDlgImpl::sltFindClicked()
 {
-	m_pTextBrowser->setCursorPosition( m_iParagraph, m_iIndex );
+//TODO Qt4:	m_pTextBrowser->setCursorPosition( m_iParagraph, m_iIndex );
 
 	if( m_pSearchText->text().length()>0 )
 	{
-		if( m_pTextBrowser->find( m_pSearchText->text(), FALSE, FALSE, TRUE, &m_iParagraph, &m_iIndex ) )
-		{
-			m_iIndex += m_pSearchText->text().length();
-			m_pTextBrowser->setCursorPosition( m_iParagraph, m_iIndex );
-		}
-		else
-		{
-			QMessageBox::warning( this, tr( "MinDia - Warning" ), tr( "Text not found !" ) );
-		}
+//TODO Qt4:
+//		if( m_pTextBrowser->find( m_pSearchText->text(), FALSE, FALSE, TRUE, &m_iParagraph, &m_iIndex ) )
+//		{
+//			m_iIndex += m_pSearchText->text().length();
+//			m_pTextBrowser->setCursorPosition( m_iParagraph, m_iIndex );
+//		}
+//		else
+//		{
+//			QMessageBox::warning( this, tr( "MinDia - Warning" ), tr( "Text not found !" ) );
+//		}
 	}
 }
 

@@ -46,76 +46,85 @@
 // *******************************************************************
 // *******************************************************************
 
-DrawingArea::DrawingArea( QWidget * pParent, QWidget * pSignalClient )
-: Q3CanvasView( 0, pParent )
-{
-    connect( this, SIGNAL( sigTextMoved() ), pSignalClient, SLOT( sltUpdateData() ) );
-}
+//DrawingArea::DrawingArea( QWidget * pParent, QWidget * pSignalClient )
+//: QGraphicsView( 0, pParent )
+//{
+//    connect( this, SIGNAL( sigTextMoved() ), pSignalClient, SLOT( sltUpdateData() ) );
+//}
 
-DrawingArea::~DrawingArea()
-{
-}
+//DrawingArea::~DrawingArea()
+//{
+//}
 
-void DrawingArea::contentsMousePressEvent( QMouseEvent * pEvent )
-{
-    Q3CanvasItemList l = canvas()->collisions( pEvent->pos() );
+//void DrawingArea::contentsMousePressEvent( QMouseEvent * pEvent )
+//{
+//// TODO Qt4
+////    Q3CanvasItemList l = canvas()->collisions( pEvent->pos() );
 
-    for( Q3CanvasItemList::Iterator it=l.begin(); it!=l.end(); ++it ) 
-	{
-		Q3CanvasText * item = (Q3CanvasText *)(*it);
+////    for( Q3CanvasItemList::Iterator it=l.begin(); it!=l.end(); ++it )
+////	{
+////		Q3CanvasText * item = (Q3CanvasText *)(*it);
 
-		// is the text hit by the mouse ?
-		int ix = pEvent->pos().x();
-		int iy = pEvent->pos().y();
-		QRect r = item->boundingRect();
-		if( r.left()>=ix && ix<=r.right() &&
-			r.bottom()>=iy && iy<=r.top() )
-		{
-			// no
-			continue;
-		}
+////		// is the text hit by the mouse ?
+////		int ix = pEvent->pos().x();
+////		int iy = pEvent->pos().y();
+////		QRect r = item->boundingRect();
+////		if( r.left()>=ix && ix<=r.right() &&
+////			r.bottom()>=iy && iy<=r.top() )
+////		{
+////			// no
+////			continue;
+////		}
 
-		m_pMovingItem = *it;
-		m_aMovingStart = pEvent->pos();
-		return;
-    }
-    m_pMovingItem = 0;
-}
+////		m_pMovingItem = *it;
+////		m_aMovingStart = pEvent->pos();
+////		return;
+////    }
+//    m_pMovingItem = 0;
+//}
 
-void DrawingArea::contentsMouseMoveEvent( QMouseEvent * pEvent )
-{
-    if( m_pMovingItem ) 
-	{
-		m_pMovingItem->moveBy(pEvent->pos().x() - m_aMovingStart.x(),
-				       pEvent->pos().y() - m_aMovingStart.y());
-		m_aMovingStart = pEvent->pos();
-		canvas()->update();
+//void DrawingArea::contentsMouseMoveEvent( QMouseEvent * pEvent )
+//{
+//    if( m_pMovingItem )
+//	{
+//		m_pMovingItem->moveBy(pEvent->pos().x() - m_aMovingStart.x(),
+//				       pEvent->pos().y() - m_aMovingStart.y());
+//		m_aMovingStart = pEvent->pos();
+////TODO Qt4		canvas()->update();
 
-		emit sigTextMoved();
-    }
-}
+//		emit sigTextMoved();
+//    }
+//}
 
 // *******************************************************************
 
 DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * parent, QWidget * pMain, const char* name, bool modal, Qt::WFlags fl )
-: DynamicTextDlg( parent, name, modal, fl ),
+: QDialog( parent, name, modal, fl ),
   m_hItem( hItem ),
   m_aInitFont( hItem->font() )
 {
-	int x = m_pDrawingArea->width()-5;
-	int y = m_pDrawingArea->height()-5;
-	m_pCanvas = new Q3Canvas(x,y);
+    setupUi(this);
+
+//	int x = m_pDrawingArea->width()-5;
+//	int y = m_pDrawingArea->height()-5;
+    m_pCanvas = new QGraphicsScene();
 
 	QBoxLayout * l = new QVBoxLayout( m_pDrawingArea );
     l->setContentsMargins(0,0,0,0);
 
-	m_pDrawingAreaCanvas = new DrawingArea( m_pDrawingArea, this );
-	m_pDrawingAreaCanvas->setCanvas( m_pCanvas );
+//	m_pDrawingAreaCanvas = new DrawingArea( m_pDrawingArea, this );
+//	m_pDrawingAreaCanvas->setCanvas( m_pCanvas );
 
-    l->addWidget( m_pDrawingAreaCanvas );
+//    l->addWidget( m_pDrawingAreaCanvas );
 
-	m_pCanvasText = new Q3CanvasText( m_hItem->GetString().c_str(), m_pCanvas );
-	m_pCanvasText->move(100,100);
+    m_pCanvasText = new QGraphicsSimpleTextItem();
+    m_pCanvasText->setText( m_hItem->GetString().c_str());
+    m_pCanvas->addItem(m_pCanvasText);
+
+// TODO Qt4 --> bewegen des Textes realisieren...
+
+//    m_pCanvasText = new Q3CanvasText( m_hItem->GetString().c_str(), m_pCanvas );
+    m_pCanvasText->setPos(100,100);
 	m_pCanvasText->show();
 
 	sltRelPosToggled( m_pRelPos->isChecked() );
@@ -123,11 +132,15 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * pare
     connect( this, SIGNAL( sigDialogHelp(QWidget *, const QString &) ), pMain, SLOT( sltShowModalHelp(QWidget *, const QString &) ) );
 
 	sltUpdateData();
+
+    m_pDrawingArea->setScene(m_pCanvas);
+    m_pDrawingArea->show();
 }
 
 DynamicTextDlgImpl::~DynamicTextDlgImpl()
 {
-	delete m_pDrawingAreaCanvas;
+//	delete m_pDrawingAreaCanvas;
+    delete m_pCanvas;
 }
 
 double DynamicTextDlgImpl::GetRelX() const
@@ -166,7 +179,7 @@ void DynamicTextDlgImpl::sltRelPosToggled(bool bValue)
 	m_pPosRelX->setEnabled( bValue );
 	m_pPosRelY->setEnabled( bValue );
 	m_pDrawingArea->setEnabled( bValue );
-	m_pDrawingAreaCanvas->setEnabled( bValue );
+//	m_pDrawingAreaCanvas->setEnabled( bValue );
 }
 
 void DynamicTextDlgImpl::sltSelectFontcolor()
@@ -221,6 +234,6 @@ void DynamicTextDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 	}
 	else
 	{
-		DynamicTextDlg::keyPressEvent( pEvent );
+        QDialog::keyPressEvent( pEvent );
 	}
 }
