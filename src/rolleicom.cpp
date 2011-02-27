@@ -62,6 +62,207 @@ using namespace std;
 // *******************************************************************
 // *******************************************************************
 
+#define _with_qextserial
+
+#ifdef _with_qextserial
+
+#include "../qextserialport/src/qextserialport.h"
+
+#define MAX_READ_TIMEOUT    50  /*ms*/
+
+// command should end with CR LF ! --> anything with ending CR LF is a command
+static bool IsCommandReceived(const string & sMsgOut)
+{
+    if( sMsgOut.length()>1 )
+    {
+        char ch1 = sMsgOut[ sMsgOut.length()-1 ];
+        char ch2 = sMsgOut[ sMsgOut.length()-2 ];
+        return ((ch2=='\n') && (ch1=='\r'));     // slash n == 10; slash r == 13
+    }
+    return false;
+}
+
+/** OS depending helper data */
+struct RolleiComHelperData
+{
+    RolleiComHelperData( const string & sComPort )
+    {
+        Open( sComPort );
+    }
+    ~RolleiComHelperData()
+    {
+        Close();
+    }
+
+    bool Open( const string & sComPort )
+    {
+        m_pPort = new QextSerialPort(sComPort.c_str());
+        m_pPort->open(QIODevice::ReadWrite);
+        return IsOk();
+    }
+    bool Close()
+    {
+        m_pPort->close();
+        delete m_pPort;
+        m_pPort = 0;
+        return true;
+    }
+
+    bool SetComData( bool bIgnoreComSettings, int iBaudrate, int iParityMode, const string & sStopBitsStrg, int iDataBits, int iFlowMode )
+    {
+//        char sBaudRate[255];
+//        char sParity[255];
+//        char sStopBits[255];
+//        char sDataBits[255];
+
+//        sprintf( sBaudRate, "%d", iBaudrate );
+//        sprintf( sStopBits, "%s", sStopBitsStrg.c_str() );
+//        sprintf( sDataBits, "%d", iDataBits );
+//        if( iParityMode == RolleiCom::NONE )
+//        {
+//            strcpy( sParity, "N" );
+//        }
+//        else if( iParityMode == RolleiCom::ODD )
+//        {
+//            strcpy( sParity, "O" );
+//        }
+//        else if( iParityMode == RolleiCom::EVEN )
+//        {
+//            strcpy( sParity, "E" );
+//        }
+
+//        if( !bIgnoreComSettings )
+//        {
+//            int iHwFlow = 0;
+//            int iSwFlow = 0;
+//            if( iFlowMode == RolleiCom::HARDWARE_FLOW )
+//            {
+//                iHwFlow = 1;
+//            }
+//            if( iFlowMode == RolleiCom::XON_XOFF_FLOW )
+//            {
+//                iSwFlow = 1;
+//            }
+//            // ** use code from minicom-program **
+//            if( IsOk() )
+//            {
+//                m_setparms( m_hFile, sBaudRate, sParity, sDataBits, sStopBits, iHwFlow, iSwFlow );
+//            }
+//            //org: m_setparms( m_hFile, "1200", "E", "7", "2", 1, 0 );
+//        }
+
+//        if( IsOk() )
+//        {
+//            m_flush(m_hFile);
+//        }
+
+        m_pPort->setBaudRate(BAUD1200);
+        m_pPort->setDataBits(DATA_7);
+        m_pPort->setParity(PAR_EVEN);
+        m_pPort->setFlowControl(FLOW_HARDWARE);
+        m_pPort->setStopBits(STOP_2);
+        m_pPort->setTimeout(1000);
+
+        return true;
+    }
+
+    bool IsOk() const
+    {
+        return ( m_pPort && m_pPort->isOpen() );
+    }
+
+    bool Write( const string & sMsg )
+    {
+        if( IsOk() )
+        {
+            int iRet = m_pPort->write(sMsg.c_str());
+            return iRet!=0;
+//            int iRet = write( m_hFile, sMsg.c_str(), sMsg.length() );
+//            /* in case of an error... */
+//            if( iRet == 0 )
+//            {
+//                m_iLastError = errno;
+//            }
+//            //dbg: cout << "write: " << sMsg.c_str() << " wcount=" << iRet << endl;
+//            return (iRet != 0);
+        }
+        return false;
+    }
+
+    bool Read( string & sMsgOut/*, int iCount*/ )
+    {
+        if( IsOk() )
+        {
+            char sBuffer[BUFFER_MAX];
+
+//            // ** check if there is any response on the com-port --> timeout !
+//            fd_set aReadfs;    /* file descriptor set */
+//            FD_ZERO(&aReadfs);
+//            FD_SET( m_hFile, &aReadfs );  /* set testing for source 1 */
+
+//            // hier ggf. optimierter timeout, z.b. beim Testen kleiner als waehrend der Praesentation !?
+//            struct timeval aTimeout;
+//            aTimeout.tv_usec = 0;  /* milliseconds */
+//            aTimeout.tv_sec  = 20;  /* seconds */
+
+//            // wait for first character which could be read...
+//            int iRes = select( m_hFile+1, &aReadfs, NULL, NULL, &aTimeout );
+//            if( iRes==0 )
+//            {
+//                /* number of file descriptors with input = 0, timeout occurred. */
+//                return false;
+//            }
+
+//            // a maximum nuber of 000<CR><LF> with delay of 10ms
+//            //Delay(50);      // give a little bit time to read all characters...
+//            // this is not needed since new handling of command reading below
+
+            // new since 17.1.2011: try to read one command (ending with CR LF) or timeout when trying to read more characters
+            int iReadTimeout = 0;
+            while( !IsCommandReceived(sMsgOut) && /*NotTimeoutSinceLastSuccessfullRead==*/iReadTimeout<MAX_READ_TIMEOUT )
+            {
+                // ** if we are here, there is something to read !
+//                int iRet = read( m_hFile, sBuffer, BUFFER_MAX );
+                int iRet = m_pPort->read(sBuffer,BUFFER_MAX);
+//                int iRet = m_pPort->readLine(sBuffer,BUFFER_MAX);
+                if( iRet>0 )
+                {
+                    sBuffer[ iRet ] = 0;
+                    //dbg: cout << "read: " << (int)sBuffer[0] << " == " << sBuffer << " rcount=" << iRet << endl;
+                    sMsgOut += sBuffer;
+                    // reset timeout, because we read something !
+                    iReadTimeout = 0;
+
+
+                }
+                else
+                {
+                    iReadTimeout += 10;
+                    Delay(10);
+                    //old: m_iLastError = errno;
+                }
+            }
+            return IsCommandReceived(sMsgOut);
+        }
+        return false;
+    }
+
+    void Delay( int iTimeInMS )
+    {
+// TODO --> qt verwenden ?
+        usleep( iTimeInMS*1000 );
+    }
+
+    int GetLastErrorCode() const
+    {
+        return -1;
+    }
+
+    QextSerialPort * m_pPort;
+};
+
+#else
+
 #if defined( _MSC_VER ) || defined( __BORLANDC__ ) || defined( __MINGW32__ )
 
 #include <windows.h>
@@ -678,6 +879,8 @@ struct RolleiComHelperData
 };
 
 #endif
+
+#endif //_with_qextserial
 
 // *******************************************************************
 // *******************************************************************
