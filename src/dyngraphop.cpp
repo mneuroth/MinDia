@@ -1105,7 +1105,10 @@ XmlTree	DynText::GetXMLTree() const
 
 void DynText::SetCanvas( QGraphicsScene * pCanvas )
 {
-    pCanvas->addItem(this);
+    if( pCanvas )
+    {
+        pCanvas->addItem(this);
+    }
 
 	setFont( m_aInitFont );
     setBrush( QColor(m_aInitColor) );
