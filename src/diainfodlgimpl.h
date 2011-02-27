@@ -56,7 +56,7 @@ class QIntValidator;
 
 /** Implementation of the Dia-Info Dialog
   */
-class DiaInfoDlgImpl : public QDialog, Ui_DiaInfoDlg
+class DiaInfoDlgImpl : public QDialog, public Ui_DiaInfoDlg
 {
 	Q_OBJECT
 
