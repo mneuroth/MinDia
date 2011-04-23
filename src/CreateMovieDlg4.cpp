@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QProcess>
 #include <QSettings>
+#include <QTextStream>
 
 #include "doccontroler.h"
 
@@ -36,14 +37,14 @@ CreateMovieDlg4::CreateMovieDlg4(DocumentAndControler * pDocControler, double dT
     m_dTotalTimeMS = dTotalTimeMS;
     m_pDocControler = pDocControler;
 
-    ui.m_pImagesPerSecond->setMinValue(1);
-    ui.m_pImagesPerSecond->setMaxValue(100);
+    ui.m_pImagesPerSecond->setMinimum(1);
+    ui.m_pImagesPerSecond->setMaximum(100);
     ui.m_pImagesPerSecond->setValue(10);
 
-    ui.m_pImageRatio->insertItem( g_sDefaultSize1 );
-    ui.m_pImageRatio->insertItem( g_sDefaultSize2 );
-    ui.m_pImageRatio->insertItem( g_sUserValue );
-    ui.m_pImageRatio->insertItem( g_sSizeOfFirstImage );
+    ui.m_pImageRatio->insertItem( 0, g_sDefaultSize1 );
+    ui.m_pImageRatio->insertItem( 1, g_sDefaultSize2 );
+    ui.m_pImageRatio->insertItem( 2, g_sUserValue );
+    ui.m_pImageRatio->insertItem( 3, g_sSizeOfFirstImage );
 }
 
 CreateMovieDlg4::~CreateMovieDlg4()
@@ -85,7 +86,7 @@ void CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
 
 void CreateMovieDlg4::sltSelectOutputDirectory()
 {
-    QString sDir = QFileDialog::getExistingDirectory(ui.m_pDirectoryName->text() );
+    QString sDir = QFileDialog::getExistingDirectory( this, tr("Open Directory"), ui.m_pDirectoryName->text() );
 
     if( !sDir.isEmpty() )
     {
@@ -115,12 +116,13 @@ void CreateMovieDlg4::sltCreateImages()
     }
 
     int iCount = m_pDocControler->CreateImagesForMovie(
-             (const char *)sDir, (const char *)sName,
+             (const char *)sDir.toAscii(), (const char *)sName.toAscii(),
               iWidth, iHeight,
               0, m_pDocControler->GetPresentation().GetTotalTime()*1000, dDeltaInMS );
 
     QString sOutput;
-    sOutput.sprintf( tr("Created %d images"), iCount );
+//    sOutput.sprintf( tr("Created %d images"), iCount );
+    QTextStream(&sOutput) << tr("Created ") << iCount << tr(" images");
     ui.m_pOutput->append( sOutput );
 }
 
@@ -132,7 +134,7 @@ void CreateMovieDlg4::sltCreateAVI()
 
     ui.m_pOutput->append( sCmd );
 
-    cout << "CREATE AVI " <<(const char *)sCmd << endl;
+    cout << "CREATE AVI " <<(const char *)sCmd.toAscii() << endl;
 
     QString sProg = CMD_SHELL;
     QStringList aArgs;
@@ -199,7 +201,7 @@ void CreateMovieDlg4::sltDeleteTempFiles()
 
 void CreateMovieDlg4::sltChangeMjpegToolsDirectory()
 {
-    QString sDir = QFileDialog::getExistingDirectory(ui.m_pMjpegtoolsDirectory->text() );
+    QString sDir = QFileDialog::getExistingDirectory(this,tr("Existing Directory"),ui.m_pMjpegtoolsDirectory->text() );
 
     if( !sDir.isEmpty() )
     {
@@ -291,7 +293,7 @@ void CreateMovieDlg4::saveSettings()
     aSettings.setValue("CreateMoveDlg/OutputMovieName",ui.m_pMovieFileName->text());
     aSettings.setValue("CreateMoveDlg/MjpegToolsDir",ui.m_pMjpegtoolsDirectory->text());
     aSettings.setValue("CreateMoveDlg/ImagesPerSeconds",ui.m_pImagesPerSecond->value());
-    aSettings.setValue("CreateMoveDlg/ImageSizeItem",ui.m_pImageRatio->currentItem());
+    aSettings.setValue("CreateMoveDlg/ImageSizeItem",ui.m_pImageRatio->currentIndex());
 }
 
 
@@ -308,7 +310,7 @@ void CreateMovieDlg4::restoreSettings()
     QString sMjpegToolsDir = "/opt/local/bin";
     ui.m_pMjpegtoolsDirectory->setText(aSettings.value("CreateMoveDlg/MjpegToolsDir",sMjpegToolsDir).toString());
     ui.m_pImagesPerSecond->setValue(aSettings.value("CreateMoveDlg/ImagesPerSeconds",10).toInt());
-    ui.m_pImageRatio->setCurrentItem(aSettings.value("CreateMoveDlg/ImageSizeItem",0).toInt());
+    ui.m_pImageRatio->setCurrentIndex(aSettings.value("CreateMoveDlg/ImageSizeItem",0).toInt());
 
     UpdateCmds();
 }

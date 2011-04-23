@@ -1123,11 +1123,8 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 		}
 
 
-#ifdef ZAURUS
-		sprintf( sBuffer, QObject::tr( "no=%d/%d op=%s tmr=%6.1lfs->cmd=\"%s\"" ), m_iActPos+1, GetDiaCount(), aOperation.GetOperationTypeName().c_str(), aOperation.GetOperationTime(), (const char *)sCmd );
-#else
-		sprintf( sBuffer, QObject::tr( "no=%d/%d ** op=%s ** timer=%6.1lf s --> cmd=\"%s\"" ), m_iActPos+1, GetDiaCount(), aOperation.GetOperationTypeName().c_str(), aOperation.GetOperationTime(), (const char *)sCmd );
-#endif
+        sprintf( sBuffer, QObject::tr( "no=%d/%d ** op=%s ** timer=%6.1lf s --> cmd=\"%s\"" ).toAscii(), m_iActPos+1, GetDiaCount(), aOperation.GetOperationTypeName().c_str(), aOperation.GetOperationTime(), (const char *)sCmd.toAscii() );
+
 		m_sStepInfo = sBuffer;
 
 		// ** next slide ?

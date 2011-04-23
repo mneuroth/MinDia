@@ -49,7 +49,7 @@ class SoundInfoDlgImpl :  public QDialog, public Ui_SoundInfoDlg
 	Q_OBJECT
 
 public:
-    SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
+    SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* parent = 0, Qt::WFlags fl = 0 );
 	virtual ~SoundInfoDlgImpl();
 
 public slots:

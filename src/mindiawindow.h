@@ -173,7 +173,7 @@ class MinDiaWindow : public QMainWindow, public IDiaOutputWindowInternal
 	Q_OBJECT
 
 public:
-	MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, bool bSimulation, int iProjectorType, QWidget* parent = 0, const char* name = 0, Qt::WFlags f = Qt::WType_TopLevel );
+    MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, bool bSimulation, int iProjectorType, QWidget* parent = 0, Qt::WFlags f = 0/*= Qt::WType_TopLevel*/ );
 	virtual ~MinDiaWindow();
 
 	// ** access for script engine

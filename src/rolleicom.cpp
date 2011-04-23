@@ -62,7 +62,9 @@ using namespace std;
 // *******************************************************************
 // *******************************************************************
 
+#if !defined(Q_OS_WIN32)
 #define _with_qextserial
+#endif
 
 #ifdef _with_qextserial
 
@@ -156,13 +158,17 @@ struct RolleiComHelperData
 //            m_flush(m_hFile);
 //        }
 
-        m_pPort->setBaudRate(BAUD1200);
-        m_pPort->setDataBits(DATA_7);
-        m_pPort->setParity(PAR_EVEN);
-        m_pPort->setFlowControl(FLOW_HARDWARE);
-        m_pPort->setStopBits(STOP_2);
-        m_pPort->setTimeout(1000);
+// TODO --> noch korrekte configuration erlauben !
 
+        if( !bIgnoreComSettings )
+        {
+            m_pPort->setBaudRate(BAUD1200);
+            m_pPort->setDataBits(DATA_7);
+            m_pPort->setParity(PAR_EVEN);
+            m_pPort->setFlowControl(FLOW_HARDWARE);
+            m_pPort->setStopBits(STOP_2);
+            m_pPort->setTimeout(1000);
+        }
         return true;
     }
 
@@ -249,8 +255,7 @@ struct RolleiComHelperData
 
     void Delay( int iTimeInMS )
     {
-// TODO --> qt verwenden ?
-        usleep( iTimeInMS*1000 );
+        minSleep( iTimeInMS );
     }
 
     int GetLastErrorCode() const
@@ -982,15 +987,15 @@ void RolleiCom::RestoreSettings()
     QString sTemp;
     int iTempValue;
    
-    m_sComPort = (const char *)aSettings.value("RolleiCom/ComPort",QString()).toString();
+    m_sComPort = (const char *)aSettings.value("RolleiCom/ComPort",QString()).toString().toAscii();
     m_iBaudrate = aSettings.value("RolleiCom/BaudRate",9600).toInt();
     sTemp = aSettings.value("RolleiCom/ParityMode",QString()).toString();
-	if( GetParityModeFromStrg( (const char*)sTemp, iTempValue ) )
+    if( GetParityModeFromStrg( (const char*)sTemp.toAscii(), iTempValue ) )
 	{
 		m_iParityMode = iTempValue;
 	}
     sTemp = aSettings.value("RolleiCom/StopBits",QString()).toString();
-	if( GetStopBitsFromStrg( (const char*)sTemp, iTempValue ) )
+    if( GetStopBitsFromStrg( (const char*)sTemp.toAscii(), iTempValue ) )
 	{
 		m_iStopBits = iTempValue;
 	}

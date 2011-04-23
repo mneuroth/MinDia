@@ -233,7 +233,7 @@ bool IsDiaDataFileDrag( const QDropEvent * pEvent, QString & sFileNameOut )
         {
 			const QString sTest = aLst.at( 0 ).toLocalFile();
 
-			if( IsDiaDataFile( (const char *)sTest ) )
+            if( IsDiaDataFile( (const char *)sTest.toAscii() ) )
 			{
                 sFileNameOut = sTest;
 				return true;
@@ -255,7 +255,7 @@ bool IsImageFileDrag( const QDropEvent * pEvent )
 		{
 			const QString sTest = aLst.at( i ).toLocalFile();
     
-            if( QImage((const char *)sTest).isNull() )
+            if( QImage((const char *)sTest.toAscii()).isNull() )
 			{
                 return false;
 			}
@@ -308,7 +308,7 @@ bool IsSoundFileDrag( const QDropEvent * pEvent )
 		{
 			const QString sTest = aLst.at( i ).toLocalFile();
     
-			if( !IsWAVorMP3( (const char *)sTest ) )
+            if( !IsWAVorMP3( (const char *)sTest.toAscii() ) )
 			{
 				return false;
 			}

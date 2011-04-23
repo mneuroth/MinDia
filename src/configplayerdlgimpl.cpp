@@ -39,22 +39,25 @@
 // *******************************************************************
 // *******************************************************************
 
-ConfigPlayerDlgImpl::ConfigPlayerDlgImpl(QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: QDialog( parent, name, modal, fl )
+ConfigPlayerDlgImpl::ConfigPlayerDlgImpl(QWidget* parent, Qt::WFlags fl )
+: QDialog( parent, fl )
 {
     setupUi(this);
 
-#ifdef __APPLE__
-    m_pPlayer->insertItem( "afplay" );
-    m_pPlayer->insertItem( "/opt/local/bin/mpg123" );
-#endif
-    m_pPlayer->insertItem( "madplay" );
-    m_pPlayer->insertItem( "mpg123" );
+    int iCount = 0;
 
-    m_pPlayerSettings->insertItem( "<none>" );
-    m_pPlayerSettings->insertItem( "-q -v --no-tty-control" );
-    m_pPlayerSettings->insertItem( "-q -v" );
-    m_pPlayerSettings->insertItem( "-v" );
+#ifdef __APPLE__
+    m_pPlayer->insertItem( iCount++, "afplay" );
+    m_pPlayer->insertItem( iCount++, "/opt/local/bin/mpg123" );
+#endif
+    m_pPlayer->insertItem( iCount++, "madplay" );
+    m_pPlayer->insertItem( iCount++, "mpg123" );
+
+    iCount = 0;
+    m_pPlayerSettings->insertItem( iCount++, "<none>" );
+    m_pPlayerSettings->insertItem( iCount++, "-q -v --no-tty-control" );
+    m_pPlayerSettings->insertItem( iCount++, "-q -v" );
+    m_pPlayerSettings->insertItem( iCount++, "-v" );
         
     RestoreSettings();
 }

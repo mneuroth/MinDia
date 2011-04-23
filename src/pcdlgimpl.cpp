@@ -42,8 +42,8 @@
 #include <QKeyEvent>
 
 
-ProjectorControlDlgImpl::ProjectorControlDlgImpl( RolleiCom * pProjectorCom, DiaPresentation * pPresentation, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: QDialog(parent, name, modal, fl) //ProjectorControlDialog( parent, name, modal, fl )
+ProjectorControlDlgImpl::ProjectorControlDlgImpl( RolleiCom * pProjectorCom, DiaPresentation * pPresentation,  QWidget* parent, Qt::WFlags fl )
+: QDialog(parent, fl) //ProjectorControlDialog( parent, name, modal, fl )
 {
     setupUi(this);
 
@@ -98,7 +98,7 @@ void ProjectorControlDlgImpl::DoDialogEnable( bool bEnable )
 
 //TODO: cout << "enable: " << (const char *)pWidget->objectName() << endl;
 
-        if( pWidget->isWidgetType() )
+        if( pWidget->isWidgetType() /*&& !pWidget->inherits("QGroupBox")*/)
         {
             pWidget->setEnabled( bEnable );
         }
@@ -319,6 +319,8 @@ void ProjectorControlDlgImpl::switchToDirectMode()
 	// ** and than selectivly disable controls
 	bool bValue = false;
 	m_pDirectMode->setEnabled( bValue );
+// todo --> hier ggf. forward und backward button enablen !!! --> neue Widget Hirachie --> aderes verhalten von enable/disable !!!
+    m_pTestButton->setEnabled( true );
 }
 
 void ProjectorControlDlgImpl::switchToKeyboardMode()
@@ -333,6 +335,8 @@ void ProjectorControlDlgImpl::switchToKeyboardMode()
 	m_pBack->setEnabled( bValue );
 	m_pForward->setEnabled( bValue );
 	m_pDissolve->setEnabled( bValue );
+
+    m_pTestButton->setEnabled( true );
 }
 
 void ProjectorControlDlgImpl::setModeString( const QString & sStrg )

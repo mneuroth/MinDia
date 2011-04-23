@@ -98,8 +98,8 @@
 
 // *******************************************************************
 
-DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * parent, QWidget * pMain, const char* name, bool modal, Qt::WFlags fl )
-: QDialog( parent, name, modal, fl ),
+DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * parent, QWidget * pMain, Qt::WFlags fl )
+: QDialog( parent, fl ),
   m_hItem( hItem ),
   m_aInitFont( hItem->font() )
 {
@@ -157,8 +157,7 @@ void DynamicTextDlgImpl::SetRelPos( double xRel, double yRel )
 {
 	if( xRel>=0 && yRel>=0 )
 	{
-		m_pCanvasText->setX( xRel*m_pDrawingArea->width() );
-		m_pCanvasText->setY( yRel*m_pDrawingArea->height() );
+        m_pCanvasText->setPos( xRel*m_pDrawingArea->width(),yRel*m_pDrawingArea->height() );
 		m_pRelPos->setChecked( true );
 	}
 	else
@@ -188,8 +187,9 @@ void DynamicTextDlgImpl::sltSelectFontcolor()
 
 	if( aColor.isValid() )
 	{
-		m_pSelectFontcolor->setBackgroundColor( aColor );
-		m_pSelectFontcolor->setPalette( QPalette( aColor ) );
+        QPalette aPalette;
+        aPalette.setColor(backgroundRole(),aColor);
+        m_pSelectFontcolor->setPalette( aPalette );
 	}
 }
 

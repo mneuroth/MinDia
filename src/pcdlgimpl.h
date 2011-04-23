@@ -56,7 +56,7 @@ class ProjectorControlDlgImpl  : public QDialog, Ui_ProjectorControlDialog   // 
 	Q_OBJECT
 
 public:
-    ProjectorControlDlgImpl( RolleiCom * pProjectorCom, DiaPresentation * pPresentation, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
+    ProjectorControlDlgImpl( RolleiCom * pProjectorCom, DiaPresentation * pPresentation, QWidget* parent = 0, Qt::WFlags fl = 0 );
 	virtual ~ProjectorControlDlgImpl();
 
 public slots:

@@ -350,7 +350,7 @@ void DocumentAndControler::sltSaveAsDoc( const QString & sFileName )
 
 void DocumentAndControler::sltLoadDoc( const QString & sFileName, bool & bOk, bool bExecuteScript )
 {
-	const char * s = (const char *)sFileName;
+    const char * s = (const char *)sFileName.toAscii();
 
 	fstream aFile( s, ios::in );
 
@@ -408,7 +408,7 @@ void DocumentAndControler::sltSaveDoc( bool & bOk )
 
 void DocumentAndControler::sltSaveAsDoc( const QString & sFileName, bool & bOk )
 {
-	const char * s = (const char *)sFileName;
+    const char * s = (const char *)sFileName.toAscii();
 	m_aPresentation.SetName( s );
 	// ** if a file is saved with a new name, update the last-file history
     AddToFileHistory(sFileName);
@@ -430,12 +430,12 @@ void DocumentAndControler::sltSaveDocAsXML( const QString & sFileName, bool & bO
 {
 	XmlTree aTree = m_aPresentation.GetXMLTree();
 
-	bOk = aTree.WriteXML( (const char *)sFileName );
+    bOk = aTree.WriteXML( (const char *)sFileName.toAscii() );
 }
 
 void DocumentAndControler::sltExportDynGraphicData( const QString & sFileName )
 {
-	fstream aFile( (const char *)sFileName, ios::in );
+    fstream aFile( (const char *)sFileName.toAscii(), ios::in );
 
 	if( aFile.good() )
 	{
@@ -445,7 +445,7 @@ void DocumentAndControler::sltExportDynGraphicData( const QString & sFileName )
 
 void DocumentAndControler::sltImportDynGraphicData( const QString & sFileName )
 {
-	fstream aFile( (const char *)sFileName, ios::in );
+    fstream aFile( (const char *)sFileName.toAscii(), ios::in );
 
 	if( aFile.good() )
 	{
@@ -569,7 +569,8 @@ void DocumentAndControler::sltPlayPresentationAt( int iSelectedIndex )
 	if( bOk )
 	{
 		// ** and start timer imediately, to process the next/first slide
-		m_pTimer->start( 1, /*single shot*/TRUE );
+        m_pTimer->setSingleShot(TRUE);
+        m_pTimer->start( 1 );
 	}
 
 	sltUpdateStatusBar();
@@ -584,7 +585,7 @@ void DocumentAndControler::sltGotoPosition( int iPosition )
 
 void DocumentAndControler::sltSelectItemWithText( const QString & sText )
 {
-	const char * s =(const char *)sText;
+    const char * s =(const char *)sText.toAscii();
 	string sTemp = (s ? s : "");
 
 	int iFoundPos = m_aPresentation.FindItemWithText( s, 0 );
@@ -605,7 +606,7 @@ void DocumentAndControler::sltSelectItemWithText( const QString & sText )
 
 void DocumentAndControler::sltSelectNextItemWithText( const QString & sText )
 {
-	const char * s =(const char *)sText;
+    const char * s =(const char *)sText.toAscii();
 	string sTemp = (s ? s : "");
 
 	int iFoundPos = m_aPresentation.FindItemWithText( s, m_iLastFoundPos+1 );
@@ -679,7 +680,8 @@ void DocumentAndControler::sltTimerEvent()
 
 		if( m_pTimer )
 		{
-			m_pTimer->start( iTimer, /*single shot*/TRUE );
+            m_pTimer->setSingleShot(TRUE);
+            m_pTimer->start( iTimer );
 		}
 	}
 
@@ -953,13 +955,13 @@ static bool InitImageCache( QImageCache & aImageCache, const DiaPresentation & a
 		if( strlen( hDia->GetImageFile() )>0 )
 		{
 			QImage aImage( hDia->GetImageFile() );
-			aImage = aImage.smoothScale( iWidth, iHeight );
+            aImage = aImage.scaled( iWidth, iHeight );
 			aImageCache[hDia->GetImageFile()] = aImage;
 		}
 		else
 		{
 			// add an empty image
-			QImage aEmptyImage( iWidth, iHeight, 32 );
+            QImage aEmptyImage( iWidth, iHeight, /*32*/QImage::Format_RGB32 );
 			aEmptyImage.fill( ~0 );
 
 			aImageCache[""] = aEmptyImage;

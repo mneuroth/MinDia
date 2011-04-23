@@ -45,7 +45,7 @@ class HelpDlgImpl : public QDialog, public Ui_HelpDialog
 	Q_OBJECT
 
 public:
-	HelpDlgImpl( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
+    HelpDlgImpl( QWidget* parent = 0, Qt::WFlags fl = 0 );
 	virtual ~HelpDlgImpl();
 
 public slots:

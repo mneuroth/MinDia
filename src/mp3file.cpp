@@ -216,7 +216,7 @@ void Mp3File::startPlay( double dStartPosInSeconds, double /*dStopPosInSeconds*/
     {
         MP3Header aMP3Header;
 
-        bool boolIsMP3 = aMP3Header.ReadMP3Information( (const char *)m_sFileName );
+        bool boolIsMP3 = aMP3Header.ReadMP3Information( (const char *)m_sFileName.toAscii() );
         if(boolIsMP3)
         {
            QString sFrames;
@@ -285,7 +285,7 @@ double Mp3File::getTotalPlayTimeInSeconds()
 	{
 		MP3Header aMP3Header;
 
-		bool boolIsMP3 = aMP3Header.ReadMP3Information( (const char *)m_sFileName );
+        bool boolIsMP3 = aMP3Header.ReadMP3Information( (const char *)m_sFileName.toAscii() );
 		if(boolIsMP3)
 		{
             m_iLengthInSeconds = aMP3Header.intLength;

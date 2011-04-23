@@ -18,7 +18,7 @@ QtMTLock::QtMTLock()
 
 	if( pAppl )
 	{
-		pAppl->lock();
+// TODO porting		pAppl->lock();
 	}
 }
 
@@ -28,7 +28,7 @@ QtMTLock::~QtMTLock()
 
 	if( pAppl )
 	{
-		pAppl->unlock();
+// TODO porting		pAppl->unlock();
 	}
 }
 

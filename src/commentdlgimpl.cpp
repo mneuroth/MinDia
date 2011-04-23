@@ -39,8 +39,8 @@
 // *******************************************************************
 // *******************************************************************
 
-CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: QDialog( parent, name, modal, fl ),
+CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* parent, Qt::WFlags fl )
+: QDialog( parent, fl ),
   m_pComments( pComments )
 {
     setupUi(this);
@@ -94,7 +94,7 @@ CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* pa
         m_pTable->setHorizontalHeaderLabels( aLabels );
 
 		// ** update the title of the dialog
-		setCaption( caption() + " (" + QString( pItem->GetName().c_str() ) + ")" );
+        setWindowTitle( windowTitle() + " (" + QString( pItem->GetName().c_str() ) + ")" );
 	}
 	// ** destroy the created item !
 	if( m_pComments && bItemCreated )
@@ -248,7 +248,7 @@ void CommentDlgImpl::TransferData( bool bToTable )
 				for( int j=0; j<pItem->GetDataCount(); j++ )
 				{
 					QString sTemp = m_pTable->item(i,j) ? m_pTable->item(i,j)->text() : ""; //m_pTable->text( i, j );
-					const char * s = (const char *)sTemp;
+                    const char * s = (const char *)sTemp.toAscii();
 					string sStrg( (s ? s : "") );
 
 					if( (pItem->GetDataType( j )==GenericDataInterface::_STRING) ||

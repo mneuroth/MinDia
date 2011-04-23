@@ -1219,7 +1219,7 @@ bool FileSystemUtils::GetDirectory( const string & sPath, int nShowFlagsIn, Dire
 #if defined(__linux__) || defined(__APPLE__)
 
 	// ** use qt for wildcard search !
-	QRegExp aRegExp( sFileMask.c_str(), TRUE, TRUE );
+    QRegExp aRegExp( sFileMask.c_str()/*, TRUE, TRUE*/ );
 
 	struct dirent * pEntry = 0;
 	DIR * pDir = 0;

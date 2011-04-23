@@ -35,8 +35,8 @@
 #include <QCloseEvent>
 
 
-PresentationDataDlgImpl::PresentationDataDlgImpl( DiaPresentation * pData, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-  : QDialog(parent, name, modal, fl),
+PresentationDataDlgImpl::PresentationDataDlgImpl( DiaPresentation * pData, QWidget* parent, Qt::WFlags fl )
+  : QDialog(parent, fl),
     m_pData( pData )
 {
     setupUi(this);
@@ -93,13 +93,13 @@ void PresentationDataDlgImpl::TransferDataFromControl()
 {
 	if( m_pComment && m_pData )
 	{
-		QString sComment = m_pComment->text();
+        QString sComment = m_pComment->document()->toPlainText();
 
 		// ** has text really changed ?
 		string sOrg = m_pData->GetComment();
 		if( QString( sOrg.c_str() ) != sComment )
 		{
-			m_pData->SetComment( (const char *)sComment );
+            m_pData->SetComment( (const char *)sComment.toAscii() );
 
 			emit sigDocumentUpdate();
 		}

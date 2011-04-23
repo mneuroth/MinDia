@@ -42,8 +42,8 @@
 // *******************************************************************
 // *******************************************************************
 
-SoundInfoDlgImpl::SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: QDialog( parent, name, modal, fl ),
+SoundInfoDlgImpl::SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* parent, Qt::WFlags fl )
+: QDialog( parent, fl ),
   m_pSoundData( pSoundData )
 {
     setupUi(this);
@@ -282,16 +282,16 @@ void SoundInfoDlgImpl::TransferData( bool bToTable )
 				QString s;
 				bool	bOk;
 
-                const char * sTemp =(const char *)(m_pTable->item( i, 0 ) ? m_pTable->item( i, 0 )->text() : "");
+                const char * sTemp =(const char *)(m_pTable->item( i, 0 ) ? m_pTable->item( i, 0 )->text().toAscii() : "");
 				sFileName = (sTemp ? sTemp : "" );
-                sTemp = m_pTable->item( i, 1 ) ? m_pTable->item( i, 1 )->text() : "";
+                sTemp = m_pTable->item( i, 1 ) ? m_pTable->item( i, 1 )->text().toAscii() : "";
 				s = ( sTemp ? sTemp : "" );
 				iStartPos = s.toInt( &bOk );
 				if( !bOk )
 				{
 					iStartPos = -1;
 				}
-                sTemp = m_pTable->item( i, 2 ) ? m_pTable->item( i, 2 )->text() : "";
+                sTemp = m_pTable->item( i, 2 ) ? m_pTable->item( i, 2 )->text().toAscii() : "";
 				s = ( sTemp ? sTemp : "" );
 				iStopPos = s.toInt( &bOk );
 				if( !bOk || (iStartPos>iStopPos) )
@@ -299,16 +299,16 @@ void SoundInfoDlgImpl::TransferData( bool bToTable )
 					iStopPos = -1;
 				}
 
-                sTemp = m_pTable->item( i, 7 ) ? m_pTable->item( i, 7 )->text() : "";
+                sTemp = m_pTable->item( i, 7 ) ? m_pTable->item( i, 7 )->text().toAscii() : "";
 				s = ( sTemp ? sTemp : "" );
 				iFadeInStart = s.toInt( &bOk );
-                sTemp = m_pTable->item( i, 8 ) ? m_pTable->item( i, 8 )->text() : "";
+                sTemp = m_pTable->item( i, 8 ) ? m_pTable->item( i, 8 )->text().toAscii() : "";
 				s = ( sTemp ? sTemp : "" );
 				iFadeInLength = s.toInt( &bOk );
-                sTemp = m_pTable->item( i, 9 ) ? m_pTable->item( i, 9 )->text() : "";
+                sTemp = m_pTable->item( i, 9 ) ? m_pTable->item( i, 9 )->text().toAscii() : "";
 				s = ( sTemp ? sTemp : "" );
 				iFadeOutStart = s.toInt( &bOk );
-                sTemp = m_pTable->item( i, 10 ) ? m_pTable->item( i, 10 )->text() : "";
+                sTemp = m_pTable->item( i, 10 ) ? m_pTable->item( i, 10 )->text().toAscii() : "";
 				s = ( sTemp ? sTemp : "" );
 				iFadeOutLength = s.toInt( &bOk );
 
@@ -352,12 +352,13 @@ int SoundInfoDlgImpl::GetSelectedRow() const
 	return iActRow;
 }
 
-void SoundInfoDlgImpl::RepaintRow( int iRow )
+void SoundInfoDlgImpl::RepaintRow( int /*iRow*/ )
 {
-    for( int i=0; i<m_pTable->columnCount(); i++ )
-	{
-//TODO		m_pTable->updateCell( iRow, i );
-	}
+    m_pTable->update(0,0,width(),height());
+//    for( int i=0; i<m_pTable->columnCount(); i++ )
+//	{
+////TODO        m_pTable->updateCell( iRow, i );
+//	}
 }
 
 void SoundInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )

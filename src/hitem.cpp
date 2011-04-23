@@ -170,7 +170,7 @@ HItem::~HItem()
 	}
 }
 
-void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * option, QWidget * widget )
+void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*option*/, QWidget * /*widget*/ )
 {
     /*
     // ** paint a cross to mark the view area
@@ -227,11 +227,11 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * option,
         {
             if( m_hData->IsHorizontalFormat() )
             {
-                aImage = aImageOrg.smoothScale( c_iSlideWidth, c_iSlideHeight );
+                aImage = aImageOrg.scaled( c_iSlideWidth, c_iSlideHeight );
             }
             else
             {
-                aImage = aImageOrg.smoothScale( c_iSlideHeight, c_iSlideWidth );
+                aImage = aImageOrg.scaled( c_iSlideHeight, c_iSlideWidth );
             }
         }
         else

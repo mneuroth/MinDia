@@ -61,7 +61,7 @@ class DiaInfoDlgImpl : public QDialog, public Ui_DiaInfoDlg
 	Q_OBJECT
 
 public:
-    DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
+    DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent = 0, Qt::WFlags fl = 0 );
 	virtual ~DiaInfoDlgImpl();
 
 	void SetDataChanged( bool bState );

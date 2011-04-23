@@ -310,8 +310,8 @@ void PlayInfoContextMenu::sltShowMenu()
 class SimpleBitmapCanvas : public QGraphicsScene
 {
 public:
-	SimpleBitmapCanvas( QObject * parent = 0, const char * name = 0 )
-    : QGraphicsScene( parent/*, name*/ ),
+    SimpleBitmapCanvas( QObject * parent = 0 )
+    : QGraphicsScene( parent ),
 	  m_pImage( 0 )
 	{
 	}
@@ -473,8 +473,8 @@ QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor )
 
 // *******************************************************************
 
-PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, const char* name, bool modal, Qt::WFlags fl )
-: QDialog( parent, name, modal, fl /*| Qt::WStyle_Maximize*/ ),      // TODO style for maximize ?
+PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt::WFlags fl )
+: QDialog( parent, fl /*| Qt::WStyle_Maximize*/ ),      // TODO style for maximize ?
   m_pParent( parent ),
   m_iFadeInTimeInMS( 0 ),
   m_iFadeInFactor( 0 ),
@@ -980,7 +980,7 @@ void PlayInfoDlgImpl::sltSetImage( const QString & sImageFileName, bool bIsPlayi
 	{
 		QImage aImage;
 
-        /*bool bOk =*/ ReadQImage( sImageFileName, aImage );
+        /*bool bOk =*/ ReadQImage( sImageFileName.toAscii(), aImage );
 
 		if( bIsPlaying )
 		{

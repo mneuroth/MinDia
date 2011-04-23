@@ -33,7 +33,6 @@
 
 #include "minlog.h"
 #include <QDialog>
-#include <QCustomEvent>
 #include <QKeyEvent>
 #include <QCloseEvent>
 
@@ -46,7 +45,7 @@ class ComLoggingDialogImpl : public QDialog, Ui_ComLoggingDialog, public minLogg
 	Q_OBJECT
 
 public:
-    ComLoggingDialogImpl( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
+    ComLoggingDialogImpl( QWidget* parent = 0, Qt::WFlags fl = 0 );
 	virtual ~ComLoggingDialogImpl();
 
 	// *** implements the minLoggingInterface ***

@@ -3,7 +3,7 @@ TARGET			= mindia
 TEMPLATE        = app
 #CONFIG          += qt warn_on release thread stl exceptions
 CONFIG          += qt warn_on thread stl exceptions
-QT              += qt3support
+#QT              += qt3support
 #CONFIG          += qt warn_on debug thread stl exceptions
 #				  createmoviedlgimpl.h \
 #				  createmoviedlgimpl.cpp \
@@ -146,7 +146,19 @@ INCLUDEPATH   		= ../gendev ../minsrv
 #win32:LIBS				+= minsrv.lib
 win32:LIBS				+= libwinmm
 #LIBS                += /Users/min/Documents/home/Entwicklung/projects/mindia_qt4/qextserialport/src/build/libqextserialportd.a
-LIBS                += ../qextserialport/src/build/libqextserialportd.a
+#LIBS                += ../qextserialport/src/build/libqextserialport.a
+
+Debug:win32:win32:LIBS += ../qextserialport/src/build/libqextserialportd.a
+debug {
+    mac:LIBS += ../qextserialport/src/build/libqextserialportd.a
+    unix:LIBS += ../qextserialport/src/build/libqextserialportd.a
+    CONFIG -= release
+}
+Release:win32:win32:LIBS += ../qextserialport/src/build/libqextserialport.a
+release {
+    mac:LIBS += ../qextserialport/src/build/libqextserialport.a
+    unix:LIBS += ../qextserialport/src/build/libqextserialport.a
+}
 
 #The following line was inserted by qt3to4
 #QT +=

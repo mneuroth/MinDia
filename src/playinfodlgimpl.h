@@ -126,7 +126,7 @@ class PlayInfoDlgImpl : public QDialog, Ui_PlayInfoDialog, public IDiaOutputWind
 	typedef vector< CanvasItem >		CanvasItemContainer;
 
 public:
-    PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
+    PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt::WFlags fl = 0 );
 	virtual ~PlayInfoDlgImpl();
 
 	void UpdateStatus( bool bIsPlaying, bool bIsPause );

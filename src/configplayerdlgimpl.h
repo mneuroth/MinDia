@@ -41,7 +41,7 @@ class ConfigPlayerDlgImpl : public QDialog, Ui_ConfigPlayerDlg
 	Q_OBJECT
 
 public:
-    ConfigPlayerDlgImpl( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
+    ConfigPlayerDlgImpl( QWidget* parent = 0, Qt::WFlags fl = 0 );
 	virtual ~ConfigPlayerDlgImpl();
 
 public slots:

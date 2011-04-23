@@ -45,8 +45,8 @@
 #include <QCloseEvent>
 #include <QDir>
 
-ConfigurationDlgImpl::ConfigurationDlgImpl( DocumentAndControler * pControler, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: QDialog( parent, name, modal, fl ),
+ConfigurationDlgImpl::ConfigurationDlgImpl( DocumentAndControler * pControler, QWidget* parent, Qt::WFlags fl )
+: QDialog( parent, fl ),
   m_pControler( pControler )
 {
     setupUi(this);
@@ -97,13 +97,13 @@ void ConfigurationDlgImpl::sltMSC300PToggled( bool bValue )
 		SetCurrentItem( m_pDataBitsList, s );
 
 		// ** important: Combobox and constants in class must be the same !!!
-		m_pStopBitsList->setCurrentItem( RolleiCom::ONE );
+        m_pStopBitsList->setCurrentIndex( RolleiCom::ONE );
 
 		// ** important: Combobox and constants in class must be the same !!!
-		m_pParityList->setCurrentItem( RolleiCom::NONE );
+        m_pParityList->setCurrentIndex( RolleiCom::NONE );
 
 		// ** important: Combobox and constants in class must be the same !!!
-		m_pFlowControlList->setCurrentItem( RolleiCom::NO_FLOW );
+        m_pFlowControlList->setCurrentIndex( RolleiCom::NO_FLOW );
 	}
 }
 
@@ -122,13 +122,13 @@ void ConfigurationDlgImpl::sltTwinDigitalPToggled( bool bValue )
 		SetCurrentItem( m_pDataBitsList, s );
 
 		// ** important: Combobox and constants in class must be the same !!!
-		m_pStopBitsList->setCurrentItem( RolleiCom::TWO );
+        m_pStopBitsList->setCurrentIndex( RolleiCom::TWO );
 
 		// ** important: Combobox and constants in class must be the same !!!
-		m_pParityList->setCurrentItem( RolleiCom::EVEN );
+        m_pParityList->setCurrentIndex( RolleiCom::EVEN );
 
 		// ** important: Combobox and constants in class must be the same !!!
-		m_pFlowControlList->setCurrentItem( RolleiCom::HARDWARE_FLOW );
+        m_pFlowControlList->setCurrentIndex( RolleiCom::HARDWARE_FLOW );
 	}
 }
 
@@ -181,35 +181,35 @@ void ConfigurationDlgImpl::TransferDataToControl()
     // update Combobox with available RS232 devices
     for (int j=0; j<aDeviceLst.size(); j++)
     {
-        m_pComPortList->insertItem( aDeviceLst.at(j) );
+        m_pComPortList->insertItem( j, aDeviceLst.at(j) );
     }
 
-    m_pBaudRateList->insertItem( "110" );
-	m_pBaudRateList->insertItem( "300" );
-	m_pBaudRateList->insertItem( "1200" );
-	m_pBaudRateList->insertItem( "2400" );
-	m_pBaudRateList->insertItem( "4800" );
-	m_pBaudRateList->insertItem( "9600" );
-	m_pBaudRateList->insertItem( "19200" );
-	m_pBaudRateList->insertItem( "38400" );
-	m_pBaudRateList->insertItem( "57600" );
-	m_pBaudRateList->insertItem( "115200" );
+    m_pBaudRateList->insertItem( 0, "110" );
+    m_pBaudRateList->insertItem( 1, "300" );
+    m_pBaudRateList->insertItem( 2, "1200" );
+    m_pBaudRateList->insertItem( 3, "2400" );
+    m_pBaudRateList->insertItem( 4, "4800" );
+    m_pBaudRateList->insertItem( 5, "9600" );
+    m_pBaudRateList->insertItem( 6, "19200" );
+    m_pBaudRateList->insertItem( 7, "38400" );
+    m_pBaudRateList->insertItem( 8, "57600" );
+    m_pBaudRateList->insertItem( 9, "115200" );
 
-	m_pDataBitsList->insertItem( "6" );
-	m_pDataBitsList->insertItem( "7" );
-	m_pDataBitsList->insertItem( "8" );
+    m_pDataBitsList->insertItem( 0, "6" );
+    m_pDataBitsList->insertItem( 1, "7" );
+    m_pDataBitsList->insertItem( 2, "8" );
 
-	m_pStopBitsList->insertItem( "1" );
-	m_pStopBitsList->insertItem( "1.5" );
-	m_pStopBitsList->insertItem( "2" );
+    m_pStopBitsList->insertItem( 0, "1" );
+    m_pStopBitsList->insertItem( 1, "1.5" );
+    m_pStopBitsList->insertItem( 2, "2" );
 
-	m_pParityList->insertItem( tr( "none" ) );
-	m_pParityList->insertItem( tr( "odd" ) );
-	m_pParityList->insertItem( tr( "even" ) );
+    m_pParityList->insertItem( 0, tr( "none" ) );
+    m_pParityList->insertItem( 1, tr( "odd" ) );
+    m_pParityList->insertItem( 2, tr( "even" ) );
 
-	m_pFlowControlList->insertItem( tr( "none" ) );
-	m_pFlowControlList->insertItem( tr( "XON/XOFF" ) );
-	m_pFlowControlList->insertItem( tr( "hardware" ) );
+    m_pFlowControlList->insertItem( 0, tr( "none" ) );
+    m_pFlowControlList->insertItem( 1, tr( "XON/XOFF" ) );
+    m_pFlowControlList->insertItem( 2, tr( "hardware" ) );
 
 #ifndef ZAURUS
 	m_pReadTimeout->setText( "20000" );
@@ -224,7 +224,7 @@ void ConfigurationDlgImpl::TransferDataToControl()
 	m_pDigitalTwinP->setChecked( aCom.IsTwinDigitalP() );
 	m_pMSC300P->setChecked( aCom.IsMSC300P() );
 
-    m_pComPortList->setCurrentItem( m_pComPortList->findText(QString(aCom.GetComPort().c_str())) );
+    m_pComPortList->setCurrentIndex( m_pComPortList->findText(QString(aCom.GetComPort().c_str())) );
 
 	s.setNum( aCom.GetBaudrate() );
 	SetCurrentItem( m_pBaudRateList, s );
@@ -233,13 +233,13 @@ void ConfigurationDlgImpl::TransferDataToControl()
 	SetCurrentItem( m_pDataBitsList, s );
 
 	// ** important: Combobox and constants in class must be the same !!!
-	m_pStopBitsList->setCurrentItem( aCom.GetStopBits() );
+    m_pStopBitsList->setCurrentIndex( aCom.GetStopBits() );
 
 	// ** important: Combobox and constants in class must be the same !!!
-	m_pParityList->setCurrentItem( aCom.GetParityMode() );
+    m_pParityList->setCurrentIndex( aCom.GetParityMode() );
 
 	// ** important: Combobox and constants in class must be the same !!!
-	m_pFlowControlList->setCurrentItem( aCom.GetFlowModus() );
+    m_pFlowControlList->setCurrentIndex( aCom.GetFlowModus() );
 
 	m_pSimulation->setChecked( m_pControler->IsSimulation() );
 
@@ -285,7 +285,7 @@ void ConfigurationDlgImpl::TransferDataFromControl()
 	int	iDataBits = aCom.GetDataBits();
 	int iFlowMode = aCom.GetFlowModus();
 
-    sComPort = string((const char *)m_pComPortList->currentText());
+    sComPort = string((const char *)m_pComPortList->currentText().toAscii());
 
 	s = m_pBaudRateList->currentText();
 	iBaudrate = s.toInt( &bOk );
@@ -294,13 +294,13 @@ void ConfigurationDlgImpl::TransferDataFromControl()
 	iDataBits = s.toInt( &bOk );
 	
 	// ** important: Combobox and constants in class must be the same !!!
-	iStopBits = m_pStopBitsList->currentItem();
+    iStopBits = m_pStopBitsList->currentIndex();
 
 	// ** important: Combobox and constants in class must be the same !!!
-	iParityMode = m_pParityList->currentItem();
+    iParityMode = m_pParityList->currentIndex();
 
 	// ** important: Combobox and constants in class must be the same !!!
-	iFlowMode = m_pFlowControlList->currentItem();
+    iFlowMode = m_pFlowControlList->currentIndex();
 
     aCom.Start( sComPort, iBaudrate, iParityMode, iStopBits, iDataBits, iFlowMode );
 }
@@ -309,9 +309,9 @@ void ConfigurationDlgImpl::SetCurrentItem( QComboBox * pList, const QString & s 
 {
 	for( int i=0; i<pList->count(); i++ )
 	{
-		if( pList->text( i ) == s )
+        if( pList->itemText( i ) == s )
 		{
-			pList->setCurrentItem( i );
+            pList->setCurrentIndex( i );
 			break;
 		}
 	}

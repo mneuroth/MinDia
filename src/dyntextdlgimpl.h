@@ -67,7 +67,7 @@ class DynamicTextDlgImpl : public QDialog, public Ui_DynamicTextDlg
 	Q_OBJECT
 
 public:
-    DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * parent = 0, QWidget * pMain = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
+    DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * parent = 0, QWidget * pMain = 0, Qt::WFlags fl = 0 );
 	virtual ~DynamicTextDlgImpl();
 
 	double GetRelX() const;

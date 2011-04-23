@@ -31,18 +31,47 @@
 
 #include <qevent.h>
 #include <qapplication.h>
-#include <QCustomEvent>
+#include <QEvent>
 #include <QKeyEvent>
 #include <QCloseEvent>
 
-const int c_iCustomEvent_Logging = 12345;
+const QEvent::Type c_iCustomEvent_Logging = (QEvent::Type)(QEvent::User+123);
 
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************
 
-ComLoggingDialogImpl::ComLoggingDialogImpl( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: QDialog( parent, name, modal, fl )
+class MyCustomEvent : public QEvent
+{
+public:
+    MyCustomEvent( QEvent::Type aType );
+    void setData( const QString & sValue );
+    QString data() const;
+
+private:
+    QString m_sData;
+
+};
+
+MyCustomEvent::MyCustomEvent( QEvent::Type aType )
+    : QEvent(aType)
+{
+}
+
+void MyCustomEvent::setData( const QString & sValue )
+{
+    m_sData = sValue;
+}
+
+QString MyCustomEvent::data() const
+{
+    return m_sData;
+}
+
+// *******************************************************************
+
+ComLoggingDialogImpl::ComLoggingDialogImpl( QWidget* parent, Qt::WFlags fl )
+: QDialog( parent, fl )
 {
     setupUi(this);
 
@@ -56,8 +85,8 @@ ComLoggingDialogImpl::~ComLoggingDialogImpl()
 
 void ComLoggingDialogImpl::LogMsg( const char * sMsg )
 {
-    QCustomEvent * pEvent = new QCustomEvent( c_iCustomEvent_Logging );
-    pEvent->setData( new QString( sMsg ) );
+    MyCustomEvent * pEvent = new MyCustomEvent( c_iCustomEvent_Logging );
+    pEvent->setData( QString( sMsg ) );
     QApplication::postEvent( this, pEvent );
 /*
 	if( m_pOutput )
@@ -106,23 +135,22 @@ void ComLoggingDialogImpl::keyPressEvent( QKeyEvent * pEvent )
 
 void ComLoggingDialogImpl::customEvent( QEvent * pEventIn )
 {
-    QCustomEvent * pEvent = (QCustomEvent *)pEventIn;
-    switch( pEvent->type() ) 
+    switch( pEventIn->type() )
 	{
 		case c_iCustomEvent_Logging:
 		{
-			if( m_pOutput )
+            MyCustomEvent * pEvent = (MyCustomEvent *)pEventIn;
+
+            if( m_pOutput )
 			{
 				QtMTLock aMTLock;
 
-			    QString * psMsg = (QString *)pEvent->data();
+                QString sMsg = pEvent->data();
 
-                m_pOutput->setPlainText( m_pOutput->toPlainText()+*psMsg+"\n");
+                m_pOutput->setPlainText( m_pOutput->toPlainText()+sMsg+"\n");
 				// ** update the visible area, so that the last output is visible
                 m_pOutput->moveCursor(QTextCursor::End);
                 m_pOutput->ensureCursorVisible();                
-
-				delete psMsg;
 			}
 		} break;
 		

@@ -55,9 +55,9 @@
 
 #include <qapplication.h>
 #include <qtextcodec.h>
-//Added by qt3to4:
 #include <QTranslator>
 #include <QMenu>
+#include <QLocale>
 
 #include "mindiawindow.h"
 #include "doccontroler.h"
@@ -421,7 +421,7 @@ QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage,
 	{
 		// if language is not given as command line argument
 		// than get the actual language now...
-		sLangTemp = QTextCodec::locale();
+        sLangTemp = QLocale::system().country(); //QTextCodec::locale();
 		if( sLangTemp.length()>=2 )
 		{
 			sLangTemp = sLangTemp.left(2);
@@ -507,22 +507,22 @@ int main( int argc, char** argv )
 		{
 			bShowScreen = true;
 		}
-		else if( s.find( "-dx=" )==0 )
+        else if( s.indexOf( "-dx=" )==0 )
 		{
 			QString sSize = s.right( s.length()-4 );
 			iScreenX = sSize.toInt();
 		}
-		else if( s.find( "-dy=" )==0 )
+        else if( s.indexOf( "-dy=" )==0 )
 		{
 			QString sSize = s.right( s.length()-4 );
 			iScreenY = sSize.toInt();
 		}
-		else if( s.find( "-x=" )==0 )
+        else if( s.indexOf( "-x=" )==0 )
 		{
 			QString sSize = s.right( s.length()-3 );
 			iPosX = sSize.toInt();
 		}
-		else if( s.find( "-y=" )==0 )
+        else if( s.indexOf( "-y=" )==0 )
 		{
 			QString sSize = s.right( s.length()-3 );
 			iPosY = sSize.toInt();
@@ -555,7 +555,7 @@ int main( int argc, char** argv )
 	}
 
 	MinDiaWindow aWindow( sLanguage, bIgnoreComSettings, bSimulation, iProjectorType );
-	myApp.setMainWidget( &aWindow );
+//	myApp.setMainWidget( &aWindow );
 
 	// ** environment for dll starting... **
 	minServiceManager * pSrvManager = new minServiceManager;
@@ -564,7 +564,7 @@ int main( int argc, char** argv )
 	IMinDiaScriptFcnImpl * pMinDiaScriptFcn = new IMinDiaScriptFcnImpl( "mindia_for_py", &aWindow, argc, argv );
 	pSrvManager->RegisterService( pMinDiaScriptFcn, /*bOwnerIn*/true );
 
-	IGeneralScriptFcnImpl * pGenScriptFcn = new IGeneralScriptFcnImpl( (const char *)sLanguage, "mindia_for_py", &aWindow );
+    IGeneralScriptFcnImpl * pGenScriptFcn = new IGeneralScriptFcnImpl( (const char *)sLanguage.toAscii(), "mindia_for_py", &aWindow );
 	pSrvManager->RegisterService( pGenScriptFcn, /*bOwnerIn*/true );
 
 	minDll * pNewDll = 0;

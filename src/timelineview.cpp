@@ -214,7 +214,7 @@ void TimeLineView::sltAddDynText()
 	{
 		int x = m_aLastMousePos.x();	
 
-		aDynGrOpContainer.AddDefaultDynText( (const char *)sTxt, x*1000/g_dFactor-m_pDiaPres->GetOffsetForSound()*1000, 5000 );
+        aDynGrOpContainer.AddDefaultDynText( (const char *)sTxt.toAscii(), x*1000/g_dFactor-m_pDiaPres->GetOffsetForSound()*1000, 5000 );
 
         emit sigViewDataChanged();
 	}
@@ -225,7 +225,7 @@ void TimeLineView::sltEditDynText()
     ShowModifyDynObjectDialog( m_iSelectedDynTextIndex );
 }
 
-void TimeLineView::sltDoUpdateView( bool bErase )
+void TimeLineView::sltDoUpdateView( bool /*bErase*/ )
 {
 	if( m_pDiaPres )
 	{
@@ -324,9 +324,9 @@ void TimeLineView::sltItemSelected( int iCount, int iFirstSelectedItemNo )
 void TimeLineView::SetPlayMark( double dActPlayTime )
 {
 // TODO --> ist dies noch notwendig ?
-#ifndef __linux__
+//#ifndef __linux__
 	const int iDelta = 4;
-#endif
+//#endif
 
 	int iActPos = (int)(dActPlayTime*g_dFactor);
 
@@ -649,7 +649,7 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 					// ** yes, change dissolve time of selected dia
 
 					// ** should total time hold constant (shift button pressed)
-					if( (pEvent->state() & Qt::ShiftModifier) == Qt::ShiftModifier )
+                    if( (pEvent->modifiers() & Qt::ShiftModifier) == Qt::ShiftModifier )
 					{
 						// ** no
 						m_bTotalTimeConstant = false;
@@ -695,7 +695,7 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 		QRect aRect = GetTipRect( pEvent->pos(), &sText, &iIndexOut );
 	    if( aRect.isValid() )
 		{
-			if( (pEvent->state() & Qt::ShiftModifier) == Qt::ShiftModifier )
+            if( (pEvent->modifiers() & Qt::ShiftModifier) == Qt::ShiftModifier )
 			{
 				ShowModifyDynObjectDialog( iIndexOut );
 			}
@@ -927,7 +927,7 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
                 QList<QUrl> aLst = pEvent->mimeData()->urls();
 				for( int i=0; i<(int)aLst.count(); i++ )
 				{
-					aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( (const char *)aLst.at(i).toLocalFile() ) ) );
+                    aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( (const char *)aLst.at(i).toLocalFile().toAscii() ) ) );
 					aSoundContainer.SetChanged();
 				}
 				emit sigViewDataChanged();
@@ -1009,7 +1009,8 @@ void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
         
     	minHandle<DynText> hItem = aDynGrOpContainer[ iIndexOut ];
     
-    	DynamicTextDlgImpl aDlg( hItem, this, m_pParent, "enter_dynamic_text", /*modal*/TRUE );
+        DynamicTextDlgImpl aDlg( hItem, this, m_pParent );
+        aDlg.setModal(true);
     //remove vector
     	aDlg.m_pText->setText( QString( hItem->text() ) );
     	aDlg.m_pText->setFocus();
@@ -1058,11 +1059,10 @@ void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
     		}
     		else
     		{
-    			hItem->setX( aDlg.m_pPosX->text().toInt() );
-    			hItem->setY( aDlg.m_pPosY->text().toInt() );
+                hItem->setPos( aDlg.m_pPosX->text().toInt(),aDlg.m_pPosY->text().toInt() );
     			hItem->SetRelativePos( -1.0, -1.0 );
     		}
-    		QColor aColor = aDlg.m_pSelectFontcolor->backgroundColor();
+            QColor aColor = aDlg.m_pSelectFontcolor->palette().background().color(); //backgroundColor();
             hItem->setBrush( aColor );
     
     		dStart = aDlg.m_pShowAtTime->text().toDouble();

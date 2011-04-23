@@ -439,8 +439,7 @@ void OpItem_SetRelPos::Update()
 		int x = (int)pCanvas->width()*m_dRelX;
 		int y = (int)pCanvas->height()*m_dRelY;
 
-		m_pItem->setX( x );
-		m_pItem->setY( y );
+        m_pItem->setPos(x,y);
 	}
 }
 
@@ -1219,13 +1218,13 @@ bool DynText::Write( ostream & aStream ) const
 	FileUtilityObj aFU;
 
 	aFU.WriteStructBegin( aStream );
-	WriteString( aStream, (const char *)text() );
+    WriteString( aStream, (const char *)text().toAscii() );
 	aFU.WriteSeparator( aStream );
 	aStream << x();
 	aFU.WriteSeparator( aStream );
 	aStream << y();
 	aFU.WriteSeparator( aStream );
-	WriteString( aStream, (const char *)font().family() );
+    WriteString( aStream, (const char *)font().family().toAscii() );
 	aFU.WriteSeparator( aStream );
 	aStream << font().pointSize();
 	aFU.WriteSeparator( aStream );
@@ -1277,10 +1276,9 @@ bool DynText::Read( istream & aStream )
 	setText( sTemp.c_str() );
 	aFU.ReadSeparator( aStream );
 	aStream >> x;
-	setX( x );
 	aFU.ReadSeparator( aStream );
 	aStream >> y;
-	setY( y );
+    setPos(x,y);
 	aFU.ReadSeparator( aStream );
 	ReadString( aStream, sTemp );
 	aFU.ReadSeparator( aStream );
@@ -1468,15 +1466,14 @@ double DynText::GetStartTime() const
 
 string DynText::GetString() const
 {
-	string s = (const char *)text();
+    string s = (const char *)text().toAscii();
 
 	return s;
 }
 
 void DynText::CreateDefaultOperations( double dStartTimeInMS, double dShowTimeInMS )
 {
-	setX( 100 );
-	setY( 100 );
+    setPos( 100, 100 );
     setBrush( QColor( 255, 0, 0 ) );
 	setFont( QFont( "Arial", 20 ) );
 	AddOperation( minHandle<OpItem_Base>( new OpItem_Hide( this, 0 ) ) );

@@ -321,7 +321,7 @@ void HItemView::mousePressEvent( QMouseEvent * pEvent )
 
 		// ** multi-selection only if shift button is pressed !
 		// ** if no shift buttion is presed deselect all selected items
-		if( !( (pEvent->state() & Qt::ShiftModifier) == Qt::ShiftModifier) )
+        if( !( (pEvent->modifiers() & Qt::ShiftModifier) == Qt::ShiftModifier) )
 		{
 			sltSelectAllItems( false, false	);		// no update needed, because update will be triggert later in this method !
 		}
@@ -400,7 +400,7 @@ void HItemView::mouseMoveEvent( QMouseEvent * pEvent )
             pMimeData->setText(sDragString);
             d->setMimeData(pMimeData);            
 
-			if( (pEvent->state() & Qt::ControlModifier)==Qt::ControlModifier )
+            if( (pEvent->modifiers() & Qt::ControlModifier)==Qt::ControlModifier )
 			{
                 /*Qt::DropAction dropAction =*/ d->exec(Qt::CopyAction);
 			}
@@ -457,15 +457,15 @@ void HItemView::keyPressEvent( QKeyEvent * pEvent )
 	}
 
 	//if( pEvent->key() == Key_Delete )
-	if( pEvent->ascii() == 'd' )
+    if( pEvent->text() == "d" )
 	{
 		sltDeleteAllSlectedItems();
 	}
-	else if( (pEvent->ascii() == 'n') || (pEvent->key() == Qt::Key_Right) )
+    else if( (pEvent->text() == "n") || (pEvent->key() == Qt::Key_Right) )
 	{
 		sltSelectNext();
 	}
-	else if( (pEvent->ascii() == 'p') || (pEvent->key() == Qt::Key_Left) )
+    else if( (pEvent->text() == "p") || (pEvent->key() == Qt::Key_Left) )
 	{
 		sltSelectPrev();
 	}
@@ -491,7 +491,7 @@ void HItemView::keyPressEvent( QKeyEvent * pEvent )
 	}
 }
 
-void HItemView::dragMoveEvent( QDragMoveEvent * pEvent )
+void HItemView::dragMoveEvent( QDragMoveEvent * /*pEvent*/ )
 {
     // dummy method is needed so that drag and drop works !
 }
@@ -514,7 +514,10 @@ void HItemView::dragEnterEvent( QDragEnterEvent * pEvent )
 		}
 		else
 		{
-			pEvent->accept( pEvent->mimeData()->hasText() );
+            if( pEvent->mimeData()->hasText() )
+            {
+                pEvent->accept();
+            }
 		}
     }
 }
@@ -553,7 +556,7 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 			for( int i=0; i<(int)aLst.count(); i++ )
 			{
                 sFileName = aLst.at( i ).toLocalFile();
-				AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID(), (const char *)sFileName ) ), iIndex+i, /*bInsert*/true );
+                AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID(), (const char *)sFileName.toAscii() ) ), iIndex+i, /*bInsert*/true );
 			}
 
 			sltSelectItem( iIndex, 0 );
@@ -761,7 +764,7 @@ bool HItemView::SetFromClipboardData( const QString & sData )
 
 	if( !sData.isNull() )
 	{
-		string s = (const char *)sData;
+        string s = (const char *)sData.toAscii();
 		while( s.length()>0 )
 		{
 			// ** create a new dia item
@@ -798,7 +801,7 @@ bool HItemView::SetFromClipboardData( const QString & sData )
 int HItemView::GetCountValidClipboardData( const QString & sData )
 {
 	int iCount = 0;
-	string s = (const char *)sData;
+    string s = (const char *)sData.toAscii();
 
 	while( s.length()>0 )
 	{

@@ -51,8 +51,8 @@
 #include <QKeyEvent>
 #include <QFileDialog>
 
-DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: QDialog( parent, name, modal, fl )
+DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, Qt::WFlags fl )
+: QDialog( parent/*, name, modal*/, fl )
 {
     setupUi(this);
 

@@ -169,8 +169,8 @@ static const char*closeicon[]={
 // *******************************************************************
 // *******************************************************************
 
-HelpDlgImpl::HelpDlgImpl( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-: QDialog( parent, name, modal, fl )
+HelpDlgImpl::HelpDlgImpl( QWidget* parent, Qt::WFlags fl )
+: QDialog( parent, fl )
 {
     setupUi(this);
 
@@ -179,11 +179,11 @@ HelpDlgImpl::HelpDlgImpl( QWidget* parent, const char* name, bool modal, Qt::WFl
 	QPixmap aHomeIcon( home );
 	QPixmap aFindIcon( findsearch );
 	QPixmap aCloseIcon( closeicon );
-	m_pBack->setIconSet( aBackIcon );
-	m_pForward->setIconSet( aForwardIcon );
-	m_pHome->setIconSet( aHomeIcon );
-	m_pSearch->setIconSet( aFindIcon );
-	m_pClose->setIconSet( aCloseIcon );
+    m_pBack->setIcon( aBackIcon );
+    m_pForward->setIcon( aForwardIcon );
+    m_pHome->setIcon( aHomeIcon );
+    m_pSearch->setIcon( aFindIcon );
+    m_pClose->setIcon( aCloseIcon );
 
 	m_iParagraph = 0;
 	m_iIndex = 0;
