@@ -35,11 +35,11 @@
 #include "minhandle.h"
 
 // ** gui
-#include <q3canvas.h>
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QMouseEvent>
 #include <QDragMoveEvent>
+#include <QGraphicsView>
 
 #include <vector>
 
@@ -55,22 +55,22 @@ class MyDynamicToolTip;
 // *******************************************************************
 /** Handels a timeline view for the dia presentation.
   */
-class TimeLineView : public Q3CanvasView
+class TimeLineView : public QGraphicsView
 {
 	Q_OBJECT
 
 	typedef vector< minHandle<TimeLineItem> >	MyItemContainer;
 
-	typedef pair< pair< minHandle<Q3CanvasLine>, minHandle<Q3CanvasLine> >, minHandle<Q3CanvasText> > PlotCommentItem;
+    typedef pair< pair< minHandle<QGraphicsLineItem>, minHandle<QGraphicsLineItem> >, minHandle<QGraphicsSimpleTextItem> > PlotCommentItem;
 	typedef vector< PlotCommentItem >	PlotCommentItemContainer;
 
-	typedef pair< minHandle<Q3CanvasLine>, minHandle<Q3CanvasText> > MusicCommentItemHelper;
+    typedef pair< minHandle<QGraphicsLineItem>, minHandle<QGraphicsSimpleTextItem> > MusicCommentItemHelper;
 	typedef pair< QString, int > ItemInfoHelper;
 	typedef pair< MusicCommentItemHelper, ItemInfoHelper > MusicCommentItem;
 	typedef vector< MusicCommentItem >	MusicCommentItemContainer;
 
-	typedef pair< minHandle<Q3CanvasLine>, minHandle<Q3CanvasLine> > FadeItem;
-	typedef pair< minHandle<Q3CanvasRectangle>, minHandle<Q3CanvasText> > MusicItem;
+    typedef pair< minHandle<QGraphicsLineItem>, minHandle<QGraphicsLineItem> > FadeItem;
+    typedef pair< minHandle<QGraphicsRectItem>, minHandle<QGraphicsSimpleTextItem> > MusicItem;
 	typedef vector< MusicItem >	MusicItemContainer;
 	typedef vector< FadeItem >	FadeItemContainer;
 
@@ -82,9 +82,9 @@ public:
 	virtual QSize sizeHint() const;
 
 	// *** handle signals
-	virtual void contentsMousePressEvent( QMouseEvent * pEvent );
-	virtual void contentsMouseReleaseEvent( QMouseEvent * pEvent );
-	virtual void contentsMouseMoveEvent( QMouseEvent * pEvent );
+    virtual void mousePressEvent( QMouseEvent * pEvent );
+    virtual void mouseReleaseEvent( QMouseEvent * pEvent );
+    virtual void mouseMoveEvent( QMouseEvent * pEvent );
 	virtual void dragEnterEvent( QDragEnterEvent * pEvent );
 	virtual void dragMoveEvent ( QDragMoveEvent * pEvent );
 	virtual void dropEvent( QDropEvent * pEvent );
@@ -125,12 +125,12 @@ private:
 	// ** data **
 	QMenu *				        m_pContextMenu;
     QAction *                   m_pMenuDynTextEdit;
-	Q3Canvas *					m_pCanvas;
+    QGraphicsScene *			m_pCanvas;
 	QSize						m_aSizeHint;
 	MyDynamicToolTip *			m_pToolTip;
 	QPoint						m_aLastMousePos;			// temp
 
-	minHandle<Q3CanvasLine>		m_hPlayMark;
+    minHandle<QGraphicsLineItem>	m_hPlayMark;
 
 	minHandle<TimeLineAxis>		m_hTimeAxis;
 

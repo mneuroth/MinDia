@@ -32,16 +32,20 @@
 #include "timelineaxis.h"
 #include "soundinfo.h"
 
+#include <QGraphicsScene>
+#include <QGraphicsLineItem>
+
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************
 
-TimeLineAxis::TimeLineAxis( Q3Canvas * pCanvas, double dFactor, int iStartPosY )
+TimeLineAxis::TimeLineAxis( QGraphicsScene * pCanvas, double dFactor, int iStartPosY )
 : m_pCanvas( pCanvas ),
   m_dFactor( dFactor ),
   m_iStartPosY( iStartPosY )
 {
-	m_hTimeAxis	= minHandle<Q3CanvasLine>( new Q3CanvasLine( m_pCanvas ) );
+    m_hTimeAxis	= minHandle<QGraphicsLineItem>( new QGraphicsLineItem() );
+    m_pCanvas->addItem(m_hTimeAxis.GetPtr());
 	m_hTimeAxis->show();
 }
 
@@ -55,7 +59,7 @@ void TimeLineAxis::SetAxisLength( double dTotalTime )
 	
 	int iTotalLength = (int)(m_dTotalTime*m_dFactor);
 
-	m_hTimeAxis->setPoints( 0, m_iStartPosY, iTotalLength, m_iStartPosY );
+    m_hTimeAxis->setLine( 0, m_iStartPosY, iTotalLength, m_iStartPosY );
 
 	MakeSecondTicks();
 }
@@ -79,12 +83,14 @@ void TimeLineAxis::MakeSecondTicks()
 	{
 		int iPos = (int)(((double)i)*m_dFactor);
 
-		Q3CanvasLine * pLine = new Q3CanvasLine( m_pCanvas );
-		pLine->setPoints( 0, 0, 0, 6 );
-		pLine->move( iPos, m_iStartPosY );
+        QGraphicsLineItem * pLine = new QGraphicsLineItem();
+        m_pCanvas->addItem(pLine);
+        pLine->setLine( 0, 0, 0, 6 );
+        pLine->setPos( iPos, m_iStartPosY );
 		pLine->show();
 		
-		Q3CanvasText * pText = new Q3CanvasText( m_pCanvas );
+        QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
+        m_pCanvas->addItem(pText);
 		QString sText;
 		if( i>60 )
 		{
@@ -98,9 +104,9 @@ void TimeLineAxis::MakeSecondTicks()
 			sText += "s";
 		}
 		pText->setText( sText );
-		pText->move( iPos, m_iStartPosY+10 );
+        pText->setPos( iPos, m_iStartPosY+10 );
 		pText->show();
 
-		m_aTickContainer.push_back( AxisTick( minHandle<Q3CanvasLine>( pLine ), minHandle<Q3CanvasText>( pText ) ) );
+        m_aTickContainer.push_back( AxisTick( minHandle<QGraphicsLineItem>( pLine ), minHandle<QGraphicsSimpleTextItem>( pText ) ) );
 	}
 }

@@ -56,6 +56,7 @@
 #include <QList>
 #include <QUrl>
 #include <QInputDialog>
+#include <QGraphicsScene>
 
 // *******************************************************************
 /* TODO Qt4
@@ -103,10 +104,13 @@ const int g_iStartPosY = g_iRampSize + 20;
 const int c_iDynOpOffset = 60;
 
 TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMainWin, QObject * pControler, DiaPresentation * pDoc )
-: Q3CanvasView( 0, pParent )
+    : QGraphicsView( 0, pParent )
 {
-	setAcceptDrops( TRUE );
-	setDragAutoScroll( TRUE );
+    setAlignment(Qt::AlignLeft|Qt::AlignTop);
+    setAcceptDrops(true);
+//TODO porting	setDragAutoScroll( TRUE );
+    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
 	m_pContextMenu		= new QMenu( this );
     
@@ -127,9 +131,9 @@ TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget 
     connect( m_pMenuDynTextEdit, SIGNAL(triggered()), this, SLOT(sltEditDynText()) );
     m_pContextMenu->addAction( m_pMenuDynTextEdit );
     
-	m_pCanvas			= new Q3Canvas( iWidth, iHeight );
+    m_pCanvas			= new QGraphicsScene( 0, 0, iWidth, iHeight );
 	//m_pCanvas->setDoubleBuffering( true );
-	setCanvas( m_pCanvas );
+    setScene( m_pCanvas );
 
 	// set default value for size hint
 	m_aSizeHint			= QSize( 600, 260 );
@@ -151,9 +155,10 @@ TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget 
 
 	m_hTimeAxis = minHandle<TimeLineAxis>( new TimeLineAxis( m_pCanvas, g_dFactor, g_iStartPosY ) );
 
-	m_hPlayMark = minHandle<Q3CanvasLine>( new Q3CanvasLine( m_pCanvas ) );
-	m_hPlayMark->setBrush( QColor( 255, 0, 0 ) );
-	m_hPlayMark->setPoints( 0, 0, 0, g_iStartPosY );
+    m_hPlayMark = minHandle<QGraphicsLineItem>( new QGraphicsLineItem() );
+    m_pCanvas->addItem(m_hPlayMark.GetPtr());
+    m_hPlayMark->setPen( QColor( 255, 0, 0 ) );
+    m_hPlayMark->setLine( 0, 0, 0, g_iStartPosY );
 	m_hPlayMark->show();
 
 	sltUpdateView();
@@ -231,7 +236,7 @@ void TimeLineView::sltDoUpdateView( bool bErase )
 		if( m_pCanvas->width()<iTotalLength )
 		{
 			// ** WARNING: the resize-method is expensive !!!
-			m_pCanvas->resize( iTotalLength, m_pCanvas->height() );
+            m_pCanvas->setSceneRect( 0, 0, iTotalLength, m_pCanvas->height() );
 		}
 
 		// ** update the time axis **
@@ -247,8 +252,7 @@ void TimeLineView::sltDoUpdateView( bool bErase )
 			if( hItem->IsSelected() )
 			{
 				// ** ensure that the selected item is visible
-				ensureVisible( hItem->GetPositionX()+hItem->GetLength(), hItem->GetPositionY() );
-				ensureVisible( hItem->GetPositionX(), hItem->GetPositionY() );
+                ensureVisible( hItem->GetPositionX(), hItem->GetPositionY(), m_pCanvas->width(), m_pCanvas->height() );
 			}
 		}
 
@@ -262,7 +266,7 @@ void TimeLineView::sltDoUpdateView( bool bErase )
 		ShowGraphicOperations();
 	}
 
-	repaintContents( contentsX(), contentsY(), /*contents*/visibleWidth(), /*contents*/visibleHeight(), bErase );
+    update( x(), y(), /*contents*/width(), /*contents*/height()/*, bErase*/ );
 }
 
 void TimeLineView::sltUpdateView()
@@ -326,29 +330,29 @@ void TimeLineView::SetPlayMark( double dActPlayTime )
 
 	int iActPos = (int)(dActPlayTime*g_dFactor);
 
-	m_hPlayMark->move( iActPos, 0 );
+    m_hPlayMark->setPos( iActPos, 0 );
 
 	// ** repaint only needet in play or pause modus
 	if( iActPos >= 0 )
 	{
 // TODO --> ist dies noch notwendig ?
-#ifdef __linux__
-		repaintContents( contentsX(), contentsY(), /*contents*/visibleWidth(), g_iStartPosY );
-#else
-		repaintContents( iActPos-iDelta, contentsY(), 2*iDelta+1, /*contentsHeight()*/g_iStartPosY );
-#endif
+//#ifdef __linux__
+//		repaintContents( contentsX(), contentsY(), /*contents*/visibleWidth(), g_iStartPosY );
+//#else
+        update( iActPos-iDelta, y(), 2*iDelta+1, /*contentsHeight()*/g_iStartPosY );
+//#endif
 		// ** shift viewport, to ensure that the new item is visible
-		ensureVisible( iActPos+20, 0 );
+        ensureVisible( iActPos+20, 0, width(), height() );
 	}
 
 	// ** clear last play mark, after stop
 	if( m_iLastActPlayPos-iActPos > 2 )
 	{
-#ifdef __linux__
-		repaintContents( contentsX(), contentsY(), /*contents*/visibleWidth(), /*contents*/visibleHeight() );
-#else
-		repaintContents( m_iLastActPlayPos-iDelta, contentsY(), 2*iDelta+1, /*contents*/visibleHeight() );
-#endif
+//#ifdef __linux__
+//		repaintContents( contentsX(), contentsY(), /*contents*/visibleWidth(), /*contents*/visibleHeight() );
+//#else
+        update( m_iLastActPlayPos-iDelta, y(), 2*iDelta+1, /*contents*/height() );
+//#endif
 	}
 
 	m_iLastActPlayPos = iActPos;
@@ -378,38 +382,41 @@ void TimeLineView::ShowPlotComments()
 			// to position (exclusive) !
 			int iPos2 = (int)(m_pDiaPres->GetDiaAbsStartDissolveTime( iStopIndex )*g_dFactor);
 
-			Q3CanvasLine * pLine1 = new Q3CanvasLine( m_pCanvas );
-			pLine1->setPoints( 0, 0, 0, 20 );
+            QGraphicsLineItem * pLine1 = new QGraphicsLineItem();
+            m_pCanvas->addItem(pLine1);
+            pLine1->setLine( 0, 0, 0, 20 );
 			//pLine1->setBrush( QBrush( aColor ) );
 			pLine1->setPen( QPen( aColor ) );
-			pLine1->move( iPos, g_iStartPosY+c_iOffset );
+            pLine1->setPos( iPos, g_iStartPosY+c_iOffset );
 			pLine1->show();
 
-			Q3CanvasLine * pLine2 = new Q3CanvasLine( m_pCanvas );
-			pLine2->setPoints( 0, 0, 0, 20 );
+            QGraphicsLineItem * pLine2 = new QGraphicsLineItem();
+            m_pCanvas->addItem(pLine2);
+            pLine2->setLine( 0, 0, 0, 20 );
 			//pLine2->setBrush( QBrush( aColor ) );
 			pLine2->setPen( QPen( aColor ) );
-			pLine2->move( iPos2, g_iStartPosY+c_iOffset );
+            pLine2->setPos( iPos2, g_iStartPosY+c_iOffset );
 			pLine2->show();
 
-			Q3CanvasText * pText = new Q3CanvasText( m_pCanvas );
+            QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
+            m_pCanvas->addItem(pText);
 			QString sText = aCommentContainer[i]->GetComment().c_str();
 			sText = "<-- " + sText + " -->";
 			pText->setText( sText );
-			pText->setColor( aColor );
-			pText->move( iPos, g_iStartPosY+c_iOffset+c_iTextOffset );
+            pText->setBrush( aColor );
+            pText->setPos( iPos, g_iStartPosY+c_iOffset+c_iTextOffset );
 			pText->show();
 
 			// ** shift the text into the middle of the two bars
-			QRect aRect = pText->boundingRect();
+            QRectF aRect = pText->boundingRect();
 			if( aRect.width() < iPos2-iPos )
 			{
-				pText->move( iPos + ((iPos2-iPos-aRect.width())/2), g_iStartPosY+c_iOffset+c_iTextOffset );
+                pText->setPos( iPos + ((iPos2-iPos-aRect.width())/2), g_iStartPosY+c_iOffset+c_iTextOffset );
 			}
 
 			m_aPlotCommentContainer.push_back( PlotCommentItem( 
-					pair< minHandle<Q3CanvasLine>, minHandle<Q3CanvasLine> >( minHandle<Q3CanvasLine>( pLine1 ), minHandle<Q3CanvasLine>( pLine2 ) ),
-					minHandle<Q3CanvasText>( pText ) ) );
+                    pair< minHandle<QGraphicsLineItem>, minHandle<QGraphicsLineItem> >( minHandle<QGraphicsLineItem>( pLine1 ), minHandle<QGraphicsLineItem>( pLine2 ) ),
+                    minHandle<QGraphicsSimpleTextItem>( pText ) ) );
 		}
 	}
 }
@@ -434,21 +441,23 @@ void TimeLineView::ShowMusicComments()
 		// ** connect the sound comments to the sound play time
 		iPos += iOffset;
 
-		Q3CanvasLine * pLine = new Q3CanvasLine( m_pCanvas );
-		pLine->setPoints( 0, 0, 0, 20+iLength );
+        QGraphicsLineItem * pLine = new QGraphicsLineItem();
+        m_pCanvas->addItem(pLine);
+        pLine->setLine( 0, 0, 0, 20+iLength );
 		//pLine->setBrush( QBrush( aColor ) );
 		pLine->setPen( QPen( aColor ) );
-		pLine->move( iPos, g_iStartPosY+c_iOffset );
+        pLine->setPos( iPos, g_iStartPosY+c_iOffset );
 		pLine->show();
 
-		Q3CanvasText * pText = new Q3CanvasText( m_pCanvas );
+        QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
+        m_pCanvas->addItem(pText);
 		QString sText = aCommentContainer[i]->GetComment().c_str();
 		pText->setText( sText );
-		pText->setColor( aColor );
-		pText->move( iPos+2, g_iStartPosY+c_iOffset+10+iLength );
+        pText->setBrush( aColor );
+        pText->setPos( iPos+2, g_iStartPosY+c_iOffset+10+iLength );
 		pText->show(); 
 
-		m_aMusicCommentContainer.push_back( MusicCommentItem( MusicCommentItemHelper( minHandle<Q3CanvasLine>( pLine ), minHandle<Q3CanvasText>( pText ) ), ItemInfoHelper( sText, -1 ) ) );
+        m_aMusicCommentContainer.push_back( MusicCommentItem( MusicCommentItemHelper( minHandle<QGraphicsLineItem>( pLine ), minHandle<QGraphicsSimpleTextItem>( pText ) ), ItemInfoHelper( sText, -1 ) ) );
 	}
 }
 
@@ -475,17 +484,19 @@ void TimeLineView::ShowMusicTracks()
 		int iStartPos = (int)(aSoundContainer.GetAbsPlayPos(i)*0.001*g_dFactor);
 		int iDelta = (int)(aSoundContainer[i]->GetDelta()*0.001*g_dFactor);
 
-		Q3CanvasRectangle * pRect = new Q3CanvasRectangle( m_pCanvas );
-		pRect->setSize( iDelta, c_iTrackHeight );
+        QGraphicsRectItem * pRect = new QGraphicsRectItem();
+        m_pCanvas->addItem(pRect);
+        pRect->setRect( 0, 0, iDelta, c_iTrackHeight );
 		pRect->setBrush( QBrush( aColor1 ) );
-		pRect->move( iOffset+iStartPos, g_iStartPosY+c_iTrackHeight+c_iTrackOffset /*80*/ );
+        pRect->setPos( iOffset+iStartPos, g_iStartPosY+c_iTrackHeight+c_iTrackOffset /*80*/ );
 		pRect->show();
 
-		Q3CanvasText * pText = new Q3CanvasText( m_pCanvas );
-		QString sText = aSoundContainer[i]->GetFileName().c_str();
+        QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
+        m_pCanvas->addItem(pText);
+        QString sText = aSoundContainer[i]->GetFileName().c_str();
 		pText->setText( sText );
-		pText->setColor( aColor2 );
-		pText->move( iOffset+iStartPos, g_iStartPosY+c_iTrackHeight+c_iTrackOffset+c_iTrackHeight /*140*/ );
+        pText->setBrush( aColor2 );
+        pText->setPos( iOffset+iStartPos, g_iStartPosY+c_iTrackHeight+c_iTrackOffset+c_iTrackHeight /*140*/ );
 		pText->show();
 
 		// ** show fade in / fade out line
@@ -494,24 +505,26 @@ void TimeLineView::ShowMusicTracks()
 		int iFadeOutStart = (int)(aSoundContainer[i]->GetFadeOutStartPos()*0.001*g_dFactor);
 		int iFadeOutLength = (int)(aSoundContainer[i]->GetFadeOutLength()*0.001*g_dFactor);
 
-		Q3CanvasLine * pLineFadeIn = new Q3CanvasLine( m_pCanvas );
-		pLineFadeIn->setPoints( 0, c_iTrackHeight, iFadeInLength, 0 );
+        QGraphicsLineItem * pLineFadeIn = new QGraphicsLineItem();
+        m_pCanvas->addItem(pLineFadeIn);
+        pLineFadeIn->setLine( 0, c_iTrackHeight, iFadeInLength, 0 );
 		//pLineFadeIn->setBrush( QBrush( aColor ) );
-		pLineFadeIn->move( iOffset+iStartPos+iFadeInStart, g_iStartPosY+c_iTrackHeight+c_iTrackOffset );
+        pLineFadeIn->setPos( iOffset+iStartPos+iFadeInStart, g_iStartPosY+c_iTrackHeight+c_iTrackOffset );
 		pLineFadeIn->show();
 		pLineFadeIn->setSelected( true );
-		pLineFadeIn->setZ( 128 );
+        //pLineFadeIn->setZ( 128 );
 
-		Q3CanvasLine * pLineFadeOut = new Q3CanvasLine( m_pCanvas );
-		pLineFadeOut->setPoints( 0, 0, iFadeOutLength, c_iTrackHeight );
+        QGraphicsLineItem * pLineFadeOut = new QGraphicsLineItem();
+        m_pCanvas->addItem(pLineFadeOut);
+        pLineFadeOut->setLine( 0, 0, iFadeOutLength, c_iTrackHeight );
 		//pLineFadeOut->setBrush( QBrush( aColor ) );
-		pLineFadeOut->move( iOffset+iStartPos+iFadeOutStart, g_iStartPosY+c_iTrackHeight+c_iTrackOffset );
+        pLineFadeOut->setPos( iOffset+iStartPos+iFadeOutStart, g_iStartPosY+c_iTrackHeight+c_iTrackOffset );
 		pLineFadeOut->show();
 		pLineFadeOut->setSelected( true );
-		pLineFadeOut->setZ( 128 );
+        //pLineFadeOut->setZ( 128 );
 
-		m_aMusicContainer.push_back( MusicItem( minHandle<Q3CanvasRectangle>( pRect ), minHandle<Q3CanvasText>( pText ) ) );
-		m_aFadeContainer.push_back( FadeItem( minHandle<Q3CanvasLine>( pLineFadeIn ), minHandle<Q3CanvasLine>( pLineFadeOut ) ) );
+        m_aMusicContainer.push_back( MusicItem( minHandle<QGraphicsRectItem>( pRect ), minHandle<QGraphicsSimpleTextItem>( pText ) ) );
+        m_aFadeContainer.push_back( FadeItem( minHandle<QGraphicsLineItem>( pLineFadeIn ), minHandle<QGraphicsLineItem>( pLineFadeOut ) ) );
 	}
 }
 
@@ -543,14 +556,16 @@ void TimeLineView::ShowGraphicOperations()
 		// ** connect the sound comments to the sound play time
 		iPos += iOffset;
 
-		Q3CanvasLine * pLine = new Q3CanvasLine( m_pCanvas );
-		pLine->setPoints( 0, 0, 0, 20+iLength );
+        QGraphicsLineItem * pLine = new QGraphicsLineItem();
+        m_pCanvas->addItem(pLine);
+        pLine->setLine( 0, 0, 0, 20+iLength );
 		//pLine->setBrush( QBrush( aColor ) );
 		pLine->setPen( QPen( aColor ) );
-		pLine->move( iPos, g_iStartPosY+c_iDynOpOffset );
+        pLine->setPos( iPos, g_iStartPosY+c_iDynOpOffset );
 		pLine->show();
 
-		Q3CanvasText * pText = new Q3CanvasText( m_pCanvas );
+        QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
+        m_pCanvas->addItem(pText);
 		QString sText = aDynGrOpContainer[i]->GetString().c_str();
 		QString sAddText;
 		if( sText.length()>4 )
@@ -558,11 +573,11 @@ void TimeLineView::ShowGraphicOperations()
 			sAddText = "...";
 		}
 		pText->setText( sText.left( 4 )+sAddText );
-		pText->setColor( aColor );
-		pText->move( iPos+2, g_iStartPosY+c_iDynOpOffset+10+iLength );
+        pText->setBrush( aColor );
+        pText->setPos( iPos+2, g_iStartPosY+c_iDynOpOffset+10+iLength );
 		pText->show(); 
 
-		m_aDynGrapOpContainer.push_back( MusicCommentItem( MusicCommentItemHelper( minHandle<Q3CanvasLine>( pLine ), minHandle<Q3CanvasText>( pText ) ), ItemInfoHelper( sText, i ) ) );
+        m_aDynGrapOpContainer.push_back( MusicCommentItem( MusicCommentItemHelper( minHandle<QGraphicsLineItem>( pLine ), minHandle<QGraphicsSimpleTextItem>( pText ) ), ItemInfoHelper( sText, i ) ) );
 	}
 }
 
@@ -598,7 +613,7 @@ QRect TimeLineView::GetTipRect( const QPoint & aPoint, QString * psText, int * p
 	return QRect( 0, 0, -1, -1 );
 }
 
-void TimeLineView::contentsMousePressEvent( QMouseEvent * pEvent )
+void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 {
 	if( (pEvent->button() == Qt::LeftButton) )
 	{
@@ -711,7 +726,7 @@ void TimeLineView::contentsMousePressEvent( QMouseEvent * pEvent )
 	}
 }
 
-void TimeLineView::contentsMouseReleaseEvent( QMouseEvent * /*pEvent*/ )
+void TimeLineView::mouseReleaseEvent( QMouseEvent * /*pEvent*/ )
 {
 	// ** allow modifiying of items only in edit-modus
 	if( m_pDiaPres->IsEdit() )
@@ -744,7 +759,7 @@ void TimeLineView::contentsMouseReleaseEvent( QMouseEvent * /*pEvent*/ )
 	}
 }
 
-void TimeLineView::contentsMouseMoveEvent( QMouseEvent * pEvent )
+void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
 {
 	// ** allow modifiying of items only in edit-modus
 	if( m_pDiaPres->IsEdit() )

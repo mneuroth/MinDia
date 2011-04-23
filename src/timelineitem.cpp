@@ -30,10 +30,7 @@
 
 #include "diapresentation.h"
 
-#include <q3canvas.h>
-#include <qbrush.h>
-//Added by qt3to4:
-#include <Q3PointArray>
+#include <QGraphicsScene>
 
 // *******************************************************************
 // *******************************************************************
@@ -41,7 +38,7 @@
 
 const int g_iMouseAreaWidth = 5;
 
-TimeLineItem::TimeLineItem( Q3Canvas * pCanvas, DiaPresentation * pDiaPres, int iSlideNo, double dFactor, int iRampSize, bool bIsSelected )
+TimeLineItem::TimeLineItem( QGraphicsScene * pCanvas, DiaPresentation * pDiaPres, int iSlideNo, double dFactor, int iRampSize, bool bIsSelected )
 : m_pCanvas( pCanvas ),
   m_pDissolveRamp( 0 ),
   m_pSlideLabel( 0 ),
@@ -89,9 +86,10 @@ void TimeLineItem::UpdateItem()
 
 		m_iRampDelta = iDelta;
 
-		m_pDissolveRamp = new Q3CanvasPolygon( m_pCanvas );
+        m_pDissolveRamp = new QGraphicsPolygonItem();
+        m_pCanvas->addItem(m_pDissolveRamp);
 
-		Q3PointArray aPoints( 7 );
+        QPolygonF aPoints(7);
 		aPoints[0] = QPoint( 0, m_iRampSize );
 		aPoints[1] = QPoint( iDelta, m_iRampSize );
 		aPoints[2] = QPoint( iDelta2, m_iRampSize );	// *
@@ -99,7 +97,7 @@ void TimeLineItem::UpdateItem()
 		aPoints[4] = QPoint( iDelta, 0 );			// *
 		aPoints[5] = QPoint( iDelta, 0 );
 		aPoints[6] = QPoint( 0, m_iRampSize );
-		m_pDissolveRamp->setPoints( aPoints );
+        m_pDissolveRamp->setPolygon( aPoints );
 		QBrush aBrush( Qt::SolidPattern/*Dense4Pattern*/ );
 		if( IsSelected() )
 		{
@@ -114,24 +112,25 @@ void TimeLineItem::UpdateItem()
 			aBrush.setColor( QColor( 0, 0, 128 ) );
 		}
 		m_pDissolveRamp->setBrush( aBrush );
-		m_pDissolveRamp->move( iPosition, GetPositionY() );
+        m_pDissolveRamp->setPos( iPosition, GetPositionY() );
 		m_pDissolveRamp->show();
 
-		m_pSlideLabel = new Q3CanvasText( m_pCanvas );
+        m_pSlideLabel = new QGraphicsSimpleTextItem();
+        m_pCanvas->addItem(m_pSlideLabel);
 		QString sLabel;
 		sLabel.setNum( m_iSlideNo + 1 );
 		m_pSlideLabel->setText( sLabel );
-		m_pSlideLabel->move( iPosition, GetPositionY()+m_iRampSize );
+        m_pSlideLabel->setPos( iPosition, GetPositionY()+m_iRampSize );
 		m_pSlideLabel->show();
 	}
 }
 
 bool TimeLineItem::IsSelected( int x, int y ) const
 {
-	QRect aRect = m_pDissolveRamp->boundingRect();
+    QRectF aRect = m_pDissolveRamp->boundingRect();
 
-	if( (x >= aRect.left()) && (x <= aRect.right()) &&
-		(y >= aRect.top()) && (y <= aRect.bottom()) )
+    if( (x >= m_pDissolveRamp->x()+aRect.left()) && (x <= m_pDissolveRamp->x()+aRect.right()) &&
+        (y >= m_pDissolveRamp->y()+aRect.top()) && (y <= m_pDissolveRamp->y()+aRect.bottom()) )
 	{
 		return true;
 	}
@@ -141,10 +140,10 @@ bool TimeLineItem::IsSelected( int x, int y ) const
 
 bool TimeLineItem::IsStopBorderSelected( int x, int y ) const
 {
-	QRect aRect = m_pDissolveRamp->boundingRect();
+    QRectF aRect = m_pDissolveRamp->boundingRect();
 
-	if( (x >= aRect.right()-g_iMouseAreaWidth) && (x <= aRect.right()) &&
-		(y >= aRect.top()) && (y <= aRect.bottom()) )
+    if( (x >= m_pDissolveRamp->x()+aRect.right()-g_iMouseAreaWidth) && (x <= m_pDissolveRamp->x()+aRect.right()) &&
+        (y >= m_pDissolveRamp->y()+aRect.top()) && (y <= m_pDissolveRamp->y()+aRect.bottom()) )
 	{
 		return true;
 	}
@@ -154,11 +153,11 @@ bool TimeLineItem::IsStopBorderSelected( int x, int y ) const
 
 bool TimeLineItem::IsDissolveBorderSelected( int x, int y ) const
 {
-	QRect aRect = m_pDissolveRamp->boundingRect();
+    QRectF aRect = m_pDissolveRamp->boundingRect();
 
-	if( (x >= aRect.left()+m_iRampDelta-g_iMouseAreaWidth) && 
-		(x <= aRect.left()+m_iRampDelta+g_iMouseAreaWidth) && 
-		(y >= aRect.top()) && (y <= aRect.bottom()) )
+    if( (x >= m_pDissolveRamp->x()+aRect.left()+m_iRampDelta-g_iMouseAreaWidth) &&
+        (x <= m_pDissolveRamp->x()+aRect.left()+m_iRampDelta+g_iMouseAreaWidth) &&
+        (y >= m_pDissolveRamp->y()+aRect.top()) && (y <= m_pDissolveRamp->y()+aRect.bottom()) )
 	{
 		return true;
 	}
