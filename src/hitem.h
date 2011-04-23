@@ -29,9 +29,14 @@
 #ifndef _HTIEM_H
 #define _HTIEM_H
 
+#undef _with_canvas_items
+
 // ** gui
-#include <q3canvas.h> 
-//#include <QGraphicsScene>
+#include <QGraphicsScene>
+#include <QGraphicsRectItem>
+#ifdef _with_canvas_items
+#include <QGraphicsSimpleTextItem>
+#endif
 
 #include "minhandle.h"		// for the smart-ptr
 
@@ -41,15 +46,13 @@ class DiaInfo;
 class SlideItem;
 class QImage;
 
-#undef _with_canvas_items
-
 // *******************************************************************
 /** Represents an Item in an ItemView.
   */
-class HItem : public Q3CanvasRectangle //QGraphicsScene // Q3CanvasRectangle
+class HItem : public QGraphicsRectItem
 {
 public:
-	HItem( const QRect & aRect, Q3Canvas * pCanvas, minHandle<DiaInfo> hData );
+    HItem( const QRect & aRect, QGraphicsScene * pCanvas, minHandle<DiaInfo> hData );
 	~HItem();
 
 	void SetSelected( bool bSelect );
@@ -64,7 +67,7 @@ public:
 protected:
 
 #ifndef _with_canvas_items
-    virtual void drawShape( QPainter & aPainter );
+    virtual void paint( QPainter * pPainter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 #endif
 
 private:
@@ -76,10 +79,10 @@ private:
 	void UpdateElements();
 
 	// ** the element data **
-	Q3CanvasText *		m_pPosText;
-	Q3CanvasText *		m_pIdText;
-	Q3CanvasText *		m_pCommentText;
-	Q3CanvasText *		m_pFileNameText;
+    QGraphicsSimpleTextItem *		m_pPosText;
+    QGraphicsSimpleTextItem *		m_pIdText;
+    QGraphicsSimpleTextItem *		m_pCommentText;
+    QGraphicsSimpleTextItem *		m_pFileNameText;
 	SlideItem *			m_pSlideItem;
 #else
 	QString				m_sImageFileNameCache;

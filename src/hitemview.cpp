@@ -47,6 +47,7 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QDragEnterEvent>
+#include <QScrollBar>
 #include <QMenu>
 #include <QMimeData>
 #include <QList>
@@ -76,21 +77,22 @@ static string GetNextFreeID()
 class _RestoreContents
 {
 public:
-	_RestoreContents( Q3ScrollView * pScrollView )
+    _RestoreContents( QAbstractScrollArea * pScrollView )
 		: m_pScrollView( pScrollView )
 	{
-		m_x = m_pScrollView->contentsX();
-		m_y = m_pScrollView->contentsY();
+        m_x = m_pScrollView->horizontalScrollBar()->sliderPosition();
+        m_y = m_pScrollView->verticalScrollBar()->sliderPosition();
 	}
 	~_RestoreContents()
 	{
-		m_pScrollView->setContentsPos( m_x, m_y );
-	}
+        m_pScrollView->horizontalScrollBar()->setSliderPosition(m_x);
+        m_pScrollView->verticalScrollBar()->setSliderPosition(m_y);
+    }
 
 private:
-	Q3ScrollView *	m_pScrollView;
-	int				m_x;
-	int				m_y;
+    QAbstractScrollArea *   m_pScrollView;
+    int                     m_x;
+    int                     m_y;
 };
 
 // *******************************************************************
@@ -100,10 +102,13 @@ private:
 #define MODIFY_ENTRY	1
 
 HItemView::HItemView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMainWin, QObject * pControler, DiaPresentation * pDoc )
-: Q3CanvasView( 0, pParent )
+: QGraphicsView( 0, pParent )
 {
-	setAcceptDrops( TRUE );
-	setDragAutoScroll( TRUE );
+    setAlignment(Qt::AlignLeft|Qt::AlignTop);
+    setAcceptDrops(true);
+//TODO porting	setDragAutoScroll( TRUE );
+    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	m_iDragTargetIndex = -1;
 
 	m_pContextMenu		= new QMenu( this );
@@ -112,16 +117,16 @@ HItemView::HItemView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMai
 	connect( pAction, SIGNAL( triggered() ), pMainWin, SLOT( sltShowModifyItem() ) );
     m_pContextMenu->addAction( pAction );
     
-	m_pCanvas			= new Q3Canvas( iWidth, iHeight );
+    m_pCanvas			= new QGraphicsScene( 0, 0, iWidth, iHeight );
 	//m_pCanvas->setDoubleBuffering( true );
-	setCanvas( m_pCanvas );
+    setScene( m_pCanvas );
 
 	// set default value for size hint
-	m_aSizeHint			= QSize( 600, 240 );
+//	m_aSizeHint			= QSize( 600, 240 );
 
 	m_aNextItemPos		= QPoint( 0, 0 );
 	m_aItemShift		= QPoint( 180, 0 );
-	m_aDefaultItemSize	= QRect( 0, 0, m_aItemShift.x(), m_aSizeHint.height() );
+    m_aDefaultItemSize	= QRect( 0, 0, m_aItemShift.x(), 240/*m_aSizeHint.height()*/ );
 
 	m_pDiaPres			= pDoc;
 
@@ -148,15 +153,15 @@ HItemView::~HItemView()
 	delete m_pContextMenu;
 }
 
-QSize HItemView::sizeHint() const
-{
-	return m_aSizeHint;
-}
-
-void HItemView::setSizeHint( const QSize & aSize )
-{
-	m_aSizeHint = aSize;
-}
+//QSize HItemView::sizeHint() const
+//{
+//    return m_aSizeHint;
+//}
+//
+//void HItemView::setSizeHint( const QSize & aSize )
+//{
+//	m_aSizeHint = aSize;
+//}
 
 void HItemView::sltNewItem()
 {
@@ -167,13 +172,13 @@ void HItemView::sltNewItem()
 void HItemView::sltUpdateView()
 {
 	// ** update view widget to show the new created item
-	/*repaint*/updateContents( contentsX(), contentsY(), /*contents*/visibleWidth(), /*contents*/visibleHeight() );
+    update( x(), y(), width(), height() );
 }
 
 void HItemView::sltUpdateSelected()
 {
 	// ** only repaint the selected border of all dias
-	repaintContents( contentsX(), contentsY(), /*contents*/visibleWidth(), /*contents*/visibleHeight(), /*bErase*/FALSE );
+    update( x(), y(), width(), height() );
 }
 
 void HItemView::AddItemAt( minHandle<DiaInfo> hDia, int iIndex, bool bInsert, bool bUpdateView, bool bDoResize )
@@ -234,9 +239,9 @@ void HItemView::AddItemAt( minHandle<DiaInfo> hDia, int iIndex, bool bInsert, bo
 	if( bDoResize && (m_pCanvas->width()<m_aNextItemPos.x()) )
 	{
 		// ** WARNING: the resize-method is expensive !!!
-		m_pCanvas->resize( m_aNextItemPos.x(), m_pCanvas->height() );
+        m_pCanvas->setSceneRect(0,0,(qreal)m_aNextItemPos.x(),(qreal)m_pCanvas->height());
 		// ** shift viewport, to ensure that the new item is visible
-		ensureVisible( m_aNextItemPos.x(), m_aNextItemPos.y() );
+        ensureVisible( (qreal)m_aNextItemPos.x(), (qreal)m_aNextItemPos.y(), m_pCanvas->width(), m_pCanvas->height() );
 	}
 
 	if( bUpdateView )
@@ -244,7 +249,7 @@ void HItemView::AddItemAt( minHandle<DiaInfo> hDia, int iIndex, bool bInsert, bo
 		// ** data changed, generate event for listener
 		emit sigViewDataChanged();
 		// ** update view widget to show the new created item
-		//sltUpdateView();	// geschieht automatisch durch sigViewDataChanged()
+        //sltUpdateView();	// geschieht automatisch durch sigViewDataChanged()
 	}
 
     // ** set the input focus on this window (for fast keyboard commands)
@@ -276,7 +281,16 @@ void HItemView::RemoveItemAt( int iIndex, bool bDeleteData, bool bUpdateView )
 			// ** update view widget to show the new created item
 			//sltUpdateView();	// geschieht automatisch durch sigViewDataChanged()
 		}
-	}
+
+        // ** verifiy if the size for the canvas is too big and needs a resize (23.4.2011)
+        if( /*bDoResize &&*/ (m_pCanvas->width()>m_aNextItemPos.x()) )
+        {
+            // ** WARNING: the resize-method is expensive !!!
+            m_pCanvas->setSceneRect(0,0,(qreal)m_aNextItemPos.x(),(qreal)m_pCanvas->height());
+            // ** shift viewport, to ensure that the new item is visible
+            ensureVisible( (qreal)m_aNextItemPos.x(), (qreal)m_aNextItemPos.y(), m_pCanvas->width(), m_pCanvas->height() );
+        }
+    }
 }
 
 /*
@@ -292,7 +306,7 @@ DiaInfo * HItemView::GetItemAt( int iIndex ) const
 }
 */
 
-void HItemView::contentsMousePressEvent( QMouseEvent * pEvent )
+void HItemView::mousePressEvent( QMouseEvent * pEvent )
 {
 	bool bIsOneSelected = false;
 	HItem * pFirstSelectedItem = 0;
@@ -351,14 +365,14 @@ bool HItemView::IsDragTargetNotDragSource( QMouseEvent * pEvent, int iActIndex )
 {
 	QPoint aPoint = pEvent->pos();
 
-	int x = aPoint.x() + contentsX();
-	int y = aPoint.y() + contentsY();
+    int xx = aPoint.x() + x();
+    int yy = aPoint.y() + y();
 
 	// find the index for the selected image
 	for( int i=0; i<(int)m_aItemContainer.size(); i++ )
 	{
 		HItem * pItem = m_aItemContainer[ i ];
-		if( pItem && pItem->IsPointInItem( x, y ) )
+        if( pItem && pItem->IsPointInItem( xx, yy ) )
 		{
 			return i != iActIndex;
 		}
@@ -366,7 +380,7 @@ bool HItemView::IsDragTargetNotDragSource( QMouseEvent * pEvent, int iActIndex )
 	return false;
 }
 
-void HItemView::contentsMouseMoveEvent( QMouseEvent * pEvent )
+void HItemView::mouseMoveEvent( QMouseEvent * pEvent )
 {
 	// ** disable mouse input in play-modus !
 	if( m_pDiaPres && !m_pDiaPres->IsEdit() )
@@ -473,8 +487,13 @@ void HItemView::keyPressEvent( QKeyEvent * pEvent )
 	}
 	else
 	{
-		Q3CanvasView::keyPressEvent( pEvent );
+        QGraphicsView::keyPressEvent( pEvent );
 	}
+}
+
+void HItemView::dragMoveEvent( QDragMoveEvent * pEvent )
+{
+    // dummy method is needed so that drag and drop works !
 }
 
 void HItemView::dragEnterEvent( QDragEnterEvent * pEvent )
@@ -491,7 +510,7 @@ void HItemView::dragEnterEvent( QDragEnterEvent * pEvent )
 		}
 		else if( IsImageFileDrag( pEvent ) )
 		{
-			pEvent->accept();
+            pEvent->accept();
 		}
 		else
 		{
@@ -516,14 +535,14 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 
 			QPoint aPoint = pEvent->pos();
 
-			int x = aPoint.x() + contentsX();
-			int y = aPoint.y() + contentsY();
+            int xx = aPoint.x() + x();
+            int yy = aPoint.y() + y();
 
 			// find the index for the selected image ?
 			for( int i=0; i<(int)m_aItemContainer.size(); i++ )
 			{
 				HItem * pItem = m_aItemContainer[ i ];
-				if( pItem && pItem->IsPointInItem( x, y ) )
+                if( pItem && pItem->IsPointInItem( xx, yy ) )
 				{
 					iIndex = i;
 				}
@@ -545,8 +564,8 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 
 			QPoint aPoint = pEvent->pos();
 
-			int x = aPoint.x() + contentsX();
-			int y = aPoint.y() + contentsY();
+            int xx = aPoint.x() + x();
+            int yy = aPoint.y() + y();
 
             sFileName = pEvent->mimeData()->text();
             
@@ -554,7 +573,7 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 			for( int i=0; i<(int)m_aItemContainer.size(); i++ )
 			{
 				HItem * pItem = m_aItemContainer[ i ];
-				if( pItem && pItem->IsPointInItem( x, y ) )
+                if( pItem && pItem->IsPointInItem( xx, yy ) )
 				{
 					iIndex = i;
 				}
@@ -802,7 +821,7 @@ int HItemView::GetCountValidClipboardData( const QString & sData )
 
 void HItemView::SyncViewWithData()
 {
-	ResetView();
+    ResetView();
 	
 	// ** get new Dia-Object from the container
 	if( m_pDiaPres )
@@ -824,7 +843,7 @@ void HItemView::ResetView()
 	m_aNextItemPos	= QPoint( 0, 0 );
 
 	// ** reset scrollbars 
-	m_pCanvas->resize( m_aSizeHint.width(), m_aSizeHint.height() );
+//    m_pCanvas->setSceneRect( 0, 0, m_aSizeHint.width(), m_aSizeHint.height() );
 
 	DeleteAllHItems();
 }
@@ -884,9 +903,8 @@ void HItemView::SelectItemDelta( int iDeltaIndex )
 				emit sigItemSelected( 1, pItemNext, i+iDeltaIndex, 0 );
 
 				// ** shift scrollbar if needed
-				QRect aRect = pItemNext->rect();
-				ensureVisible( aRect.left(), aRect.y() );
-				ensureVisible( aRect.right(), aRect.y()/*+aRect.bottom()*/ );
+                QRectF aRect = pItemNext->rect();
+                ensureVisible( aRect );
 
 				break;
 			}
@@ -931,9 +949,8 @@ bool HItemView::SelectItem( int iIndex, int iDissolveTimeInMS )
 		}
 
 		// ** shift scrollbar if needed
-		QRect aRect = pItemSelected->rect();
-		ensureVisible( aRect.left(), aRect.y() );
-		ensureVisible( aRect.right(), aRect.y()/*+aRect.bottom()*/ );
+        QRectF aRect = pItemSelected->rect();
+        ensureVisible( aRect );
 
 		// ** update the view
 		sltUpdateSelected();
@@ -998,7 +1015,7 @@ void HItemView::ShiftViewItemsFromIndex( int iIndex )
 		HItem * pItem = m_aItemContainer[ i ];
 		if( pItem )
 		{
-			pItem->move( pItem->x()+m_aItemShift.x(), pItem->y()+m_aItemShift.y() );
+            pItem->setPos( pItem->x()+m_aItemShift.x(), pItem->y()+m_aItemShift.y() );
 		}
 	}
 }

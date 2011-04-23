@@ -37,6 +37,7 @@
 #include <QDropEvent>
 #include <QMouseEvent>
 #include <QKeyEvent>
+#include <QGraphicsView>
 
 #include "hitem.h"
 #include "diainfo.h"
@@ -50,7 +51,6 @@ using namespace std;
 
 class DiaPresentation;
 class QMenu;
-class Q3Canvas;
     
 /*
 class VectorHItem : public vector<HItem *>
@@ -64,7 +64,7 @@ public:
 /** Handels a container view for viewable
   * items. 
   */
-class HItemView : public Q3CanvasView 
+class HItemView : public QGraphicsView
 {
 	Q_OBJECT
 
@@ -75,19 +75,20 @@ public:
 	HItemView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMainWin = 0, QObject * pControler = 0, DiaPresentation * pDoc = 0 );
 	virtual ~HItemView();
 
-	// *** overload inherited methods ***
-	virtual QSize sizeHint() const;
+    // *** overload inherited methods ***
+//    virtual QSize sizeHint() const;
 
 	// *** my own interface ***
-	void setSizeHint( const QSize & aSize );
+//	void setSizeHint( const QSize & aSize );
 
 	// *** handle signals
-	virtual void contentsMousePressEvent( QMouseEvent * pEvent );
-	virtual void contentsMouseMoveEvent( QMouseEvent * pEvent );
+    virtual void mousePressEvent( QMouseEvent * pEvent );
+    virtual void mouseMoveEvent( QMouseEvent * pEvent );
 	//virtual void contentsMouseDoubleClickEvent( QMouseEvent * pEvent );
 	virtual void keyPressEvent( QKeyEvent * pEvent ); 
 	virtual void dragEnterEvent( QDragEnterEvent * pEvent );
 	virtual void dropEvent( QDropEvent * pEvent );
+    virtual void dragMoveEvent( QDragMoveEvent * pEvent );
 
 	int  GetSelectedCount() const;
 	int  GetLastSelectedItemIndex() const;
@@ -137,8 +138,8 @@ private:
 
 	// *** data ***
 	QMenu *		        m_pContextMenu;
-	Q3Canvas *			m_pCanvas;
-	QSize				m_aSizeHint;
+    QGraphicsScene *	m_pCanvas;
+//	QSize				m_aSizeHint;
 
 	QPoint				m_aNextItemPos;
 	QPoint				m_aItemShift;

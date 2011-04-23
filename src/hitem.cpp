@@ -56,10 +56,10 @@ const int c_iSlideOffsY2	= 39;	//40;
 
 /** class which draws a slide in a canvas.
  */
-class SlideItem : public Q3CanvasRectangle
+class SlideItem : public QGraphicsRectItem
 {
 public:
-	SlideItem( const QRect & aRect, Q3Canvas * canvas, const QString & sImageFileName, bool bHorizontalSlide = true );
+    SlideItem( const QRect & aRect, QGraphicsScene * canvas, const QString & sImageFileName, bool bHorizontalSlide = true );
 
 protected:
 	virtual void drawShape( QPainter & aPainter ); 
@@ -71,8 +71,8 @@ private:
 
 // *******************************************************************
 
-SlideItem::SlideItem( const QRect & aRect, Q3Canvas * canvas, const QString & sImageFileName, bool bHorizontalSlide )
-: Q3CanvasRectangle( aRect, canvas ), 
+SlideItem::SlideItem( const QRect & aRect, QGraphicsScene * canvas, const QString & sImageFileName, bool bHorizontalSlide )
+: QGraphicsRectItem( aRect, canvas ),
   m_bHorizontalSlide( bHorizontalSlide ),
   m_sImageFileName( sImageFileName )
 {
@@ -140,8 +140,8 @@ void SlideItem::drawShape( QPainter & aPainter )
 // *******************************************************************
 // *******************************************************************
 
-HItem::HItem( const QRect & aRect, Q3Canvas * pCanvas, minHandle<DiaInfo> hData  )
-: Q3CanvasRectangle( aRect, pCanvas ),
+HItem::HItem( const QRect & aRect, QGraphicsScene * pCanvas, minHandle<DiaInfo> hData  )
+: QGraphicsRectItem(QRectF(aRect.x(),aRect.y(),aRect.width(),aRect.height())),
   m_pImageCache( 0 )
 {
 	m_hData = hData;
@@ -149,12 +149,14 @@ HItem::HItem( const QRect & aRect, Q3Canvas * pCanvas, minHandle<DiaInfo> hData 
 
 	// ** do not draw the rectangle of this item 
 	setPen( QPen( QColor( 255, 255, 255 ) ) );
-	setZ( 50 );
+    //old: setZ( 50 );
 
 #ifdef _with_canvas_items
 	CreateElements( pCanvas );
 	UpdateElements();
 #endif
+
+    pCanvas->addItem(this);
 }
 
 HItem::~HItem()
@@ -168,160 +170,159 @@ HItem::~HItem()
 	}
 }
 
-void HItem::drawShape( QPainter & aPainter )
+void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * option, QWidget * widget )
 {
-	/*
-	// ** paint a cross to mark the view area
-	QPoint aPoint( m_aPos.x()+m_aSize.width(), m_aPos.y()+m_aSize.height() );
-	aPainter.drawLine( m_aPos, aPoint );
-	aPainter.drawLine( m_aPos.x(), m_aPos.y()+m_aSize.height(), m_aPos.x()+m_aSize.width(), m_aPos.y() );
-	*/
+    /*
+    // ** paint a cross to mark the view area
+    QPoint aPoint( m_aPos.x()+m_aSize.width(), m_aPos.y()+m_aSize.height() );
+    aPainter.drawLine( m_aPos, aPoint );
+    aPainter.drawLine( m_aPos.x(), m_aPos.y()+m_aSize.height(), m_aPos.x()+m_aSize.width(), m_aPos.y() );
+    */
 
-	// ** paint a slide frame
-	QRect	aRect( rect() );
-	QColor	aGrey( 188, 188, 188 );
-	QColor	aWhite( 255, 255, 255 );
-	QColor	aBlack( 0, 0, 0 );
-	QPen	aPen( aGrey );
+    QRectF	aRect( rect() );
+    QColor	aGrey( 188, 188, 188 );
+    QColor	aWhite( 255, 255, 255 );
+    QColor	aBlack( 0, 0, 0 );
+    QPen	aPen( aGrey );
 
-	aPen.setWidth( 10 );
-	aPainter.setPen( aPen );
-	int iRound = 5;
-	aPainter.drawRoundRect( aRect.x()+iRound, aRect.y()+iRound, aRect.width()-2*iRound, aRect.height()-c_iOffset, iRound, iRound );
-	iRound = 10;
+    aPen.setWidth( 10 );
+    pPainter->setPen( aPen );
+    int iRound = 5;
+    pPainter->drawRoundRect( aRect.x()+iRound, aRect.y()+iRound, aRect.width()-2*iRound, aRect.height()-c_iOffset, iRound, iRound );
+    iRound = 10;
 
-	QBrush aBrush1( aGrey );
-	aPainter.fillRect( aRect.x()+iRound, aRect.y()+iRound, aRect.width()-2*iRound, aRect.height()-c_iOffset, aBrush1 );
-	QPoint aSlideStartPoint;
-	QRect aSlideRect;
-	if( m_hData->IsHorizontalFormat() )
-	{
-		aSlideStartPoint.setX( aRect.x()+c_iSlideOffsX );
-		aSlideStartPoint.setY( aRect.y()+c_iSlideOffsY2 );
-		aSlideRect.setRect( aSlideStartPoint.x(), aSlideStartPoint.y(), c_iSlideWidth, c_iSlideHeight );
-	}
-	else
-	{
-		aSlideStartPoint.setX( aRect.x()+c_iSlideOffsY );
-		aSlideStartPoint.setY( aRect.y()+c_iSlideOffsX );
-		aSlideRect.setRect( aSlideStartPoint.x(), aSlideStartPoint.y(), c_iSlideHeight, c_iSlideWidth );
-	}
+    QBrush aBrush1( aGrey );
+    pPainter->fillRect( aRect.x()+iRound, aRect.y()+iRound, aRect.width()-2*iRound, aRect.height()-c_iOffset, aBrush1 );
+    QPoint aSlideStartPoint;
+    QRect aSlideRect;
+    if( m_hData->IsHorizontalFormat() )
+    {
+        aSlideStartPoint.setX( aRect.x()+c_iSlideOffsX );
+        aSlideStartPoint.setY( aRect.y()+c_iSlideOffsY2 );
+        aSlideRect.setRect( aSlideStartPoint.x(), aSlideStartPoint.y(), c_iSlideWidth, c_iSlideHeight );
+    }
+    else
+    {
+        aSlideStartPoint.setX( aRect.x()+c_iSlideOffsY );
+        aSlideStartPoint.setY( aRect.y()+c_iSlideOffsX );
+        aSlideRect.setRect( aSlideStartPoint.x(), aSlideStartPoint.y(), c_iSlideHeight, c_iSlideWidth );
+    }
 
-	// has the image changed ? yes --> update cache !
-	if( m_sImageFileNameCache != m_hData->GetImageFile() )
-	{
-		delete m_pImageCache;
-		m_pImageCache = 0;
-	}
-	// ** show the image, if available
-	if( !m_pImageCache )
-	{
-		QImage aImage;
-		QImage aImageOrg;
+    // has the image changed ? yes --> update cache !
+    if( m_sImageFileNameCache != m_hData->GetImageFile() )
+    {
+        delete m_pImageCache;
+        m_pImageCache = 0;
+    }
+    // ** show the image, if available
+    if( !m_pImageCache )
+    {
+        QImage aImage;
+        QImage aImageOrg;
 
-		bool bOk = ReadQImage( m_hData->GetImageFile(), aImageOrg );
-		m_sImageFileNameCache = m_hData->GetImageFile();
+        bool bOk = ReadQImage( m_hData->GetImageFile(), aImageOrg );
+        m_sImageFileNameCache = m_hData->GetImageFile();
 
-		if( bOk && (!aImageOrg.isNull()) )
-		{
-			if( m_hData->IsHorizontalFormat() )
-			{
-				aImage = aImageOrg.smoothScale( c_iSlideWidth, c_iSlideHeight );
-			}
-			else
-			{
-				aImage = aImageOrg.smoothScale( c_iSlideHeight, c_iSlideWidth );
-			}
-		}
-		else
-		{
-			aImage = aImageOrg;
-		}
+        if( bOk && (!aImageOrg.isNull()) )
+        {
+            if( m_hData->IsHorizontalFormat() )
+            {
+                aImage = aImageOrg.smoothScale( c_iSlideWidth, c_iSlideHeight );
+            }
+            else
+            {
+                aImage = aImageOrg.smoothScale( c_iSlideHeight, c_iSlideWidth );
+            }
+        }
+        else
+        {
+            aImage = aImageOrg;
+        }
 
-		m_pImageCache = new QImage( aImage );
-	}
-	if( m_pImageCache->isNull() )
-	{
-		QBrush aBrush( aWhite );
+        m_pImageCache = new QImage( aImage );
+    }
+    if( m_pImageCache->isNull() )
+    {
+        QBrush aBrush( aWhite );
 
-		aPainter.fillRect( aSlideRect, aBrush );
-	}
-	else
-	{
-		aPainter.drawImage( aSlideRect.x(), aSlideRect.y(), *m_pImageCache );
-	}
-	/* ehemals wurden Skripte mit gelben Hintergrund hinterlegt
-	else
-	{
-		QBrush aBrush( QColor( 255, 255, 196 ) );
+        pPainter->fillRect( aSlideRect, aBrush );
+    }
+    else
+    {
+        pPainter->drawImage( aSlideRect.x(), aSlideRect.y(), *m_pImageCache );
+    }
+    /* ehemals wurden Skripte mit gelben Hintergrund hinterlegt
+    else
+    {
+        QBrush aBrush( QColor( 255, 255, 196 ) );
 
-		aPainter.fillRect( aSlideRect, aBrush );
-	}
-	*/
+        pPainter->fillRect( aSlideRect, aBrush );
+    }
+    */
 
-	// ** show text-data (id, comment, dissolve, timer, etc.)
-	QPoint aTextStartPoint( aRect.x()+2, aRect.y()+aRect.height()-c_iOffset+c_iDY );
-	aPainter.setPen( aBlack );
-	if( m_hData.IsOk() )
-	{
-		int iMaxWidth = aRect.width();
-		int iMaxHeight = c_iDY+5;
+    // ** show text-data (id, comment, dissolve, timer, etc.)
+    QPoint aTextStartPoint( aRect.x()+2, aRect.y()+aRect.height()-c_iOffset+c_iDY );
+    pPainter->setPen( aBlack );
+    if( m_hData.IsOk() )
+    {
+        int iMaxWidth = aRect.width();
+        int iMaxHeight = c_iDY+5;
 
-		char sBuffer[255];
-		sprintf( sBuffer, "pos=%d", m_hData->GetPosition()+1 );
-		aPainter.drawText( aTextStartPoint.x(), aTextStartPoint.y(),
-						   iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
-						   sBuffer );
-		sprintf( sBuffer, "id=%s", m_hData->GetId() );
-		aPainter.drawText( aTextStartPoint.x(), aTextStartPoint.y()+c_iDY,
-						   iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
-						   sBuffer );
-		sprintf( sBuffer, "comment=%s", m_hData->GetComment() );
-		aPainter.drawText( aTextStartPoint.x(), aTextStartPoint.y()+2*c_iDY,
-						   iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
-						   sBuffer );
+        char sBuffer[255];
+        sprintf( sBuffer, "pos=%d", m_hData->GetPosition()+1 );
+        pPainter->drawText( aTextStartPoint.x(), aTextStartPoint.y(),
+                           iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
+                           sBuffer );
+        sprintf( sBuffer, "id=%s", m_hData->GetId() );
+        pPainter->drawText( aTextStartPoint.x(), aTextStartPoint.y()+c_iDY,
+                           iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
+                           sBuffer );
+        sprintf( sBuffer, "comment=%s", m_hData->GetComment() );
+        pPainter->drawText( aTextStartPoint.x(), aTextStartPoint.y()+2*c_iDY,
+                           iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
+                           sBuffer );
 
-		QString sTemp = m_hData->GetImageFile();
-		if( m_hData->HasScript() )
-		{
-			sTemp += " ";
-			sTemp += QObject::tr( "<script>" );
-		}
-		aPainter.drawText( aSlideStartPoint.x(), aSlideStartPoint.y() /*+c_iDY*/,
-						   c_iSlideWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
-						   sTemp );
+        QString sTemp = m_hData->GetImageFile();
+        if( m_hData->HasScript() )
+        {
+            sTemp += " ";
+            sTemp += QObject::tr( "<script>" );
+        }
+        pPainter->drawText( aSlideStartPoint.x(), aSlideStartPoint.y() /*+c_iDY*/,
+                           c_iSlideWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
+                           sTemp );
 
-		int iOffset = 3*c_iDY;
-		for( int i=0; i<m_hData->GetOperationCount(); i++ )
-		{
-			TimeOperation aOp = m_hData->GetOperation( i );
+        int iOffset = 3*c_iDY;
+        for( int i=0; i<m_hData->GetOperationCount(); i++ )
+        {
+            TimeOperation aOp = m_hData->GetOperation( i );
 
-			if( aOp.GetOperationType() == TimeOperation::DISSOLVE_IN )
-			{
-				sprintf( sBuffer, "dissolve=%4.1f s", aOp.GetOperationTime() );
-			}
-			if( aOp.GetOperationType() == TimeOperation::SHOW )
-			{
-				sprintf( sBuffer, "timer=%4.1f s", aOp.GetOperationTime() );
-			}
+            if( aOp.GetOperationType() == TimeOperation::DISSOLVE_IN )
+            {
+                sprintf( sBuffer, "dissolve=%4.1f s", aOp.GetOperationTime() );
+            }
+            if( aOp.GetOperationType() == TimeOperation::SHOW )
+            {
+                sprintf( sBuffer, "timer=%4.1f s", aOp.GetOperationTime() );
+            }
 
-			aPainter.drawText( aTextStartPoint.x(), aTextStartPoint.y()+iOffset,
-							   iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
-							   sBuffer );
-			iOffset += c_iDY;
-		}
-	}
+            pPainter->drawText( aTextStartPoint.x(), aTextStartPoint.y()+iOffset,
+                               iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
+                               sBuffer );
+            iOffset += c_iDY;
+        }
+    }
 
-	// ** show selection-frame, if needed
-	if( m_bIsSelected )
-	{
-		aPainter.setPen( QColor( 255, 0, 0 ) );
-	}
-	else
-	{
-		aPainter.setPen( QColor( 255, 255, 255 ) );
-	}
-	aPainter.drawRect( aRect.x(), aRect.y(), aRect.width(), aRect.height() );
+    // ** show selection-frame, if needed
+    if( m_bIsSelected )
+    {
+        pPainter->setPen( QColor( 255, 0, 0 ) );
+    }
+    else
+    {
+        pPainter->setPen( QColor( 255, 255, 255 ) );
+    }
+    pPainter->drawRect( aRect.x(), aRect.y(), aRect.width(), aRect.height() );
 }
 
 void HItem::SetSelected( bool bSelect )
@@ -346,8 +347,8 @@ minHandle<DiaInfo> HItem::GetInfoData() const
 
 bool HItem::IsPointInItem( int x, int y ) const
 {
-	if( (this->x()<=x) && (this->x()+this->width()>=x) &&
-		(this->y()<=y) && (this->y()+this->height()>=y) )
+    if( (rect().x()<=x) && (rect().x()+rect().width()>=x) &&
+        (rect().y()<=y) && (rect().y()+rect().height()>=y) )
 	{
 		return true;
 	}
