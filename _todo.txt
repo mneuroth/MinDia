@@ -6,7 +6,7 @@ Internal TODO
 
 Porting to Qt4:
 - Skripte erstellen fuer binary releases (Mac, Linux, Windows)
-- Skripte erstellen fuer Source Code release
+//- Skripte erstellen fuer Source Code release
 //- Problem mit Rs232 Kommunikation: ggf. wird das CR/LF am Ende eines Kommandos nicht gelesen, bevor der naechste Befehl gelesen wird --> ggf. ein flush verwenden bevor CMD schreiben und Antwort lesen
 ((- File-Assoziationen fuer Mac realisieren
 ((- mp3 Unterstuetzung fue MAC verbessern --> mpg123 verwenden, QProcess verwenden
@@ -33,6 +33,7 @@ Porting to Qt4:
 - verwende Qt Kostrukte anstatt eigene: pthreads, sound?, Konfiguration speichern, Internationalisierung, etc.
 //- Manche Menu-Items sind checkbar, obwohl das keinen Sinn macht
 - qextserialport verwenden fuer die Ansteuerung der Porjektoren
+- Phonon verwenden fuer Sound Unterstuetzung
 - ggf. Add Dyn. Text in Hauptmenu aufnehmen
 - Drag-and-Drop auch fuer Musik-Dateien realisieren
 - Bessere Sound Unterstuetzung fuer alle Plattformen (starten von Sound auch von der Mitte einer Datei, zum Testen von Dia-Shows)
@@ -40,7 +41,12 @@ Porting to Qt4:
 - ggf. Undo/Redo realisieren
 - UI aufpolieren --> nach Qt4 portieren
 - ggf. Python Unterstuetzung wieder aktivieren oder auf JavaScript umsteigen
-- wav unterstuetzung nur fuer linux !S
+- wav unterstuetzung nur fuer linux !
+//- Sound-Unterstuetzung funktioniert unter Windows nicht mehr...
+- TODO Qt4 und TODO entfernen (bearbeiten)
+- TODO: Known Bug: Alt-I funktioniert noch nicht richtig
+- TODO: Drag And Drop an Stelle innerhalb dia show funktionier ebenfalls nicht  
+- TODO: Drag And Drop von JPG Bilder funktioniert nicht
 
 (- Internationalisierung fixen
 (- Komfortablere Bedienung realisieren --> Drag&Drop

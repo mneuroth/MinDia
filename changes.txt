@@ -389,6 +389,17 @@ change history:
 26.1.2011   1h      removed some compiler warnings
 28.1.2011   2h      replaced some Qt3 elements with Qt4 elements
 31.1.2011   1h      improved make_src_tar.sh
+1.2.2011    2h      replaced some Qt3 elements with Qt4 elements, improved drag and drop for sound files
+4.2.2011    2h      worked on MCI support for Windows
+7.2.2011    2h      fixed MCI support for Windows --> removed casts
+8.2.2011    1h      ported ProjectorControlDialog to Qt4
+9.2.2011    2h      ported some dialogs to Qt4
+12.2.2011   6h      ported Q3Canvas to QGraphicsScene in PlayiInfo dialog
+13.2.2011   2h      ported SoundInfo-Dialog to Qt4, stated to integrate qextserialport
+22.2.2011   1h      ported DiaInfo-Dialog to Qt4
+27.2.2011   1h      ported AboutExtDlg to Qt4, started to port HelpDlg to Qt4, started to port DynTextDlg to Qt4
+21.4.2011   2h      started to port HItemView to Qt4
+23.4.2011   8h      ported HItemView to Qt4, portet TimeLineView to Qt4, finished port to Qt3 --> removed Qt3 suppor !
  
 //TODO: RS232 communication under linux does not work... --> verwende /dev/ttyUSB0, aber anscheinend ist Kommunikation nicht ganz stabil, ggf. weitere Tests notwendig (manchmal werden nicht alle zeichen gelesen?)
 // TODO: BUG Dyn-Text wird nicht als veraenderlich angesehen --> daher werden texte nur angezeigt wenn sie waehrend der ueberblendung eingeschaltet werden !!!            
