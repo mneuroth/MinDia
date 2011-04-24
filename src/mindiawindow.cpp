@@ -332,7 +332,6 @@ void MinDiaWindow::CreateMenus()
 	// ** create menu item for last opend files
     m_pLastFilesSubMenu = new QMenu( tr( "Las&t files" ), m_pFile );
 	connect( m_pLastFilesSubMenu, SIGNAL( aboutToShow() ), this, SLOT( sltUpdateLastFilesMenu() ) );
-	connect( m_pLastFilesSubMenu, SIGNAL( activated(int) ), this, SLOT( sltLastFilesMenuActivated(int) ) );
 
     m_pImportExportFilesSubMenu = new QMenu( tr( "&Import/Export" ), m_pFile );
     m_pImportExportFilesSubMenu->addAction(m_pFileImportXMLAction);
