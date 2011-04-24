@@ -3,27 +3,6 @@ TARGET			= mindia
 TEMPLATE        = app
 #CONFIG          += qt warn_on release thread stl exceptions
 CONFIG          += qt warn_on thread stl exceptions
-#QT              += qt3support
-#CONFIG          += qt warn_on debug thread stl exceptions
-#				  createmoviedlgimpl.h \
-#				  createmoviedlgimpl.cpp \
-#                  CreateMovieDlg.ui \
-#				  PresentationDataDlg.ui\
-#				  ProjectorControlDlg.ui \
-#				  ComLoggingDlg.ui \
-#                 ConfigurationDlg.ui\
-#				  ConfigPlayerDlg.ui\
-#				  PlayInfoDlg.ui \
-#				  EnterValueDlg.ui
-#           	  CommentDlg.ui \
-#				  LicenseDlg.ui \   # not ported
-#				  EventMapDlg.ui \
-#				  eventmapdlgimpl.h \
-#				  eventmapdlgimpl.cpp \
-#				  SoundInfoDlg.ui \
-#                 DiaInfoDlg.ui \
-#                 AboutExtDlg4.ui \
-#                 HelpDlg.ui \
 
 HEADERS         = diainfodlgimpl.h \
 				  playinfodlgimpl.h \
@@ -109,10 +88,6 @@ SOURCES         = diainfodlgimpl.cpp \
                   ../gendev/gendev.cpp \
                   ../minsrv/minbase.cpp \
                   ../minsrv/dllbase.cpp
-#                  ../qextserialport/src/qextserialenumerator_osx.cpp \
-#                  ../qextserialport/src/qextserialport.cpp
-#The following line was changed from INTERFACES to FORMS3 by qt3to4
-#FORMS3      = 	  DynTextDlg.ui
 
 FORMS       = CreateMovieDlg4.ui \
                   PresentationDataDlg4.ui \
@@ -127,6 +102,7 @@ FORMS       = CreateMovieDlg4.ui \
                   AboutExtDlg4.ui \
                   HelpDlg4.ui \
                   DynTextDlg4.ui
+
 MOC_DIR					= moc
 #macx:LIBS               += -lpthread ./libminsrv.dylib $(LIBMINDIAPYC_SO)
 #macx:LIBS               += -lpthread ../minsrv/libminsrv.a $(LIBMINDIAPYC_SO)
@@ -160,11 +136,6 @@ release {
     unix:LIBS += ../qextserialport/src/build/libqextserialport.a
 }
 
-#The following line was inserted by qt3to4
-#QT +=
-#The following line was inserted by qt3to4
-#CONFIG += uic3
-
 #debug {
 #    CONFIG -= release
 #}
@@ -189,6 +160,5 @@ macx {
     #INSTALLS += utilities
     ICON = mindia_512x512.icns
     QMAKE_INFO_PLIST = Info.plist
-#    QMAKE_INFO_PLIST = dist/Info.plist
 }
 
