@@ -112,61 +112,113 @@ struct RolleiComHelperData
 
     bool SetComData( bool bIgnoreComSettings, int iBaudrate, int iParityMode, const string & sStopBitsStrg, int iDataBits, int iFlowMode )
     {
-//        char sBaudRate[255];
-//        char sParity[255];
-//        char sStopBits[255];
-//        char sDataBits[255];
-
-//        sprintf( sBaudRate, "%d", iBaudrate );
-//        sprintf( sStopBits, "%s", sStopBitsStrg.c_str() );
-//        sprintf( sDataBits, "%d", iDataBits );
-//        if( iParityMode == RolleiCom::NONE )
-//        {
-//            strcpy( sParity, "N" );
-//        }
-//        else if( iParityMode == RolleiCom::ODD )
-//        {
-//            strcpy( sParity, "O" );
-//        }
-//        else if( iParityMode == RolleiCom::EVEN )
-//        {
-//            strcpy( sParity, "E" );
-//        }
-
-//        if( !bIgnoreComSettings )
-//        {
-//            int iHwFlow = 0;
-//            int iSwFlow = 0;
-//            if( iFlowMode == RolleiCom::HARDWARE_FLOW )
-//            {
-//                iHwFlow = 1;
-//            }
-//            if( iFlowMode == RolleiCom::XON_XOFF_FLOW )
-//            {
-//                iSwFlow = 1;
-//            }
-//            // ** use code from minicom-program **
-//            if( IsOk() )
-//            {
-//                m_setparms( m_hFile, sBaudRate, sParity, sDataBits, sStopBits, iHwFlow, iSwFlow );
-//            }
-//            //org: m_setparms( m_hFile, "1200", "E", "7", "2", 1, 0 );
-//        }
-
-//        if( IsOk() )
-//        {
-//            m_flush(m_hFile);
-//        }
-
-// TODO --> noch korrekte configuration erlauben !
-
         if( !bIgnoreComSettings )
         {
-            m_pPort->setBaudRate(BAUD1200);
-            m_pPort->setDataBits(DATA_7);
-            m_pPort->setParity(PAR_EVEN);
-            m_pPort->setFlowControl(FLOW_HARDWARE);
-            m_pPort->setStopBits(STOP_2);
+            BaudRateType aBaudRate;
+
+            switch( iBaudrate )
+            {
+                case 110:
+                    aBaudRate = BAUD110;
+                    break;
+                case 300:
+                    aBaudRate = BAUD300;
+                    break;
+                case 1200:
+                    aBaudRate = BAUD1200;
+                    break;
+                case 2400:
+                    aBaudRate = BAUD2400;
+                    break;
+                case 4800:
+                    aBaudRate = BAUD4800;
+                    break;
+                case 9600:
+                    aBaudRate = BAUD9600;
+                    break;
+                case 19200:
+                    aBaudRate = BAUD19200;
+                    break;
+                case 38400:
+                    aBaudRate = BAUD38400;
+                    break;
+                case 57600:
+                    aBaudRate = BAUD57600;
+                    break;
+                case 115200:
+                    aBaudRate = BAUD115200;
+                    break;
+                default:
+                    aBaudRate = BAUD1200;
+            }
+
+            DataBitsType aDataBits;
+
+            switch( iDataBits )
+            {
+                case 6:
+                    aDataBits = DATA_6;
+                    break;
+                case 7:
+                    aDataBits = DATA_7;
+                    break;
+                case 8:
+                    aDataBits = DATA_8;
+                    break;
+                default:
+                    aDataBits = DATA_7;
+            }
+
+            ParityType aParity = PAR_EVEN;
+
+            if( iParityMode == RolleiCom::NONE )
+            {
+                aParity = PAR_NONE;
+            }
+            else if( iParityMode == RolleiCom::ODD )
+            {
+                aParity = PAR_ODD;
+            }
+            else if( iParityMode == RolleiCom::EVEN )
+            {
+                aParity = PAR_EVEN;
+            }
+
+            FlowType aFlowType = FLOW_OFF;
+
+            if( iFlowMode == RolleiCom::NO_FLOW )
+            {
+                aFlowType = FLOW_OFF;
+            }
+            if( iFlowMode == RolleiCom::HARDWARE_FLOW )
+            {
+                aFlowType = FLOW_HARDWARE;
+            }
+            if( iFlowMode == RolleiCom::XON_XOFF_FLOW )
+            {
+                aFlowType = FLOW_XONXOFF;
+            }
+
+            StopBitsType aStopBits = STOP_2;
+
+            if( sStopBitsStrg=="1" )
+            {
+                aStopBits = STOP_1;
+            }
+            if( sStopBitsStrg=="1.5" )
+            {
+                aStopBits = STOP_1_5;
+            }
+            if( sStopBitsStrg=="2" )
+            {
+                aStopBits = STOP_2;
+            }
+
+            m_pPort->setBaudRate(aBaudRate);
+            m_pPort->setDataBits(aDataBits);
+            m_pPort->setParity(aParity);
+            m_pPort->setFlowControl(aFlowType);
+            m_pPort->setStopBits(aStopBits);
             m_pPort->setTimeout(1000);
         }
         return true;
