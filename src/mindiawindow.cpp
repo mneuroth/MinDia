@@ -272,7 +272,7 @@ void MinDiaWindow::CreateMenus()
 	QPixmap aPauseIcon( pausescript );
 	QPixmap aStopIcon( stopscript );
 
-    QToolBar * pTools = addToolBar("file_operations");
+    QToolBar * pTools = addToolBar("MinDia");
     pTools->setIconSize(QSize(14,14));
 
     // *** create toplevel menu items ***
@@ -1415,13 +1415,16 @@ void MinDiaWindow::sltUpdateLastFilesMenu()
         s += aFileHistory[i];
 
         QAction * pAction = new QAction(s,this);
+        pAction->setData(QVariant(i));
         m_pLastFilesSubMenu->addAction( pAction );
+        connect( m_pLastFilesSubMenu, SIGNAL( triggered(QAction *) ), this, SLOT( sltLastFilesMenuActivated(QAction *) ) );
 	}
 }
 
-void MinDiaWindow::sltLastFilesMenuActivated( int iIndex )
+void MinDiaWindow::sltLastFilesMenuActivated( QAction * pAction )
 {
     QStringList aFileHistory = m_pControler->GetFileHistoryList();
+    int iIndex = pAction->data().toInt();
 
     if( iIndex>=0 && iIndex<aFileHistory.size() )
 	{
@@ -1538,13 +1541,13 @@ void MinDiaWindow::sltDoDocumentStateUpdate()
 {
 	// *** update caption of the window, with file name ! ***
 	QString sCaption = "MinDia - [";
-	sCaption += m_pControler->GetName().c_str();
+    sCaption += QString(m_pControler->GetName().c_str());
 	if( m_pControler->IsChanged() )
 	{
 		sCaption += " *";
 	}
 	sCaption += "] ";
-	sCaption += m_pControler->GetPlayModusStrg();
+    sCaption += QString(m_pControler->GetPlayModusStrg());
     setWindowTitle( sCaption );
 }
 

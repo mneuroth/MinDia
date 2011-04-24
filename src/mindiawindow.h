@@ -268,7 +268,7 @@ public slots:
 	void sltUpdateLastFilesMenu();
 	//void sltUpdateScriptsMenu();
 
-	void sltLastFilesMenuActivated( int iIndex );
+    void sltLastFilesMenuActivated( QAction * pAction );
 
 	// *** other helper slots ***
 	void sltShowErrorMessage( const QString & sMessage );
