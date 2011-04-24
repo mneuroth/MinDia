@@ -5,7 +5,7 @@ Internal TODO
 // Diese (auskommentieren) Punkte sind schon erledigt !
 
 Porting to Qt4:
-- Skripte erstellen fuer binary releases (Mac, Linux, Windows)
+((- Skripte erstellen fuer binary releases (Mac, Linux, Windows)
 //- Skripte erstellen fuer Source Code release
 //- Problem mit Rs232 Kommunikation: ggf. wird das CR/LF am Ende eines Kommandos nicht gelesen, bevor der naechste Befehl gelesen wird --> ggf. ein flush verwenden bevor CMD schreiben und Antwort lesen
 ((- File-Assoziationen fuer Mac realisieren
@@ -21,21 +21,22 @@ Porting to Qt4:
     http://developer.apple.com/library/mac/#documentation/DeviceDrivers/Conceptual/IOKitFundamentals/Introduction/Introduction.html)
 //- eigenes ini-file durch QSettings ersetzen
 //- eigene Threads durch QThread ersetzen  
-- ungenutzte Quelldateien aus projekt entfernen (z.B. alter createmoviedlg)
+((- ungenutzte Quelldateien aus projekt entfernen (z.B. alte createmoviedlg)
 - vor Release die TODOs aus dem Quellcode entfernen  
+- Code fuer ZAURS entfernn
 - Dyn. Texte an Dias 'kleben' lassen, wenn standzeit veraendert wird, muss sich text ggf. mit bewegen...
 - ggf. Dia-Rahmen/Bild-Groesse aenderbar machen
 - gendev ist Beispiel fuer externe Hardware --> kann umorganisiert werden, ggf. idev.h verschieben
-- ggf. Temporaeres Ausgabeverzeichnis fuer bilder in INI-Datei aufnehmen
+- ggf. Temporaeres Ausgabeverzeichnis fuer Bilder in INI-Datei aufnehmen
 - mjpegtools mit libjpg-6 uebersetzen
 - ggf. Musik direkt mit Einblenden anfangen koennen... --> funktioniert ggf. auch mit dummy Dia, welches nicht eingeblendet wird...; Aber vielleicht mit echtem Dia-Vortrag via Projektor notwendig ? 
 - ggf. zoomen fuer Timeline realisieren
 - verwende Qt Kostrukte anstatt eigene: pthreads, sound?, Konfiguration speichern, Internationalisierung, etc.
 //- Manche Menu-Items sind checkbar, obwohl das keinen Sinn macht
-- qextserialport verwenden fuer die Ansteuerung der Porjektoren
+((- qextserialport verwenden fuer die Ansteuerung der Porjektoren
 - Phonon verwenden fuer Sound Unterstuetzung
 - ggf. Add Dyn. Text in Hauptmenu aufnehmen
-- Drag-and-Drop auch fuer Musik-Dateien realisieren
+//- Drag-and-Drop auch fuer Musik-Dateien realisieren
 - Bessere Sound Unterstuetzung fuer alle Plattformen (starten von Sound auch von der Mitte einer Datei, zum Testen von Dia-Shows)
 - Quelltextdateien aufraeumen, bessere Struktur
 - ggf. Undo/Redo realisieren
@@ -43,11 +44,13 @@ Porting to Qt4:
 - ggf. Python Unterstuetzung wieder aktivieren oder auf JavaScript umsteigen
 - wav unterstuetzung nur fuer linux !
 //- Sound-Unterstuetzung funktioniert unter Windows nicht mehr...
-- TODO Qt4 und TODO entfernen (bearbeiten)
-- TODO: Known Bug: Alt-I funktioniert noch nicht richtig
-- TODO: Drag And Drop an Stelle innerhalb dia show funktionier ebenfalls nicht  
-- TODO: Drag And Drop von JPG Bilder funktioniert nicht
-
+//- TODO Qt4 und TODO entfernen (bearbeiten)
+//- TODO: Known Bug: Alt-I funktioniert noch nicht richtig
+//- TODO: Drag And Drop an Stelle innerhalb dia show funktionier ebenfalls nicht  
+//- TODO: Drag And Drop von JPG Bilder funktioniert nicht --> neue QT verersion 4.7.2 installierter
+//- TODO: qextserialport allgemeiner konfigurieren (im config dialog)
+- Verbesserung der Hardware-Ansteurung des Projektors implemenieren (nicht alle Buttons sind aktiviert...) 
+ 
 (- Internationalisierung fixen
 (- Komfortablere Bedienung realisieren --> Drag&Drop
 //- Besseres Drag-and-Drop fuer Bilder realisieren (war schon mal besser)

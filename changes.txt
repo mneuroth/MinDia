@@ -399,8 +399,9 @@ change history:
 22.2.2011   1h      ported DiaInfo-Dialog to Qt4
 27.2.2011   1h      ported AboutExtDlg to Qt4, started to port HelpDlg to Qt4, started to port DynTextDlg to Qt4
 21.4.2011   2h      started to port HItemView to Qt4
-23.4.2011   8h      ported HItemView to Qt4, portet TimeLineView to Qt4, finished port to Qt3 --> removed Qt3 suppor !
- 
+23.4.2011   8h      ported HItemView to Qt4, portet TimeLineView to Qt4, finished port to Qt4 --> removed Qt3 support !
+24.4.2011   3h      Bugfixes after porting to Qt4
+
 //TODO: RS232 communication under linux does not work... --> verwende /dev/ttyUSB0, aber anscheinend ist Kommunikation nicht ganz stabil, ggf. weitere Tests notwendig (manchmal werden nicht alle zeichen gelesen?)
 // TODO: BUG Dyn-Text wird nicht als veraenderlich angesehen --> daher werden texte nur angezeigt wenn sie waehrend der ueberblendung eingeschaltet werden !!!            
 // TODO: BUG anscheinend muessen Dyn-Texte auch relativ positioniert werden damit sie angezeigt werden !!!
