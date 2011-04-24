@@ -226,7 +226,7 @@ void HItemView::AddItemAt( minHandle<DiaInfo> hDia, int iIndex, bool bInsert, bo
 		pNewItem = new HItem( aRect, m_pCanvas, hDia );
 
 		// ** insert new item at position iIndex, shift all other items in view and container
-		ShiftViewItemsFromIndex( iIndex );
+        ShiftViewItemsFromIndex( iIndex );
 		// ** insert item in the container
         m_aItemContainer.insert( m_aItemContainer.begin()+iIndex, pNewItem );
 	}
@@ -679,7 +679,7 @@ void HItemView::sltNewItemAfterSelected()
 	AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID() ) ), iIndex+1, /*bInsert*/true );
 
 	// ** select the new created item 
-	sltSelectItem( iIndex+1, 0 );
+    sltSelectItem( iIndex+1, 0 );
 }
 
 void HItemView::sltDeleteSelectedItem()
@@ -1018,7 +1018,7 @@ void HItemView::ShiftViewItemsFromIndex( int iIndex )
 		HItem * pItem = m_aItemContainer[ i ];
 		if( pItem )
 		{
-            pItem->setPos( pItem->x()+m_aItemShift.x(), pItem->y()+m_aItemShift.y() );
+            pItem->setRect( pItem->rect().x()+m_aItemShift.x(), pItem->rect().y()+m_aItemShift.y(), pItem->rect().width(), pItem->rect().height() );
 		}
 	}
 }
@@ -1030,7 +1030,7 @@ QPoint HItemView::GetPosOfItemWithIndex( int iIndex )
 		HItem * pItem = m_aItemContainer[ iIndex ];
 		if( pItem )
 		{
-            return QPoint( (int)pItem->x(), (int)pItem->y() );
+            return QPoint( (int)pItem->rect().x(), (int)pItem->rect().y() );
 	    }
 	}
 	return QPoint();
