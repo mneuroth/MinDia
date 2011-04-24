@@ -213,3 +213,15 @@ scripts/simple.py
 scripts/startupdlg.py
 scripts/verifyshow.py
 scripts/wxwintest.py
+qextserialport/src/src.pro
+qextserialport/src/win_qextserialport.cpp
+qextserialport/src/qextserialport.h
+qextserialport/src/qextserialport.cpp
+qextserialport/src/qextserialport_global.h
+qextserialport/src/qextserialenumerator.h
+qextserialport/src/qextserialenumerator_win.cpp
+qextserialport/src/qextserialenumerator_unix.cpp
+qextserialport/src/qextserialenumerator_osx.cpp
+qextserialport/src/posix_qextserialport.cpp
+qextserialport/qextserialport.pro
+qextserialport/ChangeLog
