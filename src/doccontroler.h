@@ -97,7 +97,7 @@ public:
 	virtual void			SetSimulation( bool bSimulation );
 	// ** implementation done. **
 
-	const string &			GetName() const;
+    string      			GetName() const;
 
 	//int						GetProjectorCount() const;
 	//minHandle<DiaProjector>	GetProjectorPtr( int iNo ) const;
@@ -225,7 +225,6 @@ private:
 
 	// *** temp data ***
 	int					m_iLastFoundPos;
-	string				m_sFullName;			// helper data for Script interface
 
     QStringList         m_aFileHistoryList;
 

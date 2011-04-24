@@ -250,13 +250,9 @@ const char * DocumentAndControler::GetPlayModusStrg() const
 */
 }
 
-const string & DocumentAndControler::GetName() const
+string DocumentAndControler::GetName() const
 {
-	// update the local variable for the presentation
-	// local variable needed for a correct handling of the
-	// script command GetDocName()
-	((DocumentAndControler *)this)->m_sFullName = m_aPresentation.GetFullName();
-	return m_sFullName;
+    return m_aPresentation.GetFullName();
 }
 
 bool DocumentAndControler::IsSimulation() const
@@ -350,9 +346,7 @@ void DocumentAndControler::sltSaveAsDoc( const QString & sFileName )
 
 void DocumentAndControler::sltLoadDoc( const QString & sFileName, bool & bOk, bool bExecuteScript )
 {
-    const char * s = (const char *)sFileName.toAscii();
-
-	fstream aFile( s, ios::in );
+    fstream aFile( (const char *)sFileName.toAscii(), ios::in );
 
 	bOk = aFile.good();
 	if( bOk )
@@ -366,7 +360,7 @@ void DocumentAndControler::sltLoadDoc( const QString & sFileName, bool & bOk, bo
 			// ** change it to the filename which was used to load this file !
 			if( bOk && !FileUtilityObj::ExistsFile( m_aPresentation.GetName() ) )
 			{
-				m_aPresentation.SetName( s );
+                m_aPresentation.SetName( (const char *)sFileName.toAscii() );
 
 				//emit sigShowWarningMessage( tr( "Path of file has changed !" ) );
 			}
