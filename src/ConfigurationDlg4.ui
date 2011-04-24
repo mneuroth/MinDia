@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>271</width>
-    <height>417</height>
+    <width>331</width>
+    <height>420</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -285,38 +285,6 @@
     <hint type="destinationlabel">
      <x>20</x>
      <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_pSimulation</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>ConfigurationDlg</receiver>
-   <slot>sltSimulationToggled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>38</x>
-     <y>339</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>3</x>
-     <y>306</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_pDbgLogging</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>ConfigurationDlg</receiver>
-   <slot>sltDebugLoggingToggled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>225</x>
-     <y>347</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>266</x>
-     <y>340</y>
     </hint>
    </hints>
   </connection>
