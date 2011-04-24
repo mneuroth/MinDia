@@ -421,8 +421,8 @@ QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage,
 	{
 		// if language is not given as command line argument
 		// than get the actual language now...
-        sLangTemp = QLocale::system().country(); //QTextCodec::locale();
-		if( sLangTemp.length()>=2 )
+        sLangTemp = QLocale::system().name();
+        if( sLangTemp.length()>=2 )
 		{
 			sLangTemp = sLangTemp.left(2);
 		}
