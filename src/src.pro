@@ -2,7 +2,14 @@ PROJECT			= mindia
 TARGET			= mindia
 TEMPLATE        = app
 #CONFIG          += qt warn_on release thread stl exceptions
+#for debug:
 CONFIG          += qt warn_on thread stl exceptions
+QT              = core gui
+QT              -=network
+QT              -=sql
+QT              -=svg
+QT              -=script
+#CONFIG          -= debug
 
 HEADERS         = diainfodlgimpl.h \
 				  playinfodlgimpl.h \
@@ -144,7 +151,7 @@ macx {
     UI_DIR = .ui
     MOC_DIR = .moc
     OBJECTS_DIR = .obj
-    CONFIG += x86 #\
+#    CONFIG += x86 #\
 #        ppc
 
     # QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.5u.sdk
