@@ -11,7 +11,7 @@
                     <string>DIA</string>
                 </array>
                 <key>CFBundleTypeIconFile</key>
-                <string>mindia_512x512.icns</string>
+                <string>mindia_new.icns</string>
                 <key>CFBundleTypeName</key>
                 <string>Mindia Document</string>
                 <key>CFBundleTypeRole</key>
@@ -19,11 +19,11 @@
             </dict>
         </array>	
 	<key>CFBundleIconFile</key>
-	<string>mindia_512x512.icns</string>
+	<string>mindia_new.icns</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
     <key>CFBundleGetInfoString</key>
-	<string>Copyright (c) 2010, Michael Neuroth</string>
+	<string>Copyright (c) 2011, Michael Neuroth</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleExecutable</key>

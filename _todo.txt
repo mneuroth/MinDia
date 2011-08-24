@@ -50,6 +50,9 @@ Porting to Qt4:
 //- TODO: Drag And Drop von JPG Bilder funktioniert nicht --> neue QT verersion 4.7.2 installierter
 //- TODO: qextserialport allgemeiner konfigurieren (im config dialog)
 - Verbesserung der Hardware-Ansteurung des Projektors implemenieren (nicht alle Buttons sind aktiviert...) 
+((- Build skripte verbessern: make_dist_mac.sh baut noch debug Version...
+- Abhaengigkeiten verbessern, noch wird script, svg, etc in .app hinzugefuegt
+- Behandlung der Sprach-dateen (.qm) verbessern --> bisher gibt es fuer Mac einen absoluten Pfad ! --> siehe Behandlung in visiscript ...
  
 (- Internationalisierung fixen
 (- Komfortablere Bedienung realisieren --> Drag&Drop

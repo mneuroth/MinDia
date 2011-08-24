@@ -165,7 +165,7 @@ macx {
     # qt_de.qm
     QMAKE_BUNDLE_DATA += utilities
     #INSTALLS += utilities
-    ICON = mindia_512x512.icns
+    ICON = mindia_new.icns
     QMAKE_INFO_PLIST = Info.plist
 }
 

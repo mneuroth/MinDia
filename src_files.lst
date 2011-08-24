@@ -29,6 +29,7 @@ make_src_tar.sh
 mindia.pro
 mindia.i
 mindia.ico
+mindia_new.ico
 mindia.m4
 mindia.po
 mindia.spec
@@ -126,6 +127,7 @@ src/mincmdproc.cpp
 src/mincmdproc.h
 src/mindia.rc
 src/mindia_512x512.icns
+src/mindia_new.icns
 src/mindiawindow.cpp
 src/mindiawindow.h
 src/minexception.h
