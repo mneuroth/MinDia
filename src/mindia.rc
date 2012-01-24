@@ -54,7 +54,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_MINDIA              ICON    DISCARDABLE     "mindia_new.ico"
+IDI_MINDIA              ICON    DISCARDABLE     "mindia_256x256.ico"
 #endif    // Deutsch (Deutschland) resources
 /////////////////////////////////////////////////////////////////////////////
 
