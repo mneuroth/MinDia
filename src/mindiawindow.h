@@ -164,6 +164,7 @@ class HelpDlgImpl;
 typedef HItemView	IconItemView;
 typedef HItemView	DiaStateView;
 
+QWidget * GetMainWindow();
 
 // *******************************************************************
 /** The main window for the slide show program.
@@ -180,6 +181,8 @@ public:
 	DocumentAndControler * 	GetDocument();
 
 	QMenu *			        GetPluginsMenuPtr();
+
+    virtual void customEvent(QEvent * pEvent);
 
 	// ** implements the IDiaOutputWindow-(Script)Interface **
 	// ** use this object as proxy for the output window, because the
@@ -300,6 +303,8 @@ public slots:
 
 	void sltFindItem();
 	void sltFindNextItem();
+
+    void sltUpdate();
 	
 	void sltEditFadeInTime();
 	void sltFadeInTest();
@@ -330,6 +335,7 @@ protected:
 
 private:
 	// *** some helper methods ***
+    void CreatePlayInfoDlg();
     void SaveSettings();
     void LoadSettings();
 	void CreateMenus();
@@ -420,6 +426,7 @@ private:
 	QAction *		m_pEditAddDiaAction;
 	QAction *		m_pEditFindAction;
 	QAction *		m_pEditFindNextAction;
+    QAction *       m_pEditUpdateAction;
 
 	QAction *		m_pFileNewAction;
 	QAction *		m_pFileLoadAction;

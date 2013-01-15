@@ -155,6 +155,13 @@ string GetMinDiaSharedDirectory();
 QApplication * GetApplication();
 QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, QApplication * myqApp );
 
+static QWidget * g_pMainWindow = 0;
+
+QWidget * GetMainWindow()
+{
+    return g_pMainWindow;
+}
+
 // ***********************************************************************
 
 MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, bool bSimulation, int iProjectorType, QWidget* parent, Qt::WFlags f )
@@ -180,11 +187,14 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 	  m_sLanguage( sLanguage ),
 	  m_dDissolveTime( 2.5 ),
 	  m_bExitOnFinished( false ),
+      m_bExpandImage( false ),
       m_iScreenX( 0 ),
       m_iScreenY( 0 ),
 	  m_iPosX( 0 ),     // 10
 	  m_iPosY( 0 )      // 350
 {
+    g_pMainWindow = this;
+
 	// ** prepare application for different languages...**
 	m_pTranslator = new QTranslator( this );
 	m_sLanguage = myProcessLanguage( m_pTranslator, sLanguage, qApp );
@@ -217,6 +227,9 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
     resize( 800, 600 );
 	move( 25, 25 );
     LoadSettings();
+
+    // create screen dialog at startup time to enable showing of current image after opening dialog
+    CreatePlayInfoDlg();
 
     // autoload last file
     if( !m_sLastFileName.isEmpty() )
@@ -397,6 +410,9 @@ void MinDiaWindow::CreateMenus()
     m_pEditFindNextAction = new QAction( /*tr( "Find next" ),*/ tr( "Find &next" ), this );
     m_pEditFindNextAction->setShortcut(Qt::Key_F3);
     connect( m_pEditFindNextAction, SIGNAL( activated() ), this, SLOT( sltFindNextItem() ) );
+    m_pEditUpdateAction = new QAction( tr( "&Update" ), this );
+    m_pEditUpdateAction->setShortcut(Qt::Key_F5);
+    connect( m_pEditUpdateAction, SIGNAL( activated() ), this, SLOT( sltUpdate() ) );
 
     m_pEdit->addAction( m_pEditUndoAction );
     m_pEdit->addAction( m_pEditRedoAction );
@@ -412,6 +428,8 @@ void MinDiaWindow::CreateMenus()
     m_pEdit->addAction( m_pEditNewDiaAction );
     m_pEdit->addAction( m_pEditAddDiaAction );
     m_pEdit->addAction( m_pEditDeleteAction );
+    m_pEdit->addSeparator();
+    m_pEdit->addAction( m_pEditUpdateAction );
 
     // *** submenu: play ***
     m_pPlayStartAction = new QAction( /*tr( "Start" ),*/ aRunIcon, tr( "Sta&rt" ), this );
@@ -564,6 +582,14 @@ void MinDiaWindow::CreateMenus()
 	//connect( m_pPlugins, SIGNAL( aboutToShow() ), this, SLOT( sltUpdateScriptsMenu() ) );
 
     connect( this, SIGNAL( sigDialogHelp(const QString &) ), this, SLOT( sltShowHelp(const QString &) ) );
+}
+
+void MinDiaWindow::customEvent(QEvent * pEvent)
+{
+    if( pEvent->type()==QEvent::User )
+    {
+        sltUpdate();
+    }
 }
 
 void MinDiaWindow::CreateChildWidgets()
@@ -847,6 +873,38 @@ void MinDiaWindow::sltShowPlotComment()
 	sltDoPlotComment();
 }
 
+void MinDiaWindow::CreatePlayInfoDlg()
+{
+    if( !m_pPlayInfoDialog )
+    {
+        m_pPlayInfoDialog = new PlayInfoDlgImpl( m_pControler, this );
+        m_pPlayInfoDialog->move( 10, 350 );
+
+        if( m_aPlayInfoDialogGeometry.count()>0 )
+        {
+            m_pPlayInfoDialog->restoreGeometry(m_aPlayInfoDialogGeometry);
+        }
+
+        if( m_iPosX>0 && m_iPosY>0 )
+        {
+            m_pPlayInfoDialog->SetPos( m_iPosX, m_iPosY );
+        }
+
+        if( m_iScreenX>0 && m_iScreenY>0 )
+        {
+            m_pPlayInfoDialog->SetSize( m_iScreenX, m_iScreenY );
+        }
+
+        if( m_bExpandImage )
+        {
+            m_pPlayInfoDialog->SetExpandImage( true );
+        }
+
+        // update the states of the run, pause and stop buttons in this dialog
+        sltUpdatePlayMenu();
+    }
+}
+
 void MinDiaWindow::sltDoPlayInfos()
 {
     if( m_pPlayInfoDialog && !m_pExtrasPlayStatusAction->isChecked() )
@@ -858,35 +916,6 @@ void MinDiaWindow::sltDoPlayInfos()
 	}
 	else
 	{
-		if( !m_pPlayInfoDialog )
-		{
-			m_pPlayInfoDialog = new PlayInfoDlgImpl( m_pControler, this );
-			m_pPlayInfoDialog->move( 10, 350 );
-            
-            if( m_aPlayInfoDialogGeometry.count()>0 )
-            {
-                m_pPlayInfoDialog->restoreGeometry(m_aPlayInfoDialogGeometry);
-            }            
-
-			if( m_iPosX>0 && m_iPosY>0 )
-			{
-				m_pPlayInfoDialog->SetPos( m_iPosX, m_iPosY );
-			}
-
-			if( m_iScreenX>0 && m_iScreenY>0 )
-			{
-				m_pPlayInfoDialog->SetSize( m_iScreenX, m_iScreenY );
-			}
-
-			if( m_bExpandImage )
-			{
-				m_pPlayInfoDialog->SetExpandImage( true );
-			}
-
-			// update the states of the run, pause and stop buttons in this dialog
-			sltUpdatePlayMenu();
-		}
-
 		m_pPlayInfoDialog->show();
         // workaround for showing dialog with updated view-rect
         m_pPlayInfoDialog->resize(m_pPlayInfoDialog->width()-1,m_pPlayInfoDialog->height()-1);
@@ -1774,6 +1803,11 @@ void MinDiaWindow::sltFindNextItem()
 	{
 		m_pControler->sltSelectNextItemWithText( m_sFindText );
 	}
+}
+
+void MinDiaWindow::sltUpdate()
+{
+    m_pTimeLineView->sltUpdateView();
 }
 
 void MinDiaWindow::sltEditFadeInTime()
