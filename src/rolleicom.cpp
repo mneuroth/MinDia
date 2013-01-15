@@ -207,7 +207,9 @@ struct RolleiComHelperData
             }
             if( sStopBitsStrg=="1.5" )
             {
+#if defined(Q_OS_WIN) || defined(qdoc)
                 aStopBits = STOP_1_5;
+#endif
             }
             if( sStopBitsStrg=="2" )
             {
