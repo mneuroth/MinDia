@@ -108,133 +108,133 @@ static QImage CreateWhiteImage()
 	return aImage;
 }
 
-// *******************************************************************
-// *******************************************************************
-// *******************************************************************
+//// *******************************************************************
+//// *******************************************************************
+//// *******************************************************************
 
-PlayInfoContextMenu::PlayInfoContextMenu( QWidget * parent, PlayInfoDlgImpl * pMyDialog )
-: QMenu( parent ),
-  m_pMyDialog( pMyDialog )
-{
-	m_pImageFormats = new QMenu( tr( "Save &image..." ), 0 );
-
-	// ** get all supported image formates and fill the menu with this formats
-    QList<QByteArray> aList = QImageWriter::supportedImageFormats();
-	for( int i=0; i<aList.count(); i++ )
-	{
-		m_pImageFormats->addAction( new QAction( QString(aList.at( i )), 0 ) );
-	}
-// TODO --> funktioniert das ?    
-	connect( m_pImageFormats, SIGNAL( activated(int) ), this, SLOT( sltImageFormatActivated(int) ) );
-
-    QAction * pAction = new QAction( tr( "Dissolve &Start/Stop" ), 0 );
-	addAction( pAction );
-    connect( pAction, SIGNAL(activated()), this, SLOT(sltStartStopFade()) );
-
-    addMenu( m_pImageFormats);
-    
-    addSeparator();
-    
-    m_pActionFullScreen = new QAction( tr( "&Full screen" ), 0 );
-	addAction( m_pActionFullScreen );
-    connect( m_pActionFullScreen, SIGNAL(activated()), this, SLOT(sltToggleFullScreen()) );
-
-    addSeparator();
-
-    pAction = new QAction( tr( "&Close" ), 0 );
-	addAction( pAction );
-    connect( pAction, SIGNAL(activated()), this, SLOT(sltClose()) );
-    
-    //insertItem( tr( "Dissolve &Start/Stop" ), STOP_START_ID ) );
-	//insertItem( tr( "Save &image..." ), m_pImageFormats );
-	//insertSeparator();
-	//insertItem( tr( "&Full screen" ), MAXIMIZE_ID );
-	//insertSeparator();
-	//insertItem( tr( "&Close" ), CLOSE_ID );
-
-	connect( this, SIGNAL( aboutToShow() ), this, SLOT( sltShowMenu() ) );
-	//connect( this, SIGNAL( activated(int) ), this, SLOT( sltActivated(int) ) );
-}
-
-PlayInfoContextMenu::~PlayInfoContextMenu()
-{
-	delete m_pImageFormats;
-    delete m_pActionFullScreen;
-// TODO ---> andere actions auch zerstoreren ?    
-}
-
-void PlayInfoContextMenu::sltImageFormatActivated( int iIndex )
-{
-	QStringList aList = QPicture::outputFormatList();
-
-	if( m_pMyDialog && (iIndex>=0) && (iIndex<(int)aList.count()) )
-	{
-		m_pMyDialog->sltSaveActImage( aList.at( iIndex ) );
-	}
-}
-
-//void PlayInfoContextMenu::sltActivated( int iIndex )
+//PlayInfoContextMenu::PlayInfoContextMenu( QWidget * parent, PlayInfoDlgImpl * pMyDialog )
+//: QMenu( parent ),
+//  m_pMyDialog( pMyDialog )
 //{
-//	if( m_pMyDialog )
+//	m_pImageFormats = new QMenu( tr( "Save &image..." ), 0 );
+
+//	// ** get all supported image formates and fill the menu with this formats
+//    QList<QByteArray> aList = QImageWriter::supportedImageFormats();
+//	for( int i=0; i<aList.count(); i++ )
 //	{
-//		switch( iIndex )
-//		{	
-//			case STOP_START_ID:
-//				m_pMyDialog->StartStopFade();
-//				break;
-//			case MAXIMIZE_ID :
-//				if( !m_pMyDialog->IsFullScreen() )
-//				{
-//					m_pMyDialog->FullScreen();
-//				}
-//				else
-//				{
-//					m_pMyDialog->RestoreSize();
-//				}
-//				break;
-//			case CLOSE_ID :
-//				m_pMyDialog->close();
-//				break;
-//		}
+//		m_pImageFormats->addAction( new QAction( QString(aList.at( i )), 0 ) );
+//	}
+//// TODO --> funktioniert das ?
+//	connect( m_pImageFormats, SIGNAL( activated(int) ), this, SLOT( sltImageFormatActivated(int) ) );
+
+//    QAction * pAction = new QAction( tr( "Dissolve &Start/Stop" ), 0 );
+//	addAction( pAction );
+//    connect( pAction, SIGNAL(activated()), this, SLOT(sltStartStopFade()) );
+
+//    addMenu( m_pImageFormats);
+    
+//    addSeparator();
+    
+//    m_pActionFullScreen = new QAction( tr( "&Full screen" ), 0 );
+//	addAction( m_pActionFullScreen );
+//    connect( m_pActionFullScreen, SIGNAL(activated()), this, SLOT(sltToggleFullScreen()) );
+
+//    addSeparator();
+
+//    pAction = new QAction( tr( "&Close" ), 0 );
+//	addAction( pAction );
+//    connect( pAction, SIGNAL(activated()), this, SLOT(sltClose()) );
+    
+//    //insertItem( tr( "Dissolve &Start/Stop" ), STOP_START_ID ) );
+//	//insertItem( tr( "Save &image..." ), m_pImageFormats );
+//	//insertSeparator();
+//	//insertItem( tr( "&Full screen" ), MAXIMIZE_ID );
+//	//insertSeparator();
+//	//insertItem( tr( "&Close" ), CLOSE_ID );
+
+//	connect( this, SIGNAL( aboutToShow() ), this, SLOT( sltShowMenu() ) );
+//	//connect( this, SIGNAL( activated(int) ), this, SLOT( sltActivated(int) ) );
+//}
+
+//PlayInfoContextMenu::~PlayInfoContextMenu()
+//{
+//	delete m_pImageFormats;
+//    delete m_pActionFullScreen;
+//// TODO ---> andere actions auch zerstoreren ?
+//}
+
+//void PlayInfoContextMenu::sltImageFormatActivated( int iIndex )
+//{
+//	QStringList aList = QPicture::outputFormatList();
+
+//	if( m_pMyDialog && (iIndex>=0) && (iIndex<(int)aList.count()) )
+//	{
+//		m_pMyDialog->sltSaveActImage( aList.at( iIndex ) );
 //	}
 //}
 
-void PlayInfoContextMenu::sltStartStopFade()
-{
-	m_pMyDialog->StartStopFade();
-}
+////void PlayInfoContextMenu::sltActivated( int iIndex )
+////{
+////	if( m_pMyDialog )
+////	{
+////		switch( iIndex )
+////		{
+////			case STOP_START_ID:
+////				m_pMyDialog->StartStopFade();
+////				break;
+////			case MAXIMIZE_ID :
+////				if( !m_pMyDialog->IsFullScreen() )
+////				{
+////					m_pMyDialog->FullScreen();
+////				}
+////				else
+////				{
+////					m_pMyDialog->RestoreSize();
+////				}
+////				break;
+////			case CLOSE_ID :
+////				m_pMyDialog->close();
+////				break;
+////		}
+////	}
+////}
 
-void PlayInfoContextMenu::sltToggleFullScreen()
-{
-	if( !m_pMyDialog->IsFullScreen() )
-    {
-		m_pMyDialog->FullScreen();
-	}
-	else
-	{
-		m_pMyDialog->RestoreSize();
-	}
-}
+//void PlayInfoContextMenu::sltStartStopFade()
+//{
+//	m_pMyDialog->StartStopFade();
+//}
 
-void PlayInfoContextMenu::sltClose()
-{
-	m_pMyDialog->close();
-}
+//void PlayInfoContextMenu::sltToggleFullScreen()
+//{
+//	if( !m_pMyDialog->IsFullScreen() )
+//    {
+//		m_pMyDialog->FullScreen();
+//	}
+//	else
+//	{
+//		m_pMyDialog->RestoreSize();
+//	}
+//}
 
-void PlayInfoContextMenu::sltShowMenu()
-{
-	if( m_pMyDialog )
-	{
-		if( m_pMyDialog->IsFullScreen() )
-		{
-            m_pActionFullScreen->setText( tr("&Normal") );
-		}
-		else
-		{
-            m_pActionFullScreen->setText( tr("&Full screen") );
-		}
-	}
-}
+//void PlayInfoContextMenu::sltClose()
+//{
+//	m_pMyDialog->close();
+//}
+
+//void PlayInfoContextMenu::sltShowMenu()
+//{
+//	if( m_pMyDialog )
+//	{
+//		if( m_pMyDialog->IsFullScreen() )
+//		{
+//            m_pActionFullScreen->setText( tr("&Normal") );
+//		}
+//		else
+//		{
+//            m_pActionFullScreen->setText( tr("&Full screen") );
+//		}
+//	}
+//}
 
 // *******************************************************************
 // *******************************************************************
@@ -333,7 +333,7 @@ void SimpleBitmapCanvas::drawBackground( QPainter * pPainter, const QRectF & are
 	// ** OPTIMIZE HERE: erase is not needed all the time !?
     pPainter->eraseRect( area );
 
-    pPainter->drawImage( 0, 0, *m_pImage );
+    pPainter->drawImage( -1, -1, *m_pImage );
 }
 
 // *******************************************************************
@@ -519,10 +519,12 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt
 	m_pDisplayImage->setChecked( true );
 #ifndef ZAURUS
 	//m_pScaleExpand->setChecked( true );		// neu seit 15.2.2003
-	m_pScaleOriginal->setChecked( true );
+    //m_pScaleOriginal->setChecked( true );
 #endif
 
     m_pCanvas->SetImagePtr( &m_aScaledImage );
+
+    m_pCanvasView->SetDlg(this);
 }
 
 PlayInfoDlgImpl::~PlayInfoDlgImpl()
@@ -550,9 +552,12 @@ bool PlayInfoDlgImpl::IsFullScreen() const
     return isFullScreen();
 }
 
+static QByteArray g_test;
+
 void PlayInfoDlgImpl::FullScreen()
 {
-	if( !IsFullScreen() )
+    g_test = this->saveGeometry();
+    //if( !IsFullScreen() )
 	{
 		// ** for full screen modus remove the controls in the control area
 //TODO		PlayInfoDialogLayout->setSpacing( 0 );
@@ -567,7 +572,13 @@ void PlayInfoDlgImpl::FullScreen()
 		m_pScaleImageGroup->hide();
 		m_pClose->hide();
 #endif
+        m_pOperationGroup->hide();
 
+        this->layout()->setContentsMargins(0,0,0,0);
+//        this->layout()->setSpacing(0);
+        m_aScreenGroup->setContentsMargins(0,0,0,0);
+        m_aScreenGroup->layout()->setContentsMargins(0,0,0,0);
+//        m_aScreenGroup->layout()->setSpacing(0);
 //TODO		delete m_pButtonLayout;
 //TODO		m_pButtonLayout = 0;
 
@@ -581,13 +592,16 @@ void PlayInfoDlgImpl::FullScreen()
 //TODO		m_flLastFlags = getWFlags();
 		m_aLastPos = pos();
 
-		showFullScreen();
+        showFullScreen();
+//        this->repaint();
+        this->resize(this->width(),this->height()+1);
+//        m_pCanvasView->showFullScreen();
 	}
 }
 
 void PlayInfoDlgImpl::RestoreSize()
 {
-	if( IsFullScreen() )
+    //if( IsFullScreen() )
 	{
 ////TODO		m_pButtonLayout = new Q3HBoxLayout; 
 //		// ** see PlayInfoDlg.cpp for the values **
@@ -631,11 +645,27 @@ void PlayInfoDlgImpl::RestoreSize()
 		m_pScaleImageGroup->show();
 		m_pClose->show();
 //#endif
+        m_pOperationGroup->show();
 
-		//m_pCanvasView->setLineWidth( 2 );
+
+//        m_aScreenGroup->layout()->setSpacing(6);
+        m_aScreenGroup->layout()->setContentsMargins(3,3,3,3);
+        m_aScreenGroup->setContentsMargins(6,6,6,6);
+        this->layout()->setContentsMargins(6,6,6,6);
+//        this->layout()->setSpacing(6);
+
+        //m_pCanvasView->setLineWidth( 2 );
 //		m_pCanvasView->setFrameShadow( Q3Frame::Sunken );
 
-		showNormal();
+        showNormal();
+
+        this->restoreGeometry(g_test);
+
+//        this->repaint();
+        this->resize(this->width(),this->height()+1);
+
+       // resize();
+//        m_pCanvasView->showNormal();
 
 		// ** the method showFullScreen changes the parent and the flags
 		// ** so this values should be restored now !
@@ -1192,6 +1222,56 @@ void PlayInfoDlgImpl::sltFullScreen()
 	Maximize();
 }
 
+#include <math.h>
+
+static bool is_approx(double value1, double value2)
+{
+    const double EPS = 0.02;
+    double val = fabs(value1-value2);
+    return val<EPS;
+}
+
+void PlayInfoDlgImpl::sltRatioChanged( const QString & sItem )
+{
+    int iHeightScreen = m_pCanvasView->height();
+    int iWidthScreen = m_pCanvasView->width();
+    int iHeight = height();
+    int iWidth = width();
+    int iNewWidthScreen = iWidthScreen;
+    QString s = sItem;
+    if( sItem==tr("image ratio"))
+    {
+        double dDx = (double)m_aActImage.width();
+        double dDy = (double)m_aActImage.height();
+        if( is_approx(dDx/dDy,1.3333333) )
+        {
+            s = tr("4:3");
+        }
+        else if( is_approx(dDx/dDy,1.5) )
+        {
+            s = tr("3:2");
+        }
+        else if( is_approx(dDx/dDy,1.7777777) )
+        {
+            s = tr("16:9");
+        }
+        m_pScreenRatio->setCurrentIndex(m_pScreenRatio->findText(s));
+    }
+    if( s==tr("3:2"))
+    {
+        iNewWidthScreen = iHeightScreen*3/2;
+    }
+    else if( s==tr("4:3"))
+    {
+        iNewWidthScreen = iHeightScreen*4/3;
+    }
+    else if( s==tr("16:9"))
+    {
+        iNewWidthScreen = iHeightScreen*16/9;
+    }
+    this->resize(iWidth+iNewWidthScreen-iWidthScreen,iHeight);
+}
+
 void PlayInfoDlgImpl::closeEvent( QCloseEvent * pCloseEvent )
 {
 	pCloseEvent->accept();
@@ -1244,6 +1324,24 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
 				aScaledImage = aImage.scaled( aFrameRect.width(), aFrameRect.height() );
 				// Performance remark: 548x360 --> 1024x768 takes ca. 110ms
 			}
+            else if( m_pScaleOptimal->isChecked() )
+            {
+                int screenDx = m_pCanvasView->width();
+                int screenDy = m_pCanvasView->height();
+                int imgDx = aImage.width();
+                int imgDy = aImage.height();
+                double screenRatio = (double)screenDx/(double)screenDy;
+                double imgRatio = (double)imgDx/(double)imgDy;
+                if( imgRatio>screenRatio )
+                {
+                    // use screen dx for image dx and use image ratio to calculate new image dy
+                    aScaledImage = aImage.scaled( screenDx, (int)((double)screenDx/imgRatio) );
+                }
+                else
+                {
+                    aScaledImage = aImage.scaled( (int)((double)screenDy*imgRatio), screenDy );
+                }
+            }
 #else
 			aScaledImage = aImage.scaled( aFrameRect.width(), aFrameRect.height() );
 #endif

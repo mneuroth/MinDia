@@ -89,31 +89,31 @@ private:
 	int		m_iDefaultTimeInMS;
 };
 
-// *******************************************************************
-/** The context menu for the canvas view
-  */
-class PlayInfoContextMenu : public QMenu
-{
-	Q_OBJECT
+//// *******************************************************************
+///** The context menu for the canvas view
+//  */
+//class PlayInfoContextMenu : public QMenu
+//{
+//	Q_OBJECT
 
-public:
-	PlayInfoContextMenu( QWidget * parent, PlayInfoDlgImpl * pMyDialog );
-	~PlayInfoContextMenu();
+//public:
+//	PlayInfoContextMenu( QWidget * parent, PlayInfoDlgImpl * pMyDialog );
+//	~PlayInfoContextMenu();
 
-public slots:
-    void sltStartStopFade();
-    void sltToggleFullScreen();
-    void sltClose();
+//public slots:
+//    void sltStartStopFade();
+//    void sltToggleFullScreen();
+//    void sltClose();
 
-	void sltImageFormatActivated( int iIndex );
-	//void sltActivated( int iIndex );
-	void sltShowMenu();
+//	void sltImageFormatActivated( int iIndex );
+//	//void sltActivated( int iIndex );
+//	void sltShowMenu();
 
-private:
-	PlayInfoDlgImpl *	m_pMyDialog;
-	QMenu *		        m_pImageFormats;
-    QAction *           m_pActionFullScreen;
-};
+//private:
+//	PlayInfoDlgImpl *	m_pMyDialog;
+//	QMenu *		        m_pImageFormats;
+//    QAction *           m_pActionFullScreen;
+//};
 
 // *******************************************************************
 /** Implementation of the Play-Info-Dialog
@@ -189,6 +189,8 @@ public slots:
 	void sltFadeInTimer();
 
 	void sltSaveActImage( const QString & sImageFormat );
+
+    void sltRatioChanged( const QString & sItem );
 
 signals:
 	void sigDialogClosed();
