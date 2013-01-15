@@ -38,6 +38,8 @@
 
 #include <string>
 
+#include <QThread>
+
 using namespace std;
 
 // *******************************************************************
@@ -93,6 +95,7 @@ public:
 	int		GetFadeInLength() const;
 	int		GetFadeOutStartPos() const;
 	int		GetFadeOutLength() const;
+    void    SetTotalLength( int iTotalLength );
 
 	bool	HasFadeInData() const;
 	bool	HasFadeOutData() const;
@@ -158,6 +161,21 @@ private:
 	string	m_sComment;
 };
 
+class SoundInfoContainer;
+
+// *******************************************************************
+// TODO --> workaround for async sound length problem...
+class UpdateLengths : public QThread
+{
+public:
+    UpdateLengths(SoundInfoContainer & aContainer);
+
+    virtual void run();
+
+private:
+    SoundInfoContainer &  m_aContainer;
+};
+
 // *******************************************************************
 /** Container to hold sound-info-items. */
 class SoundInfoContainer : public IOContainer<SoundInfo>, public ObjectChanged
@@ -169,6 +187,11 @@ public:
 	int			GetAbsPlayPos( int iIndex ) const;
 	iterator	GetItemForAbsPlayPos( int iAbsTimeInMS, int & iOffsetTime );
 	void		MakeRelativePaths();
+
+    void        UpdateAllLengths();
+
+private:
+    UpdateLengths   m_aHelperThread;
 };
 
 // *******************************************************************

@@ -47,6 +47,9 @@
 
 #include <qfile.h>
 
+#include <phonon/AudioOutput>
+#include <phonon/MediaObject>
+
 #if defined( _MSC_VER ) || defined( __BORLANDC__ ) || defined( __MINGW32__ )
 #define _WINDOWS_SOUND
 //#define _UNIX_SOUND		// for debugging TESTS
@@ -60,12 +63,12 @@
 #include <windows.h>
 #include <mmsystem.h>
 
-int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned int cchReturn, void * hwndCallback )
+int mciSendStringX( miniSound * pSound, const char * lpszCommand, char * lpszReturnString, unsigned int cchReturn, void * hwndCallback )
 {
     return ::mciSendStringA( lpszCommand, lpszReturnString, cchReturn, (HWND)hwndCallback );
 }
 
-int mciGetErrorStringX( int iErrorNo, char * sBuffer, int iBufferLength )
+int mciGetErrorStringX( miniSound * pSound, int iErrorNo, char * sBuffer, int iBufferLength )
 {
     return ::mciGetErrorStringA( iErrorNo, sBuffer, iBufferLength );
 }
@@ -74,8 +77,8 @@ int mciGetErrorStringX( int iErrorNo, char * sBuffer, int iBufferLength )
 
 #ifdef _UNIX_SOUND
 
-#define DEBUG_OUT(x)	
-//#define DEBUG_OUT(x)	x
+//#define DEBUG_OUT(x)
+#define DEBUG_OUT(x)	x
 
 #include "wavfile.h"
 #include "mp3file.h"
@@ -104,50 +107,58 @@ typedef int MCIERROR;
 #endif
 
 // ** some dummy implementions for linux **
+#include <QtGlobal>
 
 Wave 	aWave;
 Mp3File aMp3;
+Phonon::MediaObject * g_pPlayer = 0;
 
 bool g_bIsWavFile = 1;
 int  g_isLoaded = 0;
 
-int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned int cchReturn, void * /*hwndCallback*/ )
+int mciSendStringX( const miniSound * pSound, const char * lpszCommand, char * lpszReturnString, unsigned int cchReturn, void * /*hwndCallback*/ )
 {
+    DEBUG_OUT( cout << "SOUND: " << lpszCommand << endl; )
 	if( strncmp( lpszCommand, _PLAY, strlen( _PLAY ) ) == 0 )
 	{
 		DEBUG_OUT( cout << _PLAY << endl; )
 
-		int iFromPos = 0;
-		int iToPos = -1;
+        if( g_pPlayer )
+        {
+//            g_pPlayer->seek(35000);
+            g_pPlayer->play();
+        }
+//		int iFromPos = 0;
+//		int iToPos = -1;
 
-		if( strstr( lpszCommand, _SUB_FROM ) != 0 )
-		{
-			if( strstr( lpszCommand, _SUB_TO ) != 0 )
-			{
-				sscanf( lpszCommand, "play sound from %d to %d", &iFromPos, &iToPos );
-			}
-			else
-			{
-				sscanf( lpszCommand, "play sound from %d", &iFromPos );
-			}
+//		if( strstr( lpszCommand, _SUB_FROM ) != 0 )
+//		{
+//			if( strstr( lpszCommand, _SUB_TO ) != 0 )
+//			{
+//				sscanf( lpszCommand, "play sound from %d to %d", &iFromPos, &iToPos );
+//			}
+//			else
+//			{
+//				sscanf( lpszCommand, "play sound from %d", &iFromPos );
+//			}
 
-			DEBUG_OUT( cout << "play pos " << iFromPos << " " << iToPos << endl; )
-		}
+//			DEBUG_OUT( cout << "play pos " << iFromPos << " " << iToPos << endl; )
+//		}
 
-		if( g_bIsWavFile )
-		{
-			/*int iOk =*/ aWave.initPlay();
-			aWave.setCurrPlayPosInSeconds( ((double)iFromPos)*0.001 );
-			aWave.setMaxPlayPosInSeconds( ((double)iToPos)*0.001 );
-			aWave.startAsyncReadBuffer();
-			aWave.playInThread();
-		}
-		else
-		{
-			// mp3 handling
-			//aMp3.startPlay( ((double)iFromPos)*0.001, ((double)iToPos)*0.001 );
-            aMp3.playInThread( ((double)iFromPos)*0.001, ((double)iToPos)*0.001 );
-		}
+//		if( g_bIsWavFile )
+//		{
+//			/*int iOk =*/ aWave.initPlay();
+//			aWave.setCurrPlayPosInSeconds( ((double)iFromPos)*0.001 );
+//			aWave.setMaxPlayPosInSeconds( ((double)iToPos)*0.001 );
+//			aWave.startAsyncReadBuffer();
+//			aWave.playInThread();
+//		}
+//		else
+//		{
+//			// mp3 handling
+//			//aMp3.startPlay( ((double)iFromPos)*0.001, ((double)iToPos)*0.001 );
+//            aMp3.playInThread( ((double)iFromPos)*0.001, ((double)iToPos)*0.001 );
+//		}
 	}
 	else if( strncmp( lpszCommand, _FADE_IN, strlen( _FADE_IN ) ) == 0 )
 	{
@@ -161,6 +172,7 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 		double dFrom = ((double)iFromPosInMS)*0.001;
 		double dLength = ((double)iLengthInMS)*0.001;
 
+// TODO --> AudioOutput.Volume + g_pPlayer->seek(time)
 		if( g_bIsWavFile )
 		{
 			aWave.setFadeInInfos( dFrom, dLength );
@@ -197,44 +209,56 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 	{
 		DEBUG_OUT( cout << _RESUME << endl; )
 
-		if( g_bIsWavFile )
-		{
-			aWave.resumePlay();
-			aWave.playInThread();
-		}
-		else
-		{
-			// mp3 handling
-			aMp3.resumePlay();
-		}
+        if( g_pPlayer )
+        {
+            g_pPlayer->play();
+        }
+//		if( g_bIsWavFile )
+//		{
+//			aWave.resumePlay();
+//			aWave.playInThread();
+//		}
+//		else
+//		{
+//			// mp3 handling
+//			aMp3.resumePlay();
+//		}
 	}
 	else if( strncmp( lpszCommand, _PAUSE, strlen( _PAUSE ) ) == 0 )
 	{
 		DEBUG_OUT( cout << _PAUSE << endl; )
 
-		if( g_bIsWavFile )
-		{
-			aWave.pausePlay();
-		}
-		else
-		{
-			// mp3 handling
-			aMp3.pausePlay();
-		}
+        if( g_pPlayer )
+        {
+            g_pPlayer->pause();
+        }
+//		if( g_bIsWavFile )
+//		{
+//			aWave.pausePlay();
+//		}
+//		else
+//		{
+//			// mp3 handling
+//			aMp3.pausePlay();
+//		}
 	}
 	else if( strncmp( lpszCommand, _STOP, strlen( _STOP ) ) == 0 )
 	{
 		DEBUG_OUT( cout << _STOP << endl; )
 
-		if( g_bIsWavFile )
-		{
-			aWave.stopPlay();
-		}
-		else
-		{
-			// mp3 handling
-			aMp3.stopPlay();
-		}
+        if( g_pPlayer )
+        {
+            g_pPlayer->stop();
+        }
+//		if( g_bIsWavFile )
+//		{
+//			aWave.stopPlay();
+//		}
+//		else
+//		{
+//			// mp3 handling
+//			aMp3.stopPlay();
+//		}
 	}
 	else if( strncmp( lpszCommand, _OPEN, strlen( _OPEN ) ) == 0 )
 	{
@@ -244,68 +268,92 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 		sscanf( lpszCommand, "open %s alias sound", sBuf );
 		DEBUG_OUT( cout << "file: " << sBuf << endl; )
 
-		// is the file a wav or mp3 file?
-		// look for the extension (*.wav or *.mp3)
-		if( strstr( sBuf, ".wav" ) != 0 )
-		{
-			g_bIsWavFile = true;
-		}
-		else if( strstr( sBuf, ".mp3" ) != 0 )
-		{
-			g_bIsWavFile = false;
-		}
-		else
-		{
-			// every other file formats will be treated as wav file...
-			g_bIsWavFile = true;
-		}
+        //if( g_pPlayer )
+        //{
+        //    delete g_pPlayer;
+        //    g_pPlayer = 0;
+        //}
+        if( g_pPlayer==0 )
+        {
+//            g_pPlayer = Phonon::createPlayer(Phonon::MusicCategory,
+//                                             Phonon::MediaSource(QString(sBuf)));
+            g_pPlayer = Phonon::createPlayer(Phonon::MusicCategory);
+            pSound->connect(g_pPlayer,SIGNAL(totalTimeChanged(qint64)),pSound,SLOT(sltTotalTimeChanged(qint64)));
+        }
+        else
+        {
+//            g_pPlayer->setCurrentSource(Phonon::MediaSource(QString(sBuf)));
+        }
+        g_pPlayer->setCurrentSource(Phonon::MediaSource(QString(sBuf)));
 
-// min todo --> nur fuer tests ...
-#ifdef _async
-		int iRet = 0;
-		if( g_bIsWavFile )
-		{
-			iRet = aWave.openWaveAsync( sBuf );
-		}
-		else
-		{
-			// mp3 handling
-			iRet = aMp3.openFile( sBuf );
-		}
-#else
-		if( !g_isLoaded )
-		{
-			g_isLoaded = 1;
+//see:        http://de.softuses.com/145419
 
-			if( g_bIsWavFile )
-			{
-				iRet = aWave.openWave( sBuf );
-			}
-			else
-			{
-				// mp3 handling
-				iRet = aMp3.openFile( sBuf );
-			}
-		}
-#endif
-		if( iRet != 0 )
-		{
-			return -5;		// error opening file !
-		}
+//        // is the file a wav or mp3 file?
+//		// look for the extension (*.wav or *.mp3)
+//		if( strstr( sBuf, ".wav" ) != 0 )
+//		{
+//			g_bIsWavFile = true;
+//		}
+//		else if( strstr( sBuf, ".mp3" ) != 0 )
+//		{
+//			g_bIsWavFile = false;
+//		}
+//		else
+//		{
+//			// every other file formats will be treated as wav file...
+//			g_bIsWavFile = true;
+//		}
+
+//// min todo --> nur fuer tests ...
+//#ifdef _async
+//		int iRet = 0;
+//		if( g_bIsWavFile )
+//		{
+//			iRet = aWave.openWaveAsync( sBuf );
+//		}
+//		else
+//		{
+//			// mp3 handling
+//			iRet = aMp3.openFile( sBuf );
+//		}
+//#else
+//		if( !g_isLoaded )
+//		{
+//			g_isLoaded = 1;
+
+//			if( g_bIsWavFile )
+//			{
+//				iRet = aWave.openWave( sBuf );
+//			}
+//			else
+//			{
+//				// mp3 handling
+//				iRet = aMp3.openFile( sBuf );
+//			}
+//		}
+//#endif
+//		if( iRet != 0 )
+//		{
+//			return -5;		// error opening file !
+//		}
 	}
 	else if( strncmp( lpszCommand, _CLOSE, strlen( _CLOSE ) ) == 0 )
 	{
 		DEBUG_OUT( cout << _CLOSE << endl; )
 
-		if( g_bIsWavFile )
-		{
-			aWave.stopPlay();
-		}
-		else
-		{
-			// mp3 handling
-			aMp3.stopPlay();
-		}
+        if( g_pPlayer )
+        {
+            g_pPlayer->stop();
+        }
+//		if( g_bIsWavFile )
+//		{
+//			aWave.stopPlay();
+//		}
+//		else
+//		{
+//			// mp3 handling
+//			aMp3.stopPlay();
+//		}
 	}
 	else if( strncmp( lpszCommand, _STATUS, strlen( _STATUS ) ) == 0 )
 	{
@@ -316,33 +364,56 @@ int mciSendStringX( const char * lpszCommand, char * lpszReturnString, unsigned 
 		{
 //			DEBUG_OUT( cout << "SUB: " << _SUB_POSITION << endl; )
 
-			// ** + 10 for rounding errors ... (double --> int)
-			if( g_bIsWavFile )
-			{
-				sprintf( sBuf, "%d", (int)(aWave.getCurrPlayPosInSeconds()*1000.0) );
-			}
-			else
-			{
-				// mp3 handling
-				sprintf( sBuf, "%d", (int)(aMp3.getCurrPlayPosInSeconds()*1000.0) );
-			}
-			strncpy( lpszReturnString, sBuf, cchReturn );
+            if( g_pPlayer )
+            {
+                qint32 iTime = g_pPlayer->currentTime();
+                sprintf( sBuf, "%d", (int)iTime );
+            }
+//			// ** + 10 for rounding errors ... (double --> int)
+//			if( g_bIsWavFile )
+//			{
+//				sprintf( sBuf, "%d", (int)(aWave.getCurrPlayPosInSeconds()*1000.0) );
+//			}
+//			else
+//			{
+//				// mp3 handling
+//				sprintf( sBuf, "%d", (int)(aMp3.getCurrPlayPosInSeconds()*1000.0) );
+//			}
+            strncpy( lpszReturnString, sBuf, cchReturn );
 
-//			DEBUG_OUT( cout << "return: " << lpszReturnString << endl; )
+            DEBUG_OUT( cout << "return: " << lpszReturnString << endl; )
 		}
 		else if( strstr( lpszCommand, _SUB_LENGTH ) != 0 )
 		{
 			DEBUG_OUT( cout << "SUB: " << _SUB_LENGTH << endl; )
 
-			if( g_bIsWavFile )
-			{
-				sprintf( sBuf, "%d", (int)(aWave.getTotalPlayTimeInSeconds()*1000.0) );
-			}
-			else
-			{
-				// mp3 handling
-				sprintf( sBuf, "%d", (int)(aMp3.getTotalPlayTimeInSeconds()*1000.0) );
-			}
+            if( g_pPlayer )
+            {
+                int i = 0;
+                qint64 iTime = 0;
+                //while( iTime==0 )
+                {
+                    iTime = g_pPlayer->totalTime();
+                    //if( iTime==0 )
+                    //{
+                    //    minSleep(1);
+                    //    i++;
+                    //}
+                }
+                cout << "*** LENGTH " << i << endl;
+//                qint64 iTime = g_pPlayer->totalTime();
+//                int iTimeSec = iTime/1000;
+                sprintf( sBuf, "%d", (int)iTime );
+            }
+//			if( g_bIsWavFile )
+//			{
+//				sprintf( sBuf, "%d", (int)(aWave.getTotalPlayTimeInSeconds()*1000.0) );
+//			}
+//			else
+//			{
+//				// mp3 handling
+//				sprintf( sBuf, "%d", (int)(aMp3.getTotalPlayTimeInSeconds()*1000.0) );
+//			}
 			strncpy( lpszReturnString, sBuf, cchReturn );
 
 			DEBUG_OUT( cout << "return: " << lpszReturnString << endl; )
@@ -445,6 +516,8 @@ miniSound::miniSound( const char * sWavFileName )
   m_pSoundInfoContainer( 0 )
 {
 	SetWavFile( sWavFileName );
+    // gulp
+//    connect(g_pPlayer,SIGNAL(totalTimeChanged(qint64)),this,SLOT(sltTotalTimeChanged(qint64)));
 }
 
 miniSound::~miniSound()
@@ -452,6 +525,11 @@ miniSound::~miniSound()
 	StopThread();
 
 	CloseSound();
+}
+
+void miniSound::sltTotalTimeChanged(qint64 val)
+{
+    cout << "TOTAL TIME " << val << endl;
 }
 
 bool miniSound::SetWavFile( const char * sWavFileName )
@@ -469,7 +547,7 @@ bool miniSound::SetWavFile( const char * sWavFileName )
 #else
         sprintf( sBuffer, "open %s alias sound", sWavFileName );    // type waveaudio
 #endif
-        MCIERROR iRet = mciSendStringX( sBuffer, lpszReturnString, _MAXLENGTH, NULL );
+        MCIERROR iRet = mciSendStringX( this, sBuffer, lpszReturnString, _MAXLENGTH, NULL );
 		m_iOpenCount++;
 
 		m_bReadError = !CheckSoundError( (int)iRet );
@@ -479,7 +557,7 @@ bool miniSound::SetWavFile( const char * sWavFileName )
 //        iRet = mciSendStringX( sBuffer, lpszReturnString, _MAXLENGTH, NULL );
 //        CheckSoundError( (int)iRet );
 
-		return m_bReadError;
+        return m_bReadError;
 	}
 	else
 	{
@@ -525,7 +603,7 @@ bool miniSound::IsPlaying() const
 	}
 	else
 	{
-		MCIERROR iRet = mciSendStringX( "status mode", lpszReturnString, _MAXLENGTH, NULL );
+        MCIERROR iRet = mciSendStringX( this, "status mode", lpszReturnString, _MAXLENGTH, NULL );
 		CheckSoundError( (int)iRet );
 	}
 
@@ -545,7 +623,7 @@ bool miniSound::IsPause() const
 	}
 	else
 	{
-		MCIERROR iRet = mciSendStringX( "status mode", lpszReturnString, _MAXLENGTH, NULL );
+        MCIERROR iRet = mciSendStringX( this, "status mode", lpszReturnString, _MAXLENGTH, NULL );
 		CheckSoundError( (int)iRet );
 	}
 
@@ -567,7 +645,7 @@ int  miniSound::GetTotalLengthInMS() const
 	}
 	else
 	{
-		MCIERROR iRet = mciSendStringX( "status sound length", lpszReturnString, _MAXLENGTH, NULL );
+        MCIERROR iRet = mciSendStringX( this, "status sound length", lpszReturnString, _MAXLENGTH, NULL );
 		CheckSoundError( (int)iRet );
 	}
 
@@ -620,7 +698,7 @@ int  miniSound::GetPositionInMSImpl() const
 	}
 	else
 	{
-		MCIERROR iRet = mciSendStringX( "status sound position", lpszReturnString, _MAXLENGTH, NULL );
+        MCIERROR iRet = mciSendStringX( this, "status sound position", lpszReturnString, _MAXLENGTH, NULL );
 		CheckSoundError( (int)iRet );
 	}
 
@@ -642,12 +720,12 @@ bool miniSound::StartPlayImpl( int iStartPosInMs, int iStopPosInMs,
 #if defined(__linux__) || defined(__APPLE__)
         sprintf( sBuffer, "fade_in from %d length %d", iFadeInStartPosInMS, iFadeInLengthInMS );
 		{
-			MCIERROR iRet = mciSendStringX( sBuffer, lpszReturnString, _MAXLENGTH, NULL );
+            MCIERROR iRet = mciSendStringX( this, sBuffer, lpszReturnString, _MAXLENGTH, NULL );
 			CheckSoundError( (int)iRet );
 		}
 		sprintf( sBuffer, "fade_out from %d length %d", iFadeOutStartPosInMS, iFadeOutLengthInMS );
 		{
-			MCIERROR iRet = mciSendStringX( sBuffer, lpszReturnString, _MAXLENGTH, NULL );
+            MCIERROR iRet = mciSendStringX( this, sBuffer, lpszReturnString, _MAXLENGTH, NULL );
 			CheckSoundError( (int)iRet );
 		}
 #endif
@@ -680,7 +758,7 @@ bool miniSound::StartPlayImpl( int iStartPosInMs, int iStopPosInMs,
 		}
 		else
 		{
-			MCIERROR iRet = mciSendStringX( sBuffer, lpszReturnString, _MAXLENGTH, NULL );
+            MCIERROR iRet = mciSendStringX( this, sBuffer, lpszReturnString, _MAXLENGTH, NULL );
 			CheckSoundError( (int)iRet );
 		}
 
@@ -705,7 +783,7 @@ bool miniSound::Pause()
 		{
 			if( IsCallingThreadMciThread() )
 			{
-				MCIERROR iRet = mciSendStringX( "pause sound", lpszReturnString, _MAXLENGTH, NULL );
+                MCIERROR iRet = mciSendStringX( this, "pause sound", lpszReturnString, _MAXLENGTH, NULL );
 				CheckSoundError( (int)iRet );
 			}
 			else
@@ -735,7 +813,7 @@ bool miniSound::Continue()
 		{
 			if( IsCallingThreadMciThread() )
 			{
-				MCIERROR iRet = mciSendStringX( "resume sound", lpszReturnString, _MAXLENGTH, NULL );
+                MCIERROR iRet = mciSendStringX( this, "resume sound", lpszReturnString, _MAXLENGTH, NULL );
 				CheckSoundError( (int)iRet );
 			}
 			else
@@ -768,7 +846,7 @@ bool miniSound::Stop()
 			//   thread which opens/initiates the mci-stream
 			if( IsCallingThreadMciThread() )
 			{
-				MCIERROR iRet = mciSendStringX( "stop sound", lpszReturnString, _MAXLENGTH, NULL );
+                MCIERROR iRet = mciSendStringX( this, "stop sound", lpszReturnString, _MAXLENGTH, NULL );
 				CheckSoundError( (int)iRet );
 			}
 			else
@@ -803,7 +881,7 @@ bool miniSound::CloseSound()
 	{
 		if( m_iOpenCount>0 )
 		{
-			MCIERROR iRet = mciSendStringX( "close sound", lpszReturnString, _MAXLENGTH, NULL );
+            MCIERROR iRet = mciSendStringX( this, "close sound", lpszReturnString, _MAXLENGTH, NULL );
 			CheckSoundError( (int)iRet );
 			m_iOpenCount--;
 		}

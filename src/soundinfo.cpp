@@ -122,6 +122,11 @@ int SoundInfo::GetTotalLength() const
 	return m_iTotalLengthInMS;
 }
 
+void SoundInfo::SetTotalLength( int iTotalLength )
+{
+    m_iTotalLengthInMS = iTotalLength;
+}
+
 int SoundInfo::GetTotalLengthImpl() const
 {
 // min todo --> hier besser noch inidb uebergeben !
@@ -284,7 +289,8 @@ void SoundInfo::MakeRelativePaths()
 // *******************************************************************
 
 SoundInfoContainer::SoundInfoContainer()
-: IOContainer<SoundInfo>( _SOUND_INFO_CONTAINER )
+: IOContainer<SoundInfo>( _SOUND_INFO_CONTAINER ),
+  m_aHelperThread(*this)
 {
 }
 
@@ -349,6 +355,50 @@ void SoundInfoContainer::MakeRelativePaths()
 		hItem->MakeRelativePaths();
 		++aIter;
 	}
+}
+
+UpdateLengths::UpdateLengths(SoundInfoContainer & aContainer)
+    : m_aContainer(aContainer)
+{
+}
+
+#include <QApplication>
+#include <QWidget>
+extern QWidget * GetMainWindow();
+
+void UpdateLengths::run()
+{
+    SoundInfoContainer::iterator aIter = m_aContainer.begin();
+    miniSound aSound;
+
+    while( aIter != m_aContainer.end() )
+    {
+        minHandle<SoundInfo> hItem = *aIter;
+        aSound.SetWavFile(hItem->GetFileName().c_str());
+        int iTotalLength = aSound.GetTotalLengthInMS();
+        while( iTotalLength<=0 )
+        {
+            sleep(10);
+            iTotalLength = aSound.GetTotalLengthInMS();
+        }
+        hItem->SetTotalLength(iTotalLength);
+        // request update of total length for item
+        // await bis resulata da ist
+        ++aIter;
+    }
+    // TODO --> trigger update der View ! --> F5 in Menu aufnehmen !
+    QEvent * pUserEvent = new QEvent(QEvent::User); //new MyCheckReloadEvent();
+    QWidget * pWidget = GetMainWindow();
+    QApplication::postEvent(pWidget,pUserEvent);
+//    foreach (QWidget *widget, QApplication::topLevelWidgets()) {
+//             QApplication::postEvent((QObject *)widget,pUserEvent);
+//    }
+}
+
+// test um das ansync problem bei sound files zu loesen
+void SoundInfoContainer::UpdateAllLengths()
+{
+    m_aHelperThread.start();
 }
 
 // *******************************************************************

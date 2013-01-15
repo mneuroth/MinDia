@@ -930,6 +930,7 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
                     aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( (const char *)aLst.at(i).toLocalFile().toAscii() ) ) );
 					aSoundContainer.SetChanged();
 				}
+                aSoundContainer.UpdateAllLengths();
 				emit sigViewDataChanged();
 			}
             

@@ -42,8 +42,10 @@ class miniSound : public QThread
 {
 	enum MciCmdType { _MCI_NONE, _MCI_PLAY, _MCI_STOP, _MCI_PAUSE, _MCI_CONTINUE };
 
+    Q_OBJECT
+
 public:
-	miniSound( const char * sWavFileName = "" );
+    miniSound( const char * sWavFileName = "" );
 	~miniSound();
 
 	bool SetWavFile( const char * sWavFileName );
@@ -65,6 +67,9 @@ public:
 	bool Stop();
 
 	void run();
+
+public slots:
+    void sltTotalTimeChanged(qint64 val);
 
 private:
 	// ** help methods **
