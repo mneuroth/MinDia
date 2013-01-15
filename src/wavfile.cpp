@@ -5,6 +5,9 @@
 	The code is modified by Michael Neuroth.
 */
 
+#define _WITH_WAV_SOUND
+#if defined(_WITH_WAV_SOUND) // PATCH for ANDROID
+
 #include "wavfile.h"
 
 Wave addW;
@@ -1776,5 +1779,7 @@ int main( int argc, char * argv[] )
 
 	return 0;
 }
+
+#endif
 
 #endif
