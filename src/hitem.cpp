@@ -322,7 +322,7 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
     {
         pPainter->setPen( QColor( 255, 255, 255 ) );
     }
-    pPainter->drawRect( aRect.x(), aRect.y(), aRect.width(), aRect.height() );
+    pPainter->drawRect( aRect.x(), aRect.y(), aRect.width()-1, aRect.height()-1 );
 }
 
 void HItem::SetSelected( bool bSelect )
