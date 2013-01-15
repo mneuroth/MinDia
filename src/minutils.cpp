@@ -584,10 +584,14 @@ const int MAX_BUFFER_LENGTH =	512;
 
 	if( iRet == 0 )
 	{
-		struct tm * pDate = localtime( &(aStat_p.st_ctime) );
-		FileTime aFileTime( pDate->tm_mday, pDate->tm_mon+1, pDate->tm_year+1900, pDate->tm_hour, pDate->tm_min, pDate->tm_sec );
+#if defined(Q_OS_ANDROID)
+        /*ANDROID*/                struct tm * pDate = localtime( 0 );
+#else
+                struct tm * pDate = localtime( &(aStat_p.st_ctime) );
+#endif
+                FileTime aFileTime( pDate->tm_mday, pDate->tm_mon+1, pDate->tm_year+1900, pDate->tm_hour, pDate->tm_min, pDate->tm_sec );
 
-		aFileTimeOut = aFileTime;
+                aFileTimeOut = aFileTime;
 
 		bOk = true;
 	}
@@ -1254,8 +1258,12 @@ bool FileSystemUtils::GetDirectory( const string & sPath, int nShowFlagsIn, Dire
 					((nShowFlagsIn & 8) && S_ISDIR( aStat_p.st_mode )) )
 				{
 					FileSizeT nFileSize = aStat_p.st_size;
-					struct tm * pDate = localtime( &(aStat_p.st_ctime) );
-					FileTime aFileTime( pDate->tm_mday, pDate->tm_mon+1, pDate->tm_year+1900, pDate->tm_hour, pDate->tm_min, pDate->tm_sec );
+#if defined(Q_OS_ANDROID)
+/*ANDROID*/					struct tm * pDate = localtime( 0 );
+#else
+                            struct tm * pDate = localtime( &(aStat_p.st_ctime) );
+#endif
+                                        FileTime aFileTime( pDate->tm_mday, pDate->tm_mon+1, pDate->tm_year+1900, pDate->tm_hour, pDate->tm_min, pDate->tm_sec );
 					FileAttributesT aFileAttributes = 0;	// ??? (todo ?)
 					//cout << "--> " << pEntry->d_name << " size=" << nFileSize << " " << aFileTime.GetString().c_str() << endl;
 
