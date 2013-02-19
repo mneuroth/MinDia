@@ -313,8 +313,8 @@ void SoundInfo::MakeRelativePaths()
 // *******************************************************************
 
 SoundInfoContainer::SoundInfoContainer()
-: IOContainer<SoundInfo>( _SOUND_INFO_CONTAINER ),
-  m_aHelperThread(*this)
+: IOContainer<SoundInfo>( _SOUND_INFO_CONTAINER )
+  //,m_aHelperThread(*this)
 {
 }
 
@@ -381,6 +381,7 @@ void SoundInfoContainer::MakeRelativePaths()
 	}
 }
 
+/*
 UpdateLengths::UpdateLengths(SoundInfoContainer & aContainer)
     : m_aContainer(aContainer)
 {
@@ -425,6 +426,7 @@ void SoundInfoContainer::UpdateAllLengths()
 {
     m_aHelperThread.start();
 }
+*/
 
 // *******************************************************************
 // *******************************************************************

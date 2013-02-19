@@ -77,11 +77,11 @@ int mciGetErrorStringX( miniSound * pSound, int iErrorNo, char * sBuffer, int iB
 
 #ifdef _UNIX_SOUND
 
-//#define DEBUG_OUT(x)
-#define DEBUG_OUT(x)	x
+#define DEBUG_OUT(x)
+//#define DEBUG_OUT(x)	x
 
-#include "wavfile.h"
-#include "mp3file.h"
+//#include "wavfile.h"
+//#include "mp3file.h"
 
 #define _PLAY		"play"
 #define _RESUME		"resume"
@@ -109,8 +109,8 @@ typedef int MCIERROR;
 // ** some dummy implementions for linux **
 #include <QtGlobal>
 
-Wave 	aWave;
-Mp3File aMp3;
+//Wave 	aWave;
+//Mp3File aMp3;
 Phonon::MediaObject * g_pPlayer = 0;
 
 bool g_bIsWavFile = 1;
@@ -173,7 +173,8 @@ int mciSendStringX( const miniSound * pSound, const char * lpszCommand, char * l
 		double dLength = ((double)iLengthInMS)*0.001;
 
 // TODO --> AudioOutput.Volume + g_pPlayer->seek(time)
-		if( g_bIsWavFile )
+/*
+        if( g_bIsWavFile )
 		{
 			aWave.setFadeInInfos( dFrom, dLength );
 		}
@@ -182,6 +183,7 @@ int mciSendStringX( const miniSound * pSound, const char * lpszCommand, char * l
 			// mp3 handling
 			// not supported yet !
 		}
+*/
 	}
 	else if( strncmp( lpszCommand, _FADE_OUT, strlen( _FADE_OUT ) ) == 0 )
 	{
@@ -194,7 +196,7 @@ int mciSendStringX( const miniSound * pSound, const char * lpszCommand, char * l
 
 		double dFrom = ((double)iFromPosInMS)*0.001;
 		double dLength = ((double)iLengthInMS)*0.001;
-
+/*
 		if( g_bIsWavFile )
 		{
 			aWave.setFadeOutInfos( dFrom, dLength );
@@ -204,6 +206,7 @@ int mciSendStringX( const miniSound * pSound, const char * lpszCommand, char * l
 			// mp3 handling
 			// not supported yet !
 		}
+*/
 	}
 	else if( strncmp( lpszCommand, _RESUME, strlen( _RESUME ) ) == 0 )
 	{
@@ -423,9 +426,9 @@ int mciSendStringX( const miniSound * pSound, const char * lpszCommand, char * l
 		else if( strstr( lpszCommand, _SUB_MODE ) != 0 )
 		{
 			DEBUG_OUT( cout << "SUB: " << _SUB_MODE << endl; )
-
+/*
 			if( g_bIsWavFile )
-			{
+			{                
 				if( aWave.getActivePlay() )
 				{
 					strncpy( lpszReturnString, "playing", cchReturn );
@@ -437,7 +440,7 @@ int mciSendStringX( const miniSound * pSound, const char * lpszCommand, char * l
 				else
 				{
 					strncpy( lpszReturnString, "", cchReturn );
-				}
+				}                
 			}
 			else
 			{
@@ -455,7 +458,7 @@ int mciSendStringX( const miniSound * pSound, const char * lpszCommand, char * l
 					strncpy( lpszReturnString, "", cchReturn );
 				}
 			}
-
+*/
 			DEBUG_OUT( cout << "return: " << lpszReturnString << endl; )
 		}
 		else

@@ -1842,7 +1842,7 @@ void MinDiaWindow::sltUpdate()
 
 void MinDiaWindow::sltTest()
 {
-    m_pControler->GetPresentation().GetSoundInfoData().UpdateAllLengths();
+    //m_pControler->GetPresentation().GetSoundInfoData().UpdateAllLengths();
 }
 
 void MinDiaWindow::sltEditFadeInTime()

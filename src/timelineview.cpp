@@ -1012,7 +1012,7 @@ void TimeLineView::customEvent(QEvent * pEvent)
         GetSoundLengthEvent * pSoundEvent = (GetSoundLengthEvent *)pEvent;
         aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( (const char *)pSoundEvent->GetFileName().toAscii(), pSoundEvent->GetSoundLength() ) ) );
         aSoundContainer.SetChanged();
-        aSoundContainer.UpdateAllLengths();
+        //aSoundContainer.UpdateAllLengths();
         emit sigViewDataChanged();
     }
 }

@@ -165,6 +165,7 @@ class SoundInfoContainer;
 
 // *******************************************************************
 // TODO --> workaround for async sound length problem...
+/*
 class UpdateLengths : public QThread
 {
 public:
@@ -175,7 +176,7 @@ public:
 private:
     SoundInfoContainer &  m_aContainer;
 };
-
+*/
 // *******************************************************************
 /** Container to hold sound-info-items. */
 class SoundInfoContainer : public IOContainer<SoundInfo>, public ObjectChanged
@@ -188,10 +189,10 @@ public:
 	iterator	GetItemForAbsPlayPos( int iAbsTimeInMS, int & iOffsetTime );
 	void		MakeRelativePaths();
 
-    void        UpdateAllLengths();
+    //void        UpdateAllLengths();
 
 private:
-    UpdateLengths   m_aHelperThread;
+    //UpdateLengths   m_aHelperThread;
 };
 
 // *******************************************************************

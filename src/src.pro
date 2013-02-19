@@ -40,7 +40,6 @@ HEADERS         = diainfodlgimpl.h \
                   minutils.h \
                   minlog.h \
                   rolleicom.h \
-                  wavfile.h \
                   mincmdproc.h \
                   timerjobproc.h \
                   dyngraphop.h \
@@ -56,7 +55,7 @@ HEADERS         = diainfodlgimpl.h \
                   ../gendev/igendev.h \
                   ../minsrv/minbase.h \
                   ../minsrv/dllbase.h \
-    playinfographicsview.h
+                  playinfographicsview.h
 
 SOURCES         = diainfodlgimpl.cpp \
                   playinfodlgimpl.cpp \
@@ -85,7 +84,6 @@ SOURCES         = diainfodlgimpl.cpp \
                   writexml.cpp \
                   minutils.cpp \
                   rolleicom.cpp \
-                  wavfile.cpp \
                   mincmdproc.cpp \
                   timerjobproc.cpp \
                   dyngraphop.cpp \
@@ -97,7 +95,7 @@ SOURCES         = diainfodlgimpl.cpp \
                   ../gendev/gendev.cpp \
                   ../minsrv/minbase.cpp \
                   ../minsrv/dllbase.cpp \
-    playinfographicsview.cpp
+                  playinfographicsview.cpp
 
 FORMS       = CreateMovieDlg4.ui \
                   PresentationDataDlg4.ui \
@@ -119,10 +117,10 @@ FORMS       = CreateMovieDlg4.ui \
 #OBJECTS_DIR		        = obj
 #unix:TMAKE_UIC			= $(QTDIR)/bin/uic
 #unix:LIBS       		+= -lpthread libminsrv.so $(LIBMINDIAPYC_SO)
-unix:HEADERS			+= mp3file.h
-unix:SOURCES			+= mp3file.cpp
+#unix:HEADERS			+= mp3file.h
+#unix:SOURCES			+= mp3file.cpp
                             # sysdep1.c
-unix:DEFINES    		= _POSIX HAVE_CONFIG_H LOCALEDIR=\"/usr/local/share/locale\"
+#unix:DEFINES    		= _POSIX HAVE_CONFIG_H LOCALEDIR=\"/usr/local/share/locale\"
 INCLUDEPATH   		= ../gendev ../minsrv
 #win32:TMAKE_UIC			= $(QTDIR)\bin\uic.exe
 #win32:TMAKE_CXXFLAGS 	= -GX -MD
@@ -130,7 +128,7 @@ INCLUDEPATH   		= ../gendev ../minsrv
 #win32:DEFINES			= QT_DLL QT_NO_DEBUG QT_THREAD_SUPPORT QT_NON_COMMERCIAL
 #_DEBUG
 #win32:LIBS				+= minsrv.lib
-win32:LIBS				+= libwinmm
+#win32:LIBS				+= libwinmm
 #LIBS                += /Users/min/Documents/home/Entwicklung/projects/mindia_qt4/qextserialport/src/build/libqextserialportd.a
 #LIBS                += ../qextserialport/src/build/libqextserialport.a
 
