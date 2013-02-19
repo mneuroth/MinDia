@@ -52,6 +52,28 @@ class DiaPresentation;
 class QMenu;
 class MyDynamicToolTip;
 
+#define _USER_EVENT_GET_SOUND_LENGTH			 QEvent::User+4
+
+// *******************************************************************
+/**
+ * User event to get the length of a sound file (asynchroniously)
+ */
+class GetSoundLengthEvent : public QEvent
+{
+public:
+    GetSoundLengthEvent( const QString & sFileName, QWidget * pRequester );
+
+    QString GetFileName() const;
+    int     GetSoundLength() const;
+    void    SetSoundLength( int val );
+    QWidget * GetRequester() const;
+
+private:
+    QString     m_sFileName;
+    int         m_iSoundLength;
+    QWidget *   m_pRequester;
+};
+
 // *******************************************************************
 /** Handels a timeline view for the dia presentation.
   */
@@ -88,6 +110,7 @@ public:
 	virtual void dragEnterEvent( QDragEnterEvent * pEvent );
 	virtual void dragMoveEvent ( QDragMoveEvent * pEvent );
 	virtual void dropEvent( QDropEvent * pEvent );
+    virtual void customEvent(QEvent * pEvent);
 
 	// *** my own interface ***
 	void setSizeHint( const QSize & aSize );

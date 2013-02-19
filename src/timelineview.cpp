@@ -927,11 +927,15 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
                 QList<QUrl> aLst = pEvent->mimeData()->urls();
 				for( int i=0; i<(int)aLst.count(); i++ )
 				{
-                    aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( (const char *)aLst.at(i).toLocalFile().toAscii() ) ) );
-					aSoundContainer.SetChanged();
+                    QEvent * pEvent = new GetSoundLengthEvent(aLst.at(i).toLocalFile(),this);
+                    QApplication::postEvent(m_pParent,pEvent);
+// TODO gulp --> hier die laenge der sound datei schon mitgeben... --> asynchrone behandlung ! ==> laenge der sound datei in datei speichern !
+// erzeuge asynchron eine liste der SoundInfo() Objekte mit korrekten zeiten --> setze sound file am player und warte auf signal totalTimeChanged
+                    //aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( (const char *)aLst.at(i).toLocalFile().toAscii(), /*TODO*/1000 ) ) );
+                    //aSoundContainer.SetChanged();
 				}
-                aSoundContainer.UpdateAllLengths();
-				emit sigViewDataChanged();
+                //aSoundContainer.UpdateAllLengths();
+                //emit sigViewDataChanged();
 			}
             
 //			const char * s;
@@ -998,6 +1002,19 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
 			bOk = aImage.load( sFullName );
 		}*/
 	}
+}
+
+void TimeLineView::customEvent(QEvent * pEvent)
+{
+    if( pEvent->type()==_USER_EVENT_GET_SOUND_LENGTH )
+    {
+        SoundInfoContainer & aSoundContainer = m_pDiaPres->GetSoundInfoData();
+        GetSoundLengthEvent * pSoundEvent = (GetSoundLengthEvent *)pEvent;
+        aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( (const char *)pSoundEvent->GetFileName().toAscii(), pSoundEvent->GetSoundLength() ) ) );
+        aSoundContainer.SetChanged();
+        aSoundContainer.UpdateAllLengths();
+        emit sigViewDataChanged();
+    }
 }
 
 void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
@@ -1104,3 +1121,35 @@ int TimeLineView::GetItemForPosX( int x )
 	return -1;
 }
 
+/*  gulp working
+ *
+ *   music_file.mp3 --> (music_file.mp3,length_in_ms) -->
+ *
+ **/
+
+GetSoundLengthEvent::GetSoundLengthEvent( const QString & sFileName, QWidget * pRequester )
+: QEvent( (Type) (_USER_EVENT_GET_SOUND_LENGTH) )
+{
+    m_sFileName = sFileName;
+    m_pRequester = pRequester;
+}
+
+QString GetSoundLengthEvent::GetFileName() const
+{
+    return m_sFileName;
+}
+
+int GetSoundLengthEvent::GetSoundLength() const
+{
+    return m_iSoundLength;
+}
+
+void GetSoundLengthEvent::SetSoundLength( int val )
+{
+    m_iSoundLength = val;
+}
+
+QWidget * GetSoundLengthEvent::GetRequester() const
+{
+    return m_pRequester;
+}

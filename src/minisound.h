@@ -60,6 +60,7 @@ public:
 
 	int  GetPositionInMS() const;
 	int  GetTotalLengthInMS() const;
+    void AsyncGetTotalLengthForFile( const char * sWavFileName, QWidget * pRequester );
 
 	bool Start( int iAbsStartTimeInMS );
 	bool Pause();
@@ -109,6 +110,8 @@ private:
 	unsigned long					m_ulThreadID;
 	SoundInfoContainer *			m_pSoundInfoContainer;	// no owner !
 	SoundInfoContainer::iterator	m_aIterator;
+    QWidget *                       m_pRequester;
+    QString                         m_sSoundFile;
 };
 
 #endif

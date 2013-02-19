@@ -248,6 +248,7 @@ int mciSendStringX( const miniSound * pSound, const char * lpszCommand, char * l
 
         if( g_pPlayer )
         {
+            //int iTime = g_pPlayer->totalTime();     // TODO gulp
             g_pPlayer->stop();
         }
 //		if( g_bIsWavFile )
@@ -278,7 +279,8 @@ int mciSendStringX( const miniSound * pSound, const char * lpszCommand, char * l
 //            g_pPlayer = Phonon::createPlayer(Phonon::MusicCategory,
 //                                             Phonon::MediaSource(QString(sBuf)));
             g_pPlayer = Phonon::createPlayer(Phonon::MusicCategory);
-            pSound->connect(g_pPlayer,SIGNAL(totalTimeChanged(qint64)),pSound,SLOT(sltTotalTimeChanged(qint64)));
+            bool ok = pSound->connect(g_pPlayer,SIGNAL(totalTimeChanged(qint64)),pSound,SLOT(sltTotalTimeChanged(qint64)));
+            //cout << "CONNECT: "<< ok << endl;
         }
         else
         {
@@ -400,7 +402,7 @@ int mciSendStringX( const miniSound * pSound, const char * lpszCommand, char * l
                     //    i++;
                     //}
                 }
-                cout << "*** LENGTH " << i << endl;
+                //cout << "*** LENGTH i=" << i << endl;
 //                qint64 iTime = g_pPlayer->totalTime();
 //                int iTimeSec = iTime/1000;
                 sprintf( sBuf, "%d", (int)iTime );
@@ -513,7 +515,8 @@ miniSound::miniSound( const char * sWavFileName )
   m_iMciCmdId( _MCI_NONE ),
   m_ulMciThreadID( (unsigned long)-1 ),
   m_ulThreadID( (unsigned long)-1 ),
-  m_pSoundInfoContainer( 0 )
+  m_pSoundInfoContainer( 0 ),
+  m_pRequester( 0 )
 {
 	SetWavFile( sWavFileName );
     // gulp
@@ -527,9 +530,32 @@ miniSound::~miniSound()
 	CloseSound();
 }
 
+// TODO
+#include <QEvent>
+#include <QApplication>
+#include "mindiawindow.h"
+#include "timelineview.h"
+
 void miniSound::sltTotalTimeChanged(qint64 val)
 {
     cout << "TOTAL TIME " << val << endl;
+/*
+    QEvent * pUserEvent = new QEvent((QEvent::Type)((int)QEvent::User+1)); //new MyCheckReloadEvent();
+    QWidget * pWidget = GetMainWindow();
+    QApplication::postEvent(pWidget,pUserEvent);
+*/
+    m_iTotalTimeInMS = (int)val;
+
+    if( m_pRequester!=0 )
+    {
+        Stop();
+
+        GetSoundLengthEvent * pEvent = new GetSoundLengthEvent((const char *)m_sSoundFile.toAscii(),0);
+        pEvent->SetSoundLength(m_iTotalTimeInMS);
+        QApplication::postEvent(m_pRequester,pEvent);
+
+        m_pRequester = 0;
+    }
 }
 
 bool miniSound::SetWavFile( const char * sWavFileName )
@@ -539,6 +565,8 @@ bool miniSound::SetWavFile( const char * sWavFileName )
 
 	if( CheckFile( sWavFileName ) && !IsSilent() )
 	{
+        m_sSoundFile = sWavFileName;
+
 		//MCIERROR iRet = mciSendStringX( "close sound", lpszReturnString, _MAXLENGTH, NULL );
 		//CheckSoundError( (int)iRet );
 
@@ -572,6 +600,17 @@ bool miniSound::SetWavFile( const char * sWavFileName )
 	}
 
 	return false;
+}
+
+void miniSound::AsyncGetTotalLengthForFile( const char * sWavFileName, QWidget * pRequester )
+{
+    if( m_pRequester==0 )
+    {
+        m_pRequester = pRequester;
+        SetWavFile( sWavFileName );
+        // ggf. sound ausschalten
+        Start(0);
+    }
 }
 
 void miniSound::SetSoundInfo( SoundInfoContainer *	pSoundInfoContainer )
@@ -645,9 +684,28 @@ int  miniSound::GetTotalLengthInMS() const
 	}
 	else
 	{
+        /*
+        char sBuffer[_MAXLENGTH];
+
+        bool bPlaying = IsPlaying();
+
+        if( !bPlaying )
+        {
+            // TODO --> 15.1.2013: starte sound erst bevor length abgefragt werden kann, ansonsten funktioniert es unter linux nicht mehr !
+            sprintf( sBuffer, "play sound" );
+            MCIERROR iRet1 = mciSendStringX( this, sBuffer, lpszReturnString, _MAXLENGTH, NULL );
+        }
+        */
         MCIERROR iRet = mciSendStringX( this, "status sound length", lpszReturnString, _MAXLENGTH, NULL );
 		CheckSoundError( (int)iRet );
-	}
+        /*
+        if( !bPlaying )
+        {
+            sprintf( sBuffer, "stop sound" );   // gulp
+            MCIERROR iRet2 = mciSendStringX( this, sBuffer, lpszReturnString, _MAXLENGTH, NULL );
+        }
+        */
+    }
 
 	return atoi( lpszReturnString );
 }
@@ -700,7 +758,7 @@ int  miniSound::GetPositionInMSImpl() const
 	{
         MCIERROR iRet = mciSendStringX( this, "status sound position", lpszReturnString, _MAXLENGTH, NULL );
 		CheckSoundError( (int)iRet );
-	}
+    }
 
 	return atoi( lpszReturnString );
 }

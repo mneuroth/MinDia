@@ -4,7 +4,7 @@ TEMPLATE        = app
 #CONFIG          += qt warn_on release thread stl exceptions
 #for debug:
 CONFIG          += qt warn_on thread stl exceptions
-QT              = core gui
+QT              = core gui phonon
 QT              -=network
 QT              -=sql
 QT              -=svg
@@ -12,89 +12,92 @@ QT              -=script
 #CONFIG          -= debug
 
 HEADERS         = diainfodlgimpl.h \
-				  playinfodlgimpl.h \
-				  comlogimpl.h \
-				  pddlgimpl.h \
-				  configdlgimpl.h \
-				  configplayerdlgimpl.h\
-				  sndinfodlgimpl.h \
-				  pcdlgimpl.h \
-				  commentdlgimpl.h \
-				  dyntextdlgimpl.h \
-				  helpdlgimpl.h \
-				  iocontainer.h \
-				  minisound.h \
-				  soundinfo.h \
-				  applscriptenv.h \
+                  playinfodlgimpl.h \
+                  comlogimpl.h \
+                  pddlgimpl.h \
+                  configdlgimpl.h \
+                  configplayerdlgimpl.h\
+                  sndinfodlgimpl.h \
+                  pcdlgimpl.h \
+                  commentdlgimpl.h \
+                  dyntextdlgimpl.h \
+                  helpdlgimpl.h \
+                  iocontainer.h \
+                  minisound.h \
+                  soundinfo.h \
+                  applscriptenv.h \
                   diainfo.h \
                   diapresentation.h \
                   diaprojector.h \
                   hitem.h \
                   doccontroler.h \
                   hitemview.h \
-				  timelineview.h \
-				  timelineitem.h \
-				  timelineaxis.h \
+                  timelineview.h \
+                  timelineitem.h \
+                  timelineaxis.h \
                   mindiawindow.h \
-				  writexml.h \
-				  minutils.h \
-				  minlog.h \
-				  rolleicom.h \
-				  wavfile.h \
-				  mincmdproc.h \
-				  timerjobproc.h \
-				  dyngraphop.h \
-				  diacallback.h \
-				  minexception.h \
-				  iscript.h \
-				  qtmtlock.h \
-				  minhandle.h \
-				  misctools.h \
-				  appconfig.h \
+                  writexml.h \
+                  minutils.h \
+                  minlog.h \
+                  rolleicom.h \
+                  wavfile.h \
+                  mincmdproc.h \
+                  timerjobproc.h \
+                  dyngraphop.h \
+                  diacallback.h \
+                  minexception.h \
+                  iscript.h \
+                  qtmtlock.h \
+                  minhandle.h \
+                  misctools.h \
+                  appconfig.h \
                   osdep2.h \
                   CreateMovieDlg4.h \
                   ../gendev/igendev.h \
                   ../minsrv/minbase.h \
-                  ../minsrv/dllbase.h
+                  ../minsrv/dllbase.h \
+    playinfographicsview.h
+
 SOURCES         = diainfodlgimpl.cpp \
-				  playinfodlgimpl.cpp \
-				  comlogimpl.cpp \
-				  pcdlgimpl.cpp \
-				  configdlgimpl.cpp \
-  				  configplayerdlgimpl.cpp\
-				  pddlgimpl.cpp \
-				  sndinfodlgimpl.cpp \
-				  commentdlgimpl.cpp \
-				  dyntextdlgimpl.cpp \
-				  helpdlgimpl.cpp \
-				  minisound.cpp \
-				  soundinfo.cpp \
-				  applscriptenv.cpp \
+                  playinfodlgimpl.cpp \
+                  comlogimpl.cpp \
+                  pcdlgimpl.cpp \
+                  configdlgimpl.cpp \
+                  configplayerdlgimpl.cpp\
+                  pddlgimpl.cpp \
+                  sndinfodlgimpl.cpp \
+                  commentdlgimpl.cpp \
+                  dyntextdlgimpl.cpp \
+                  helpdlgimpl.cpp \
+                  minisound.cpp \
+                  soundinfo.cpp \
+                  applscriptenv.cpp \
                   diainfo.cpp \
                   diapresentation.cpp \
                   diaprojector.cpp \
                   hitem.cpp \
                   doccontroler.cpp \
                   hitemview.cpp \
-				  timelineview.cpp \
-				  timelineitem.cpp \
-  				  timelineaxis.cpp \
+                  timelineview.cpp \
+                  timelineitem.cpp \
+                  timelineaxis.cpp \
                   mindiawindow.cpp \
-				  writexml.cpp \
+                  writexml.cpp \
                   minutils.cpp \
-				  rolleicom.cpp \
-				  wavfile.cpp \
-				  mincmdproc.cpp \
-				  timerjobproc.cpp \
-				  dyngraphop.cpp \
-				  qtmtlock.cpp \
-				  misctools.cpp \
-				  appconfig.cpp \
+                  rolleicom.cpp \
+                  wavfile.cpp \
+                  mincmdproc.cpp \
+                  timerjobproc.cpp \
+                  dyngraphop.cpp \
+                  qtmtlock.cpp \
+                  misctools.cpp \
+                  appconfig.cpp \
                   main.cpp \
                   CreateMovieDlg4.cpp \
                   ../gendev/gendev.cpp \
                   ../minsrv/minbase.cpp \
-                  ../minsrv/dllbase.cpp
+                  ../minsrv/dllbase.cpp \
+    playinfographicsview.cpp
 
 FORMS       = CreateMovieDlg4.ui \
                   PresentationDataDlg4.ui \
@@ -110,10 +113,10 @@ FORMS       = CreateMovieDlg4.ui \
                   HelpDlg4.ui \
                   DynTextDlg4.ui
 
-MOC_DIR					= moc
+#MOC_DIR					= moc
 #macx:LIBS               += -lpthread ./libminsrv.dylib $(LIBMINDIAPYC_SO)
 #macx:LIBS               += -lpthread ../minsrv/libminsrv.a $(LIBMINDIAPYC_SO)
-OBJECTS_DIR		        = obj
+#OBJECTS_DIR		        = obj
 #unix:TMAKE_UIC			= $(QTDIR)/bin/uic
 #unix:LIBS       		+= -lpthread libminsrv.so $(LIBMINDIAPYC_SO)
 unix:HEADERS			+= mp3file.h
@@ -131,16 +134,22 @@ win32:LIBS				+= libwinmm
 #LIBS                += /Users/min/Documents/home/Entwicklung/projects/mindia_qt4/qextserialport/src/build/libqextserialportd.a
 #LIBS                += ../qextserialport/src/build/libqextserialport.a
 
-Debug:win32:win32:LIBS += ../qextserialport/src/build/libqextserialportd.a
-debug {
-    mac:LIBS += ../qextserialport/src/build/libqextserialportd.a
-    unix:LIBS += ../qextserialport/src/build/libqextserialportd.a
-    CONFIG -= release
-}
-Release:win32:win32:LIBS += ../qextserialport/src/build/libqextserialport.a
+#Release:win32:win32:LIBS += ../qextserialport/src/build/libqextserialport.a
 release {
-    mac:LIBS += ../qextserialport/src/build/libqextserialport.a
-    unix:LIBS += ../qextserialport/src/build/libqextserialport.a
+#    mac:LIBS += /Users/min/Documents/home/Entwicklung/projects/mindia_qt4/qextserialport/lib/libqextserialport-1.2.a
+    mac:LIBS += ../qextserialport/libqextserialport.a
+##    mac:LIBS += ../qextserialport/lib/libqextserialport-1.2.a
+#    mac:LIBS += ../qextserialport/src/build/libqextserialport.a
+#    unix:LIBS += ../qextserialport/src/build/libqextserialport.a
+}
+#Debug:win32:win32:LIBS += ../qextserialport/src/build/libqextserialportd.a
+debug {
+#    mac:LIBS += /Users/min/Documents/home/Entwicklung/projects/mindia_qt4/qextserialport/lib/libqextserialport-1.2_debug.a
+#    mac:LIBS += ../qextserialport/lib/libqextserialport-1.2_debug.a
+    mac:LIBS += ../qextserialport/libqextserialport_debug.a
+#    mac:LIBS += ../qextserialport/src/build/libqextserialportd.a
+#    unix:LIBS += ../qextserialport/src/build/libqextserialportd.a
+    CONFIG -= release
 }
 
 #debug {
@@ -148,9 +157,9 @@ release {
 #}
 
 macx {
-    UI_DIR = .ui
-    MOC_DIR = .moc
-    OBJECTS_DIR = .obj
+#    UI_DIR = .ui
+#    MOC_DIR = .moc
+#    OBJECTS_DIR = .obj
 #    CONFIG += x86 #\
 #        ppc
 

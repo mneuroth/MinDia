@@ -66,17 +66,21 @@ string SecondsInMinSec( int iSeconds )
 // *******************************************************************
 // *******************************************************************
 
-const int SoundInfo::ACT_FILE_VERSION = 1;
+const int SoundInfo::ACT_FILE_VERSION = 2;
 							// 0 until 2.1.2002 --> FadeIn/FadeOut infos added
+                            // 1 until 13.2.20013 --> add length of sound file
 
 
-SoundInfo::SoundInfo( const string & sFileName, int iStartPosInMS, int iStopPosInMS )
-: m_iFadeInStartInMS( -1 ),
+SoundInfo::SoundInfo( const string & sFileName, int iTotalLength, int iStartPosInMS, int iStopPosInMS )
+: m_iStartPosInMS( iStartPosInMS ),
+  m_iStopPosInMS( iStopPosInMS ),
+  m_iTotalLengthInMS( iTotalLength ),
+  m_iFadeInStartInMS( -1 ),
   m_iFadeInLengthInMS( 0 ),
   m_iFadeOutStartInMS( -1 ),
   m_iFadeOutLengthInMS( 0 )
 {
-	SetData( sFileName, iStartPosInMS, iStopPosInMS );
+    SetData( sFileName, iTotalLength, iStartPosInMS, iStopPosInMS );
 }
 
 string SoundInfo::GetFileName() const
@@ -127,14 +131,18 @@ void SoundInfo::SetTotalLength( int iTotalLength )
     m_iTotalLengthInMS = iTotalLength;
 }
 
+/*
+int GetTotalLengthInMSForSoundFile( const string & sFileName );
+
 int SoundInfo::GetTotalLengthImpl() const
 {
+    return GetTotalLengthInMSForSoundFile( m_sFileName );
 // min todo --> hier besser noch inidb uebergeben !
-	miniSound aSound( m_sFileName.c_str() );
+//	miniSound aSound( m_sFileName.c_str() );
 
-	return aSound.GetTotalLengthInMS();
+//	return aSound.GetTotalLengthInMS();
 }
-
+*/
 int	SoundInfo::GetFadeInStartPos() const
 {
 	return m_iFadeInStartInMS;
@@ -177,9 +185,10 @@ bool SoundInfo::HasFadeOutData() const
 	return m_iFadeOutStartInMS != -1;
 }
 
-void SoundInfo::SetData( const string & sFileName, int iStartPosInMS, int iStopPosInMS )
+void SoundInfo::SetData( const string & sFileName, int iTotalLength, int iStartPosInMS, int iStopPosInMS )
 {
 	m_sFileName = sFileName;
+    m_iTotalLengthInMS = iTotalLength;
 	m_iStartPosInMS = iStartPosInMS;
 	m_iStopPosInMS = iStopPosInMS;
 
@@ -190,14 +199,14 @@ void SoundInfo::SetData( const string & sFileName, int iStartPosInMS, int iStopP
 		swap( m_iStartPosInMS, m_iStopPosInMS );
 	}
 
-	UpdateTotalLength();
+    //UpdateTotalLength();
 }
-
+/*
 void SoundInfo::UpdateTotalLength()
 {
 	m_iTotalLengthInMS = GetTotalLengthImpl();
 }
-
+*/
 bool SoundInfo::Read( istream & aStream )
 {
 	FileUtilityObj aFU;
@@ -229,9 +238,18 @@ bool SoundInfo::Read( istream & aStream )
 		m_iFadeOutStartInMS = -1;
 		m_iFadeOutLengthInMS = 0;
 	}
+    if( iActFileVersion > 1 )
+    {
+        aFU.ReadSeparator( aStream );
+        aStream >> m_iTotalLengthInMS;
+    }
+    else
+    {
+        m_iTotalLengthInMS = 0;
+    }
 	aFU.ReadStructEnd( aStream );
 
-	UpdateTotalLength();
+    //UpdateTotalLength();
 
 	return aStream.good();
 }
@@ -241,7 +259,8 @@ XmlTree	SoundInfo::GetXMLTree() const
 	XmlTree aTree( "soundinfo", "", false, XmlAttribList( "fileversion", ToString( ACT_FILE_VERSION ) ) );
 
 	aTree.PushTag( "filename", m_sFileName );
-	aTree.PushTag( "startpos", m_iStartPosInMS, XmlAttribList( "scale", "ms" ) );
+    aTree.PushTag( "length", m_iTotalLengthInMS, XmlAttribList( "scale", "ms" ) );
+    aTree.PushTag( "startpos", m_iStartPosInMS, XmlAttribList( "scale", "ms" ) );
 	aTree.PushTag( "stoppos", m_iStopPosInMS, XmlAttribList( "scale", "ms" ) );
 	aTree.PushTag( "startfadein", m_iFadeInStartInMS, XmlAttribList( "scale", "ms" ) );
 	aTree.PushTag( "lengthfadein", m_iFadeInLengthInMS, XmlAttribList( "scale", "ms" ) );
@@ -274,6 +293,11 @@ bool SoundInfo::Write( ostream & aStream ) const
 		aFU.WriteSeparator( aStream );
 		aStream << m_iFadeOutLengthInMS;
 	}
+    if( ACT_FILE_VERSION > 1 )
+    {
+        aFU.WriteSeparator( aStream );
+        aStream << m_iTotalLengthInMS;
+    }
 	aFU.WriteStructEnd( aStream );
 
 	return aStream.good();
@@ -366,6 +390,7 @@ UpdateLengths::UpdateLengths(SoundInfoContainer & aContainer)
 #include <QWidget>
 extern QWidget * GetMainWindow();
 
+// TODO gulp --> dies hier loeschen !!!
 void UpdateLengths::run()
 {
     SoundInfoContainer::iterator aIter = m_aContainer.begin();

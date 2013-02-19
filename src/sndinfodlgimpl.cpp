@@ -275,6 +275,7 @@ void SoundInfoDlgImpl::TransferData( bool bToTable )
             for( int i=0; i<m_pTable->rowCount(); i++ )
 			{
 				string	sFileName;
+                int     iTotalLength;
 				int		iStartPos;
 				int		iStopPos;
 				int		iFadeInStart, iFadeInLength;
@@ -298,6 +299,13 @@ void SoundInfoDlgImpl::TransferData( bool bToTable )
 				{
 					iStopPos = -1;
 				}
+                sTemp = m_pTable->item( i, 3 ) ? m_pTable->item( i, 3 )->text().toAscii() : "";
+                s = ( sTemp ? sTemp : "" );
+                iTotalLength = s.toInt( &bOk );
+                if( !bOk )
+                {
+                    iTotalLength = 0;
+                }
 
                 sTemp = m_pTable->item( i, 7 ) ? m_pTable->item( i, 7 )->text().toAscii() : "";
 				s = ( sTemp ? sTemp : "" );
@@ -312,7 +320,7 @@ void SoundInfoDlgImpl::TransferData( bool bToTable )
 				s = ( sTemp ? sTemp : "" );
 				iFadeOutLength = s.toInt( &bOk );
 
-				minHandle<SoundInfo> hItem( new SoundInfo( sFileName, iStartPos, iStopPos ) );
+                minHandle<SoundInfo> hItem( new SoundInfo( sFileName, iTotalLength, iStartPos, iStopPos ) );
 				hItem->SetFadeInData( iFadeInStart, iFadeInLength );
 				hItem->SetFadeOutData( iFadeOutStart, iFadeOutLength );
 				m_pSoundData->push_back( hItem );

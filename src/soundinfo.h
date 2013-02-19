@@ -81,7 +81,7 @@ public:
 class SoundInfo
 {
 public:
-	SoundInfo( const string & sFileName = "", int iStartPosInMS = -1, int iStopPosInMS = -1 );
+    SoundInfo( const string & sFileName = "", int iTotalLength = 0, int iStartPosInMS = -1, int iStopPosInMS = -1 );
 
 	string	GetFileName() const;
 	bool	SetFileName( const string & sNewFileName );
@@ -111,9 +111,9 @@ public:
 
 private:
 	// ** helper methods **
-	int		GetTotalLengthImpl() const;
-	void	SetData( const string & sFileName, int iStartPosInMS, int iStopPosInMS );
-	void	UpdateTotalLength();
+    //int		GetTotalLengthImpl() const;
+    void	SetData( const string & sFileName, int iTotalLength, int iStartPosInMS, int iStopPosInMS );
+    //void	UpdateTotalLength();
 
 	// ** data **
 	string	m_sFileName;

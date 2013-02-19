@@ -109,6 +109,8 @@ public:
 
 	DiaPresentation &	GetPresentation();
 
+    miniSound &         GetSoundInfo();
+
 	// returns the number of created images
 	int CreateImagesForMovie( const string & sOutputDirectory, const string & sFileNameOffset, 
 							  int iWidth, int iHeight,

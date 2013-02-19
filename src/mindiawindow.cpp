@@ -155,12 +155,23 @@ string GetMinDiaSharedDirectory();
 QApplication * GetApplication();
 QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, QApplication * myqApp );
 
-static QWidget * g_pMainWindow = 0;
+static MinDiaWindow * g_pMainWindow = 0;
 
-QWidget * GetMainWindow()
+MinDiaWindow * GetMainWindow()
 {
     return g_pMainWindow;
 }
+
+/*
+#include "minisound.h"
+
+int GetTotalLengthInMSForSoundFile( const string & sFileName )
+{
+    miniSound & aSoundInfo = GetMainWindow()->GetDocument()->GetSoundInfo();
+    aSoundInfo.SetWavFile(sFileName.c_str());
+    return aSoundInfo.GetTotalLengthInMS();
+}
+*/
 
 // ***********************************************************************
 
@@ -413,6 +424,9 @@ void MinDiaWindow::CreateMenus()
     m_pEditUpdateAction = new QAction( tr( "&Update" ), this );
     m_pEditUpdateAction->setShortcut(Qt::Key_F5);
     connect( m_pEditUpdateAction, SIGNAL( activated() ), this, SLOT( sltUpdate() ) );
+    m_pEditTestAction = new QAction( tr( "&Test" ), this );
+    m_pEditTestAction->setShortcut(Qt::Key_F6);
+    connect( m_pEditTestAction, SIGNAL( activated() ), this, SLOT( sltTest() ) );
 
     m_pEdit->addAction( m_pEditUndoAction );
     m_pEdit->addAction( m_pEditRedoAction );
@@ -430,6 +444,7 @@ void MinDiaWindow::CreateMenus()
     m_pEdit->addAction( m_pEditDeleteAction );
     m_pEdit->addSeparator();
     m_pEdit->addAction( m_pEditUpdateAction );
+    m_pEdit->addAction( m_pEditTestAction );
 
     // *** submenu: play ***
     m_pPlayStartAction = new QAction( /*tr( "Start" ),*/ aRunIcon, tr( "Sta&rt" ), this );
@@ -589,6 +604,21 @@ void MinDiaWindow::customEvent(QEvent * pEvent)
     if( pEvent->type()==QEvent::User )
     {
         sltUpdate();
+//        sltTest();
+    }
+    if( pEvent->type()==QEvent::User+1 )
+    {
+//        sltUpdate();
+        sltTest();
+    }
+    if( pEvent->type()==_USER_EVENT_GET_SOUND_LENGTH )
+    {
+        GetSoundLengthEvent * pSoundEvent = (GetSoundLengthEvent *)pEvent;
+        miniSound & aSoundInfo = GetDocument()->GetSoundInfo();
+        aSoundInfo.AsyncGetTotalLengthForFile(pSoundEvent->GetFileName().toAscii(),pSoundEvent->GetRequester());
+//        aSoundInfo.SetWavFile(pSoundEvent->GetFileName().toAscii());
+//        aSoundInfo.Start(0);
+//        return aSoundInfo.GetTotalLengthInMS();
     }
 }
 
@@ -1808,6 +1838,11 @@ void MinDiaWindow::sltFindNextItem()
 void MinDiaWindow::sltUpdate()
 {
     m_pTimeLineView->sltUpdateView();
+}
+
+void MinDiaWindow::sltTest()
+{
+    m_pControler->GetPresentation().GetSoundInfoData().UpdateAllLengths();
 }
 
 void MinDiaWindow::sltEditFadeInTime()

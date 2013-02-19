@@ -286,6 +286,11 @@ DiaPresentation & DocumentAndControler::GetPresentation()
 	return m_aPresentation;
 }
 
+miniSound & DocumentAndControler::GetSoundInfo()
+{
+    return m_aSoundPlayer;
+}
+
 RolleiCom & DocumentAndControler::GetDiaCom()
 {
 	return m_aCom;

@@ -159,12 +159,15 @@ class DiaInfoDlgImpl;
 class SoundInfoDlgImpl;
 class CommentDlgImpl;
 class HelpDlgImpl;
+class MinDiaWindow;
 
 // min todo --> richtige Implementation angeben
 typedef HItemView	IconItemView;
 typedef HItemView	DiaStateView;
 
-QWidget * GetMainWindow();
+MinDiaWindow * GetMainWindow();
+
+//int GetTotalLengthInMSForSoundFile( const string & sFileName );
 
 // *******************************************************************
 /** The main window for the slide show program.
@@ -305,7 +308,8 @@ public slots:
 	void sltFindNextItem();
 
     void sltUpdate();
-	
+    void sltTest();
+
 	void sltEditFadeInTime();
 	void sltFadeInTest();
 	void sltFadeOutTest();
@@ -427,6 +431,7 @@ private:
 	QAction *		m_pEditFindAction;
 	QAction *		m_pEditFindNextAction;
     QAction *       m_pEditUpdateAction;
+    QAction *       m_pEditTestAction;
 
 	QAction *		m_pFileNewAction;
 	QAction *		m_pFileLoadAction;
