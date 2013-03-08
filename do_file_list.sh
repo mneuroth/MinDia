@@ -4,6 +4,7 @@ ls -d -1 minsrv/* >>file.lst
 ls -d -1 mindiapyc/* >>file.lst
 ls -d -1 qextserialport/* >>file.lst
 ls -d -1 qextserialport/src/* >>file.lst
+ls -d -1 qextserialport/doc/* >>file.lst
 ls -d -1 src/* >>file.lst
 ls -d -1 scripts/* >>file.lst
 ls -d -1 zaurus/* >>file.lst
