@@ -51,7 +51,6 @@
 
 #include "appconfig.h"
 
-#ifndef ZAURUS
 #include "qtmtlock.h"
 #include <QKeyEvent>
 #include <QPixmap>
@@ -62,9 +61,6 @@
 #include <QImageWriter>
 #include <QImage>
 #include <QPicture>
-#else
-class QtMTLock {};
-#endif
 
 #include "misctools.h"
 
@@ -370,7 +366,7 @@ private:
 
 void SimpleBitmapCanvas::drawBackground( QPainter * pPainter, const QRectF & area )
 {
-    cout << "DRAW back " << (int)pPainter->paintEngine()->type() << endl;
+//    cout << "DRAW paintEngine " << pPainter->paintEngine() << " feat=" << (int) pPainter->paintEngine()->type() << endl;
     _FadeImage(pPainter,area,m_iFadeFactor,*m_pImagePrevious,*m_pImage);
 }
 
@@ -551,10 +547,8 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt
     m_pCanvasView->show();
 
 	m_pDisplayImage->setChecked( true );
-#ifndef ZAURUS
 	//m_pScaleExpand->setChecked( true );		// neu seit 15.2.2003
     //m_pScaleOriginal->setChecked( true );
-#endif
 
     m_pCanvas->SetImagePtr( &m_aScaledImage );
     m_pCanvas->SetImagePreviousPtr( &m_aScaledImagePrevious );
@@ -604,10 +598,8 @@ void PlayInfoDlgImpl::FullScreen()
 		m_pPause->hide();
 		m_pStop->hide();
 		m_pFullScreen->hide();
-#ifndef ZAURUS
 		m_pScaleImageGroup->hide();
 		m_pClose->hide();
-#endif
         m_pOperationGroup->hide();
 
         this->layout()->setContentsMargins(0,0,0,0);
@@ -646,7 +638,6 @@ void PlayInfoDlgImpl::RestoreSize()
 //
 //		// anscheinend werden auch Sub-Layouts zerstoert
 //		// wenn der Eltern-Layout-Container zerstoert wird !
-//#ifndef ZAURUS
 //// TODO !!!
 //		m_pLeftContainer = new Q3VBoxLayout( 0, 0, 6, "m_pLeftContainer");
 //		m_pButtonContainer = new Q3HBoxLayout( 0, 1, 1, "m_pButtonContainer");
@@ -658,15 +649,12 @@ void PlayInfoDlgImpl::RestoreSize()
 //		m_pLeftContainer->addWidget( m_pDisplayImage );
 //
 //		m_pButtonLayout->addLayout( m_pLeftContainer );
-//#endif
 //	    QSpacerItem* spacer1 = new QSpacerItem( 19, 15, QSizePolicy::Expanding, QSizePolicy::Minimum );
 //	    m_pButtonLayout->addItem( spacer1 );
-//#ifndef ZAURUS
 //		m_pButtonLayout->addWidget( m_pScaleImageGroup );
 //	    QSpacerItem* spacer2 = new QSpacerItem( 16, 16, QSizePolicy::Expanding, QSizePolicy::Minimum );
 //	    m_pButtonLayout->addItem( spacer2 );
 //	    m_pButtonLayout->addWidget( m_pClose );
-//#endif
 //		// ** see PlayInfoDlg.cpp for the values **
 //	    PlayInfoDialogLayout->setSpacing( 2 );	// 6
 //		PlayInfoDialogLayout->setMargin( 2 );	// 11
@@ -677,10 +665,8 @@ void PlayInfoDlgImpl::RestoreSize()
 		m_pPause->show();
 		m_pStop->show();
 		m_pFullScreen->show();
-//#ifndef ZAURUS
 		m_pScaleImageGroup->show();
 		m_pClose->show();
-//#endif
         m_pOperationGroup->show();
 
 
@@ -825,11 +811,11 @@ bool PlayInfoDlgImpl::SetColor( int iRed, int iGreen, int iBlue )
 	return true;
 }
 
-bool PlayInfoDlgImpl::SetFont( const char * sFontName )
+bool PlayInfoDlgImpl::SetFont( const string & sFontName )
 {
 	QtMTLock aMTLock;
 
-	m_aActFont.setFamily( sFontName );
+    m_aActFont.setFamily( sFontName.c_str() );
 
 	return true;
 }
@@ -845,12 +831,12 @@ bool PlayInfoDlgImpl::SetFontSize( int iSizeInPixel, bool bBold, bool bItalic )
 	return true;
 }
 
-int PlayInfoDlgImpl::SetTextXY( int x, int y, const char * sText )
+int PlayInfoDlgImpl::SetTextXY( int x, int y, const string & sText )
 {
 	QtMTLock aMTLock;
 
     QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
-    pText->setText(sText);
+    pText->setText(sText.c_str());
     m_pCanvas->addItem(pText);
 
 	pText->setFont( m_aActFont );
@@ -1183,7 +1169,6 @@ void PlayInfoDlgImpl::sltFadeInTimer()
 
 void PlayInfoDlgImpl::sltSaveActImage( const QString & sImageFormat )
 {
-#ifndef ZAURUS
 	QString sExt( "*." );
 	sExt += sImageFormat;
 
@@ -1191,9 +1176,8 @@ void PlayInfoDlgImpl::sltSaveActImage( const QString & sImageFormat )
 
     if( !sFileName.isEmpty() )
 	{
-		/*bool bOk =*/ m_aActImage.save( sFileName, (const char *)sImageFormat.toAscii().constData() );
+        /*bool bOk =*/ m_aActImage.save( sFileName, sImageFormat.toAscii().constData() );
 	}
-#endif
 }
 
 void PlayInfoDlgImpl::sltDispImageToggled( bool /*bState*/ )
@@ -1310,7 +1294,6 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
 //		m_aScaleTime.Start();
 		if( !aImage.isNull() )
 		{
-#ifndef ZAURUS
 			if( m_pScaleOriginal->isChecked() )
 			{
 				aScaledImage = aImage;
@@ -1348,9 +1331,6 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
                     aScaledImage = aImage.scaled( (int)((double)screenDy*imgRatio), screenDy );
                 }
             }
-#else
-			aScaledImage = aImage.scaled( aFrameRect.width(), aFrameRect.height() );
-#endif
 		}
 		else
 		{
@@ -1441,7 +1421,6 @@ void PlayInfoDlgImpl::resizeEvent( QResizeEvent * pEvent )
 
 void PlayInfoDlgImpl::SetExpandImage( bool bExpand )
 {
-#ifndef ZAURUS
 	if( bExpand )
 	{
 		m_pScaleExpand->setChecked( TRUE );
@@ -1450,7 +1429,6 @@ void PlayInfoDlgImpl::SetExpandImage( bool bExpand )
 	{
 		m_pScaleOriginal->setChecked( TRUE );
 	}
-#endif
 }
 
 // *******************************************************************

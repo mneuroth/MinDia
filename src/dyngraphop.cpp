@@ -880,9 +880,6 @@ bool DynContainer::Write( ostream & aStream ) const
 
 void DynContainer::RunSelected( int iStartFromPosInMS )
 {
-#ifdef ZAURUS
-	return;
-#else
 	UpdateInfos();
 
     Reset();
@@ -906,14 +903,10 @@ void DynContainer::RunSelected( int iStartFromPosInMS )
 	}
 
 	Update();
-#endif
 }
 
 void DynContainer::Run( int iStartFromPosInMS )
 {
-#ifdef ZAURUS
-	return;
-#else
 	UpdateInfos();
 
     if( m_bIsPause )
@@ -936,14 +929,10 @@ void DynContainer::Run( int iStartFromPosInMS )
 	}
 
 	Update();
-#endif
 }
 
 void DynContainer::Pause()
 {
-#ifdef ZAURUS
-	return;
-#else
     m_bIsPause = true;
 
 	const_iterator aIter = begin();
@@ -957,14 +946,10 @@ void DynContainer::Pause()
 	}
 
     Update();
-#endif
 }
 
 void DynContainer::Continue()
 {
-#ifdef ZAURUS
-	return;
-#else
 	const_iterator aIter = begin();
 	while( aIter != end() )
 	{
@@ -977,14 +962,10 @@ void DynContainer::Continue()
 
     m_bIsPause = false;
     Update();
-#endif
 }
 
 void DynContainer::Stop()
 {
-#ifdef ZAURUS
-	return;
-#else
 	const_iterator aIter = begin();
 	while( aIter != end() )
 	{
@@ -998,14 +979,10 @@ void DynContainer::Stop()
 
     m_bIsPause = false;
     Update();
-#endif
 }
 
 void DynContainer::Reset()
 {
-#ifdef ZAURUS
-	return;
-#else
 	const_iterator aIter = begin();
 	while( aIter != end() )
 	{
@@ -1019,7 +996,6 @@ void DynContainer::Reset()
 
     m_bIsPause = false;
     Update();
-#endif
 }
 
 void DynContainer::AddDefaultDynText( const string & sText, double dStartTimeInMS, double dShowTimeInMS )
@@ -1218,13 +1194,13 @@ bool DynText::Write( ostream & aStream ) const
 	FileUtilityObj aFU;
 
 	aFU.WriteStructBegin( aStream );
-    WriteString( aStream, (const char *)text().toAscii() );
+    WriteString( aStream, text().toStdString() );
 	aFU.WriteSeparator( aStream );
 	aStream << x();
 	aFU.WriteSeparator( aStream );
 	aStream << y();
 	aFU.WriteSeparator( aStream );
-    WriteString( aStream, (const char *)font().family().toAscii() );
+    WriteString( aStream, font().family().toStdString() );
 	aFU.WriteSeparator( aStream );
 	aStream << font().pointSize();
 	aFU.WriteSeparator( aStream );
@@ -1466,8 +1442,7 @@ double DynText::GetStartTime() const
 
 string DynText::GetString() const
 {
-    string s = (const char *)text().toAscii();
-
+    string s = text().toStdString();
 	return s;
 }
 
@@ -1549,9 +1524,6 @@ void DynText::SetAttributesFrom( DynText * pOtherItem )
 
 void DynText::PaintForTime( QPainter & aPainter, double dTimeMS ) const
 {
-#ifdef ZAURUS
-    return;
-#else
 	double dStartTimeInMS; 
 	double dShowTimeInMS;
 	
@@ -1574,7 +1546,6 @@ void DynText::PaintForTime( QPainter & aPainter, double dTimeMS ) const
 			aPainter.drawText( x(), y(), GetString().c_str() );
 		}
 	}
-#endif
 }
 
 bool DynText::IsNextChanging( double dTimeMS, double dDeltaMS ) const

@@ -29,11 +29,15 @@
 #ifndef _MINLOG_H
 #define _MINLOG_H
 
+#include <string>
+
+using namespace std;
+
 /** Represents a logging interface. */
 class minLoggingInterface
 {
 public:
-	virtual void LogMsg( const char * sMsg ) = 0;
+    virtual void LogMsg( const string & sMsg ) = 0;
 };
 
 #endif

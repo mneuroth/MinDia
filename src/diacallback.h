@@ -29,6 +29,10 @@
 #ifndef _DIACALLBACK_H
 #define _DIACALLBACK_H
 
+#include <string>
+
+using namespace std;
+
 // *******************************************************************
 /** Represents a callback class, so that the
     class DiaPresentation does not need to be
@@ -38,12 +42,12 @@ class DiaCallback
 {
 public:
 	// ** Methods used in playing modus **
-	virtual void TriggerDissolveActDiaNo( int iNo, const char * sScript, const char * sFileName, double dDissolveTime ) = 0;
-	virtual void TriggerShowActDiaNo( int iNo, const char * sScript, const char * sFileName, double dShowTime ) = 0;
-	virtual void TriggerSetNextDiaNo( int iNextNo, const char * sNextFileName ) = 0;
+    virtual void TriggerDissolveActDiaNo( int iNo, const string & sScript, const string & sFileName, double dDissolveTime ) = 0;
+    virtual void TriggerShowActDiaNo( int iNo, const string & sScript, const string & sFileName, double dShowTime ) = 0;
+    virtual void TriggerSetNextDiaNo( int iNextNo, const string & sNextFileName ) = 0;
 	// ** other methods **
 	virtual void PresentationModusChanged() = 0;
-    virtual void ShowError( const char * sMsg ) = 0;
+    virtual void ShowError( const string & sMsg ) = 0;
 };
 
 #endif

@@ -48,9 +48,7 @@
 #include "soundinfo.h"
 #include "dyngraphop.h"
 #include "writexml.h"
-#ifndef ZAURUS
 #include "applscriptenv.h"
-#endif
 #include "igendev.h"
 
 #include <qdatetime.h>		// for QTime
@@ -162,8 +160,8 @@ public:
 
 	// ** some other informations **
 	string					GetFullName() const;
-	const char *			GetName() const;
-	void					SetName( const char * sNewName );
+    string      			GetName() const;
+    void					SetName( const string & sNewName );
 
 	string					GetComment() const;
 	void					SetComment( const string & sComment );
@@ -190,9 +188,7 @@ public:
 	DynContainer &			GetDynGraphicData();
 	const DynContainer &	GetDynGraphicData() const;
 
-#ifndef ZAURUS
 	ApplScriptEnvironment &	GetScriptEnvironment();
-#endif
 
 	// ** io methods **
 	XmlTree					GetXMLTree() const;
@@ -222,10 +218,8 @@ private:
 
 	DynContainer			m_aDynItemContainer;
 
-#ifndef ZAURUS
 	ApplScriptEnvironment			m_aScriptEnv;
 	minClientHandle<IGeneralDevice> m_hGenDev;
-#endif
 
 	// *** transient data ***
 	ObjectChanged			m_aObjectChanged;

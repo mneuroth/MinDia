@@ -209,7 +209,7 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
     }
 
     // has the image changed ? yes --> update cache !
-    if( m_sImageFileNameCache != m_hData->GetImageFile() )
+    if( m_sImageFileNameCache != m_hData->GetImageFile().c_str() )
     {
         delete m_pImageCache;
         m_pImageCache = 0;
@@ -220,8 +220,8 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
         QImage aImage;
         QImage aImageOrg;
 
-        bool bOk = ReadQImage( m_hData->GetImageFile(), aImageOrg );
-        m_sImageFileNameCache = m_hData->GetImageFile();
+        bool bOk = ReadQImage( m_hData->GetImageFile().c_str(), aImageOrg );
+        m_sImageFileNameCache = m_hData->GetImageFile().c_str();
 
         if( bOk && (!aImageOrg.isNull()) )
         {
@@ -273,16 +273,16 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
         pPainter->drawText( aTextStartPoint.x(), aTextStartPoint.y(),
                            iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
                            sBuffer );
-        sprintf( sBuffer, "id=%s", m_hData->GetId() );
+        sprintf( sBuffer, "id=%s", m_hData->GetId().c_str() );
         pPainter->drawText( aTextStartPoint.x(), aTextStartPoint.y()+c_iDY,
                            iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
                            sBuffer );
-        sprintf( sBuffer, "comment=%s", m_hData->GetComment() );
+        sprintf( sBuffer, "comment=%s", m_hData->GetComment().c_str() );
         pPainter->drawText( aTextStartPoint.x(), aTextStartPoint.y()+2*c_iDY,
                            iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
                            sBuffer );
 
-        QString sTemp = m_hData->GetImageFile();
+        QString sTemp = m_hData->GetImageFile().c_str();
         if( m_hData->HasScript() )
         {
             sTemp += " ";

@@ -83,10 +83,10 @@ ComLoggingDialogImpl::~ComLoggingDialogImpl()
 {
 }
 
-void ComLoggingDialogImpl::LogMsg( const char * sMsg )
+void ComLoggingDialogImpl::LogMsg( const string & sMsg )
 {
     MyCustomEvent * pEvent = new MyCustomEvent( c_iCustomEvent_Logging );
-    pEvent->setData( QString( sMsg ) );
+    pEvent->setData( QString( sMsg.c_str() ) );
     QApplication::postEvent( this, pEvent );
 /*
 	if( m_pOutput )

@@ -32,6 +32,10 @@
 #ifndef _ISCRIPT_H
 #define _ISCRIPT_H
 
+#include <string>
+
+using namespace std;
+
 // *************************************************************************
 // *************************************************************************
 // *************************************************************************
@@ -94,9 +98,9 @@ public:
 	virtual bool			Clear() = 0;
 
 	virtual bool			SetColor( int iRed, int iGreen, int iBlue ) = 0;
-	virtual bool			SetFont( const char * sFontName ) = 0;
+    virtual bool			SetFont( const string & sFontName ) = 0;
 	virtual bool			SetFontSize( int iSizeInPixel, bool bBold = false, bool bItalic = false ) = 0;
-	virtual int 			SetTextXY( int x, int y, const char * sText ) = 0;
+    virtual int 			SetTextXY( int x, int y, const string & sText ) = 0;
 	virtual int				GetTextCount() const = 0;
 	virtual bool			MoveText( int iTextID, int x, int y ) = 0;
 	virtual int				GetTextX( int iTextID ) const = 0;
@@ -122,14 +126,14 @@ public:
 	virtual double			GetDissolveTime() const = 0;
 	virtual bool			SetDissolveTime( double dVal ) = 0;
 
-	virtual const char *	GetId() const = 0;
-	virtual bool			SetId( const char * sId ) = 0;
-	virtual const char *	GetComment() const = 0;
-	virtual bool			SetComment( const char * sComment ) = 0;
-	virtual const char *	GetImageFile() const = 0;
-	virtual bool			SetImageFile( const char * sFileName ) = 0;
-	virtual const char *	GetScript() const = 0;
-	virtual bool			SetScript( const char * sScript ) = 0;
+    virtual string      	GetId() const = 0;
+    virtual bool			SetId( const string & sId ) = 0;
+    virtual string      	GetComment() const = 0;
+    virtual bool			SetComment( const string & sComment ) = 0;
+    virtual string      	GetImageFile() const = 0;
+    virtual bool			SetImageFile( const string & sFileName ) = 0;
+    virtual string      	GetScript() const = 0;
+    virtual bool			SetScript( const string & sScript ) = 0;
 
 	virtual bool			GetHorizontalFormat() const = 0;
 	virtual bool			SetHorizontalFormat( bool bValue ) = 0;
@@ -144,25 +148,25 @@ public:
 
 	virtual bool			IsChanged() const = 0;
 
-	virtual const char *	GetDocName() const = 0;
-	virtual const char *	GetDescription() const = 0;
+    virtual string      	GetDocName() const = 0;
+    virtual string  		GetDescription() const = 0;
 	virtual int  			GetDiaCount() const = 0;
 	virtual IDia * 			GetDia( int iIndex ) = 0;
 	virtual IDia *			AddNewDia() = 0;
 
 	// new since 19.6.2003
 	virtual int				GetSoundFileCount() const = 0;
-	virtual const char *	GetSoundFileNameAt( int iIndex ) const = 0;
-	virtual bool			SetSoundFileNameAt( int iIndex, const char * sFileName ) = 0;
+    virtual string          GetSoundFileNameAt( int iIndex ) const = 0;
+    virtual bool			SetSoundFileNameAt( int iIndex, const string & sFileName ) = 0;
 
 	virtual IDiaOutputWindow * GetOutputWindow() = 0;
 
 	// ** WARNING: load should be the last command in the script, 
 	// **          because this command replaces the document !
 	// **		   Use Load-Event to start the successor presentation.
-	virtual bool			LoadPresentation( const char * sFileName, bool bExecuteScript = true ) = 0;
+    virtual bool			LoadPresentation( const string & sFileName, bool bExecuteScript = true ) = 0;
 	virtual bool			SavePresentation() = 0;
-	virtual bool			SavePresentationAs( const char * sFileName ) = 0;
+    virtual bool			SavePresentationAs( const string & sFileName ) = 0;
 
 	virtual bool			GotoPosition( int iPosition ) = 0;
 	virtual bool			PlayFrom( int iFromDiaNo ) = 0;
@@ -174,7 +178,7 @@ public:
 	virtual bool			IsPlayModus() const = 0;
 	virtual bool			IsPauseModus() const = 0;
 	virtual bool			IsEditModus() const = 0;
-	virtual const char *	GetPlayModusStrg() const = 0; 
+    virtual string      	GetPlayModusStrg() const = 0;
 
 	virtual bool			IsSimulation() const = 0;
 	virtual void			SetSimulation( bool bSimulation ) = 0;
@@ -188,11 +192,11 @@ public:
 IDiaPresentation * GetDiaPresentation();
 
 // ** output of strings
-void PrintLn( const char * sText );
+void PrintLn( const string & sText );
 
 // ** show a (modal) message box 
 // ** return: -1 == Undefined, 0 == Ok, 1 == Cancel
-int	DoMessageBox( const char * sMsg, const char * sTitle );
+int	DoMessageBox( const string & sMsg, const string & sTitle );
 
 // ** sleep a few milli seconds
 void SleepMS( int iMS );
@@ -244,18 +248,18 @@ public:
 	// ** get the menu pointer to register the plugin-submenus
 	virtual QMenu *		        GetPluginsMenuPtr() = 0;
 	// ** get the actual language, example: "en" or "de"
-	virtual const char *		GetLanguage() const = 0;
+    virtual string      		GetLanguage() const = 0;
 	// ** get the help/shared directory of MinDia 
 	// ** (where language- and help-files are stored)
-	virtual const char *		GetHelpDirecotry() const = 0;
+    virtual string      		GetHelpDirecotry() const = 0;
 	// ** get the (default-)directory where the scripts are installed
-	virtual const char *		GetScriptDirecotry() const = 0;
+    virtual string      		GetScriptDirecotry() const = 0;
 	// ** get the (default-)directory where images can be found
-	virtual const char *		GetImageDirecotry() const = 0;
+    virtual string          	GetImageDirecotry() const = 0;
 	// ** get the (default-)directory where music files can be found
-	virtual const char *		GetMusicDirecotry() const = 0;
+    virtual string      		GetMusicDirecotry() const = 0;
 	// ** get the (default-)directory where presentation files can be found
-	virtual const char *		GetDataDirecotry() const = 0;
+    virtual string      		GetDataDirecotry() const = 0;
 };
 
 

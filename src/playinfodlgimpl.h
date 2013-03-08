@@ -155,9 +155,9 @@ public:
 	virtual int		GetDrawHeight() const;
 	virtual bool	Clear();
 	virtual bool	SetColor( int iRed, int iGreen, int iBlue );
-	virtual bool	SetFont( const char * sFontName );
+    virtual bool	SetFont( const string & sFontName );
 	virtual bool	SetFontSize( int iSizeInPixel, bool bBold, bool bItalic );
-	virtual int 	SetTextXY( int x, int y, const char * sText );
+    virtual int 	SetTextXY( int x, int y, const string & sText );
 	virtual int		GetTextCount() const;
 	virtual bool	MoveText( int iTextID, int x, int y );
 	virtual int		GetTextX( int iTextID ) const;

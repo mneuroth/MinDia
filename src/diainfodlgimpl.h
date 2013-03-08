@@ -35,14 +35,7 @@
 #ifndef _DIAINFODLGIMPL_H
 #define _DIAINFODLGIMPL_H
 
-//#ifndef ZAURUS
-//#include "DiaInfoDlg.h"
-//#else
-//#include "ZDiaInfoDlg.h"
-//#endif
-
 #include "ui_DiaInfoDlg4.h"
-
 
 #include "minhandle.h"
 #include "diainfo.h"

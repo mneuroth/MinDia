@@ -86,10 +86,8 @@ DiaPresentation::DiaPresentation( bool bEnableScript, DiaCallback * pCallback, c
   //m_aDynGraphicOpContainer( pOutputWindowProxy ),
   //m_aDynGraphicOpProcessor( m_aDynGraphicOpContainer ),
   m_aDynItemContainer( pOutputWindowProxy ),
-#ifndef ZAURUS
   m_aScriptEnv( true ),
   m_hGenDev( g_IGeneralDeviceID ),
-#endif
   m_pProjectorCom( 0 ),
   m_pSoundPlayer( 0 ),
   m_pCallback( pCallback ),
@@ -102,14 +100,12 @@ DiaPresentation::DiaPresentation( bool bEnableScript, DiaCallback * pCallback, c
 	m_sName = sName;
 
 	// ** init the known event types
-#ifndef ZAURUS
 	m_aScriptEnv.AddEventType( _PRESENTATION_STARTED );
 	m_aScriptEnv.AddEventType( _PRESENTATION_STOPED );
 	m_aScriptEnv.AddEventType( _PRESENTATION_PAUSED );
 	m_aScriptEnv.AddEventType( _PRESENTATION_SAVED );
 	m_aScriptEnv.AddEventType( _PRESENTATION_LOADED );
 	m_aScriptEnv.SetEnabled( bEnableScript );
-#endif
 }
 
 void DiaPresentation::Init()
@@ -136,9 +132,7 @@ void DiaPresentation::Clear()
 	//m_aDynGraphicOpContainer.erase( m_aDynGraphicOpContainer.begin(), m_aDynGraphicOpContainer.end() );
 	m_aDynItemContainer.erase( m_aDynItemContainer.begin(), m_aDynItemContainer.end() );
 
-#ifndef ZAURUS
 	m_aScriptEnv.Clear();
-#endif
 
 	Init();
 
@@ -151,12 +145,8 @@ bool DiaPresentation::IsChanged() const
 		   m_aSoundInfoContainer.IsChanged() || m_aSoundCommentContainer.IsChanged() ||
 		   m_aPlotCommentContainer.IsChanged() || 
 		   //m_aDynGraphicOpContainer.IsChanged() ||
-		   m_aDynItemContainer.IsChanged()
-#ifndef ZAURUS
-		   || m_aScriptEnv.IsChanged();
-#else
-		   ;
-#endif
+           m_aDynItemContainer.IsChanged() ||
+           m_aScriptEnv.IsChanged();
 }
 
 bool DiaPresentation::IsPlaying() const
@@ -226,26 +216,24 @@ const DynContainer & DiaPresentation::GetDynGraphicData() const
 	return m_aDynItemContainer;
 }
 
-#ifndef ZAURUS
 ApplScriptEnvironment &	DiaPresentation::GetScriptEnvironment()
 {
 	return m_aScriptEnv;
 }
-#endif
 
 string DiaPresentation::GetFullName() const
 {
 	return m_sPathInfo+m_sName;
 }
 
-const char * DiaPresentation::GetName() const
+string DiaPresentation::GetName() const
 {
-	return m_sName.c_str();
+    return m_sName;
 }
 
-void DiaPresentation::SetName( const char * sNewName )
+void DiaPresentation::SetName( const string & sNewName )
 {
-	m_sName = FileUtilityObj::StripPath( sNewName, &m_sPathInfo );
+    m_sName = FileUtilityObj::StripPath( sNewName.c_str(), &m_sPathInfo );
 
 	// name is only for view, not a logical data item for a dia presentation (29.3.2003)
 	//m_aObjectChanged.SetChanged();
@@ -308,9 +296,7 @@ bool DiaPresentation::Read( istream & aStream, bool bExecuteEventScript )
 	{
 		// ** use an exception to show an error,
 		// ** so you don't have to know here something about the gui !!!
-#ifndef ZAURUS
 		throw MinException( "This is not an valid data-file !" );
-#endif
 		return false;
 	}
 	aFU.ReadSeparator( aStream );
@@ -357,17 +343,13 @@ bool DiaPresentation::Read( istream & aStream, bool bExecuteEventScript )
 	if( iActFileVersion > 3 )				// since 30.12.2001
 	{
 		aFU.ReadSeparator( aStream );
-#ifndef ZAURUS
 		m_aScriptEnv.Read( aStream );
-#endif
 		//not needed here, is done in the class: m_aScriptEnv.ClearChanged();
 	}
 	else
 	{
-#ifndef ZAURUS
 		m_aScriptEnv.Clear();
 		m_aScriptEnv.ClearChanged();
-#endif
 	}
 /*	if( iActFileVersion > 4 )				// since 22. 2.2003
 	{
@@ -448,9 +430,7 @@ bool DiaPresentation::Write( ostream & aStream ) const
 	{
 		aFU.WriteSeparator( aStream );
 		aStream << endl;
-#ifndef ZAURUS
 		m_aScriptEnv.Write( aStream );
-#endif
 		//not needed here, is done in the class: ((DiaPresentation *)this)->m_aScriptEnv.ClearChanged();
 	}
 /*	if( ACT_FILE_VERSION > 4 )				// since 22. 2.2003
@@ -494,9 +474,7 @@ XmlTree DiaPresentation::GetXMLTree() const
 	aTree.PushTag( m_aPlotCommentContainer.GetXMLTree() );
 	//aTree.PushTag( m_aDynGraphicOpContainer.GetXMLTree() );
 	aTree.PushTag( m_aDynItemContainer.GetXMLTree() );
-#ifndef ZAURUS
 	aTree.PushTag( m_aScriptEnv.GetXMLTree() );
-#endif
 
 	return aTree;
 }
@@ -699,12 +677,10 @@ bool DiaPresentation::StartPlay( int iStartPos )
 	}
 
 	// (8.11.2003) check for other projector devices
-#ifndef ZAURUS
 	if( ExistsExternalDevice() )
 	{
 		m_hGenDev->Start();
 	}
-#endif
 
     // ** sometimes the switch to the direct mode fails
     // ** int that case inform the user about the error and
@@ -750,13 +726,11 @@ bool DiaPresentation::StartPlay( int iStartPos )
 			}
 
 			// (8.11.2003) check for other projector devices
-#ifndef ZAURUS
 			if( ExistsExternalDevice() )
 			{
 				m_hGenDev->SetDissolveTime( m_iActPos % m_hGenDev->GetDeviceCount(), dDissolveTime );
 				m_hGenDev->SlideForward( m_iActPos % m_hGenDev->GetDeviceCount() );
 			}
-#endif
         }
     }
 
@@ -831,12 +805,10 @@ void DiaPresentation::StopPlay()
 	}
 
 	// (8.11.2003) check for other projector devices
-#ifndef ZAURUS
 	if( ExistsExternalDevice() )
 	{
 		m_hGenDev->Stop();
 	}
-#endif
 
 	if( m_pSoundPlayer )
 	{
@@ -865,12 +837,10 @@ void DiaPresentation::PausePlay()
 	m_dCountDownTime += ((double)m_aCountDown.elapsed())*0.001;
 
 	// (8.11.2003) check for other projector devices
-#ifndef ZAURUS
 	if( ExistsExternalDevice() )
 	{
 		m_hGenDev->Pause();
 	}
-#endif
 
 	if( m_pSoundPlayer )
 	{
@@ -973,18 +943,16 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 				}
 
 				// (8.11.2003) check for other projector devices
-#ifndef ZAURUS
 				if( ExistsExternalDevice() && !bWasContinued )
 				{
 					m_hGenDev->SlideForward( m_iActPos % m_hGenDev->GetDeviceCount() );
 				}
-#endif
 
 				// ** send an observer the message, that the actual
 				// ** image has to be changed (fade in now!).
 				if( m_pCallback )
 				{
-					m_pCallback->TriggerDissolveActDiaNo( m_iActPos, hActDia->GetScript(), hActDia->GetImageFile(), aOperation.GetOperationTime() );
+                    m_pCallback->TriggerDissolveActDiaNo( m_iActPos, hActDia->GetScript().c_str(), hActDia->GetImageFile().c_str(), aOperation.GetOperationTime() );
 				}
 			}
 			else
@@ -1010,7 +978,7 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 				// ** simulation modus: fade in
 				if( m_pCallback )
 				{
-					m_pCallback->TriggerDissolveActDiaNo( m_iActPos, hActDia->GetScript(), hActDia->GetImageFile(), dDissolveTime );
+                    m_pCallback->TriggerDissolveActDiaNo( m_iActPos, hActDia->GetScript().c_str(), hActDia->GetImageFile().c_str(), dDissolveTime );
 				}
 				// ********************************************************
 			}
@@ -1065,7 +1033,7 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 			// ** image has to be shown (now!).
 			if( m_pCallback )
 			{
-				m_pCallback->TriggerShowActDiaNo( m_iActPos, hActDia->GetScript(), hActDia->GetImageFile(), aOperation.GetOperationTime() );
+                m_pCallback->TriggerShowActDiaNo( m_iActPos, hActDia->GetScript().c_str(), hActDia->GetImageFile().c_str(), aOperation.GetOperationTime() );
 			}
 
 			// ** if there is a next slide avaliable, set the next dissolve time
@@ -1088,13 +1056,11 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 				}
 
 				// (8.11.2003) check for other projector devices
-#ifndef ZAURUS
 				if( ExistsExternalDevice() && !bWasContinued )
 				{
 					// set dissolvetime for next slide
 					m_hGenDev->SetDissolveTime( (m_iActPos+1) % m_hGenDev->GetDeviceCount(), dNextStepTime );
 				}
-#endif
 
 				// ** send an observer infos about the next dia,
 				// ** so the observer has the posibility to pre-load
@@ -1103,7 +1069,7 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 				// ** for the next dia-change.
 				if( m_pCallback )
 				{
-					m_pCallback->TriggerSetNextDiaNo( m_iActPos+1, hNextDia->GetImageFile() );
+                    m_pCallback->TriggerSetNextDiaNo( m_iActPos+1, hNextDia->GetImageFile().c_str() );
 				}
 			}
 
@@ -1123,7 +1089,7 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 		}
 
 
-        sprintf( sBuffer, QObject::tr( "no=%d/%d ** op=%s ** timer=%6.1lf s --> cmd=\"%s\"" ).toAscii(), m_iActPos+1, GetDiaCount(), aOperation.GetOperationTypeName().c_str(), aOperation.GetOperationTime(), (const char *)sCmd.toAscii() );
+        sprintf( sBuffer, QObject::tr( "no=%d/%d ** op=%s ** timer=%6.1lf s --> cmd=\"%s\"" ).toAscii().constData(), m_iActPos+1, GetDiaCount(), aOperation.GetOperationTypeName().c_str(), aOperation.GetOperationTime(), sCmd.toAscii().constData() );
 
 		m_sStepInfo = sBuffer;
 
@@ -1211,27 +1177,20 @@ double DiaPresentation::GetDissolveTimeOfSlide( int iSlideIndex ) const
 
 bool DiaPresentation::IsScriptEnabled() const
 {
-#ifndef ZAURUS
 	return m_aScriptEnv.IsEnabled();
-#else
-	return false;
-#endif
 }
 
 void DiaPresentation::MyExecuteScript( const string & sEvent )
 {
-#ifndef ZAURUS
 	bool bScriptFound;
 	int  iRet;
 
 	m_aScriptEnv.ExecuteScriptForEvent( sEvent, bScriptFound, &iRet );
 	CheckScriptResult( sEvent, bScriptFound, iRet );
-#endif	
 }
 
 void DiaPresentation::CheckScriptResult( const string & sEvent, bool bFoundScript, int iRet )
 {
-#ifndef ZAURUS
 	if( !bFoundScript )
 	{
 		cerr << "Warning: script for event " << sEvent.c_str() << " not found." << endl;
@@ -1252,7 +1211,6 @@ void DiaPresentation::CheckScriptResult( const string & sEvent, bool bFoundScrip
 			}
 		}
 	}
-#endif
 }
 
 bool DiaPresentation::ExistsExternalDevice()
@@ -1260,7 +1218,6 @@ bool DiaPresentation::ExistsExternalDevice()
 	// checks if an external device is existing.
 	// a query for an interface is done, if an interface is found
 	// but not initialized, the interface will be created
-#ifndef ZAURUS
 	if( !m_hGenDev.IsValid() )
 	{
 		m_hGenDev.UpdateIfNotValid();
@@ -1269,20 +1226,16 @@ bool DiaPresentation::ExistsExternalDevice()
 	{
 		return true;
 	}
-#endif
 	return false;
 }
 
-#ifndef ZAURUS
 #include <qimage.h>
 #include <qpainter.h>
 //QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor );
 void _FadeImage( QPainter * pPainter, const QRectF & area, int iFadeFactor, const QImage & aImagePrevious, const QImage & aImage );
-#endif
 
 void DiaPresentation::PaintSlideForTime( const QImageCache & aImageCache, QPainter & aPainter, double dTimeMS ) const
 {
-#ifndef ZAURUS
 	int iIndex1 = -1;
 	int iIndex2 = -1;
 	int iFadeFactor = 0;
@@ -1296,11 +1249,11 @@ void DiaPresentation::PaintSlideForTime( const QImageCache & aImageCache, QPaint
 		if( hDia1.IsOk() )
 		{
 			//QImage aImage1 = QImage( hDia1->GetImageFile() );
-			const QImage & aImage1 = aImageCache[ hDia1->GetImageFile() ];
+            const QImage & aImage1 = aImageCache[ hDia1->GetImageFile().c_str() ];
 			if( hDia2.IsOk() )
 			{
 				//QImage aImage2 = QImage( hDia2->GetImageFile() );
-				const QImage aImage2 = aImageCache[ hDia2->GetImageFile() ];
+                const QImage aImage2 = aImageCache[ hDia2->GetImageFile().c_str() ];
 				//aImage1 = aImage1.smoothScale( aImage2.width(), aImage2.height() );
                 //old: QImage aImage3 = _FadeImage( aImage2, aImage1, iFadeFactor );
                 //old: aPainter.drawImage( 0, 0, aImage3 );
@@ -1315,7 +1268,6 @@ void DiaPresentation::PaintSlideForTime( const QImageCache & aImageCache, QPaint
 			GetDynGraphicData().PaintElementsForTime( aPainter, dTimeMS );
 		}
 	}
-#endif
 }
 
 bool DiaPresentation::IsNextSlideChanging( double dTimeMS, double dDeltaMS ) const

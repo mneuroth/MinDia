@@ -491,7 +491,7 @@ bool SoundComment::operator<( const SoundComment & aOther ) const
 
 string SoundComment::GetName() const
 {
-    return (const char *)QObject::tr( "Sound comments" ).toAscii();
+    return QObject::tr( "Sound comments" ).toStdString();
 }
 
 int SoundComment::GetDataCount() const
@@ -507,12 +507,12 @@ string SoundComment::GetDataName( int iIndex ) const
 	{
 		case 0 :
 			{
-                sRet = (const char *)QObject::tr( "time pos. [ms]" ).toAscii();
+                sRet = QObject::tr( "time pos. [ms]" ).toStdString();
 			}
 			break;
 		case 1 :
 			{
-                sRet = (const char *)QObject::tr( "comment" ).toAscii();
+                sRet = QObject::tr( "comment" ).toStdString();
 			}
 			break;
 
@@ -722,7 +722,7 @@ bool PlotComment::operator<( const PlotComment & aOther ) const
 
 string PlotComment::GetName() const
 {
-    return (const char *)QObject::tr( "Plot comments" ).toAscii();
+    return QObject::tr( "Plot comments" ).toStdString();
 }
 
 int PlotComment::GetDataCount() const
@@ -738,17 +738,17 @@ string PlotComment::GetDataName( int iIndex ) const
 	{
 		case 0 :
 			{
-                sRet = (const char *)QObject::tr( "start index" ).toAscii();
+                sRet = QObject::tr( "start index" ).toStdString();
 			}
 			break;
 		case 1 :
 			{
-                sRet = (const char *)QObject::tr( "stop index" ).toAscii();
+                sRet = QObject::tr( "stop index" ).toStdString();
 			}
 			break;
 		case 2 :
 			{
-                sRet = (const char *)QObject::tr( "comment" ).toAscii();
+                sRet = QObject::tr( "comment" ).toStdString();
 			}
 			break;
 

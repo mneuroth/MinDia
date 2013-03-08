@@ -545,73 +545,73 @@ const int MAX_BUFFER_LENGTH =	512;
 #endif
   }
 
-  bool FileUtilityObj::_GetFileTimeInfos( const char * sFileNameIn, FileTime & aFileTimeOut )
-  {
-	  bool bOk = false;
-#ifdef _WIN32
-	  HFILE		hFile;
-	  OFSTRUCT	aOpenFileInfo;
+//  bool FileUtilityObj::_GetFileTimeInfos( const char * sFileNameIn, FileTime & aFileTimeOut )
+//  {
+//	  bool bOk = false;
+//#ifdef _WIN32
+//	  HFILE		hFile;
+//	  OFSTRUCT	aOpenFileInfo;
 
-	  hFile = OpenFile( sFileNameIn, &aOpenFileInfo, OF_READ );
-	  if( hFile ==  HFILE_ERROR )
-		  return false;
+//	  hFile = OpenFile( sFileNameIn, &aOpenFileInfo, OF_READ );
+//	  if( hFile ==  HFILE_ERROR )
+//		  return false;
 
-	  FILETIME aCreateTime;
-	  FILETIME aLastAccessTime;
-	  FILETIME aLastWriteTime;
-	  bOk = (bool)::GetFileTime( (Qt::HANDLE)hFile, &aCreateTime, &aLastAccessTime, &aLastWriteTime );
+//	  FILETIME aCreateTime;
+//	  FILETIME aLastAccessTime;
+//	  FILETIME aLastWriteTime;
+//	  bOk = (bool)::GetFileTime( (Qt::HANDLE)hFile, &aCreateTime, &aLastAccessTime, &aLastWriteTime );
 
-	  if( bOk )
-	  {
-		  FILETIME fLocTime;
-		  DOSDATE aDate;
-		  DOSTIME aTime;
-		  ::FileTimeToLocalFileTime( &aLastWriteTime, &fLocTime );
-		  ::FileTimeToDosDateTime( &fLocTime, (WORD *)&aDate, (WORD *)&aTime );
+//	  if( bOk )
+//	  {
+//		  FILETIME fLocTime;
+//		  DOSDATE aDate;
+//		  DOSTIME aTime;
+//		  ::FileTimeToLocalFileTime( &aLastWriteTime, &fLocTime );
+//		  ::FileTimeToDosDateTime( &fLocTime, (WORD *)&aDate, (WORD *)&aTime );
 
- 		  FileTime aFileTime( aDate.day, aDate.month, aDate.year+1980, aTime.hours, aTime.minutes, aTime.twosecs );
-		  aFileTimeOut = aFileTime;
-	  }
+// 		  FileTime aFileTime( aDate.day, aDate.month, aDate.year+1980, aTime.hours, aTime.minutes, aTime.twosecs );
+//		  aFileTimeOut = aFileTime;
+//	  }
 
-	  CloseHandle( (Qt::HANDLE)hFile );
-#endif
-#if defined(__linux__) || defined(__APPLE__)
+//	  CloseHandle( (Qt::HANDLE)hFile );
+//#endif
+//#if defined(__linux__) || defined(__APPLE__)
 
-	// ** todo --> test
+//	// ** todo --> test
 
-	struct stat aStat_p;
-	int iRet = stat( sFileNameIn, &aStat_p);
+//	struct stat aStat_p;
+//	int iRet = stat( sFileNameIn, &aStat_p);
 
-	if( iRet == 0 )
-	{
-#if defined(Q_OS_ANDROID)
-        /*ANDROID*/                struct tm * pDate = localtime( 0 );
-#else
-                struct tm * pDate = localtime( &(aStat_p.st_ctime) );
-#endif
-                FileTime aFileTime( pDate->tm_mday, pDate->tm_mon+1, pDate->tm_year+1900, pDate->tm_hour, pDate->tm_min, pDate->tm_sec );
+//	if( iRet == 0 )
+//	{
+//#if defined(Q_OS_ANDROID)
+//        /*ANDROID*/                struct tm * pDate = localtime( 0 );
+//#else
+//                struct tm * pDate = localtime( &(aStat_p.st_ctime) );
+//#endif
+//                FileTime aFileTime( pDate->tm_mday, pDate->tm_mon+1, pDate->tm_year+1900, pDate->tm_hour, pDate->tm_min, pDate->tm_sec );
 
-                aFileTimeOut = aFileTime;
+//                aFileTimeOut = aFileTime;
 
-		bOk = true;
-	}
-#endif
-	return bOk;
-  }
+//		bOk = true;
+//	}
+//#endif
+//	return bOk;
+//  }
 
   bool FileUtilityObj::GetFileDate( const char * sFileNameIn, string & sDateOut )
   {
-	  FileTime aFileTime;
-	  bool bOk = FileUtilityObj::_GetFileTimeInfos( sFileNameIn, aFileTime );
-	  sDateOut = aFileTime.GetDateString();
+//	  FileTime aFileTime;
+      bool bOk = false; //FileUtilityObj::_GetFileTimeInfos( sFileNameIn, aFileTime );
+//	  sDateOut = aFileTime.GetDateString();
 	  return bOk;
   }
 
   bool FileUtilityObj::GetFileTime( const char * sFileNameIn, string & sTimeOut )
   {
-	  FileTime aFileTime;
-	  bool bOk = FileUtilityObj::_GetFileTimeInfos( sFileNameIn, aFileTime );
-	  sTimeOut = aFileTime.GetTimeString();
+//	  FileTime aFileTime;
+      bool bOk = false; //FileUtilityObj::_GetFileTimeInfos( sFileNameIn, aFileTime );
+//	  sTimeOut = aFileTime.GetTimeString();
 	  return bOk;
   }
 
@@ -750,395 +750,395 @@ bool WriteTextFile( const char * sFullFileName, const string & sText, bool bAppe
 // *************************************************************************
 // *************************************************************************
 
-FileTime::FileTime( int nDay, int nMonth, int nYear, int nHour, int nMinute, int nSecond )
-: m_nDay( nDay ),
-  m_nMonth( nMonth ),
-  m_nYear( nYear ),
-  m_nSecond( nSecond ),
-  m_nMinute( nMinute ),
-  m_nHour( nHour )
-{
-}
+//FileTime::FileTime( int nDay, int nMonth, int nYear, int nHour, int nMinute, int nSecond )
+//: m_nDay( nDay ),
+//  m_nMonth( nMonth ),
+//  m_nYear( nYear ),
+//  m_nSecond( nSecond ),
+//  m_nMinute( nMinute ),
+//  m_nHour( nHour )
+//{
+//}
 
-string FileTime::GetString( int /*nLanguage*/ ) const
-{
-	// TODO: laenderspezifische Ausgabe implementieren
+//string FileTime::GetString( int /*nLanguage*/ ) const
+//{
+//	// TODO: laenderspezifische Ausgabe implementieren
 
-	char sBuffer[MAX_BUFFER_LENGTH];
-	sprintf( sBuffer,"%02d:%02d:%02d %02d.%02d.%d", m_nHour, m_nMinute, m_nSecond, m_nDay, m_nMonth, m_nYear );
-	return sBuffer;
-}
+//	char sBuffer[MAX_BUFFER_LENGTH];
+//	sprintf( sBuffer,"%02d:%02d:%02d %02d.%02d.%d", m_nHour, m_nMinute, m_nSecond, m_nDay, m_nMonth, m_nYear );
+//	return sBuffer;
+//}
 
-string FileTime::GetDateString( int /*nLanguage*/ ) const
-{
-	// TODO: laenderspezifische Ausgabe implementieren
+//string FileTime::GetDateString( int /*nLanguage*/ ) const
+//{
+//	// TODO: laenderspezifische Ausgabe implementieren
 
-	char sBuffer[MAX_BUFFER_LENGTH];
-	sprintf( sBuffer,"%02d.%02d.%d", m_nDay, m_nMonth, m_nYear );
-	return sBuffer;
-}
+//	char sBuffer[MAX_BUFFER_LENGTH];
+//	sprintf( sBuffer,"%02d.%02d.%d", m_nDay, m_nMonth, m_nYear );
+//	return sBuffer;
+//}
 
-string FileTime::GetTimeString( int /*nLanguage*/ ) const
-{
-	// TODO: laenderspezifische Ausgabe implementieren
+//string FileTime::GetTimeString( int /*nLanguage*/ ) const
+//{
+//	// TODO: laenderspezifische Ausgabe implementieren
 
-	char sBuffer[MAX_BUFFER_LENGTH];
-	sprintf( sBuffer,"%02d:%02d:%02d", m_nHour, m_nMinute, m_nSecond );
-	return sBuffer;
-}
+//	char sBuffer[MAX_BUFFER_LENGTH];
+//	sprintf( sBuffer,"%02d:%02d:%02d", m_nHour, m_nMinute, m_nSecond );
+//	return sBuffer;
+//}
 
-bool FileTime::operator<( const FileTime & aObj ) const
-{
-	// dies ist sicher keine optimale Implementation...
+//bool FileTime::operator<( const FileTime & aObj ) const
+//{
+//	// dies ist sicher keine optimale Implementation...
 
-	if( m_nYear < aObj.m_nYear )
-		return true;
-	else if( m_nYear > aObj.m_nYear )
-		return false;
-	else
-	{
-		if( m_nMonth < aObj.m_nMonth )
-			return true;
-		else if( m_nMonth > aObj.m_nMonth )
-			return false;
-		else
-		{
-			if( m_nDay < aObj.m_nDay )
-				return true;
-			else if( m_nDay > aObj.m_nDay )
-				return false;
-			else
-			{
-				if( m_nHour < aObj.m_nHour )
-					return true;
-				else if( m_nHour > aObj.m_nHour )
-					return false;
-				else
-				{
-					if( m_nMinute < aObj.m_nMinute )
-						return true;
-					else if( m_nMinute > aObj.m_nMinute )
-						return false;
-					else
-					{
-						if( m_nSecond < aObj.m_nSecond )
-							return true;
-						else if( m_nSecond > aObj.m_nSecond )
-							return false;
-						else
-						{
-							return false;
-						}
-					}
-				}
-			}
-		}
-	}
-	return false;
-}
+//	if( m_nYear < aObj.m_nYear )
+//		return true;
+//	else if( m_nYear > aObj.m_nYear )
+//		return false;
+//	else
+//	{
+//		if( m_nMonth < aObj.m_nMonth )
+//			return true;
+//		else if( m_nMonth > aObj.m_nMonth )
+//			return false;
+//		else
+//		{
+//			if( m_nDay < aObj.m_nDay )
+//				return true;
+//			else if( m_nDay > aObj.m_nDay )
+//				return false;
+//			else
+//			{
+//				if( m_nHour < aObj.m_nHour )
+//					return true;
+//				else if( m_nHour > aObj.m_nHour )
+//					return false;
+//				else
+//				{
+//					if( m_nMinute < aObj.m_nMinute )
+//						return true;
+//					else if( m_nMinute > aObj.m_nMinute )
+//						return false;
+//					else
+//					{
+//						if( m_nSecond < aObj.m_nSecond )
+//							return true;
+//						else if( m_nSecond > aObj.m_nSecond )
+//							return false;
+//						else
+//						{
+//							return false;
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
+//	return false;
+//}
 
-bool FileTime::operator==( const FileTime & aObj ) const
-{
-	if( m_nYear == aObj.m_nYear &&
-		m_nMonth == aObj.m_nMonth &&
-		m_nDay == aObj.m_nDay &&
-		m_nHour == aObj.m_nHour &&
-		m_nMinute == aObj.m_nMinute &&
-		m_nSecond == aObj.m_nSecond )
-	{
-		return true;
-	}
-	return false;
-}
+//bool FileTime::operator==( const FileTime & aObj ) const
+//{
+//	if( m_nYear == aObj.m_nYear &&
+//		m_nMonth == aObj.m_nMonth &&
+//		m_nDay == aObj.m_nDay &&
+//		m_nHour == aObj.m_nHour &&
+//		m_nMinute == aObj.m_nMinute &&
+//		m_nSecond == aObj.m_nSecond )
+//	{
+//		return true;
+//	}
+//	return false;
+//}
 
-int FileTime::GetDay() const
-{
-	return m_nDay;
-}
+//int FileTime::GetDay() const
+//{
+//	return m_nDay;
+//}
 
-int	FileTime::GetMonth() const
-{
-	return m_nMonth;
-}
+//int	FileTime::GetMonth() const
+//{
+//	return m_nMonth;
+//}
 
-int	FileTime::GetYear() const
-{
-	return m_nYear;
-}
+//int	FileTime::GetYear() const
+//{
+//	return m_nYear;
+//}
 
-int	FileTime::GetSecond() const
-{
-	return m_nSecond;
-}
+//int	FileTime::GetSecond() const
+//{
+//	return m_nSecond;
+//}
 
-int	FileTime::GetMinute() const
-{
-	return m_nMinute;
-}
+//int	FileTime::GetMinute() const
+//{
+//	return m_nMinute;
+//}
 
-int	FileTime::GetHour() const
-{
-	return m_nHour;
-}
-
-// *************************************************************************
-
-DirectoryItem::DirectoryItem( const string & sAbsFileName, FileSizeT nFileSize, const FileTime & aFileTime, FileAttributesT aFileAttributes )
-: m_sAbsFileName( sAbsFileName ),
-  m_aFileTime( aFileTime ),
-  m_nFileSize( nFileSize ),
-  m_aFileAttributes( aFileAttributes ),
-  m_bIsDeleted( false )
-{
-//	cout << "new DirectoryItem() " << (void *)this << " " << sAbsFileName.c_str() << endl;
-}
-
-/* zum testen
-DirectoryItem::DirectoryItem( const DirectoryItem & aCopyObj )
-{
-	cout << "COPY DirectoryItem() " << (void *)this << " " << aCopyObj.m_sAbsFileName.c_str() << endl;
-	m_sAbsFileName = aCopyObj.m_sAbsFileName;
-	m_aFileTime = aCopyObj.m_aFileTime;
-	m_nFileSize = aCopyObj.m_nFileSize;
-	m_aFileAttributes = aCopyObj.m_aFileAttributes;
-	m_bIsDeleted = aCopyObj.m_bIsDeleted;
-}
-*/
-
-DirectoryItem::~DirectoryItem()
-{
-//	cout << "~DirectoryItem() " << (void *)this << endl;
-}
-
-string DirectoryItem::GetName() const
-{
-	string sDrive, sPath, sFileName, sFileExt;
-    FileUtilityObj::SplitPath( (CHAR_CAST)m_sAbsFileName.c_str(), sDrive, sPath, sFileName, sFileExt );
-
-	string sRet;
-
-	if( sFileName.length()>0 )
-		sRet += sFileName;
-	if( sFileExt.length()>0 )
-		sRet += sFileExt;
-
-	return sRet;
-}
-
-string DirectoryItem::GetFirstName() const
-{
-	return m_sAbsFileName;
-}
-
-/*
-	string				GetExtention() const;		// liefert nur die Extention, d.h. alles nach dem ersten Punkt: a.b.c --> b.c
-	string				GetPath() const;			// liefert den gesammten Pfad zu dieser Datei, d.h. c:\dir1\dir2\a.b.c --> "\dir1\dir2\" 
-	string				GetDrive() const;			// liefert den Laufwerksbuchstaben, d.h. "c:"
-	string				GetNetName() const;			// liefert (falls vorhanden) den Namen des Servers, d.h. \\source\dir1\dir2\a.b.c --> \\source
-*/
-FileSizeT	DirectoryItem::GetRecursiveSize() const
-{
-	if( IsDirectory() && !IsSelf() && !IsParent() )
-	{
-		// rekursive Behandlung von Sub-Verzeichnis-Groessen ...
-		Directory aSubDir;
-		FileSystemUtils::GetDirectory( m_sAbsFileName + FileUtilityObj::GetDirectorySeparatorStrg() + "*", FSU_AllFiles, aSubDir );
-		return aSubDir.GetTotalSize();
-	}
-	return GetFileSize();
-}
-
-FileSizeT DirectoryItem::GetFileSize() const
-{
-	return m_nFileSize;
-}
-
-FileTime	DirectoryItem::GetFileTime() const
-{
-	return m_aFileTime;	
-}
-
-FileAttributesT DirectoryItem::GetFileAttrib() const
-{
-	return m_aFileAttributes;
-}
-
-bool DirectoryItem::IsSelf() const
-{
-	return GetName()==".";
-}
-
-bool DirectoryItem::IsParent() const
-{
-	return GetName()==".." || GetName().length()==0;
-}
-
-bool DirectoryItem::IsDirectory() const
-{
-#ifdef _WIN32
-	return (m_aFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == FILE_ATTRIBUTE_DIRECTORY;
-#else
-	return false;
-#endif
-}
-
-bool DirectoryItem::IsHidden() const
-{
-#ifdef _WIN32
-	return (m_aFileAttributes & FILE_ATTRIBUTE_HIDDEN) == FILE_ATTRIBUTE_HIDDEN;
-#else
-	return false;
-#endif
-}
-
-bool DirectoryItem::IsReadOnly() const
-{
-#ifdef _WIN32
-	return m_aFileAttributes & FILE_ATTRIBUTE_READONLY;
-#else
-	return false;
-#endif
-}
-
-bool DirectoryItem::IsSystem() const
-{
-#ifdef _WIN32
-	return (m_aFileAttributes & FILE_ATTRIBUTE_SYSTEM) == FILE_ATTRIBUTE_SYSTEM;
-#else
-	return false;
-#endif
-}
-
-bool DirectoryItem::IsDeleted() const
-{
-	return m_bIsDeleted;
-}
-
-bool DirectoryItem::DoDelete()
-{
-	// wurde schon geloescht !
-	if( m_bIsDeleted || IsDirectory() )
-		return false;
-
-	bool bOk = FileUtilityObj::_DeleteFile( m_sAbsFileName.c_str() );
-
-	if( bOk )
-		m_bIsDeleted = true;
-
-	return bOk;
-}
-
-bool DirectoryItem::CompareLessWith( const DirectoryItem & aObj, int nModus ) const
-{
-	if( nModus==0 )
-		return *this < aObj;
-	else if( nModus==1 )
-		return GetFileSize() < aObj.GetFileSize();
-	else if( nModus==2 )
-		return m_aFileTime < aObj.m_aFileTime;
-	return false;
-}
+//int	FileTime::GetHour() const
+//{
+//	return m_nHour;
+//}
 
 // *************************************************************************
 
-// Hilfsklasse zum Sortieren von Directory-Eintraegen
-class _CompareDirectoryItem : public binary_function<const DirectoryItem,const DirectoryItem,bool>
-{
-public:
-	_CompareDirectoryItem( int nModus, bool bInverse ) : m_nModus( nModus ), m_bInverse( bInverse ) {}
+//DirectoryItem::DirectoryItem( const string & sAbsFileName, FileSizeT nFileSize, const FileTime & aFileTime, FileAttributesT aFileAttributes )
+//: m_sAbsFileName( sAbsFileName ),
+//  m_aFileTime( aFileTime ),
+//  m_nFileSize( nFileSize ),
+//  m_aFileAttributes( aFileAttributes ),
+//  m_bIsDeleted( false )
+//{
+////	cout << "new DirectoryItem() " << (void *)this << " " << sAbsFileName.c_str() << endl;
+//}
 
-	bool operator() ( const DirectoryItem & aLObj, const DirectoryItem & aRObj ) const 
-	{
-		if( m_bInverse )
-			return !aLObj.CompareLessWith( aRObj, m_nModus );
-		return aLObj.CompareLessWith( aRObj, m_nModus );
-	}
+///* zum testen
+//DirectoryItem::DirectoryItem( const DirectoryItem & aCopyObj )
+//{
+//	cout << "COPY DirectoryItem() " << (void *)this << " " << aCopyObj.m_sAbsFileName.c_str() << endl;
+//	m_sAbsFileName = aCopyObj.m_sAbsFileName;
+//	m_aFileTime = aCopyObj.m_aFileTime;
+//	m_nFileSize = aCopyObj.m_nFileSize;
+//	m_aFileAttributes = aCopyObj.m_aFileAttributes;
+//	m_bIsDeleted = aCopyObj.m_bIsDeleted;
+//}
+//*/
 
-private:
-	int		m_nModus;
-	bool	m_bInverse;
-};
+//DirectoryItem::~DirectoryItem()
+//{
+////	cout << "~DirectoryItem() " << (void *)this << endl;
+//}
 
+//string DirectoryItem::GetName() const
+//{
+//	string sDrive, sPath, sFileName, sFileExt;
+//    FileUtilityObj::SplitPath( (CHAR_CAST)m_sAbsFileName.c_str(), sDrive, sPath, sFileName, sFileExt );
 
-FileSizeT Directory::GetSumSize() const
-{
-	FileSizeT nCount = 0;
-	const_iterator aIter = begin();
-	while( aIter != end() )
-	{
-		nCount += (*aIter).GetFileSize();		
-		++aIter;
-	}
-	return nCount;
-}
+//	string sRet;
 
-FileSizeT Directory::GetTotalSize() const
-{
-	FileSizeT nCount = 0;
-	const_iterator aIter = begin();
-	while( aIter != end() )
-	{
-		nCount += (*aIter).GetRecursiveSize();		
-		++aIter;
-	}
-	return nCount;
-}
+//	if( sFileName.length()>0 )
+//		sRet += sFileName;
+//	if( sFileExt.length()>0 )
+//		sRet += sFileExt;
 
-int	Directory::GetNoOfFiles() const
-{
-	int nCount = 0;
-	const_iterator aIter = begin();
-	while( aIter != end() )
-	{
-		if( !(*aIter).IsDirectory() /*&& !(*aIter).IsReadOnly()*/ )		// 27.9.2003: was sollte readonly ?
-			++nCount;
-		++aIter;
-	}
-	return nCount;
-}
+//	return sRet;
+//}
 
-bool Directory::DoDeleteItem( int nNo )
-{
-	if( nNo>=0 && nNo<(int)size() )
-	{
-		if( (*this)[nNo].DoDelete() )	// ist das Loesche wirklich erfolgreich ?
-		{
-			erase( begin()+nNo );
-			return true;
-		}
-	}
-	return false;
-}
+//string DirectoryItem::GetFirstName() const
+//{
+//	return m_sAbsFileName;
+//}
 
-bool Directory::DoSort( int nModus, bool bInverse )
-{
-	/* zum debuggen
-	const_iterator aIter = begin();
-	while( aIter != end() )
-	{
-		cout << "item=" << (*aIter).GetName().c_str() << endl;		
-		++aIter;
-	}
-	*/
+///*
+//	string				GetExtention() const;		// liefert nur die Extention, d.h. alles nach dem ersten Punkt: a.b.c --> b.c
+//	string				GetPath() const;			// liefert den gesammten Pfad zu dieser Datei, d.h. c:\dir1\dir2\a.b.c --> "\dir1\dir2\"
+//	string				GetDrive() const;			// liefert den Laufwerksbuchstaben, d.h. "c:"
+//	string				GetNetName() const;			// liefert (falls vorhanden) den Namen des Servers, d.h. \\source\dir1\dir2\a.b.c --> \\source
+//*/
+//FileSizeT	DirectoryItem::GetRecursiveSize() const
+//{
+//	if( IsDirectory() && !IsSelf() && !IsParent() )
+//	{
+//		// rekursive Behandlung von Sub-Verzeichnis-Groessen ...
+//		Directory aSubDir;
+//		FileSystemUtils::GetDirectory( m_sAbsFileName + FileUtilityObj::GetDirectorySeparatorStrg() + "*", FSU_AllFiles, aSubDir );
+//		return aSubDir.GetTotalSize();
+//	}
+//	return GetFileSize();
+//}
 
-	if( nModus>=0 && nModus<=2 )
-	{
-		sort( begin(), end(), _CompareDirectoryItem( nModus, bInverse ) );
-		return true;
-	}
-	return false;
-}
+//FileSizeT DirectoryItem::GetFileSize() const
+//{
+//	return m_nFileSize;
+//}
+
+//FileTime	DirectoryItem::GetFileTime() const
+//{
+//	return m_aFileTime;
+//}
+
+//FileAttributesT DirectoryItem::GetFileAttrib() const
+//{
+//	return m_aFileAttributes;
+//}
+
+//bool DirectoryItem::IsSelf() const
+//{
+//	return GetName()==".";
+//}
+
+//bool DirectoryItem::IsParent() const
+//{
+//	return GetName()==".." || GetName().length()==0;
+//}
+
+//bool DirectoryItem::IsDirectory() const
+//{
+//#ifdef _WIN32
+//	return (m_aFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == FILE_ATTRIBUTE_DIRECTORY;
+//#else
+//	return false;
+//#endif
+//}
+
+//bool DirectoryItem::IsHidden() const
+//{
+//#ifdef _WIN32
+//	return (m_aFileAttributes & FILE_ATTRIBUTE_HIDDEN) == FILE_ATTRIBUTE_HIDDEN;
+//#else
+//	return false;
+//#endif
+//}
+
+//bool DirectoryItem::IsReadOnly() const
+//{
+//#ifdef _WIN32
+//	return m_aFileAttributes & FILE_ATTRIBUTE_READONLY;
+//#else
+//	return false;
+//#endif
+//}
+
+//bool DirectoryItem::IsSystem() const
+//{
+//#ifdef _WIN32
+//	return (m_aFileAttributes & FILE_ATTRIBUTE_SYSTEM) == FILE_ATTRIBUTE_SYSTEM;
+//#else
+//	return false;
+//#endif
+//}
+
+//bool DirectoryItem::IsDeleted() const
+//{
+//	return m_bIsDeleted;
+//}
+
+//bool DirectoryItem::DoDelete()
+//{
+//	// wurde schon geloescht !
+//	if( m_bIsDeleted || IsDirectory() )
+//		return false;
+
+//	bool bOk = FileUtilityObj::_DeleteFile( m_sAbsFileName.c_str() );
+
+//	if( bOk )
+//		m_bIsDeleted = true;
+
+//	return bOk;
+//}
+
+//bool DirectoryItem::CompareLessWith( const DirectoryItem & aObj, int nModus ) const
+//{
+//	if( nModus==0 )
+//		return *this < aObj;
+//	else if( nModus==1 )
+//		return GetFileSize() < aObj.GetFileSize();
+//	else if( nModus==2 )
+//		return m_aFileTime < aObj.m_aFileTime;
+//	return false;
+//}
 
 // *************************************************************************
 
-bool FileSystemUtils::IsDirectory( const string & sPath )
-{
-	string aActDirTemp = FileUtilityObj::GetActDirectory();
-	// versuche in den uebergebenen Pfad zu wechseln, ist dies erfolgreich, dann ist es ein gueltiger Pfad
-	bool bOk = FileUtilityObj::ChangeActDirectory( sPath.c_str() );
-	FileUtilityObj::ChangeActDirectory( aActDirTemp.c_str() );
-	return bOk;
-}
+//// Hilfsklasse zum Sortieren von Directory-Eintraegen
+//class _CompareDirectoryItem : public binary_function<const DirectoryItem,const DirectoryItem,bool>
+//{
+//public:
+//	_CompareDirectoryItem( int nModus, bool bInverse ) : m_nModus( nModus ), m_bInverse( bInverse ) {}
+
+//	bool operator() ( const DirectoryItem & aLObj, const DirectoryItem & aRObj ) const
+//	{
+//		if( m_bInverse )
+//			return !aLObj.CompareLessWith( aRObj, m_nModus );
+//		return aLObj.CompareLessWith( aRObj, m_nModus );
+//	}
+
+//private:
+//	int		m_nModus;
+//	bool	m_bInverse;
+//};
+
+
+//FileSizeT Directory::GetSumSize() const
+//{
+//	FileSizeT nCount = 0;
+//	const_iterator aIter = begin();
+//	while( aIter != end() )
+//	{
+//		nCount += (*aIter).GetFileSize();
+//		++aIter;
+//	}
+//	return nCount;
+//}
+
+//FileSizeT Directory::GetTotalSize() const
+//{
+//	FileSizeT nCount = 0;
+//	const_iterator aIter = begin();
+//	while( aIter != end() )
+//	{
+//		nCount += (*aIter).GetRecursiveSize();
+//		++aIter;
+//	}
+//	return nCount;
+//}
+
+//int	Directory::GetNoOfFiles() const
+//{
+//	int nCount = 0;
+//	const_iterator aIter = begin();
+//	while( aIter != end() )
+//	{
+//		if( !(*aIter).IsDirectory() /*&& !(*aIter).IsReadOnly()*/ )		// 27.9.2003: was sollte readonly ?
+//			++nCount;
+//		++aIter;
+//	}
+//	return nCount;
+//}
+
+//bool Directory::DoDeleteItem( int nNo )
+//{
+//	if( nNo>=0 && nNo<(int)size() )
+//	{
+//		if( (*this)[nNo].DoDelete() )	// ist das Loesche wirklich erfolgreich ?
+//		{
+//			erase( begin()+nNo );
+//			return true;
+//		}
+//	}
+//	return false;
+//}
+
+//bool Directory::DoSort( int nModus, bool bInverse )
+//{
+//	/* zum debuggen
+//	const_iterator aIter = begin();
+//	while( aIter != end() )
+//	{
+//		cout << "item=" << (*aIter).GetName().c_str() << endl;
+//		++aIter;
+//	}
+//	*/
+
+//	if( nModus>=0 && nModus<=2 )
+//	{
+//		sort( begin(), end(), _CompareDirectoryItem( nModus, bInverse ) );
+//		return true;
+//	}
+//	return false;
+//}
+
+// *************************************************************************
+
+//bool FileSystemUtils::IsDirectory( const string & sPath )
+//{
+//	string aActDirTemp = FileUtilityObj::GetActDirectory();
+//	// versuche in den uebergebenen Pfad zu wechseln, ist dies erfolgreich, dann ist es ein gueltiger Pfad
+//	bool bOk = FileUtilityObj::ChangeActDirectory( sPath.c_str() );
+//	FileUtilityObj::ChangeActDirectory( aActDirTemp.c_str() );
+//	return bOk;
+//}
 
 #if defined(__linux__) || defined(__APPLE__)
 
@@ -1171,125 +1171,125 @@ static string MakeRealPath( const string & sPathIn )
 }
 
 // es sollte KEIN Wildcard-Zeichen im Pfad enthalten sein !
-bool FileSystemUtils::GetDirectory( const string & sPath, int nShowFlagsIn, Directory & aDir, const string & sFileMask )
-{
-	string sTempPath = MakePathToOSPath( sPath );
-	string sRealPath = MakeRealPath( sTempPath );
-	string sSearchStrg = sRealPath+sFileMask;
+//bool FileSystemUtils::GetDirectory( const string & sPath, int nShowFlagsIn, Directory & aDir, const string & sFileMask )
+//{
+//	string sTempPath = MakePathToOSPath( sPath );
+//	string sRealPath = MakeRealPath( sTempPath );
+//	string sSearchStrg = sRealPath+sFileMask;
 
-#ifdef _WIN32
-	WIN32_FIND_DATA aData;
-	// WARNING: conversion problems in the case of unicode version !!!
- 	Qt::HANDLE hDir = ::FindFirstFile( (LPCTSTR)sSearchStrg.c_str(), &aData );
-	bool bContinue = (hDir !=  INVALID_HANDLE_VALUE);
-	if( !bContinue )
-	{
-		return false;
-	}
-	while( bContinue )
-	{
-		if( string( (const char *)aData.cFileName )!=".." && string( (const char *)aData.cFileName )!="." )
-		{
-			FILETIME fLocTime;
-			DOSDATE aDate;
-			DOSTIME aTime;
-			::FileTimeToLocalFileTime( &aData.ftLastWriteTime, &fLocTime );
-			::FileTimeToDosDateTime( &fLocTime, (WORD *)&aDate, (WORD *)&aTime );
+//#ifdef _WIN32
+//	WIN32_FIND_DATA aData;
+//	// WARNING: conversion problems in the case of unicode version !!!
+// 	Qt::HANDLE hDir = ::FindFirstFile( (LPCTSTR)sSearchStrg.c_str(), &aData );
+//	bool bContinue = (hDir !=  INVALID_HANDLE_VALUE);
+//	if( !bContinue )
+//	{
+//		return false;
+//	}
+//	while( bContinue )
+//	{
+//		if( string( (const char *)aData.cFileName )!=".." && string( (const char *)aData.cFileName )!="." )
+//		{
+//			FILETIME fLocTime;
+//			DOSDATE aDate;
+//			DOSTIME aTime;
+//			::FileTimeToLocalFileTime( &aData.ftLastWriteTime, &fLocTime );
+//			::FileTimeToDosDateTime( &fLocTime, (WORD *)&aDate, (WORD *)&aTime );
 
-			// den absoluten Pfad bestimmen !!!
-			char sBuffer[2048];
-			char * pBuffer;
-			string sRelPath = string( sRealPath ) + string( (char *)aData.cFileName );
-			::GetFullPathName( (LPCTSTR)sRelPath.c_str(), 2048, (LPTSTR)sBuffer, (LPTSTR *)&pBuffer );
-			string sAbsFileName = string( sBuffer );
+//			// den absoluten Pfad bestimmen !!!
+//			char sBuffer[2048];
+//			char * pBuffer;
+//			string sRelPath = string( sRealPath ) + string( (char *)aData.cFileName );
+//			::GetFullPathName( (LPCTSTR)sRelPath.c_str(), 2048, (LPTSTR)sBuffer, (LPTSTR *)&pBuffer );
+//			string sAbsFileName = string( sBuffer );
 
-			FileSizeT nFileSize = aData.nFileSizeLow;
-			FileTime aFileTime( aDate.day, aDate.month, aDate.year+1980, aTime.hours, aTime.minutes, aTime.twosecs );
-			FileAttributesT aFileAttributes = aData.dwFileAttributes;
+//			FileSizeT nFileSize = aData.nFileSizeLow;
+//			FileTime aFileTime( aDate.day, aDate.month, aDate.year+1980, aTime.hours, aTime.minutes, aTime.twosecs );
+//			FileAttributesT aFileAttributes = aData.dwFileAttributes;
 
-			if( ((nShowFlagsIn & 1) && (aFileAttributes & FILE_ATTRIBUTE_ARCHIVE)) ||
-				//((nShowFlagsIn & 1) && (aFileAttributes & FILE_ATTRIBUTE_NORMAL)) ||
-				((nShowFlagsIn & 2) && (aFileAttributes & FILE_ATTRIBUTE_HIDDEN)) ||
-				((nShowFlagsIn & 4) && (aFileAttributes & FILE_ATTRIBUTE_SYSTEM)) ||
-				((nShowFlagsIn & 8) && (aFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) )
-			{
-				aDir.push_back( DirectoryItem( sAbsFileName, nFileSize, aFileTime, aFileAttributes ) );
-			}
-		}
-		bContinue = (bool)::FindNextFile( hDir, &aData );
-	}
-	FindClose( hDir );
-#endif
-#if defined(__linux__) || defined(__APPLE__)
+//			if( ((nShowFlagsIn & 1) && (aFileAttributes & FILE_ATTRIBUTE_ARCHIVE)) ||
+//				//((nShowFlagsIn & 1) && (aFileAttributes & FILE_ATTRIBUTE_NORMAL)) ||
+//				((nShowFlagsIn & 2) && (aFileAttributes & FILE_ATTRIBUTE_HIDDEN)) ||
+//				((nShowFlagsIn & 4) && (aFileAttributes & FILE_ATTRIBUTE_SYSTEM)) ||
+//				((nShowFlagsIn & 8) && (aFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) )
+//			{
+//				aDir.push_back( DirectoryItem( sAbsFileName, nFileSize, aFileTime, aFileAttributes ) );
+//			}
+//		}
+//		bContinue = (bool)::FindNextFile( hDir, &aData );
+//	}
+//	FindClose( hDir );
+//#endif
+//#if defined(__linux__) || defined(__APPLE__)
 
-	// ** use qt for wildcard search !
-    QRegExp aRegExp( sFileMask.c_str()/*, TRUE, TRUE*/ );
+//	// ** use qt for wildcard search !
+//    QRegExp aRegExp( sFileMask.c_str()/*, TRUE, TRUE*/ );
 
-	struct dirent * pEntry = 0;
-	DIR * pDir = 0;
+//	struct dirent * pEntry = 0;
+//	DIR * pDir = 0;
 
-	pDir = opendir( sPath.c_str() );
+//	pDir = opendir( sPath.c_str() );
 
-	while( (pDir != 0) && (pEntry = readdir( pDir )) != 0 )
-	{
-		// ** check for wildcards
-		int iRet = aRegExp.exactMatch( pEntry->d_name );
+//	while( (pDir != 0) && (pEntry = readdir( pDir )) != 0 )
+//	{
+//		// ** check for wildcards
+//		int iRet = aRegExp.exactMatch( pEntry->d_name );
 
-		if( iRet != -1 )
-		{
-			// ** bugfix (12.2.2002): full path needed for stat() !
-			string sFullFileName = sPath;
-			if( sPath.length()>0 )
-			{
-				sFullFileName += FileUtilityObj::GetDirectorySeparatorStrg();
-			}
-			sFullFileName += pEntry->d_name;
+//		if( iRet != -1 )
+//		{
+//			// ** bugfix (12.2.2002): full path needed for stat() !
+//			string sFullFileName = sPath;
+//			if( sPath.length()>0 )
+//			{
+//				sFullFileName += FileUtilityObj::GetDirectorySeparatorStrg();
+//			}
+//			sFullFileName += pEntry->d_name;
 
-			// ** item fits wildcard --> save item
-			struct stat aStat_p;
-			int iRet = stat( /*pEntry->d_name*/sFullFileName.c_str(), &aStat_p);
+//			// ** item fits wildcard --> save item
+//			struct stat aStat_p;
+//			int iRet = stat( /*pEntry->d_name*/sFullFileName.c_str(), &aStat_p);
 
-			if( iRet == 0 )
-			{
-				if( ((nShowFlagsIn & 1) && S_ISREG( aStat_p.st_mode )) ||
-					//((nShowFlagsIn & 1) && (aFileAttributes & FILE_ATTRIBUTE_NORMAL)) ||
-					//((nShowFlagsIn & 2) && (aFileAttributes & FILE_ATTRIBUTE_HIDDEN)) ||
-					//((nShowFlagsIn & 4) && S_ISREG( aStat_p.st_mode )) ||
-					((nShowFlagsIn & 8) && S_ISDIR( aStat_p.st_mode )) )
-				{
-					FileSizeT nFileSize = aStat_p.st_size;
-#if defined(Q_OS_ANDROID)
-/*ANDROID*/					struct tm * pDate = localtime( 0 );
-#else
-                            struct tm * pDate = localtime( &(aStat_p.st_ctime) );
-#endif
-                                        FileTime aFileTime( pDate->tm_mday, pDate->tm_mon+1, pDate->tm_year+1900, pDate->tm_hour, pDate->tm_min, pDate->tm_sec );
-					FileAttributesT aFileAttributes = 0;	// ??? (todo ?)
-					//cout << "--> " << pEntry->d_name << " size=" << nFileSize << " " << aFileTime.GetString().c_str() << endl;
+//			if( iRet == 0 )
+//			{
+//				if( ((nShowFlagsIn & 1) && S_ISREG( aStat_p.st_mode )) ||
+//					//((nShowFlagsIn & 1) && (aFileAttributes & FILE_ATTRIBUTE_NORMAL)) ||
+//					//((nShowFlagsIn & 2) && (aFileAttributes & FILE_ATTRIBUTE_HIDDEN)) ||
+//					//((nShowFlagsIn & 4) && S_ISREG( aStat_p.st_mode )) ||
+//					((nShowFlagsIn & 8) && S_ISDIR( aStat_p.st_mode )) )
+//				{
+//					FileSizeT nFileSize = aStat_p.st_size;
+//#if defined(Q_OS_ANDROID)
+///*ANDROID*/					struct tm * pDate = localtime( 0 );
+//#else
+//                            struct tm * pDate = localtime( &(aStat_p.st_ctime) );
+//#endif
+//                                        FileTime aFileTime( pDate->tm_mday, pDate->tm_mon+1, pDate->tm_year+1900, pDate->tm_hour, pDate->tm_min, pDate->tm_sec );
+//					FileAttributesT aFileAttributes = 0;	// ??? (todo ?)
+//					//cout << "--> " << pEntry->d_name << " size=" << nFileSize << " " << aFileTime.GetString().c_str() << endl;
 
-					aDir.push_back( DirectoryItem( /*pEntry->d_name*/sFullFileName.c_str(), nFileSize, aFileTime, aFileAttributes ) );
-				}
-			}
-		}
-	}
+//					aDir.push_back( DirectoryItem( /*pEntry->d_name*/sFullFileName.c_str(), nFileSize, aFileTime, aFileAttributes ) );
+//				}
+//			}
+//		}
+//	}
 
-	closedir( pDir );
-#endif
+//	closedir( pDir );
+//#endif
 
-	return true;
-}
+//	return true;
+//}
 
-void FileSystemUtils::DumpDirectory( ostream & aStream, const Directory & aDirectory )
-{
-	Directory::const_iterator aIter = aDirectory.begin();
-	aStream << "Found " << aDirectory.size() << " files." << endl;
-	while( aIter != aDirectory.end() )
-	{
-		aStream << (*aIter).GetName().c_str() << " " << (*aIter).GetFileSize() << "bytes " << (*aIter).GetRecursiveSize() << "bytes time=" << (*aIter).GetFileTime().GetString().c_str()
-				<< " IsDir=" << (*aIter).IsDirectory() << " IsHidden=" << (*aIter).IsHidden() << " IsReadOnly=" << (*aIter).IsReadOnly() << endl;
-		++aIter;
-	}
-}
+//void FileSystemUtils::DumpDirectory( ostream & aStream, const Directory & aDirectory )
+//{
+//	Directory::const_iterator aIter = aDirectory.begin();
+//	aStream << "Found " << aDirectory.size() << " files." << endl;
+//	while( aIter != aDirectory.end() )
+//	{
+//		aStream << (*aIter).GetName().c_str() << " " << (*aIter).GetFileSize() << "bytes " << (*aIter).GetRecursiveSize() << "bytes time=" << (*aIter).GetFileTime().GetString().c_str()
+//				<< " IsDir=" << (*aIter).IsDirectory() << " IsHidden=" << (*aIter).IsHidden() << " IsReadOnly=" << (*aIter).IsReadOnly() << endl;
+//		++aIter;
+//	}
+//}
 
 string SearchForExistingFileInEnv( const char * sEnvironment, const char * sFullFileName )
 {

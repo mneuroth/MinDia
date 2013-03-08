@@ -32,9 +32,7 @@
 #ifndef _DIAINFO_H
 #define _DIAINFO_H
 
-//#ifndef ZAURUS
 #include "iscript.h"
-//#endif
 
 #include <iostream>
 #include <vector>
@@ -97,10 +95,7 @@ public:
 // *******************************************************************
 /** Represents the information for one dia/slide.
   */
-class DiaInfo
-//#ifndef ZAURUS
- : public IDia
-//#endif
+class DiaInfo : public IDia
 {
 public:
 	DiaInfo( const string & sId = "", const string & sImageFile = "", const string & sComment = "" );
@@ -127,14 +122,14 @@ public:
 	// ** implements interface IDia **
 	virtual double			GetTotalTime() const;
 
-	virtual const char *	GetId() const;
-	virtual bool			SetId( const char * sId );
-	virtual const char *	GetComment() const;
-	virtual bool			SetComment( const char * sComment );
-	virtual const char *	GetImageFile() const;
-	virtual bool			SetImageFile( const char * sFileName );
-	virtual const char *	GetScript() const;
-	virtual bool			SetScript( const char * sScript );
+    virtual string      	GetId() const;
+    virtual bool			SetId( const string & sId );
+    virtual string      	GetComment() const;
+    virtual bool			SetComment( const string & sComment );
+    virtual string      	GetImageFile() const;
+    virtual bool			SetImageFile( const string & sFileName );
+    virtual string      	GetScript() const;
+    virtual bool			SetScript( const string & sScript );
 
 	virtual double	GetDissolveTime() const;
 	virtual bool	SetDissolveTime( double dShowTime );

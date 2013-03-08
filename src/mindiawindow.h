@@ -203,9 +203,9 @@ public:
 	virtual int				GetDrawHeight() const;
 	virtual bool			Clear();
 	virtual bool			SetColor( int iRed, int iGreen, int iBlue );
-	virtual bool			SetFont( const char * sFontName );
+    virtual bool			SetFont( const string & sFontName );
 	virtual bool			SetFontSize( int iSizeInPixel, bool bBold, bool bItalic );
-	virtual int 			SetTextXY( int x, int y, const char * sText );
+    virtual int 			SetTextXY( int x, int y, const string & sText );
 	virtual int				GetTextCount() const;
 	virtual bool			MoveText( int iTextID, int x, int y );
 	virtual int				GetTextX( int iTextID ) const;
@@ -232,7 +232,7 @@ public slots:
 	void sltDoModifyItem();
 	void sltShowModifyItem();
 	void sltDoConfiguration();
-	void sltDoPlayerConfiguration();
+//	void sltDoPlayerConfiguration();
 	void sltDoPlayInfos();
 	void sltShowPlayStatus();
 	void sltDoSoundData();
@@ -354,14 +354,14 @@ private:
 	// ** gui elements **
 	QWidget *						m_pHBox;
 	QWidget *						m_pTargetBox;
-	QWidget *						m_pSourceBox;
+    //QWidget *						m_pSourceBox;
 
 	HItemView *					m_pSlideView;		// dia pult view
 	TimeLineView *				m_pTimeLineView;	// time line view
 
-	IconItemView *				m_pDiaPultView;
-	IconItemView *				m_pAudioPultView;
-	DiaStateView *				m_pDiaStateView;
+    //IconItemView *				m_pDiaPultView;
+    //IconItemView *				m_pAudioPultView;
+    //DiaStateView *				m_pDiaStateView;
 
 	QLabel *					m_pStatusBarTime;
 	QLabel *					m_pStatusBarModus;
@@ -389,7 +389,8 @@ private:
     QMenu *	        m_pFile;
     QMenu *	        m_pEdit;
     QMenu *	        m_pPlay;
-    QMenu *	        m_pExtras;
+    QMenu *	        m_pProjector;
+    QMenu *         m_pPresentation;
     QMenu *	        m_pPlugins;
     QMenu *	        m_pHelp;
 	QMenu *	        m_pLastFilesSubMenu;
@@ -407,7 +408,6 @@ private:
 	QAction *		m_pPlayFadeOutAction;
 
 	QAction *		m_pExtrasConfigAction;
-	QAction *		m_pExtrasConfigPlayerAction;
 	QAction *		m_pExtrasLoggingAction;
 	QAction *		m_pExtrasControlProjectorAction;
 	QAction *		m_pExtrasPresentationDataAction;

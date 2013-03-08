@@ -56,10 +56,8 @@ ConfigurationDlgImpl::ConfigurationDlgImpl( DocumentAndControler * pControler, Q
     connect( this, SIGNAL( sigDialogHelp(QWidget *, const QString &) ), parent, SLOT( sltShowModalHelp(QWidget *, const QString &) ) );
 
 	// ** timeouts are not supported yet
-#ifndef ZAURUS
 	m_pReadTimeout->setEnabled( false );
 	m_pWriteTimeout->setEnabled( false );
-#endif
 }
 
 ConfigurationDlgImpl::~ConfigurationDlgImpl()
@@ -211,10 +209,8 @@ void ConfigurationDlgImpl::TransferDataToControl()
     m_pFlowControlList->insertItem( 1, tr( "XON/XOFF" ) );
     m_pFlowControlList->insertItem( 2, tr( "hardware" ) );
 
-#ifndef ZAURUS
 	m_pReadTimeout->setText( "20000" );
 	m_pWriteTimeout->setText( "20000" );
-#endif
 
 	// ** set the document data **
 
@@ -245,9 +241,7 @@ void ConfigurationDlgImpl::TransferDataToControl()
 
 	m_pDbgLogging->setChecked( aCom.IsLogging() );
 
-#ifndef ZAURUS
 	m_pExecuteEvents->setChecked( m_pControler->GetPresentation().GetScriptEnvironment().IsEnabled() );
-#endif
 }
 
 void ConfigurationDlgImpl::TransferDataFromControl()
@@ -255,9 +249,7 @@ void ConfigurationDlgImpl::TransferDataFromControl()
 	// ** warning: the value in the ini-file will NOT be updated !!!
 	m_pControler->SetSimulation( m_pSimulation->isChecked() );
 
-#ifndef ZAURUS
 	m_pControler->GetPresentation().GetScriptEnvironment().SetEnabled( m_pExecuteEvents->isChecked() );
-#endif
 
 	RolleiCom & aCom = m_pControler->GetDiaCom();
 
@@ -285,7 +277,7 @@ void ConfigurationDlgImpl::TransferDataFromControl()
 	int	iDataBits = aCom.GetDataBits();
 	int iFlowMode = aCom.GetFlowModus();
 
-    sComPort = string((const char *)m_pComPortList->currentText().toAscii());
+    sComPort = string(m_pComPortList->currentText().toAscii());
 
 	s = m_pBaudRateList->currentText();
 	iBaudrate = s.toInt( &bOk );

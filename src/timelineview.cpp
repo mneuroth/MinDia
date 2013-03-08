@@ -214,7 +214,7 @@ void TimeLineView::sltAddDynText()
 	{
 		int x = m_aLastMousePos.x();	
 
-        aDynGrOpContainer.AddDefaultDynText( (const char *)sTxt.toAscii(), x*1000/g_dFactor-m_pDiaPres->GetOffsetForSound()*1000, 5000 );
+        aDynGrOpContainer.AddDefaultDynText( sTxt.toStdString(), x*1000/g_dFactor-m_pDiaPres->GetOffsetForSound()*1000, 5000 );
 
         emit sigViewDataChanged();
 	}
@@ -1010,7 +1010,7 @@ void TimeLineView::customEvent(QEvent * pEvent)
     {
         SoundInfoContainer & aSoundContainer = m_pDiaPres->GetSoundInfoData();
         GetSoundLengthEvent * pSoundEvent = (GetSoundLengthEvent *)pEvent;
-        aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( (const char *)pSoundEvent->GetFileName().toAscii(), pSoundEvent->GetSoundLength() ) ) );
+        aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( pSoundEvent->GetFileName().toStdString(), pSoundEvent->GetSoundLength() ) ) );
         aSoundContainer.SetChanged();
         //aSoundContainer.UpdateAllLengths();
         emit sigViewDataChanged();

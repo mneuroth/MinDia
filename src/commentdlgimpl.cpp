@@ -248,8 +248,7 @@ void CommentDlgImpl::TransferData( bool bToTable )
 				for( int j=0; j<pItem->GetDataCount(); j++ )
 				{
 					QString sTemp = m_pTable->item(i,j) ? m_pTable->item(i,j)->text() : ""; //m_pTable->text( i, j );
-                    const char * s = (const char *)sTemp.toAscii();
-					string sStrg( (s ? s : "") );
+                    string sStrg( sTemp.toStdString() );
 
 					if( (pItem->GetDataType( j )==GenericDataInterface::_STRING) ||
 						(pItem->GetDataType( j )==GenericDataInterface::_INT) ||

@@ -130,45 +130,45 @@ bool DiaInfo::SetFromData( string & sStringStreamInOut )
 	return false;
 }
 
-const char * DiaInfo::GetId() const
+string DiaInfo::GetId() const
 {
-	return m_sId.c_str();
+    return m_sId;
 }
 
-bool DiaInfo::SetId( const char * sId )
+bool DiaInfo::SetId( const string & sId )
 {
 	m_sId = sId;
 	return true;
 }
 
-const char * DiaInfo::GetComment() const
+string DiaInfo::GetComment() const
 {
-	return m_sComment.c_str();
+    return m_sComment;
 }
 
-bool DiaInfo::SetComment( const char * sComment )
+bool DiaInfo::SetComment( const string & sComment )
 {
 	m_sComment = sComment;
 	return true;
 }
 
-const char * DiaInfo::GetImageFile() const
+string DiaInfo::GetImageFile() const
 {
-	return m_sImageFile.c_str();
+    return m_sImageFile;
 }
 
-bool DiaInfo::SetImageFile( const char * sFileName )
+bool DiaInfo::SetImageFile( const string & sFileName )
 {
 	m_sImageFile = sFileName;
 	return true;
 }
 
-const char * DiaInfo::GetScript() const
+string DiaInfo::GetScript() const
 {
-	return m_sScript.c_str();
+    return m_sScript;
 }
 
-bool DiaInfo::SetScript( const char * sScript )
+bool DiaInfo::SetScript( const string & sScript )
 {
 	m_sScript = sScript;
 	// todo --> ggf. syntax check ?

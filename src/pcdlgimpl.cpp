@@ -105,11 +105,9 @@ void ProjectorControlDlgImpl::DoDialogEnable( bool bEnable )
 	}
 
 	// ** close-, status- and test-button is always active
-#ifndef ZAURUS
 	m_pCloseButton->setEnabled( true );
 	m_pTestButton->setEnabled( true );
 	m_pStatusButton->setEnabled( true );
-#endif
 }
 
 

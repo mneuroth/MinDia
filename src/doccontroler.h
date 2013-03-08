@@ -41,11 +41,7 @@
 #ifndef _DOCCONTROLER_H
 #define _DOCCONTROLER_H
 
-#ifndef ZAURUS
 #include "iscript.h"
-#else
-class IDiaOutputWindowInternal;
-#endif
 #include "diacallback.h"
 
 #include "diapresentation.h"
@@ -91,7 +87,7 @@ public:
 	virtual bool			IsPlayModus() const;
 	virtual bool			IsPauseModus() const;
 	virtual bool			IsEditModus() const;
-	virtual const char *	GetPlayModusStrg() const;
+    virtual string      	GetPlayModusStrg() const;
 
 	virtual bool			IsSimulation() const;
 	virtual void			SetSimulation( bool bSimulation );
@@ -117,25 +113,25 @@ public:
 							  double dStartMS, double dStopMS, double dDeltaMS );
 
 	// ** implements the DiaCallback-Interface **
-	virtual void TriggerDissolveActDiaNo( int iNo, const char * sScript, const char * sFileName, double dDissolveTime );
-	virtual void TriggerShowActDiaNo( int iNo, const char * sScript, const char * sFileName, double dShowTime );
-	virtual void TriggerSetNextDiaNo( int iNextNo, const char * sNextFileName );
+    virtual void TriggerDissolveActDiaNo( int iNo, const string & sScript, const string & sFileName, double dDissolveTime );
+    virtual void TriggerShowActDiaNo( int iNo, const string & sScript, const string & sFileName, double dShowTime );
+    virtual void TriggerSetNextDiaNo( int iNextNo, const string & sNextFileName );
 	virtual void PresentationModusChanged();
-    virtual void ShowError( const char * sMsg );
+    virtual void ShowError( const string & sMsg );
 
 	// ** implements the IDiaPresentation-(Script)Interface **
-	virtual const char *	GetDocName() const;
-	virtual const char *	GetDescription() const;
+    virtual string      	GetDocName() const;
+    virtual string      	GetDescription() const;
 	virtual int  			GetDiaCount() const;
 	virtual IDia * 			GetDia( int iIndex );
 	virtual IDia *			AddNewDia();
 	virtual int				GetSoundFileCount() const;
-	virtual const char *	GetSoundFileNameAt( int iIndex ) const;
-	virtual bool			SetSoundFileNameAt( int iIndex, const char * sFileName );
+    virtual string      	GetSoundFileNameAt( int iIndex ) const;
+    virtual bool			SetSoundFileNameAt( int iIndex, const string & sFileName );
 	virtual IDiaOutputWindow * GetOutputWindow();
-	virtual bool			LoadPresentation( const char * sFileName, bool bExecuteScript );
+    virtual bool			LoadPresentation( const string & sFileName, bool bExecuteScript );
 	virtual bool			SavePresentation();
-	virtual bool			SavePresentationAs( const char * sFileName );
+    virtual bool			SavePresentationAs( const string & sFileName );
 	virtual bool			GotoPosition( int iPosition );
 	virtual bool			PlayFrom( int iFromDiaNo );
 	virtual bool			Play();
@@ -212,7 +208,7 @@ signals:
 
 private:
 	// ** help methods **
-	void ExecuteScript( bool bDissolve, const char * sScript, int iNo );
+    void ExecuteScript( bool bDissolve, const string & sScript, int iNo );
 	void ReadIniValues();
 	void WriteIniValues();
     void AddToFileHistory( const QString & sFileName );

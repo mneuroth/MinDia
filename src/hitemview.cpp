@@ -171,13 +171,15 @@ void HItemView::sltNewItem()
 
 void HItemView::sltUpdateView()
 {
-	// ** update view widget to show the new created item
+    m_pCanvas->update();
+    // ** update view widget to show the new created item
     update( x(), y(), width(), height() );
 }
 
 void HItemView::sltUpdateSelected()
 {
-	// ** only repaint the selected border of all dias
+    m_pCanvas->update();
+    // ** only repaint the selected border of all dias
     update( x(), y(), width(), height() );
 }
 
@@ -352,7 +354,7 @@ void HItemView::mousePressEvent( QMouseEvent * pEvent )
 		emit sigItemSelected( GetSelectedCount(), pFirstSelectedItem, iFirstSelectedItemNo, 0 );
 
 		// ** update the view
-		sltUpdateSelected();
+        sltUpdateSelected();
 	}
 	else if( (pEvent->button() == Qt::RightButton) )
 	{
@@ -556,7 +558,7 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 			for( int i=0; i<(int)aLst.count(); i++ )
 			{
                 sFileName = aLst.at( i ).toLocalFile();
-                AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID(), (const char *)sFileName.toAscii() ) ), iIndex+i, /*bInsert*/true );
+                AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID(), sFileName.toStdString() ) ), iIndex+i, /*bInsert*/true );
 			}
 
 			sltSelectItem( iIndex, 0 );
@@ -764,7 +766,7 @@ bool HItemView::SetFromClipboardData( const QString & sData )
 
 	if( !sData.isNull() )
 	{
-        string s = (const char *)sData.toAscii();
+        string s = sData.toStdString();
 		while( s.length()>0 )
 		{
 			// ** create a new dia item
@@ -801,7 +803,7 @@ bool HItemView::SetFromClipboardData( const QString & sData )
 int HItemView::GetCountValidClipboardData( const QString & sData )
 {
 	int iCount = 0;
-    string s = (const char *)sData.toAscii();
+    string s = sData.toStdString();
 
 	while( s.length()>0 )
 	{

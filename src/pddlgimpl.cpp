@@ -99,7 +99,7 @@ void PresentationDataDlgImpl::TransferDataFromControl()
 		string sOrg = m_pData->GetComment();
 		if( QString( sOrg.c_str() ) != sComment )
 		{
-            m_pData->SetComment( (const char *)sComment.toAscii() );
+            m_pData->SetComment( sComment.toStdString() );
 
 			emit sigDocumentUpdate();
 		}

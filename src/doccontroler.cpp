@@ -53,70 +53,19 @@
 #include "doccontroler.h"
 #include "minexception.h"
 #include "writexml.h"
-#ifndef ZAURUS
 #include "qtmtlock.h"
 #include <qpainter.h>
 #include <qimage.h>
 #include <qapplication.h>
 #include <QPixmap>
-#else
-class QtMTLock {};
-#endif
 #include <QFile>
 #include <QSettings>
 #include <QProgressDialog>
+#include <QTimer>
 
 #include <fstream>
 
 #include <stdio.h>
-
-#include <qtimer.h>
-
-// *******************************************************************
-
-#if defined(__linux__) || defined(__APPLE__)
-#define _OFFSET_INI_FILE_PATH "~/"
-#else
-#include <windows.h>
-#define _OFFSET_INI_FILE_PATH ""
-#endif
-
-string GetPathToIniFile()
-{
-	string sPath;
-#if defined( __linux__ ) || defined(__APPLE__) || defined( ZAURUS )
-	const char * s = getenv( "HOME" );
-	if( s )
-	{
-		sPath += s;
-	}
-	return sPath+"/";
-#else
-	// HKEY_CURRENT_USER.Software.mindia.inifile
-	HKEY hKey;
-	if( RegOpenKeyEx( HKEY_CURRENT_USER, (WCHAR *)"Software", 0, KEY_ALL_ACCESS, &hKey ) == ERROR_SUCCESS )
-	{
-		HKEY hKeyMindia;
-		if( RegOpenKeyEx( hKey, (WCHAR *)"mindia", 0, KEY_ALL_ACCESS, &hKeyMindia ) == ERROR_SUCCESS )
-		{
-			char sBuffer[512];
-			DWORD dwLength = 512;
-			DWORD dwType = REG_SZ;
-
-			RegQueryValueEx( hKeyMindia, (WCHAR *)"inifile", NULL, &dwType, (LPBYTE)sBuffer, &dwLength );
-
-			sPath = sBuffer;
-
-			RegCloseKey( hKeyMindia );
-		}
-
-		RegCloseKey( hKey );
-
-		return sPath+"\\";
-	}
-	return _OFFSET_INI_FILE_PATH;
-#endif
-}
 
 // *******************************************************************
 // *******************************************************************
@@ -145,7 +94,6 @@ DocumentAndControler::DocumentAndControler( bool bEnableScript,
     connect( this, SIGNAL( sigShowStatusMessage(const QString &) ), pMainWindow, SLOT( sltShowStatusBarMessage(const QString &) ) );
     connect( this, SIGNAL( sigShowErrorMessage(const QString &) ), pMainWindow, SLOT( sltShowErrorMessage(const QString &) ) );
     connect( this, SIGNAL( sigShowWarningMessage(const QString &) ), pMainWindow, SLOT( sltShowWarningMessage(const QString &) ) );
-#ifndef ZAURUS
     connect( this, SIGNAL( sigNewItem() ), pMainWindow, SLOT( sltNewItem() ) );
     connect( this, SIGNAL( sigDocumentNameChanged() ), pMainWindow, SLOT( sltDoDocumentStateUpdate() ) );
     connect( this, SIGNAL( sigDocumentChanged() ), pMainWindow, SLOT( sltDoDataChanged() ) );		// sltDoDocumentStateUpdate
@@ -158,7 +106,6 @@ DocumentAndControler::DocumentAndControler( bool bEnableScript,
     connect( this, SIGNAL( sigDeleteSelectedItems() ), pMainWindow, SLOT( sltDeleteSelectedItems() ) );
 
     connect( this, SIGNAL( sigShowActImage(const QString &) ), pMainWindow, SLOT( sltShowImageFile(const QString &) ) );
-#endif
     connect( this, SIGNAL( sigModusIsSwitched() ), pMainWindow, SLOT( sltModusIsSwitched() ) );
     connect( this, SIGNAL( sigPlayFinished() ), pMainWindow, SLOT( sltPlayFinished() ) );
     connect( this, SIGNAL( sigSelectItem(int,int) ), pMainWindow, SLOT( sltSelectItem(int,int) ) );
@@ -216,7 +163,7 @@ bool DocumentAndControler::IsEditModus() const
 	return m_aPresentation.IsEdit();
 }
 
-const char * DocumentAndControler::GetPlayModusStrg() const
+string DocumentAndControler::GetPlayModusStrg() const
 {
 	if( IsPlayModus() )
 	{
@@ -236,17 +183,17 @@ const char * DocumentAndControler::GetPlayModusStrg() const
 // min todo --> probleme bei der Anzeige ???	
 	if( IsPlayModus() )
 	{
-		return (const char *)tr( "PLAY" );
+        return tr( "PLAY" );
 	}
 	else if( IsPauseModus() )
 	{
-		return (const char *)tr( "PAUSE" );
+        return tr( "PAUSE" );
 	}
 	else
 	{
-		return (const char *)tr( "EDIT" );
+        return tr( "EDIT" );
 	}	
-	return (const char *)tr( "UNKNOWN" );
+    return tr( "UNKNOWN" );
 */
 }
 
@@ -332,7 +279,7 @@ void DocumentAndControler::sltSaveDoc()
 	if( !bOk )
 	{
 		QString sMsg( tr( "Error saving file \"" ) );
-		sMsg += m_aPresentation.GetName();
+        sMsg += m_aPresentation.GetName().c_str();
 		sMsg += "\" !";
 		emit sigShowErrorMessage( sMsg );
 	}
@@ -351,40 +298,35 @@ void DocumentAndControler::sltSaveAsDoc( const QString & sFileName )
 
 void DocumentAndControler::sltLoadDoc( const QString & sFileName, bool & bOk, bool bExecuteScript )
 {
-    fstream aFile( (const char *)sFileName.toAscii(), ios::in );
+    fstream aFile( sFileName.toAscii(), ios::in );
 
 	bOk = aFile.good();
 	if( bOk )
 	{
-#ifndef ZAURUS
  		try {
-#endif
 			bOk = m_aPresentation.Read( aFile, bExecuteScript );
 
 			// ** if the original file (with stored a file path) does not exists any more,
 			// ** change it to the filename which was used to load this file !
-			if( bOk && !FileUtilityObj::ExistsFile( m_aPresentation.GetName() ) )
+            if( bOk && !FileUtilityObj::ExistsFile( m_aPresentation.GetName().c_str() ) )
 			{
-                m_aPresentation.SetName( (const char *)sFileName.toAscii() );
+                m_aPresentation.SetName( sFileName.toStdString() );
 
 				//emit sigShowWarningMessage( tr( "Path of file has changed !" ) );
 			}
 
             AddToFileHistory(sFileName);
             
-#ifndef ZAURUS
 		}
 		catch( MinException & aException )
 		{
 			emit sigShowWarningMessage( aException.GetMsg().c_str() );
 			bOk = false;
 		}
-#else
 		if( !bOk )
 		{
 			emit sigShowWarningMessage( tr( "Error reading file !" ) );
 		}
-#endif
 	}
 
 	emit sigDocumentNameChanged();
@@ -407,8 +349,7 @@ void DocumentAndControler::sltSaveDoc( bool & bOk )
 
 void DocumentAndControler::sltSaveAsDoc( const QString & sFileName, bool & bOk )
 {
-    const char * s = (const char *)sFileName.toAscii();
-	m_aPresentation.SetName( s );
+    m_aPresentation.SetName( sFileName.toStdString() );
 	// ** if a file is saved with a new name, update the last-file history
     AddToFileHistory(sFileName);
 
@@ -429,12 +370,12 @@ void DocumentAndControler::sltSaveDocAsXML( const QString & sFileName, bool & bO
 {
 	XmlTree aTree = m_aPresentation.GetXMLTree();
 
-    bOk = aTree.WriteXML( (const char *)sFileName.toAscii() );
+    bOk = aTree.WriteXML( sFileName.toStdString() );
 }
 
 void DocumentAndControler::sltExportDynGraphicData( const QString & sFileName )
 {
-    fstream aFile( (const char *)sFileName.toAscii(), ios::in );
+    fstream aFile( sFileName.toAscii().constData(), ios::in );
 
 	if( aFile.good() )
 	{
@@ -444,7 +385,7 @@ void DocumentAndControler::sltExportDynGraphicData( const QString & sFileName )
 
 void DocumentAndControler::sltImportDynGraphicData( const QString & sFileName )
 {
-    fstream aFile( (const char *)sFileName.toAscii(), ios::in );
+    fstream aFile( sFileName.toAscii().constData(), ios::in );
 
 	if( aFile.good() )
 	{
@@ -584,10 +525,7 @@ void DocumentAndControler::sltGotoPosition( int iPosition )
 
 void DocumentAndControler::sltSelectItemWithText( const QString & sText )
 {
-    const char * s =(const char *)sText.toAscii();
-	string sTemp = (s ? s : "");
-
-	int iFoundPos = m_aPresentation.FindItemWithText( s, 0 );
+    int iFoundPos = m_aPresentation.FindItemWithText( sText.toStdString(), 0 );
 
 	if( iFoundPos>=0 )
 	{
@@ -605,10 +543,7 @@ void DocumentAndControler::sltSelectItemWithText( const QString & sText )
 
 void DocumentAndControler::sltSelectNextItemWithText( const QString & sText )
 {
-    const char * s =(const char *)sText.toAscii();
-	string sTemp = (s ? s : "");
-
-	int iFoundPos = m_aPresentation.FindItemWithText( s, m_iLastFoundPos+1 );
+    int iFoundPos = m_aPresentation.FindItemWithText( sText.toStdString(), m_iLastFoundPos+1 );
 
 	if( iFoundPos>=0 )
 	{
@@ -693,7 +628,7 @@ void DocumentAndControler::sltUpdateStatusBar()
 	emit sigShowStatusMessage( s );
 }
 
-void DocumentAndControler::TriggerDissolveActDiaNo( int iNo, const char * sScript, const char * /*sFileNameOrScript*/, double dDissolveTime )
+void DocumentAndControler::TriggerDissolveActDiaNo( int iNo, const string & sScript, const string & /*sFileNameOrScript*/, double dDissolveTime )
 {
 	int iDissolveTimeInMS = (int)(dDissolveTime*1000.0);
 	sltSelectItem( iNo, iDissolveTimeInMS );
@@ -703,22 +638,22 @@ void DocumentAndControler::TriggerDissolveActDiaNo( int iNo, const char * sScrip
 	// ** not needed here, because image will be updated in method sltSelectItem() !!!
 	//emit sigShowActImage( s );
 
-	if( strlen( sScript ) > 0 )
+    if( sScript.size() > 0 )
 	{
-		ExecuteScript( /*bDissolve*/true, sScript, iNo );
+        ExecuteScript( /*bDissolve*/true, sScript.c_str(), iNo );
 	}
 }
 
-void DocumentAndControler::TriggerShowActDiaNo( int iNo, const char * sScript, const char * /*sFileNameOrScript*/, double /*dShowTime*/ )
+void DocumentAndControler::TriggerShowActDiaNo( int iNo, const string & sScript, const string & /*sFileNameOrScript*/, double /*dShowTime*/ )
 {
 	// cout << "*** nr=" << iNo << endl;
-	if( strlen( sScript ) > 0 )
+    if( sScript.c_str() > 0 )
 	{
-		ExecuteScript( /*bDissolve*/false, sScript, iNo );
+        ExecuteScript( /*bDissolve*/false, sScript.c_str(), iNo );
 	}
 }
 
-void DocumentAndControler::TriggerSetNextDiaNo( int /*iNextNo*/, const char * /*sNextFileName*/ )
+void DocumentAndControler::TriggerSetNextDiaNo( int /*iNextNo*/, const string & /*sNextFileName*/ )
 {
 	// optional, ist anscheinend momentan nicht notwendig !
 	// lade naechtes Image im voraus, damit der Dia-Wechsel ohne zeitliche
@@ -730,21 +665,20 @@ void DocumentAndControler::PresentationModusChanged()
 	emit sigModusIsSwitched();
 }
 
-void DocumentAndControler::ShowError( const char * sMsg )
+void DocumentAndControler::ShowError( const string & sMsg )
 {
-    QString s( sMsg );
+    QString s( sMsg.c_str() );
     emit sigShowErrorMessage( s );
 }
 
-
-const char * DocumentAndControler::GetDocName() const
+string DocumentAndControler::GetDocName() const
 {
-	return GetName().c_str();
+    return GetName();
 }
 
-const char * DocumentAndControler::GetDescription() const
+string DocumentAndControler::GetDescription() const
 {
-	return m_aPresentation.GetComment().c_str();
+    return m_aPresentation.GetComment();
 }
 
 int DocumentAndControler::GetDiaCount() const
@@ -775,16 +709,16 @@ int DocumentAndControler::GetSoundFileCount() const
 	return m_aPresentation.GetSoundInfoData().size();
 }
 
-const char * DocumentAndControler::GetSoundFileNameAt( int iIndex ) const
+string DocumentAndControler::GetSoundFileNameAt( int iIndex ) const
 {
 	if( (iIndex>=0) && (iIndex<GetSoundFileCount()) )
 	{
-		return m_aPresentation.GetSoundInfoData()[ iIndex ]->GetFileName().c_str();
+        return m_aPresentation.GetSoundInfoData()[ iIndex ]->GetFileName();
 	}
 	return "";
 }
 
-bool DocumentAndControler::SetSoundFileNameAt( int iIndex, const char * sFileName )
+bool DocumentAndControler::SetSoundFileNameAt( int iIndex, const string & sFileName )
 {
 	if( (iIndex>=0) && (iIndex<GetSoundFileCount()) )
 	{
@@ -799,11 +733,11 @@ IDiaOutputWindow * DocumentAndControler::GetOutputWindow()
 	return m_pOutputWindowProxy;
 }
 
-bool DocumentAndControler::LoadPresentation( const char * sFileName, bool bExecuteScript )
+bool DocumentAndControler::LoadPresentation( const string & sFileName, bool bExecuteScript )
 {
 	bool bOk;
 
-	sltLoadDoc( sFileName, bOk, bExecuteScript );
+    sltLoadDoc( sFileName.c_str(), bOk, bExecuteScript );
 
 	return bOk;
 }
@@ -817,11 +751,11 @@ bool DocumentAndControler::SavePresentation()
 	return bOk;
 }
 
-bool DocumentAndControler::SavePresentationAs( const char * sFileName )
+bool DocumentAndControler::SavePresentationAs( const string & sFileName )
 {
 	bool bOk;
 
-	sltSaveAsDoc( sFileName, bOk );
+    sltSaveAsDoc( sFileName.c_str(), bOk );
 
 	return bOk;
 }
@@ -862,36 +796,10 @@ bool DocumentAndControler::Continue()
 	return true;
 }
 
-
-// ** WARNING: asynchronious script execution results in a 'blocked' gui !
-//#define _with_async_scripts
-
-#ifdef _with_async_scripts
-
-#include "osdep2.h"
-
-extern "C" void _CALLING_CONV _MinScriptProcThreadStarter( void * pData )
+void DocumentAndControler::ExecuteScript( bool bDissolve, const string & sScript, int iNo )
 {
-	const char * sFileNameOrScript = (const char *)pData;
-
-	minClientHandle<IGeneralScriptEnvironment>	hScriptEnv( g_IGeneralScriptEnvironmentID );
-
-	if( hScriptEnv.IsValid() )
-	{
-		hScriptEnv->ExecuteScript( sFileNameOrScript, IGeneralScriptEnvironment::PYTHON, 0 );
-	}
-}
-
-#endif
-
-void DocumentAndControler::ExecuteScript( bool bDissolve, const char * sScript, int iNo )
-{
-#ifndef ZAURUS
 	// ** WARNING: execution of scripts in own thread not supported yet, because
 	// **          there are some problems with a blocked GUI !
-#ifdef _with_async_scripts
-	unsigned long ulThreadId = minBeginThread( _MinScriptProcThreadStarter, _DEFAULT_STACK_SIZE, (void *)sFileNameOrScript );
-#else
 	minClientHandle<IGeneralScriptEnvironment>	hScriptEnv( g_IGeneralScriptEnvironmentID );
 
 	if( hScriptEnv.IsValid() && m_aPresentation.IsScriptEnabled() )
@@ -924,22 +832,17 @@ void DocumentAndControler::ExecuteScript( bool bDissolve, const char * sScript, 
 			m_pLoggingChannel->LogMsg( sBuffer );
 		}
 	}
-#endif
-#endif // ZAURUS
 }
 
 QApplication * GetApplication();
 
 static void ClearImageCache( QImageCache & aImageCache )
 {
-#ifndef ZAURUS
 	aImageCache.clear();
-#endif
 }
 
 static bool InitImageCache( QImageCache & aImageCache, const DiaPresentation & aPresentation, int iWidth, int iHeight )
 {
-#ifndef ZAURUS
     QProgressDialog aProgress( QObject::tr("creating image cache"), QObject::tr("Cancel"), 0, aPresentation.GetDiaCount()/*, 0, "progress"*//*, TRUE*/ );
 
 	aProgress.show();
@@ -951,11 +854,11 @@ static bool InitImageCache( QImageCache & aImageCache, const DiaPresentation & a
 	{
 		minHandle<DiaInfo> hDia = aPresentation.GetDiaAt( i );
 
-		if( strlen( hDia->GetImageFile() )>0 )
+        if( strlen( hDia->GetImageFile().c_str() )>0 )
 		{
-			QImage aImage( hDia->GetImageFile() );
+            QImage aImage( hDia->GetImageFile().c_str() );
             aImage = aImage.scaled( iWidth, iHeight );
-			aImageCache[hDia->GetImageFile()] = aImage;
+            aImageCache[hDia->GetImageFile().c_str()] = aImage;
 		}
 		else
 		{
@@ -977,7 +880,6 @@ static bool InitImageCache( QImageCache & aImageCache, const DiaPresentation & a
     aProgress.setValue( aPresentation.GetDiaCount() );
 
 	return true;
-#endif
 }
 
 int DocumentAndControler::CreateImagesForMovie( 
@@ -989,7 +891,6 @@ int DocumentAndControler::CreateImagesForMovie(
 		double dStopMS, 
 		double dDeltaMS )
 {
-#ifndef ZAURUS
 	// 1600x1200 = 1,3333333 = 4:3
 	// 540 x 360 = 1,5
 	QImageCache aImageCache;
@@ -1051,7 +952,6 @@ int DocumentAndControler::CreateImagesForMovie(
 	ClearImageCache( aImageCache );
 
 	return iCount;
-#endif // ZAURUS
 }
 
 QStringList DocumentAndControler::GetFileHistoryList() const

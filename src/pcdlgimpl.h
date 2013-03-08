@@ -29,18 +29,12 @@
 #ifndef _PCDLGIMPL_H
 #define _PCDLGIMPL_H
 
-//#ifdef ZAURUS
-//#include "ZProjectorControlDlg.h"
-//#else
-//#include "ProjectorControlDlg.h"
-//#endif
-//#include "ProjectorControlDlg.h"
-
 #include "ui_ProjectorControlDlg4.h"
 
-#include <string>
 #include <QKeyEvent>
 #include <QCloseEvent>
+
+#include <string>
 
 using namespace std;
 

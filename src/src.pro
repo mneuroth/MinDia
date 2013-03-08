@@ -16,7 +16,6 @@ HEADERS         = diainfodlgimpl.h \
                   comlogimpl.h \
                   pddlgimpl.h \
                   configdlgimpl.h \
-                  configplayerdlgimpl.h\
                   sndinfodlgimpl.h \
                   pcdlgimpl.h \
                   commentdlgimpl.h \
@@ -62,7 +61,6 @@ SOURCES         = diainfodlgimpl.cpp \
                   comlogimpl.cpp \
                   pcdlgimpl.cpp \
                   configdlgimpl.cpp \
-                  configplayerdlgimpl.cpp\
                   pddlgimpl.cpp \
                   sndinfodlgimpl.cpp \
                   commentdlgimpl.cpp \
@@ -102,7 +100,6 @@ FORMS       = CreateMovieDlg4.ui \
                   ProjectorControlDlg4.ui \
                   ComLoggingDlg4.ui \
                   ConfigurationDlg4.ui \
-                  ConfigPlayerDlg4.ui \
                   PlayInfoDlg4.ui \
                   CommentDlg4.ui  \
                   SoundInfoDlg4.ui \
@@ -137,15 +134,18 @@ macx {
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qextserialport/release/ -lqextserialport
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qextserialport/debug/ -lqextserialport
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qextserialport/debug/ -lqextserialportd
 else:unix: LIBS += -L$$OUT_PWD/../qextserialport/ -lqextserialport
 
 INCLUDEPATH += $$PWD/../qextserialport
 DEPENDPATH += $$PWD/../qextserialport
 
-win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qextserialport/release/qextserialport.lib
-else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qextserialport/debug/qextserialport.lib
+win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qextserialport/release/libqextserialport.a
+else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qextserialport/debug/libqextserialportd.a
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../qextserialport/libqextserialport.a
 
 RESOURCES += \
     mindia.qrc
+
+
+

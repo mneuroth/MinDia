@@ -51,7 +51,6 @@
 #include <phonon/MediaObject>
 
 #if defined( _MSC_VER ) || defined( __BORLANDC__ ) || defined( __MINGW32__ )
-// TODO --> windows sound entfernen...
 //#define _WINDOWS_SOUND
 #define _UNIX_SOUND		// for debugging TESTS
 #else
@@ -64,12 +63,12 @@
 #include <windows.h>
 #include <mmsystem.h>
 
-int mciSendStringX( miniSound * pSound, const char * lpszCommand, char * lpszReturnString, unsigned int cchReturn, void * hwndCallback )
+int mciSendStringX( const miniSound * pSound, const char * lpszCommand, char * lpszReturnString, unsigned int cchReturn, void * hwndCallback )
 {
     return ::mciSendStringA( lpszCommand, lpszReturnString, cchReturn, (HWND)hwndCallback );
 }
 
-int mciGetErrorStringX( miniSound * pSound, int iErrorNo, char * sBuffer, int iBufferLength )
+int mciGetErrorStringX( const miniSound * pSound, int iErrorNo, char * sBuffer, int iBufferLength )
 {
     return ::mciGetErrorStringA( iErrorNo, sBuffer, iBufferLength );
 }
@@ -1149,7 +1148,7 @@ bool miniSound::CheckSoundError( int iErrorNo ) const
 
 		sprintf( sBuffer, "unknown error id=%d", iErrorNo );
 
-		mciGetErrorStringX( iErrorNo, sBuffer, 512 );
+        mciGetErrorStringX( iErrorNo, sBuffer, 512 );
 
 		cerr << "Sound error: " << sBuffer << endl;
 

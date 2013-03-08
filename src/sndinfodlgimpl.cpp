@@ -84,9 +84,7 @@ SoundInfoDlgImpl::SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* pa
 	m_pTable->setColumnWidth( 10, 75 );
 
 	// ** cancel button not supported yet
-#ifndef ZAURUS
 	buttonCancel->setEnabled( false );
-#endif
 
 	TransferData( true );
 	UpdateCalculatedData();
@@ -283,41 +281,33 @@ void SoundInfoDlgImpl::TransferData( bool bToTable )
 				QString s;
 				bool	bOk;
 
-                const char * sTemp =(const char *)(m_pTable->item( i, 0 ) ? m_pTable->item( i, 0 )->text().toAscii() : "");
-				sFileName = (sTemp ? sTemp : "" );
-                sTemp = m_pTable->item( i, 1 ) ? m_pTable->item( i, 1 )->text().toAscii() : "";
-				s = ( sTemp ? sTemp : "" );
+                sFileName = (m_pTable->item( i, 0 ) ? m_pTable->item( i, 0 )->text().toStdString() : "");
+                s = ( m_pTable->item( i, 1 ) ? m_pTable->item( i, 1 )->text() : "" );
 				iStartPos = s.toInt( &bOk );
 				if( !bOk )
 				{
 					iStartPos = -1;
 				}
-                sTemp = m_pTable->item( i, 2 ) ? m_pTable->item( i, 2 )->text().toAscii() : "";
-				s = ( sTemp ? sTemp : "" );
+                s = ( m_pTable->item( i, 2 ) ? m_pTable->item( i, 2 )->text() : "" );
 				iStopPos = s.toInt( &bOk );
 				if( !bOk || (iStartPos>iStopPos) )
 				{
 					iStopPos = -1;
 				}
-                sTemp = m_pTable->item( i, 3 ) ? m_pTable->item( i, 3 )->text().toAscii() : "";
-                s = ( sTemp ? sTemp : "" );
+                s = ( m_pTable->item( i, 3 ) ? m_pTable->item( i, 3 )->text() : "" );
                 iTotalLength = s.toInt( &bOk );
                 if( !bOk )
                 {
                     iTotalLength = 0;
                 }
 
-                sTemp = m_pTable->item( i, 7 ) ? m_pTable->item( i, 7 )->text().toAscii() : "";
-				s = ( sTemp ? sTemp : "" );
+                s = ( m_pTable->item( i, 7 ) ? m_pTable->item( i, 7 )->text() : "" );
 				iFadeInStart = s.toInt( &bOk );
-                sTemp = m_pTable->item( i, 8 ) ? m_pTable->item( i, 8 )->text().toAscii() : "";
-				s = ( sTemp ? sTemp : "" );
+                s = ( m_pTable->item( i, 8 ) ? m_pTable->item( i, 8 )->text() : "" );
 				iFadeInLength = s.toInt( &bOk );
-                sTemp = m_pTable->item( i, 9 ) ? m_pTable->item( i, 9 )->text().toAscii() : "";
-				s = ( sTemp ? sTemp : "" );
+                s = ( m_pTable->item( i, 9 ) ? m_pTable->item( i, 9 )->text() : "" );
 				iFadeOutStart = s.toInt( &bOk );
-                sTemp = m_pTable->item( i, 10 ) ? m_pTable->item( i, 10 )->text().toAscii() : "";
-				s = ( sTemp ? sTemp : "" );
+                s = ( m_pTable->item( i, 10 ) ? m_pTable->item( i, 10 )->text() : "" );
 				iFadeOutLength = s.toInt( &bOk );
 
                 minHandle<SoundInfo> hItem( new SoundInfo( sFileName, iTotalLength, iStartPos, iStopPos ) );

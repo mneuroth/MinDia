@@ -168,24 +168,24 @@ string GetMinDiaSharedDirectory()
 class IGeneralScriptFcnImpl : public IGeneralScriptFcn
 {
 public:
-	IGeneralScriptFcnImpl( const char * sLanguage, const string & sModuleName, MinDiaWindow * pMainWindow )
+    IGeneralScriptFcnImpl( const string & sLanguage, const string & sModuleName, MinDiaWindow * pMainWindow )
 	: IGeneralScriptFcn( sModuleName ),
 	  m_pMainWindow( pMainWindow ),
-	  m_sLanguage( sLanguage ? sLanguage : "en" )
+      m_sLanguage( sLanguage.size()>0 ? sLanguage : "en" )
 	{
 		Init();
 	}
 
 	virtual bool IsOk() const;
 
-	virtual QWidget *		GetMainWindowPtr();
-	virtual QMenu *	        GetPluginsMenuPtr();
-	virtual const char *	GetLanguage() const;
-	virtual const char *	GetHelpDirecotry() const;
-	virtual const char *	GetScriptDirecotry() const;
-	virtual const char *	GetImageDirecotry() const;
-	virtual const char *	GetMusicDirecotry() const;
-	virtual const char *	GetDataDirecotry() const;
+    virtual QWidget *	GetMainWindowPtr();
+    virtual QMenu *	    GetPluginsMenuPtr();
+    virtual string     	GetLanguage() const;
+    virtual string     	GetHelpDirecotry() const;
+    virtual string     	GetScriptDirecotry() const;
+    virtual string     	GetImageDirecotry() const;
+    virtual string     	GetMusicDirecotry() const;
+    virtual string     	GetDataDirecotry() const;
 
 private:
 	void Init();
@@ -218,32 +218,32 @@ QMenu * IGeneralScriptFcnImpl::GetPluginsMenuPtr()
 	return 0;
 }
 
-const char * IGeneralScriptFcnImpl::GetLanguage() const
+string IGeneralScriptFcnImpl::GetLanguage() const
 {
 	return m_sLanguage.c_str();
 }
 
-const char * IGeneralScriptFcnImpl::GetHelpDirecotry() const
+string IGeneralScriptFcnImpl::GetHelpDirecotry() const
 {
 	return m_sHelpDirectory.c_str();
 }
 
-const char * IGeneralScriptFcnImpl::GetScriptDirecotry() const
+string IGeneralScriptFcnImpl::GetScriptDirecotry() const
 {
 	return m_sScriptDirectory.c_str();
 }
 
-const char * IGeneralScriptFcnImpl::GetImageDirecotry() const
+string IGeneralScriptFcnImpl::GetImageDirecotry() const
 {
 	return m_sImageDirectory.c_str();
 }
 
-const char * IGeneralScriptFcnImpl::GetMusicDirecotry() const
+string IGeneralScriptFcnImpl::GetMusicDirecotry() const
 {
 	return m_sMusicDirectory.c_str();
 }
 
-const char * IGeneralScriptFcnImpl::GetDataDirecotry() const
+string IGeneralScriptFcnImpl::GetDataDirecotry() const
 {
 	return m_sDataDirectory.c_str();
 }
@@ -568,7 +568,7 @@ int main( int argc, char** argv )
 	IMinDiaScriptFcnImpl * pMinDiaScriptFcn = new IMinDiaScriptFcnImpl( "mindia_for_py", &aWindow, argc, argv );
 	pSrvManager->RegisterService( pMinDiaScriptFcn, /*bOwnerIn*/true );
 
-    IGeneralScriptFcnImpl * pGenScriptFcn = new IGeneralScriptFcnImpl( (const char *)sLanguage.toAscii(), "mindia_for_py", &aWindow );
+    IGeneralScriptFcnImpl * pGenScriptFcn = new IGeneralScriptFcnImpl( sLanguage.toStdString(), "mindia_for_py", &aWindow );
 	pSrvManager->RegisterService( pGenScriptFcn, /*bOwnerIn*/true );
 
 	minDll * pNewDll = 0;

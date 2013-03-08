@@ -1041,7 +1041,7 @@ void RolleiCom::RestoreSettings()
     QString sTemp;
     int iTempValue;
    
-    m_sComPort = (const char *)aSettings.value("RolleiCom/ComPort",QString()).toString().toAscii();
+    m_sComPort = aSettings.value("RolleiCom/ComPort",QString()).toString().toStdString();
     m_iBaudrate = aSettings.value("RolleiCom/BaudRate",9600).toInt();
     sTemp = aSettings.value("RolleiCom/ParityMode",QString()).toString();
     if( GetParityModeFromStrg( (const char*)sTemp.toAscii(), iTempValue ) )

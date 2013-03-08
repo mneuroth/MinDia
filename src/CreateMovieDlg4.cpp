@@ -116,7 +116,7 @@ void CreateMovieDlg4::sltCreateImages()
     }
 
     int iCount = m_pDocControler->CreateImagesForMovie(
-             (const char *)sDir.toAscii(), (const char *)sName.toAscii(),
+              sDir.toStdString(), sName.toStdString(),
               iWidth, iHeight,
               0, m_pDocControler->GetPresentation().GetTotalTime()*1000, dDeltaInMS );
 
@@ -134,7 +134,7 @@ void CreateMovieDlg4::sltCreateAVI()
 
     ui.m_pOutput->append( sCmd );
 
-    cout << "CREATE AVI " <<(const char *)sCmd.toAscii() << endl;
+    cout << "CREATE AVI " << sCmd.toStdString() << endl;
 
     QString sProg = CMD_SHELL;
     QStringList aArgs;

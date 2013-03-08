@@ -49,7 +49,7 @@ public:
 	virtual ~ComLoggingDialogImpl();
 
 	// *** implements the minLoggingInterface ***
-	virtual void LogMsg( const char * sMsg );
+    virtual void LogMsg( const string & sMsg );
 
 public slots:
 	virtual void sltCloseDialog();
