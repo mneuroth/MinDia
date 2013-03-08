@@ -83,6 +83,13 @@ class QtMTLock {};
 
 #include "icons.xpm"
 
+//#define _ORIGINAL_FADE
+
+#define MAX_FADE_DELAY  1   // in ms
+#define MAX_FADE_FACTOR 255
+
+static int g_iTimerDelay = MAX_FADE_DELAY;
+
 
 // help function to create a image with a white background
 static QImage CreateWhiteImage()
@@ -307,12 +314,31 @@ static QImage CreateWhiteImage()
 // *******************************************************************
 // *******************************************************************
 
+void _FadeImage( QPainter * pPainter, const QRectF & area, int iFadeFactor, const QImage & aImagePrevious, const QImage & aImage )
+{
+//    pPainter->begin(this);
+
+    double dFactor = (double)(iFadeFactor)/(double)MAX_FADE_FACTOR;
+
+    pPainter->setRenderHint(QPainter::Antialiasing);
+
+    pPainter->setOpacity(1.0-dFactor);
+
+    pPainter->drawImage(area,aImagePrevious);
+    pPainter->setOpacity(dFactor);
+    pPainter->drawImage(area,aImage);
+
+//    pPainter->end();
+}
+
 class SimpleBitmapCanvas : public QGraphicsScene
 {
 public:
     SimpleBitmapCanvas( QObject * parent = 0 )
     : QGraphicsScene( parent ),
-	  m_pImage( 0 )
+      m_iFadeFactor( 0 ),
+      m_pImage( 0 ),
+      m_pImagePrevious( 0 )
 	{
 	}
 
@@ -321,155 +347,166 @@ public:
 		m_pImage = pImage;
 	}
 
+    void SetImagePreviousPtr( QImage * pImage )
+    {
+        m_pImagePrevious = pImage;
+    }
+
+    void SetFadeFactor( int iFadeFactor )
+    {
+        m_iFadeFactor = iFadeFactor;
+    }
+
 protected:
     virtual void drawBackground( QPainter *, const QRectF & area );
 
 private:
+    int             m_iFadeFactor;
 	QImage *		m_pImage;
+    QImage *        m_pImagePrevious;
 };
+
+#include <QPaintEngine>
 
 void SimpleBitmapCanvas::drawBackground( QPainter * pPainter, const QRectF & area )
 {
-	// ** OPTIMIZE HERE: erase is not needed all the time !?
-    pPainter->eraseRect( area );
-
-    pPainter->drawImage( -1, -1, *m_pImage );
+    cout << "DRAW back " << (int)pPainter->paintEngine()->type() << endl;
+    _FadeImage(pPainter,area,m_iFadeFactor,*m_pImagePrevious,*m_pImage);
 }
 
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************
-
-static const int g_iTimerDelay = 10;
-
+#ifdef xx
 typedef int myint;
 
 /* for lookup table tests:
 
 typedef int byte;
 
-byte oben[65536]; 
-byte unten[65536]; 
+byte oben[65536];
+byte unten[65536];
 
 int init_cache()
 {
-	for (int mask = 0; mask < 256; mask++) { 
-	  for (int farbe = 0; farbe < 256; farbe++) { 
-		oben[(mask << 8) + farbe]  = (farbe * (mask+1)) >> 8;
-		unten[(mask << 8) + farbe] = (farbe * (256-mask)) >> 8; 
-	  } 
-	} 
-	return 0;
+    for (int mask = 0; mask < 256; mask++) {
+      for (int farbe = 0; farbe < 256; farbe++) {
+        oben[(mask << 8) + farbe]  = (farbe * (mask+1)) >> 8;
+        unten[(mask << 8) + farbe] = (farbe * (256-mask)) >> 8;
+      }
+    }
+    return 0;
 }
 
 static int g_iTest = init_cache();
 */
 
-/** factor == 0..255 --> Image1..Image2 
+/** factor == 0..255 --> Image1..Image2
   * IMPORTANT: both images MUST have the same size ! */
 QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor )
 {
-	int iWidth = aImage1.width();
-	int iHeight = aImage1.height();
-	//int iColors = aImage1.numColors();	// nur falls palette verwendet wird !
-	//int iDeep = aImage1.depth();
-	int iBytes = aImage1.numBytes();
-	//int iLinie = aImage1.bytesPerLine();
-	//QImage::Endian aVal = aImage1.bitOrder();
-	//bool bHasAlphaBuff = aImage1.hasAlphaBuffer();
+    int iWidth = aImage1.width();
+    int iHeight = aImage1.height();
+    //int iColors = aImage1.numColors();	// nur falls palette verwendet wird !
+    //int iDeep = aImage1.depth();
+    int iBytes = aImage1.numBytes();
+    //int iLinie = aImage1.bytesPerLine();
+    //QImage::Endian aVal = aImage1.bitOrder();
+    //bool bHasAlphaBuff = aImage1.hasAlphaBuffer();
 
-	//QImage aRet( iWidth, iHeight, iDeep, 0, aVal );
-	QImage aRet( iWidth, iHeight, aImage1.format() );
-	uchar * pResultBuffer = aRet.bits();
+    //QImage aRet( iWidth, iHeight, iDeep, 0, aVal );
+    QImage aRet( iWidth, iHeight, aImage1.format() );
+    uchar * pResultBuffer = aRet.bits();
 
-	const uchar * pBuffer1 = aImage1.bits();
+    const uchar * pBuffer1 = aImage1.bits();
 
-	//QImage aImg2 = aImage2.smoothScale( iWidth, iHeight );
-	const uchar * pBuffer2 = aImage2.bits();
+    //QImage aImg2 = aImage2.smoothScale( iWidth, iHeight );
+    const uchar * pBuffer2 = aImage2.bits();
 
-	if( pBuffer1 && pBuffer2 )
-	{
-		myint iFactor1 = iFactor;
-		myint iFactor2 = 255-iFactor;
+    if( pBuffer1 && pBuffer2 )
+    {
+        myint iFactor1 = iFactor;
+        myint iFactor2 = MAX_FADE_FACTOR-iFactor;
 
-		/* this algorithm seems to have the best performance ! */
-		for( int i=0; i<iBytes; i=i+4 )
-		{
-			int i2 = i+1;
-			int i3 = i+2;
-			//int i4 = i+3;
-			pResultBuffer[i]  = (uchar)(( ((myint)pBuffer1[i] )*iFactor1 + ((myint)pBuffer2[i] )*iFactor2 ) >> 8);
-			pResultBuffer[i2] = (uchar)(( ((myint)pBuffer1[i2])*iFactor1 + ((myint)pBuffer2[i2])*iFactor2 ) >> 8);
-			pResultBuffer[i3] = (uchar)(( ((myint)pBuffer1[i3])*iFactor1 + ((myint)pBuffer2[i3])*iFactor2 ) >> 8);
-			//pResultBuffer[i4] = (uchar)(( ((myint)pBuffer1[i4])*iFactor1 + ((myint)pBuffer2[i4])*iFactor2 ) >> 8);
-		}
+        /* this algorithm seems to have the best performance ! */
+        for( int i=0; i<iBytes; i=i+4 )
+        {
+            int i2 = i+1;
+            int i3 = i+2;
+            //int i4 = i+3;
+            pResultBuffer[i]  = (uchar)(( ((myint)pBuffer1[i] )*iFactor1 + ((myint)pBuffer2[i] )*iFactor2 ) >> 8);
+            pResultBuffer[i2] = (uchar)(( ((myint)pBuffer1[i2])*iFactor1 + ((myint)pBuffer2[i2])*iFactor2 ) >> 8);
+            pResultBuffer[i3] = (uchar)(( ((myint)pBuffer1[i3])*iFactor1 + ((myint)pBuffer2[i3])*iFactor2 ) >> 8);
+            //pResultBuffer[i4] = (uchar)(( ((myint)pBuffer1[i4])*iFactor1 + ((myint)pBuffer2[i4])*iFactor2 ) >> 8);
+        }
 
 // ****************************************************************
 /*
-		// Performance remark: fading 548x360 images takes ca. 60-70ms
-		// (best !) nur 3 bytes behandeln (mit >> 8): 15-20 ms 
-		//                                --> d.h. ca 81 ms fuer 1024x768 step fade time
-		//								  scalen dauert ca. 110 ms, d.h. erst scalen und dann faden !
-		// lookup-tabelle: 20-25 ms
+        // Performance remark: fading 548x360 images takes ca. 60-70ms
+        // (best !) nur 3 bytes behandeln (mit >> 8): 15-20 ms
+        //                                --> d.h. ca 81 ms fuer 1024x768 step fade time
+        //								  scalen dauert ca. 110 ms, d.h. erst scalen und dann faden !
+        // lookup-tabelle: 20-25 ms
 
-		for( int i=0; i<iBytes;  )
-		{
-			//int i2 = i+1;
-			//int i3 = i+2;
-			//int i4 = i+3;
-			pResultBuffer[i] = (uchar)(( ((myint)pBuffer1[i])*iFactor1 + ((myint)pBuffer2[i])*iFactor2 ) >> 8);
-			i++;
-			pResultBuffer[i] = (uchar)(( ((myint)pBuffer1[i])*iFactor1 + ((myint)pBuffer2[i])*iFactor2 ) >> 8);
-			i++;
-			pResultBuffer[i] = (uchar)(( ((myint)pBuffer1[i])*iFactor1 + ((myint)pBuffer2[i])*iFactor2 ) >> 8);
-			i++;
-			//pResultBuffer[i] = (uchar)(( ((myint)pBuffer1[i])*iFactor1 + ((myint)pBuffer2[i])*iFactor2 ) >> 8);
-			i++;
-		}
+        for( int i=0; i<iBytes;  )
+        {
+            //int i2 = i+1;
+            //int i3 = i+2;
+            //int i4 = i+3;
+            pResultBuffer[i] = (uchar)(( ((myint)pBuffer1[i])*iFactor1 + ((myint)pBuffer2[i])*iFactor2 ) >> 8);
+            i++;
+            pResultBuffer[i] = (uchar)(( ((myint)pBuffer1[i])*iFactor1 + ((myint)pBuffer2[i])*iFactor2 ) >> 8);
+            i++;
+            pResultBuffer[i] = (uchar)(( ((myint)pBuffer1[i])*iFactor1 + ((myint)pBuffer2[i])*iFactor2 ) >> 8);
+            i++;
+            //pResultBuffer[i] = (uchar)(( ((myint)pBuffer1[i])*iFactor1 + ((myint)pBuffer2[i])*iFactor2 ) >> 8);
+            i++;
+        }
 */
 /*
-		iFactor1 = iFactor << 8;
-		for( int i=0; i<iBytes; i=i+4 )
-		{
-			int i2 = i+1;
-			int i3 = i+2;
-			//int i4 = i+3;
-			pResultBuffer[i] = (uchar)(oben[ iFactor1 + pBuffer1[i] ] + unten[ iFactor1 + pBuffer2[i] ]);
-			pResultBuffer[i2] = (uchar)(oben[ iFactor1 + pBuffer1[i2] ] + unten[ iFactor1 + pBuffer2[i2] ]);
-			pResultBuffer[i3] = (uchar)(oben[ iFactor1 + pBuffer1[i3] ] + unten[ iFactor1 + pBuffer2[i3] ]);
-			//pResultBuffer[i4] = (uchar)(oben[ iFactor1 + pBuffer1[i4] ] + unten[ iFactor1 + pBuffer2[i4] ]);
-		}
+        iFactor1 = iFactor << 8;
+        for( int i=0; i<iBytes; i=i+4 )
+        {
+            int i2 = i+1;
+            int i3 = i+2;
+            //int i4 = i+3;
+            pResultBuffer[i] = (uchar)(oben[ iFactor1 + pBuffer1[i] ] + unten[ iFactor1 + pBuffer2[i] ]);
+            pResultBuffer[i2] = (uchar)(oben[ iFactor1 + pBuffer1[i2] ] + unten[ iFactor1 + pBuffer2[i2] ]);
+            pResultBuffer[i3] = (uchar)(oben[ iFactor1 + pBuffer1[i3] ] + unten[ iFactor1 + pBuffer2[i3] ]);
+            //pResultBuffer[i4] = (uchar)(oben[ iFactor1 + pBuffer1[i4] ] + unten[ iFactor1 + pBuffer2[i4] ]);
+        }
 */
 /*
-		// Performance remark: fading 548x360 images takes ca. 50-60ms
-		// normal:				46-51 ms
-		// >> 8 anstatt / 255:	22-30 ms
-		// short anstatt int:	24-30 ms
-		// lookup table:		23-30 ms
-		//iFactor1 = iFactor << 8;
-		for( int i=0; i<iBytes; i++ )
-		{
-			//pResultBuffer[i] = (uchar)(( ((myint)pBuffer1[i])*iFactor1 + ((myint)pBuffer2[i])*iFactor2 ) / 255);
-			pResultBuffer[i] = (uchar)(( ((myint)pBuffer1[i])*iFactor1 + ((myint)pBuffer2[i])*iFactor2 ) >> 8);
-			//pResultBuffer[i] = oben[ iFactor1 + pBuffer1[i] ] + unten[ iFactor1 + pBuffer2[i] ];
-		}
+        // Performance remark: fading 548x360 images takes ca. 50-60ms
+        // normal:				46-51 ms
+        // >> 8 anstatt / 255:	22-30 ms
+        // short anstatt int:	24-30 ms
+        // lookup table:		23-30 ms
+        //iFactor1 = iFactor << 8;
+        for( int i=0; i<iBytes; i++ )
+        {
+            //pResultBuffer[i] = (uchar)(( ((myint)pBuffer1[i])*iFactor1 + ((myint)pBuffer2[i])*iFactor2 ) / 255);
+            pResultBuffer[i] = (uchar)(( ((myint)pBuffer1[i])*iFactor1 + ((myint)pBuffer2[i])*iFactor2 ) >> 8);
+            //pResultBuffer[i] = oben[ iFactor1 + pBuffer1[i] ] + unten[ iFactor1 + pBuffer2[i] ];
+        }
 */
 // ****************************************************************
-	
-		return aRet;
-	}
-	else
-	{
-		if( pBuffer1 )
-		{
-			return aImage1;
-		}
-		else
-		{
-			return aImage2;
-		}
-	}
+
+        return aRet;
+    }
+    else
+    {
+        if( pBuffer1 )
+        {
+            return aImage1;
+        }
+        else
+        {
+            return aImage2;
+        }
+    }
 }
+#endif
 
 // *******************************************************************
 
@@ -477,10 +514,7 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt
 : QDialog( parent, fl /*| Qt::WStyle_Maximize*/ ),      // TODO style for maximize ?
   m_pParent( parent ),
   m_iFadeInTimeInMS( 0 ),
-  m_iFadeInFactor( 0 ),
-  m_iFadeInStepCount( 0 ),
-  m_aScaleTime( 100 ),
-  m_aFadeTime( 25 ),
+  m_aFadeTime( 1 ),
   m_pFadeInTimer( 0 )
 {
     setupUi(this);
@@ -505,7 +539,7 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt
     connect( this, SIGNAL( sigDoPause() ), pShowControler, SLOT( sltPausePresentation() ) );
     connect( this, SIGNAL( sigDoStop() ), pShowControler, SLOT( sltStopPresentation() ) );
 
-    m_pCanvas = new SimpleBitmapCanvas( /*m_pFrame*/ );
+    m_pCanvas = new SimpleBitmapCanvas( /*m_pFrame*/0 );
 
     QRect aFrameRect = m_pCanvasView->frameRect();
     // ** update size of the canvas
@@ -523,6 +557,7 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt
 #endif
 
     m_pCanvas->SetImagePtr( &m_aScaledImage );
+    m_pCanvas->SetImagePreviousPtr( &m_aScaledImagePrevious );
 
     m_pCanvasView->SetDlg(this);
 }
@@ -552,6 +587,7 @@ bool PlayInfoDlgImpl::IsFullScreen() const
     return isFullScreen();
 }
 
+// TODO improve handling --> dies ist temporaer !!!
 static QByteArray g_test;
 
 void PlayInfoDlgImpl::FullScreen()
@@ -1006,7 +1042,7 @@ void PlayInfoDlgImpl::sltCancelDialog()
 
 void PlayInfoDlgImpl::sltSetImage( const QString & sImageFileName, bool bIsPlaying, int iDissolveTimeInMS )
 {
-	if( !sImageFileName.isEmpty() )
+    if( !sImageFileName.isEmpty() )
 	{
 		QImage aImage;
 
@@ -1023,7 +1059,8 @@ void PlayInfoDlgImpl::sltSetImage( const QString & sImageFileName, bool bIsPlayi
 		}
 		else
 		{
-			sltSetImage( aImage );
+            m_aPreviousImage = aImage;
+            sltSetImage( aImage );
 		}
 	}
 	else
@@ -1039,7 +1076,8 @@ void PlayInfoDlgImpl::sltSetImage( const QString & sImageFileName, bool bIsPlayi
 		}
 		else
 		{
-			sltSetImage( aImage );
+            m_aPreviousImage = aImage;
+            sltSetImage( aImage );
 		}
 	}
 }
@@ -1048,49 +1086,34 @@ void PlayInfoDlgImpl::sltSetImage( const QImage & aImage )
 {
 	m_aActImage = aImage;
 
-	UpdateScaledImage();
+    m_aScaledImage = DoScaleImage( m_aActImage );
+    m_aScaledImagePrevious = DoScaleImage( m_aPreviousImage );
 
     m_pCanvas->update();
 }
 
-void PlayInfoDlgImpl::sltFadeInDone()
-{
-	// ** stop the fade in proces and set the new image
-	m_pFadeInTimer->stop();
-
-	m_iFadeInFactor = 0;
-
-	sltSetImage( m_aFadeInImage );
-}
-
-// for meassuring the total dissolve time...
-//static QTime m_aTotalFadeTime;
-
 void PlayInfoDlgImpl::sltFadeInImage( const QImage & aNewImage, int iFadeInTimeInMS )
 {
-	//m_aTotalFadeTime = QTime();
-	//m_aTotalFadeTime.start();
-
 	m_pFadeInTimer->stop();
 
-	m_aFadeInImage = aNewImage;
-	if( m_aFadeInImage.isNull() )
+    QImage aFadeInImage = aNewImage;
+    if( aFadeInImage.isNull() )
 	{
-		m_aFadeInImage = QImage( m_aActImage.width(), m_aActImage.height(), m_aActImage.format() );
-		m_aFadeInImage.fill( 0 );
+        aFadeInImage = QImage( m_aActImage.width(), m_aActImage.height(), m_aActImage.format() );
+        aFadeInImage.fill( 0 );
 	}
 	// ** for fade int we need true color, 
 	// ** fade in is difficult for images with different color paletts !
-	if( m_aFadeInImage.depth()<32 )
+    if( aFadeInImage.depth()<32 )
 	{
-		m_aFadeInImage = m_aFadeInImage.convertToFormat( QImage::Format_RGB32 );
+        aFadeInImage = aFadeInImage.convertToFormat( QImage::Format_RGB32 );
 	}
 
 	// ** both images should have the same size !!!
-	m_aPreviousImage = m_aActImage.scaled( m_aFadeInImage.width(), m_aFadeInImage.height() );;
+    m_aPreviousImage = m_aActImage.scaled( aFadeInImage.width(), aFadeInImage.height() );;
 	if( m_aPreviousImage.isNull() )
 	{
-		m_aPreviousImage = QImage( m_aFadeInImage.width(), m_aFadeInImage.height(), m_aFadeInImage.format() );
+        m_aPreviousImage = QImage( aFadeInImage.width(), aFadeInImage.height(), aFadeInImage.format() );
 		m_aPreviousImage.fill( 0 );
 	}
 	if( m_aPreviousImage.depth()<32 )
@@ -1105,73 +1128,56 @@ void PlayInfoDlgImpl::sltFadeInImage( const QImage & aNewImage, int iFadeInTimeI
 	}
 
 	m_iFadeInTimeInMS	= iFadeInTimeInMS;
-	m_iFadeInFactor		= 0;
-	m_iFadeInStepCount	= 0;
 	m_aFadeTime.Reset();
-	m_aScaleTime.Reset();
+    m_aFadeTime.Start();
 
 	// ** do we need a fade in ?
-	if( m_iFadeInTimeInMS<1 )
+    int iFadeInFactor = 0;
+    if( m_iFadeInTimeInMS<1 )
 	{
 		// no, time to short !
-		m_iFadeInFactor = 256;
+        iFadeInFactor = MAX_FADE_FACTOR;
 	}
 
-	// ** and start the fade in process...
-	m_pFadeInTimer->start( 1 );
+    sltSetImage( aFadeInImage );
+    m_pCanvas->SetFadeFactor(iFadeInFactor);
+    m_pCanvas->update();
+
+    // ** and start the fade in process...
+    m_pFadeInTimer->start( 1 );
 }
 
 void PlayInfoDlgImpl::sltFadeInTimer()
 {
 	m_pFadeInTimer->stop();
+    // process the next fade in step...
 
-	if( m_iFadeInFactor > 255 )
-	{
-		// fade in is finished !
+    // ** do fade in process only if dialog is visible !
+    if( isVisible() )
+    {
+        int deltaSinceStart = m_aFadeTime.CurrentDelta();
+        int iFadeInFactor = (int)((double)MAX_FADE_FACTOR*(double)deltaSinceStart/(double)m_iFadeInTimeInMS);
+        if( iFadeInFactor > MAX_FADE_FACTOR )
+        {
+            // fade in is finished !
+            m_aFadeTime.Stop();
 
-		m_iFadeInFactor = 0;
-		
-		sltSetImage( m_aFadeInImage );
+            iFadeInFactor = 0;
 
-		//m_aTotalFadeTime.stop();
-		//cout << "TOTAL-FADE-TIME: " << m_aTotalFadeTime.elapsed() << endl;
-	}
-	else
-	{
-		// process the next fade in step...
+            m_pCanvas->SetFadeFactor(iFadeInFactor);
 
-		// ** do fade in process only if dialog is visible !
-		if( isVisible() )
-		{
-			m_aFadeTime.Start();
-			QImage aImage = _FadeImage( m_aFadeInImage, m_aPreviousImage, m_iFadeInFactor );
-			sltSetImage( aImage );
-			m_aFadeTime.Stop();
-			// ** for performance tests...
-			//cout << "fade= " << m_aFadeTime.GetAverageTimeInMS() << " " << m_iFadeInFactor << endl;
+            m_aPreviousImage = m_aActImage;
 
-			// ** calculate the next fade in factor
-			// ** use the measuered times for this calculation !
-			int iStepTimeInMS = m_aFadeTime.GetAverageTimeInMS() /*+ m_aScaleTime.GetAverageTimeInMS()*/;
-			int iCorrectionTime = 2*m_aScaleTime.GetAverageTimeInMS();	// two images have to be scaled !
-			int iMaxFadeInStepCount = (m_iFadeInTimeInMS - iCorrectionTime) / (iStepTimeInMS+g_iTimerDelay);
-			if( iMaxFadeInStepCount == 0 )
-			{
-				// ** we are finished !
-				m_iFadeInFactor = 256;
-			}
-			else
-			{
-				// ** for long dissolve times, the m_iFadeInFactor can be equal for different steps !
-				m_iFadeInStepCount++;
-				m_iFadeInFactor = (int)(255.0 * ((double)m_iFadeInStepCount) / ((double)iMaxFadeInStepCount));
-			}
+            //sltSetImage( m_aFadeInImage );
+            sltSetImage( m_aActImage );
+        }
+        else
+        {
+            m_pCanvas->SetFadeFactor(iFadeInFactor);
+        }
+        m_pCanvas->update();
 
-			//cout << "DBG: count=" << m_iFadeInStepCount << " maxcount=" << iMaxFadeInStepCount << " factor=" << m_iFadeInFactor
-			//	 << " steptime=" << iStepTimeInMS << " time=" << m_iFadeInTimeInMS << endl;
-		}
-
-		m_pFadeInTimer->start( g_iTimerDelay );
+        m_pFadeInTimer->start( g_iTimerDelay );
 	}
 }
 
@@ -1301,7 +1307,7 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
 		//QRect aFrameRect = m_pFrame->frameRect();
 		QRect aFrameRect = m_pCanvasView->frameRect();
 
-		m_aScaleTime.Start();
+//		m_aScaleTime.Start();
 		if( !aImage.isNull() )
 		{
 #ifndef ZAURUS
@@ -1350,7 +1356,7 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
 		{
 			//aScaledImage = QImage();
 		}
-		m_aScaleTime.Stop();
+//		m_aScaleTime.Stop();
 		// ** for performance tests...
 		//cout << "scale= " << m_aScaleTime.GetAverageTimeInMS() << endl;
 	}
@@ -1365,11 +1371,6 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
 bool PlayInfoDlgImpl::IsIndexOk( int iTextID ) const
 {
 	return (iTextID>=0) && (iTextID<(int)m_aItemContainer.size());
-}
-
-void PlayInfoDlgImpl::UpdateScaledImage()
-{
-	m_aScaledImage = DoScaleImage( m_aActImage );
 }
 
 void PlayInfoDlgImpl::done( int iRet )
@@ -1479,6 +1480,11 @@ void TimeMeasurement::Stop()
 	m_aStopTime = QTime::currentTime();
 
 	Update();
+}
+
+int TimeMeasurement::CurrentDelta()
+{
+    return m_aStartTime.elapsed();
 }
 
 bool TimeMeasurement::IsValid() const

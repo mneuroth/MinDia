@@ -217,7 +217,8 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
     setWindowTitle( tr( "MinDia" ) );
 
 	// set application icon
-	QPixmap aIcon( mindia_icon );
+    //QPixmap aIcon( mindia_icon );
+    QPixmap aIcon(":/icons/mindia_new.png");
     setWindowIcon( aIcon );
 
 	// Add your code

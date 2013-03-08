@@ -442,6 +442,10 @@ QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage,
 
 int main( int argc, char** argv )
 {
+    Q_INIT_RESOURCE(mindia);
+
+//    QApplication::setGraphicsSystem("opengl");  // raster, native, opengl
+
     MindiaApp myApp( argc, argv );
 
 	g_pApplication = &myApp;

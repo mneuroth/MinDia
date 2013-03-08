@@ -1276,7 +1276,8 @@ bool DiaPresentation::ExistsExternalDevice()
 #ifndef ZAURUS
 #include <qimage.h>
 #include <qpainter.h>
-QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor );
+//QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor );
+void _FadeImage( QPainter * pPainter, const QRectF & area, int iFadeFactor, const QImage & aImagePrevious, const QImage & aImage );
 #endif
 
 void DiaPresentation::PaintSlideForTime( const QImageCache & aImageCache, QPainter & aPainter, double dTimeMS ) const
@@ -1301,8 +1302,9 @@ void DiaPresentation::PaintSlideForTime( const QImageCache & aImageCache, QPaint
 				//QImage aImage2 = QImage( hDia2->GetImageFile() );
 				const QImage aImage2 = aImageCache[ hDia2->GetImageFile() ];
 				//aImage1 = aImage1.smoothScale( aImage2.width(), aImage2.height() );
-				QImage aImage3 = _FadeImage( aImage2, aImage1, iFadeFactor );
-				aPainter.drawImage( 0, 0, aImage3 );
+                //old: QImage aImage3 = _FadeImage( aImage2, aImage1, iFadeFactor );
+                //old: aPainter.drawImage( 0, 0, aImage3 );
+                _FadeImage(&aPainter,QRectF(aRect),iFadeFactor,aImage2,aImage1);
 			}
 			else
 			{

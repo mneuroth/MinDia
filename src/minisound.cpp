@@ -51,8 +51,9 @@
 #include <phonon/MediaObject>
 
 #if defined( _MSC_VER ) || defined( __BORLANDC__ ) || defined( __MINGW32__ )
-#define _WINDOWS_SOUND
-//#define _UNIX_SOUND		// for debugging TESTS
+// TODO --> windows sound entfernen...
+//#define _WINDOWS_SOUND
+#define _UNIX_SOUND		// for debugging TESTS
 #else
 //#ifdef __linux__
 #define _UNIX_SOUND
@@ -549,7 +550,7 @@ void miniSound::sltTotalTimeChanged(qint64 val)
 */
     m_iTotalTimeInMS = (int)val;
 
-    if( m_pRequester!=0 )
+    if( m_pRequester!=0 && m_iTotalTimeInMS>=0 )
     {
         Stop();
 
@@ -1037,7 +1038,7 @@ void miniSound::run()
 				}
 
 				// ** get the next sound item and start playing
-				if( m_aIterator!=m_pSoundInfoContainer->end() )
+                if( m_aIterator!=m_pSoundInfoContainer->end() )
 				{
 					// ** open new wav-file
 					minHandle<SoundInfo> hItem = *m_aIterator;
@@ -1066,6 +1067,15 @@ void miniSound::run()
 
 					++m_aIterator;
 				}
+                else if( m_sSoundFile.length()>0 )
+                {
+// TODO --> hier zur bestimmung der sound file length abspielen starten
+                    SetWavFile( m_sSoundFile.toAscii() );
+                    StartPlayImpl();
+                    bStopedInThread = false;
+                    bIsFirstDia = false;
+                    m_bStop = true;
+                }
 				else
 				{
 					m_bStop = true;

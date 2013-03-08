@@ -111,48 +111,7 @@ FORMS       = CreateMovieDlg4.ui \
                   HelpDlg4.ui \
                   DynTextDlg4.ui
 
-#MOC_DIR					= moc
-#macx:LIBS               += -lpthread ./libminsrv.dylib $(LIBMINDIAPYC_SO)
-#macx:LIBS               += -lpthread ../minsrv/libminsrv.a $(LIBMINDIAPYC_SO)
-#OBJECTS_DIR		        = obj
-#unix:TMAKE_UIC			= $(QTDIR)/bin/uic
-#unix:LIBS       		+= -lpthread libminsrv.so $(LIBMINDIAPYC_SO)
-#unix:HEADERS			+= mp3file.h
-#unix:SOURCES			+= mp3file.cpp
-                            # sysdep1.c
-#unix:DEFINES    		= _POSIX HAVE_CONFIG_H LOCALEDIR=\"/usr/local/share/locale\"
 INCLUDEPATH   		= ../gendev ../minsrv
-#win32:TMAKE_UIC			= $(QTDIR)\bin\uic.exe
-#win32:TMAKE_CXXFLAGS 	= -GX -MD
-#win32-borland:TMAKE_CXXFLAGS 	=
-#win32:DEFINES			= QT_DLL QT_NO_DEBUG QT_THREAD_SUPPORT QT_NON_COMMERCIAL
-#_DEBUG
-#win32:LIBS				+= minsrv.lib
-#win32:LIBS				+= libwinmm
-#LIBS                += /Users/min/Documents/home/Entwicklung/projects/mindia_qt4/qextserialport/src/build/libqextserialportd.a
-#LIBS                += ../qextserialport/src/build/libqextserialport.a
-
-#Release:win32:win32:LIBS += ../qextserialport/src/build/libqextserialport.a
-release {
-#    mac:LIBS += /Users/min/Documents/home/Entwicklung/projects/mindia_qt4/qextserialport/lib/libqextserialport-1.2.a
-    mac:LIBS += ../qextserialport/libqextserialport.a
-##    mac:LIBS += ../qextserialport/lib/libqextserialport-1.2.a
-#    mac:LIBS += ../qextserialport/src/build/libqextserialport.a
-#    unix:LIBS += ../qextserialport/src/build/libqextserialport.a
-}
-#Debug:win32:win32:LIBS += ../qextserialport/src/build/libqextserialportd.a
-debug {
-#    mac:LIBS += /Users/min/Documents/home/Entwicklung/projects/mindia_qt4/qextserialport/lib/libqextserialport-1.2_debug.a
-#    mac:LIBS += ../qextserialport/lib/libqextserialport-1.2_debug.a
-    mac:LIBS += ../qextserialport/libqextserialport_debug.a
-#    mac:LIBS += ../qextserialport/src/build/libqextserialportd.a
-#    unix:LIBS += ../qextserialport/src/build/libqextserialportd.a
-    CONFIG -= release
-}
-
-#debug {
-#    CONFIG -= release
-#}
 
 macx {
 #    UI_DIR = .ui
@@ -176,3 +135,17 @@ macx {
     QMAKE_INFO_PLIST = Info.plist
 }
 
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qextserialport/release/ -lqextserialport
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qextserialport/debug/ -lqextserialport
+else:unix: LIBS += -L$$OUT_PWD/../qextserialport/ -lqextserialport
+
+INCLUDEPATH += $$PWD/../qextserialport
+DEPENDPATH += $$PWD/../qextserialport
+
+win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qextserialport/release/qextserialport.lib
+else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qextserialport/debug/qextserialport.lib
+else:unix: PRE_TARGETDEPS += $$OUT_PWD/../qextserialport/libqextserialport.a
+
+RESOURCES += \
+    mindia.qrc

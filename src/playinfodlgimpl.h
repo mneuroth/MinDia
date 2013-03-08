@@ -74,6 +74,7 @@ public:
 
 	void	Start();
 	void	Stop();
+    int     CurrentDelta();
 
 	bool	IsValid() const;
 	int		GetAverageTimeInMS() const;
@@ -184,7 +185,6 @@ public slots:
 	void sltSetImage( const QString & sImageFileName, bool bIsPlaying, int iDissolveTimeInMS );
 	void sltSetImage( const QImage & aImage );
 	void sltFadeInImage( const QImage & aNewImage, int iFadeInTimeInMS );
-	void sltFadeInDone();
 
 	void sltFadeInTimer();
 
@@ -211,7 +211,6 @@ private:
 	// ** help methods **
 	void TransferDataToControl();
 	void TransferDataFromControl();
-	void UpdateScaledImage();
 	QImage DoScaleImage( const QImage & aImage );
 	bool IsIndexOk( int iTextID ) const;
 
@@ -223,17 +222,14 @@ private:
 	QImage					m_aActImage;		// the actual image !
 	QImage					m_aPreviousImage;	// the previous image, needed to dissolve the image 
 	QImage					m_aScaledImage;		// the scaled image for the real output
+    QImage					m_aScaledImagePrevious; // the scaled previous image for fading
 
-	QImage					m_aFadeInImage;		// temporary variable for the fade in image
 	int 					m_iFadeInTimeInMS;
-	int						m_iFadeInFactor;
-	int						m_iFadeInStepCount;
 
 	CanvasItemContainer		m_aItemContainer;
 	QColor					m_aActColor;
 	QFont					m_aActFont;
 
-	TimeMeasurement			m_aScaleTime;		// to measure the time needed for scaleing
 	TimeMeasurement			m_aFadeTime;		// to measure the time needed for one fade in step
 
 	QTimer *				m_pFadeInTimer;
