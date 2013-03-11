@@ -115,7 +115,6 @@ qextserialport/doc/style
 src/AboutExtDlg4.ui
 src/ComLoggingDlg4.ui
 src/CommentDlg4.ui
-src/ConfigPlayerDlg4.ui
 src/ConfigurationDlg4.ui
 src/CreateCDDist.ui
 src/CreateMovieDlg4.cpp
@@ -144,8 +143,6 @@ src/commentdlgimpl.h
 src/config.h
 src/configdlgimpl.cpp
 src/configdlgimpl.h
-src/configplayerdlgimpl.cpp
-src/configplayerdlgimpl.h
 src/diacallback.h
 src/diainfo.cpp
 src/diainfo.h
@@ -181,6 +178,7 @@ src/main.cpp
 src/mincmdproc.cpp
 src/mincmdproc.h
 src/mindia.rc
+src/mindia.qrc
 src/mindia_ new.png
 src/mindia_256x256.ico
 src/mindia_512x512.icns
