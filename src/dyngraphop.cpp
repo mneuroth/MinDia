@@ -1478,9 +1478,9 @@ void DynText::ChangeDefaultData( double dStartTimeInMS, double dShowTimeInMS )
 void DynText::GetDefaultData( double & dStartTimeInMS, double & dShowTimeInMS ) const
 {
 	minHandle<OpItem_Base> hItem = m_aOpContainer[ c_iShowIndex ];
-	dStartTimeInMS = hItem->GetShowAtTimeInMS();
+    dStartTimeInMS = (double)hItem->GetShowAtTimeInMS();
 	hItem = m_aOpContainer[ c_iHideStopIndex ];
-	dShowTimeInMS = hItem->GetDelayInMS() - dStartTimeInMS;
+    dShowTimeInMS = (double)(hItem->GetDelayInMS() - dStartTimeInMS);
 }
 
 void DynText::Delta( double dDeltaTimeInMS )

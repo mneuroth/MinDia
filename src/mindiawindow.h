@@ -149,7 +149,7 @@ class QWidget;
 class QGraphicsScene;
 
 class ConfigurationDlgImpl;
-class ConfigPlayerDlgImpl;
+//class ConfigPlayerDlgImpl;
 class ProjectorControlDlgImpl;
 class ComLoggingDialogImpl;
 class PlayInfoDlgImpl;
@@ -368,7 +368,7 @@ private:
 	QLabel *					m_pStatusBarMsg;
 
 	ConfigurationDlgImpl *		m_pConfigurationDialog;		// modal
-	ConfigPlayerDlgImpl *		m_pConfigPlayerDialog;		// modal
+    //ConfigPlayerDlgImpl *		m_pConfigPlayerDialog;		// modal
 	ComLoggingDialogImpl *		m_pLoggingDialog;
 	ProjectorControlDlgImpl *	m_pProjectorControlDialog;
 	PresentationDataDlgImpl *	m_pPresentationDataDialog;	// modal

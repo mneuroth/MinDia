@@ -81,7 +81,7 @@
 
 #include "appconfig.h"
 #include "configdlgimpl.h"
-#include "configplayerdlgimpl.h"
+//#include "configplayerdlgimpl.h"
 #include "comlogimpl.h"
 #include "pcdlgimpl.h"
 //#include "eventmapdlgimpl.h"
@@ -180,7 +180,7 @@ int GetTotalLengthInMSForSoundFile( const string & sFileName )
 MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, bool bSimulation, int iProjectorType, QWidget* parent, Qt::WFlags f )
     : QMainWindow( parent, f ),
 	  m_pConfigurationDialog( 0 ),
-	  m_pConfigPlayerDialog( 0 ),
+      //m_pConfigPlayerDialog( 0 ),
 	  m_pLoggingDialog( 0 ),
 	  m_pProjectorControlDialog( 0 ),
 	  m_pPresentationDataDialog( 0 ),

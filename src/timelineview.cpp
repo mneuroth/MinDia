@@ -222,7 +222,8 @@ void TimeLineView::sltAddDynText()
 
 void TimeLineView::sltEditDynText()
 {
-    ShowModifyDynObjectDialog( m_iSelectedDynTextIndex );
+    int iSelectedDynTextIndex = m_pContextMenu->property("INDEX").toInt();
+    ShowModifyDynObjectDialog( iSelectedDynTextIndex );
 }
 
 void TimeLineView::sltDoUpdateView( bool /*bErase*/ )
@@ -715,14 +716,12 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 
 		// if mouse was clicked on a dynamic text,
 		// enable the item to allow the modification of the dynamic text
-		int iTemp = m_iSelectedDynTextIndex;	// save info of the selected item
-		QRect aRect = GetTipRect( pEvent->pos(), 0, &m_iSelectedDynTextIndex );
+        int iSelectedDynTextIndex = m_iSelectedDynTextIndex;
+        QRect aRect = GetTipRect( pEvent->pos(), 0, &iSelectedDynTextIndex );
         m_pMenuDynTextEdit->setEnabled( aRect.isValid() );
 				
+        m_pContextMenu->setProperty("INDEX",iSelectedDynTextIndex);
 		m_pContextMenu->exec( pEvent->globalPos() );
-
-		// restore info
-		m_iSelectedDynTextIndex = iTemp;
 	}
 }
 
@@ -1019,7 +1018,7 @@ void TimeLineView::customEvent(QEvent * pEvent)
 
 void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
 {
-	// ** change data of the dynamic text with a dialog **
+    // ** change data of the dynamic text with a dialog **
 	DynContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
 
     if( iIndexOut>=0 && iIndexOut<(int)aDynGrOpContainer.size() )
@@ -1034,7 +1033,7 @@ void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
     	aDlg.m_pText->setFocus();
     	aDlg.m_pFontName->setText( hItem->font().family() );
     	QString sTemp;
-    	sTemp = sTemp.setNum( hItem->font().pointSize() );
+        sTemp = sTemp.setNum( hItem->font().pointSize() );
     	aDlg.m_pFontSize->setText( sTemp );
     	sTemp = sTemp.setNum( hItem->x() );
     	aDlg.m_pPosX->setText( sTemp );
@@ -1055,7 +1054,6 @@ void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
     	aDlg.m_pShowAtTime->setText( sTemp );
     	sTemp = sTemp.setNum( dDelta );
     	aDlg.m_pShowTime->setText( sTemp );
-    
     	int iRet = aDlg.exec();
     
     	if( iRet == 2 )
