@@ -1028,32 +1028,33 @@ void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
     
         DynamicTextDlgImpl aDlg( hItem, this, m_pParent );
         aDlg.setModal(true);
+//        aDlg.show();
     //remove vector
-    	aDlg.m_pText->setText( QString( hItem->text() ) );
-    	aDlg.m_pText->setFocus();
-    	aDlg.m_pFontName->setText( hItem->font().family() );
-    	QString sTemp;
-        sTemp = sTemp.setNum( hItem->font().pointSize() );
-    	aDlg.m_pFontSize->setText( sTemp );
-    	sTemp = sTemp.setNum( hItem->x() );
-    	aDlg.m_pPosX->setText( sTemp );
-    	sTemp = sTemp.setNum( hItem->y() );
-    	aDlg.m_pPosY->setText( sTemp );
-        QColor aColor = hItem->brush().color();
-    	aDlg.m_pSelectFontcolor->setPalette( QPalette( aColor ) );
-    	double xRel,yRel;
-    	if( hItem->GetRelativePos( xRel, yRel ) )
-    	{
-    		aDlg.SetRelPos( xRel, yRel );
-    	}
+//    	aDlg.m_pText->setText( QString( hItem->text() ) );
+//    	aDlg.m_pText->setFocus();
+//    	aDlg.m_pFontName->setText( hItem->font().family() );
+//    	QString sTemp;
+//        sTemp = sTemp.setNum( hItem->font().pointSize() );
+//    	aDlg.m_pFontSize->setText( sTemp );
+////    	sTemp = sTemp.setNum( hItem->x() );
+////    	aDlg.m_pPosX->setText( sTemp );
+////    	sTemp = sTemp.setNum( hItem->y() );
+////    	aDlg.m_pPosY->setText( sTemp );
+//        QColor aColor = hItem->brush().color();
+//    	aDlg.m_pSelectFontcolor->setPalette( QPalette( aColor ) );
+//    	double xRel,yRel;
+//    	if( hItem->GetRelativePos( xRel, yRel ) )
+//    	{
+//    		aDlg.SetRelPos( xRel, yRel );
+//    	}
     
-    	double dStart, dDelta;
-    	hItem->GetDefaultData( dStart, dDelta );
+        double dStart, dDelta;
+        hItem->GetDefaultData( dStart, dDelta );
     
-    	sTemp = sTemp.setNum( /*hItem->GetStartTime()*/dStart );
-    	aDlg.m_pShowAtTime->setText( sTemp );
-    	sTemp = sTemp.setNum( dDelta );
-    	aDlg.m_pShowTime->setText( sTemp );
+//    	sTemp = sTemp.setNum( /*hItem->GetStartTime()*/dStart );
+//    	aDlg.m_pShowAtTime->setText( sTemp );
+//    	sTemp = sTemp.setNum( dDelta );
+//    	aDlg.m_pShowTime->setText( sTemp );
     	int iRet = aDlg.exec();
     
     	if( iRet == 2 )
@@ -1080,7 +1081,9 @@ void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
     		}
             QColor aColor = aDlg.m_pSelectFontcolor->palette().background().color(); //backgroundColor();
             hItem->setBrush( aColor );
-    
+            hItem->font().setPointSize(aDlg.m_pFontSize->text().toInt());
+            hItem->font().setFamily(aDlg.m_pFontName->text());
+
     		dStart = aDlg.m_pShowAtTime->text().toDouble();
     		dDelta = aDlg.m_pShowTime->text().toDouble();
     

@@ -54,7 +54,8 @@ HEADERS         = diainfodlgimpl.h \
                   ../gendev/igendev.h \
                   ../minsrv/minbase.h \
                   ../minsrv/dllbase.h \
-                  playinfographicsview.h
+                  playinfographicsview.h \
+    dynamictextitem.h
 
 SOURCES         = diainfodlgimpl.cpp \
                   playinfodlgimpl.cpp \
@@ -93,7 +94,8 @@ SOURCES         = diainfodlgimpl.cpp \
                   ../gendev/gendev.cpp \
                   ../minsrv/minbase.cpp \
                   ../minsrv/dllbase.cpp \
-                  playinfographicsview.cpp
+                  playinfographicsview.cpp \
+    dynamictextitem.cpp
 
 FORMS       = CreateMovieDlg4.ui \
                   PresentationDataDlg4.ui \

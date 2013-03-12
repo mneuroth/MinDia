@@ -117,24 +117,52 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * pare
 
 //    l->addWidget( m_pDrawingAreaCanvas );
 
-    m_pCanvasText = new QGraphicsSimpleTextItem();
+    m_pCanvasText = new DynamicTextItem(this);
     m_pCanvasText->setText( m_hItem->GetString().c_str());
+    m_pCanvasText->setFlag(QGraphicsItem::ItemIsMovable);
     m_pCanvas->addItem(m_pCanvasText);
 
 // TODO Qt4 --> bewegen des Textes realisieren...
 
 //    m_pCanvasText = new Q3CanvasText( m_hItem->GetString().c_str(), m_pCanvas );
-    m_pCanvasText->setPos(100,100);
-	m_pCanvasText->show();
-
-	sltRelPosToggled( m_pRelPos->isChecked() );
+//	sltRelPosToggled( m_pRelPos->isChecked() );
 
     connect( this, SIGNAL( sigDialogHelp(QWidget *, const QString &) ), pMain, SLOT( sltShowModalHelp(QWidget *, const QString &) ) );
 
-	sltUpdateData();
+//    connect( m_pCanvas, SIGNAL( changed(const QList<QRectF> & region) ), this, SLOT(sltUpdateData()) );
+//    connect( m_pCanvas, SIGNAL( sceneRectChanged( const QRectF & rect ) ), this, SLOT(sltUpdateData()) );
 
     m_pDrawingArea->setScene(m_pCanvas);
     m_pDrawingArea->show();
+
+    m_pCanvas->setSceneRect(0,0,this->m_pDrawingArea->width(),this->m_pDrawingArea->height());
+
+    show();
+
+    m_pText->setText( QString( hItem->text() ) );
+    m_pText->setFocus();
+    m_pFontName->setText( hItem->font().family() );
+    QString sTemp;
+    sTemp = sTemp.setNum( hItem->font().pointSize() );
+    m_pFontSize->setText( sTemp );
+//    	sTemp = sTemp.setNum( hItem->x() );
+//    	aDlg.m_pPosX->setText( sTemp );
+//    	sTemp = sTemp.setNum( hItem->y() );
+//    	aDlg.m_pPosY->setText( sTemp );
+    QColor aColor = hItem->brush().color();
+    m_pSelectFontcolor->setPalette( QPalette( aColor ) );
+    UpdateTextPosition();
+    m_pCanvasText->show();
+
+    double dStart, dDelta;
+    hItem->GetDefaultData( dStart, dDelta );
+
+    sTemp = sTemp.setNum( /*hItem->GetStartTime()*/dStart );
+    m_pShowAtTime->setText( sTemp );
+    sTemp = sTemp.setNum( dDelta );
+    m_pShowTime->setText( sTemp );
+
+    sltUpdateData();
 }
 
 DynamicTextDlgImpl::~DynamicTextDlgImpl()
@@ -143,21 +171,56 @@ DynamicTextDlgImpl::~DynamicTextDlgImpl()
     delete m_pCanvas;
 }
 
+void DynamicTextDlgImpl::updated()
+{
+    sltUpdateData();
+    UpdateTextData();
+}
+
+void DynamicTextDlgImpl::UpdateTextPosition()
+{
+    double xRel,yRel;
+    if( m_hItem->GetRelativePos( xRel, yRel ) && xRel>=0 && yRel>=0 )
+    {
+        SetRelPos( xRel, yRel );
+    }
+    else
+    {
+        m_pCanvasText->setPos(m_hItem->x(),m_hItem->y());
+    }
+}
+
+void DynamicTextDlgImpl::UpdateTextData()
+{
+// TODO --> klaeren ob ueberhaupt item aktualisiert werden soll, bevor ok gedrueckt wurde --> abbrechen funktioniert dann naemlich nicht mehr !
+    if( m_pRelPos->isChecked() )
+    {
+        m_hItem->SetRelativePos( GetRelX(), GetRelY() );
+    }
+    else
+    {
+        m_hItem->setPos( m_pCanvasText->x(), m_pCanvasText->y() );
+        m_hItem->SetRelativePos( -1.0, -1.0 );
+    }
+}
+
 double DynamicTextDlgImpl::GetRelX() const
 {
-	return (double)m_pCanvasText->x()/(double)m_pDrawingArea->width();
+    return (double)m_pCanvasText->x()/(double)m_pCanvas->width();
 }
 
 double DynamicTextDlgImpl::GetRelY() const
 {
-	return (double)m_pCanvasText->y()/(double)m_pDrawingArea->height();
+    return (double)m_pCanvasText->y()/(double)m_pCanvas->height();
 }
 
 void DynamicTextDlgImpl::SetRelPos( double xRel, double yRel )
 {
 	if( xRel>=0 && yRel>=0 )
 	{
-        m_pCanvasText->setPos( xRel*m_pDrawingArea->width(),yRel*m_pDrawingArea->height() );
+        double x = xRel*m_pCanvas->width();
+        double y = yRel*m_pCanvas->height();
+        m_pCanvasText->setPos( x, y );
 		m_pRelPos->setChecked( true );
 	}
 	else
@@ -178,6 +241,14 @@ void DynamicTextDlgImpl::sltRelPosToggled(bool bValue)
 	m_pPosRelX->setEnabled( bValue );
 	m_pPosRelY->setEnabled( bValue );
 	m_pDrawingArea->setEnabled( bValue );
+    if( !bValue )
+    {
+        m_hItem->SetRelativePos(-1.0,-1.0);
+    }
+    else
+    {
+        m_hItem->SetRelativePos(GetRelX(),GetRelY());
+    }
 //	m_pDrawingAreaCanvas->setEnabled( bValue );
 }
 
@@ -218,12 +289,11 @@ void DynamicTextDlgImpl::sltDeleteText()
 
 void DynamicTextDlgImpl::sltUpdateData()
 {
-	char sBuffer[128];
+    m_pPosRelX->setText( QString("%1").arg(GetRelX()*100.0,5,'f',2) );
+    m_pPosRelY->setText( QString("%1").arg(GetRelY()*100.0,5,'f',2)  );
 
-	sprintf( sBuffer, "%5.3lf", GetRelX() );
-	m_pPosRelX->setText( sBuffer );
-	sprintf( sBuffer, "%5.3lf", GetRelY() );
-	m_pPosRelY->setText( sBuffer );
+    m_pPosX->setText( QString("%1").arg(m_pCanvasText->x(),5,'f',0) );
+    m_pPosY->setText( QString("%1").arg(m_pCanvasText->y(),5,'f',0) );
 }
 
 void DynamicTextDlgImpl::keyPressEvent( QKeyEvent * pEvent )
@@ -237,3 +307,15 @@ void DynamicTextDlgImpl::keyPressEvent( QKeyEvent * pEvent )
         QDialog::keyPressEvent( pEvent );
 	}
 }
+
+void DynamicTextDlgImpl::resizeEvent( QResizeEvent * event )
+{
+    QDialog::resizeEvent(event);
+    m_pCanvas->setSceneRect(0,0,this->m_pDrawingArea->width()-2,this->m_pDrawingArea->height()-2);
+    //cout << "resize " << this->m_pDrawingArea->width() << " " << this->m_pDrawingArea->height() << endl;
+    //cout << "--> " << GetRelX() << " " << GetRelY() << " --> " << m_pCanvasText->x() << " " << m_pCanvasText->y() << endl;
+    sltUpdateData();
+    // update the relative positions after resize
+    UpdateTextPosition();
+}
+

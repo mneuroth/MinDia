@@ -35,6 +35,7 @@
 #include "ui_DynTextDlg4.h"
 
 #include "dyngraphop.h"
+#include "dynamictextitem.h"
 
 #include <QFont>
 #include <QMouseEvent>
@@ -62,7 +63,7 @@
 //	QPoint			m_aMovingStart;
 //};
 
-class DynamicTextDlgImpl : public QDialog, public Ui_DynamicTextDlg
+class DynamicTextDlgImpl : public QDialog, public Ui_DynamicTextDlg, public DynamicItemChangedCallback
 {
 	Q_OBJECT
 
@@ -75,6 +76,8 @@ public:
 	void SetRelPos( double xRel, double yRel );
 
 	QFont GetFont() const;
+
+    virtual void updated();
 
 public slots:
     virtual void sltRelPosToggled(bool bValue);
@@ -89,13 +92,17 @@ signals:
 
 protected:
 	virtual void keyPressEvent( QKeyEvent * pEvent ); 
+    virtual void resizeEvent( QResizeEvent * event );
+
+    void UpdateTextPosition();
+    void UpdateTextData();
 
 private:
     minHandle<DynText>         m_hItem;
     QFont                      m_aInitFont;
    // DrawingArea *              m_pDrawingAreaCanvas;
     QGraphicsScene *           m_pCanvas;
-    QGraphicsSimpleTextItem *	m_pCanvasText;
+    DynamicTextItem *          m_pCanvasText;
 };
 
 #endif

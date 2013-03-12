@@ -1448,7 +1448,7 @@ string DynText::GetString() const
 
 void DynText::CreateDefaultOperations( double dStartTimeInMS, double dShowTimeInMS )
 {
-    setPos( 100, 100 );
+    setPos( 10, 10 );
     setBrush( QColor( 255, 0, 0 ) );
 	setFont( QFont( "Arial", 20 ) );
 	AddOperation( minHandle<OpItem_Base>( new OpItem_Hide( this, 0 ) ) );
