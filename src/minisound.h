@@ -31,12 +31,15 @@
 
 #include "soundinfo.h"
 
-#include <qdatetime.h>		// for QTime
-
+#include <QDateTime>		// for QTime
 #include <QThread>
+#include <phonon/AudioOutput>
+#include <phonon/MediaObject>
 
 // *******************************************************************
 /** a very simple interface for playing sounds.
+  * inspired by mci inteface under windows and
+  * introduced when Qt::phonon was not available...
   */
 class miniSound : public QThread
 {
@@ -91,9 +94,6 @@ private:
 	bool CheckFile( const char * sFileName );
 	bool CheckIfIsSilentFile( const char * sFileName );
 
-	bool CheckSoundError( int iErrorNo ) const;
-
-
 	// ** temp-data **
 	bool							m_bIsOk;
 	bool							m_bReadError;
@@ -106,12 +106,12 @@ private:
 	int								m_iTotalTimeInMS;
 	int								m_iAbsStartTimeInMS;
 	MciCmdType						m_iMciCmdId;
-	unsigned long					m_ulMciThreadID;
-	unsigned long					m_ulThreadID;
+    Qt::HANDLE  					m_ulMciThreadID;
 	SoundInfoContainer *			m_pSoundInfoContainer;	// no owner !
 	SoundInfoContainer::iterator	m_aIterator;
     QWidget *                       m_pRequester;
     QString                         m_sSoundFile;
+    Phonon::MediaObject *           m_pPlayer;
 };
 
 #endif
