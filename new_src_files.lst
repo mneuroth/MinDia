@@ -159,6 +159,8 @@ src/dyngraphop.cpp
 src/dyngraphop.h
 src/dyntextdlgimpl.cpp
 src/dyntextdlgimpl.h
+src/dynamictextitem.cpp
+src/dynamictextitem.h
 src/eventmapdlgimpl.cpp
 src/eventmapdlgimpl.h
 src/global_patch.h
@@ -179,7 +181,7 @@ src/mincmdproc.cpp
 src/mincmdproc.h
 src/mindia.rc
 src/mindia.qrc
-src/mindia_ new.png
+src/mindia_new.png
 src/mindia_256x256.ico
 src/mindia_512x512.icns
 src/mindia_new.icns
