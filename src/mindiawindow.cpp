@@ -67,6 +67,8 @@
 #include "minbase.h"
 #include "iscript.h"
 #include "qtmtlock.h"
+#include "misctools.h"
+
 #include <QPixmap>
 #include <QCloseEvent>
 #include <QKeyEvent>
@@ -298,11 +300,12 @@ void MinDiaWindow::CreateMenus()
 {
     // popuplate a menu with all actions
 
-	QPixmap aOpenIcon( fileopen );
+    QPixmap aOpenIcon( fileopen );
 	QPixmap aSaveIcon( filesave );
 	QPixmap aRunIcon( runscript );
 	QPixmap aPauseIcon( pausescript );
 	QPixmap aStopIcon( stopscript );
+    QPixmap aPlayInfoIcon( playinfo );
 
     QToolBar * pTools = addToolBar("MinDia");
     pTools->setIconSize(QSize(14,14));
@@ -540,7 +543,9 @@ void MinDiaWindow::CreateMenus()
     m_pPlayFadeOutAction->setStatusTip( tr( "Fade out test (select two dias to enable)" ) );
     m_pPlayFadeOutAction->setShortcut(Qt::ALT+Qt::Key_O);
     connect( m_pPlayFadeOutAction, SIGNAL( activated() ), this, SLOT( sltFadeOutTest() ) );
-    m_pExtrasPlayStatusAction = new QAction( tr( "Pla&y screen..." ), this );
+    m_pExtrasPlayStatusAction = new QAction( aPlayInfoIcon, tr( "Pla&y screen..." ), this );
+    pTools->addSeparator();
+    pTools->addAction(m_pExtrasPlayStatusAction);
     m_pExtrasPlayStatusAction->setStatusTip( tr( "Show dialog to show the dia presentation" ) );
     m_pExtrasPlayStatusAction->setShortcut(Qt::CTRL+Qt::Key_Y);
     m_pExtrasPlayStatusAction->setCheckable(true);
@@ -1648,7 +1653,11 @@ void MinDiaWindow::sltShowImageFile( const QString & sFileName )
 {
 	if( m_pPlayInfoDialog && m_pPlayInfoDialog->isVisible() )
 	{
-		m_pPlayInfoDialog->sltSetImage( QImage(sFileName) );
+        QImage aImage;
+        if( ReadQImage(sFileName.toAscii(), aImage) )
+        {
+            m_pPlayInfoDialog->sltSetImage( aImage );
+        }
 	}
 }
 
@@ -1656,7 +1665,7 @@ void MinDiaWindow::sltShowImage( const QImage & aImage )
 {
     if( m_pPlayInfoDialog && m_pPlayInfoDialog->isVisible() )
     {
-        m_pPlayInfoDialog->sltSetImage( aImage );
+        m_pPlayInfoDialog->sltSetImage( aImage, /*bForceSet*/true );
     }
 }
 
@@ -1782,7 +1791,7 @@ void MinDiaWindow::sltStatusUpdateTimerEvent()
 		}
 		else
 		{
-			m_pTimeLineView->SetPlayMark( -1 );
+//disable since live play mark support (14.3.2013):			m_pTimeLineView->SetPlayMark( -1 );
 		}
 	}
 
@@ -1862,9 +1871,9 @@ void MinDiaWindow::sltItemSelected( int iCount, HItem * pFirstSelectedItem, int 
 
 void MinDiaWindow::sltPlayMarkChanged( double dTimePosInSec )
 {
-    cout << "SHOW PLAY MARK IMAGE "<< dTimePosInSec << endl;
-
-    QImage aImage = m_pControler->GetPresentation().GetSlideForTime(dTimePosInSec*1000.0);
+    int iWidth = m_pPlayInfoDialog->GetDrawWidth();
+    int iHeight = m_pPlayInfoDialog->GetDrawHeight();
+    QImage aImage = m_pControler->GetPresentation().GetSlideForTime(dTimePosInSec*1000.0,iWidth,iHeight);
     sltShowImage(aImage);
 }
 

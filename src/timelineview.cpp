@@ -324,25 +324,28 @@ void TimeLineView::sltItemSelected( int iCount, int iFirstSelectedItemNo )
 
 void TimeLineView::SetPlayMark( double dActPlayTime )
 {
-	const int iDelta = 4;
+    const int iDelta = 200;
 
 	int iActPos = (int)(dActPlayTime*g_dFactor);
 
     m_hPlayMark->setPos( iActPos, 0 );
 
-	// ** repaint only needet in play or pause modus
-	if( iActPos >= 0 )
-	{
+cout << "setplaymark " << dActPlayTime << " " << iActPos << endl;
+    // ** repaint only needet in play or pause modus
+    if( iActPos >= 0 )
+    {
         update( iActPos-iDelta, y(), 2*iDelta+1, /*contentsHeight()*/g_iStartPosY );
-		// ** shift viewport, to ensure that the new item is visible
-        ensureVisible( iActPos+20, 0, width(), height() );
-	}
+        // ** shift viewport, to ensure that the new item is visible
+        //int iMargin = 50;
+        //ensureVisible( iActPos+20, 0, width()-iMargin, height()-iMargin );
+        ensureVisible( m_hPlayMark.GetPtr(), 0 );
+    }
 
-	// ** clear last play mark, after stop
-	if( m_iLastActPlayPos-iActPos > 2 )
-	{
+    // ** clear last play mark, after stop
+    if( m_iLastActPlayPos-iActPos > 2 )
+    {
         update( m_iLastActPlayPos-iDelta, y(), 2*iDelta+1, /*contents*/height() );
-	}
+    }
 
 	m_iLastActPlayPos = iActPos;
 }
@@ -751,10 +754,15 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
 	// ** allow modifiying of items only in edit-modus
 	if( m_pDiaPres->IsEdit() )
 	{
+        QPointF pos = mapToScene(pEvent->x(),pEvent->y());
+        int x = (int)pos.x();
+        int y = (int)pos.y();
+        cout << "x,y " << x << " " << y << endl;
+
 		if( m_hSelectedItem.IsOk() )
 		{
-			double dDelta = (double)(pEvent->x()-m_iSelectedItemStartPos);
-			m_iSelectedItemStartPos = pEvent->x();
+            double dDelta = (double)(x-m_iSelectedItemStartPos);
+            m_iSelectedItemStartPos = x;
 
 			dDelta = dDelta / g_dFactor;
 
@@ -785,8 +793,8 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
 		// handle the movement of dynamic text objects
 		else if( m_iSelectedDynTextIndex>=0 )
 		{
-			double dDelta = (double)(pEvent->x()-m_iSelectedItemStartPos);
-			m_iSelectedItemStartPos = pEvent->x();
+            double dDelta = (double)(x-m_iSelectedItemStartPos);
+            m_iSelectedItemStartPos = x;
 
 			dDelta = dDelta / g_dFactor;
 
@@ -801,7 +809,7 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
 			m_bMouseMovedWhilePressed = true;
 
 			// select the slide for this text item
-			int iIndex = GetItemForPosX( pEvent->x() );
+            int iIndex = GetItemForPosX( x );
 			if( iIndex>=0 )
 			{
 				sltSelectItem( iIndex, 0 );
@@ -820,13 +828,13 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
 			{
 				minHandle<TimeLineItem> hItem = *aIter;
 
-				if( hItem->IsStopBorderSelected( pEvent->x(), pEvent->y() ) )
+                if( hItem->IsStopBorderSelected( x, y ) )
 				{
 					setCursor( Qt::SizeHorCursor );
 
 					return;
 				}
-				else if( hItem->IsDissolveBorderSelected( pEvent->x(), pEvent->y() ) )
+                else if( hItem->IsDissolveBorderSelected( x, y ) )
 				{
 					setCursor( Qt::SizeHorCursor );
 
@@ -847,12 +855,14 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
 
 			setCursor( Qt::ArrowCursor );
 
-            // gulpxyz
-            bool bShiftPressed = ((pEvent->modifiers() & Qt::ShiftModifier) == Qt::ShiftModifier);
+            // update the play info dialog with image of current play position moved by mouse cursor
+            bool bShiftPressed = true; //((pEvent->modifiers() & Qt::ShiftModifier) == Qt::ShiftModifier);
             if( bShiftPressed )
             {
-                double dTime = (double)pEvent->x()*g_dFactor*0.01;
-                cout << "TIME " << dTime << " x=" << pEvent->x() << " " << (pEvent->modifiers() & Qt::ShiftModifier ) << " " << Qt::ShiftModifier << " " << bShiftPressed << endl;
+// TODO ->x() in lokale koodinaten umrechnen
+//                mapToScene(x(),y()).x()
+                //cout << " xxx " << sceneRect().width() << " " << width() << " " << mapToScene(pEvent->x(),pEvent->y()).x() << endl;
+                double dTime = (double)x*g_dFactor*0.01;
                 SetPlayMark(dTime);
                 emit sigPlayMarkChanged(dTime);
             }

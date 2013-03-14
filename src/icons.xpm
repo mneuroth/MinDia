@@ -155,3 +155,26 @@ static const char *fullscreen[] = {
 ".aaa......aaa.",
 ".............."
 };
+
+/* XPM */
+static const char *playinfo[] = {
+"    14    14        4            1",
+"a c #ffff00",
+"b c #008000",
+"# c #808304",
+". c #bfc2bf",
+".aaaaaaaaaaaa.",
+".aaaaaaaaaaaa.",
+".aaaaaaaaaaaa.",
+".aaaaaaaaaaaa.",
+".aaaaabbaaaaa.",
+".aaaabbbbaaaa.",
+".aaabbbbbbaaa.",
+".aaabbbbbbaaa.",
+".aaaabbbbaaaa.",
+".aaaaabbaaaaa.",
+".aaaaaaaaaaaa.",
+".aaaaaaaaaaaa.",
+".aaaaaaaaaaaa.",
+".............."
+};

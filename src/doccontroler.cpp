@@ -836,51 +836,51 @@ void DocumentAndControler::ExecuteScript( bool bDissolve, const string & sScript
 
 QApplication * GetApplication();
 
-static void ClearImageCache( QImageCache & aImageCache )
-{
-	aImageCache.clear();
-}
+//static void ClearImageCache( QImageCache & aImageCache )
+//{
+//	aImageCache.clear();
+//}
 
-static bool InitImageCache( QImageCache & aImageCache, const DiaPresentation & aPresentation, int iWidth, int iHeight )
-{
-    QProgressDialog aProgress( QObject::tr("creating image cache"), QObject::tr("Cancel"), 0, aPresentation.GetDiaCount()/*, 0, "progress"*//*, TRUE*/ );
+//static bool InitImageCache( QImageCache & aImageCache, const DiaPresentation & aPresentation, int iWidth, int iHeight )
+//{
+//    QProgressDialog aProgress( QObject::tr("creating image cache"), QObject::tr("Cancel"), 0, aPresentation.GetDiaCount()/*, 0, "progress"*//*, TRUE*/ );
 
-	aProgress.show();
-    aProgress.setValue( 0 );
+//	aProgress.show();
+//    aProgress.setValue( 0 );
 
-	ClearImageCache( aImageCache );
+//	ClearImageCache( aImageCache );
 	
-	for( int i=0; i<aPresentation.GetDiaCount(); i++ )
-	{
-		minHandle<DiaInfo> hDia = aPresentation.GetDiaAt( i );
+//	for( int i=0; i<aPresentation.GetDiaCount(); i++ )
+//	{
+//		minHandle<DiaInfo> hDia = aPresentation.GetDiaAt( i );
 
-        if( strlen( hDia->GetImageFile().c_str() )>0 )
-		{
-            QImage aImage( hDia->GetImageFile().c_str() );
-            aImage = aImage.scaled( iWidth, iHeight );
-            aImageCache[hDia->GetImageFile().c_str()] = aImage;
-		}
-		else
-		{
-			// add an empty image
-            QImage aEmptyImage( iWidth, iHeight, /*32*/QImage::Format_RGB32 );
-			aEmptyImage.fill( ~0 );
+//        if( strlen( hDia->GetImageFile().c_str() )>0 )
+//		{
+//            QImage aImage( hDia->GetImageFile().c_str() );
+//            aImage = aImage.scaled( iWidth, iHeight );
+//            aImageCache[hDia->GetImageFile().c_str()] = aImage;
+//		}
+//		else
+//		{
+//			// add an empty image
+//            QImage aEmptyImage( iWidth, iHeight, /*32*/QImage::Format_RGB32 );
+//			aEmptyImage.fill( ~0 );
 
-			aImageCache[""] = aEmptyImage;
-		}
+//			aImageCache[""] = aEmptyImage;
+//		}
 
-        aProgress.setValue( i+1 );
-		GetApplication()->processEvents();
-		if( aProgress.wasCanceled() )
-		{
-			return false;
-		}
-	}
+//        aProgress.setValue( i+1 );
+//		GetApplication()->processEvents();
+//		if( aProgress.wasCanceled() )
+//		{
+//			return false;
+//		}
+//	}
 	
-    aProgress.setValue( aPresentation.GetDiaCount() );
+//    aProgress.setValue( aPresentation.GetDiaCount() );
 
-	return true;
-}
+//	return true;
+//}
 
 int DocumentAndControler::CreateImagesForMovie( 
 		const string & sOutputDirectory, 
@@ -893,19 +893,19 @@ int DocumentAndControler::CreateImagesForMovie(
 {
 	// 1600x1200 = 1,3333333 = 4:3
 	// 540 x 360 = 1,5
-	QImageCache aImageCache;
-	QPixmap aPixmap( iWidth, iHeight );
-	QPainter aPainter;
+    //QImageCache aImageCache;
+    //QPixmap aPixmap( iWidth, iHeight );
+    //QPainter aPainter;
 
 	//QCanvas::drawArea()
 	//QImage aImage = aPixmap.convertToImage();
 
 	int iCount = 0;
-	if( InitImageCache( aImageCache, GetPresentation(), iWidth, iHeight ) )
+    //if( InitImageCache( aImageCache, GetPresentation(), iWidth, iHeight ) )
 	{		
         QProgressDialog aProgress( QObject::tr("creating images for movie"), QObject::tr("Cancel"), 0, (int)dStopMS/*, 0, "progress", TRUE*/ );
 
-		aProgress.show();
+        aProgress.show();
         aProgress.setValue( 0 );
 
 		string sLastFileName;
@@ -919,10 +919,12 @@ int DocumentAndControler::CreateImagesForMovie(
  
 			if( GetPresentation().IsNextSlideChanging( dTimeMS, dDeltaMS ) )
 			{
-				aPixmap.fill();
-				aPainter.begin( &aPixmap );
-				GetPresentation().PaintSlideForTime( aImageCache, aPainter, dTimeMS );
-				aPainter.end();
+                //aPixmap.fill();
+                //aPainter.begin( &aPixmap );
+                //GetPresentation().PaintSlideForTime( aImageCache, aPainter, dTimeMS );
+                //aPainter.end();
+
+                QImage aPixmap = GetPresentation().GetSlideForTime( dTimeMS, iWidth, iHeight );
 
 				/*bool bOk =*/ aPixmap.save(sBuffer,"JPEG",100);
 
@@ -949,7 +951,7 @@ int DocumentAndControler::CreateImagesForMovie(
         aProgress.setValue( (int)dStopMS );
 	}
 
-	ClearImageCache( aImageCache );
+//	ClearImageCache( aImageCache );
 
 	return iCount;
 }

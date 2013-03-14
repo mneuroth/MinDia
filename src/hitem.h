@@ -29,14 +29,9 @@
 #ifndef _HTIEM_H
 #define _HTIEM_H
 
-#undef _with_canvas_items
-
 // ** gui
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
-#ifdef _with_canvas_items
-#include <QGraphicsSimpleTextItem>
-#endif
 
 #include "minhandle.h"		// for the smart-ptr
 
@@ -65,29 +60,11 @@ public:
 	bool IsPointInItem( int x, int y ) const;
 
 protected:
-
-#ifndef _with_canvas_items
     virtual void paint( QPainter * pPainter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
-#endif
 
 private:
-
-#ifdef _with_canvas_items
-	// ** helper methods **
-	void CreateElements( Q3Canvas * pCanvas );
-	void DeleteElements();
-	void UpdateElements();
-
-	// ** the element data **
-    QGraphicsSimpleTextItem *		m_pPosText;
-    QGraphicsSimpleTextItem *		m_pIdText;
-    QGraphicsSimpleTextItem *		m_pCommentText;
-    QGraphicsSimpleTextItem *		m_pFileNameText;
-	SlideItem *			m_pSlideItem;
-#else
 	QString				m_sImageFileNameCache;
 	QImage *			m_pImageCache;
-#endif
 
 	// ** data **
 	bool				m_bIsSelected;

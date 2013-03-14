@@ -53,10 +53,17 @@
 #include "minexception.h"
 #include "minutils.h"		// for: FileUtilityObj
 #include "minlog.h"
+#include "misctools.h"
 
 #include <stdio.h>
 
 #include <qobject.h>
+
+#include <qimage.h>
+#include <qpainter.h>
+
+//QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor );
+void _FadeImage( QPainter * pPainter, const QRectF & area, int iFadeFactor, const QImage & aImagePrevious, const QImage & aImage );
 
 // *******************************************************************
 // *******************************************************************
@@ -1229,12 +1236,7 @@ bool DiaPresentation::ExistsExternalDevice()
 	return false;
 }
 
-#include <qimage.h>
-#include <qpainter.h>
-//QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor );
-void _FadeImage( QPainter * pPainter, const QRectF & area, int iFadeFactor, const QImage & aImagePrevious, const QImage & aImage );
-
-QImage DiaPresentation::GetSlideForTime( double dTimeMS ) const
+QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight ) const
 {
     int iIndex1 = -1;
     int iIndex2 = -1;
@@ -1244,28 +1246,34 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS ) const
         minHandle<DiaInfo> hDia1 = GetDiaAt( iIndex1 );
         minHandle<DiaInfo> hDia2 = GetDiaAt( iIndex2 );
 
-
         if( hDia1.IsOk() )
         {
-            const char * c = hDia1->GetImageFile().c_str();
-            QImage aImage1 = QImage( hDia1->GetImageFile().c_str() );
-            cout << "IMAGE " << c << " ok " << aImage1.isNull() << endl;
+            QImage aImage1;
+            ReadQImage( hDia1->GetImageFile().c_str(), aImage1 );
 
-            QImage aPixmap( aImage1.width(), aImage1.height(), QImage::Format_RGB32 );
+            if( iWidth<0 )
+            {
+                iWidth = aImage1.width();
+            }
+            if( iHeight<0 )
+            {
+                iHeight = aImage1.height();
+            }
+
+            aImage1 = aImage1.scaled( iWidth, iHeight );
+
+            QImage aPixmap( iWidth, iHeight, QImage::Format_RGB32 );
             QPainter aPainter;
 
-           // aPixmap.fill();
+            //aPixmap.fill();
             aPainter.begin( &aPixmap );
             QRect aRect = aPainter.viewport();
 
-//            const QImage & aImage1 = QImage( hDia1->GetImageFile().c_str() );
             if( hDia2.IsOk() )
             {
-                QImage aImage2 = QImage( hDia2->GetImageFile().c_str() );
-//                const QImage aImage2 = aImageCache[ hDia2->GetImageFile().c_str() ];
-                //aImage1 = aImage1.smoothScale( aImage2.width(), aImage2.height() );
-                //old: QImage aImage3 = _FadeImage( aImage2, aImage1, iFadeFactor );
-                //old: aPainter.drawImage( 0, 0, aImage3 );
+                QImage aImage2;
+                ReadQImage( hDia2->GetImageFile().c_str(), aImage2 );
+                aImage2 = aImage2.scaled( iWidth, iHeight );
                 _FadeImage(&aPainter,QRectF(aRect),iFadeFactor,aImage2,aImage1);
             }
             else
@@ -1283,41 +1291,41 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS ) const
     return QImage();
 }
 
-void DiaPresentation::PaintSlideForTime( const QImageCache & aImageCache, QPainter & aPainter, double dTimeMS ) const
-{
-	int iIndex1 = -1;
-	int iIndex2 = -1;
-	int iFadeFactor = 0;
-	if( GetIndexForTime( dTimeMS, iIndex1, iIndex2, iFadeFactor ) )
-	{
-		minHandle<DiaInfo> hDia1 = GetDiaAt( iIndex1 );
-		minHandle<DiaInfo> hDia2 = GetDiaAt( iIndex2 );
+//void DiaPresentation::PaintSlideForTime( const QImageCache & aImageCache, QPainter & aPainter, double dTimeMS ) const
+//{
+//	int iIndex1 = -1;
+//	int iIndex2 = -1;
+//	int iFadeFactor = 0;
+//	if( GetIndexForTime( dTimeMS, iIndex1, iIndex2, iFadeFactor ) )
+//	{
+//		minHandle<DiaInfo> hDia1 = GetDiaAt( iIndex1 );
+//		minHandle<DiaInfo> hDia2 = GetDiaAt( iIndex2 );
 
-		QRect aRect = aPainter.viewport();
+//		QRect aRect = aPainter.viewport();
 
-		if( hDia1.IsOk() )
-		{
-			//QImage aImage1 = QImage( hDia1->GetImageFile() );
-            const QImage & aImage1 = aImageCache[ hDia1->GetImageFile().c_str() ];
-			if( hDia2.IsOk() )
-			{
-				//QImage aImage2 = QImage( hDia2->GetImageFile() );
-                const QImage aImage2 = aImageCache[ hDia2->GetImageFile().c_str() ];
-				//aImage1 = aImage1.smoothScale( aImage2.width(), aImage2.height() );
-                //old: QImage aImage3 = _FadeImage( aImage2, aImage1, iFadeFactor );
-                //old: aPainter.drawImage( 0, 0, aImage3 );
-                _FadeImage(&aPainter,QRectF(aRect),iFadeFactor,aImage2,aImage1);
-			}
-			else
-			{
-				aPainter.drawImage( 0, 0, aImage1 );
-			}
+//		if( hDia1.IsOk() )
+//		{
+//			//QImage aImage1 = QImage( hDia1->GetImageFile() );
+//            const QImage & aImage1 = aImageCache[ hDia1->GetImageFile().c_str() ];
+//			if( hDia2.IsOk() )
+//			{
+//				//QImage aImage2 = QImage( hDia2->GetImageFile() );
+//                const QImage aImage2 = aImageCache[ hDia2->GetImageFile().c_str() ];
+//				//aImage1 = aImage1.smoothScale( aImage2.width(), aImage2.height() );
+//                //old: QImage aImage3 = _FadeImage( aImage2, aImage1, iFadeFactor );
+//                //old: aPainter.drawImage( 0, 0, aImage3 );
+//                _FadeImage(&aPainter,QRectF(aRect),iFadeFactor,aImage2,aImage1);
+//			}
+//			else
+//			{
+//				aPainter.drawImage( 0, 0, aImage1 );
+//			}
 
-			// after the (backgound) image, draw the text and other elements
-			GetDynGraphicData().PaintElementsForTime( aPainter, dTimeMS );
-		}
-	}
-}
+//			// after the (backgound) image, draw the text and other elements
+//			GetDynGraphicData().PaintElementsForTime( aPainter, dTimeMS );
+//		}
+//	}
+//}
 
 bool DiaPresentation::IsNextSlideChanging( double dTimeMS, double dDeltaMS ) const
 {
@@ -1337,7 +1345,6 @@ bool DiaPresentation::IsNextSlideChanging( double dTimeMS, double dDeltaMS ) con
 
 	return true;
 }
-
 
 bool DiaPresentation::GetIndexForTime( double dTimeMS, int & iIndex1, int & iIndex2, int & iFadeFactor ) const
 {

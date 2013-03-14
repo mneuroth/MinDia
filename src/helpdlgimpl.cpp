@@ -28,13 +28,7 @@
  ***************************************************************************/
 
 #include "helpdlgimpl.h"
-
-#include <qpushbutton.h>
-//#include <qlineedit.h>
-#include <qpixmap.h>
-#include <qimage.h>
-#include <qmessagebox.h>
-
+#
 // *******************************************************************
 
 /* XPM */

@@ -183,7 +183,7 @@ public slots:
     virtual void sltFullScreen();
 
 	void sltSetImage( const QString & sImageFileName, bool bIsPlaying, int iDissolveTimeInMS );
-	void sltSetImage( const QImage & aImage );
+    void sltSetImage( const QImage & aImage, bool bForceSet = false );
 	void sltFadeInImage( const QImage & aNewImage, int iFadeInTimeInMS );
 
 	void sltFadeInTimer();

@@ -60,7 +60,7 @@
 
 using namespace std;
 
-typedef QMap<QString,QImage>	QImageCache;
+//typedef QMap<QString,QImage>	QImageCache;
 
 // ** pre-declarations
 class RolleiCom;
@@ -127,8 +127,8 @@ public:
 	bool IsPause() const;
 	bool IsEdit() const;
 
-    QImage GetSlideForTime( double dTimeMS ) const;
-	void PaintSlideForTime( const QImageCache & aImageCache, QPainter & aPainter, double dTimeMS ) const;
+    QImage GetSlideForTime( double dTimeMS, int iWidth = -1, int iHeight = -1 ) const;
+    //void PaintSlideForTime( const QImageCache & aImageCache, QPainter & aPainter, double dTimeMS ) const;
 	bool IsNextSlideChanging( double dTimeMS, double dDeltaMS ) const;
 	bool GetIndexForTime( double dTimeMS, int & iIndex1, int & iIndex2, int & iFadeFactor ) const;
 

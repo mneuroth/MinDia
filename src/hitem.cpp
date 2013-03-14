@@ -52,94 +52,6 @@ const int c_iSlideOffsY2	= 39;	//40;
 // *******************************************************************
 // *******************************************************************
 
-#ifdef _with_canvas_items
-
-/** class which draws a slide in a canvas.
- */
-class SlideItem : public QGraphicsRectItem
-{
-public:
-    SlideItem( const QRect & aRect, QGraphicsScene * canvas, const QString & sImageFileName, bool bHorizontalSlide = true );
-
-protected:
-	virtual void drawShape( QPainter & aPainter ); 
-
-private:
-	bool		m_bHorizontalSlide;
-	QString		m_sImageFileName;
-}
-
-// *******************************************************************
-
-SlideItem::SlideItem( const QRect & aRect, QGraphicsScene * canvas, const QString & sImageFileName, bool bHorizontalSlide )
-: QGraphicsRectItem( aRect, canvas ),
-  m_bHorizontalSlide( bHorizontalSlide ),
-  m_sImageFileName( sImageFileName )
-{
-}
-
-void SlideItem::drawShape( QPainter & aPainter )
-{
-	QRect	aRect( rect() );
-	QColor	aGrey( 188, 188, 188 );
-	QColor	aWhite( 255, 255, 255 );
-	QColor	aBlack( 0, 0, 0 );
-	QPen	aPen( aGrey );
-
-	aPen.setWidth( 10 );
-	aPainter.setPen( aPen );
-	int iRound = 5;
-	aPainter.drawRoundRect( aRect.x()+iRound, aRect.y()+iRound, aRect.width()-2*iRound, aRect.height()-c_iOffset, iRound, iRound );
-	iRound = 10;
-
-	QBrush aBrush1( aGrey );
-	aPainter.fillRect( aRect.x()+iRound, aRect.y()+iRound, aRect.width()-2*iRound, aRect.height()-c_iOffset, aBrush1 );
-	QBrush aBrush2( aWhite );
-	QPoint aSlideStartPoint;
-	QRect aSlideRect;
-	if( m_bHorizontalSlide )
-	{
-		aSlideStartPoint.setX( aRect.x()+c_iSlideOffsX );
-		aSlideStartPoint.setY( aRect.y()+c_iSlideOffsY2 );
-		aSlideRect.setRect( aSlideStartPoint.x(), aSlideStartPoint.y(), c_iSlideWidth, c_iSlideHeight );
-	}
-	else
-	{
-		aSlideStartPoint.setX( aRect.x()+c_iSlideOffsY );
-		aSlideStartPoint.setY( aRect.y()+c_iSlideOffsX );
-		aSlideRect.setRect( aSlideStartPoint.x(), aSlideStartPoint.y(), c_iSlideHeight, c_iSlideWidth );
-	}
-
-	// ** show the image, if available
-	QImage aImage;
-	QImage aImageOrg;
-
-	bool bOk = ReadQImage( m_sImageFileName.s_str(), aImageOrg );
-
-	if( bOk && !aImageOrg.isNull() )
-	{
-		aImage = aImageOrg.smoothScale( c_iSlideWidth, c_iSlideHeight );
-	}
-	else
-	{
-		aImage = aImageOrg;
-	}
-	if( m_aImage.isNull() )
-	{
-		aPainter.fillRect( aSlideRect, aBrush2 );
-	}
-	else
-	{
-		aPainter.drawImage( aSlideRect.x(), aSlideRect.y(), m_aImage );
-	}
-}
-
-#endif
-
-// *******************************************************************
-// *******************************************************************
-// *******************************************************************
-
 HItem::HItem( const QRect & aRect, QGraphicsScene * pCanvas, minHandle<DiaInfo> hData  )
 : QGraphicsRectItem(QRectF(aRect.x(),aRect.y(),aRect.width(),aRect.height())),
   m_pImageCache( 0 )
@@ -151,19 +63,11 @@ HItem::HItem( const QRect & aRect, QGraphicsScene * pCanvas, minHandle<DiaInfo> 
 	setPen( QPen( QColor( 255, 255, 255 ) ) );
     //old: setZ( 50 );
 
-#ifdef _with_canvas_items
-	CreateElements( pCanvas );
-	UpdateElements();
-#endif
-
     pCanvas->addItem(this);
 }
 
 HItem::~HItem()
 {
-#ifdef _with_canvas_items
-	DeleteElements();
-#endif
 	if( m_pImageCache )
 	{
 		delete m_pImageCache;
@@ -354,62 +258,3 @@ bool HItem::IsPointInItem( int x, int y ) const
 	}
 	return false;
 }
-
-#ifdef _with_canvas_items
-
-void HItem::CreateElements( Q3Canvas * pCanvas )
-{
-	m_pPosText = new Q3CanvasText( pCanvas );
-	m_pPosText->show();
-	m_pIdText = new Q3CanvasText( pCanvas );
-	m_pIdText->show();
-	m_pCommentText = new Q3CanvasText( pCanvas );
-	m_pCommentText->show();
-	m_pFileNameText = new Q3CanvasText( pCanvas );
-	m_pFileNameText->show();
-	m_pSlideItem = new SlideItem( QRect( 0, 0, width(), height() ), pCanvas, m_hData->GetImageFile() );
-	m_pSlideItem->show();
-}
-
-void HItem::DeleteElements()
-{
-	delete m_pPosText;
-	delete m_pIdText;
-	delete m_pCommentText;
-	delete m_pFileNameText;
-	delete m_pSlideItem;
-}
-
-void HItem::UpdateElements()
-{
-	char sBuffer[255];
-
-	QPoint aTextStartPoint( x()+2, y()+height()-c_iOffset+c_iDY );
-
-	sprintf( sBuffer, "pos=%d", m_hData->GetPosition()+1 );
-	m_pPosText->setText( sBuffer );
-	m_pPosText->move( aTextStartPoint.x(), aTextStartPoint.y() );
-
-	sprintf( sBuffer, "id=%s", m_hData->GetId() );
-	m_pIdText->setText( sBuffer );
-	m_pIdText->move( aTextStartPoint.x(), aTextStartPoint.y()+c_iDY );
-
-	sprintf( sBuffer, "comment=%s", m_hData->GetComment() );
-	m_pCommentText->setText( sBuffer );
-	m_pCommentText->move( aTextStartPoint.x(), aTextStartPoint.y()+2*c_iDY );
-
-	m_pFileNameText;
-
-	m_pSlideItem->move( x(), y() );
-
-	if( m_bIsSelected )
-	{
-		setPen( QPen( QColor( 255, 0, 0 ) ) );
-	}
-	else
-	{
-		setPen( QPen( QColor( 255, 255, 255 ) ) );
-	}
-}
-
-#endif

@@ -320,6 +320,7 @@ void _FadeImage( QPainter * pPainter, const QRectF & area, int iFadeFactor, cons
 
     pPainter->setOpacity(1.0-dFactor);
 
+// TODO --> klaeren ob hier image erst scaliert werden sollen
     pPainter->drawImage(area,aImagePrevious);
     pPainter->setOpacity(dFactor);
     pPainter->drawImage(area,aImage);
@@ -1068,14 +1069,14 @@ void PlayInfoDlgImpl::sltSetImage( const QString & sImageFileName, bool bIsPlayi
 	}
 }
 
-void PlayInfoDlgImpl::sltSetImage( const QImage & aImage )
+void PlayInfoDlgImpl::sltSetImage( const QImage & aImage, bool bForceSet )
 {
 	m_aActImage = aImage;
 
-    m_aScaledImage = DoScaleImage( m_aActImage );
-    m_aScaledImagePrevious = DoScaleImage( m_aActImage/*m_aPreviousImage*/ );
+    m_aScaledImage = DoScaleImage( m_aActImage );    
+    m_aScaledImagePrevious = DoScaleImage( bForceSet ? m_aActImage : m_aPreviousImage );
 
-    //m_pCanvas->SetFadeFactor(1.0);
+    //m_pCanvas->SetFadeFactor(0.5);
 
     m_pCanvas->update();
 }

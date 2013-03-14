@@ -96,13 +96,16 @@ void ProjectorControlDlgImpl::DoDialogEnable( bool bEnable )
         
 		QWidget * pWidget = (QWidget *)pItem;
 
-//TODO: cout << "enable: " << (const char *)pWidget->objectName() << endl;
+//TODO:        cout << "enable: " << (const char *)pWidget->objectName().constData() << endl;
 
         if( pWidget->isWidgetType() /*&& !pWidget->inherits("QGroupBox")*/)
         {
             pWidget->setEnabled( bEnable );
         }
 	}
+
+    m_pBack->setEnabled( bEnable );
+    m_pForward->setEnabled( bEnable );
 
 	// ** close-, status- and test-button is always active
 	m_pCloseButton->setEnabled( true );
