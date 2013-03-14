@@ -127,6 +127,7 @@ public:
 	bool IsPause() const;
 	bool IsEdit() const;
 
+    QImage GetSlideForTime( double dTimeMS ) const;
 	void PaintSlideForTime( const QImageCache & aImageCache, QPainter & aPainter, double dTimeMS ) const;
 	bool IsNextSlideChanging( double dTimeMS, double dDeltaMS ) const;
 	bool GetIndexForTime( double dTimeMS, int & iIndex1, int & iIndex2, int & iFadeFactor ) const;

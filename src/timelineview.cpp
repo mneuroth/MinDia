@@ -324,10 +324,7 @@ void TimeLineView::sltItemSelected( int iCount, int iFirstSelectedItemNo )
 
 void TimeLineView::SetPlayMark( double dActPlayTime )
 {
-// TODO --> ist dies noch notwendig ?
-//#ifndef __linux__
 	const int iDelta = 4;
-//#endif
 
 	int iActPos = (int)(dActPlayTime*g_dFactor);
 
@@ -336,12 +333,7 @@ void TimeLineView::SetPlayMark( double dActPlayTime )
 	// ** repaint only needet in play or pause modus
 	if( iActPos >= 0 )
 	{
-// TODO --> ist dies noch notwendig ?
-//#ifdef __linux__
-//		repaintContents( contentsX(), contentsY(), /*contents*/visibleWidth(), g_iStartPosY );
-//#else
         update( iActPos-iDelta, y(), 2*iDelta+1, /*contentsHeight()*/g_iStartPosY );
-//#endif
 		// ** shift viewport, to ensure that the new item is visible
         ensureVisible( iActPos+20, 0, width(), height() );
 	}
@@ -349,11 +341,7 @@ void TimeLineView::SetPlayMark( double dActPlayTime )
 	// ** clear last play mark, after stop
 	if( m_iLastActPlayPos-iActPos > 2 )
 	{
-//#ifdef __linux__
-//		repaintContents( contentsX(), contentsY(), /*contents*/visibleWidth(), /*contents*/visibleHeight() );
-//#else
         update( m_iLastActPlayPos-iDelta, y(), 2*iDelta+1, /*contents*/height() );
-//#endif
 	}
 
 	m_iLastActPlayPos = iActPos;
@@ -858,6 +846,16 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
 			}
 
 			setCursor( Qt::ArrowCursor );
+
+            // gulpxyz
+            bool bShiftPressed = ((pEvent->modifiers() & Qt::ShiftModifier) == Qt::ShiftModifier);
+            if( bShiftPressed )
+            {
+                double dTime = (double)pEvent->x()*g_dFactor*0.01;
+                cout << "TIME " << dTime << " x=" << pEvent->x() << " " << (pEvent->modifiers() & Qt::ShiftModifier ) << " " << Qt::ShiftModifier << " " << bShiftPressed << endl;
+                SetPlayMark(dTime);
+                emit sigPlayMarkChanged(dTime);
+            }
 		}
 	}
 }

@@ -135,6 +135,7 @@ signals:
 	void sigViewDataChanged();
 	void sigItemSelected( int iNo, int iDissolveTimeInMS );
 	void sigLoadDoc( const QString & sFileName, bool bExecuteEvent );
+    void sigPlayMarkChanged( double dTimePosInSec );
 
 private:
 	// ** helper methods **

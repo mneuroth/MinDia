@@ -1073,7 +1073,9 @@ void PlayInfoDlgImpl::sltSetImage( const QImage & aImage )
 	m_aActImage = aImage;
 
     m_aScaledImage = DoScaleImage( m_aActImage );
-    m_aScaledImagePrevious = DoScaleImage( m_aPreviousImage );
+    m_aScaledImagePrevious = DoScaleImage( m_aActImage/*m_aPreviousImage*/ );
+
+    //m_pCanvas->SetFadeFactor(1.0);
 
     m_pCanvas->update();
 }

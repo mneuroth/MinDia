@@ -1234,6 +1234,55 @@ bool DiaPresentation::ExistsExternalDevice()
 //QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor );
 void _FadeImage( QPainter * pPainter, const QRectF & area, int iFadeFactor, const QImage & aImagePrevious, const QImage & aImage );
 
+QImage DiaPresentation::GetSlideForTime( double dTimeMS ) const
+{
+    int iIndex1 = -1;
+    int iIndex2 = -1;
+    int iFadeFactor = 0;
+    if( GetIndexForTime( dTimeMS, iIndex1, iIndex2, iFadeFactor ) )
+    {
+        minHandle<DiaInfo> hDia1 = GetDiaAt( iIndex1 );
+        minHandle<DiaInfo> hDia2 = GetDiaAt( iIndex2 );
+
+
+        if( hDia1.IsOk() )
+        {
+            const char * c = hDia1->GetImageFile().c_str();
+            QImage aImage1 = QImage( hDia1->GetImageFile().c_str() );
+            cout << "IMAGE " << c << " ok " << aImage1.isNull() << endl;
+
+            QImage aPixmap( aImage1.width(), aImage1.height(), QImage::Format_RGB32 );
+            QPainter aPainter;
+
+           // aPixmap.fill();
+            aPainter.begin( &aPixmap );
+            QRect aRect = aPainter.viewport();
+
+//            const QImage & aImage1 = QImage( hDia1->GetImageFile().c_str() );
+            if( hDia2.IsOk() )
+            {
+                QImage aImage2 = QImage( hDia2->GetImageFile().c_str() );
+//                const QImage aImage2 = aImageCache[ hDia2->GetImageFile().c_str() ];
+                //aImage1 = aImage1.smoothScale( aImage2.width(), aImage2.height() );
+                //old: QImage aImage3 = _FadeImage( aImage2, aImage1, iFadeFactor );
+                //old: aPainter.drawImage( 0, 0, aImage3 );
+                _FadeImage(&aPainter,QRectF(aRect),iFadeFactor,aImage2,aImage1);
+            }
+            else
+            {
+                aPainter.drawImage( 0, 0, aImage1 );
+            }
+
+            // after the (backgound) image, draw the text and other elements
+            GetDynGraphicData().PaintElementsForTime( aPainter, dTimeMS );
+
+            aPainter.end();
+            return aPixmap;
+        }
+    }
+    return QImage();
+}
+
 void DiaPresentation::PaintSlideForTime( const QImageCache & aImageCache, QPainter & aPainter, double dTimeMS ) const
 {
 	int iIndex1 = -1;

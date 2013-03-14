@@ -285,6 +285,7 @@ public slots:
 	void sltShowHelpForMe();
 
 	void sltShowImageFile( const QString & sFileName );
+    void sltShowImage( const QImage & aImage );
 
 	void sltDoDocumentStateUpdate();
 	void sltDoDataChanged();
@@ -322,6 +323,8 @@ public slots:
 	void sltPasteClipboard();
 	void sltSelectAllClipboard();
 	void sltDeleteSelectedItems();
+
+    void sltPlayMarkChanged( double dTimePosInSec );
 
 signals:
 	void sigLoadDocFromFile( const QString & sFileName, bool bExecuteEvent );

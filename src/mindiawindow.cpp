@@ -262,6 +262,8 @@ MinDiaWindow::~MinDiaWindow()
 {
     SaveSettings();
     
+    delete m_pPlayInfoDialog;
+
 	delete m_pControler;
 
 //	delete m_pDiaStateView;
@@ -651,6 +653,8 @@ void MinDiaWindow::CreateMenus()
 	//connect( m_pPlugins, SIGNAL( aboutToShow() ), this, SLOT( sltUpdateScriptsMenu() ) );
 
     connect( this, SIGNAL( sigDialogHelp(const QString &) ), this, SLOT( sltShowHelp(const QString &) ) );
+
+    connect( m_pTimeLineView, SIGNAL( sigPlayMarkChanged(double) ), this, SLOT( sltPlayMarkChanged(double) ) );
 }
 
 void MinDiaWindow::customEvent(QEvent * pEvent)
@@ -1648,6 +1652,14 @@ void MinDiaWindow::sltShowImageFile( const QString & sFileName )
 	}
 }
 
+void MinDiaWindow::sltShowImage( const QImage & aImage )
+{
+    if( m_pPlayInfoDialog && m_pPlayInfoDialog->isVisible() )
+    {
+        m_pPlayInfoDialog->sltSetImage( aImage );
+    }
+}
+
 void MinDiaWindow::sltDoDocumentStateUpdate()
 {
 	// *** update caption of the window, with file name ! ***
@@ -1846,6 +1858,14 @@ void MinDiaWindow::sltItemSelected( int iCount, HItem * pFirstSelectedItem, int 
 	// ** update the edit menu, because here are some accelerator-keys used...
 	sltUpdateEditMenu();
 	sltUpdatePlayMenu();
+}
+
+void MinDiaWindow::sltPlayMarkChanged( double dTimePosInSec )
+{
+    cout << "SHOW PLAY MARK IMAGE "<< dTimePosInSec << endl;
+
+    QImage aImage = m_pControler->GetPresentation().GetSlideForTime(dTimePosInSec*1000.0);
+    sltShowImage(aImage);
 }
 
 void MinDiaWindow::sltSelectItem( int iIndex, int iDissolveTimeInMS )
