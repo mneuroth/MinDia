@@ -1,5 +1,9 @@
 <RCC>
     <qresource prefix="/icons">
         <file>mindia_new.png</file>
+        <file>icons/background.png</file>
+        <file>icons/display.png</file>
+        <file>icons/thumbnail.png</file>
+        <file>icons/tv.png</file>
     </qresource>
 </RCC>

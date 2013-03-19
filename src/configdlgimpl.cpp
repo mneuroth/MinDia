@@ -35,6 +35,7 @@
 #include "configdlgimpl.h"
 
 #include "doccontroler.h"
+#include "misctools.h"
 
 #include <qcombobox.h>
 #include <qcheckbox.h>
@@ -277,7 +278,7 @@ void ConfigurationDlgImpl::TransferDataFromControl()
 	int	iDataBits = aCom.GetDataBits();
 	int iFlowMode = aCom.GetFlowModus();
 
-    sComPort = string(m_pComPortList->currentText().toAscii());
+    sComPort = ToStdString(m_pComPortList->currentText());
 
 	s = m_pBaudRateList->currentText();
 	iBaudrate = s.toInt( &bOk );

@@ -583,11 +583,11 @@ bool PlayInfoDlgImpl::IsFullScreen() const
 }
 
 // TODO improve handling --> dies ist temporaer !!!
-static QByteArray g_test;
+//static QByteArray g_test;
 
 void PlayInfoDlgImpl::FullScreen()
 {
-    g_test = this->saveGeometry();
+//    g_test = this->saveGeometry();
     //if( !IsFullScreen() )
 	{
 		// ** for full screen modus remove the controls in the control area
@@ -682,7 +682,7 @@ void PlayInfoDlgImpl::RestoreSize()
 
         showNormal();
 
-        this->restoreGeometry(g_test);
+//        this->restoreGeometry(g_test);
 
 //        this->repaint();
         this->resize(this->width(),this->height()+1);
@@ -1033,7 +1033,7 @@ void PlayInfoDlgImpl::sltSetImage( const QString & sImageFileName, bool bIsPlayi
 	{
 		QImage aImage;
 
-        /*bool bOk =*/ ReadQImage( sImageFileName.toAscii(), aImage );
+        /*bool bOk =*/ ReadQImage( sImageFileName, aImage );
 
 		if( bIsPlaying )
 		{
@@ -1410,6 +1410,13 @@ void PlayInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 
 void PlayInfoDlgImpl::resizeEvent( QResizeEvent * pEvent )
 {
+cout << "ResizeEvent " << isFullScreen() << endl;
+// TODO gulp --> if fullscreen and controls not hidden --> hide them (workaround for restoring full screen)
+if( m_pRun->isVisible() )
+{
+//    FullScreen();
+}
+
     QRect aFrameRect = m_pCanvasView->frameRect();
 
 	// ** update size of the canvas

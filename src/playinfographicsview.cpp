@@ -65,6 +65,18 @@ PlayInfoContextMenu::PlayInfoContextMenu( QWidget * parent, PlayInfoDlgImpl * pM
 
     addSeparator();
 
+    pAction = new QAction( tr( "Sta&rt" ), 0 );
+    addAction( pAction );
+    connect( pAction, SIGNAL(activated()), m_pMyDialog, SLOT(sltPlay()) );
+    pAction = new QAction( tr( "P&ause" ), 0 );
+    addAction( pAction );
+    connect( pAction, SIGNAL(activated()), m_pMyDialog, SLOT(sltPause()) );
+    pAction = new QAction( tr( "S&top" ), 0 );
+    addAction( pAction );
+    connect( pAction, SIGNAL(activated()), m_pMyDialog, SLOT(sltStop()) );
+
+    addSeparator();
+
     pAction = new QAction( tr( "&Close" ), 0 );
     addAction( pAction );
     connect( pAction, SIGNAL(activated()), this, SLOT(sltClose()) );

@@ -447,9 +447,10 @@ public:
 	void Sync();
 
 // only for edit modus needed...
-	void Deselect();
+    void Deselect();
 	void SetSelected( bool bSelected );
-	bool IsPosInElement( int x, int y ) const;
+    bool IsSelected() const;
+    bool IsPosInElement( int x, int y ) const;
 	void InitMouseMove( int x, int y );
 	void DoneMouseMove();
 	bool IsInMouseMove() const;
@@ -457,7 +458,9 @@ public:
 // done 
 	void move( double x, double y );
 
-	bool IsSelected() const;
+    bool IsConnectedToSlide() const;
+    int  GetConnectedSlideIndex() const;
+    void SetConnectedToSlide( int iSlideIndex );
 
 	bool Write( ostream & aStream ) const;
 	bool Read( istream & aStream );
@@ -496,6 +499,7 @@ private:
 	bool WriteOpContainer( ostream & aStream ) const;
 	bool ReadOpContainer( istream & aStream );
 
+    int                 m_iConnectedSlideIndex;
 	bool				m_bIsSelected;
 	int					m_xOld;
 	int					m_yOld;

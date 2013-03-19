@@ -305,7 +305,9 @@ void MinDiaWindow::CreateMenus()
 	QPixmap aRunIcon( runscript );
 	QPixmap aPauseIcon( pausescript );
 	QPixmap aStopIcon( stopscript );
-    QPixmap aPlayInfoIcon( playinfo );
+    //QPixmap aPlayInfoIcon( playinfo );
+    QPixmap aPlayInfoIcon(":/icons/icons/display.png");    // for icons see nuvola in Develop/libs/nuvola
+
 
     QToolBar * pTools = addToolBar("MinDia");
     pTools->setIconSize(QSize(14,14));
@@ -679,10 +681,7 @@ void MinDiaWindow::customEvent(QEvent * pEvent)
     {
         GetSoundLengthEvent * pSoundEvent = (GetSoundLengthEvent *)pEvent;
         miniSound & aSoundInfo = GetDocument()->GetSoundInfo();
-        aSoundInfo.AsyncGetTotalLengthForFile(pSoundEvent->GetFileName().toAscii(),pSoundEvent->GetRequester());
-//        aSoundInfo.SetWavFile(pSoundEvent->GetFileName().toAscii());
-//        aSoundInfo.Start(0);
-//        return aSoundInfo.GetTotalLengthInMS();
+        aSoundInfo.AsyncGetTotalLengthForFile(pSoundEvent->GetFileName(),pSoundEvent->GetRequester());
     }
 }
 
@@ -1013,8 +1012,8 @@ void MinDiaWindow::sltDoPlayInfos()
 	{
 		m_pPlayInfoDialog->show();
         // workaround for showing dialog with updated view-rect
-        m_pPlayInfoDialog->resize(m_pPlayInfoDialog->width()-1,m_pPlayInfoDialog->height()-1);
-        m_pPlayInfoDialog->resize(m_pPlayInfoDialog->width()+1,m_pPlayInfoDialog->height()+1);
+//        m_pPlayInfoDialog->resize(m_pPlayInfoDialog->width()-1,m_pPlayInfoDialog->height()-1);
+//        m_pPlayInfoDialog->resize(m_pPlayInfoDialog->width()+1,m_pPlayInfoDialog->height()+1);
     }
 }
 
@@ -1654,7 +1653,7 @@ void MinDiaWindow::sltShowImageFile( const QString & sFileName )
 	if( m_pPlayInfoDialog && m_pPlayInfoDialog->isVisible() )
 	{
         QImage aImage;
-        if( ReadQImage(sFileName.toAscii(), aImage) )
+        if( ReadQImage(sFileName, aImage) )
         {
             m_pPlayInfoDialog->sltSetImage( aImage );
         }
@@ -1673,7 +1672,7 @@ void MinDiaWindow::sltDoDocumentStateUpdate()
 {
 	// *** update caption of the window, with file name ! ***
 	QString sCaption = "MinDia - [";
-    sCaption += QString(m_pControler->GetName().c_str());
+    sCaption += QString(ToQString(m_pControler->GetName())); //.c_str());
 	if( m_pControler->IsChanged() )
 	{
 		sCaption += " *";

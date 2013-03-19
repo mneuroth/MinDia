@@ -1055,6 +1055,7 @@ bool DynContainer::IsNextElementChanging( double dTimeMS, double dDeltaMS ) cons
 
 DynText::DynText( const string & sText, QGraphicsScene * pOwner )
 : QGraphicsSimpleTextItem( sText.c_str(), 0 ),
+  m_iConnectedSlideIndex( -1 ),     // means not connected
   m_bIsSelected( false ),
   m_xOld( -1 ),
   m_yOld( -1 ),
@@ -1127,6 +1128,21 @@ void DynText::SetSelected( bool bSelected )
 		}
 	}
     scene()->update();
+}
+
+bool DynText::IsConnectedToSlide() const
+{
+    return m_iConnectedSlideIndex>=0;
+}
+
+int  DynText::GetConnectedSlideIndex() const
+{
+    return m_iConnectedSlideIndex;
+}
+
+void DynText::SetConnectedToSlide( int iSlideIndex )
+{
+    m_iConnectedSlideIndex = iSlideIndex;
 }
 
 bool DynText::IsPosInElement( int x, int y ) const

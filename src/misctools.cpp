@@ -103,34 +103,20 @@ QImageCache g_aImageCache;
 
 // *******************************************************************
 
-// function necassary because of linux gcc3.3
-char mytolower( char ch )
+bool ReadQImage( const QString & sFileName, QImage & aImageOut )
 {
-	return tolower( ch );
-}
-
-bool ReadQImage( const char * sFileName, QImage & aImageOut )
-{
-    aImageOut = g_aImageCache.Get(QString(sFileName));
-    // aImageOut = QImage( sFileName );
+    aImageOut = g_aImageCache.Get(sFileName);
 	return !aImageOut.isNull();
 }
 
-bool IsDiaDataFile( const char * sFileName )
+bool IsDiaDataFile( const QString & sFileName )
 {
-	//ifstream aFile( sFileName, ios::in );
-
-	//ctype<string::value_type> aConverter;
-
 	// check if the given file name has .dia as extension
-	if( sFileName!=0 && strlen( sFileName )>0 )
+    if( !sFileName.isNull() && sFileName.length()>0 )
 	{
-		string sTemp( sFileName );
-		
-		//aConverter.tolower( sTemp.begin(), sTemp.end() );
-		transform( sTemp.begin(), sTemp.end(), sTemp.begin(), mytolower );
+        QString sTemp = sFileName.toLower();
 
-		if( (sTemp.find(".dia")!=string::npos) )
+        if( (sTemp.indexOf(".dia")>=0) )
 		{
 			return true;
 		}
@@ -148,7 +134,7 @@ bool IsDiaDataFileDrag( const QDropEvent * pEvent, QString & sFileNameOut )
         {
 			const QString sTest = aLst.at( 0 ).toLocalFile();
 
-            if( IsDiaDataFile( (const char *)sTest.toAscii() ) )
+            if( IsDiaDataFile( sTest ) )
 			{
                 sFileNameOut = sTest;
 				return true;
@@ -170,7 +156,7 @@ bool IsImageFileDrag( const QDropEvent * pEvent )
 		{
 			const QString sTest = aLst.at( i ).toLocalFile();
     
-            if( QImage((const char *)sTest.toAscii()).isNull() )
+            if( QImage(sTest).isNull() )
 			{
                 return false;
 			}
@@ -192,19 +178,14 @@ bool IsImageFileDrag( const QDropEvent * pEvent )
 	return false;
 }
 
-static bool IsWAVorMP3( const char * sFileName )
+static bool IsWAVorMP3( const QString & sFileName )
 {
-	//ctype<string::value_type> aConverter;
-
 	// check if the given file name has .jpg or .jpeg as extension
-	if( sFileName!=0 && strlen( sFileName )>0 )
+    if( !sFileName.isNull() && sFileName.length()>0 )
 	{
-		string sTemp( sFileName );
+        QString sTemp = sFileName.toLower();
 		
-		//aConverter.tolower( sTemp.begin(), sTemp.end() );
-		transform( sTemp.begin(), sTemp.end(), sTemp.begin(), mytolower );
-
-		if( (sTemp.find(".wav")!=string::npos) || (sTemp.find(".mp3")!=string::npos) )
+        if( (sTemp.indexOf(".wav")>=0) || (sTemp.indexOf(".mp3")>=0) )
 		{
 			return true;
 		}
@@ -223,7 +204,7 @@ bool IsSoundFileDrag( const QDropEvent * pEvent )
 		{
 			const QString sTest = aLst.at( i ).toLocalFile();
     
-            if( !IsWAVorMP3( (const char *)sTest.toAscii() ) )
+            if( !IsWAVorMP3( sTest ) )
 			{
 				return false;
 			}
@@ -233,4 +214,14 @@ bool IsSoundFileDrag( const QDropEvent * pEvent )
 	}
 
 	return false;
+}
+
+string ToStdString( const QString & sStrg )
+{
+    return sStrg.toLocal8Bit().constData();
+}
+
+QString ToQString( const string & sStrg )
+{
+    return QString::fromLocal8Bit( sStrg.c_str() );
 }

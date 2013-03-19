@@ -37,6 +37,7 @@
 #include "hitem.h"
 #include "diainfo.h"
 #include "applscriptenv.h"
+#include "misctools.h"
 
 #include <qlineedit.h>
 #include <qpushbutton.h>
@@ -219,7 +220,7 @@ void DiaInfoDlgImpl::sltApplyData()
 		QString s4;
 
         s4 = m_pScript->toPlainText();
-        hData->SetData( s1.toStdString(), s2.toStdString(), s3.toStdString(), s4.toStdString() );
+        hData->SetData( ToStdString(s1), ToStdString(s2), ToStdString(s3), ToStdString(s4) );
 
 		hData->SetHorizontalFormat( m_pHorizontalFormat->isChecked() );
 
@@ -332,7 +333,7 @@ void DiaInfoDlgImpl::sltModifyScript()
 	IGeneralScriptEnvironment::ScriptLanguage aLanguage = IGeneralScriptEnvironment::PYTHON;
 
     QString sQt = m_pScript->toPlainText();
-    string sScript = sQt.toStdString();
+    string sScript = ToStdString(sQt);
 
     if( hScriptEnv.IsValid() )
     {

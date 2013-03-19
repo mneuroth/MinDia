@@ -214,7 +214,7 @@ void TimeLineView::sltAddDynText()
 	{
 		int x = m_aLastMousePos.x();	
 
-        aDynGrOpContainer.AddDefaultDynText( sTxt.toStdString(), x*1000/g_dFactor-m_pDiaPres->GetOffsetForSound()*1000, 5000 );
+        aDynGrOpContainer.AddDefaultDynText( ToStdString(sTxt), x*1000/g_dFactor-m_pDiaPres->GetOffsetForSound()*1000, 5000 );
 
         emit sigViewDataChanged();
 	}
@@ -324,14 +324,13 @@ void TimeLineView::sltItemSelected( int iCount, int iFirstSelectedItemNo )
 
 void TimeLineView::SetPlayMark( double dActPlayTime )
 {
-    const int iDelta = 200;
+    const int iDelta = 200;     // TODO --> ggf. komplette Timeline View aktualisieren...
 
 	int iActPos = (int)(dActPlayTime*g_dFactor);
 
     m_hPlayMark->setPos( iActPos, 0 );
 
-cout << "setplaymark " << dActPlayTime << " " << iActPos << endl;
-    // ** repaint only needet in play or pause modus
+    // ** repaint only needed in play or pause modus
     if( iActPos >= 0 )
     {
         update( iActPos-iDelta, y(), 2*iDelta+1, /*contentsHeight()*/g_iStartPosY );
@@ -386,7 +385,7 @@ void TimeLineView::ShowPlotComments()
             m_pCanvas->addItem(pLine2);
             pLine2->setLine( 0, 0, 0, 20 );
 			//pLine2->setBrush( QBrush( aColor ) );
-			pLine2->setPen( QPen( aColor ) );
+            pLine2->setPen( QPen( aColor ) );
             pLine2->setPos( iPos2, g_iStartPosY+c_iOffset );
 			pLine2->show();
 
@@ -536,6 +535,8 @@ void TimeLineView::ShowGraphicOperations()
 
 	//QColor aColor( 128, 0, 0 );
 	QColor aColor( 220, 0, 0 );
+    QColor aConnectedColor( 0, 220, 0 );
+
 	//const DynGraphicOpContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicOpData();
 	const DynContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
 	int iSize = aDynGrOpContainer.size();
@@ -548,11 +549,13 @@ void TimeLineView::ShowGraphicOperations()
 		// ** connect the sound comments to the sound play time
 		iPos += iOffset;
 
+        bool bIsConnected = aDynGrOpContainer[i]->IsConnectedToSlide();
+
         QGraphicsLineItem * pLine = new QGraphicsLineItem();
         m_pCanvas->addItem(pLine);
         pLine->setLine( 0, 0, 0, 20+iLength );
 		//pLine->setBrush( QBrush( aColor ) );
-		pLine->setPen( QPen( aColor ) );
+        pLine->setPen( QPen( bIsConnected ? aConnectedColor : aColor ) );
         pLine->setPos( iPos, g_iStartPosY+c_iDynOpOffset );
 		pLine->show();
 
@@ -565,7 +568,7 @@ void TimeLineView::ShowGraphicOperations()
 			sAddText = "...";
 		}
 		pText->setText( sText.left( 4 )+sAddText );
-        pText->setBrush( aColor );
+        pText->setBrush( bIsConnected ? aConnectedColor : aColor );
         pText->setPos( iPos+2, g_iStartPosY+c_iDynOpOffset+10+iLength );
 		pText->show(); 
 
@@ -607,12 +610,17 @@ QRect TimeLineView::GetTipRect( const QPoint & aPoint, QString * psText, int * p
 
 void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 {
-	if( (pEvent->button() == Qt::LeftButton) )
+    QPointF pos = mapToScene(pEvent->x(),pEvent->y());
+    int x = (int)pos.x();
+    int y = (int)pos.y();
+    QPoint point(x,y);
+
+    if( (pEvent->button() == Qt::LeftButton) )
 	{
-		// ** allow modifiying of items only in edit-modus
+        // ** allow modifiying of items only in edit-modus
 		if( m_pDiaPres->IsEdit() )
 		{
-			// ** reset mousemove flag
+            // ** reset mousemove flag
 			m_bMouseMovedWhilePressed = false;
 
 			int iCount = 0;
@@ -623,10 +631,10 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 				minHandle<TimeLineItem> hItem = *aIter;
 
 				// ** change size of item ?
-				if( hItem->IsStopBorderSelected( pEvent->x(), pEvent->y() ) )
+                if( hItem->IsStopBorderSelected( x, y ) )
 				{
 					// ** yes, change show time of selected dia
-					m_iSelectedItemStartPos = pEvent->x();
+                    m_iSelectedItemStartPos = x;
 					m_hSelectedItem = hItem;
 					m_iSelectedItemNo = iCount;
 					m_bDissolveSelected = false;
@@ -636,7 +644,7 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 
 					return;
 				}
-				else if( hItem->IsDissolveBorderSelected( pEvent->x(), pEvent->y() ) )
+                else if( hItem->IsDissolveBorderSelected( x, y ) )
 				{
 					// ** yes, change dissolve time of selected dia
 
@@ -652,7 +660,7 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 						m_bTotalTimeConstant = true;
 					}
 
-					m_iSelectedItemStartPos = pEvent->x();
+                    m_iSelectedItemStartPos = x;
 					m_hSelectedItem = hItem;
 					m_iSelectedItemNo = iCount;
 					m_bDissolveSelected = true;
@@ -661,7 +669,7 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 
 					return;
 				}
-				else if( hItem->IsSelected( pEvent->x(), pEvent->y() ) )
+                else if( hItem->IsSelected( x, y ) )
 				{
 					// ** no, select only item
 
@@ -684,7 +692,7 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 		// check for touched dynamic text objects
 		int iIndexOut = 0;
 		QString sText;
-		QRect aRect = GetTipRect( pEvent->pos(), &sText, &iIndexOut );
+        QRect aRect = GetTipRect( point, &sText, &iIndexOut );
 	    if( aRect.isValid() )
 		{
             if( (pEvent->modifiers() & Qt::ShiftModifier) == Qt::ShiftModifier )
@@ -694,7 +702,7 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 			else
 			{
 				m_iSelectedDynTextIndex = iIndexOut;
-				m_iSelectedItemStartPos = pEvent->x();
+                m_iSelectedItemStartPos = x;
 
 				setCursor( Qt::SizeHorCursor );
 			}
@@ -703,12 +711,12 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 	else if( (pEvent->button() == Qt::RightButton) )
 	{
 		// ** handle popup menu...
-		m_aLastMousePos = pEvent->pos();
+        m_aLastMousePos = point;
 
 		// if mouse was clicked on a dynamic text,
 		// enable the item to allow the modification of the dynamic text
         int iSelectedDynTextIndex = m_iSelectedDynTextIndex;
-        QRect aRect = GetTipRect( pEvent->pos(), 0, &iSelectedDynTextIndex );
+        QRect aRect = GetTipRect( point, 0, &iSelectedDynTextIndex );
         m_pMenuDynTextEdit->setEnabled( aRect.isValid() );
 				
         m_pContextMenu->setProperty("INDEX",iSelectedDynTextIndex);
@@ -757,7 +765,7 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
         QPointF pos = mapToScene(pEvent->x(),pEvent->y());
         int x = (int)pos.x();
         int y = (int)pos.y();
-        cout << "x,y " << x << " " << y << endl;
+        QPoint point(x,y);
 
 		if( m_hSelectedItem.IsOk() )
 		{
@@ -845,7 +853,7 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
 			}
 
 			// check for touched dynamic text objects
-			QRect aRect = GetTipRect( pEvent->pos() );
+            QRect aRect = GetTipRect( point );
 			if( aRect.isValid() )
 			{
 				setCursor( Qt::SizeHorCursor );
@@ -919,6 +927,7 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
 	{
 		QString sFileName;
 
+// TODO
 		QPoint aPos = pEvent->pos();
 
 		if( IsDiaDataFileDrag( pEvent, sFileName ) )
@@ -985,7 +994,7 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
 
 			// otherwise it is maybe an image ?
 
-			bool bOk = ReadQImage( (const char *)sFileName, aImage );
+            bool bOk = ReadQImage( sFileName, aImage );
 			//bool bOk = aImage.load( s1 );
 		}
 	*/	/*else if( Q3TextDrag::decode( pEvent, sText ) )
@@ -1017,7 +1026,7 @@ void TimeLineView::customEvent(QEvent * pEvent)
     {
         SoundInfoContainer & aSoundContainer = m_pDiaPres->GetSoundInfoData();
         GetSoundLengthEvent * pSoundEvent = (GetSoundLengthEvent *)pEvent;
-        aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( pSoundEvent->GetFileName().toStdString(), pSoundEvent->GetSoundLength() ) ) );
+        aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( ToStdString(pSoundEvent->GetFileName()), pSoundEvent->GetSoundLength() ) ) );
         aSoundContainer.SetChanged();
         //aSoundContainer.UpdateAllLengths();
         emit sigViewDataChanged();

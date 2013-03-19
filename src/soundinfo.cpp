@@ -40,6 +40,7 @@
 #include "soundinfo.h"
 
 #include "minisound.h"
+#include "misctools.h"
 
 #include <stdio.h>		// sprintf
 #include <stdlib.h>		// atoi
@@ -491,7 +492,7 @@ bool SoundComment::operator<( const SoundComment & aOther ) const
 
 string SoundComment::GetName() const
 {
-    return QObject::tr( "Sound comments" ).toStdString();
+    return ToStdString(QObject::tr( "Sound comments" ));
 }
 
 int SoundComment::GetDataCount() const
@@ -507,12 +508,12 @@ string SoundComment::GetDataName( int iIndex ) const
 	{
 		case 0 :
 			{
-                sRet = QObject::tr( "time pos. [ms]" ).toStdString();
+                sRet = ToStdString(QObject::tr( "time pos. [ms]" ));
 			}
 			break;
 		case 1 :
 			{
-                sRet = QObject::tr( "comment" ).toStdString();
+                sRet = ToStdString(QObject::tr( "comment" ));
 			}
 			break;
 
@@ -722,7 +723,7 @@ bool PlotComment::operator<( const PlotComment & aOther ) const
 
 string PlotComment::GetName() const
 {
-    return QObject::tr( "Plot comments" ).toStdString();
+    return ToStdString(QObject::tr( "Plot comments" ));
 }
 
 int PlotComment::GetDataCount() const
@@ -738,17 +739,17 @@ string PlotComment::GetDataName( int iIndex ) const
 	{
 		case 0 :
 			{
-                sRet = QObject::tr( "start index" ).toStdString();
+                sRet = ToStdString(QObject::tr( "start index" ));
 			}
 			break;
 		case 1 :
 			{
-                sRet = QObject::tr( "stop index" ).toStdString();
+                sRet = ToStdString(QObject::tr( "stop index" ));
 			}
 			break;
 		case 2 :
 			{
-                sRet = QObject::tr( "comment" ).toStdString();
+                sRet = ToStdString(QObject::tr( "comment" ));
 			}
 			break;
 

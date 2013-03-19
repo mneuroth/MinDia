@@ -28,6 +28,7 @@
 
 #include "commentdlgimpl.h"
 #include "soundinfo.h"
+#include "misctools.h"
 
 #include <qlabel.h>
 #include <qpushbutton.h>
@@ -248,7 +249,7 @@ void CommentDlgImpl::TransferData( bool bToTable )
 				for( int j=0; j<pItem->GetDataCount(); j++ )
 				{
 					QString sTemp = m_pTable->item(i,j) ? m_pTable->item(i,j)->text() : ""; //m_pTable->text( i, j );
-                    string sStrg( sTemp.toStdString() );
+                    string sStrg( ToStdString(sTemp) );
 
 					if( (pItem->GetDataType( j )==GenericDataInterface::_STRING) ||
 						(pItem->GetDataType( j )==GenericDataInterface::_INT) ||

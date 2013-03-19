@@ -31,6 +31,7 @@
 
 #include "sndinfodlgimpl.h"
 #include "soundinfo.h"
+#include "misctools.h"
 
 #include <qlabel.h>
 #include <qpushbutton.h>
@@ -281,7 +282,7 @@ void SoundInfoDlgImpl::TransferData( bool bToTable )
 				QString s;
 				bool	bOk;
 
-                sFileName = (m_pTable->item( i, 0 ) ? m_pTable->item( i, 0 )->text().toStdString() : "");
+                sFileName = (m_pTable->item( i, 0 ) ? ToStdString(m_pTable->item( i, 0 )->text()) : "");
                 s = ( m_pTable->item( i, 1 ) ? m_pTable->item( i, 1 )->text() : "" );
 				iStartPos = s.toInt( &bOk );
 				if( !bOk )

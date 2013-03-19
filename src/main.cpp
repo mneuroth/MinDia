@@ -61,6 +61,7 @@
 
 #include "mindiawindow.h"
 #include "doccontroler.h"
+#include "misctools.h"
 
 #include "minbase.h"
 #include "iscript.h"
@@ -568,7 +569,7 @@ int main( int argc, char** argv )
 	IMinDiaScriptFcnImpl * pMinDiaScriptFcn = new IMinDiaScriptFcnImpl( "mindia_for_py", &aWindow, argc, argv );
 	pSrvManager->RegisterService( pMinDiaScriptFcn, /*bOwnerIn*/true );
 
-    IGeneralScriptFcnImpl * pGenScriptFcn = new IGeneralScriptFcnImpl( sLanguage.toStdString(), "mindia_for_py", &aWindow );
+    IGeneralScriptFcnImpl * pGenScriptFcn = new IGeneralScriptFcnImpl( ToStdString(sLanguage), "mindia_for_py", &aWindow );
 	pSrvManager->RegisterService( pGenScriptFcn, /*bOwnerIn*/true );
 
 	minDll * pNewDll = 0;

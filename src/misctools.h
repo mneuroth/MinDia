@@ -29,18 +29,27 @@
 #ifndef _MISCTOOLS_H
 #define _MISCTOOLS_H
 
-#include <qimage.h>
+#include <QImage>
+#include <QString>
+
+#include <string>
+
+using namespace std;
 
 class QDropEvent;
 
-bool ReadQImage( const char * sFileName, QImage & aImageOut );
+bool ReadQImage( const QString & sFileName, QImage & aImageOut );
 
-bool IsDiaDataFile( const char * sFileName );
+bool IsDiaDataFile( const QString & sFileName );
 
 bool IsDiaDataFileDrag( const QDropEvent * pEvent, QString & sFileNameOut );
 
 bool IsImageFileDrag( const QDropEvent * pEvent );
 
 bool IsSoundFileDrag( const QDropEvent * pEvent );
+
+string ToStdString( const QString & sStrg );
+
+QString ToQString( const string & sStrg );
 
 #endif

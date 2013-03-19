@@ -29,6 +29,7 @@
 #include "pddlgimpl.h"
 
 #include "diapresentation.h"
+#include "misctools.h"
 
 #include <QShowEvent>
 #include <QKeyEvent>
@@ -99,7 +100,7 @@ void PresentationDataDlgImpl::TransferDataFromControl()
 		string sOrg = m_pData->GetComment();
 		if( QString( sOrg.c_str() ) != sComment )
 		{
-            m_pData->SetComment( sComment.toStdString() );
+            m_pData->SetComment( ToStdString(sComment) );
 
 			emit sigDocumentUpdate();
 		}

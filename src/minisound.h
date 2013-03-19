@@ -33,6 +33,7 @@
 
 #include <QDateTime>		// for QTime
 #include <QThread>
+#include <QString>
 #include <phonon/AudioOutput>
 #include <phonon/MediaObject>
 
@@ -48,10 +49,10 @@ class miniSound : public QThread
     Q_OBJECT
 
 public:
-    miniSound( const char * sWavFileName = "" );
+    miniSound( const QString & sWavFileName = "" );
 	~miniSound();
 
-	bool SetWavFile( const char * sWavFileName );
+    bool SetWavFile( const QString & sWavFileName );
 
 	void SetSoundInfo( SoundInfoContainer *	pSoundInfoContainer );
 
@@ -63,7 +64,7 @@ public:
 
 	int  GetPositionInMS() const;
 	int  GetTotalLengthInMS() const;
-    void AsyncGetTotalLengthForFile( const char * sWavFileName, QWidget * pRequester );
+    void AsyncGetTotalLengthForFile( const QString & sWavFileName, QWidget * pRequester );
 
 	bool Start( int iAbsStartTimeInMS );
 	bool Pause();
@@ -91,8 +92,8 @@ private:
 
 	bool IsFileChangeNeeded( int iNextRelStopPos, int iSilentOffset ) const;
 
-	bool CheckFile( const char * sFileName );
-	bool CheckIfIsSilentFile( const char * sFileName );
+    bool CheckFile( const QString & sFileName );
+    bool CheckIfIsSilentFile( const QString & sFileName );
 
 	// ** temp-data **
 	bool							m_bIsOk;

@@ -52,7 +52,7 @@
 
 #define CHANGE_NEEDED -2
 
-miniSound::miniSound( const char * sWavFileName )
+miniSound::miniSound( const QString & sWavFileName )
 : m_bIsOk( false ),
   m_bReadError( true ),
   m_bIsSilent( false ),
@@ -94,7 +94,7 @@ void miniSound::sltTotalTimeChanged(qint64 val)
     {
         Stop();
 
-        GetSoundLengthEvent * pEvent = new GetSoundLengthEvent((const char *)m_sSoundFile.toAscii(),0);
+        GetSoundLengthEvent * pEvent = new GetSoundLengthEvent(m_sSoundFile,0);
         pEvent->SetSoundLength(m_iTotalTimeInMS);
         QApplication::postEvent(m_pRequester,pEvent);
 
@@ -102,13 +102,13 @@ void miniSound::sltTotalTimeChanged(qint64 val)
     }
 }
 
-bool miniSound::SetWavFile( const char * sWavFileName )
+bool miniSound::SetWavFile( const QString & sWavFileName )
 {
 	if( CheckFile( sWavFileName ) && !IsSilent() )
 	{
         m_sSoundFile = sWavFileName;
 
-        m_pPlayer->setCurrentSource(Phonon::MediaSource(QString(sWavFileName)));
+        m_pPlayer->setCurrentSource(Phonon::MediaSource(sWavFileName));
 
         m_iOpenCount++;
 
@@ -131,7 +131,7 @@ bool miniSound::SetWavFile( const char * sWavFileName )
     return false;
 }
 
-void miniSound::AsyncGetTotalLengthForFile( const char * sWavFileName, QWidget * pRequester )
+void miniSound::AsyncGetTotalLengthForFile( const QString & sWavFileName, QWidget * pRequester )
 {
     if( m_pRequester==0 )
     {
@@ -204,11 +204,11 @@ bool miniSound::Start( int iAbsStartTimeInMS )
 	}
 }
 
-bool miniSound::CheckFile( const char * sFileName )
+bool miniSound::CheckFile( const QString & sFileName )
 {
 	m_bIsSilent = CheckIfIsSilentFile( sFileName );
 
-    m_bIsOk = (m_bIsSilent || QFile::exists( QString( sFileName ) ));
+    m_bIsOk = (m_bIsSilent || QFile::exists( sFileName ));
 
 	return m_bIsOk;
 }
@@ -478,7 +478,7 @@ void miniSound::run()
                 else if( m_sSoundFile.length()>0 )
                 {
 // TODO --> hier zur bestimmung der sound file length abspielen starten
-                    SetWavFile( m_sSoundFile.toAscii() );
+                    SetWavFile( m_sSoundFile );
                     StartPlayImpl();
                     bStopedInThread = false;
                     bIsFirstDia = false;
@@ -548,8 +548,8 @@ bool miniSound::IsFileChangeNeeded( int iNextRelStopPos, int iSilentOffset ) con
 	return iRelActPos >= iNextRelStopPos;
 }
 
-bool miniSound::CheckIfIsSilentFile( const char * sFileName )
+bool miniSound::CheckIfIsSilentFile( const QString & sFileName )
 {
 	// ** silent modus: empty string or silent.wav
-	return (strlen( sFileName )==0) || (strcmp( sFileName, "silent.wav" )==0);
+    return (sFileName.length()==0) || (sFileName.compare("silent.wav")==0);
 }

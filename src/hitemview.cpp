@@ -315,13 +315,17 @@ void HItemView::mousePressEvent( QMouseEvent * pEvent )
 
 	if( (pEvent->button() == Qt::LeftButton) )
 	{
-		// ** disable mouse input in play-modus !
+        // ** disable mouse input in play-modus !
 		if( m_pDiaPres && !m_pDiaPres->IsEdit() )
 		{
 			return;
 		}
 
-		// ** multi-selection only if shift button is pressed !
+        QPointF pos = mapToScene(pEvent->x(),pEvent->y());
+        int x = (int)pos.x();
+        int y = (int)pos.y();
+
+        // ** multi-selection only if shift button is pressed !
 		// ** if no shift buttion is presed deselect all selected items
         if( !( (pEvent->modifiers() & Qt::ShiftModifier) == Qt::ShiftModifier) )
 		{
@@ -333,7 +337,7 @@ void HItemView::mousePressEvent( QMouseEvent * pEvent )
 		for( int i=0; i<(int)m_aItemContainer.size(); i++ )
 		{
 			HItem * pItem = m_aItemContainer[ i ];
-			if( pItem && pItem->IsPointInItem( pEvent->x(), pEvent->y() ) )
+            if( pItem && pItem->IsPointInItem( x, y ) )
 			{
 				bIsOneSelected = true;
 				pItem->SetSelected( !pItem->GetSelected() );
@@ -558,7 +562,7 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 			for( int i=0; i<(int)aLst.count(); i++ )
 			{
                 sFileName = aLst.at( i ).toLocalFile();
-                AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID(), sFileName.toStdString() ) ), iIndex+i, /*bInsert*/true );
+                AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID(), ToStdString(sFileName) ) ), iIndex+i, /*bInsert*/true );
 			}
 
 			sltSelectItem( iIndex, 0 );
@@ -766,7 +770,7 @@ bool HItemView::SetFromClipboardData( const QString & sData )
 
 	if( !sData.isNull() )
 	{
-        string s = sData.toStdString();
+        string s = ToStdString(sData);
 		while( s.length()>0 )
 		{
 			// ** create a new dia item
@@ -803,7 +807,7 @@ bool HItemView::SetFromClipboardData( const QString & sData )
 int HItemView::GetCountValidClipboardData( const QString & sData )
 {
 	int iCount = 0;
-    string s = sData.toStdString();
+    string s = ToStdString(sData);
 
 	while( s.length()>0 )
 	{

@@ -54,6 +54,8 @@
 #include "minexception.h"
 #include "writexml.h"
 #include "qtmtlock.h"
+#include "misctools.h"
+
 #include <qpainter.h>
 #include <qimage.h>
 #include <qapplication.h>
@@ -298,7 +300,7 @@ void DocumentAndControler::sltSaveAsDoc( const QString & sFileName )
 
 void DocumentAndControler::sltLoadDoc( const QString & sFileName, bool & bOk, bool bExecuteScript )
 {
-    fstream aFile( sFileName.toAscii(), ios::in );
+    fstream aFile( sFileName.toLocal8Bit(), ios::in );
 
 	bOk = aFile.good();
 	if( bOk )
@@ -310,7 +312,7 @@ void DocumentAndControler::sltLoadDoc( const QString & sFileName, bool & bOk, bo
 			// ** change it to the filename which was used to load this file !
             if( bOk && !FileUtilityObj::ExistsFile( m_aPresentation.GetName().c_str() ) )
 			{
-                m_aPresentation.SetName( sFileName.toStdString() );
+                m_aPresentation.SetName( ToStdString(sFileName) );
 
 				//emit sigShowWarningMessage( tr( "Path of file has changed !" ) );
 			}
@@ -349,7 +351,7 @@ void DocumentAndControler::sltSaveDoc( bool & bOk )
 
 void DocumentAndControler::sltSaveAsDoc( const QString & sFileName, bool & bOk )
 {
-    m_aPresentation.SetName( sFileName.toStdString() );
+    m_aPresentation.SetName( ToStdString(sFileName) );
 	// ** if a file is saved with a new name, update the last-file history
     AddToFileHistory(sFileName);
 
@@ -370,12 +372,12 @@ void DocumentAndControler::sltSaveDocAsXML( const QString & sFileName, bool & bO
 {
 	XmlTree aTree = m_aPresentation.GetXMLTree();
 
-    bOk = aTree.WriteXML( sFileName.toStdString() );
+    bOk = aTree.WriteXML( ToStdString(sFileName) );
 }
 
 void DocumentAndControler::sltExportDynGraphicData( const QString & sFileName )
 {
-    fstream aFile( sFileName.toAscii().constData(), ios::in );
+    fstream aFile( sFileName.toLocal8Bit(), ios::in );
 
 	if( aFile.good() )
 	{
@@ -385,7 +387,7 @@ void DocumentAndControler::sltExportDynGraphicData( const QString & sFileName )
 
 void DocumentAndControler::sltImportDynGraphicData( const QString & sFileName )
 {
-    fstream aFile( sFileName.toAscii().constData(), ios::in );
+    fstream aFile( sFileName.toLocal8Bit(), ios::in );
 
 	if( aFile.good() )
 	{
@@ -525,7 +527,7 @@ void DocumentAndControler::sltGotoPosition( int iPosition )
 
 void DocumentAndControler::sltSelectItemWithText( const QString & sText )
 {
-    int iFoundPos = m_aPresentation.FindItemWithText( sText.toStdString(), 0 );
+    int iFoundPos = m_aPresentation.FindItemWithText( ToStdString(sText), 0 );
 
 	if( iFoundPos>=0 )
 	{
@@ -543,7 +545,7 @@ void DocumentAndControler::sltSelectItemWithText( const QString & sText )
 
 void DocumentAndControler::sltSelectNextItemWithText( const QString & sText )
 {
-    int iFoundPos = m_aPresentation.FindItemWithText( sText.toStdString(), m_iLastFoundPos+1 );
+    int iFoundPos = m_aPresentation.FindItemWithText( ToStdString(sText), m_iLastFoundPos+1 );
 
 	if( iFoundPos>=0 )
 	{

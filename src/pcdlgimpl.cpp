@@ -106,6 +106,7 @@ void ProjectorControlDlgImpl::DoDialogEnable( bool bEnable )
 
     m_pBack->setEnabled( bEnable );
     m_pForward->setEnabled( bEnable );
+    m_pDirectMode->setEnabled( bEnable );
 
 	// ** close-, status- and test-button is always active
 	m_pCloseButton->setEnabled( true );
