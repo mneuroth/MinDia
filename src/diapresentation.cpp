@@ -1265,7 +1265,6 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
             QImage aPixmap( iWidth, iHeight, QImage::Format_RGB32 );
             QPainter aPainter;
 
-            //aPixmap.fill();
             aPainter.begin( &aPixmap );
             QRect aRect = aPainter.viewport();
 
@@ -1274,7 +1273,7 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
                 QImage aImage2;
                 ReadQImage( hDia2->GetImageFile().c_str(), aImage2 );
                 aImage2 = aImage2.scaled( iWidth, iHeight );
-                _FadeImage(&aPainter,QRectF(aRect),iFadeFactor,aImage2,aImage1);
+                _FadeImage(&aPainter,QRectF(aRect),iFadeFactor,aImage1,aImage2);
             }
             else
             {
