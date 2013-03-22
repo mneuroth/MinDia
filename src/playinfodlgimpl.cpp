@@ -312,9 +312,8 @@ static QImage CreateWhiteImage()
 
 void _FadeImage( QPainter * pPainter, const QRectF & area, int iFadeFactor, const QImage & aImagePrevious, const QImage & aImage )
 {
-//    pPainter->begin(this);
-
     double dFactor = (double)(iFadeFactor)/(double)MAX_FADE_FACTOR;
+    double currentOpacity = pPainter->opacity();
 
     pPainter->setRenderHint(QPainter::Antialiasing);
 
@@ -325,7 +324,7 @@ void _FadeImage( QPainter * pPainter, const QRectF & area, int iFadeFactor, cons
     pPainter->setOpacity(dFactor);
     pPainter->drawImage(area,aImage);
 
-//    pPainter->end();
+    pPainter->setOpacity(currentOpacity);
 }
 
 class SimpleBitmapCanvas : public QGraphicsScene

@@ -829,7 +829,7 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
 		else
 		{
 			// ** update mouse cursor if one can shift dissolve or show time with mouse
-			
+            bool bCursorSet = false;
 			MyItemContainer::const_iterator aIter = m_aItemContainer.begin();
 
 			while( aIter != m_aItemContainer.end() )
@@ -839,37 +839,39 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
                 if( hItem->IsStopBorderSelected( x, y ) )
 				{
 					setCursor( Qt::SizeHorCursor );
-
-					return;
+                    bCursorSet = true;
+                    break;
 				}
                 else if( hItem->IsDissolveBorderSelected( x, y ) )
 				{
 					setCursor( Qt::SizeHorCursor );
-
-					return;
+                    bCursorSet = true;
+                    break;
 				}
 
 				++aIter;
 			}
 
-			// check for touched dynamic text objects
-            QRect aRect = GetTipRect( point );
-			if( aRect.isValid() )
-			{
-				setCursor( Qt::SizeHorCursor );
+            if( !bCursorSet )
+            {
+                // check for touched dynamic text objects
+                QRect aRect = GetTipRect( point );
+                if( aRect.isValid() )
+                {
+                    setCursor( Qt::SizeHorCursor );
+                    bCursorSet = true;
+                }
 
-				return;
-			}
-
-			setCursor( Qt::ArrowCursor );
+                if( !bCursorSet )
+                {
+                    setCursor( Qt::ArrowCursor );
+                }
+            }
 
             // update the play info dialog with image of current play position moved by mouse cursor
             bool bShiftPressed = true; //((pEvent->modifiers() & Qt::ShiftModifier) == Qt::ShiftModifier);
             if( bShiftPressed )
             {
-// TODO ->x() in lokale koodinaten umrechnen
-//                mapToScene(x(),y()).x()
-                //cout << " xxx " << sceneRect().width() << " " << width() << " " << mapToScene(pEvent->x(),pEvent->y()).x() << endl;
                 double dTime = (double)x*g_dFactor*0.01;
                 SetPlayMark(dTime);
                 emit sigPlayMarkChanged(dTime);
