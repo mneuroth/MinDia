@@ -662,6 +662,8 @@ void MinDiaWindow::CreateMenus()
     connect( this, SIGNAL( sigDialogHelp(const QString &) ), this, SLOT( sltShowHelp(const QString &) ) );
 
     connect( m_pTimeLineView, SIGNAL( sigPlayMarkChanged(double) ), this, SLOT( sltPlayMarkChanged(double) ) );
+
+    connect( QApplication::clipboard(), SIGNAL( dataChanged() ), this, SLOT( sltClipboardDataChanged() ) );
 }
 
 void MinDiaWindow::customEvent(QEvent * pEvent)
@@ -2047,14 +2049,23 @@ void MinDiaWindow::sltPasteClipboard()
 	if( pClip )
 	{
 		QString sData = pClip->text();
+
 		if( !sData.isNull() )
 		{
-			m_pSlideView->SetFromClipboardData( sData );
+            // try to process as an internal Item format
+            // or as a image path
+            m_pSlideView->SetFromClipboardData( sData );
 		}
 	}
 
 	// ** update the state of the edit-menu 
 	sltUpdateEditMenu();
+}
+
+void MinDiaWindow::sltClipboardDataChanged()
+{
+    // update state of paste menu item
+    sltUpdateEditMenu();
 }
 
 void MinDiaWindow::sltSelectAllClipboard()
@@ -2077,8 +2088,15 @@ bool MinDiaWindow::IsValidClipboardData()
 
 		if( !sData.isNull() )
 		{
-			// ** you need at leas one valid item, to enable paste
-			return m_pSlideView->GetCountValidClipboardData( sData ) > 0;
+            if( IsImageFile(sData) )
+            {
+                return true;
+            }
+            else
+            {
+                // ** you need at leas one valid item, to enable paste
+                return m_pSlideView->GetCountValidClipboardData( sData ) > 0;
+            }
 		}
 	}
 

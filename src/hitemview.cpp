@@ -770,22 +770,36 @@ bool HItemView::SetFromClipboardData( const QString & sData )
 
 	if( !sData.isNull() )
 	{
-        string s = ToStdString(sData);
-		while( s.length()>0 )
-		{
-			// ** create a new dia item
-			minHandle<DiaInfo> hDia( new DiaInfo(  GetNextFreeID() ) );
+        bool bIsImage = IsImageFile(sData);
+        if( bIsImage )
+        {
+            QStringList lstFileNames = sData.split("\n");
+            foreach( const QString & s, lstFileNames )
+            {
+                minHandle<DiaInfo> hDia( new DiaInfo( GetNextFreeID(), ToStdString(s) ) );
+                AddItemAt( hDia, i++, true );
+            }
+        }
+        else
+        {
+            string s = ToStdString(sData);
 
-			if( hDia->SetFromData( s ) )
-			{
-				AddItemAt( hDia, i++, true );
-			}
-			else
-			{
-				// ** if an error occured, stop the loop
-				s = "";
-			}
-		}
+            while( s.length()>0 )
+            {
+                // ** create a new dia item
+                minHandle<DiaInfo> hDia( new DiaInfo( GetNextFreeID() ) );
+
+                if( hDia->SetFromData( s ) )
+                {
+                    AddItemAt( hDia, i++, true );
+                }
+                else
+                {
+                    // ** if an error occured, stop the loop
+                    s = "";
+                }
+            }
+        }
 	}
 
 	SyncViewWithData();

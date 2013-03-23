@@ -225,3 +225,16 @@ QString ToQString( const string & sStrg )
 {
     return QString::fromLocal8Bit( sStrg.c_str() );
 }
+
+bool IsImageFile( const QString & sFileName )
+{
+    bool ok = true;
+    QStringList lstFileNames = sFileName.split("\n");
+    foreach( const QString & s, lstFileNames )
+    {
+        QImage aImage( s );
+        ok = ok && !aImage.isNull();
+    }
+    return ok;
+}
+

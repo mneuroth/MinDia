@@ -323,6 +323,7 @@ public slots:
 	void sltPasteClipboard();
 	void sltSelectAllClipboard();
 	void sltDeleteSelectedItems();
+    void sltClipboardDataChanged();
 
     void sltPlayMarkChanged( double dTimePosInSec );
 

@@ -52,4 +52,6 @@ string ToStdString( const QString & sStrg );
 
 QString ToQString( const string & sStrg );
 
+bool IsImageFile( const QString & sFileName );
+
 #endif
