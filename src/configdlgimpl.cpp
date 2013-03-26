@@ -221,7 +221,7 @@ void ConfigurationDlgImpl::TransferDataToControl()
 	m_pDigitalTwinP->setChecked( aCom.IsTwinDigitalP() );
 	m_pMSC300P->setChecked( aCom.IsMSC300P() );
 
-    m_pComPortList->setCurrentIndex( m_pComPortList->findText(QString(aCom.GetComPort().c_str())) );
+    m_pComPortList->setCurrentIndex( m_pComPortList->findText(ToQString(aCom.GetComPort())) );
 
 	s.setNum( aCom.GetBaudrate() );
 	SetCurrentItem( m_pBaudRateList, s );

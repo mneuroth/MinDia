@@ -162,10 +162,10 @@ void DiaInfoDlgImpl::sltUpdateData( minHandle<DiaInfo> hData, bool bEnable )
 
 	if( hData.IsOk() )
 	{
-        m_pIDEdit->setText( hData->GetId().c_str() );
-        m_pFileNameEdit->setText( hData->GetImageFile().c_str() );
-        m_pCommentEdit->setText( hData->GetComment().c_str() );
-        m_pScript->setPlainText( hData->GetScript().c_str() );
+        m_pIDEdit->setText( ToQString(hData->GetId()) );
+        m_pFileNameEdit->setText( ToQString(hData->GetImageFile()) );
+        m_pCommentEdit->setText( ToQString(hData->GetComment()) );
+        m_pScript->setPlainText( ToQString(hData->GetScript()) );
 
 		if( hData->IsHorizontalFormat() )
 		{
@@ -341,14 +341,14 @@ void DiaInfoDlgImpl::sltModifyScript()
 
         if( bOk )
         {
-            m_pScript->setPlainText( sScript.c_str() );
+            m_pScript->setPlainText( ToQString(sScript) );
         }
     }
 }
 
 void DiaInfoDlgImpl::sltSelectFileName()
 {
-	QString sFileName = QFileDialog::getOpenFileName( this, tr("Select"), /*QString::null*/GetImagePath().c_str(), /*QString::null*/"*.bmp");
+    QString sFileName = QFileDialog::getOpenFileName( this, tr("Select"), ToQString(GetImagePath()), tr("Images (*.jpg *.png *.bmp)"));
 
 	if( !sFileName.isEmpty() )
 	{

@@ -281,7 +281,7 @@ void DocumentAndControler::sltSaveDoc()
 	if( !bOk )
 	{
 		QString sMsg( tr( "Error saving file \"" ) );
-        sMsg += m_aPresentation.GetName().c_str();
+        sMsg += ToQString( m_aPresentation.GetName() );
 		sMsg += "\" !";
 		emit sigShowErrorMessage( sMsg );
 	}
@@ -322,7 +322,7 @@ void DocumentAndControler::sltLoadDoc( const QString & sFileName, bool & bOk, bo
 		}
 		catch( MinException & aException )
 		{
-			emit sigShowWarningMessage( aException.GetMsg().c_str() );
+            emit sigShowWarningMessage( ToQString( aException.GetMsg() ) );
 			bOk = false;
 		}
 		if( !bOk )
@@ -626,7 +626,7 @@ void DocumentAndControler::sltTimerEvent()
 
 void DocumentAndControler::sltUpdateStatusBar()
 {
-	QString s = GetPresentation().GetStepInfo().c_str();
+    QString s = ToQString( GetPresentation().GetStepInfo() );
 	emit sigShowStatusMessage( s );
 }
 
@@ -642,16 +642,16 @@ void DocumentAndControler::TriggerDissolveActDiaNo( int iNo, const string & sScr
 
     if( sScript.size() > 0 )
 	{
-        ExecuteScript( /*bDissolve*/true, sScript.c_str(), iNo );
+        ExecuteScript( /*bDissolve*/true, sScript, iNo );
 	}
 }
 
 void DocumentAndControler::TriggerShowActDiaNo( int iNo, const string & sScript, const string & /*sFileNameOrScript*/, double /*dShowTime*/ )
 {
 	// cout << "*** nr=" << iNo << endl;
-    if( sScript.c_str() > 0 )
+    if( sScript.length() > 0 )
 	{
-        ExecuteScript( /*bDissolve*/false, sScript.c_str(), iNo );
+        ExecuteScript( /*bDissolve*/false, sScript, iNo );
 	}
 }
 
@@ -669,7 +669,7 @@ void DocumentAndControler::PresentationModusChanged()
 
 void DocumentAndControler::ShowError( const string & sMsg )
 {
-    QString s( sMsg.c_str() );
+    QString s( ToQString( sMsg ) );
     emit sigShowErrorMessage( s );
 }
 
@@ -739,7 +739,7 @@ bool DocumentAndControler::LoadPresentation( const string & sFileName, bool bExe
 {
 	bool bOk;
 
-    sltLoadDoc( sFileName.c_str(), bOk, bExecuteScript );
+    sltLoadDoc( ToQString( sFileName ), bOk, bExecuteScript );
 
 	return bOk;
 }
@@ -757,7 +757,7 @@ bool DocumentAndControler::SavePresentationAs( const string & sFileName )
 {
 	bool bOk;
 
-    sltSaveAsDoc( sFileName.c_str(), bOk );
+    sltSaveAsDoc( ToQString( sFileName ), bOk );
 
 	return bOk;
 }
@@ -837,52 +837,6 @@ void DocumentAndControler::ExecuteScript( bool bDissolve, const string & sScript
 }
 
 QApplication * GetApplication();
-
-//static void ClearImageCache( QImageCache & aImageCache )
-//{
-//	aImageCache.clear();
-//}
-
-//static bool InitImageCache( QImageCache & aImageCache, const DiaPresentation & aPresentation, int iWidth, int iHeight )
-//{
-//    QProgressDialog aProgress( QObject::tr("creating image cache"), QObject::tr("Cancel"), 0, aPresentation.GetDiaCount()/*, 0, "progress"*//*, TRUE*/ );
-
-//	aProgress.show();
-//    aProgress.setValue( 0 );
-
-//	ClearImageCache( aImageCache );
-	
-//	for( int i=0; i<aPresentation.GetDiaCount(); i++ )
-//	{
-//		minHandle<DiaInfo> hDia = aPresentation.GetDiaAt( i );
-
-//        if( strlen( hDia->GetImageFile().c_str() )>0 )
-//		{
-//            QImage aImage( hDia->GetImageFile().c_str() );
-//            aImage = aImage.scaled( iWidth, iHeight );
-//            aImageCache[hDia->GetImageFile().c_str()] = aImage;
-//		}
-//		else
-//		{
-//			// add an empty image
-//            QImage aEmptyImage( iWidth, iHeight, /*32*/QImage::Format_RGB32 );
-//			aEmptyImage.fill( ~0 );
-
-//			aImageCache[""] = aEmptyImage;
-//		}
-
-//        aProgress.setValue( i+1 );
-//		GetApplication()->processEvents();
-//		if( aProgress.wasCanceled() )
-//		{
-//			return false;
-//		}
-//	}
-	
-//    aProgress.setValue( aPresentation.GetDiaCount() );
-
-//	return true;
-//}
 
 int DocumentAndControler::CreateImagesForMovie( 
 		const string & sOutputDirectory, 

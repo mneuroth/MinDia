@@ -221,32 +221,32 @@ QMenu * IGeneralScriptFcnImpl::GetPluginsMenuPtr()
 
 string IGeneralScriptFcnImpl::GetLanguage() const
 {
-	return m_sLanguage.c_str();
+    return m_sLanguage;
 }
 
 string IGeneralScriptFcnImpl::GetHelpDirecotry() const
 {
-	return m_sHelpDirectory.c_str();
+    return m_sHelpDirectory;
 }
 
 string IGeneralScriptFcnImpl::GetScriptDirecotry() const
 {
-	return m_sScriptDirectory.c_str();
+    return m_sScriptDirectory;
 }
 
 string IGeneralScriptFcnImpl::GetImageDirecotry() const
 {
-	return m_sImageDirectory.c_str();
+    return m_sImageDirectory;
 }
 
 string IGeneralScriptFcnImpl::GetMusicDirecotry() const
 {
-	return m_sMusicDirectory.c_str();
+    return m_sMusicDirectory;
 }
 
 string IGeneralScriptFcnImpl::GetDataDirecotry() const
 {
-	return m_sDataDirectory.c_str();
+    return m_sDataDirectory;
 }
 
 void IGeneralScriptFcnImpl::Init()
@@ -428,7 +428,7 @@ QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage,
 			sLangTemp = sLangTemp.left(2);
 		}
 	}
-	QString sLang = GetMinDiaSharedDirectory().c_str();
+    QString sLang = ToQString( GetMinDiaSharedDirectory() );
 	sLang += "mindia_";
 	sLang += sLangTemp;
 	sLang += ".qm";

@@ -166,17 +166,6 @@ MinDiaWindow * GetMainWindow()
     return g_pMainWindow;
 }
 
-/*
-#include "minisound.h"
-
-int GetTotalLengthInMSForSoundFile( const string & sFileName )
-{
-    miniSound & aSoundInfo = GetMainWindow()->GetDocument()->GetSoundInfo();
-    aSoundInfo.SetWavFile(sFileName.c_str());
-    return aSoundInfo.GetTotalLengthInMS();
-}
-*/
-
 // ***********************************************************************
 
 MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, bool bSimulation, int iProjectorType, QWidget* parent, Qt::WFlags f )
@@ -238,7 +227,7 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
     // bEnableScript will be changed in LoadSettings
 
     // set default value for last file name
-    m_sLastFileName = m_pControler->GetDocName().c_str();
+    m_sLastFileName = ToQString( m_pControler->GetDocName() );
 
     CreateChildWidgets();
     CreateMenus();
@@ -1151,7 +1140,7 @@ void MinDiaWindow::sltShowAbout()
 
 	if( bOk )
 	{
-		sLicense += sText.c_str();
+        sLicense += ToQString( sText );
 	}
 	else
 	{
@@ -1170,26 +1159,6 @@ void MinDiaWindow::sltShowQtAbout()
 {
 	QMessageBox::aboutQt( this, "MinDia Qt Version" );
 }
-
-//void MinDiaWindow::sltShowLicense()
-//{
-//	LicenseDlg * pLicenseDlg = new LicenseDlg( this, "license", /*modal*/TRUE );
-
-//	string sText;
-//	bool bOk = ReadTextFile( "COPYING", sText );
-
-//	if( bOk )
-//	{
-//		QString sLicense = tr( "This program is released under the GPL Version 2:\n\n" );
-//		sLicense += sText.c_str();
-
-//		pLicenseDlg->m_pEdit->setText( sLicense );
-
-//		pLicenseDlg->exec();
-//	}
-
-//	delete pLicenseDlg;
-//}
 
 void MinDiaWindow::sltModifyItemDialogClosed()
 {
@@ -1283,21 +1252,21 @@ void MinDiaWindow::sltLoadDoc( const QString & sFileName, bool bExecuteEvent )
 
 void MinDiaWindow::sltAskLoadDoc()
 {
-    QString sFileName = QFileDialog::getOpenFileName( this, tr("Open"), GetDataPath().c_str(), DIA_EXTENSION );
+    QString sFileName = QFileDialog::getOpenFileName( this, tr("Open"), ToQString( GetDataPath() ), DIA_EXTENSION );
 
 	sltLoadDoc( sFileName, /*bExecuteEvent*/true );
 }
 
 void MinDiaWindow::sltAskLoadForEditDoc()
 {
-    QString sFileName = QFileDialog::getOpenFileName( this, tr( "Open for edit" ),GetDataPath().c_str(), DIA_EXTENSION );
+    QString sFileName = QFileDialog::getOpenFileName( this, tr( "Open for edit" ), ToQString( GetDataPath() ), DIA_EXTENSION );
 
 	sltLoadDoc( sFileName, /*bExecuteEvent*/false );
 }
 
 void MinDiaWindow::sltAskSaveAsDoc()
 {
-    QString sFileName = QFileDialog::getSaveFileName( this, tr( "Save as" ), GetDataPath().c_str(), DIA_EXTENSION );
+    QString sFileName = QFileDialog::getSaveFileName( this, tr( "Save as" ), ToQString( GetDataPath() ), DIA_EXTENSION );
 
     if( !sFileName.isEmpty() )
 	{
@@ -1591,7 +1560,7 @@ void MinDiaWindow::sltShowStatusBarMessage( const QString & sMsg )
 void MinDiaWindow::SetHelpFile( HelpDlgImpl * pHelpDialog, const QString & sHelpTag ) const
 {
 	// ** help-file is language sensitive
-	QString sHelp = GetMinDiaSharedDirectory().c_str();
+    QString sHelp = ToQString( GetMinDiaSharedDirectory() );
 	sHelp += "mindia_";
 	sHelp += m_sLanguage;
 	sHelp += ".html";
@@ -1674,13 +1643,13 @@ void MinDiaWindow::sltDoDocumentStateUpdate()
 {
 	// *** update caption of the window, with file name ! ***
 	QString sCaption = "MinDia - [";
-    sCaption += QString(ToQString(m_pControler->GetName())); //.c_str());
+    sCaption += ToQString(m_pControler->GetName());
 	if( m_pControler->IsChanged() )
 	{
 		sCaption += " *";
 	}
 	sCaption += "] ";
-    sCaption += QString(m_pControler->GetPlayModusStrg().c_str());
+    sCaption += ToQString( m_pControler->GetPlayModusStrg() );
     setWindowTitle( sCaption );
 }
 
@@ -1778,7 +1747,7 @@ void MinDiaWindow::sltStatusUpdateTimerEvent()
 		QtMTLock aMTLock;
 
 		m_pStatusBarTime->setText( sMsg );
-        m_pStatusBarModus->setText( m_pControler->GetPlayModusStrg().c_str() );
+        m_pStatusBarModus->setText( ToQString( m_pControler->GetPlayModusStrg() ) );
 
 		// clear tooltips showed over the status bar
 		// --> not here because than tooltips are never seen
@@ -1852,7 +1821,7 @@ void MinDiaWindow::sltItemSelected( int iCount, HItem * pFirstSelectedItem, int 
 
 		if( iCount==1 )
 		{
-            QString sFileName = pFirstSelectedItem->GetInfoData()->GetImageFile().c_str();
+            QString sFileName = ToQString( pFirstSelectedItem->GetInfoData()->GetImageFile() );
 			m_pPlayInfoDialog->sltSetImage( sFileName, bIsPlaying, iDissolveTimeInMS );
 		}
 		else
@@ -1952,11 +1921,11 @@ void MinDiaWindow::sltFadeInTest()
 
 		if( m_pSlideView->GetTwoSelectedItems( pItem1, pItem2 ) )
 		{
-            QString sFileName1 = pItem1->GetInfoData()->GetImageFile().c_str();
+            QString sFileName1 = ToQString( pItem1->GetInfoData()->GetImageFile() );
 			m_pPlayInfoDialog->sltSetImage( sFileName1, /*bIsPlaying*/false, 0 );
 
 			int iDissolveTimeInMS = (int)(m_dDissolveTime * 1000.0);
-            QString sFileName2 = pItem2->GetInfoData()->GetImageFile().c_str();
+            QString sFileName2 = ToQString( pItem2->GetInfoData()->GetImageFile() );
 			m_pPlayInfoDialog->sltSetImage( sFileName2, /*bIsPlaying*/true, iDissolveTimeInMS );
 		}
 	}
@@ -1971,11 +1940,11 @@ void MinDiaWindow::sltFadeOutTest()
 
 		if( m_pSlideView->GetTwoSelectedItems( pItem2, pItem1 ) )
 		{
-            QString sFileName1 = pItem1->GetInfoData()->GetImageFile().c_str();
+            QString sFileName1 = ToQString( pItem1->GetInfoData()->GetImageFile() );
 			m_pPlayInfoDialog->sltSetImage( sFileName1, /*bIsPlaying*/false, 0 );
 
 			int iDissolveTimeInMS = (int)(m_dDissolveTime * 1000.0);
-            QString sFileName2 = pItem2->GetInfoData()->GetImageFile().c_str();
+            QString sFileName2 = ToQString( pItem2->GetInfoData()->GetImageFile() );
 			m_pPlayInfoDialog->sltSetImage( sFileName2, /*bIsPlaying*/true, iDissolveTimeInMS );
 		}
 	}

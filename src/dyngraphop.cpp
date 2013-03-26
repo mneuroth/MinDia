@@ -44,6 +44,7 @@
 #include "iscript.h"
 
 #include "dyngraphop.h"
+#include "misctools.h"
 
 #include "minutils.h"
 
@@ -1054,7 +1055,7 @@ bool DynContainer::IsNextElementChanging( double dTimeMS, double dDeltaMS ) cons
 //********************************************************************
 
 DynText::DynText( const string & sText, QGraphicsScene * pOwner )
-: QGraphicsSimpleTextItem( sText.c_str(), 0 ),
+: QGraphicsSimpleTextItem( ToQString( sText ), 0 ),
   m_iConnectedSlideIndex( -1 ),     // means not connected
   m_bIsSelected( false ),
   m_xOld( -1 ),
@@ -1210,13 +1211,13 @@ bool DynText::Write( ostream & aStream ) const
 	FileUtilityObj aFU;
 
 	aFU.WriteStructBegin( aStream );
-    WriteString( aStream, text().toStdString() );
+    WriteString( aStream, ToStdString( text() ) );
 	aFU.WriteSeparator( aStream );
 	aStream << x();
 	aFU.WriteSeparator( aStream );
 	aStream << y();
 	aFU.WriteSeparator( aStream );
-    WriteString( aStream, font().family().toStdString() );
+    WriteString( aStream, ToStdString( font().family() ) );
 	aFU.WriteSeparator( aStream );
 	aStream << font().pointSize();
 	aFU.WriteSeparator( aStream );
@@ -1265,7 +1266,7 @@ bool DynText::Read( istream & aStream )
 
 	aFU.ReadStructBegin( aStream );
 	ReadString( aStream, sTemp );
-	setText( sTemp.c_str() );
+    setText( ToQString( sTemp ) );
 	aFU.ReadSeparator( aStream );
 	aStream >> x;
 	aFU.ReadSeparator( aStream );
@@ -1275,7 +1276,7 @@ bool DynText::Read( istream & aStream )
 	ReadString( aStream, sTemp );
 	aFU.ReadSeparator( aStream );
 	aStream >> iTemp;
-	QFont aFont( sTemp.c_str(), iTemp );
+    QFont aFont( ToQString( sTemp ), iTemp );
 	m_aInitFont = aFont;
 	setFont( aFont );
 	aFU.ReadSeparator( aStream );
@@ -1458,7 +1459,7 @@ double DynText::GetStartTime() const
 
 string DynText::GetString() const
 {
-    string s = text().toStdString();
+    string s = ToStdString( text() );
 	return s;
 }
 
@@ -1555,11 +1556,11 @@ void DynText::PaintForTime( QPainter & aPainter, double dTimeMS ) const
 		{
 			int x = xRel*aPainter.viewport().width();
 			int y = yRel*aPainter.viewport().height();
-			aPainter.drawText( x, y, GetString().c_str() );
+            aPainter.drawText( x, y, ToQString( GetString() ) );
 		}
 		else
 		{
-			aPainter.drawText( x(), y(), GetString().c_str() );
+            aPainter.drawText( x(), y(), ToQString( GetString() ) );
 		}
 	}
 }

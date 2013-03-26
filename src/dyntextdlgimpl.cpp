@@ -31,6 +31,8 @@
 
 #include "dyntextdlgimpl.h"
 
+#include "misctools.h"
+
 #include <qcolordialog.h>
 #include <qfontdialog.h>
 #include <qpushbutton.h>
@@ -118,14 +120,11 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * pare
 //    l->addWidget( m_pDrawingAreaCanvas );
 
     m_pCanvasText = new DynamicTextItem(this);
-    m_pCanvasText->setText( m_hItem->GetString().c_str());
+    m_pCanvasText->setText( ToQString(m_hItem->GetString()) );
     m_pCanvasText->setFlag(QGraphicsItem::ItemIsMovable);
     m_pCanvas->addItem(m_pCanvasText);
 
 // TODO Qt4 --> bewegen des Textes realisieren...
-
-//    m_pCanvasText = new Q3CanvasText( m_hItem->GetString().c_str(), m_pCanvas );
-//	sltRelPosToggled( m_pRelPos->isChecked() );
 
     connect( this, SIGNAL( sigDialogHelp(QWidget *, const QString &) ), pMain, SLOT( sltShowModalHelp(QWidget *, const QString &) ) );
 

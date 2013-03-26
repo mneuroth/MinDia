@@ -112,13 +112,13 @@ bool DiaInfo::IsWhitespace( char ch ) const
 
 bool DiaInfo::SetFromData( string & sStringStreamInOut )
 {
-	istringstream aStrStream( sStringStreamInOut.c_str() );
+    istringstream aStrStream( sStringStreamInOut );
 
 	if( Read( aStrStream ) )
 	{
 		int iCount = aStrStream.tellg();
 
-		sStringStreamInOut = string( sStringStreamInOut.c_str()+iCount, sStringStreamInOut.length()-iCount );
+        sStringStreamInOut = string( sStringStreamInOut.c_str()+iCount, sStringStreamInOut.length()-iCount );
 
 		// ** erase whitespaces at the begining of the string
 		// ** necassery for the Qt-Clipboard-Patch
@@ -280,6 +280,7 @@ bool DiaInfo::Read( istream & aStream )
 	ReadString( aStream, m_sComment );
 	aFU.ReadSeparator( aStream );
 	ReadString( aStream, m_sImageFile );
+cout << " ---> " << m_sImageFile << endl;
 	aFU.ReadSeparator( aStream );
 	if( iActFileVersion > 0 )
 	{

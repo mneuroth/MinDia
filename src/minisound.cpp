@@ -39,6 +39,8 @@
 
 #include "minisound.h"
 
+#include "misctools.h"
+
 #include "timelineview.h"       //for: GetSoundLengthEvent
 
 #include <QFile>
@@ -450,7 +452,7 @@ void miniSound::run()
 				{
 					// ** open new wav-file
 					minHandle<SoundInfo> hItem = *m_aIterator;
-					SetWavFile( hItem->GetFileName().c_str() );
+                    SetWavFile( ToQString(hItem->GetFileName()) );
 
 					// ** calculate time values
 					m_iTotalTimeInMS += iDeltaTime;

@@ -231,7 +231,7 @@ void SoundInfoDlgImpl::TransferData( bool bToTable )
 				QString s;
 				int iPos;
 
-				s = (*m_pSoundData)[i]->GetFileName().c_str();
+                s = ToQString( (*m_pSoundData)[i]->GetFileName() );
                 m_pTable->setItem(i,0,new QTableWidgetItem( s ) );
 
 				iPos = (*m_pSoundData)[i]->GetStartPos();
@@ -245,12 +245,12 @@ void SoundInfoDlgImpl::TransferData( bool bToTable )
 				//pItem->EditType = QTableItem::None;
 				s = s.setNum( iPos );
                 m_pTable->setItem(i,3,new QTableWidgetItem( s ) );
-                s = SecondsInMinSec( iPos / 1000 ).c_str();
+                s = ToQString( SecondsInMinSec( iPos / 1000 ) );
                 m_pTable->setItem(i,4,new QTableWidgetItem( s ) );
                 iPos = (*m_pSoundData)[i]->GetTotalLength();
 				s = s.setNum( iPos );
                 m_pTable->setItem(i,5,new QTableWidgetItem( s ) );
-                s = SecondsInMinSec( iPos / 1000 ).c_str();
+                s = ToQString( SecondsInMinSec( iPos / 1000 ) );
                 m_pTable->setItem(i,6,new QTableWidgetItem( s ) );
 
 				iPos = (*m_pSoundData)[i]->GetFadeInStartPos();
@@ -331,7 +331,7 @@ void SoundInfoDlgImpl::UpdateCalculatedData()
 	if( m_pSoundData )
 	{
 		int iTotal = m_pSoundData->GetTotalPlayLength();
-		QString s = SecondsInMinSec( iTotal / 1000 ).c_str();
+        QString s = ToQString( SecondsInMinSec( iTotal / 1000 ) );
 		m_pTotalPlayTime->setText( s );
 	}
 }

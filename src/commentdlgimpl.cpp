@@ -76,12 +76,7 @@ CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* pa
         QStringList aLabels;
 		for( int i=0; i<iCount; i++ )
 		{
-            //if( m_pTable->horizontalHeaderItem(i) )
-            //{
-            //    m_pTable->horizontalHeaderItem(i)->setText( pItem->GetDataName( i ).c_str() );
-            //}
-            aLabels.push_back( QString(pItem->GetDataName( i ).c_str()) );
-			//m_pTable->horizontalHeader->setLabel( i, pItem->GetDataName( i ).c_str() );
+            aLabels.push_back( ToQString(pItem->GetDataName( i )) );
 			// ** last column for the comment should be bigger than the other columns !
 			if( i==iCount-1 )
 			{
@@ -95,7 +90,7 @@ CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* pa
         m_pTable->setHorizontalHeaderLabels( aLabels );
 
 		// ** update the title of the dialog
-        setWindowTitle( windowTitle() + " (" + QString( pItem->GetName().c_str() ) + ")" );
+        setWindowTitle( windowTitle() + " (" + ToQString( pItem->GetName() ) + ")" );
 	}
 	// ** destroy the created item !
 	if( m_pComments && bItemCreated )
@@ -227,12 +222,7 @@ void CommentDlgImpl::TransferData( bool bToTable )
 				for( int j=0; j<pItem->GetDataCount(); j++ )
 				{
 					string s = pItem->GetDataValue( j );
-                    m_pTable->setItem(i,j,new QTableWidgetItem( s.c_str() ) );
-					//m_pTable->setText( i, j, s.c_str() );
-//                    if( m_pTable->item(i,j) )
-//                    {
-//                        m_pTable->item(i,j)->setText( s.c_str() );
-//                    }
+                    m_pTable->setItem(i,j,new QTableWidgetItem( ToQString(s) ) );
 				}
 			}
 		}

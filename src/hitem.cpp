@@ -112,8 +112,9 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
         aSlideRect.setRect( aSlideStartPoint.x(), aSlideStartPoint.y(), c_iSlideHeight, c_iSlideWidth );
     }
 
+    QString sImageFileName = ToQString( m_hData->GetImageFile() );
     // has the image changed ? yes --> update cache !
-    if( m_sImageFileNameCache != m_hData->GetImageFile().c_str() )
+    if( m_sImageFileNameCache != sImageFileName )
     {
         delete m_pImageCache;
         m_pImageCache = 0;
@@ -124,8 +125,8 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
         QImage aImage;
         QImage aImageOrg;
 
-        bool bOk = ReadQImage( m_hData->GetImageFile().c_str(), aImageOrg );
-        m_sImageFileNameCache = m_hData->GetImageFile().c_str();
+        bool bOk = ReadQImage( sImageFileName, aImageOrg );
+        m_sImageFileNameCache = sImageFileName;
 
         if( bOk && (!aImageOrg.isNull()) )
         {
@@ -172,21 +173,21 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
         int iMaxWidth = aRect.width();
         int iMaxHeight = c_iDY+5;
 
-        char sBuffer[255];
-        sprintf( sBuffer, "pos=%d", m_hData->GetPosition()+1 );
+        QString sBuf;
+        sBuf = QString("pos=%1").arg( m_hData->GetPosition()+1 );
         pPainter->drawText( aTextStartPoint.x(), aTextStartPoint.y(),
                            iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
-                           sBuffer );
-        sprintf( sBuffer, "id=%s", m_hData->GetId().c_str() );
+                           sBuf );
+        sBuf = QString("id=%1").arg( ToQString( m_hData->GetId() ) );
         pPainter->drawText( aTextStartPoint.x(), aTextStartPoint.y()+c_iDY,
                            iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
-                           sBuffer );
-        sprintf( sBuffer, "comment=%s", m_hData->GetComment().c_str() );
+                           sBuf );
+        sBuf = QString("comment=%1").arg( ToQString( m_hData->GetComment() ) );
         pPainter->drawText( aTextStartPoint.x(), aTextStartPoint.y()+2*c_iDY,
                            iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
-                           sBuffer );
+                           sBuf );
 
-        QString sTemp = m_hData->GetImageFile().c_str();
+        QString sTemp = ToQString( m_hData->GetImageFile() );
         if( m_hData->HasScript() )
         {
             sTemp += " ";
@@ -203,16 +204,16 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
 
             if( aOp.GetOperationType() == TimeOperation::DISSOLVE_IN )
             {
-                sprintf( sBuffer, "dissolve=%4.1f s", aOp.GetOperationTime() );
+                sBuf = QString("dissolve=%2 s").arg( aOp.GetOperationTime(), 4 );
             }
             if( aOp.GetOperationType() == TimeOperation::SHOW )
             {
-                sprintf( sBuffer, "timer=%4.1f s", aOp.GetOperationTime() );
+                sBuf = QString("timer=%2 s").arg( aOp.GetOperationTime(), 4 );
             }
 
             pPainter->drawText( aTextStartPoint.x(), aTextStartPoint.y()+iOffset,
                                iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
-                               sBuffer );
+                               sBuf);
             iOffset += c_iDY;
         }
     }
@@ -241,7 +242,7 @@ bool HItem::GetSelected() const
 
 QString HItem::GetData() const
 {
-	return QString( m_hData->GetData().c_str() );
+    return QString( ToQString(m_hData->GetData()) );
 }
 
 minHandle<DiaInfo> HItem::GetInfoData() const

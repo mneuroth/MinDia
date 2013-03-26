@@ -31,6 +31,7 @@
 
 #include "timelineaxis.h"
 #include "soundinfo.h"
+#include "misctools.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsLineItem>
@@ -95,7 +96,7 @@ void TimeLineAxis::MakeSecondTicks()
 		if( i>60 )
 		{
 			string s = SecondsInMinSec( i );
-			sText = s.c_str();
+            sText = ToQString( s );
 			sText += "min";
 		}
 		else

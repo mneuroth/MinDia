@@ -28,6 +28,7 @@
 
 #include "comlogimpl.h"
 #include "qtmtlock.h"
+#include "misctools.h"
 
 #include <qevent.h>
 #include <qapplication.h>
@@ -86,7 +87,7 @@ ComLoggingDialogImpl::~ComLoggingDialogImpl()
 void ComLoggingDialogImpl::LogMsg( const string & sMsg )
 {
     MyCustomEvent * pEvent = new MyCustomEvent( c_iCustomEvent_Logging );
-    pEvent->setData( QString( sMsg.c_str() ) );
+    pEvent->setData( ToQString(sMsg) );
     QApplication::postEvent( this, pEvent );
 /*
 	if( m_pOutput )

@@ -84,7 +84,7 @@ void PresentationDataDlgImpl::TransferDataToControl()
 	// ** init the data
 	if( m_pComment && m_pData )
 	{
-		QString sComment = m_pData->GetComment().c_str();
+        QString sComment = ToQString(m_pData->GetComment());
 
 		m_pComment->setText( sComment );
 	}
@@ -98,7 +98,7 @@ void PresentationDataDlgImpl::TransferDataFromControl()
 
 		// ** has text really changed ?
 		string sOrg = m_pData->GetComment();
-		if( QString( sOrg.c_str() ) != sComment )
+        if( ToQString( sOrg ) != sComment )
 		{
             m_pData->SetComment( ToStdString(sComment) );
 

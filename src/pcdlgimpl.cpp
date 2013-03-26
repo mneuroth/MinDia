@@ -33,6 +33,7 @@
 
 #include "rolleicom.h"
 #include "diapresentation.h"
+#include "misctools.h"
 
 #include <qlabel.h>
 #include <qobject.h>
@@ -136,7 +137,7 @@ void ProjectorControlDlgImpl::sltGetSlideNo()
 	{
 		string s = CheckReturn( m_pProjectorCom->GetActSlideNoStrg() );
 
-		m_pSlideNoLabel->setText( s.c_str() );
+        m_pSlideNoLabel->setText( ToQString(s) );
 	}
 }
 
@@ -301,7 +302,7 @@ void ProjectorControlDlgImpl::sltGetStatus()
 
 	string sStatus = m_pProjectorCom->GetStatusStrg( chStatus );
 
-	m_pStatusLabel->setText( sStatus.c_str() );
+    m_pStatusLabel->setText( ToQString(sStatus) );
 }
 
 void ProjectorControlDlgImpl::switchToNotConnectedMode()

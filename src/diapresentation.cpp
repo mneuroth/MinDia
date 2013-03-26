@@ -762,7 +762,7 @@ bool DiaPresentation::StartPlay( int iStartPos )
 			if( !m_bContinued && (m_aSoundInfoContainer.size()>0) )
 			{
 				minHandle<SoundInfo> hItem = *m_aSoundInfoContainer.begin(); 
-				m_pSoundPlayer->SetWavFile( hItem->GetFileName().c_str() );
+                m_pSoundPlayer->SetWavFile( ToQString( hItem->GetFileName() ) );
 			}
 			if( m_bContinued )
 			{
@@ -959,7 +959,7 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 				// ** image has to be changed (fade in now!).
 				if( m_pCallback )
 				{
-                    m_pCallback->TriggerDissolveActDiaNo( m_iActPos, hActDia->GetScript().c_str(), hActDia->GetImageFile().c_str(), aOperation.GetOperationTime() );
+                    m_pCallback->TriggerDissolveActDiaNo( m_iActPos, hActDia->GetScript(), hActDia->GetImageFile(), aOperation.GetOperationTime() );
 				}
 			}
 			else
@@ -985,7 +985,7 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 				// ** simulation modus: fade in
 				if( m_pCallback )
 				{
-                    m_pCallback->TriggerDissolveActDiaNo( m_iActPos, hActDia->GetScript().c_str(), hActDia->GetImageFile().c_str(), dDissolveTime );
+                    m_pCallback->TriggerDissolveActDiaNo( m_iActPos, hActDia->GetScript(), hActDia->GetImageFile(), dDissolveTime );
 				}
 				// ********************************************************
 			}
@@ -1010,7 +1010,7 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 					if( !bWasContinued && (m_aSoundInfoContainer.size()>0) )
 					{
 						minHandle<SoundInfo> hItem = *m_aSoundInfoContainer.begin(); 
-						m_pSoundPlayer->SetWavFile( hItem->GetFileName().c_str() );
+                        m_pSoundPlayer->SetWavFile( ToQString( hItem->GetFileName() ) );
 					}
 					*/
 					if( bWasContinued )
@@ -1040,7 +1040,7 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 			// ** image has to be shown (now!).
 			if( m_pCallback )
 			{
-                m_pCallback->TriggerShowActDiaNo( m_iActPos, hActDia->GetScript().c_str(), hActDia->GetImageFile().c_str(), aOperation.GetOperationTime() );
+                m_pCallback->TriggerShowActDiaNo( m_iActPos, hActDia->GetScript(), hActDia->GetImageFile(), aOperation.GetOperationTime() );
 			}
 
 			// ** if there is a next slide avaliable, set the next dissolve time
@@ -1076,7 +1076,7 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 				// ** for the next dia-change.
 				if( m_pCallback )
 				{
-                    m_pCallback->TriggerSetNextDiaNo( m_iActPos+1, hNextDia->GetImageFile().c_str() );
+                    m_pCallback->TriggerSetNextDiaNo( m_iActPos+1, hNextDia->GetImageFile() );
 				}
 			}
 
@@ -1249,7 +1249,7 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
         if( hDia1.IsOk() )
         {
             QImage aImage1;
-            ReadQImage( hDia1->GetImageFile().c_str(), aImage1 );
+            ReadQImage( ToQString( hDia1->GetImageFile() ), aImage1 );
 
             if( iWidth<0 )
             {
@@ -1271,7 +1271,7 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
             if( hDia2.IsOk() )
             {
                 QImage aImage2;
-                ReadQImage( hDia2->GetImageFile().c_str(), aImage2 );
+                ReadQImage( ToQString( hDia2->GetImageFile() ), aImage2 );
                 aImage2 = aImage2.scaled( iWidth, iHeight );
                 _FadeImage(&aPainter,QRectF(aRect),iFadeFactor,aImage1,aImage2);
             }
@@ -1289,42 +1289,6 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
     }
     return QImage();
 }
-
-//void DiaPresentation::PaintSlideForTime( const QImageCache & aImageCache, QPainter & aPainter, double dTimeMS ) const
-//{
-//	int iIndex1 = -1;
-//	int iIndex2 = -1;
-//	int iFadeFactor = 0;
-//	if( GetIndexForTime( dTimeMS, iIndex1, iIndex2, iFadeFactor ) )
-//	{
-//		minHandle<DiaInfo> hDia1 = GetDiaAt( iIndex1 );
-//		minHandle<DiaInfo> hDia2 = GetDiaAt( iIndex2 );
-
-//		QRect aRect = aPainter.viewport();
-
-//		if( hDia1.IsOk() )
-//		{
-//			//QImage aImage1 = QImage( hDia1->GetImageFile() );
-//            const QImage & aImage1 = aImageCache[ hDia1->GetImageFile().c_str() ];
-//			if( hDia2.IsOk() )
-//			{
-//				//QImage aImage2 = QImage( hDia2->GetImageFile() );
-//                const QImage aImage2 = aImageCache[ hDia2->GetImageFile().c_str() ];
-//				//aImage1 = aImage1.smoothScale( aImage2.width(), aImage2.height() );
-//                //old: QImage aImage3 = _FadeImage( aImage2, aImage1, iFadeFactor );
-//                //old: aPainter.drawImage( 0, 0, aImage3 );
-//                _FadeImage(&aPainter,QRectF(aRect),iFadeFactor,aImage2,aImage1);
-//			}
-//			else
-//			{
-//				aPainter.drawImage( 0, 0, aImage1 );
-//			}
-
-//			// after the (backgound) image, draw the text and other elements
-//			GetDynGraphicData().PaintElementsForTime( aPainter, dTimeMS );
-//		}
-//	}
-//}
 
 bool DiaPresentation::IsNextSlideChanging( double dTimeMS, double dDeltaMS ) const
 {

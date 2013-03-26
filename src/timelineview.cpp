@@ -391,7 +391,7 @@ void TimeLineView::ShowPlotComments()
 
             QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
             m_pCanvas->addItem(pText);
-			QString sText = aCommentContainer[i]->GetComment().c_str();
+            QString sText = ToQString( aCommentContainer[i]->GetComment() );
 			sText = "<-- " + sText + " -->";
 			pText->setText( sText );
             pText->setBrush( aColor );
@@ -442,7 +442,7 @@ void TimeLineView::ShowMusicComments()
 
         QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
         m_pCanvas->addItem(pText);
-		QString sText = aCommentContainer[i]->GetComment().c_str();
+        QString sText = ToQString( aCommentContainer[i]->GetComment() );
 		pText->setText( sText );
         pText->setBrush( aColor );
         pText->setPos( iPos+2, g_iStartPosY+c_iOffset+10+iLength );
@@ -484,7 +484,7 @@ void TimeLineView::ShowMusicTracks()
 
         QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
         m_pCanvas->addItem(pText);
-        QString sText = aSoundContainer[i]->GetFileName().c_str();
+        QString sText = ToQString( aSoundContainer[i]->GetFileName() );
 		pText->setText( sText );
         pText->setBrush( aColor2 );
         pText->setPos( iOffset+iStartPos, g_iStartPosY+c_iTrackHeight+c_iTrackOffset+c_iTrackHeight /*140*/ );
@@ -561,7 +561,7 @@ void TimeLineView::ShowGraphicOperations()
 
         QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
         m_pCanvas->addItem(pText);
-		QString sText = aDynGrOpContainer[i]->GetString().c_str();
+        QString sText = ToQString( aDynGrOpContainer[i]->GetString() );
 		QString sAddText;
 		if( sText.length()>4 )
 		{

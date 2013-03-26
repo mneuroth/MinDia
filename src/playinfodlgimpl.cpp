@@ -815,7 +815,7 @@ bool PlayInfoDlgImpl::SetFont( const string & sFontName )
 {
 	QtMTLock aMTLock;
 
-    m_aActFont.setFamily( sFontName.c_str() );
+    m_aActFont.setFamily( ToQString(sFontName) );
 
 	return true;
 }
@@ -836,7 +836,7 @@ int PlayInfoDlgImpl::SetTextXY( int x, int y, const string & sText )
 	QtMTLock aMTLock;
 
     QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
-    pText->setText(sText.c_str());
+    pText->setText( ToQString(sText) );
     m_pCanvas->addItem(pText);
 
 	pText->setFont( m_aActFont );
@@ -1174,7 +1174,7 @@ void PlayInfoDlgImpl::sltSaveActImage( const QString & sImageFormat )
 	QString sExt( "*." );
 	sExt += sImageFormat;
 
-    QString sFileName = QFileDialog::getSaveFileName( this, tr( "Save as" ), /*QString::null*/GetImagePath().c_str(), sExt );
+    QString sFileName = QFileDialog::getSaveFileName( this, tr( "Save as" ), ToQString(GetImagePath()), sExt );
 
     if( !sFileName.isEmpty() )
 	{
