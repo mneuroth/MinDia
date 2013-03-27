@@ -938,7 +938,7 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
 		}
 		else if( IsSoundFileDrag( pEvent ) )
 		{
-			SoundInfoContainer & aSoundContainer = m_pDiaPres->GetSoundInfoData();
+            //SoundInfoContainer & aSoundContainer = m_pDiaPres->GetSoundInfoData();
 
 			if( pEvent->mimeData()->hasUrls() )
 			{

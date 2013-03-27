@@ -132,18 +132,6 @@ void SoundInfo::SetTotalLength( int iTotalLength )
     m_iTotalLengthInMS = iTotalLength;
 }
 
-/*
-int GetTotalLengthInMSForSoundFile( const string & sFileName );
-
-int SoundInfo::GetTotalLengthImpl() const
-{
-    return GetTotalLengthInMSForSoundFile( m_sFileName );
-// min todo --> hier besser noch inidb uebergeben !
-//	miniSound aSound( m_sFileName.c_str() );
-
-//	return aSound.GetTotalLengthInMS();
-}
-*/
 int	SoundInfo::GetFadeInStartPos() const
 {
 	return m_iFadeInStartInMS;
@@ -381,53 +369,6 @@ void SoundInfoContainer::MakeRelativePaths()
 		++aIter;
 	}
 }
-
-/*
-UpdateLengths::UpdateLengths(SoundInfoContainer & aContainer)
-    : m_aContainer(aContainer)
-{
-}
-
-#include <QApplication>
-#include <QWidget>
-extern QWidget * GetMainWindow();
-
-// TODO gulp --> dies hier loeschen !!!
-void UpdateLengths::run()
-{
-    SoundInfoContainer::iterator aIter = m_aContainer.begin();
-    miniSound aSound;
-
-    while( aIter != m_aContainer.end() )
-    {
-        minHandle<SoundInfo> hItem = *aIter;
-        aSound.SetWavFile(hItem->GetFileName().c_str());
-        int iTotalLength = aSound.GetTotalLengthInMS();
-        while( iTotalLength<=0 )
-        {
-            sleep(10);
-            iTotalLength = aSound.GetTotalLengthInMS();
-        }
-        hItem->SetTotalLength(iTotalLength);
-        // request update of total length for item
-        // await bis resulata da ist
-        ++aIter;
-    }
-    // TODO --> trigger update der View ! --> F5 in Menu aufnehmen !
-    QEvent * pUserEvent = new QEvent(QEvent::User); //new MyCheckReloadEvent();
-    QWidget * pWidget = GetMainWindow();
-    QApplication::postEvent(pWidget,pUserEvent);
-//    foreach (QWidget *widget, QApplication::topLevelWidgets()) {
-//             QApplication::postEvent((QObject *)widget,pUserEvent);
-//    }
-}
-
-// test um das ansync problem bei sound files zu loesen
-void SoundInfoContainer::UpdateAllLengths()
-{
-    m_aHelperThread.start();
-}
-*/
 
 // *******************************************************************
 // *******************************************************************

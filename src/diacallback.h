@@ -41,6 +41,8 @@ using namespace std;
 class DiaCallback
 {
 public:
+    virtual ~DiaCallback() {}
+
 	// ** Methods used in playing modus **
     virtual void TriggerDissolveActDiaNo( int iNo, const string & sScript, const string & sFileName, double dDissolveTime ) = 0;
     virtual void TriggerShowActDiaNo( int iNo, const string & sScript, const string & sFileName, double dShowTime ) = 0;

@@ -195,7 +195,7 @@ public slots:
 signals:
 	void sigDialogClosed();
 	void sigDocumentUpdate();
-	void sigDialogHelp( const QString & sHelpTag);
+    void sigDialogHelp( const QString & sHelpTag );
 	void sigDoPlay();
 	void sigDoPause();
 	void sigDoStop();

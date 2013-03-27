@@ -86,31 +86,6 @@
 
 static int g_iTimerDelay = MAX_FADE_DELAY;
 
-
-// help function to create a image with a white background
-static QImage CreateWhiteImage()
-{
-	const int c_iWidth = 3;
-	const int c_iHeight = 3;
-
-	QImage aImage( c_iWidth, c_iHeight, /*32*/QImage::Format_RGB32 );
-
-	for( int y=0; y<c_iHeight; y++ )
-	{
-		uchar * pLine = aImage.scanLine( y );
-
-		for( int x=0; x<c_iWidth*4; x=x+4 )
-		{
-			pLine[x] = 255;
-			pLine[x+1] = 255;
-			pLine[x+2] = 255;
-			pLine[x+3] = 0;
-		}
-	}
-
-	return aImage;
-}
-
 //// *******************************************************************
 //// *******************************************************************
 //// *******************************************************************

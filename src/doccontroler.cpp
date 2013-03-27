@@ -310,7 +310,7 @@ void DocumentAndControler::sltLoadDoc( const QString & sFileName, bool & bOk, bo
 
 			// ** if the original file (with stored a file path) does not exists any more,
 			// ** change it to the filename which was used to load this file !
-            if( bOk && !FileUtilityObj::ExistsFile( m_aPresentation.GetName().c_str() ) )
+            if( bOk && !QFile::exists( ToQString( m_aPresentation.GetName() ) ) )
 			{
                 m_aPresentation.SetName( ToStdString(sFileName) );
 
@@ -337,7 +337,7 @@ void DocumentAndControler::sltLoadDoc( const QString & sFileName, bool & bOk, bo
 
 void DocumentAndControler::sltSaveDoc( bool & bOk )
 {
-	fstream aFile( m_aPresentation.GetFullName().c_str(), ios::out );
+    fstream aFile( m_aPresentation.GetFullName().c_str(), ios::out );
 
 	bOk = aFile.good();
 	if( bOk )
@@ -869,10 +869,10 @@ int DocumentAndControler::CreateImagesForMovie(
 		while( dTimeMS < dStopMS )
 		{
 			//bool bForcePainting = true;
-			char sBuffer[512];
             // /Users/min/Documents/home/Entwicklung/projects/mindia_qt4/src/
-            sprintf( sBuffer, "%s/%s%05d.jpg", sOutputDirectory.c_str(), sFileNameOffset.c_str(), iCount );
- 
+            QString sBuffer;
+            sBuffer = QString( "%1/%2%3.jpg" ).arg( ToQString( sOutputDirectory ) ).arg( ToQString( sFileNameOffset ) ).arg(iCount);
+
 			if( GetPresentation().IsNextSlideChanging( dTimeMS, dDeltaMS ) )
 			{
                 //aPixmap.fill();
@@ -884,13 +884,12 @@ int DocumentAndControler::CreateImagesForMovie(
 
 				/*bool bOk =*/ aPixmap.save(sBuffer,"JPEG",100);
 
-				sLastFileName = sBuffer;
+                sLastFileName = ToStdString( sBuffer );
 			}
 			else
 			{
 				// use last generated file for new movie image
-                /*bool ok =*/ QFile::copy(sLastFileName.c_str(), sBuffer );
-				//bool ok = FileUtilityObj::_CopyFile( sLastFileName.c_str(), sBuffer );
+                /*bool ok =*/ QFile::copy( ToQString( sLastFileName ), sBuffer );
 			}
 
 			dTimeMS += dDeltaMS;

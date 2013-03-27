@@ -113,7 +113,6 @@ private:
 	// ** helper methods **
     //int		GetTotalLengthImpl() const;
     void	SetData( const string & sFileName, int iTotalLength, int iStartPosInMS, int iStopPosInMS );
-    //void	UpdateTotalLength();
 
 	// ** data **
 	string	m_sFileName;

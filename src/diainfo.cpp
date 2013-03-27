@@ -280,7 +280,6 @@ bool DiaInfo::Read( istream & aStream )
 	ReadString( aStream, m_sComment );
 	aFU.ReadSeparator( aStream );
 	ReadString( aStream, m_sImageFile );
-cout << " ---> " << m_sImageFile << endl;
 	aFU.ReadSeparator( aStream );
 	if( iActFileVersion > 0 )
 	{

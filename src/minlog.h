@@ -37,6 +37,8 @@ using namespace std;
 class minLoggingInterface
 {
 public:
+    virtual ~minLoggingInterface() {}
+
     virtual void LogMsg( const string & sMsg ) = 0;
 };
 

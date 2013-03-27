@@ -6,6 +6,8 @@
 class DynamicItemChangedCallback
 {
 public:
+    virtual ~DynamicItemChangedCallback() {}
+
     virtual void updated() = 0;
 };
 

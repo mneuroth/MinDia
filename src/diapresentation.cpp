@@ -71,14 +71,15 @@ void _FadeImage( QPainter * pPainter, const QRectF & area, int iFadeFactor, cons
 
 const double c_dMinSlideChangeTime = 3.5;	// in seconds
 
-const int DiaPresentation::ACT_FILE_VERSION = 6;
+const int DiaPresentation::ACT_FILE_VERSION = 7;
 				// History: ver. 0 --> until 10.11.2001; change: SoundInfoContainer
 				//          ver. 1 --> until 17.11.2001; change: SoundCommentContainer
 				//			ver. 2 --> until 27.12.2001; change: PlotCommentContainer
 				//			ver. 3 --> until 30.12.2001; change: ApplScriptEnvironment
 				//			ver. 4 --> until 22. 2.2003; change: DynGraphicOpContainer
 				//			ver. 5 --> until 22. 3.2003; change: DynContainer, removed: DynGraphicOpContainer
-				
+                //			ver. 6 --> until 27. 3.2013; change: ImageRatio
+
 const char * DiaPresentation::MAGIC_FILE_STRING = "MINDIA";
 
 // ** XML Tags **
@@ -95,6 +96,7 @@ DiaPresentation::DiaPresentation( bool bEnableScript, DiaCallback * pCallback, c
   m_aDynItemContainer( pOutputWindowProxy ),
   m_aScriptEnv( true ),
   m_hGenDev( g_IGeneralDeviceID ),
+  m_aImageRatio( RATIO_VARIABLE ),
   m_pProjectorCom( 0 ),
   m_pSoundPlayer( 0 ),
   m_pCallback( pCallback ),
@@ -287,6 +289,18 @@ double DiaPresentation::GetOffsetForSound() const
 	return GetDissolveTimeOfSlide( 0 );
 }
 
+ImageRatio DiaPresentation::GetImageRatio() const
+{
+    return m_aImageRatio;
+}
+
+void DiaPresentation::SetImageRatio( ImageRatio value )
+{
+    m_aImageRatio = value;
+
+    m_aObjectChanged.SetChanged();
+}
+
 bool DiaPresentation::Read( istream & aStream, bool bExecuteEventScript )
 {
 	// clear all old data
@@ -312,6 +326,18 @@ bool DiaPresentation::Read( istream & aStream, bool bExecuteEventScript )
 	ReadString( aStream, m_sName );
 	aFU.ReadSeparator( aStream );
 	ReadString( aStream, m_sComment );
+    if( iActFileVersion > 6 )				// since 27. 3.2013
+    {
+        int iImageRatio;
+
+        aFU.ReadSeparator( aStream );
+        aStream >> iImageRatio;
+        SetImageRatio( (ImageRatio)iImageRatio );
+    }
+    else
+    {
+        SetImageRatio( RATIO_VARIABLE );
+    }
 	aFU.ReadSeparator( aStream );
 	m_aProjectorContainer.Read( aStream );
 	aFU.ReadSeparator( aStream );
@@ -408,7 +434,12 @@ bool DiaPresentation::Write( ostream & aStream ) const
 	WriteString( aStream, m_sComment );
 	aFU.WriteSeparator( aStream );
 	aStream << endl;
-	m_aProjectorContainer.Write( aStream );
+    if( ACT_FILE_VERSION > 6 )				// since 27. 3.2013
+    {
+        aStream << (int)GetImageRatio();
+        aFU.WriteSeparator( aStream );
+    }
+    m_aProjectorContainer.Write( aStream );
 	aFU.WriteSeparator( aStream );
 	aStream << endl;
 	m_aDiaContainer.Write( aStream );
@@ -454,7 +485,7 @@ bool DiaPresentation::Write( ostream & aStream ) const
 		m_aDynItemContainer.Write( aStream );
 		((DiaPresentation *)this)->m_aDynItemContainer.ClearChanged();
 	}
-	aFU.WriteStructEnd( aStream );
+    aFU.WriteStructEnd( aStream );
 
 	if( aStream.good() )
 	{
@@ -1249,7 +1280,7 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
         if( hDia1.IsOk() )
         {
             QImage aImage1;
-            ReadQImage( ToQString( hDia1->GetImageFile() ), aImage1 );
+            ReadQImageOrEmpty( ToQString( hDia1->GetImageFile() ), aImage1 );
 
             if( iWidth<0 )
             {
@@ -1271,7 +1302,7 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
             if( hDia2.IsOk() )
             {
                 QImage aImage2;
-                ReadQImage( ToQString( hDia2->GetImageFile() ), aImage2 );
+                ReadQImageOrEmpty( ToQString( hDia2->GetImageFile() ), aImage2 );
                 aImage2 = aImage2.scaled( iWidth, iHeight );
                 _FadeImage(&aPainter,QRectF(aRect),iFadeFactor,aImage1,aImage2);
             }

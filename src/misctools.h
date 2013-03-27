@@ -38,7 +38,11 @@ using namespace std;
 
 class QDropEvent;
 
+QImage CreateWhiteImage();
+
 bool ReadQImage( const QString & sFileName, QImage & aImageOut );
+
+void ReadQImageOrEmpty( const QString & sFileName, QImage & aImageOut );
 
 bool IsDiaDataFile( const QString & sFileName );
 

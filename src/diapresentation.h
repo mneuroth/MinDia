@@ -106,6 +106,16 @@ public:
 	DiaProjectorContainer();
 };
 
+// *******************************************************************
+enum ImageRatio {
+    RATIO_UNDEFINED,
+    RATIO_16_9,
+    RATIO_3_2,
+    RATIO_4_3,
+    RATIO_IMAGE_RATIO,
+    RATIO_VARIABLE,
+    RATIO_USER
+};
 
 // *******************************************************************
 /** Represents the information for a dia/slide
@@ -174,6 +184,9 @@ public:
 	// ** to synchronize sound with slide-show, wait for first slide. Unit: seconds **
 	double					GetOffsetForSound() const;
 
+    ImageRatio              GetImageRatio() const;
+    void                    SetImageRatio( ImageRatio value );
+
 	int						GetProjectorCount() const;
 	minHandle<DiaProjector> GetProjectorPtr( int iNo ) const;
 
@@ -239,6 +252,7 @@ private:
 	string					m_sStepInfo;
 	QTime					m_aCountDown;
 	QTime 					m_aPlayTime;
+    ImageRatio              m_aImageRatio;
 	RolleiCom *				m_pProjectorCom;	// no owner !
 	miniSound *				m_pSoundPlayer;		// no owner !
 	DiaCallback *			m_pCallback;		// no owner !

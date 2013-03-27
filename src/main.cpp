@@ -115,7 +115,7 @@ string GetMinDiaSharedDirectory()
     sTestFileInShared += sSep;
 	sTestFileInShared += "mindia_de.qm";
 
-	if( FileUtilityObj::ExistsFile( sTestFileInShared.c_str() ) )
+    if( QFile::exists( ToQString( sTestFileInShared ) ) )
 	{
 #if defined(__linux__)
         sRet = MINDIA_INSTALLATION_DIR;		//_LINUX_MINDIA_SHARED;
