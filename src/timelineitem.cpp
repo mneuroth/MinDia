@@ -199,3 +199,8 @@ int TimeLineItem::GetLength() const
 
 	return iDelta2;
 }
+
+int TimeLineItem::GetHeight() const
+{
+    return m_pDissolveRamp->boundingRect().height();
+}

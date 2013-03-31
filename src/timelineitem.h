@@ -57,7 +57,8 @@ public:
 
 	int  GetPositionX() const;
 	int  GetPositionY() const;
-	int	 GetLength() const;
+    int	 GetLength() const;
+    int	 GetHeight() const;
 
 private:
 	// ** help methods **
