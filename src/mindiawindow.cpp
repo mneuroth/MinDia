@@ -344,6 +344,9 @@ void MinDiaWindow::CreateMenus()
     m_pFileMakeRelPathsAction = new QAction( tr( "Make &relative paths" ), this );
     m_pFileMakeRelPathsAction->setStatusTip( tr( "Make absolute paths to reative paths" ));
     connect( m_pFileMakeRelPathsAction, SIGNAL( activated() ), this, SLOT( sltMakeRelPaths() ) );
+    m_pFileMakeAbsPathsAction = new QAction( tr( "Make &absolute paths..." ), this );
+    m_pFileMakeAbsPathsAction->setStatusTip( tr( "Make relative paths to absolute paths" ));
+    connect( m_pFileMakeAbsPathsAction, SIGNAL( activated() ), this, SLOT( sltMakeAbsPaths() ) );
     m_pFileImportXMLAction = new QAction( tr( "&Import XML..." ), this );
     m_pFileImportXMLAction->setStatusTip( tr( "Import presentation from a XML file" ) );
 	connect( m_pFileImportXMLAction, SIGNAL( activated() ), this, SLOT( sltImportXMLDoc() ) );
@@ -392,6 +395,7 @@ void MinDiaWindow::CreateMenus()
     m_pFile->addAction(m_pFileSaveAction);
     m_pFile->addAction(m_pFileSaveAsAction);
     m_pFile->addAction(m_pFileMakeRelPathsAction);
+    m_pFile->addAction(m_pFileMakeAbsPathsAction);
     m_pFile->addSeparator();
     m_pFile->addAction(m_pFilePrintAction);
     m_pFile->addSeparator();
@@ -1252,21 +1256,21 @@ void MinDiaWindow::sltLoadDoc( const QString & sFileName, bool bExecuteEvent )
 
 void MinDiaWindow::sltAskLoadDoc()
 {
-    QString sFileName = QFileDialog::getOpenFileName( this, tr("Open"), ToQString( GetDataPath() ), DIA_EXTENSION );
+    QString sFileName = QFileDialog::getOpenFileName( this, tr("Open"), ToQString( /*GetDataPath()*/m_pControler->GetName() ), DIA_EXTENSION );
 
 	sltLoadDoc( sFileName, /*bExecuteEvent*/true );
 }
 
 void MinDiaWindow::sltAskLoadForEditDoc()
 {
-    QString sFileName = QFileDialog::getOpenFileName( this, tr( "Open for edit" ), ToQString( GetDataPath() ), DIA_EXTENSION );
+    QString sFileName = QFileDialog::getOpenFileName( this, tr( "Open for edit" ), ToQString( m_pControler->GetName() ), DIA_EXTENSION );
 
 	sltLoadDoc( sFileName, /*bExecuteEvent*/false );
 }
 
 void MinDiaWindow::sltAskSaveAsDoc()
-{
-    QString sFileName = QFileDialog::getSaveFileName( this, tr( "Save as" ), ToQString( GetDataPath() ), DIA_EXTENSION );
+{    
+    QString sFileName = QFileDialog::getSaveFileName( this, tr( "Save as" ), ToQString( m_pControler->GetName() ), DIA_EXTENSION );
 
     if( !sFileName.isEmpty() )
 	{
@@ -1285,6 +1289,19 @@ void MinDiaWindow::sltMakeRelPaths()
 	m_pControler->GetPresentation().MakeRelativePaths();
 	
 	sltDoUpdateAllViews();
+}
+
+void MinDiaWindow::sltMakeAbsPaths()
+{
+    QString sDirInput = QInputDialog::getText(this,"Convert to absolute path","Directory:");
+
+    if( !sDirInput.isEmpty() )
+    {
+        string sDir = ToStdString( sDirInput );
+        m_pControler->GetPresentation().MakeAbsolutePaths(sDir);
+
+        sltDoUpdateAllViews();
+    }
 }
 
 void MinDiaWindow::sltPrintDoc()
@@ -1777,6 +1794,7 @@ void MinDiaWindow::sltDoUpdateAllViews()
 
 void MinDiaWindow::sltDoDataChanged()
 {
+    //sltDoSyncAllViews();
 	sltDoUpdateAllViews();
 	sltDoDocumentStateUpdate();
 	//m_pControler->sltDataChanged();
@@ -1843,8 +1861,9 @@ void MinDiaWindow::sltPlayMarkChanged( double dTimePosInSec )
 {
     int iWidth = m_pPlayInfoDialog->GetDrawWidth();
     int iHeight = m_pPlayInfoDialog->GetDrawHeight();
-    QImage aImage = m_pControler->GetPresentation().GetSlideForTime(dTimePosInSec*1000.0,iWidth,iHeight);
-    sltShowImage(aImage);
+    QImage aImage = m_pControler->GetPresentation().GetSlideForTime( dTimePosInSec*1000.0, iWidth, iHeight );
+    sltShowImage( aImage );
+    sltShowStatusBarMessage( QString(tr("play mark %1 sec")).arg(dTimePosInSec) );
 }
 
 void MinDiaWindow::sltSelectItem( int iIndex, int iDissolveTimeInMS )
@@ -2023,7 +2042,7 @@ void MinDiaWindow::sltPasteClipboard()
 		{
             // try to process as an internal Item format
             // or as a image path
-            m_pSlideView->SetFromClipboardData( sData );
+            m_pSlideView->SetFromClipboardData( sData, false );
 		}
 	}
 

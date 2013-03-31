@@ -256,7 +256,8 @@ public slots:
 	void sltAskLoadDoc();
 	void sltAskLoadForEditDoc();
 	void sltAskSaveAsDoc();
-	void sltMakeRelPaths();
+    void sltMakeRelPaths();
+    void sltMakeAbsPaths();
 	void sltPrintDoc();
 	void sltExportDoc();
 	void sltExportAVI();
@@ -443,7 +444,8 @@ private:
 	QAction *		m_pFileSaveAction;
 	QAction *		m_pFileSaveAsAction;
 	QAction *		m_pFileMakeRelPathsAction;
-	QAction *		m_pFileExportXMLAction;
+    QAction *		m_pFileMakeAbsPathsAction;
+    QAction *		m_pFileExportXMLAction;
 	QAction *		m_pFileImportXMLAction;
 	QAction *		m_pFileExportAction;
 	QAction *		m_pFileExportAVIAction;
