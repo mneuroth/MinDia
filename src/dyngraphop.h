@@ -533,7 +533,7 @@ public:
 	void Stop();
 	void Reset();
 
-	void AddDefaultDynText( const string & sText, double dStartTimeInMS, double dShowTimeInMS = 5000 );
+    void AddDefaultDynText( const string & sText, double dStartTimeInMS, double dShowTimeInMS = 5000, const string & sUUID = "", double dDiaStartTimeInMS = 0.0 );
 
 	void SetAttributesForAllItems( minHandle<DynText> hItem );
 

@@ -129,6 +129,7 @@ public slots:
 	void sltSelectItem( int iNo, int iDissolveTimeInMS );
 	void sltItemSelected( int iCount, int iFirstSelectedItemNo );
     void sltAddDynText();
+    void sltAddAttachedDynText();
     void sltEditDynText();
 
 signals:
@@ -145,6 +146,7 @@ private:
 	void ShowGraphicOperations();
 	void ShowModifyDynObjectDialog( int iIndexOut );
 	int  GetItemForPosX( int x );
+    void DoAddDynText( bool bAsAttached );
 
 	// ** data **
 	QMenu *				        m_pContextMenu;

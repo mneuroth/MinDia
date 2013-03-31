@@ -999,9 +999,14 @@ void DynTextContainer::Reset()
     Update();
 }
 
-void DynTextContainer::AddDefaultDynText( const string & sText, double dStartTimeInMS, double dShowTimeInMS )
+void DynTextContainer::AddDefaultDynText( const string & sText, double dStartTimeInMS, double dShowTimeInMS, const string & sUUID, double dDiaStartTimeInMS )
 {
 	DynText * pText = new DynText( sText );
+    // make new item to an attached item, if needed
+    if( sUUID.length()>0 )
+    {
+        pText->SetAttachedSlideUUID( sUUID, dStartTimeInMS-dDiaStartTimeInMS );
+    }
 	pText->CreateDefaultOperations( dStartTimeInMS, dShowTimeInMS );
 	push_back( minHandle<DynText>( pText ) );
 	SetChanged();

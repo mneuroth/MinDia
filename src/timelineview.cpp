@@ -127,6 +127,9 @@ TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget 
     pAction = new QAction( tr( "&Add dyn. text..." ), this );
     connect( pAction, SIGNAL(triggered()), this, SLOT(sltAddDynText()) );
     m_pContextMenu->addAction( pAction );
+    pAction = new QAction( tr( "&Add attached dyn. text..." ), this );
+    connect( pAction, SIGNAL(triggered()), this, SLOT(sltAddAttachedDynText()) );
+    m_pContextMenu->addAction( pAction );
     m_pMenuDynTextEdit= new QAction( tr( "&Modify dyn. text..." ), this );
     connect( m_pMenuDynTextEdit, SIGNAL(triggered()), this, SLOT(sltEditDynText()) );
     m_pContextMenu->addAction( m_pMenuDynTextEdit );
@@ -206,18 +209,45 @@ void TimeLineView::SyncViewWithData()
 
 void TimeLineView::sltAddDynText()
 {
-	DynTextContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
+    DoAddDynText( false );
+}
+
+void TimeLineView::sltAddAttachedDynText()
+{
+    DoAddDynText( true );
+}
+
+void TimeLineView::DoAddDynText( bool bAsAttached )
+{
+    DynTextContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
 
     bool ok;
     QString sTxt = QInputDialog::getText(this,tr("Enter text"),tr("text:"),/*QLineEdit::EchoMode mode=*/QLineEdit::Normal,/*text=*/"",&ok,/*Qt::WindowFlags flags =*/0);
-    if( ok && !sTxt.isEmpty() )    
-	{
-		int x = m_aLastMousePos.x();	
+    if( ok && !sTxt.isEmpty() )
+    {
+        int x = m_aLastMousePos.x();
+        double dStartTimeInMS = x*1000/g_dFactor-m_pDiaPres->GetOffsetForSound()*1000;
 
-        aDynGrOpContainer.AddDefaultDynText( ToStdString(sTxt), x*1000/g_dFactor-m_pDiaPres->GetOffsetForSound()*1000, 5000 );
+        // init default values for not attached dynamic text
+        string sUUID;
+        double dDiaStartTimeInMS = 0;
+        if( bAsAttached )
+        {
+            int iIndex1, iIndex2, iFadeFactor;
+            if( m_pDiaPres->GetIndexForTime( dStartTimeInMS, iIndex1, iIndex2, iFadeFactor ) )
+            {
+                if( iIndex1>=0 )
+                {
+                    sUUID = m_pDiaPres->GetDiaAt(iIndex1)->GetUUID();
+                    dDiaStartTimeInMS = m_pDiaPres->GetDiaAbsStartDissolveTime(iIndex1)*1000.0;
+                }
+            }
+        }
+
+        aDynGrOpContainer.AddDefaultDynText( ToStdString(sTxt), dStartTimeInMS, 5000, sUUID, dDiaStartTimeInMS );
 
         emit sigViewDataChanged();
-	}
+    }
 }
 
 void TimeLineView::sltEditDynText()
