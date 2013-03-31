@@ -93,7 +93,8 @@ DiaPresentation::DiaPresentation( bool bEnableScript, DiaCallback * pCallback, c
   //m_pOutputWindowProxy( pOutputWindowProxy ),
   //m_aDynGraphicOpContainer( pOutputWindowProxy ),
   //m_aDynGraphicOpProcessor( m_aDynGraphicOpContainer ),
-  m_aDynItemContainer( pOutputWindowProxy ),
+  //m_aDiaContainer(),
+  m_aDynTextContainer( pOutputWindowProxy ),
   m_aScriptEnv( true ),
   m_hGenDev( g_IGeneralDeviceID ),
   m_aImageRatio( RATIO_VARIABLE ),
@@ -115,6 +116,25 @@ DiaPresentation::DiaPresentation( bool bEnableScript, DiaCallback * pCallback, c
 	m_aScriptEnv.AddEventType( _PRESENTATION_SAVED );
 	m_aScriptEnv.AddEventType( _PRESENTATION_LOADED );
 	m_aScriptEnv.SetEnabled( bEnableScript );
+}
+
+void DiaPresentation::SyncDataContainers()
+{
+    // synchronize all data for dynamic texts which are attached to a dia
+    // needed if a dia was moved
+    for( unsigned int i=0; i<m_aDiaContainer.size(); i++ )
+    {
+        double dStartTime = GetDiaAbsStartDissolveTime(i);
+        string sUUID = m_aDiaContainer[i]->GetUUID();
+
+        for( unsigned int j=0; j<m_aDynTextContainer.size(); j++ )
+        {
+            if( sUUID == m_aDynTextContainer[j]->GetAttachedSlideUUID() )
+            {
+                m_aDynTextContainer[j]->UpdateData( dStartTime*1000.0 );
+            }
+        }
+    }
 }
 
 void DiaPresentation::Init()
@@ -139,7 +159,7 @@ void DiaPresentation::Clear()
 	m_aSoundCommentContainer.erase( m_aSoundCommentContainer.begin(), m_aSoundCommentContainer.end() );
 	m_aPlotCommentContainer.erase( m_aPlotCommentContainer.begin(), m_aPlotCommentContainer.end() );
 	//m_aDynGraphicOpContainer.erase( m_aDynGraphicOpContainer.begin(), m_aDynGraphicOpContainer.end() );
-	m_aDynItemContainer.erase( m_aDynItemContainer.begin(), m_aDynItemContainer.end() );
+    m_aDynTextContainer.erase( m_aDynTextContainer.begin(), m_aDynTextContainer.end() );
 
 	m_aScriptEnv.Clear();
 
@@ -154,7 +174,7 @@ bool DiaPresentation::IsChanged() const
 		   m_aSoundInfoContainer.IsChanged() || m_aSoundCommentContainer.IsChanged() ||
 		   m_aPlotCommentContainer.IsChanged() || 
 		   //m_aDynGraphicOpContainer.IsChanged() ||
-           m_aDynItemContainer.IsChanged() ||
+           m_aDynTextContainer.IsChanged() ||
            m_aScriptEnv.IsChanged();
 }
 
@@ -215,14 +235,14 @@ DynGraphicOpContainer &	DiaPresentation::GetDynGraphicOpData()
 }
 */
 
-DynContainer & DiaPresentation::GetDynGraphicData()
+DynTextContainer & DiaPresentation::GetDynGraphicData()
 {
-	return m_aDynItemContainer;
+    return m_aDynTextContainer;
 }
 
-const DynContainer & DiaPresentation::GetDynGraphicData() const
+const DynTextContainer & DiaPresentation::GetDynGraphicData() const
 {
-	return m_aDynItemContainer;
+    return m_aDynTextContainer;
 }
 
 ApplScriptEnvironment &	DiaPresentation::GetScriptEnvironment()
@@ -278,10 +298,18 @@ int	DiaPresentation::FindItemWithText( const string & sText, int iStartIndex ) c
 
 void DiaPresentation::MakeRelativePaths()
 {
-	m_sName = FileUtilityObj::ConvertToRelPath( m_sName.c_str() );
+    m_sName = ConvertToRelPath( m_sName );
 	m_aDiaContainer.MakeRelativePaths();
 	m_aSoundInfoContainer.MakeRelativePaths();
 	m_aObjectChanged.SetChanged();
+}
+
+void DiaPresentation::MakeAbsolutePaths( const string & sDir )
+{
+    m_sName = ConvertToAbsPath( m_sName, sDir );
+    m_aDiaContainer.MakeAbsolutePaths( sDir );
+    m_aSoundInfoContainer.MakeAbsolutePaths( sDir );
+    m_aObjectChanged.SetChanged();
 }
 
 double DiaPresentation::GetOffsetForSound() const
@@ -397,12 +425,12 @@ bool DiaPresentation::Read( istream & aStream, bool bExecuteEventScript )
 */	if( iActFileVersion > 5 )				// since 22. 3.2003
 	{
 		aFU.ReadSeparator( aStream );
-		m_aDynItemContainer.Read( aStream );
-		m_aDynItemContainer.ClearChanged();
+        m_aDynTextContainer.Read( aStream );
+        m_aDynTextContainer.ClearChanged();
 	}
 	else
 	{
-		m_aDynItemContainer.erase( m_aDynItemContainer.begin(), m_aDynItemContainer.end() );
+        m_aDynTextContainer.erase( m_aDynTextContainer.begin(), m_aDynTextContainer.end() );
 	}
 	aFU.ReadStructEnd( aStream );
 
@@ -482,8 +510,8 @@ bool DiaPresentation::Write( ostream & aStream ) const
 	{
 		aFU.WriteSeparator( aStream );
 		aStream << endl;
-		m_aDynItemContainer.Write( aStream );
-		((DiaPresentation *)this)->m_aDynItemContainer.ClearChanged();
+        m_aDynTextContainer.Write( aStream );
+        ((DiaPresentation *)this)->m_aDynTextContainer.ClearChanged();
 	}
     aFU.WriteStructEnd( aStream );
 
@@ -511,7 +539,7 @@ XmlTree DiaPresentation::GetXMLTree() const
 	aTree.PushTag( m_aSoundCommentContainer.GetXMLTree() );
 	aTree.PushTag( m_aPlotCommentContainer.GetXMLTree() );
 	//aTree.PushTag( m_aDynGraphicOpContainer.GetXMLTree() );
-	aTree.PushTag( m_aDynItemContainer.GetXMLTree() );
+    aTree.PushTag( m_aDynTextContainer.GetXMLTree() );
 	aTree.PushTag( m_aScriptEnv.GetXMLTree() );
 
 	return aTree;
@@ -563,6 +591,42 @@ minHandle<DiaInfo> DiaPresentation::AddDiaAt( int iIndex, minHandle<DiaInfo> hNe
 	return 0;
 }
 
+int DiaPresentation::CountUUIDs( const string & sUUID ) const
+{
+    int iCount = 0;
+    for( unsigned int i=0; i<m_aDiaContainer.size(); i++ )
+    {
+        if( m_aDiaContainer[i]->GetUUID()==sUUID )
+        {
+            iCount++;
+        }
+    }
+    return iCount;
+}
+
+int DiaPresentation::GetDiaIndexForUUID( const string & sUUID ) const
+{
+    int iIndex = -1;
+    for( unsigned int i=0; i<m_aDiaContainer.size(); i++ )
+    {
+        if( m_aDiaContainer[i]->GetUUID()==sUUID )
+        {
+            return i;
+        }
+    }
+    return iIndex;
+}
+
+minHandle<DiaInfo> DiaPresentation::GetDia( const string & sUUID ) const
+{
+    int iIndex = GetDiaIndexForUUID( sUUID );
+    if( iIndex>=0 )
+    {
+        return m_aDiaContainer[iIndex];
+    }
+    return 0;
+}
+
 minHandle<DiaInfo> DiaPresentation::GetDiaAt( int iIndex ) const
 {
 	if( iIndex>=0 && iIndex<GetDiaCount() )
@@ -609,14 +673,43 @@ double DiaPresentation::GetDiaAbsStartShowTime( int iIndex ) const
 	return dTime;
 }
 
+double DiaPresentation::GetDiaAbsFinishDissolveTime( int iIndex ) const
+{
+    double dTime = GetDiaAbsStartShowTime( iIndex );
+
+    if( (iIndex>=0) && (iIndex<(int)m_aDiaContainer.size()) )
+    {
+        dTime += m_aDiaContainer[ iIndex ]->GetShowTime();
+    }
+    // goto next slide and get the fade in time
+    iIndex++;
+    if( (iIndex>=0) && (iIndex<(int)m_aDiaContainer.size()) )
+    {
+        dTime += m_aDiaContainer[ iIndex ]->GetDissolveTime();
+    }
+
+    return dTime;
+}
+
 bool DiaPresentation::UpdateShowTimeForDia( int iIndex, double dDeltaTime )
 {
+    bool ok = false;
+
 	if( (iIndex>=0) && (iIndex<(int)m_aDiaContainer.size()) )
 	{
-		return m_aDiaContainer[ iIndex ]->SetShowTime( m_aDiaContainer[ iIndex ]->GetShowTime()+dDeltaTime );
+        ok = m_aDiaContainer[ iIndex ]->SetShowTime( m_aDiaContainer[ iIndex ]->GetShowTime()+dDeltaTime );
+        // update the attached Dynamic Text items for all following dias...
+        for( unsigned int i=iIndex+1; i<m_aDiaContainer.size(); i++ )
+        {
+            string sUUID = m_aDiaContainer[ i ]->GetUUID();
+            if( sUUID.length()>0 )
+            {
+                m_aDynTextContainer.UpdateShowTimeForDia( sUUID, dDeltaTime*1000.0 );
+            }
+        }
 	}
 
-	return false;
+    return ok;
 }
 
 bool DiaPresentation::UpdateDissolveTimeForDia( int iIndex, double dDeltaTime )
@@ -854,7 +947,7 @@ void DiaPresentation::StopPlay()
 	}
 	// graphic operations are connected to the music !
 	//m_aDynGraphicOpProcessor.Stop();
-	m_aDynItemContainer.Stop();
+    m_aDynTextContainer.Stop();
 
 	// ** modus changed, update observers
 	if( m_pCallback )
@@ -886,7 +979,7 @@ void DiaPresentation::PausePlay()
 	}
 	// graphic operations are connected to the music !
 	//m_aDynGraphicOpProcessor.Pause();
-	m_aDynItemContainer.Pause();
+    m_aDynTextContainer.Pause();
 
 	// ** modus changed, update observers
 	if( m_pCallback )
@@ -1057,12 +1150,12 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 				if( bWasContinued )
 				{
 					//m_aDynGraphicOpProcessor.Continue();
-					m_aDynItemContainer.Continue();
+                    m_aDynTextContainer.Continue();
 				}
 				else
 				{
 					//m_aDynGraphicOpProcessor.Start( (int)(m_dAbsSoundStartTime*1000) );
-					m_aDynItemContainer.Run( (int)(m_dAbsSoundStartTime*1000) );
+                    m_aDynTextContainer.Run( (int)(m_dAbsSoundStartTime*1000) );
 				}
 			}
 			// ********************************************************
@@ -1342,6 +1435,9 @@ bool DiaPresentation::IsNextSlideChanging( double dTimeMS, double dDeltaMS ) con
 
 bool DiaPresentation::GetIndexForTime( double dTimeMS, int & iIndex1, int & iIndex2, int & iFadeFactor ) const
 {
+    iIndex1 = -1;
+    iIndex2 = -1;
+    iFadeFactor = 0;
 	if( dTimeMS>=0 )
 	{
 		double dTime = 0;
@@ -1369,8 +1465,9 @@ bool DiaPresentation::GetIndexForTime( double dTimeMS, int & iIndex1, int & iInd
 // *******************************************************************
 // *******************************************************************
 
-DiaInfoContainer::DiaInfoContainer()
+DiaInfoContainer::DiaInfoContainer( /*IDiaOutputWindowInternal * pOutputWindowProxy*/ )
 : IOContainer< DiaInfo >( _DIA_INFO_CONTAINER )
+//  m_pOutputWindowProxy( pOutputWindowProxy )
 {}
 
 bool DiaInfoContainer::Read( istream & aStream )
@@ -1431,6 +1528,17 @@ void DiaInfoContainer::MakeRelativePaths()
 
 		++aIter;
 	}
+}
+
+void DiaInfoContainer::MakeAbsolutePaths( const string & sDir )
+{
+    iterator aIter = begin();
+    while( aIter != end() )
+    {
+        (*aIter)->MakeAbsolutePaths( sDir );
+
+        ++aIter;
+    }
 }
 
 // *******************************************************************

@@ -68,7 +68,7 @@ class DynamicTextDlgImpl : public QDialog, public Ui_DynamicTextDlg, public Dyna
 	Q_OBJECT
 
 public:
-    DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * parent = 0, QWidget * pMain = 0, Qt::WFlags fl = 0 );
+    DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, const QString & sUUID1, int iIndex2, const QString & sUUID2, QWidget * parent = 0, QWidget * pMain = 0, Qt::WFlags fl = 0 );
 	virtual ~DynamicTextDlgImpl();
 
 	double GetRelX() const;
@@ -80,11 +80,13 @@ public:
     virtual void updated();
 
 public slots:
-    virtual void sltRelPosToggled(bool bValue);
-	virtual void sltDeleteText();
-	virtual void sltSelectFont();
-    virtual void sltSelectFontcolor();
-	
+    void sltRelPosToggled(bool bValue);
+    void sltDeleteText();
+    void sltSelectFont();
+    void sltSelectFontcolor();
+    void sltToggleImage1(bool bValue);
+    void sltToggleImage2(bool bValue);
+
 	void sltUpdateData();
 
 signals:

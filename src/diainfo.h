@@ -33,6 +33,7 @@
 #define _DIAINFO_H
 
 #include "iscript.h"
+#include "dyngraphop.h"
 
 #include <iostream>
 #include <vector>
@@ -119,17 +120,21 @@ public:
 	string	GetData() const;
 	bool	SetFromData( string & sStringStreamInOut );
 
-	// ** implements interface IDia **
-	virtual double			GetTotalTime() const;
+    void    SetUUID( const string & sUUID );
 
-    virtual string      	GetId() const;
-    virtual bool			SetId( const string & sId );
-    virtual string      	GetComment() const;
-    virtual bool			SetComment( const string & sComment );
-    virtual string      	GetImageFile() const;
-    virtual bool			SetImageFile( const string & sFileName );
-    virtual string      	GetScript() const;
-    virtual bool			SetScript( const string & sScript );
+	// ** implements interface IDia **
+    virtual double	GetTotalTime() const;
+
+    virtual string  GetUUID() const;
+
+    virtual string  GetId() const;
+    virtual bool	SetId( const string & sId );
+    virtual string  GetComment() const;
+    virtual bool	SetComment( const string & sComment );
+    virtual string  GetImageFile() const;
+    virtual bool	SetImageFile( const string & sFileName );
+    virtual string  GetScript() const;
+    virtual bool	SetScript( const string & sScript );
 
 	virtual double	GetDissolveTime() const;
 	virtual bool	SetDissolveTime( double dShowTime );
@@ -157,12 +162,14 @@ public:
 	bool			ModifyOperation( int iIndex, const TimeOperation & aOperation );
 
 	void			MakeRelativePaths();
+    void			MakeAbsolutePaths( const string & sDir );
 
 private:
 	void			SkipWhitespaces( string & sString );
 	bool			IsWhitespace( char ch ) const;
 
 	// *** data ***
+    string                  m_sUUID;
 	string					m_sId;
 	string					m_sComment;
 	string					m_sImageFile;

@@ -95,7 +95,7 @@ public:
 	bool GetTwoSelectedItems( HItem * & aItem1, HItem * & aItem2 ) const;	// needed for dissolve tests
 
 	bool GetActClipboardData( QString & sDataOut ) const;
-	bool SetFromClipboardData( const QString & sData );
+    bool SetFromClipboardData( const QString & sData, bool bIsDrop );
 	int  GetCountValidClipboardData( const QString & sData );
 
 	void SyncViewWithData();

@@ -100,7 +100,7 @@
 
 // *******************************************************************
 
-DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * parent, QWidget * pMain, Qt::WFlags fl )
+DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, const QString & sUUID1, int iIndex2, const QString & sUUID2, QWidget * parent, QWidget * pMain, Qt::WFlags fl )
 : QDialog( parent, fl ),
   m_hItem( hItem ),
   m_aInitFont( hItem->font() )
@@ -114,20 +114,14 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * pare
 	QBoxLayout * l = new QVBoxLayout( m_pDrawingArea );
     l->setContentsMargins(0,0,0,0);
 
-//	m_pDrawingAreaCanvas = new DrawingArea( m_pDrawingArea, this );
-//	m_pDrawingAreaCanvas->setCanvas( m_pCanvas );
-
-//    l->addWidget( m_pDrawingAreaCanvas );
-
     m_pCanvasText = new DynamicTextItem(this);
     m_pCanvasText->setText( ToQString(m_hItem->GetString()) );
     m_pCanvasText->setFlag(QGraphicsItem::ItemIsMovable);
     m_pCanvas->addItem(m_pCanvasText);
 
-// TODO Qt4 --> bewegen des Textes realisieren...
-
     connect( this, SIGNAL( sigDialogHelp(QWidget *, const QString &) ), pMain, SLOT( sltShowModalHelp(QWidget *, const QString &) ) );
 
+// TODO --> datenaustausch wie bei anderen Dialoge realisieren !
 //    connect( m_pCanvas, SIGNAL( changed(const QList<QRectF> & region) ), this, SLOT(sltUpdateData()) );
 //    connect( m_pCanvas, SIGNAL( sceneRectChanged( const QRectF & rect ) ), this, SLOT(sltUpdateData()) );
 
@@ -144,10 +138,7 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * pare
     QString sTemp;
     sTemp = sTemp.setNum( hItem->font().pointSize() );
     m_pFontSize->setText( sTemp );
-//    	sTemp = sTemp.setNum( hItem->x() );
-//    	aDlg.m_pPosX->setText( sTemp );
-//    	sTemp = sTemp.setNum( hItem->y() );
-//    	aDlg.m_pPosY->setText( sTemp );
+
     QColor aColor = hItem->brush().color();
     m_pSelectFontcolor->setPalette( QPalette( aColor ) );
     UpdateTextPosition();
@@ -161,12 +152,42 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, QWidget * pare
     sTemp = sTemp.setNum( dDelta );
     m_pShowTime->setText( sTemp );
 
+    if( hItem->IsAttachedToSlide() )
+    {
+        string sUUID = hItem->GetAttachedSlideUUID();
+        if( sUUID==ToStdString(sUUID1) )
+        {
+            m_pChbAttachToImage1->setChecked(true);
+        }
+        else if( sUUID==ToStdString(sUUID2) )
+        {
+            m_pChbAttachToImage2->setChecked(true);
+        }
+    }
+
+    if( !sUUID1.isEmpty() )
+    {
+        m_pAttachedImageUUID1->setText( sUUID1 );
+        m_pAttachedImageIndex1->setText( QString("#%1").arg(iIndex1) );
+    }
+
+    if( !sUUID2.isEmpty() )
+    {
+        m_pAttachedImageUUID2->setText( sUUID2 );
+        m_pAttachedImageIndex2->setText( QString("#%1").arg(iIndex2) );
+    }
+    else
+    {
+        m_pChbAttachToImage2->setVisible(false);
+        m_pAttachedImageUUID2->setVisible(false);
+        m_pAttachedImageIndex2->setVisible(false);
+    }
+
     sltUpdateData();
 }
 
 DynamicTextDlgImpl::~DynamicTextDlgImpl()
 {
-//	delete m_pDrawingAreaCanvas;
     delete m_pCanvas;
 }
 
@@ -293,6 +314,22 @@ void DynamicTextDlgImpl::sltUpdateData()
 
     m_pPosX->setText( QString("%1").arg(m_pCanvasText->x(),5,'f',0) );
     m_pPosY->setText( QString("%1").arg(m_pCanvasText->y(),5,'f',0) );
+}
+
+void DynamicTextDlgImpl::sltToggleImage1(bool bValue)
+{
+    if( bValue )
+    {
+        m_pChbAttachToImage2->setChecked(false);
+    }
+}
+
+void DynamicTextDlgImpl::sltToggleImage2(bool bValue)
+{
+    if( bValue )
+    {
+        m_pChbAttachToImage1->setChecked(false);
+    }
 }
 
 void DynamicTextDlgImpl::keyPressEvent( QKeyEvent * pEvent )

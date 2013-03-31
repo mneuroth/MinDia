@@ -593,7 +593,8 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 			//QDropEvent::Action aAction = pEvent->action();
 
 			sltSelectItem( iIndex, 0 );
-			SetFromClipboardData( sFileName );
+
+            SetFromClipboardData( sFileName, true );
 
 			m_iDragTargetIndex = iIndex;
 
@@ -742,7 +743,7 @@ bool HItemView::GetActClipboardData( QString & sDataOut ) const
 	return GetActClipboardData( sDataOut, 0 );
 }
 
-bool HItemView::SetFromClipboardData( const QString & sData )
+bool HItemView::SetFromClipboardData( const QString & sData, bool bIsDrop )
 {
 	// ** restore the visible viewport after the operation
 	_RestoreContents aContents( this );
@@ -788,10 +789,17 @@ bool HItemView::SetFromClipboardData( const QString & sData )
             {
                 // ** create a new dia item
                 minHandle<DiaInfo> hDia( new DiaInfo( GetNextFreeID() ) );
-
+                string sUUIDOrg = hDia->GetUUID();
                 if( hDia->SetFromData( s ) )
                 {
                     AddItemAt( hDia, i++, true );
+                    // if we copy a item we need to make sure that only one item
+                    // with the uuid exists --> new item needs to use the old uuid
+                    // Remark: drop handling is different --> item will be deleted by caller (drag)
+                    if( !bIsDrop && m_pDiaPres->CountUUIDs( hDia->GetUUID() )>1 )
+                    {
+                        hDia->SetUUID( sUUIDOrg );
+                    }
                 }
                 else
                 {

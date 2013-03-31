@@ -87,16 +87,20 @@ class DiaInfoContainer : public IOContainer< DiaInfo >
 public:
 	typedef DiaInfo		ItemClass;
 
-	DiaInfoContainer();
+    DiaInfoContainer( /*IDiaOutputWindowInternal * pOutputWindowProxy*/ );
 
 	bool IsChanged() const; 
 
 	const_iterator FindItemWithText( const string & sText, const_iterator aStartPosIterator /*= begin()*/ ) const;
 	void MakeRelativePaths();
+    void MakeAbsolutePaths( const string & sDir );
 
 	void SyncPositionInfos();
 
 	virtual bool Read( istream & aStream );
+
+//private:
+//    IDiaOutputWindowInternal *  m_pOutputWindowProxy;
 };
 
 // *******************************************************************
@@ -127,6 +131,8 @@ class DiaPresentation
 public:
 	DiaPresentation( bool bEnableScript, DiaCallback * pCallback, const string & sName = g_sDefPresentationFileName, minLoggingInterface * pLogging = 0, IDiaOutputWindowInternal *	pOutputWindowProxy = 0 );
 
+    void SyncDataContainers();          // sync data containers after move of dia
+
 	void Clear();
 
 	bool IsChanged() const;
@@ -144,12 +150,16 @@ public:
 
 	// ** information about the presentation **
 	int						GetDiaCount() const;
-	minHandle<DiaInfo>		GetDiaAt( int iIndex ) const;
+    int                     CountUUIDs( const string & sUUID ) const;
+    int                     GetDiaIndexForUUID( const string & sUUID ) const;
+    minHandle<DiaInfo>		GetDia( const string & sUUID ) const;
+    minHandle<DiaInfo>		GetDiaAt( int iIndex ) const;
 	minHandle<DiaInfo>		AddDiaAt( int iIndex, minHandle<DiaInfo> hNewDia );
 	bool					RemoveDiaAt( int iIndex );
-	double					GetDiaAbsStartDissolveTime( int iIndex ) const;
-	double					GetDiaAbsStartShowTime( int iIndex ) const;
-	bool					UpdateShowTimeForDia( int iIndex, double dDeltaTime );
+    double					GetDiaAbsStartDissolveTime( int iIndex ) const;             // time when dia is started to fade in
+    double					GetDiaAbsStartShowTime( int iIndex ) const;                 // time when dia is visible with 100%
+    double					GetDiaAbsFinishDissolveTime( int iIndex ) const;            // time when dia is not visible anymore --> finished fade out time
+    bool					UpdateShowTimeForDia( int iIndex, double dDeltaTime );
 	bool					UpdateDissolveTimeForDia( int iIndex, double dDeltaTime );
 
 	// ** handling of the presentation (play-modus) **
@@ -180,6 +190,7 @@ public:
 	int						FindItemWithText( const string & sText, int iStartIndex = 0 ) const;
 
 	void					MakeRelativePaths();
+    void					MakeAbsolutePaths( const string & sDir );
 
 	// ** to synchronize sound with slide-show, wait for first slide. Unit: seconds **
 	double					GetOffsetForSound() const;
@@ -199,8 +210,8 @@ public:
 
 	//DynGraphicOpContainer &	GetDynGraphicOpData();
 
-	DynContainer &			GetDynGraphicData();
-	const DynContainer &	GetDynGraphicData() const;
+    DynTextContainer &			GetDynGraphicData();
+    const DynTextContainer &	GetDynGraphicData() const;
 
 	ApplScriptEnvironment &	GetScriptEnvironment();
 
@@ -221,18 +232,19 @@ private:
 	string					m_sName;
 	string					m_sPathInfo;				// temp
 	string					m_sComment;
-	DiaProjectorContainer	m_aProjectorContainer;
-	DiaInfoContainer		m_aDiaContainer;
-	SoundInfoContainer		m_aSoundInfoContainer;
-	SoundCommentContainer	m_aSoundCommentContainer;
-	PlotCommentContainer	m_aPlotCommentContainer;
 
-	//DynGraphicOpContainer	m_aDynGraphicOpContainer;
-	//TimerJobProcessor		m_aDynGraphicOpProcessor;
+    DiaProjectorContainer	m_aProjectorContainer;      // for projectors (not used?)
 
-	DynContainer			m_aDynItemContainer;
+    DiaInfoContainer		m_aDiaContainer;            // the container for the slides
+    SoundInfoContainer		m_aSoundInfoContainer;      // the container for the sound files (*.mp3, *.wav)
+    SoundCommentContainer	m_aSoundCommentContainer;   // the container for sound info texts
+    PlotCommentContainer	m_aPlotCommentContainer;    // the container for plot info texts
+    DynTextContainer		m_aDynTextContainer;        // the container for dynamic texts
 
-	ApplScriptEnvironment			m_aScriptEnv;
+    //DynGraphicOpContainer	m_aDynGraphicOpContainer;
+    //TimerJobProcessor		m_aDynGraphicOpProcessor;
+
+    ApplScriptEnvironment			m_aScriptEnv;
 	minClientHandle<IGeneralDevice> m_hGenDev;
 
 	// *** transient data ***

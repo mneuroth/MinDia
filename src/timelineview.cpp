@@ -206,7 +206,7 @@ void TimeLineView::SyncViewWithData()
 
 void TimeLineView::sltAddDynText()
 {
-	DynContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
+	DynTextContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
 
     bool ok;
     QString sTxt = QInputDialog::getText(this,tr("Enter text"),tr("text:"),/*QLineEdit::EchoMode mode=*/QLineEdit::Normal,/*text=*/"",&ok,/*Qt::WindowFlags flags =*/0);
@@ -253,8 +253,8 @@ void TimeLineView::sltDoUpdateView( bool /*bErase*/ )
 			if( hItem->IsSelected() )
 			{
 				// ** ensure that the selected item is visible
-                ensureVisible( hItem->GetPositionX(), hItem->GetPositionY(), m_pCanvas->width(), m_pCanvas->height() );
-			}
+                ensureVisible( hItem->GetPositionX(), hItem->GetPositionY(), hItem->GetPositionX()+hItem->GetLength(), hItem->GetHeight() );
+            }
 		}
 
 		// ** show infos about the music tracks **
@@ -538,24 +538,24 @@ void TimeLineView::ShowGraphicOperations()
     QColor aConnectedColor( 0, 220, 0 );
 
 	//const DynGraphicOpContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicOpData();
-	const DynContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
+	const DynTextContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
 	int iSize = aDynGrOpContainer.size();
 	int iOffset = (int)(m_pDiaPres->GetOffsetForSound()*g_dFactor);
 	for( int i=0; i<iSize; i++ )
 	{
-		int iPos = (int)(aDynGrOpContainer[i]->GetStartTime()*0.001*g_dFactor);
+        int iPos = (int)(aDynGrOpContainer[i]->GetStartTimeInMS()*0.001*g_dFactor);
 		int iLength = 10 * (i % 2);
 
 		// ** connect the sound comments to the sound play time
 		iPos += iOffset;
 
-        bool bIsConnected = aDynGrOpContainer[i]->IsConnectedToSlide();
+        bool bIsAttached = aDynGrOpContainer[i]->IsAttachedToSlide();
 
         QGraphicsLineItem * pLine = new QGraphicsLineItem();
         m_pCanvas->addItem(pLine);
         pLine->setLine( 0, 0, 0, 20+iLength );
 		//pLine->setBrush( QBrush( aColor ) );
-        pLine->setPen( QPen( bIsConnected ? aConnectedColor : aColor ) );
+        pLine->setPen( QPen( bIsAttached ? aConnectedColor : aColor ) );
         pLine->setPos( iPos, g_iStartPosY+c_iDynOpOffset );
 		pLine->show();
 
@@ -568,7 +568,7 @@ void TimeLineView::ShowGraphicOperations()
 			sAddText = "...";
 		}
 		pText->setText( sText.left( 4 )+sAddText );
-        pText->setBrush( bIsConnected ? aConnectedColor : aColor );
+        pText->setBrush( bIsAttached ? aConnectedColor : aColor );
         pText->setPos( iPos+2, g_iStartPosY+c_iDynOpOffset+10+iLength );
 		pText->show(); 
 
@@ -757,6 +757,13 @@ void TimeLineView::mouseReleaseEvent( QMouseEvent * /*pEvent*/ )
 	}
 }
 
+// convert double time value in seconds
+// into a integer value of 1/10 of a second
+inline int SecTo10thSec(double dValue)
+{
+    return (int)(dValue*10.0);
+}
+
 void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
 {
 	// ** allow modifiying of items only in edit-modus
@@ -766,9 +773,11 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
         int x = (int)pos.x();
         int y = (int)pos.y();
         QPoint point(x,y);
+        double dTime = (double)x*g_dFactor*0.01;    // in seconds
 
 		if( m_hSelectedItem.IsOk() )
 		{
+            // handle movement of dissiolve and show time of slide
             double dDelta = (double)(x-m_iSelectedItemStartPos);
             m_iSelectedItemStartPos = x;
 
@@ -801,17 +810,36 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
 		// handle the movement of dynamic text objects
 		else if( m_iSelectedDynTextIndex>=0 )
 		{
+            bool bIsMoveAllowed = true;
             double dDelta = (double)(x-m_iSelectedItemStartPos);
             m_iSelectedItemStartPos = x;
 
 			dDelta = dDelta / g_dFactor;
 
-			DynContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
+			DynTextContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
 
 			minHandle<DynText> hItem = aDynGrOpContainer[ m_iSelectedDynTextIndex ];
-			hItem->Delta( dDelta*1000 );
 
-			aDynGrOpContainer.SetChanged();
+            // if we have an attached dia, then check if we do not move out of the vaild range
+            if( hItem->IsAttachedToSlide() )
+            {
+                int iIndex = m_pDiaPres->GetDiaIndexForUUID( hItem->GetAttachedSlideUUID() );
+                if( iIndex>=0 )
+                {
+                    // do we reach the limits of the attached dia times ?
+                    double dTextStartTime = hItem->GetStartTimeInMS()*0.001;    // ms --> sec
+                    double dStart = m_pDiaPres->GetDiaAbsStartDissolveTime( iIndex );
+                    double dFinish = m_pDiaPres->GetDiaAbsFinishDissolveTime( iIndex );
+
+                    bIsMoveAllowed = SecTo10thSec(dTextStartTime+dDelta)>SecTo10thSec(dStart) && SecTo10thSec(dTextStartTime+dDelta)<SecTo10thSec(dFinish);
+                }
+            }
+
+            if( bIsMoveAllowed )
+            {
+                hItem->Delta( dDelta*1000 );
+                aDynGrOpContainer.SetChanged();
+            }
 
 			// ** data was changed with mouse-move
 			m_bMouseMovedWhilePressed = true;
@@ -872,7 +900,6 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
             bool bShiftPressed = true; //((pEvent->modifiers() & Qt::ShiftModifier) == Qt::ShiftModifier);
             if( bShiftPressed )
             {
-                double dTime = (double)x*g_dFactor*0.01;
                 SetPlayMark(dTime);
                 emit sigPlayMarkChanged(dTime);
             }
@@ -1038,42 +1065,33 @@ void TimeLineView::customEvent(QEvent * pEvent)
 void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
 {
     // ** change data of the dynamic text with a dialog **
-	DynContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
+	DynTextContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
 
     if( iIndexOut>=0 && iIndexOut<(int)aDynGrOpContainer.size() )
-    {
-        
+    {        
     	minHandle<DynText> hItem = aDynGrOpContainer[ iIndexOut ];
     
-        DynamicTextDlgImpl aDlg( hItem, this, m_pParent );
-        aDlg.setModal(true);
-//        aDlg.show();
-    //remove vector
-//    	aDlg.m_pText->setText( QString( hItem->text() ) );
-//    	aDlg.m_pText->setFocus();
-//    	aDlg.m_pFontName->setText( hItem->font().family() );
-//    	QString sTemp;
-//        sTemp = sTemp.setNum( hItem->font().pointSize() );
-//    	aDlg.m_pFontSize->setText( sTemp );
-////    	sTemp = sTemp.setNum( hItem->x() );
-////    	aDlg.m_pPosX->setText( sTemp );
-////    	sTemp = sTemp.setNum( hItem->y() );
-////    	aDlg.m_pPosY->setText( sTemp );
-//        QColor aColor = hItem->brush().color();
-//    	aDlg.m_pSelectFontcolor->setPalette( QPalette( aColor ) );
-//    	double xRel,yRel;
-//    	if( hItem->GetRelativePos( xRel, yRel ) )
-//    	{
-//    		aDlg.SetRelPos( xRel, yRel );
-//    	}
-    
+        string sUUID1,sUUID2;
         double dStart, dDelta;
         hItem->GetDefaultData( dStart, dDelta );
+
+        // get image index for time of dynamic text
+        int iIndex1, iIndex2, iFadeFactor;
+        if( m_pDiaPres->GetIndexForTime( dStart, iIndex1, iIndex2, iFadeFactor ) )
+        {
+            if( iIndex1>=0 )
+            {
+                sUUID1 = m_pDiaPres->GetDiaAt(iIndex1)->GetUUID();
+            }
+            if( iIndex2>=0 )
+            {
+                sUUID2 = m_pDiaPres->GetDiaAt(iIndex2)->GetUUID();
+            }
+        }
+
+        DynamicTextDlgImpl aDlg( hItem, iIndex1>=0 ? iIndex1+1 : iIndex1, ToQString(sUUID1), iIndex2>=0 ? iIndex2+1 : iIndex2, ToQString(sUUID2), this, m_pParent );
+        aDlg.setModal(true);
     
-//    	sTemp = sTemp.setNum( /*hItem->GetStartTime()*/dStart );
-//    	aDlg.m_pShowAtTime->setText( sTemp );
-//    	sTemp = sTemp.setNum( dDelta );
-//    	aDlg.m_pShowTime->setText( sTemp );
     	int iRet = aDlg.exec();
     
     	if( iRet == 2 )
@@ -1112,9 +1130,23 @@ void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
     		{
     			aDynGrOpContainer.SetAttributesForAllItems( hItem );
     		}
-    
+
+            if( aDlg.m_pChbAttachToImage1->isChecked() )
+            {
+                double dRelTime = hItem->GetStartTimeInMS() - m_pDiaPres->GetDiaAbsStartDissolveTime(iIndex1)*1000.0;
+                hItem->SetAttachedSlideUUID( ToStdString(aDlg.m_pAttachedImageUUID1->text()), dRelTime );
+            }
+            else if( aDlg.m_pChbAttachToImage2->isChecked() )
+            {
+                double dRelTime = hItem->GetStartTimeInMS() - m_pDiaPres->GetDiaAbsStartDissolveTime(iIndex2);
+                hItem->SetAttachedSlideUUID( ToStdString(aDlg.m_pAttachedImageUUID2->text()), dRelTime );
+            }
+            else
+            {
+                hItem->SetAttachedSlideUUID( "", 0.0 );
+            }
+
     		aDynGrOpContainer.SetChanged();
-    
     
     		emit sigViewDataChanged();
     	}

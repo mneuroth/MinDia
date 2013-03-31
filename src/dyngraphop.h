@@ -458,9 +458,10 @@ public:
 // done 
 	void move( double x, double y );
 
-    bool IsConnectedToSlide() const;
-    int  GetConnectedSlideIndex() const;
-    void SetConnectedToSlide( int iSlideIndex );
+    bool IsAttachedToSlide() const;
+    string GetAttachedSlideUUID() const;
+    void SetAttachedSlideUUID( const string & sUUID, double dRelativeTimeInMS );
+    void UpdateData( double dStartTimeOfAttachedDiaInMS );      // needs to be called after moving of image
 
 	bool Write( ostream & aStream ) const;
 	bool Read( istream & aStream );
@@ -479,7 +480,7 @@ public:
 
 	bool IsDone() const;
 
-	double GetStartTime() const;
+    double GetStartTimeInMS() const;
 	string GetString() const;
 
 	void CreateDefaultOperations( double dStartTimeInMS, double dShowTimeInMS );
@@ -499,7 +500,9 @@ private:
 	bool WriteOpContainer( ostream & aStream ) const;
 	bool ReadOpContainer( istream & aStream );
 
-    int                 m_iConnectedSlideIndex;
+    string              m_sUUIDOfAttachedImage;
+    double              m_dRelativeTimeInMS;        // relative time from start of dissolve of attached image
+                                                // needed to update real time after move of attached image
 	bool				m_bIsSelected;
 	int					m_xOld;
 	int					m_yOld;
@@ -507,14 +510,16 @@ private:
 	QColor				m_aInitColor;
     QGraphicsRectItem *	m_pSelectedHelper;
 	OperationContainer	m_aOpContainer;
+
+    static int ACT_FILE_VERSION;
 };
 
 //********************************************************************
 
-class DynContainer : public IOContainer< DynText >, public ObjectChanged
+class DynTextContainer : public IOContainer< DynText >, public ObjectChanged
 {
 public:
-	DynContainer( IDiaOutputWindowInternal * pOutputWindowProxy );
+    DynTextContainer( IDiaOutputWindowInternal * pOutputWindowProxy );
 
 	bool ImportFile( const string & sFileName );
 
@@ -535,11 +540,13 @@ public:
 	void PaintElementsForTime( QPainter & aPainter, double dTimeMS ) const;
 	bool IsNextElementChanging( double dTimeMS, double dDeltaMS ) const;
 
+    void UpdateShowTimeForDia( const string & sUUID, double dDeltaMS );
+
 private:
 	void Update();
 	void UpdateInfos();
 
-	bool		m_bIsPause;
+    bool                        m_bIsPause;
 	IDiaOutputWindowInternal *	m_pOutputWindowProxy;	// not an owner !
 	//QCanvas	*	m_pCanvas;		// not an owner !
 };

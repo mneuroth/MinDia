@@ -820,7 +820,7 @@ OpItem_Base * OpItem_Base::CreateFromType( const string & sTypeName )
 
 //********************************************************************
 
-DynContainer::DynContainer( IDiaOutputWindowInternal * pOutputWindowProxy )
+DynTextContainer::DynTextContainer( IDiaOutputWindowInternal * pOutputWindowProxy )
 : IOContainer< DynText >( "DynContainer" ),
   m_bIsPause( false ),
   m_pOutputWindowProxy( pOutputWindowProxy )
@@ -828,7 +828,7 @@ DynContainer::DynContainer( IDiaOutputWindowInternal * pOutputWindowProxy )
 {
 }
 
-void DynContainer::Update()
+void DynTextContainer::Update()
 {
     if( m_pOutputWindowProxy && m_pOutputWindowProxy->GetCanvas() )
 	{
@@ -836,7 +836,7 @@ void DynContainer::Update()
 	}
 }
 
-void DynContainer::UpdateInfos()
+void DynTextContainer::UpdateInfos()
 {
 	iterator aIter = begin();
 
@@ -847,7 +847,7 @@ void DynContainer::UpdateInfos()
 	}
 }
 
-bool DynContainer::ImportFile( const string & sFileName )
+bool DynTextContainer::ImportFile( const string & sFileName )
 {
 	fstream aFile( sFileName.c_str(), ios::in );
 
@@ -859,14 +859,14 @@ bool DynContainer::ImportFile( const string & sFileName )
 	return aFile.good();
 }
 
-bool DynContainer::Read( istream & aStream )
+bool DynTextContainer::Read( istream & aStream )
 {
 	bool bOk = IOContainer< DynText >::Read( aStream );
 
 	return bOk;
 }
 
-bool DynContainer::Write( ostream & aStream ) const
+bool DynTextContainer::Write( ostream & aStream ) const
 {
 	bool bOk = IOContainer< DynText >::Write( aStream );
 
@@ -879,7 +879,7 @@ bool DynContainer::Write( ostream & aStream ) const
 	return bOk;
 }
 
-void DynContainer::RunSelected( int iStartFromPosInMS )
+void DynTextContainer::RunSelected( int iStartFromPosInMS )
 {
 	UpdateInfos();
 
@@ -906,7 +906,7 @@ void DynContainer::RunSelected( int iStartFromPosInMS )
 	Update();
 }
 
-void DynContainer::Run( int iStartFromPosInMS )
+void DynTextContainer::Run( int iStartFromPosInMS )
 {
 	UpdateInfos();
 
@@ -932,7 +932,7 @@ void DynContainer::Run( int iStartFromPosInMS )
 	Update();
 }
 
-void DynContainer::Pause()
+void DynTextContainer::Pause()
 {
     m_bIsPause = true;
 
@@ -949,7 +949,7 @@ void DynContainer::Pause()
     Update();
 }
 
-void DynContainer::Continue()
+void DynTextContainer::Continue()
 {
 	const_iterator aIter = begin();
 	while( aIter != end() )
@@ -965,7 +965,7 @@ void DynContainer::Continue()
     Update();
 }
 
-void DynContainer::Stop()
+void DynTextContainer::Stop()
 {
 	const_iterator aIter = begin();
 	while( aIter != end() )
@@ -982,7 +982,7 @@ void DynContainer::Stop()
     Update();
 }
 
-void DynContainer::Reset()
+void DynTextContainer::Reset()
 {
 	const_iterator aIter = begin();
 	while( aIter != end() )
@@ -999,7 +999,7 @@ void DynContainer::Reset()
     Update();
 }
 
-void DynContainer::AddDefaultDynText( const string & sText, double dStartTimeInMS, double dShowTimeInMS )
+void DynTextContainer::AddDefaultDynText( const string & sText, double dStartTimeInMS, double dShowTimeInMS )
 {
 	DynText * pText = new DynText( sText );
 	pText->CreateDefaultOperations( dStartTimeInMS, dShowTimeInMS );
@@ -1007,7 +1007,7 @@ void DynContainer::AddDefaultDynText( const string & sText, double dStartTimeInM
 	SetChanged();
 }
 
-void DynContainer::SetAttributesForAllItems( minHandle<DynText> hOtherItem )
+void DynTextContainer::SetAttributesForAllItems( minHandle<DynText> hOtherItem )
 {
 	iterator aIter = begin();
 	while( aIter != end() )
@@ -1021,7 +1021,7 @@ void DynContainer::SetAttributesForAllItems( minHandle<DynText> hOtherItem )
 	Update();
 }
 
-void DynContainer::PaintElementsForTime( QPainter & aPainter, double dTimeMS ) const
+void DynTextContainer::PaintElementsForTime( QPainter & aPainter, double dTimeMS ) const
 {
 	const_iterator aIter = begin();
 	while( aIter != end() )
@@ -1034,7 +1034,7 @@ void DynContainer::PaintElementsForTime( QPainter & aPainter, double dTimeMS ) c
 	}
 }
 
-bool DynContainer::IsNextElementChanging( double dTimeMS, double dDeltaMS ) const
+bool DynTextContainer::IsNextElementChanging( double dTimeMS, double dDeltaMS ) const
 {
 	const_iterator aIter = begin();
 	while( aIter != end() )
@@ -1052,11 +1052,29 @@ bool DynContainer::IsNextElementChanging( double dTimeMS, double dDeltaMS ) cons
 	return false;
 }
 
+void DynTextContainer::UpdateShowTimeForDia( const string & sUUID, double dDeltaMS )
+{
+    const_iterator aIter = begin();
+    while( aIter != end() )
+    {
+        HandleType hItem = *aIter;
+
+        if( hItem->GetAttachedSlideUUID()==sUUID )
+        {
+            hItem->Delta(dDeltaMS);
+        }
+
+        ++aIter;
+    }
+}
+
 //********************************************************************
+
+int DynText::ACT_FILE_VERSION = 0;      // new since 31.3.2013
 
 DynText::DynText( const string & sText, QGraphicsScene * pOwner )
 : QGraphicsSimpleTextItem( ToQString( sText ), 0 ),
-  m_iConnectedSlideIndex( -1 ),     // means not connected
+  m_dRelativeTimeInMS( 0 ),
   m_bIsSelected( false ),
   m_xOld( -1 ),
   m_yOld( -1 ),
@@ -1131,19 +1149,31 @@ void DynText::SetSelected( bool bSelected )
     scene()->update();
 }
 
-bool DynText::IsConnectedToSlide() const
+bool DynText::IsAttachedToSlide() const
 {
-    return m_iConnectedSlideIndex>=0;
+    return m_sUUIDOfAttachedImage.length()>0;
 }
 
-int  DynText::GetConnectedSlideIndex() const
+string DynText::GetAttachedSlideUUID() const
 {
-    return m_iConnectedSlideIndex;
+    return m_sUUIDOfAttachedImage;
 }
 
-void DynText::SetConnectedToSlide( int iSlideIndex )
+void DynText::SetAttachedSlideUUID( const string & sUUID, double dRelativeTimeInMS )
 {
-    m_iConnectedSlideIndex = iSlideIndex;
+    m_sUUIDOfAttachedImage = sUUID;
+    m_dRelativeTimeInMS = dRelativeTimeInMS;
+}
+
+void DynText::UpdateData( double dStartTimeOfAttachedDiaInMS )
+{
+    if( IsAttachedToSlide() )
+    {
+        double dStartTimeInMS, dShowTimeInMS;
+        GetDefaultData( dStartTimeInMS, dShowTimeInMS );
+        dStartTimeInMS = dStartTimeOfAttachedDiaInMS + m_dRelativeTimeInMS;
+        ChangeDefaultData( dStartTimeInMS, dShowTimeInMS );
+    }
 }
 
 bool DynText::IsPosInElement( int x, int y ) const
@@ -1194,7 +1224,7 @@ void DynText::DoMouseMove( int x, int y )
 
 void DynText::move( double x, double y )
 {
-    move( x, y );
+    QGraphicsSimpleTextItem::setPos( x, y );
 	if( m_pSelectedHelper )
 	{
         m_pSelectedHelper->setPos( x, y );
@@ -1211,9 +1241,19 @@ bool DynText::Write( ostream & aStream ) const
 	FileUtilityObj aFU;
 
 	aFU.WriteStructBegin( aStream );
+
+    if( ACT_FILE_VERSION>=0 )
+    {
+        aStream << ACT_FILE_VERSION;
+        aFU.WriteSeparator( aStream );
+        WriteString( aStream, m_sUUIDOfAttachedImage );
+        aFU.WriteSeparator( aStream );
+        aStream << m_dRelativeTimeInMS;
+        aFU.WriteSeparator( aStream );
+    }
     WriteString( aStream, ToStdString( text() ) );
-	aFU.WriteSeparator( aStream );
-	aStream << x();
+    aFU.WriteSeparator( aStream );
+    aStream << x();
 	aFU.WriteSeparator( aStream );
 	aStream << y();
 	aFU.WriteSeparator( aStream );
@@ -1258,6 +1298,7 @@ bool DynText::WriteOpContainer( ostream & aStream ) const
 bool DynText::Read( istream & aStream )
 {
 	FileUtilityObj aFU;
+    int iActFileVersion = 0;
 
 	string sTemp;
 	double x,y;
@@ -1265,7 +1306,21 @@ bool DynText::Read( istream & aStream )
 	int iRed,iGreen,iBlue;
 
 	aFU.ReadStructBegin( aStream );
-	ReadString( aStream, sTemp );
+    if( !aFU.PeekStringBegin( aStream ) )
+    {
+        aStream >> iActFileVersion;
+        aFU.ReadSeparator( aStream );
+        ReadString( aStream, m_sUUIDOfAttachedImage );
+        aFU.ReadSeparator( aStream );
+        aStream >> m_dRelativeTimeInMS;
+        aFU.ReadSeparator( aStream );
+    }
+    else
+    {
+        m_sUUIDOfAttachedImage = "";
+        m_dRelativeTimeInMS = 0;
+    }
+    ReadString( aStream, sTemp );
     setText( ToQString( sTemp ) );
 	aFU.ReadSeparator( aStream );
 	aStream >> x;
@@ -1439,7 +1494,7 @@ bool DynText::IsDone() const
 	return bIsDone;
 }
 
-double DynText::GetStartTime() const
+double DynText::GetStartTimeInMS() const
 {
 	double dRet = 0;
 

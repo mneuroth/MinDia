@@ -126,6 +126,8 @@ public:
 	virtual double			GetDissolveTime() const = 0;
 	virtual bool			SetDissolveTime( double dVal ) = 0;
 
+    virtual string          GetUUID() const = 0;
+
     virtual string      	GetId() const = 0;
     virtual bool			SetId( const string & sId ) = 0;
     virtual string      	GetComment() const = 0;

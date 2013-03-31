@@ -35,8 +35,10 @@
 #include "diainfo.h"
 
 #include "minutils.h"
+#include "misctools.h"
 
-//#include <strstream>  // was deprecated !
+#include <QUuid>
+
 #include <sstream>
 
 using namespace std;
@@ -50,7 +52,8 @@ const double c_dDefaultTimer = 10.0;
 // *******************************************************************
 // *******************************************************************
 
-const int DiaInfo::ACT_FILE_VERSION = 1;	// 0 until 29.3.2002, than m_sScript introduced
+const int DiaInfo::ACT_FILE_VERSION = 2;	// 0 until 29.3.2002, then m_sScript introduced
+                                            // 1 until 31.3.2013, then m_sUUID introduced
 
 const int DiaInfo::HORIZONTAL = 0;
 const int DiaInfo::VERTICAL = 1;
@@ -58,6 +61,7 @@ const int DiaInfo::VERTICAL = 1;
 
 DiaInfo::DiaInfo( const string & sId, const string & sImageFile, const string & sComment )
 {
+    m_sUUID                 = ToStdString(QUuid::createUuid().toString());
 	m_sId					= sId;
 	m_sComment				= sComment;
 	m_sImageFile			= sImageFile;
@@ -90,7 +94,7 @@ string DiaInfo::GetData() const
 
 	Write( aStrStream );
 
-	return string( aStrStream.str() ); //, aStrStream.tellp/*pcount*/() );  
+    return string( aStrStream.str() );
 }
 
 void DiaInfo::SkipWhitespaces( string & sString )
@@ -128,6 +132,16 @@ bool DiaInfo::SetFromData( string & sStringStreamInOut )
 	}
 
 	return false;
+}
+
+void DiaInfo::SetUUID( const string & sUUID )
+{
+    m_sUUID = sUUID;
+}
+
+string DiaInfo::GetUUID() const
+{
+    return m_sUUID;
 }
 
 string DiaInfo::GetId() const
@@ -275,7 +289,16 @@ bool DiaInfo::Read( istream & aStream )
 	aFU.ReadStructBegin( aStream );
 	aStream >> iActFileVersion;
 	aFU.ReadSeparator( aStream );
-	ReadString( aStream, m_sId );
+    if( iActFileVersion > 1 )
+    {
+        ReadString( aStream, m_sUUID );
+        aFU.ReadSeparator( aStream );
+    }
+    else
+    {
+        // use uuid created in constructor
+    }
+    ReadString( aStream, m_sId );
 	aFU.ReadSeparator( aStream );
 	ReadString( aStream, m_sComment );
 	aFU.ReadSeparator( aStream );
@@ -313,6 +336,11 @@ bool DiaInfo::Write( ostream & aStream ) const
 	aFU.WriteStructBegin( aStream );
 	aStream << ACT_FILE_VERSION;			// since 21.10.2001
 	aFU.WriteSeparator( aStream );
+    if( ACT_FILE_VERSION > 1 )
+    {
+        WriteString( aStream, m_sUUID );
+        aFU.WriteSeparator( aStream );
+    }
 	WriteString( aStream, m_sId );
 	aFU.WriteSeparator( aStream );
 	WriteString( aStream, m_sComment );
@@ -453,7 +481,12 @@ bool DiaInfo::ModifyOperation( int iIndex, const TimeOperation & aOperation )
 
 void DiaInfo::MakeRelativePaths()
 {
-	m_sImageFile = FileUtilityObj::ConvertToRelPath( m_sImageFile.c_str() );
+    m_sImageFile = ConvertToRelPath( m_sImageFile );
+}
+
+void DiaInfo::MakeAbsolutePaths( const string & sDir )
+{
+    m_sImageFile = ConvertToAbsPath( m_sImageFile, sDir );
 }
 
 // *******************************************************************
@@ -500,7 +533,7 @@ const int _SHOW = 1;
 const int _DISSOLVE_OUT = 2;
 const int _FLASH = 3;
 const int TimeOperation::UNDEFINED		= _UNDEFINED;
-const int TimeOperation::DISSOLVE_IN		= _DISSOLVE_IN;
+const int TimeOperation::DISSOLVE_IN	= _DISSOLVE_IN;
 const int TimeOperation::SHOW			= _SHOW;
 const int TimeOperation::DISSOLVE_OUT	= _DISSOLVE_OUT;
 const int TimeOperation::FLASH			= _FLASH;
