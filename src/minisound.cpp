@@ -233,9 +233,9 @@ int  miniSound::GetPositionInMSImpl() const
     }
 }
 
-bool miniSound::StartPlayImpl( int iStartPosInMs, int iStopPosInMs,
-							   int iFadeInStartPosInMS, int iFadeInLengthInMS,
-							   int iFadeOutStartPosInMS, int iFadeOutLengthInMS )
+bool miniSound::StartPlayImpl( int /*iStartPosInMs*/, int /*iStopPosInMs*/,
+                               int /*iFadeInStartPosInMS*/, int /*iFadeInLengthInMS*/,
+                               int /*iFadeOutStartPosInMS*/, int /*iFadeOutLengthInMS*/ )
 {
 	if( IsOk() )
 	{

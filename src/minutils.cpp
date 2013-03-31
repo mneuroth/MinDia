@@ -598,7 +598,7 @@ const int MAX_BUFFER_LENGTH =	512;
 //#endif
 //	return bOk;
 //  }
-
+/*
   bool FileUtilityObj::GetFileDate( const char * sFileNameIn, string & sDateOut )
   {
 //	  FileTime aFileTime;
@@ -614,7 +614,7 @@ const int MAX_BUFFER_LENGTH =	512;
 //	  sTimeOut = aFileTime.GetTimeString();
 	  return bOk;
   }
-
+*/
   bool FileUtilityObj::ExistsFile(const char *sFileName)
     {
 #if defined( _STL_SGI ) && defined( _MSC_VER )
@@ -1160,6 +1160,7 @@ static string MakePathToOSPath( const string & sPathIn )
 	return sTemp;
 }
 
+/*
 static string MakeRealPath( const string & sPathIn )
 {
 	string sTemp( sPathIn );
@@ -1169,7 +1170,7 @@ static string MakeRealPath( const string & sPathIn )
 	}
 	return sTemp;
 }
-
+*/
 // es sollte KEIN Wildcard-Zeichen im Pfad enthalten sein !
 //bool FileSystemUtils::GetDirectory( const string & sPath, int nShowFlagsIn, Directory & aDir, const string & sFileMask )
 //{
