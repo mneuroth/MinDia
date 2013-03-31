@@ -111,6 +111,10 @@ void PresentationDataDlgImpl::TransferDataToControl()
                m_prbtUser->setChecked(true);
 // TODO --> user daten fuer ration behandeln (not implemented yet)
                break;
+            case RATIO_UNDEFINED:
+            default:
+                // ignore
+                ;
         }
     }
 }
