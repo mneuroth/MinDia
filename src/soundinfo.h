@@ -108,6 +108,7 @@ public:
 	bool	Write( ostream & aStream ) const;
 
 	void	MakeRelativePaths();
+    void	MakeAbsolutePaths( const string & sDir );
 
 private:
 	// ** helper methods **
@@ -187,6 +188,7 @@ public:
 	int			GetAbsPlayPos( int iIndex ) const;
 	iterator	GetItemForAbsPlayPos( int iAbsTimeInMS, int & iOffsetTime );
 	void		MakeRelativePaths();
+    void		MakeAbsolutePaths( const string & sDir );
 
     //void        UpdateAllLengths();
 

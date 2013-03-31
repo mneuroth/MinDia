@@ -58,4 +58,10 @@ QString ToQString( const string & sStrg );
 
 bool IsImageFile( const QString & sFileName );
 
+QString ConvertToRelPath( const QString & sPath );
+string ConvertToRelPath( const string & sPath );
+
+QString ConvertToAbsPath( const QString & sPath, const QString & sDir );
+string ConvertToAbsPath( const string & sPath, const string & sDir );
+
 #endif

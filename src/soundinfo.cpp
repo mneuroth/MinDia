@@ -294,7 +294,12 @@ bool SoundInfo::Write( ostream & aStream ) const
 
 void SoundInfo::MakeRelativePaths()
 {
-	m_sFileName = FileUtilityObj::ConvertToRelPath( m_sFileName.c_str() );
+    m_sFileName = ConvertToRelPath( m_sFileName );
+}
+
+void SoundInfo::MakeAbsolutePaths( const string & sDir )
+{
+    m_sFileName = ConvertToAbsPath( m_sFileName, sDir );
 }
 
 // *******************************************************************
@@ -368,6 +373,18 @@ void SoundInfoContainer::MakeRelativePaths()
 		hItem->MakeRelativePaths();
 		++aIter;
 	}
+}
+
+void SoundInfoContainer::MakeAbsolutePaths( const string & sDir )
+{
+    iterator aIter = begin();
+
+    while( aIter != end() )
+    {
+        minHandle<SoundInfo> hItem = *aIter;
+        hItem->MakeAbsolutePaths( sDir );
+        ++aIter;
+    }
 }
 
 // *******************************************************************

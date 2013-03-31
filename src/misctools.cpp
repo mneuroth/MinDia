@@ -11,6 +11,7 @@
 #include <QString>
 #include <QMap>
 #include <QPair>
+#include <QDir>
 
 #include <stdio.h>
 #include <ctype.h>
@@ -270,3 +271,25 @@ bool IsImageFile( const QString & sFileName )
     return ok;
 }
 
+QString ConvertToRelPath( const QString & sPath )
+{
+    QDir aCurrDir;  // == currentPath()
+    return aCurrDir.relativeFilePath( sPath );
+    // original: FileUtilityObj::ConvertToRelPath()
+}
+
+string ConvertToRelPath( const string & sPath )
+{
+    return ToStdString( ConvertToRelPath( ToQString( sPath ) ) );
+}
+
+QString ConvertToAbsPath( const QString & sPath, const QString & sDir )
+{
+    QDir aCurrDir(sDir);
+    return aCurrDir.absoluteFilePath( sPath );
+}
+
+string ConvertToAbsPath( const string & sPath, const string & sDir )
+{
+    return ToStdString( ConvertToAbsPath( ToQString( sPath ), ToQString( sDir ) ) );
+}
