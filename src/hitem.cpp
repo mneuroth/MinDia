@@ -4,20 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/hitem.cpp,v $
- *
- *  $Revision: 1.1.1.1 $
- *
- *	$Log: not supported by cvs2svn $
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -132,11 +124,11 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
         {
             if( m_hData->IsHorizontalFormat() )
             {
-                aImage = aImageOrg.scaled( c_iSlideWidth, c_iSlideHeight );
+                aImage = aImageOrg.scaled( c_iSlideWidth, c_iSlideHeight, Qt::KeepAspectRatio );
             }
             else
             {
-                aImage = aImageOrg.scaled( c_iSlideHeight, c_iSlideWidth );
+                aImage = aImageOrg.scaled( c_iSlideHeight, c_iSlideWidth, Qt::KeepAspectRatio );
             }
         }
         else
@@ -154,7 +146,10 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
     }
     else
     {
-        pPainter->drawImage( aSlideRect.x(), aSlideRect.y(), *m_pImageCache );
+        // center image in given slide rect
+        int xAdjust = (aSlideRect.width()-m_pImageCache->width())/2;
+        int yAdjust = (aSlideRect.height()-m_pImageCache->height())/2;
+        pPainter->drawImage( aSlideRect.x()+xAdjust, aSlideRect.y()+yAdjust, *m_pImageCache );
     }
     /* ehemals wurden Skripte mit gelben Hintergrund hinterlegt
     else
