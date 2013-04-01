@@ -4,23 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/dyntextdlgimpl.cpp,v $
- *
- *  $Revision: 1.2 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.1.1.1  2003/08/15 16:38:21  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002-2003 by Michael Neuroth.							   *
+ * Copyright (C) 2002-2013 by Michael Neuroth.							   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -42,62 +31,8 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 
-#include <stdio.h>
-
 // *******************************************************************
 // *******************************************************************
-// *******************************************************************
-
-//DrawingArea::DrawingArea( QWidget * pParent, QWidget * pSignalClient )
-//: QGraphicsView( 0, pParent )
-//{
-//    connect( this, SIGNAL( sigTextMoved() ), pSignalClient, SLOT( sltUpdateData() ) );
-//}
-
-//DrawingArea::~DrawingArea()
-//{
-//}
-
-//void DrawingArea::contentsMousePressEvent( QMouseEvent * pEvent )
-//{
-//// TODO Qt4
-////    Q3CanvasItemList l = canvas()->collisions( pEvent->pos() );
-
-////    for( Q3CanvasItemList::Iterator it=l.begin(); it!=l.end(); ++it )
-////	{
-////		Q3CanvasText * item = (Q3CanvasText *)(*it);
-
-////		// is the text hit by the mouse ?
-////		int ix = pEvent->pos().x();
-////		int iy = pEvent->pos().y();
-////		QRect r = item->boundingRect();
-////		if( r.left()>=ix && ix<=r.right() &&
-////			r.bottom()>=iy && iy<=r.top() )
-////		{
-////			// no
-////			continue;
-////		}
-
-////		m_pMovingItem = *it;
-////		m_aMovingStart = pEvent->pos();
-////		return;
-////    }
-//    m_pMovingItem = 0;
-//}
-
-//void DrawingArea::contentsMouseMoveEvent( QMouseEvent * pEvent )
-//{
-//    if( m_pMovingItem )
-//	{
-//		m_pMovingItem->moveBy(pEvent->pos().x() - m_aMovingStart.x(),
-//				       pEvent->pos().y() - m_aMovingStart.y());
-//		m_aMovingStart = pEvent->pos();
-////TODO Qt4		canvas()->update();
-
-//		emit sigTextMoved();
-//    }
-//}
-
 // *******************************************************************
 
 DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, const QString & sUUID1, int iIndex2, const QString & sUUID2, QWidget * parent, QWidget * pMain, Qt::WFlags fl )
@@ -269,7 +204,6 @@ void DynamicTextDlgImpl::sltRelPosToggled(bool bValue)
     {
         m_hItem->SetRelativePos(GetRelX(),GetRelY());
     }
-//	m_pDrawingAreaCanvas->setEnabled( bValue );
 }
 
 void DynamicTextDlgImpl::sltSelectFontcolor()
@@ -348,8 +282,6 @@ void DynamicTextDlgImpl::resizeEvent( QResizeEvent * event )
 {
     QDialog::resizeEvent(event);
     m_pCanvas->setSceneRect(0,0,this->m_pDrawingArea->width()-2,this->m_pDrawingArea->height()-2);
-    //cout << "resize " << this->m_pDrawingArea->width() << " " << this->m_pDrawingArea->height() << endl;
-    //cout << "--> " << GetRelX() << " " << GetRelY() << " --> " << m_pCanvasText->x() << " " << m_pCanvasText->y() << endl;
     sltUpdateData();
     // update the relative positions after resize
     UpdateTextPosition();

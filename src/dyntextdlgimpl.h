@@ -4,23 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/dyntextdlgimpl.h,v $
- *
- *  $Revision: 1.2 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.1.1.1  2003/08/15 16:38:21  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002-2003 by Michael Neuroth.							   *
+ * Copyright (C) 2002-2013 by Michael Neuroth.							   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -43,25 +32,6 @@
 #include <QDialog>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-
-//class DrawingArea : public QGraphicsView //Q3CanvasView
-//{
-//	Q_OBJECT
-
-//public:
-//	DrawingArea( QWidget * pParent, QWidget * pSignalClient );
-//	virtual ~DrawingArea();
-
-//	virtual void contentsMousePressEvent( QMouseEvent * pEvent );
-//	virtual void contentsMouseMoveEvent( QMouseEvent * pEvent );
-
-//signals:
-//	void sigTextMoved();
-
-//private:
-//    QGraphicsItem *	m_pMovingItem;
-//	QPoint			m_aMovingStart;
-//};
 
 class DynamicTextDlgImpl : public QDialog, public Ui_DynamicTextDlg, public DynamicItemChangedCallback
 {
@@ -102,7 +72,6 @@ protected:
 private:
     minHandle<DynText>         m_hItem;
     QFont                      m_aInitFont;
-   // DrawingArea *              m_pDrawingAreaCanvas;
     QGraphicsScene *           m_pCanvas;
     DynamicTextItem *          m_pCanvasText;
 };
