@@ -4,56 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.cpp,v $
- *
- *  $Revision: 1.13 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.12  2004/04/09 15:24:20  min
- *	Added new menu item for avi export
- *	
- *	Revision 1.11  2004/02/22 11:00:10  min
- *	QTranslator better handled.
- *	
- *	Revision 1.10  2004/02/21 14:58:21  min
- *	Help dialog improved
- *	
- *	Revision 1.9  2004/02/21 00:54:52  min
- *	Automatic language detection implemented.
- *	
- *	Revision 1.8  2004/02/20 23:06:37  min
- *	Qt About via MessageBox handled.
- *	
- *	Revision 1.7  2004/02/16 19:48:01  min
- *	About Qt added.
- *	
- *	Revision 1.6  2004/01/29 21:29:06  min
- *	Bugfix: clear tooltip if a new message for the statusbar arrives
- *	
- *	Revision 1.5  2004/01/28 19:11:37  min
- *	Plugins menuitem changed
- *
- *	Revision 1.4  2004/01/18 23:52:36  min
- *	Updated.
- *	
- *	Revision 1.3  2003/10/26 17:34:05  min
- *	MakeRelativePaths() added. Directories for images, sounds, data, scirpts added.
- *	
- *	Revision 1.2  2003/08/15 19:39:06  min
- *	size of sub-widget changed, debug comments deleted
- *	
- *	Revision 1.1.1.1  2003/08/15 16:38:21  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
