@@ -32,6 +32,12 @@ void PlayInfoGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     menu.exec(event->globalPos());
 }
 
+void PlayInfoGraphicsView::resizeEvent( QResizeEvent * pEvent )
+{
+    scene()->setSceneRect(0,0,this->width(),this->height());
+    m_pDlg->sltRescaleImage();
+}
+
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************

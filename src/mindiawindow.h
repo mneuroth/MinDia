@@ -245,8 +245,7 @@ public slots:
 	void sltShowModalHelp( QWidget * pParent, const QString & sHelpTag );
 	void sltShowHelpForMe();
 
-	void sltShowImageFile( const QString & sFileName );
-    void sltShowImage( const QImage & aImage );
+//	void sltShowImageFile( const QString & sFileName );
 
 	void sltDoDocumentStateUpdate();
 	void sltDoDataChanged();

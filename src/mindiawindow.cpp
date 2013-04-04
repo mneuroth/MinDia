@@ -1599,6 +1599,7 @@ void MinDiaWindow::sltShowHelpForMe()
 	sltShowHelp( /*html-tag*/"mindia" );
 }
 
+/*
 void MinDiaWindow::sltShowImageFile( const QString & sFileName )
 {
 	if( m_pPlayInfoDialog && m_pPlayInfoDialog->isVisible() )
@@ -1610,14 +1611,7 @@ void MinDiaWindow::sltShowImageFile( const QString & sFileName )
         }
 	}
 }
-
-void MinDiaWindow::sltShowImage( const QImage & aImage )
-{
-    if( m_pPlayInfoDialog && m_pPlayInfoDialog->isVisible() )
-    {
-        m_pPlayInfoDialog->sltSetImage( aImage, /*bForceSet*/true );
-    }
-}
+*/
 
 void MinDiaWindow::sltDoDocumentStateUpdate()
 {
@@ -1802,12 +1796,13 @@ void MinDiaWindow::sltItemSelected( int iCount, HItem * pFirstSelectedItem, int 
 
 		if( iCount==1 )
 		{
-            QString sFileName = ToQString( pFirstSelectedItem->GetInfoData()->GetImageFile() );
-			m_pPlayInfoDialog->sltSetImage( sFileName, bIsPlaying, iDissolveTimeInMS );
+            minHandle<DiaInfo> hDiaInfo = pFirstSelectedItem->GetInfoData();
+            QString sFileName = ToQString( hDiaInfo->GetImageFile() );
+            m_pPlayInfoDialog->sltSetImage( GetImageArea( GetImageFromFileName( sFileName ), hDiaInfo->GetRelX(), hDiaInfo->GetRelY(), hDiaInfo->GetRelDX(), hDiaInfo->GetRelDY() ), bIsPlaying, iDissolveTimeInMS );
 		}
 		else
 		{
-			m_pPlayInfoDialog->sltSetImage( "", bIsPlaying, iDissolveTimeInMS );
+            m_pPlayInfoDialog->sltSetImage( GetImageFromFileName( "" ), bIsPlaying, iDissolveTimeInMS );
 		}
 	}
 
@@ -1822,10 +1817,14 @@ void MinDiaWindow::sltItemSelected( int iCount, HItem * pFirstSelectedItem, int 
 
 void MinDiaWindow::sltPlayMarkChanged( double dTimePosInSec )
 {
-    int iWidth = m_pPlayInfoDialog->GetDrawWidth();
-    int iHeight = m_pPlayInfoDialog->GetDrawHeight();
-    QImage aImage = m_pControler->GetPresentation().GetSlideForTime( dTimePosInSec*1000.0, iWidth, iHeight );
-    sltShowImage( aImage );
+    //int iWidth = m_pPlayInfoDialog->GetDrawWidth();
+    //int iHeight = m_pPlayInfoDialog->GetDrawHeight();
+    QImage aImage = m_pControler->GetPresentation().GetSlideForTime( dTimePosInSec*1000.0/*, iWidth, iHeight*/ );
+    // let the play info dialog decide which output format is needed...
+    if( m_pPlayInfoDialog && m_pPlayInfoDialog->isVisible() )
+    {
+        m_pPlayInfoDialog->SetCurrentImage( aImage, /*bForceSet*/true );
+    }
     sltShowStatusBarMessage( QString(tr("play mark %1 sec")).arg(dTimePosInSec) );
 }
 
@@ -1903,12 +1902,14 @@ void MinDiaWindow::sltFadeInTest()
 
 		if( m_pSlideView->GetTwoSelectedItems( pItem1, pItem2 ) )
 		{
-            QString sFileName1 = ToQString( pItem1->GetInfoData()->GetImageFile() );
-			m_pPlayInfoDialog->sltSetImage( sFileName1, /*bIsPlaying*/false, 0 );
+            minHandle<DiaInfo> hDiaInfo1 = pItem1->GetInfoData();
+            QString sFileName1 = ToQString( hDiaInfo1->GetImageFile() );
+            m_pPlayInfoDialog->sltSetImage( GetImageArea( GetImageFromFileName( sFileName1 ), hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() ), /*bIsPlaying*/false, 0 );
 
 			int iDissolveTimeInMS = (int)(m_dDissolveTime * 1000.0);
-            QString sFileName2 = ToQString( pItem2->GetInfoData()->GetImageFile() );
-			m_pPlayInfoDialog->sltSetImage( sFileName2, /*bIsPlaying*/true, iDissolveTimeInMS );
+            minHandle<DiaInfo> hDiaInfo2 = pItem2->GetInfoData();
+            QString sFileName2 = ToQString( hDiaInfo2->GetImageFile() );
+            m_pPlayInfoDialog->sltSetImage( GetImageArea( GetImageFromFileName( sFileName2 ), hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() ), /*bIsPlaying*/true, iDissolveTimeInMS );
 		}
 	}
 }
@@ -1922,12 +1923,14 @@ void MinDiaWindow::sltFadeOutTest()
 
 		if( m_pSlideView->GetTwoSelectedItems( pItem2, pItem1 ) )
 		{
-            QString sFileName1 = ToQString( pItem1->GetInfoData()->GetImageFile() );
-			m_pPlayInfoDialog->sltSetImage( sFileName1, /*bIsPlaying*/false, 0 );
+            minHandle<DiaInfo> hDiaInfo1 = pItem1->GetInfoData();
+            QString sFileName1 = ToQString( hDiaInfo1->GetImageFile() );
+            m_pPlayInfoDialog->sltSetImage( GetImageArea( GetImageFromFileName( sFileName1 ), hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() ), /*bIsPlaying*/false, 0 );
 
 			int iDissolveTimeInMS = (int)(m_dDissolveTime * 1000.0);
-            QString sFileName2 = ToQString( pItem2->GetInfoData()->GetImageFile() );
-			m_pPlayInfoDialog->sltSetImage( sFileName2, /*bIsPlaying*/true, iDissolveTimeInMS );
+            minHandle<DiaInfo> hDiaInfo2 = pItem2->GetInfoData();
+            QString sFileName2 = ToQString( hDiaInfo2->GetImageFile() );
+            m_pPlayInfoDialog->sltSetImage( GetImageArea( GetImageFromFileName( sFileName2 ), hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() ), /*bIsPlaying*/true, iDissolveTimeInMS );
 		}
 	}
 }

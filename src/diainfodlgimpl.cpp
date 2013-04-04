@@ -437,6 +437,7 @@ void DiaInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 	}
 }
 
+// TODO gulp --> auch hier muss die GraphicsView sich selbst die Groessenaenderung behandeln
 void DiaInfoDlgImpl::resizeEvent( QResizeEvent * pEvent )
 {
     QDialog::resizeEvent( pEvent );

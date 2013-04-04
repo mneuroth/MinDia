@@ -1374,6 +1374,7 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
         {
             QImage aImage1;
             ReadQImageOrEmpty( ToQString( hDia1->GetImageFile() ), aImage1 );
+            aImage1 = GetImageArea( aImage1, hDia1->GetRelX(), hDia1->GetRelY(), hDia1->GetRelDX(), hDia1->GetRelDY() );
 
             if( iWidth<0 )
             {
@@ -1396,6 +1397,7 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
             {
                 QImage aImage2;
                 ReadQImageOrEmpty( ToQString( hDia2->GetImageFile() ), aImage2 );
+                aImage2 = GetImageArea( aImage2, hDia2->GetRelX(), hDia2->GetRelY(), hDia2->GetRelDX(), hDia2->GetRelDY() );
                 aImage2 = aImage2.scaled( iWidth, iHeight );
                 _FadeImage(&aPainter,QRectF(aRect),iFadeFactor,aImage1,aImage2);
             }

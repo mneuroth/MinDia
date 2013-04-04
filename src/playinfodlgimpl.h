@@ -45,9 +45,9 @@
 #include "misctools.h"
 
 #include <QGraphicsScene>
-#include <qimage.h>
-#include <qtimer.h>
-#include <qdatetime.h>
+#include <QImage>
+#include <QTimer>
+#include <QDateTime>
 #include <QCloseEvent>
 #include <QShowEvent>
 #include <QResizeEvent>
@@ -60,7 +60,7 @@ class QGraphicsScene;
 class QAction;
 
 class MenuCanvasView;
-class SimpleBitmapCanvas;
+class SimpleBitmapScene;
 class PlayInfoDlgImpl;
 
 // *******************************************************************
@@ -144,6 +144,8 @@ public:
 
     void SetImageRatio( ImageRatio ratio );
 
+    void SetCurrentImage( const QImage & aImage, bool bForceSet = false );
+
 	// ** implements the IDiaOutputWindow-(Script)Interface **
 	virtual bool	IsValid() const;
 	virtual bool	Show();
@@ -185,15 +187,17 @@ public slots:
     virtual void sltPlay();
     virtual void sltFullScreen();
 
-	void sltSetImage( const QString & sImageFileName, bool bIsPlaying, int iDissolveTimeInMS );
-    void sltSetImage( const QImage & aImage, bool bForceSet = false );
-	void sltFadeInImage( const QImage & aNewImage, int iFadeInTimeInMS );
+    void sltRescaleImage();
+    void sltSetImage( const QImage & aImage, bool bIsPlaying, int iDissolveTimeInMS );
+    void sltFadeInImage( const QImage & aNewImage, int iFadeInTimeInMS );
 
 	void sltFadeInTimer();
 
 	void sltSaveActImage( const QString & sImageFormat );
 
     void sltRatioChanged( const QString & sItem );
+
+    void sltSceneRectChanged( const QRectF & rect );
 
 signals:
 	void sigDialogClosed();
@@ -208,23 +212,23 @@ protected:
 	virtual void showEvent( QShowEvent * pShowEvent ); 
 	virtual void done( int iRet );
 	virtual void keyPressEvent( QKeyEvent * pEvent ); 
-	virtual void resizeEvent( QResizeEvent * pEvent );
+    //virtual void resizeEvent( QResizeEvent * pEvent );
 
 private:
-	// ** help methods **
+    // ** help methods **
 	void TransferDataToControl();
 	void TransferDataFromControl();
-	QImage DoScaleImage( const QImage & aImage );
+    QImage DoScaleImage( const QImage & aImage );
 	bool IsIndexOk( int iTextID ) const;
 
-	SimpleBitmapCanvas *	m_pCanvas;
+    SimpleBitmapScene *     m_pScene;
 	QWidget *				m_pParent;			// no owner !
 	Qt::WFlags				m_flLastFlags;
 	QPoint					m_aLastPos;
 
-	QImage					m_aActImage;		// the actual image !
-	QImage					m_aPreviousImage;	// the previous image, needed to dissolve the image 
-	QImage					m_aScaledImage;		// the scaled image for the real output
+    QImage					m_aActImage;            // the actual image !
+    QImage					m_aPreviousImage;       // the previous image, needed to dissolve the image
+    QImage					m_aScaledActImage;		// the scaled image for the real output
     QImage					m_aScaledImagePrevious; // the scaled previous image for fading
 
 	int 					m_iFadeInTimeInMS;

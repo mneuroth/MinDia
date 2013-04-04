@@ -46,6 +46,12 @@ enum ImageRatio {
 
 QImage CreateWhiteImage();
 
+QImage GetImageFromFileName( const QString & sImageFileName );
+
+QRect GetArea( const QSize & aImageSize, double relX, double relY, double relDX, double relDY );
+
+QImage GetImageArea( const QImage & aImage, double relX, double relY, double relDX, double relDY );
+
 bool ReadQImage( const QString & sFileName, QImage & aImageOut );
 
 void ReadQImageOrEmpty( const QString & sFileName, QImage & aImageOut );

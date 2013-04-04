@@ -149,6 +149,39 @@ QImage CreateWhiteImage()
     return aImage;
 }
 
+QImage GetImageFromFileName( const QString & sImageFileName )
+{
+    QImage aImage;
+
+    if( !sImageFileName.isEmpty() )
+    {
+        /*bool bOk =*/ ReadQImage( sImageFileName, aImage );
+    }
+    else
+    {
+        aImage = CreateWhiteImage();
+    }
+
+    return aImage;
+}
+
+QRect GetArea( const QSize & aImageSize, double relX, double relY, double relDX, double relDY )
+{
+    QRect rect;
+
+    rect.setX( (int)(((double)aImageSize.width())*relX) );
+    rect.setY( (int)(((double)aImageSize.height())*relY) );
+    rect.setWidth( (int)(((double)aImageSize.width())*relDX) );
+    rect.setHeight( (int)(((double)aImageSize.height())*relDY) );
+
+    return rect;
+}
+
+QImage GetImageArea( const QImage & aImage, double relX, double relY, double relDX, double relDY )
+{
+    return aImage.copy( GetArea( aImage.size(), relX, relY, relDX, relDY ) );
+}
+
 bool ReadQImage( const QString & sFileName, QImage & aImageOut )
 {
     aImageOut = g_aImageCache.Get(sFileName);
