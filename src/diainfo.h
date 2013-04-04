@@ -145,6 +145,15 @@ public:
 	virtual bool	GetHorizontalFormat() const;
 	virtual bool	SetHorizontalFormat( bool bValue );
 
+    virtual double  GetRelX() const;
+    virtual bool    SetRelX( double dVal );
+    virtual double  GetRelY() const;
+    virtual bool    SetRelY( double dVal );
+    virtual double  GetRelDX() const;
+    virtual bool    SetRelDX( double dVal );
+    virtual double  GetRelDY() const;
+    virtual bool    SetRelDY( double dVal );
+
 	void			SetData( const string & sId,
 							 const string & sImageFile = "",
 							 const string & sComment = "",
@@ -169,11 +178,15 @@ private:
 	bool			IsWhitespace( char ch ) const;
 
 	// *** data ***
-    string                  m_sUUID;
+    string                  m_sUUID;                // new since 31.3.2013
 	string					m_sId;
 	string					m_sComment;
 	string					m_sImageFile;
 	string					m_sScript;				// new since 29.3.2002
+    double                  m_relX;                 // new since 1.4.2013
+    double                  m_relY;                 // dito
+    double                  m_relDX;                // dito
+    double                  m_relDY;                // dito
 	double					m_dIntensityInPercent;
 	int						m_iFormat;				// 0 == horizontal, 1 == vertical
 	TimeOperationContainer	m_aTimeOpContainer;

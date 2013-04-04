@@ -42,6 +42,7 @@
 
 #include "iscript.h"
 #include "minhandle.h"
+#include "misctools.h"
 
 #include <QGraphicsScene>
 #include <qimage.h>
@@ -140,6 +141,8 @@ public:
 	void StartStopFade();
 
 	void SetExpandImage( bool bExpand );
+
+    void SetImageRatio( ImageRatio ratio );
 
 	// ** implements the IDiaOutputWindow-(Script)Interface **
 	virtual bool	IsValid() const;

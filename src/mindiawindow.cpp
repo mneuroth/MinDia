@@ -122,6 +122,12 @@ MinDiaWindow * GetMainWindow()
     return g_pMainWindow;
 }
 
+DiaPresentation * GetCurrentPresentation()
+{
+    return &(g_pMainWindow->GetDocument()->GetPresentation());
+}
+
+
 // ***********************************************************************
 
 MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, bool bSimulation, int iProjectorType, QWidget* parent, Qt::WFlags f )
@@ -961,7 +967,8 @@ void MinDiaWindow::sltDoPlayInfos()
 	}
 	else
 	{
-		m_pPlayInfoDialog->show();
+        m_pPlayInfoDialog->SetImageRatio( GetCurrentImageRatio() );
+        m_pPlayInfoDialog->show();
         // workaround for showing dialog with updated view-rect
 //        m_pPlayInfoDialog->resize(m_pPlayInfoDialog->width()-1,m_pPlayInfoDialog->height()-1);
 //        m_pPlayInfoDialog->resize(m_pPlayInfoDialog->width()+1,m_pPlayInfoDialog->height()+1);

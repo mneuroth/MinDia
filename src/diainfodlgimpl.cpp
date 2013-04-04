@@ -4,26 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diainfodlgimpl.cpp,v $
- *
- *  $Revision: 1.4 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.2  2003/10/26 17:37:18  min
- *	Added new directories for images, sounds, data, scipts.
- *	
- *	Revision 1.1.1.1  2003/08/15 16:38:21  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -73,7 +59,11 @@ DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, Qt::WF
 	// min todo --> Effekte werden noch nicht unterstuezt
 	m_pEffectButtonGroup->setEnabled( false );
 
+    m_pBoxScripts->setVisible( false );
 	m_pScript->setEnabled( false );
+
+    m_pScreen = new PlayScreenEditing();
+    m_pClipping->setScene( m_pScreen );
 
     connect( this, SIGNAL( sigUpdateViews() ), parent, SLOT( sltDoUpdateAllViews() ) );
     connect( this, SIGNAL( sigDataChanged() ), parent, SLOT( sltDoDataChanged() ) );
@@ -83,6 +73,9 @@ DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, Qt::WF
 	connect( this, SIGNAL( sigNewItem() ), pEventConsumer, SLOT( sltNewItemAfterSelected() ) );
 	connect( this, SIGNAL( sigDeleteItem() ), pEventConsumer, SLOT( sltDeleteSelectedItem() ) );
     connect( this, SIGNAL( sigDialogHelp(const QString &) ), parent, SLOT( sltShowHelp(const QString &) ) );
+    connect( m_pScreen, SIGNAL(sigDataChanged()), this, SLOT(sltDataChanged()) );
+
+    UpdateScreenEditData();
 }
 
 DiaInfoDlgImpl::~DiaInfoDlgImpl()
@@ -90,6 +83,24 @@ DiaInfoDlgImpl::~DiaInfoDlgImpl()
 	delete m_pDissolveValidator;
 	delete m_pTimerValidator;
 	delete m_pEffectCountValidator;
+}
+
+void DiaInfoDlgImpl::UpdateScreenEditData()
+{
+    m_pScreen->setSceneRect( 0, 0, m_pClipping->width()-4, m_pClipping->height()-4 );
+
+    m_pScreen->SetBackgroundImage( m_pFileNameEdit->text() );
+
+    if( m_hItem.IsOk() )
+    {
+        double relX = m_hItem->GetRelX();
+        double relY = m_hItem->GetRelY();
+        double relDX = m_hItem->GetRelDX();
+        double relDY = m_hItem->GetRelDY();
+
+        m_pScreen->SetClippingData( relX, relY, relDX, relDY );
+    }
+
 }
 
 void DiaInfoDlgImpl::sltDisableDialog( bool bCheckData )
@@ -123,6 +134,8 @@ void DiaInfoDlgImpl::sltDisableDialog( bool bCheckData )
 	m_pNext->setEnabled( bValue );
 	m_pNewItem->setEnabled( bValue );
 	m_pDeleteItem->setEnabled( bValue );
+
+    UpdateScreenEditData();
 
 	SetDataChanged( false );
 }
@@ -197,6 +210,8 @@ void DiaInfoDlgImpl::sltUpdateData( minHandle<DiaInfo> hData, bool bEnable )
 
 		SetDataChanged( false );
 	}
+
+    UpdateScreenEditData();
 }
 
 void DiaInfoDlgImpl::sltApplyData()
@@ -251,6 +266,13 @@ void DiaInfoDlgImpl::sltApplyData()
 				}
 			}
 		}
+
+        double relX, relY, relDX, relDY;
+        m_pScreen->GetClippingData( relX, relY, relDX, relDY );
+        hData->SetRelX( relX );
+        hData->SetRelY( relY );
+        hData->SetRelDX( relDX );
+        hData->SetRelDY( relDY );
 
 		// ** data was writen, so (new) data is now unchanged !
 		SetDataChanged( false );
@@ -413,4 +435,10 @@ void DiaInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 	{
         QDialog::keyPressEvent( pEvent );
 	}
+}
+
+void DiaInfoDlgImpl::resizeEvent( QResizeEvent * pEvent )
+{
+    QDialog::resizeEvent( pEvent );
+    UpdateScreenEditData();
 }

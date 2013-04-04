@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>420</width>
-    <height>474</height>
+    <width>407</width>
+    <height>636</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -67,20 +67,10 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="4">
-    <widget class="QPushButton" name="m_pNext">
+   <item row="2" column="0">
+    <widget class="QLabel" name="FileNameLabel">
      <property name="text">
-      <string>--&amp;&gt;</string>
-     </property>
-     <property name="shortcut">
-      <string>Ctrl+Right</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="CommenLabel">
-     <property name="text">
-      <string>Comment:</string>
+      <string>Filename:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -90,13 +80,10 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1" colspan="4">
-    <widget class="QLineEdit" name="m_pCommentEdit"/>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="FileNameLabel">
+   <item row="1" column="0">
+    <widget class="QLabel" name="CommenLabel">
      <property name="text">
-      <string>Filename:</string>
+      <string>Comment:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -132,76 +119,7 @@
    <item row="3" column="1" colspan="2">
     <widget class="QLineEdit" name="m_pDissolveEdit"/>
    </item>
-   <item row="3" column="3" rowspan="2" colspan="2">
-    <widget class="QGroupBox" name="m_pSlideFormat">
-     <property name="title">
-      <string>Format</string>
-     </property>
-     <layout class="QVBoxLayout">
-      <item>
-       <widget class="QRadioButton" name="m_pHorizontalFormat">
-        <property name="text">
-         <string>hori&amp;zontal</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="m_pVerticalFormat">
-        <property name="text">
-         <string>&amp;vertical</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="TimerLabel">
-     <property name="text">
-      <string>Timer [s]:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-     <property name="wordWrap">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1" colspan="2">
-    <widget class="QLineEdit" name="m_pTimerEdit"/>
-   </item>
-   <item row="5" column="0" colspan="2">
-    <layout class="QVBoxLayout">
-     <item>
-      <widget class="QLabel" name="m_pScriptLabel">
-       <property name="text">
-        <string>Script:</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-       <property name="wordWrap">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="m_pModifyScript">
-       <property name="text">
-        <string>&amp;Modify...</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="5" column="2" colspan="3">
-    <widget class="QPlainTextEdit" name="m_pScript"/>
-   </item>
-   <item row="6" column="0" colspan="5">
+   <item row="9" column="0" colspan="5">
     <widget class="QGroupBox" name="m_pEffectButtonGroup">
      <property name="title">
       <string>Effects</string>
@@ -285,7 +203,7 @@
      </layout>
     </widget>
    </item>
-   <item row="7" column="0" colspan="5">
+   <item row="10" column="0" colspan="5">
     <layout class="QVBoxLayout">
      <item>
       <layout class="QHBoxLayout">
@@ -414,6 +332,109 @@
      </item>
     </layout>
    </item>
+   <item row="1" column="1" colspan="4">
+    <widget class="QLineEdit" name="m_pCommentEdit"/>
+   </item>
+   <item row="0" column="4">
+    <widget class="QPushButton" name="m_pNext">
+     <property name="text">
+      <string>--&amp;&gt;</string>
+     </property>
+     <property name="shortcut">
+      <string>Ctrl+Right</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="5">
+    <widget class="QGroupBox" name="m_pBoxClipping">
+     <property name="title">
+      <string>Image clipping</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QGraphicsView" name="m_pClipping"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="4" column="1" colspan="2">
+    <widget class="QLineEdit" name="m_pTimerEdit"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="TimerLabel">
+     <property name="text">
+      <string>Timer [s]:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3" rowspan="2" colspan="2">
+    <widget class="QGroupBox" name="m_pSlideFormat">
+     <property name="title">
+      <string>Format</string>
+     </property>
+     <layout class="QVBoxLayout">
+      <item>
+       <widget class="QRadioButton" name="m_pHorizontalFormat">
+        <property name="text">
+         <string>hori&amp;zontal</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="m_pVerticalFormat">
+        <property name="text">
+         <string>&amp;vertical</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="8" column="0" colspan="5">
+    <widget class="QGroupBox" name="m_pBoxScripts">
+     <property name="title">
+      <string>Scripts</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="1">
+       <widget class="QPlainTextEdit" name="m_pScript"/>
+      </item>
+      <item row="0" column="0">
+       <layout class="QVBoxLayout">
+        <item>
+         <widget class="QLabel" name="m_pScriptLabel">
+          <property name="text">
+           <string>Script:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="wordWrap">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="m_pModifyScript">
+          <property name="text">
+           <string>&amp;Modify...</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -446,7 +467,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>45</x>
-     <y>418</y>
+     <y>578</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -461,8 +482,8 @@
    <slot>sltCloseDialog()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>323</x>
-     <y>460</y>
+     <x>310</x>
+     <y>620</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -477,8 +498,8 @@
    <slot>sltDialogCanceled()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>406</x>
-     <y>460</y>
+     <x>393</x>
+     <y>620</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -525,7 +546,7 @@
    <slot>sltNextItem()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>332</x>
+     <x>400</x>
      <y>40</y>
     </hint>
     <hint type="destinationlabel">
@@ -542,7 +563,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>45</x>
-     <y>460</y>
+     <y>620</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -558,7 +579,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>375</x>
-     <y>418</y>
+     <y>578</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -574,7 +595,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>207</x>
-     <y>418</y>
+     <y>578</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -589,8 +610,8 @@
    <slot>sltModifyScript()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>31</x>
-     <y>255</y>
+     <x>46</x>
+     <y>400</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -606,7 +627,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>213</x>
-     <y>460</y>
+     <y>620</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -614,5 +635,91 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>m_pIDEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>DiaInfoDlg</receiver>
+   <slot>sltTextChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>145</x>
+     <y>24</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>69</x>
+     <y>41</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pCommentEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>DiaInfoDlg</receiver>
+   <slot>sltTextChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>154</x>
+     <y>67</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>7</x>
+     <y>81</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pFileNameEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>DiaInfoDlg</receiver>
+   <slot>sltTextChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>136</x>
+     <y>100</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>31</x>
+     <y>119</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pDissolveEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>DiaInfoDlg</receiver>
+   <slot>sltTextChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>123</x>
+     <y>136</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>22</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pTimerEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>DiaInfoDlg</receiver>
+   <slot>sltTextChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>153</x>
+     <y>182</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>7</x>
+     <y>192</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>sltModifyScript()</slot>
+  <slot>sltTextChanged(QString)</slot>
+  <slot>sltTextChanged()</slot>
+  <slot>sltDataChanged()</slot>
+ </slots>
 </ui>

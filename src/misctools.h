@@ -23,12 +23,26 @@
 
 #include <QImage>
 #include <QString>
+#include <QSize>
 
 #include <string>
 
 using namespace std;
 
 class QDropEvent;
+
+// *******************************************************************
+enum ImageRatio {
+    RATIO_UNDEFINED,
+    RATIO_16_9,
+    RATIO_3_2,
+    RATIO_4_3,
+    RATIO_IMAGE_RATIO,
+    RATIO_VARIABLE,
+    RATIO_USER
+};
+
+// *******************************************************************
 
 QImage CreateWhiteImage();
 
@@ -55,5 +69,13 @@ string ConvertToRelPath( const string & sPath );
 
 QString ConvertToAbsPath( const QString & sPath, const QString & sDir );
 string ConvertToAbsPath( const string & sPath, const string & sDir );
+
+ImageRatio GetCurrentImageRatio();
+
+QSize GetMaximumSizeFor( QSize aSize, ImageRatio ratio );
+
+// return a size object for the given ratio
+// which fits perfectly into the given availabale size
+QSize GetRatioSizeForAvailableSize( QSize aAvailableSize, ImageRatio ratio );
 
 #endif

@@ -2,26 +2,19 @@
 	Program name:	MinDia
 
 		Start: 27. 8.2001
-		Now:   21. 1.2011
+        Now:    1. 4.2013
 
 	Program to create a slide show and run the show
 	with dia-projectors from rollei:
 	  - Rolleivision 35 twin digital P
 	  - Rolleivision twin MSC 3x0 P
 
-	(c) by Michael Neuroth, 2001-2011
+    (c) by Michael Neuroth, 2001-2013
 
 
 	Contributions:
-		minicom		com-port support for linux
-			--> sysdep.h, sysdep1.c
-		kwav		wav-file import, wav-file playing for linux
-			--> wavfile.h, wavfile.cpp (modified)
 		Python		the script-language for this application
 		SWIG		for python (and other script languages) bindings
-		cdparanoia	for wav-file generation from audio cd's (linux)
-		LAME		for mp3-file encoding (smaller sound files for the Zaurus!)
-		CDex		for wav-file and mp3-file generation from audio cd's (windows)
 		Inno Setup	for Installation for windows
 
 	Create Makefile for Linux:
@@ -64,9 +57,6 @@
     There are several threads:
 	  * Command Processor Thread (to send commands to the projector via RS232)
 	  * Sound Thread (to control the playing of the sound (wav- or mp3-files))
-	  * Linux only: mp3 Player Thread
-	  * Linux only: wav play Thread
-	  * Linux only: wav-file buffer reader Thread
 
     The time line behaviour is realized with Timer-Events (QTimer).
 
@@ -77,44 +67,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mindiawindow.h,v $
- *
- *  $Revision: 1.9 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.8  2004/04/09 15:24:20  min
- *	Added new menu item for avi export
- *	
- *	Revision 1.7  2004/02/22 11:00:10  min
- *	QTranslator better handled.
- *	
- *	Revision 1.6  2004/02/21 14:58:21  min
- *	Help dialog improved
- *	
- *	Revision 1.5  2004/02/20 23:32:08  min
- *	Update comment.
- *	
- *	Revision 1.4  2004/02/20 23:06:37  min
- *	Qt About via MessageBox handled.
- *	
- *	Revision 1.3  2003/10/26 17:33:20  min
- *	MakeRelativePaths() added.
- *	
- *	Revision 1.2  2003/10/03 23:09:45  min
- *	docu how to create bindist added
- *	
- *	Revision 1.1.1.1  2003/08/15 16:38:21  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -165,9 +123,11 @@ class MinDiaWindow;
 typedef HItemView	IconItemView;
 typedef HItemView	DiaStateView;
 
+// *******************************************************************
+
 MinDiaWindow * GetMainWindow();
 
-//int GetTotalLengthInMSForSoundFile( const string & sFileName );
+DiaPresentation * GetCurrentPresentation();
 
 // *******************************************************************
 /** The main window for the slide show program.

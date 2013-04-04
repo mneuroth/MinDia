@@ -4,26 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diainfodlgimpl.h,v $
- *
- *  $Revision: 1.3 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.2  2004/02/26 22:19:24  min
- *	Fixes to compile MinDia for the Zaurus.
- *	
- *	Revision 1.1.1.1  2003/08/15 16:38:21  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -40,6 +26,8 @@
 #include "minhandle.h"
 #include "diainfo.h"
 #include "hitem.h"
+#include "playscreenediting.h"
+
 #include <QDialog>
 #include <QKeyEvent>
 #include <QCloseEvent>
@@ -96,11 +84,15 @@ protected:
 	virtual void closeEvent( QCloseEvent * pCloseEvent );
 	virtual void done( int iRet );
 	virtual void keyPressEvent( QKeyEvent * pEvent ); 
+    virtual void resizeEvent( QResizeEvent * pEvent );
 
 private:
+    void UpdateScreenEditData();
+
 	bool				m_bDataChanged;
 	HItem *				m_pItem;			// NO OWNER !!!
 	minHandle<DiaInfo>	m_hItem;
+    PlayScreenEditing * m_pScreen;
 
 	QDoubleValidator *	m_pDissolveValidator;
 	QDoubleValidator *	m_pTimerValidator;

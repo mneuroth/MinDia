@@ -50,6 +50,7 @@
 #include "writexml.h"
 #include "applscriptenv.h"
 #include "igendev.h"
+#include "misctools.h"
 
 #include <qdatetime.h>		// for QTime
 #include <qmap.h>
@@ -59,8 +60,6 @@
 #include <vector>
 
 using namespace std;
-
-//typedef QMap<QString,QImage>	QImageCache;
 
 // ** pre-declarations
 class RolleiCom;
@@ -111,17 +110,6 @@ public:
 };
 
 // *******************************************************************
-enum ImageRatio {
-    RATIO_UNDEFINED,
-    RATIO_16_9,
-    RATIO_3_2,
-    RATIO_4_3,
-    RATIO_IMAGE_RATIO,
-    RATIO_VARIABLE,
-    RATIO_USER
-};
-
-// *******************************************************************
 /** Represents the information for a dia/slide
   * presentation, this includes infos for every
   * dia and for the sound.
@@ -144,7 +132,6 @@ public:
 	bool IsEdit() const;
 
     QImage GetSlideForTime( double dTimeMS, int iWidth = -1, int iHeight = -1 ) const;
-    //void PaintSlideForTime( const QImageCache & aImageCache, QPainter & aPainter, double dTimeMS ) const;
 	bool IsNextSlideChanging( double dTimeMS, double dDeltaMS ) const;
 	bool GetIndexForTime( double dTimeMS, int & iIndex1, int & iIndex2, int & iFadeFactor ) const;
 

@@ -52,8 +52,9 @@ const double c_dDefaultTimer = 10.0;
 // *******************************************************************
 // *******************************************************************
 
-const int DiaInfo::ACT_FILE_VERSION = 2;	// 0 until 29.3.2002, then m_sScript introduced
+const int DiaInfo::ACT_FILE_VERSION = 3;	// 0 until 29.3.2002, then m_sScript introduced
                                             // 1 until 31.3.2013, then m_sUUID introduced
+                                            // 2 until 1.4.2013, then m_relX, m_relY, m_relDX, m_relDY introduced
 
 const int DiaInfo::HORIZONTAL = 0;
 const int DiaInfo::VERTICAL = 1;
@@ -67,6 +68,10 @@ DiaInfo::DiaInfo( const string & sId, const string & sImageFile, const string & 
 	m_sImageFile			= sImageFile;
 	m_dIntensityInPercent	= 1.0;
 	m_iFormat				= HORIZONTAL;
+    m_relX                  = 0.0;
+    m_relY                  = 0.0;
+    m_relDX                 = 1.0;
+    m_relDY                 = 1.0;
 
 	// ** fill disolve and timer wiht (default) data
 	AddOperation( TimeOperation( TimeOperation::DISSOLVE_IN, c_dDefaultDissolveTime ) );
@@ -318,6 +323,17 @@ bool DiaInfo::Read( istream & aStream )
 	aFU.ReadSeparator( aStream );
 	aStream >> m_iFormat;
 	aFU.ReadSeparator( aStream );
+    if( iActFileVersion > 2 )
+    {
+        aStream >> m_relX;
+        aFU.ReadSeparator( aStream );
+        aStream >> m_relY;
+        aFU.ReadSeparator( aStream );
+        aStream >> m_relDX;
+        aFU.ReadSeparator( aStream );
+        aStream >> m_relDX;
+        aFU.ReadSeparator( aStream );
+    }
 	m_aTimeOpContainer.Read( aStream );
 	aFU.ReadStructEnd( aStream );
 
@@ -356,6 +372,17 @@ bool DiaInfo::Write( ostream & aStream ) const
 	aFU.WriteSeparator( aStream );
 	aStream << m_iFormat;
 	aFU.WriteSeparator( aStream );
+    if( ACT_FILE_VERSION > 2 )
+    {
+        aStream << m_relX;
+        aFU.WriteSeparator( aStream );
+        aStream << m_relY;
+        aFU.WriteSeparator( aStream );
+        aStream << m_relDX;
+        aFU.WriteSeparator( aStream );
+        aStream << m_relDY;
+        aFU.WriteSeparator( aStream );
+    }
 	aStream << endl;
 	m_aTimeOpContainer.Write( aStream );
 	aFU.WriteStructEnd( aStream );
@@ -416,6 +443,50 @@ bool DiaInfo::GetHorizontalFormat() const
 	{
 		return false;
 	}
+}
+
+double DiaInfo::GetRelX() const
+{
+    return m_relX;
+}
+
+double DiaInfo::GetRelY() const
+{
+    return m_relY;
+}
+
+double DiaInfo::GetRelDX() const
+{
+    return m_relDX;
+}
+
+double DiaInfo::GetRelDY() const
+{
+    return m_relDY;
+}
+
+bool DiaInfo::SetRelX( double dVal )
+{
+    m_relX = dVal;
+    return true;
+}
+
+bool DiaInfo::SetRelY( double dVal )
+{
+    m_relY = dVal;
+    return true;
+}
+
+bool DiaInfo::SetRelDX( double dVal )
+{
+    m_relDX = dVal;
+    return true;
+}
+
+bool DiaInfo::SetRelDY( double dVal )
+{
+    m_relDY = dVal;
+    return true;
 }
 
 bool DiaInfo::SetHorizontalFormat( bool bValue )

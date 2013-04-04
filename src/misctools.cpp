@@ -20,6 +20,8 @@
 
 #include "misctools.h"
 
+#include "mindiawindow.h"
+
 #include <QImage>
 #include <QImageReader>
 #include <QList>
@@ -311,4 +313,60 @@ QString ConvertToAbsPath( const QString & sPath, const QString & sDir )
 string ConvertToAbsPath( const string & sPath, const string & sDir )
 {
     return ToStdString( ConvertToAbsPath( ToQString( sPath ), ToQString( sDir ) ) );
+}
+
+ImageRatio GetCurrentImageRatio()
+{
+    return GetCurrentPresentation()->GetImageRatio();
+}
+
+QSize GetSizeFor( ImageRatio ratio, QSize aSize = QSize(1920,1920) )
+{
+    const int dxRef = 1920;
+
+    switch( ratio )
+    {
+        case RATIO_16_9:
+            aSize.setWidth(dxRef);
+            aSize.setHeight(dxRef*9/16);
+            break;
+        case RATIO_3_2:
+            aSize.setWidth(dxRef);
+            aSize.setHeight(dxRef*2/3);
+            break;
+        case RATIO_4_3:
+            aSize.setWidth(dxRef);
+            aSize.setHeight(dxRef*3/4);
+            break;
+        case RATIO_IMAGE_RATIO:
+            // return unmodified size
+            break;
+        case RATIO_VARIABLE:
+            break;
+        case RATIO_USER:
+            // TODO
+            break;
+
+        case RATIO_UNDEFINED:
+        default:
+            ; // ignore
+    }
+
+    return aSize;
+}
+
+QSize GetMaximumSizeFor( QSize aSize, ImageRatio ratio )
+{
+    QSize aRect = GetSizeFor( ratio );
+
+    aRect.scale( aSize, Qt::KeepAspectRatio );
+
+    return aRect;
+}
+
+QSize GetRatioSizeForAvailableSize( QSize aAvailableSize, ImageRatio ratio )
+{
+    QSize aRet = GetSizeFor( ratio, aAvailableSize );
+    aRet.scale( aAvailableSize, Qt::KeepAspectRatio );
+    return aRet;
 }

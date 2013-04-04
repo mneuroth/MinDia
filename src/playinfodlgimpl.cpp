@@ -4,41 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/playinfodlgimpl.cpp,v $
- *
- *  $Revision: 1.8 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.7  2005/12/26 16:11:40  Michael
- *	added new command line option -expand
- *	
- *	Revision 1.6  2004/04/09 15:43:10  min
- *	Optimizations for Zaurus port.
- *	
- *	Revision 1.5  2004/04/09 15:20:54  min
- *	removed inline for _FadeImage()
- *
- *	Revision 1.4  2004/02/20 20:11:07  min
- *	Bugfixes and fullscreen button implemented.
- *	
- *	Revision 1.3  2004/02/16 19:44:51  min
- *	Fixes for Borland C++
- *	
- *	Revision 1.2  2003/10/26 17:32:39  min
- *	Directory for images added.
- *	
- *	Revision 1.1.1.1  2003/08/15 16:38:22  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -287,6 +258,7 @@ static int g_iTimerDelay = MAX_FADE_DELAY;
 
 void _FadeImage( QPainter * pPainter, const QRectF & area, int iFadeFactor, const QImage & aImagePrevious, const QImage & aImage )
 {
+    cout << "_FadeImage " << area.x() << " " << area.y() << " " << area.width() << " " << area.height() << endl;
     double dFactor = (double)(iFadeFactor)/(double)MAX_FADE_FACTOR;
     double currentOpacity = pPainter->opacity();
 
@@ -295,9 +267,11 @@ void _FadeImage( QPainter * pPainter, const QRectF & area, int iFadeFactor, cons
     pPainter->setOpacity(1.0-dFactor);
 
 // TODO --> klaeren ob hier image erst scaliert werden sollen
-    pPainter->drawImage(area,aImagePrevious);
+//    pPainter->drawImage(area,aImagePrevious/*,area*/);
+    pPainter->drawImage(QPoint(0,0),aImagePrevious);
     pPainter->setOpacity(dFactor);
-    pPainter->drawImage(area,aImage);
+//    pPainter->drawImage(area,aImage/*,area*/);
+    pPainter->drawImage(QPoint(0,0),aImage);
 
     pPainter->setOpacity(currentOpacity);
 }
@@ -1277,14 +1251,16 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
 			}
 			else if( m_pScaleFillX->isChecked() )
 			{
-				int iCalcHeight = aFrameRect.width() * aImage.height() / aImage.width();
-				aScaledImage = aImage.scaled( aFrameRect.width(), iCalcHeight );
-			}
+//				int iCalcHeight = aFrameRect.width() * aImage.height() / aImage.width();
+//                aScaledImage = aImage.scaled( aFrameRect.width(), iCalcHeight, Qt::KeepAspectRatio );
+                aScaledImage = aImage.scaled( aFrameRect.size(), Qt::KeepAspectRatio );
+            }
 			else if( m_pScaleFillY->isChecked() )
 			{
-				int iCalcWidth = aFrameRect.height() * aImage.width() / aImage.height();
-				aScaledImage = aImage.scaled( iCalcWidth, aFrameRect.height() );
-			}
+//				int iCalcWidth = aFrameRect.height() * aImage.width() / aImage.height();
+//                aScaledImage = aImage.scaled( iCalcWidth, aFrameRect.height(), Qt::KeepAspectRatio );
+                aScaledImage = aImage.scaled( aFrameRect.size(), Qt::KeepAspectRatio );
+            }
 			else if( m_pScaleExpand->isChecked() )
 			{
 				aScaledImage = aImage.scaled( aFrameRect.width(), aFrameRect.height() );
@@ -1384,23 +1360,26 @@ void PlayInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 
 void PlayInfoDlgImpl::resizeEvent( QResizeEvent * pEvent )
 {
-cout << "ResizeEvent " << isFullScreen() << endl;
 // TODO gulp --> if fullscreen and controls not hidden --> hide them (workaround for restoring full screen)
 if( m_pRun->isVisible() )
 {
 //    FullScreen();
 }
+    QDialog::resizeEvent( pEvent );
 
     QRect aFrameRect = m_pCanvasView->frameRect();
 
+// TODO --> resize von GraphicsView in eigener Klasse behandeln !!! code verschieben wie bei DiaInfo Dialog
 	// ** update size of the canvas
-	m_pCanvasView->resize( aFrameRect.width(), aFrameRect.height() );
+    m_pCanvasView->resize( pEvent->size().width(), pEvent->size().height() );
+    cout << "resizeEvent " << m_pCanvasView->x() << " " << m_pCanvasView->y() << " " << m_pCanvasView->width() << " " << m_pCanvasView->height() << endl;
+    cout << " xxx " << aFrameRect.x() << " " << aFrameRect.y() << " " << aFrameRect.width() << " " << aFrameRect.height() << endl;
+    cout << " yyy " << pEvent->size().width() << " " << pEvent->size().height() << endl;
     m_pCanvas->setSceneRect(0,0,aFrameRect.width()-5, aFrameRect.height()-5);
 
 	// ** update the background image with the new size
 	sltSetImage( m_aActImage );
 
-	QDialog::resizeEvent( pEvent );
 }
 
 void PlayInfoDlgImpl::SetExpandImage( bool bExpand )
@@ -1413,6 +1392,38 @@ void PlayInfoDlgImpl::SetExpandImage( bool bExpand )
 	{
 		m_pScaleOriginal->setChecked( TRUE );
 	}
+}
+
+void PlayInfoDlgImpl::SetImageRatio( ImageRatio ratio )
+{
+    QString s;
+
+    switch( ratio )
+    {
+        case RATIO_16_9:
+            s = tr("16:9");
+            break;
+        case RATIO_3_2:
+            s = tr("3:2");
+            break;
+        case RATIO_4_3:
+            s = tr("4:3");
+            break;
+        case RATIO_IMAGE_RATIO:
+            s = tr("image ratio");
+            break;
+        case RATIO_VARIABLE:
+            s = tr("variable");
+            break;
+        case RATIO_USER:
+            // TODO
+            break;
+
+        case RATIO_UNDEFINED:
+        default:
+            ; // ignore
+    }
+    m_pScreenRatio->setCurrentIndex(m_pScreenRatio->findText(s));
 }
 
 // *******************************************************************

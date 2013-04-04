@@ -139,6 +139,15 @@ public:
 
 	virtual bool			GetHorizontalFormat() const = 0;
 	virtual bool			SetHorizontalFormat( bool bValue ) = 0;
+
+    virtual double          GetRelX() const = 0;
+    virtual bool            SetRelX( double dVal ) = 0;
+    virtual double          GetRelY() const = 0;
+    virtual bool            SetRelY( double dVal ) = 0;
+    virtual double          GetRelDX() const = 0;
+    virtual bool            SetRelDX( double dVal ) = 0;
+    virtual double          GetRelDY() const = 0;
+    virtual bool            SetRelDY( double dVal ) = 0;
 };
 
 /** represents data for the dia-presentation (document). 
