@@ -331,7 +331,7 @@ bool DiaInfo::Read( istream & aStream )
         aFU.ReadSeparator( aStream );
         aStream >> m_relDX;
         aFU.ReadSeparator( aStream );
-        aStream >> m_relDX;
+        aStream >> m_relDY;
         aFU.ReadSeparator( aStream );
     }
 	m_aTimeOpContainer.Read( aStream );
