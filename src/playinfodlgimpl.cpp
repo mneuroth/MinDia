@@ -1238,10 +1238,10 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
 		{
 			if( m_pScaleOriginal->isChecked() )
 			{
-// TODO gulp problem unter mac !?
+// TODO gulp problem unter mac und windows !?
 //                m_pCanvasView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 //                m_pCanvasView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-                m_pCanvasView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);       // anscheinend ok fuer mac !
+                m_pCanvasView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);       // anscheinend ok fuer mac und windows !
                 m_pCanvasView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
                 aScaledImage = aImage;
                 m_pScene->setSceneRect(0,0,aScaledImage.width(),aScaledImage.height());

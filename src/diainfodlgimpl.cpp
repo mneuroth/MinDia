@@ -269,6 +269,7 @@ void DiaInfoDlgImpl::sltApplyData()
 
         double relX, relY, relDX, relDY;
         m_pScreen->GetClippingData( relX, relY, relDX, relDY );
+cout << "CLIPPING DATA " << relX << " " << relY << " " << relDX << " " << relDY << endl;
         hData->SetRelX( relX );
         hData->SetRelY( relY );
         hData->SetRelDX( relDX );

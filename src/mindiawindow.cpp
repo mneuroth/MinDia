@@ -1796,9 +1796,10 @@ void MinDiaWindow::sltItemSelected( int iCount, HItem * pFirstSelectedItem, int 
 
 		if( iCount==1 )
 		{
+            QImage aImage;
             minHandle<DiaInfo> hDiaInfo = pFirstSelectedItem->GetInfoData();
             QString sFileName = ToQString( hDiaInfo->GetImageFile() );
-            m_pPlayInfoDialog->sltSetImage( GetImageArea( GetImageFromFileName( sFileName ), hDiaInfo->GetRelX(), hDiaInfo->GetRelY(), hDiaInfo->GetRelDX(), hDiaInfo->GetRelDY() ), bIsPlaying, iDissolveTimeInMS );
+            m_pPlayInfoDialog->sltSetImage( CopyImageArea( GetImageFromFileName( sFileName ), hDiaInfo->GetRelX(), hDiaInfo->GetRelY(), hDiaInfo->GetRelDX(), hDiaInfo->GetRelDY() ), bIsPlaying, iDissolveTimeInMS );
 		}
 		else
 		{
@@ -1819,6 +1820,7 @@ void MinDiaWindow::sltPlayMarkChanged( double dTimePosInSec )
 {
     //int iWidth = m_pPlayInfoDialog->GetDrawWidth();
     //int iHeight = m_pPlayInfoDialog->GetDrawHeight();
+// TODO gulp --> Performance Optimierung: besser Bilder erst skalieren und dann setzen ?
     QImage aImage = m_pControler->GetPresentation().GetSlideForTime( dTimePosInSec*1000.0/*, iWidth, iHeight*/ );
     // let the play info dialog decide which output format is needed...
     if( m_pPlayInfoDialog && m_pPlayInfoDialog->isVisible() )
@@ -1904,12 +1906,12 @@ void MinDiaWindow::sltFadeInTest()
 		{
             minHandle<DiaInfo> hDiaInfo1 = pItem1->GetInfoData();
             QString sFileName1 = ToQString( hDiaInfo1->GetImageFile() );
-            m_pPlayInfoDialog->sltSetImage( GetImageArea( GetImageFromFileName( sFileName1 ), hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() ), /*bIsPlaying*/false, 0 );
+            m_pPlayInfoDialog->sltSetImage( CopyImageArea( GetImageFromFileName( sFileName1 ), hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() ), /*bIsPlaying*/false, 0 );
 
 			int iDissolveTimeInMS = (int)(m_dDissolveTime * 1000.0);
             minHandle<DiaInfo> hDiaInfo2 = pItem2->GetInfoData();
             QString sFileName2 = ToQString( hDiaInfo2->GetImageFile() );
-            m_pPlayInfoDialog->sltSetImage( GetImageArea( GetImageFromFileName( sFileName2 ), hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() ), /*bIsPlaying*/true, iDissolveTimeInMS );
+            m_pPlayInfoDialog->sltSetImage( CopyImageArea( GetImageFromFileName( sFileName2 ), hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() ), /*bIsPlaying*/true, iDissolveTimeInMS );
 		}
 	}
 }
@@ -1925,12 +1927,12 @@ void MinDiaWindow::sltFadeOutTest()
 		{
             minHandle<DiaInfo> hDiaInfo1 = pItem1->GetInfoData();
             QString sFileName1 = ToQString( hDiaInfo1->GetImageFile() );
-            m_pPlayInfoDialog->sltSetImage( GetImageArea( GetImageFromFileName( sFileName1 ), hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() ), /*bIsPlaying*/false, 0 );
+            m_pPlayInfoDialog->sltSetImage( CopyImageArea( GetImageFromFileName( sFileName1 ), hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() ), /*bIsPlaying*/false, 0 );
 
 			int iDissolveTimeInMS = (int)(m_dDissolveTime * 1000.0);
             minHandle<DiaInfo> hDiaInfo2 = pItem2->GetInfoData();
             QString sFileName2 = ToQString( hDiaInfo2->GetImageFile() );
-            m_pPlayInfoDialog->sltSetImage( GetImageArea( GetImageFromFileName( sFileName2 ), hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() ), /*bIsPlaying*/true, iDissolveTimeInMS );
+            m_pPlayInfoDialog->sltSetImage( CopyImageArea( GetImageFromFileName( sFileName2 ), hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() ), /*bIsPlaying*/true, iDissolveTimeInMS );
 		}
 	}
 }

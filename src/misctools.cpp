@@ -22,6 +22,8 @@
 
 #include "mindiawindow.h"
 
+#include <math.h>
+
 #include <QImage>
 #include <QImageReader>
 #include <QList>
@@ -177,7 +179,19 @@ QRect GetArea( const QSize & aImageSize, double relX, double relY, double relDX,
     return rect;
 }
 
-QImage GetImageArea( const QImage & aImage, double relX, double relY, double relDX, double relDY )
+const double EPSILON = 0.00001;
+
+inline bool IsInEpsilon( double value, double pos )
+{
+    return fabs(value-pos)<=EPSILON;
+}
+
+bool IsFullArea( double relX, double relY, double relDX, double relDY )
+{
+    return IsInEpsilon( relX, 0.0 ) && IsInEpsilon( relY, 0.0 ) && IsInEpsilon( relDX, 1.0 ) && IsInEpsilon( relDY, 1.0 );
+}
+
+QImage CopyImageArea( const QImage & aImage, double relX, double relY, double relDX, double relDY )
 {
     return aImage.copy( GetArea( aImage.size(), relX, relY, relDX, relDY ) );
 }
