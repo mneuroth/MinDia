@@ -25,6 +25,15 @@
 
 #include "misctools.h"
 
+enum ResizeState
+{
+    NONE,
+    NORTH,
+    SOUTH,
+    WEST,
+    EAST
+};
+
 class GraphicsItemChangedCallback
 {
 public:
@@ -46,13 +55,16 @@ public:
     virtual QVariant itemChange( GraphicsItemChange change, const QVariant & value );
 
 private:
-    ImageRatio  m_Ratio;
-    double      m_relX;
-    double      m_relY;
-    double      m_relDX;
-    double      m_relDY;
-    GraphicsItemChangedCallback * m_pCallback;
-    QSize       m_aImageSize;
+    void CheckRectForClipping();
+
+    ImageRatio                      m_Ratio;
+    double                          m_relX;
+    double                          m_relY;
+    double                          m_relDX;
+    double                          m_relDY;
+    GraphicsItemChangedCallback *   m_pCallback;
+    QSize                           m_aImageSize;
+    ResizeState                     m_aResizeState;
 };
 
 #endif // GRAPHICSITEMRESIZEABLERECT_H

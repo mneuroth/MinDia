@@ -41,12 +41,13 @@ inline int Calc( double factor, int value )
 }
 
 GraphicsItemResizeableRect::GraphicsItemResizeableRect( GraphicsItemChangedCallback * pCallback )
-    : m_Ratio(RATIO_UNDEFINED),
-      m_relX(0.0),
-      m_relY(0.0),
-      m_relDX(1.0),
-      m_relDY(1.0),
-      m_pCallback( pCallback )
+    : m_Ratio( RATIO_UNDEFINED ),
+      m_relX( 0.0 ),
+      m_relY( 0.0 ),
+      m_relDX( 1.0 ),
+      m_relDY( 1.0 ),
+      m_pCallback( pCallback ),
+      m_aResizeState( NONE )
 {
     setAcceptHoverEvents( true );
     setFlag( QGraphicsItem::ItemIsMovable );
@@ -58,17 +59,18 @@ void GraphicsItemResizeableRect::Rescale( QSize aImageSize )
     m_aImageSize = aImageSize;
     QSize aMaxSize = QSize( aImageSize.width(), aImageSize.height() );
     QSize aSize = GetRatioSizeForAvailableSize( aMaxSize, m_Ratio );
+    cout << "RESCALE max: " << aMaxSize.width() << " " << aMaxSize.height() << " ratio: " << aSize.width() << " " << aSize.height() << endl;
     int dx = aSize.width();
     int dy = aSize.height();
 
 // TODO --> hier noch das korrekte Ratio behandeln, falls image-ratio von desired-ratio abweicht verschiebt sich das Rechteck !
+//          ==> wird von ausserhalb geprueft !
 
 //cout << "RESCALE data " << m_relX << " " << m_relY << " " << m_relDX << " " << m_relDY << " size " << dx << " " << dy << endl;
-//    setRect( Calc(m_relX,dx)/*+Calc(m_relDX,dx)/2*/, Calc(m_relY,dy)/*+Calc(m_relDY,dy)/2*/, Calc(m_relDX,dx), Calc(m_relDY,dy) );
     setRect( 0, 0, Calc(m_relDX,dx), Calc(m_relDY,dy) );
-//cout << "--> " << Calc(m_relX,dx) << " " << Calc(m_relY,dy) << " " << Calc(m_relDX,dx) << " " << Calc(m_relDY,dy) << endl ;
+//cout << "--> " << Calc(m_relX,dx) << " " << Calc(m_relY,dy) << " " << Calc(m_relDX,dx) << " " << Calc(m_relDY,dy) << " sum=" << Calc(m_relX,dx)+Calc(m_relDX,dx) << endl ;
 //cout << "--> rect pos= " << pos().x() << " " << pos().y() << endl;
-    setPos( Calc(m_relX,dx), Calc(m_relY,dy) );
+    setPos( Calc(m_relX,dx), Calc(m_relY,dy) ); // triggert ggf. entsprechenden itemChange() Aufruf !
 }
 
 void GraphicsItemResizeableRect::SetClippingData( ImageRatio ratio, double relX, double relY, double relDX, double relDY )
@@ -78,7 +80,6 @@ void GraphicsItemResizeableRect::SetClippingData( ImageRatio ratio, double relX,
     m_relY = relY;
     m_relDX = relDX;
     m_relDY = relDY;
-cout << "*** set CLIP data " << m_relX << " " << m_relY << " " << m_relDX << " " << m_relDY << endl;
 }
 
 void GraphicsItemResizeableRect::GetClippingData( double & relX, double & relY, double & relDX, double & relDY )
@@ -87,68 +88,121 @@ void GraphicsItemResizeableRect::GetClippingData( double & relX, double & relY, 
     relY = m_relY;
     relDX = m_relDX;
     relDY = m_relDY;
-cout << "+++ get CLIP data " << m_relX << " " << m_relY << " " << m_relDX << " " << m_relDY << endl;
+}
+
+void GraphicsItemResizeableRect::CheckRectForClipping()
+{
+    QSize aMaxSize = QSize( m_aImageSize.width(), m_aImageSize.height() );
+    QSize aSize = GetRatioSizeForAvailableSize( aMaxSize, m_Ratio );
+    double dFacX = ((double)aMaxSize.width()/(double)aSize.width());
+    int dx = aSize.width();
+    int dy = aSize.height();
+    int x0 = Calc(m_relX,dx);
+    int y0 = Calc(m_relY,dy);
+    int dx0 = Calc(m_relDX,dx);
+    int dy0 = Calc(m_relDY,dy);
+    bool bContained = x0>=0.0 && x0+dx0<=aMaxSize.width() && y0>=0.0 && y0+dy0<=aMaxSize.height();
+
+    if( m_relX<0.0 )
+    {
+        m_relX = 0.0;
+    }
+//    if( m_relX+m_relDX>1.0 )
+    if( x0+dx0>aMaxSize.width() )
+    {
+        if( dFacX>1.0 )
+        {
+            m_relX = dFacX-m_relDX;
+        }
+        else
+        {
+            m_relDX = 1.0;
+            m_relDY = m_relDX;
+        }
+        //m_relDX = 1.0-m_relX;
+//        m_relDX = ((double)aSize.width()/(double)aMaxSize.width())-m_relX;
+        m_relDX = 1.0;
+//        m_relDY = ((double)aMaxSize.width()/(double)aSize.width())-1.0;
+        m_relDY = m_relDX;
+    }
+    if( m_relY<0.0 )
+    {
+        m_relY = 0.0;
+    }
+    if( m_relY+m_relDY>1.0 )
+    {
+        m_relDY = 1.0-m_relY;
+        m_relDX = m_relDY;
+    }
+// TODO gulp: wenn original bild anderes Ratio hat liegt rect nicht nur im Bereich 0 < x+dx < 1.0 !
 }
 
 void GraphicsItemResizeableRect::mouseMoveEvent( QGraphicsSceneMouseEvent * event )
 {
-    int deltaX = event->pos().x()-event->lastPos().x();
+    int deltaX = event->pos().x()-event->lastPos().x();     // -1 <--     +1 -->
     int deltaY = event->pos().y()-event->lastPos().y();
     double dx = (double)deltaX/(double)m_aImageSize.width();
     double dy = (double)deltaY/(double)m_aImageSize.height();
-    double dFactor = (double)m_aImageSize.width()/(double)m_aImageSize.height();
+//    double dFactor = (double)m_aImageSize.width()/(double)m_aImageSize.height();
 
+//    cout << "MOVE " << deltaX << " " << deltaY << " state: " << (int)m_aResizeState << " " << dx << " " << dy << endl;
+//    cout << " was " << m_relX << " " << m_relY << " " << m_relDX << " " << m_relDY << endl;
+
+    bool bHandled = false;
     if( cursor().shape()==Qt::SizeHorCursor )
     {
-//        setRect( 0, 0, rect().width()-deltaX, rect().height()-dFactor/deltaX );
-        m_relDX = (double)(rect().width()-deltaX)/(double)m_aImageSize.width();
+        if( m_aResizeState==WEST )
+        {
+            m_relDX += -dx;
+            m_relX += dx;
+            m_relDY = m_relDX;
+        }
+        else
+        {
+            m_relDX += dx;
+            //m_relX += dx;
+            m_relDY = m_relDX;
+        }
+        CheckRectForClipping();
+        Rescale(m_aImageSize);
+        bHandled = true;
+    }
+    else if( cursor().shape()==Qt::SizeVerCursor )
+    {
+        if( m_aResizeState==NORTH )
+        {
+            m_relDY += -dy;
+            m_relY += dy;
+            m_relDX = m_relDY;
+        }
+        else
+        {
+            m_relDY += dy;
+            //m_relY += dy;
+            m_relDX = m_relDY;
+        }
+        CheckRectForClipping();
+        Rescale(m_aImageSize);
+        bHandled = true;
+    }
+    else
+    {
+        // handle move
         m_relX += dx;
-        m_relDY = m_relDX;
-// TODO --> m_relX neu berechnen...
-        Rescale(m_aImageSize);
-// TODO Seitenverhaeltnis erhalten --> m_relDY entsprechend anpassen
-    }
-    if( cursor().shape()==Qt::SizeVerCursor )
-    {
-//        setRect( 0, 0, rect().width()-deltaY/dFactor, rect().height()-deltaY );
-        m_relDY = (double)(rect().height()-deltaY)/(double)m_aImageSize.height();
         m_relY += dy;
-        m_relDX = m_relDY;
-        Rescale(m_aImageSize);
     }
 
-  //  cout << "MOVE " << event->pos().x() << " " << event->pos().y() << " lastPos: " << event->lastPos().x() << " " << event->lastPos().y() << endl;
-  //  cout << "glob MOVE " << event->scenePos().x() << " " << event->scenePos().y() << " scene: " << event->lastScenePos().x() << " " << event->lastScenePos().y() << endl;
-  //  QPointF p = mapToItem( this, event->pos() );
-    //cout << " xx " << p.x() << " " << p.y() << " " << (int)GetCurrentImageRatio() << endl;
-    //scene()->activeWindow()->setCursor( Qt::SizeHorCursor );
-//    cout << " rect pos= " << pos().x() << " " << pos().y() << endl;
-
-   // m_relX = 0.2;
-
-    /*
-    double x = m_relX + dx;
-    if( x>=0.0 && x+m_relDX<=1.0)
+    if( m_pCallback )
     {
-        m_relX = x;
+        m_pCallback->ItemModified( this );
     }
-    double y = m_relY + dy;
-    if( y>=0.0 && y+m_relDY<=1.0)
-    {
-        m_relY = y;
-    }
-    */
- //   m_relX += dx;
- //   m_relY += dy;
-//    cout << "DELTA MOVE " << dx << " " << dy << endl;
-/*
-    m_relX = (double)pos().x()/(double)m_aImageSize.width();
-    m_relY = (double)pos().y()/(double)m_aImageSize.height();
-    m_relDX = (double)rect().width()/(double)m_aImageSize.width();
-    m_relDY = (double)rect().height()/(double)m_aImageSize.height();
-*/
 
-    QGraphicsRectItem::mouseMoveEvent( event );
+//    cout << " now " << m_relX << " " << m_relY << " " << m_relDX << " " << m_relDY << endl;
+
+    if( !bHandled )
+    {
+        QGraphicsRectItem::mouseMoveEvent( event );
+    }
 }
 
 void GraphicsItemResizeableRect::hoverMoveEvent( QGraphicsSceneHoverEvent * event )
@@ -156,16 +210,21 @@ void GraphicsItemResizeableRect::hoverMoveEvent( QGraphicsSceneHoverEvent * even
     //cout << "hover " << event->pos().x() << " " << event->pos().y() << " scene: " << event->scenePos().x() << " " << event->scenePos().y() << endl;
     QPointF pos = event->pos();
     double delta = 5;
-    if( IsInRange( pos.x(), 0, delta ) || IsInRange( pos.x(), rect().width(), delta ) )
+    bool bWest = IsInRange( pos.x(), 0, delta );
+    bool bNorth = IsInRange( pos.y(), 0, delta );
+    if(  bWest || IsInRange( pos.x(), rect().width(), delta ) )
     {
+        m_aResizeState = bWest ? WEST : EAST;
         setCursor( Qt::SizeHorCursor );
     }
-    else if( IsInRange( pos.y(), 0, delta ) || IsInRange( pos.y(), rect().height(), delta ) )
+    else if( bNorth || IsInRange( pos.y(), rect().height(), delta ) )
     {
+        m_aResizeState = bNorth ? NORTH : SOUTH;
         setCursor( Qt::SizeVerCursor );
     }
     else
     {
+        m_aResizeState = NONE;
         setCursor( Qt::ArrowCursor );
     }
     QGraphicsRectItem::hoverMoveEvent( event );
@@ -177,45 +236,39 @@ QVariant GraphicsItemResizeableRect::itemChange( GraphicsItemChange change, cons
     if( change==QGraphicsItem::ItemPositionChange )
     {
         QPointF newPos = value.toPointF();
-        //newPos = mapToParent(newPos);
-        //newPos = mapToItem(this,newPos);
-        //newPos = mapToScene(newPos);
-        QRectF rect = scene()->sceneRect();
 
+        //cout << "pos change" << endl;
         //cout << "--- " << scenePos().x() << " " << scenePos().y() << endl;
-        cout << "*** POS CHANGE " << newPos.x() << " " << newPos.y() << " old: " << pos().x() << " " << pos().y() << " scene: " << rect.x() << " " << rect.y() << " " << rect.width() << " " << rect.height() << " contains=" << rect.contains(value.toPointF()) << endl;
+        //cout << "*** POS CHANGE " << newPos.x() << " " << newPos.y() << " old: " << pos().x() << " " << pos().y() << " scene: " << rect.x() << " " << rect.y() << " " << rect.width() << " " << rect.height() << " contains=" << rect.contains(value.toPointF()) << endl;
+
         bool bOk = true;
-        double x = newPos.x()/(double)m_aImageSize.width();
-        if( x>=0.0 && x+m_relDX<=1.0)
-        {
-            m_relX = x;
-        }
-        else
+        double x = (double)(newPos.x())/(double)m_aImageSize.width();
+        if( x<0.0 || x+m_relDX>1.0)
         {
             if( x<0.0 )
             {
                 newPos.setX(0);
+                m_relX = 0.0;
             }
             else
             {
                 newPos.setX((1.0-m_relDX)*(double)m_aImageSize.width());
+                m_relX = 1.0-m_relDX;
             }
             bOk = false;
         }
-        double y = newPos.y()/(double)m_aImageSize.height();
-        if( y>=0.0 && y+m_relDY<=1.0)
-        {
-            m_relY = y;
-        }
-        else
+        double y = (double)(newPos.y())/(double)m_aImageSize.height();
+        if( y<0.0 || y+m_relDY>1.0)
         {
             if( y<0.0 )
             {
                 newPos.setY(0);
+                m_relY = 0.0;
             }
             else
             {
                 newPos.setY((1.0-m_relDY)*(double)m_aImageSize.height());
+                m_relY = 1.0-m_relDY;
             }
             bOk = false;
         }
@@ -223,19 +276,6 @@ QVariant GraphicsItemResizeableRect::itemChange( GraphicsItemChange change, cons
         if( !bOk )
         {
            return newPos;
-        }
-
-        // update the new rectangle data
-        /*
-        m_relX = (double)pos().x()/(double)m_aImageSize.width();
-        m_relY = (double)pos().y()/(double)m_aImageSize.height();
-        m_relDX = (double)rect().width()/(double)m_aImageSize.width();
-        m_relDY = (double)rect().height()/(double)m_aImageSize.height();
-        */
-//cout << "ITEM change " << m_relX << " " << m_relY << " " << m_relDX << " " << m_relDY << endl;
-        if( m_pCallback )
-        {
-            m_pCallback->ItemModified( this );
         }
     }
     return QGraphicsRectItem::itemChange( change, value );
