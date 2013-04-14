@@ -24,19 +24,8 @@ void PlayInfoGraphicsView::SetDlg(PlayInfoDlgImpl * pDlg)
 
 void PlayInfoGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 {
-//    QMenu menu(this);
-//    menu.addAction("test1");
-//    menu.addAction("blub");
-
     PlayInfoContextMenu menu(this,m_pDlg);
     menu.exec(event->globalPos());
-}
-
-void PlayInfoGraphicsView::resizeEvent( QResizeEvent * pEvent )
-{
-    scene()->setSceneRect(0,0,this->width(),this->height());
-// TODO gulp --> dir GraphicsView sollte das neu zeichnen nicht an den dialog delegieren....
-    m_pDlg->sltRescaleImage();
 }
 
 // *******************************************************************

@@ -1000,11 +1000,6 @@ void PlayInfoDlgImpl::sltSetImage( const QImage & aImage, bool bIsPlaying, int i
     }
 }
 
-void PlayInfoDlgImpl::sltRescaleImage()
-{
-    SetCurrentImage( m_aActImage );
-}
-
 void PlayInfoDlgImpl::SetCurrentImage( const QImage & aImage, bool bForceSet )
 {
 	m_aActImage = aImage;
@@ -1375,32 +1370,12 @@ void PlayInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 	}
 }
 
-/*
-// TODO --> kann ganz entfernt werden
 void PlayInfoDlgImpl::resizeEvent( QResizeEvent * pEvent )
 {
-// TODO gulp --> if fullscreen and controls not hidden --> hide them (workaround for restoring full screen)
-if( m_pRun->isVisible() )
-{
-//    FullScreen();
-}
     QDialog::resizeEvent( pEvent );
-
-  //  QRect aFrameRect = m_pCanvasView->frameRect();
-
-// TODO --> resize von GraphicsView in eigener Klasse behandeln !!! code verschieben wie bei DiaInfo Dialog
-	// ** update size of the canvas
-  //  m_pCanvasView->resize( pEvent->size().width(), pEvent->size().height() );
-//    cout << "resizeEvent " << m_pCanvasView->x() << " " << m_pCanvasView->y() << " " << m_pCanvasView->width() << " " << m_pCanvasView->height() << endl;
-  //  cout << " xxx " << aFrameRect.x() << " " << aFrameRect.y() << " " << aFrameRect.width() << " " << aFrameRect.height() << endl;
-//    cout << " yyy " << pEvent->size().width() << " " << pEvent->size().height() << endl;
-//    m_pScene->setSceneRect(0,0,aFrameRect.width()-4, aFrameRect.height()-4);
- //   m_pScene->setSceneRect(0,0,m_pCanvasView->width()-4, m_pCanvasView->height()-4);
-
-	// ** update the background image with the new size
-//	sltSetImage( m_aActImage );
+    // refresh the image...
+    SetCurrentImage( m_aActImage );
 }
-*/
 
 void PlayInfoDlgImpl::SetExpandImage( bool bExpand )
 {

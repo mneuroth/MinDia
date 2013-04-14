@@ -41,7 +41,6 @@ public:
     PlayInfoGraphicsView(QWidget *parent);
 
     virtual void contextMenuEvent(QContextMenuEvent *event);
-    virtual void resizeEvent( QResizeEvent * pEvent );
 
     void SetDlg(PlayInfoDlgImpl * pDlg);
 

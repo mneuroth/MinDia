@@ -187,7 +187,6 @@ public slots:
     virtual void sltPlay();
     virtual void sltFullScreen();
 
-    void sltRescaleImage();
     void sltSetImage( const QImage & aImage, bool bIsPlaying, int iDissolveTimeInMS );
     void sltFadeInImage( const QImage & aNewImage, int iFadeInTimeInMS );
 
@@ -212,7 +211,7 @@ protected:
 	virtual void showEvent( QShowEvent * pShowEvent ); 
 	virtual void done( int iRet );
 	virtual void keyPressEvent( QKeyEvent * pEvent ); 
-    //virtual void resizeEvent( QResizeEvent * pEvent );
+    virtual void resizeEvent( QResizeEvent * pEvent );
 
 private:
     // ** help methods **
