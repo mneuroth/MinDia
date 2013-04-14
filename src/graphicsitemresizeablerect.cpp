@@ -22,13 +22,9 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
-#include <QGraphicsWidget>
 #include <QCursor>
 
 #include <math.h>
-
-#include <iostream>
-using namespace std;
 
 inline bool IsInRange( double value, double pos, double delta )
 {
@@ -57,20 +53,13 @@ GraphicsItemResizeableRect::GraphicsItemResizeableRect( GraphicsItemChangedCallb
 void GraphicsItemResizeableRect::Rescale( QSize aImageSize )
 {
     m_aImageSize = aImageSize;
-    QSize aMaxSize = QSize( aImageSize.width(), aImageSize.height() );
-    QSize aSize = GetRatioSizeForAvailableSize( aMaxSize, m_Ratio );
-    cout << "RESCALE max: " << aMaxSize.width() << " " << aMaxSize.height() << " ratio: " << aSize.width() << " " << aSize.height() << endl;
-    int dx = aSize.width();
-    int dy = aSize.height();
 
-// TODO --> hier noch das korrekte Ratio behandeln, falls image-ratio von desired-ratio abweicht verschiebt sich das Rechteck !
-//          ==> wird von ausserhalb geprueft !
+    QSize aRatioSize = GetRatioSize();
+    int dx = aRatioSize.width();
+    int dy = aRatioSize.height();
 
-//cout << "RESCALE data " << m_relX << " " << m_relY << " " << m_relDX << " " << m_relDY << " size " << dx << " " << dy << endl;
     setRect( 0, 0, Calc(m_relDX,dx), Calc(m_relDY,dy) );
-//cout << "--> " << Calc(m_relX,dx) << " " << Calc(m_relY,dy) << " " << Calc(m_relDX,dx) << " " << Calc(m_relDY,dy) << " sum=" << Calc(m_relX,dx)+Calc(m_relDX,dx) << endl ;
-//cout << "--> rect pos= " << pos().x() << " " << pos().y() << endl;
-    setPos( Calc(m_relX,dx), Calc(m_relY,dy) ); // triggert ggf. entsprechenden itemChange() Aufruf !
+    setPos( Calc(m_relX,dx), Calc(m_relY,dy) );
 }
 
 void GraphicsItemResizeableRect::SetClippingData( ImageRatio ratio, double relX, double relY, double relDX, double relDY )
@@ -92,49 +81,44 @@ void GraphicsItemResizeableRect::GetClippingData( double & relX, double & relY, 
 
 void GraphicsItemResizeableRect::CheckRectForClipping()
 {
-    QSize aMaxSize = QSize( m_aImageSize.width(), m_aImageSize.height() );
-    QSize aSize = GetRatioSizeForAvailableSize( aMaxSize, m_Ratio );
-    double dFacX = ((double)aMaxSize.width()/(double)aSize.width());
-    int dx = aSize.width();
-    int dy = aSize.height();
-    int x0 = Calc(m_relX,dx);
-    int y0 = Calc(m_relY,dy);
-    int dx0 = Calc(m_relDX,dx);
-    int dy0 = Calc(m_relDY,dy);
-    bool bContained = x0>=0.0 && x0+dx0<=aMaxSize.width() && y0>=0.0 && y0+dy0<=aMaxSize.height();
+    const double MIN_REL_SIZE = 0.05;
+
+    QSize aRatioSize = GetRatioSize();
+    double dFacX = (double)m_aImageSize.width()/(double)aRatioSize.width();
+    double dFacY = (double)m_aImageSize.height()/(double)aRatioSize.height();
 
     if( m_relX<0.0 )
     {
         m_relX = 0.0;
     }
-//    if( m_relX+m_relDX>1.0 )
-    if( x0+dx0>aMaxSize.width() )
-    {
-        if( dFacX>1.0 )
-        {
-            m_relX = dFacX-m_relDX;
-        }
-        else
-        {
-            m_relDX = 1.0;
-            m_relDY = m_relDX;
-        }
-        //m_relDX = 1.0-m_relX;
-//        m_relDX = ((double)aSize.width()/(double)aMaxSize.width())-m_relX;
-        m_relDX = 1.0;
-//        m_relDY = ((double)aMaxSize.width()/(double)aSize.width())-1.0;
-        m_relDY = m_relDX;
-    }
     if( m_relY<0.0 )
     {
         m_relY = 0.0;
     }
-    if( m_relY+m_relDY>1.0 )
+    if( m_relDX>1.0 )
     {
-        m_relDY = 1.0-m_relY;
-        m_relDX = m_relDY;
+        m_relDX = 1.0;
     }
-// TODO gulp: wenn original bild anderes Ratio hat liegt rect nicht nur im Bereich 0 < x+dx < 1.0 !
+    if( m_relDX<MIN_REL_SIZE )
+    {
+        m_relDX = MIN_REL_SIZE;
+    }
+    if( m_relDY<MIN_REL_SIZE )
+    {
+        m_relDY = MIN_REL_SIZE;
+    }
+    if( m_relDY>1.0 )
+    {
+        m_relDY = 1.0;
+    }
+    if( m_relX+m_relDX>dFacX )
+    {
+        m_relX = dFacX-m_relDX;
+    }
+    if( m_relY+m_relDY>dFacY )
+    {
+        m_relY = dFacY-m_relDY;
+    }
 }
 
 void GraphicsItemResizeableRect::mouseMoveEvent( QGraphicsSceneMouseEvent * event )
@@ -143,47 +127,28 @@ void GraphicsItemResizeableRect::mouseMoveEvent( QGraphicsSceneMouseEvent * even
     int deltaY = event->pos().y()-event->lastPos().y();
     double dx = (double)deltaX/(double)m_aImageSize.width();
     double dy = (double)deltaY/(double)m_aImageSize.height();
-//    double dFactor = (double)m_aImageSize.width()/(double)m_aImageSize.height();
 
-//    cout << "MOVE " << deltaX << " " << deltaY << " state: " << (int)m_aResizeState << " " << dx << " " << dy << endl;
-//    cout << " was " << m_relX << " " << m_relY << " " << m_relDX << " " << m_relDY << endl;
-
-    bool bHandled = false;
-    if( cursor().shape()==Qt::SizeHorCursor )
+    if( m_aResizeState==WEST )
     {
-        if( m_aResizeState==WEST )
-        {
-            m_relDX += -dx;
-            m_relX += dx;
-            m_relDY = m_relDX;
-        }
-        else
-        {
-            m_relDX += dx;
-            //m_relX += dx;
-            m_relDY = m_relDX;
-        }
-        CheckRectForClipping();
-        Rescale(m_aImageSize);
-        bHandled = true;
+        m_relDX += -dx;
+        m_relX += dx;
+        m_relDY = m_relDX;
     }
-    else if( cursor().shape()==Qt::SizeVerCursor )
+    else if( m_aResizeState==EAST )
     {
-        if( m_aResizeState==NORTH )
-        {
-            m_relDY += -dy;
-            m_relY += dy;
-            m_relDX = m_relDY;
-        }
-        else
-        {
-            m_relDY += dy;
-            //m_relY += dy;
-            m_relDX = m_relDY;
-        }
-        CheckRectForClipping();
-        Rescale(m_aImageSize);
-        bHandled = true;
+        m_relDX += dx;
+        m_relDY = m_relDX;
+    }
+    else if( m_aResizeState==NORTH )
+    {
+        m_relDY += -dy;
+        m_relY += dy;
+        m_relDX = m_relDY;
+    }
+    else if( m_aResizeState==SOUTH )
+    {
+        m_relDY += dy;
+        m_relDX = m_relDY;
     }
     else
     {
@@ -192,32 +157,32 @@ void GraphicsItemResizeableRect::mouseMoveEvent( QGraphicsSceneMouseEvent * even
         m_relY += dy;
     }
 
+    CheckRectForClipping();
+    Rescale(m_aImageSize);  // move item myself and do not let the library move the item
+                            // in the later case the logical and physical coodinates will
+                            // differ because of rounding errors !!!
+
     if( m_pCallback )
     {
         m_pCallback->ItemModified( this );
     }
 
-//    cout << " now " << m_relX << " " << m_relY << " " << m_relDX << " " << m_relDY << endl;
-
-    if( !bHandled )
-    {
-        QGraphicsRectItem::mouseMoveEvent( event );
-    }
+    //not used: QGraphicsRectItem::mouseMoveEvent( event );
 }
 
 void GraphicsItemResizeableRect::hoverMoveEvent( QGraphicsSceneHoverEvent * event )
 {
-    //cout << "hover " << event->pos().x() << " " << event->pos().y() << " scene: " << event->scenePos().x() << " " << event->scenePos().y() << endl;
+    const double DELTA = 5.0;
+
     QPointF pos = event->pos();
-    double delta = 5;
-    bool bWest = IsInRange( pos.x(), 0, delta );
-    bool bNorth = IsInRange( pos.y(), 0, delta );
-    if(  bWest || IsInRange( pos.x(), rect().width(), delta ) )
+    bool bWest = IsInRange( pos.x(), 0, DELTA );
+    bool bNorth = IsInRange( pos.y(), 0, DELTA );
+    if(  bWest || IsInRange( pos.x(), rect().width(), DELTA ) )
     {
         m_aResizeState = bWest ? WEST : EAST;
         setCursor( Qt::SizeHorCursor );
     }
-    else if( bNorth || IsInRange( pos.y(), rect().height(), delta ) )
+    else if( bNorth || IsInRange( pos.y(), rect().height(), DELTA ) )
     {
         m_aResizeState = bNorth ? NORTH : SOUTH;
         setCursor( Qt::SizeVerCursor );
@@ -230,53 +195,18 @@ void GraphicsItemResizeableRect::hoverMoveEvent( QGraphicsSceneHoverEvent * even
     QGraphicsRectItem::hoverMoveEvent( event );
 }
 
+/*
 QVariant GraphicsItemResizeableRect::itemChange( GraphicsItemChange change, const QVariant & value )
 {
-    //cout << "==> ITEM CHANGE " << change << endl;
     if( change==QGraphicsItem::ItemPositionChange )
     {
-        QPointF newPos = value.toPointF();
-
-        //cout << "pos change" << endl;
-        //cout << "--- " << scenePos().x() << " " << scenePos().y() << endl;
-        //cout << "*** POS CHANGE " << newPos.x() << " " << newPos.y() << " old: " << pos().x() << " " << pos().y() << " scene: " << rect.x() << " " << rect.y() << " " << rect.width() << " " << rect.height() << " contains=" << rect.contains(value.toPointF()) << endl;
-
-        bool bOk = true;
-        double x = (double)(newPos.x())/(double)m_aImageSize.width();
-        if( x<0.0 || x+m_relDX>1.0)
-        {
-            if( x<0.0 )
-            {
-                newPos.setX(0);
-                m_relX = 0.0;
-            }
-            else
-            {
-                newPos.setX((1.0-m_relDX)*(double)m_aImageSize.width());
-                m_relX = 1.0-m_relDX;
-            }
-            bOk = false;
-        }
-        double y = (double)(newPos.y())/(double)m_aImageSize.height();
-        if( y<0.0 || y+m_relDY>1.0)
-        {
-            if( y<0.0 )
-            {
-                newPos.setY(0);
-                m_relY = 0.0;
-            }
-            else
-            {
-                newPos.setY((1.0-m_relDY)*(double)m_aImageSize.height());
-                m_relY = 1.0-m_relDY;
-            }
-            bOk = false;
-        }
-
-        if( !bOk )
-        {
-           return newPos;
-        }
     }
     return QGraphicsRectItem::itemChange( change, value );
 }
+*/
+
+QSize GraphicsItemResizeableRect::GetRatioSize() const
+{
+    return GetRatioSizeForAvailableSize( m_aImageSize, m_Ratio );
+}
+

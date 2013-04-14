@@ -22,6 +22,7 @@
 #define GRAPHICSITEMRESIZEABLERECT_H
 
 #include <QGraphicsRectItem>
+#include <QSize>
 
 #include "misctools.h"
 
@@ -52,10 +53,11 @@ public:
     virtual void mouseMoveEvent( QGraphicsSceneMouseEvent * event );
     virtual void hoverMoveEvent( QGraphicsSceneHoverEvent * event );
 
-    virtual QVariant itemChange( GraphicsItemChange change, const QVariant & value );
+    //virtual QVariant itemChange( GraphicsItemChange change, const QVariant & value );
 
 private:
     void CheckRectForClipping();
+    QSize GetRatioSize() const;
 
     ImageRatio                      m_Ratio;
     double                          m_relX;
