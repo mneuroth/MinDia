@@ -97,8 +97,6 @@ void ProjectorControlDlgImpl::DoDialogEnable( bool bEnable )
         
 		QWidget * pWidget = (QWidget *)pItem;
 
-//TODO:        cout << "enable: " << (const char *)pWidget->objectName().constData() << endl;
-
         if( pWidget->isWidgetType() /*&& !pWidget->inherits("QGroupBox")*/)
         {
             pWidget->setEnabled( bEnable );
@@ -118,17 +116,12 @@ void ProjectorControlDlgImpl::DoDialogEnable( bool bEnable )
 
 void ProjectorControlDlgImpl::sltDirectMode()
 {
-// min todo
-//	doEnable( false );
-
 	if( m_pProjectorCom )
 	{
 		CheckReturn( m_pProjectorCom->DirectMode( DoSynchronCmd() ) );
 		// ** do a mode-check after mode-switch 
 		CheckMode();
 	}
-
-//	doEnable( true );
 }
 
 void ProjectorControlDlgImpl::sltGetSlideNo()
@@ -322,7 +315,7 @@ void ProjectorControlDlgImpl::switchToDirectMode()
 	// ** and than selectivly disable controls
 	bool bValue = false;
 	m_pDirectMode->setEnabled( bValue );
-// todo --> hier ggf. forward und backward button enablen !!! --> neue Widget Hirachie --> aderes verhalten von enable/disable !!!
+// todo --> hier ggf. forward und backward button enablen !!! --> neue Widget Hirachie --> anderes verhalten von enable/disable !!!
     m_pTestButton->setEnabled( true );
 }
 

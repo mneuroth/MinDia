@@ -190,7 +190,7 @@ string DiaInfo::GetScript() const
 bool DiaInfo::SetScript( const string & sScript )
 {
 	m_sScript = sScript;
-	// todo --> ggf. syntax check ?
+    // ggf. syntax check ?
 	return true;
 }
 

@@ -169,34 +169,17 @@ string DocumentAndControler::GetPlayModusStrg() const
 {
 	if( IsPlayModus() )
 	{
-		return "PLAY";
+        return "PLAY";
 	}
 	else if( IsPauseModus() )
 	{
-		return "PAUSE";
+        return "PAUSE";
 	}
 	else
 	{
-		return "EDIT";
+        return "EDIT";
 	}
-	return "UNKNOWN";
-
-/*
-// min todo --> probleme bei der Anzeige ???	
-	if( IsPlayModus() )
-	{
-        return tr( "PLAY" );
-	}
-	else if( IsPauseModus() )
-	{
-        return tr( "PAUSE" );
-	}
-	else
-	{
-        return tr( "EDIT" );
-	}	
-    return tr( "UNKNOWN" );
-*/
+    return "UNKNOWN";
 }
 
 string DocumentAndControler::GetName() const
