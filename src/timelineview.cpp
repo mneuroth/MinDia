@@ -927,7 +927,7 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
             }
 
             // update the play info dialog with image of current play position moved by mouse cursor
-            bool bShiftPressed = true; //((pEvent->modifiers() & Qt::ShiftModifier) == Qt::ShiftModifier);
+            bool bShiftPressed = ((pEvent->modifiers() & Qt::ShiftModifier) == Qt::ShiftModifier);
             if( bShiftPressed )
             {
                 SetPlayMark(dTime);
@@ -986,9 +986,6 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
 	{
 		QString sFileName;
 
-// TODO
-		QPoint aPos = pEvent->pos();
-
 		if( IsDiaDataFileDrag( pEvent, sFileName ) )
 		{
 			emit sigLoadDoc( sFileName, true );
@@ -1002,80 +999,13 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
                 QList<QUrl> aLst = pEvent->mimeData()->urls();
 				for( int i=0; i<(int)aLst.count(); i++ )
 				{
+                    // get length of sound file asynchroniously !
+                    // this is needed because otherwise the qt phonon framework does not deliver the correct length (unix)
                     QEvent * pEvent = new GetSoundLengthEvent(aLst.at(i).toLocalFile(),this);
                     QApplication::postEvent(m_pParent,pEvent);
-// TODO gulp --> hier die laenge der sound datei schon mitgeben... --> asynchrone behandlung ! ==> laenge der sound datei in datei speichern !
-// erzeuge asynchron eine liste der SoundInfo() Objekte mit korrekten zeiten --> setze sound file am player und warte auf signal totalTimeChanged
-                    //aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( (const char *)aLst.at(i).toLocalFile().toAscii(), /*TODO*/1000 ) ) );
-                    //aSoundContainer.SetChanged();
 				}
-                //aSoundContainer.UpdateAllLengths();
-                //emit sigViewDataChanged();
-			}
-            
-//			const char * s;
-//			QString sFileName;
-//
-//			if( Q3UriDrag::decode( pEvent, aStrList ) )
-//			{
-//				for( int i=0; i<(int)aStrList.count(); i++ )
-//				{
-//					const QString sTest = aStrList.at(i);
-//					s = (const char *)sTest;
-//					sFileName = Q3UriDrag::uriToLocalFile( s );
-//					s = (const char *)sFileName;
-//
-//					aSoundContainer.push_back( minHandle<SoundInfo>( new SoundInfo( s ) ) );
-//					aSoundContainer.SetChanged();
-//				}
-//				emit sigViewDataChanged();
-//			}
+			}            
 		}
-	/*	else if( QUriDrag::decode( pEvent, aStrList ) )
-		{
-			const char * s;
-			QString sFileName;
-
-			for( int i=0; i<aStrList.count(); i++ )
-			{
-				const QString sTest = aStrList.at(i);
-				s = (const char *)sTest;
-				sFileName = QUriDrag::uriToLocalFile( s );
-				s = (const char *)sFileName;
-
-				if( IsDiaDataFile( s ) )
-				{
-					emit sigLoadDoc( sFileName, true );
-				}
-			}
-
-			// min todo --> ggf. auf *.dia pruefen
-
-			// otherwise it is maybe an image ?
-
-            bool bOk = ReadQImage( sFileName, aImage );
-			//bool bOk = aImage.load( s1 );
-		}
-	*/	/*else if( Q3TextDrag::decode( pEvent, sText ) )
-		{
-			const char * s = (const char *)sText;
-
-			Q3Url aUrl( sText );
-
-			bool bOk = aUrl.isValid();
-			bOk = aUrl.isLocalFile();
-
-			QString sName = aUrl.fileName();
-			QString sPath = aUrl.dirPath();
-
-			s = (const char *)sName;
-			s = (const char *)sPath;
-
-			QString sFullName = sPath + sName;
-			sFullName = sFullName.left( sFullName.length()-2 );
-			s = (const char *)sFullName;
-			bOk = aImage.load( sFullName );
-		}*/
 	}
 }
 
@@ -1203,11 +1133,7 @@ int TimeLineView::GetItemForPosX( int x )
 	return -1;
 }
 
-/*  gulp working
- *
- *   music_file.mp3 --> (music_file.mp3,length_in_ms) -->
- *
- **/
+// **************************************************************************
 
 GetSoundLengthEvent::GetSoundLengthEvent( const QString & sFileName, QWidget * pRequester )
 : QEvent( (Type) (_USER_EVENT_GET_SOUND_LENGTH) )

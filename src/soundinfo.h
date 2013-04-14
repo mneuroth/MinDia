@@ -164,20 +164,6 @@ private:
 class SoundInfoContainer;
 
 // *******************************************************************
-// TODO --> workaround for async sound length problem...
-/*
-class UpdateLengths : public QThread
-{
-public:
-    UpdateLengths(SoundInfoContainer & aContainer);
-
-    virtual void run();
-
-private:
-    SoundInfoContainer &  m_aContainer;
-};
-*/
-// *******************************************************************
 /** Container to hold sound-info-items. */
 class SoundInfoContainer : public IOContainer<SoundInfo>, public ObjectChanged
 {
