@@ -2,31 +2,14 @@
  *
  *	project				 : MinDia
  *
- *	copyright            : (C) 2002-2003 by Michael Neuroth
- *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/dyngraphop.h,v $
- *
- *  $Revision: 1.4 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.3  2004/02/16 19:51:29  min
- *	Proted to Qt 3.2.1
- *	
- *	Revision 1.2  2004/01/18 23:50:15  min
- *	Bugfixes and new class for relative position of text implemented.
- *	
- *	Revision 1.1.1.1  2003/08/15 16:38:21  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
+ *	copyright            : (C) 2002 by Michael Neuroth
  *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002-2003 by Michael Neuroth.							   *
+ * Copyright (C) 2013 by Michael Neuroth.	   						       *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
