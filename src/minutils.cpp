@@ -52,8 +52,6 @@
 
 #include "minutils.h"
 
-#include "osdep2.h"
-
 #include <stdio.h>
 
 #ifdef _WIN32

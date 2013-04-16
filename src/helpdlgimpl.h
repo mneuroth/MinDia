@@ -4,24 +4,12 @@
  *
  *	copyright            : (C) 2004 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/helpdlgimpl.h,v $
- *
- *  $Revision: 1.2 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.1  2004/02/21 14:59:02  min
- *	Help dialog improved
- *	
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2004 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *

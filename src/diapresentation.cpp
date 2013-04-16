@@ -18,8 +18,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "osdep2.h"
-
 #include "diapresentation.h"
 #include "diacallback.h"
 #include "rolleicom.h"

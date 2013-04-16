@@ -4,20 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/mincmdproc.cpp,v $
- *
- *  $Revision: 1.1.1.1 $
- *
- *	$Log: not supported by cvs2svn $
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -28,13 +20,14 @@
 
 #include "mincmdproc.h"
 
-#include "osdep2.h"
 #include "rolleicom.h"
 
 //#define _with_min_threads
 
 //#include <iostream>
 //using namespace std;
+
+#include <QThread>
 
 #if defined(__linux__) || defined(__APPLE__)
 pthread_mutex_t g_aRecursiveMutex;
@@ -70,7 +63,7 @@ minCmdProcessor::minCmdProcessor( RolleiCom * pProjector )
 minCmdProcessor::~minCmdProcessor()
 {
 	Stop();
-	minSleep( 100 );
+    QThread::msleep( 100 );
 
 //	delete m_pSyncObj;
 }
@@ -174,7 +167,7 @@ void minCmdProcessor::run()
 		}
 		else
 		{
-			minSleep( 10 );
+            QThread::msleep( 10 );
 		}
 	}
 

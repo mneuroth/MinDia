@@ -4,29 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/hitemview.cpp,v $
- *
- *  $Revision: 1.4 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.3  2004/01/29 21:28:12  min
- *	Bugfix: disable drag & drop in run modus
- *	
- *	Revision 1.2  2004/01/18 23:48:07  min
- *	Changes for disabling compiler warnings.
- *	
- *	Revision 1.1.1.1  2003/08/15 16:38:21  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *

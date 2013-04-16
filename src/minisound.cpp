@@ -4,29 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/minisound.cpp,v $
- *
- *  $Revision: 1.4 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.3  2004/02/16 19:47:25  min
- *	Fixes for Borland C++
- *	
- *	Revision 1.2  2004/01/18 23:38:18  min
- *	Disabling debug outputs.
- *	
- *	Revision 1.1.1.1  2003/08/15 16:38:21  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -34,8 +17,6 @@
  * (at your option) any later version.                                     *
  *                                                                         *
  ***************************************************************************/
-
-//#include "osdep2.h"
 
 #include "minisound.h"
 
