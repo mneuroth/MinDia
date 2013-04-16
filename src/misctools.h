@@ -48,9 +48,6 @@ QImage CreateWhiteImage();
 
 QImage GetImageFromFileName( const QString & sImageFileName );
 
-//QRect GetArea( const QSize & aImageSize, double relX, double relY, double relDX, double relDY );
-bool IsFullArea( double relX, double relY, double relDX, double relDY );
-
 QImage CopyImageArea( const QImage & aImage, double relX, double relY, double relDX, double relDY );
 
 bool ReadQImage( const QString & sFileName, QImage & aImageOut );
@@ -78,8 +75,6 @@ QString ConvertToAbsPath( const QString & sPath, const QString & sDir );
 string ConvertToAbsPath( const string & sPath, const string & sDir );
 
 ImageRatio GetCurrentImageRatio();
-
-QSize GetMaximumSizeFor( QSize aSize, ImageRatio ratio );
 
 // return a size object for the given ratio
 // which fits perfectly into the given availabale size

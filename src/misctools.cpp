@@ -167,14 +167,85 @@ QImage GetImageFromFileName( const QString & sImageFileName )
     return aImage;
 }
 
-QRect GetArea( const QSize & aImageSize, double relX, double relY, double relDX, double relDY )
+static QSize GetSizeFor( ImageRatio ratio, QSize aSize = QSize(1920,1920) )
+{
+    const int dxRef = aSize.width();
+
+    switch( ratio )
+    {
+        case RATIO_16_9:
+            aSize.setWidth(dxRef);
+            aSize.setHeight(dxRef*9/16);
+            break;
+        case RATIO_3_2:
+            aSize.setWidth(dxRef);
+            aSize.setHeight(dxRef*2/3);
+            break;
+        case RATIO_4_3:
+            aSize.setWidth(dxRef);
+            aSize.setHeight(dxRef*3/4);
+            break;
+        case RATIO_IMAGE_RATIO:
+            // return unmodified size
+            break;
+        case RATIO_VARIABLE:
+            break;
+        case RATIO_USER:
+            // TODO
+            break;
+
+        case RATIO_UNDEFINED:
+        default:
+            ; // ignore
+    }
+
+    return aSize;
+}
+
+/*
+static QSize GetMaximumSizeFor( QSize aSize, ImageRatio ratio )
+{
+    QSize aRect = GetSizeFor( ratio );
+
+    aRect.scale( aSize, Qt::KeepAspectRatioByExpanding );
+
+    return aRect;
+}
+*/
+
+QSize GetRatioSizeForAvailableSize( QSize aAvailableSize, ImageRatio ratio )
+{
+    QSize aRet = GetSizeFor( ratio );
+
+    aRet.scale( aAvailableSize, Qt::KeepAspectRatio );
+
+    return aRet;
+}
+
+static QRect GetArea( const QSize & aSrcImageSize, double relX, double relY, double relDX, double relDY, ImageRatio targetRatio )
 {
     QRect rect;
 
-    rect.setX( (int)(((double)aImageSize.width())*relX) );
-    rect.setY( (int)(((double)aImageSize.height())*relY) );
-    rect.setWidth( (int)(((double)aImageSize.width())*relDX) );
-    rect.setHeight( (int)(((double)aImageSize.height())*relDY) );
+    QSize aRatioSize = GetRatioSizeForAvailableSize( aSrcImageSize, targetRatio );
+
+    double dSrcFactor = (double)aSrcImageSize.width()/(double)aSrcImageSize.height();
+    double dTargetFactor = (double)aRatioSize.width()/(double)aRatioSize.height();
+    double dFactorX = dTargetFactor/dSrcFactor;
+    double dFactorY = dSrcFactor/dTargetFactor;
+
+    if( dSrcFactor<dTargetFactor )
+    {
+        dFactorX = 1.0;
+    }
+    else
+    {
+        dFactorY = 1.0;
+    }
+
+    rect.setX( (int)(((double)aSrcImageSize.width())*relX*dFactorX) );
+    rect.setY( (int)(((double)aSrcImageSize.height())*relY*dFactorY) );
+    rect.setWidth( (int)(((double)aSrcImageSize.width())*relDX*dFactorX) );
+    rect.setHeight( (int)(((double)aSrcImageSize.height())*relDY*dFactorY) );
 
     return rect;
 }
@@ -186,14 +257,16 @@ inline bool IsInEpsilon( double value, double pos )
     return fabs(value-pos)<=EPSILON;
 }
 
-bool IsFullArea( double relX, double relY, double relDX, double relDY )
+/*
+static bool IsFullArea( double relX, double relY, double relDX, double relDY )
 {
     return IsInEpsilon( relX, 0.0 ) && IsInEpsilon( relY, 0.0 ) && IsInEpsilon( relDX, 1.0 ) && IsInEpsilon( relDY, 1.0 );
 }
+*/
 
 QImage CopyImageArea( const QImage & aImage, double relX, double relY, double relDX, double relDY )
 {
-    return aImage.copy( GetArea( aImage.size(), relX, relY, relDX, relDY ) );
+    return aImage.copy( GetArea( aImage.size(), relX, relY, relDX, relDY, GetCurrentImageRatio() ) );
 }
 
 bool ReadQImage( const QString & sFileName, QImage & aImageOut )
@@ -261,18 +334,8 @@ bool IsImageFileDrag( const QDropEvent * pEvent )
 			{
                 return false;
 			}
-
-////TODO Qt4:
-////            if( (aReader.imageFormat( sFileName )==/*0*/QImage::Format_Invalid) && !IsJPEG( s ) )
-////			if( !IsJPEG( s ) )
-//  //          QImageReader aReader(sFileName);
-//  //          if( !aReader.canRead() )
-//            if( QImage(sFileName ).isNull() )
-//			{
-//                return false;
-//			}
         }
-        
+
 		return true;
 	}
 
@@ -367,53 +430,25 @@ ImageRatio GetCurrentImageRatio()
     return GetCurrentPresentation()->GetImageRatio();
 }
 
-QSize GetSizeFor( ImageRatio ratio, QSize aSize = QSize(1920,1920) )
+static ImageRatio GetImageRatio( const QSize & aSize )
 {
-    const int dxRef = 1920;
+    double dFactor = (double)aSize.width()/(double)aSize.height();
 
-    switch( ratio )
+    if( IsInEpsilon( dFactor-1.333333333,EPSILON ) )
     {
-        case RATIO_16_9:
-            aSize.setWidth(dxRef);
-            aSize.setHeight(dxRef*9/16);
-            break;
-        case RATIO_3_2:
-            aSize.setWidth(dxRef);
-            aSize.setHeight(dxRef*2/3);
-            break;
-        case RATIO_4_3:
-            aSize.setWidth(dxRef);
-            aSize.setHeight(dxRef*3/4);
-            break;
-        case RATIO_IMAGE_RATIO:
-            // return unmodified size
-            break;
-        case RATIO_VARIABLE:
-            break;
-        case RATIO_USER:
-            // TODO
-            break;
-
-        case RATIO_UNDEFINED:
-        default:
-            ; // ignore
+        return RATIO_4_3;
     }
-
-    return aSize;
+    else if( IsInEpsilon( dFactor-1.5,EPSILON ) )
+    {
+        return RATIO_3_2;
+    }
+    else if( IsInEpsilon( dFactor-1.777777777,EPSILON ) )
+    {
+        return RATIO_16_9;
+    }
+    else
+    {
+        return RATIO_USER;
+    }
 }
 
-QSize GetMaximumSizeFor( QSize aSize, ImageRatio ratio )
-{
-    QSize aRect = GetSizeFor( ratio );
-
-    aRect.scale( aSize, Qt::KeepAspectRatio );
-
-    return aRect;
-}
-
-QSize GetRatioSizeForAvailableSize( QSize aAvailableSize, ImageRatio ratio )
-{
-    QSize aRet = GetSizeFor( ratio, aAvailableSize );
-    aRet.scale( aAvailableSize, Qt::KeepAspectRatio );
-    return aRet;
-}
