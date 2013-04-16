@@ -254,10 +254,8 @@ static int g_iTimerDelay = MAX_FADE_DELAY;
 // *******************************************************************
 // *******************************************************************
 
-void _FadeImage( QPainter * pPainter, const QRectF & area, int iFadeFactor, const QImage & aImagePrevious, const QImage & aImage )
+void _FadeImage( QPainter * pPainter, int iFadeFactor, const QImage & aImagePrevious, const QImage & aImage )
 {
-//    cout << "_FadeImage x=" << area.x() << " y=" << area.y() << " w=" << area.width() << " h=" << area.height() << endl;
-//    cout << "    image: " << aImagePrevious.width() << " " << aImagePrevious.height() << endl;
     double dFactor = (double)(iFadeFactor)/(double)MAX_FADE_FACTOR;
     double currentOpacity = pPainter->opacity();
 
@@ -266,10 +264,8 @@ void _FadeImage( QPainter * pPainter, const QRectF & area, int iFadeFactor, cons
     pPainter->setOpacity(1.0-dFactor);
 
 // TODO --> klaeren ob hier image erst scaliert werden sollen
-//    pPainter->drawImage(area,aImagePrevious/*,area*/);
     pPainter->drawImage(QPoint(0,0),aImagePrevious);
     pPainter->setOpacity(dFactor);
-//    pPainter->drawImage(area,aImage/*,area*/);
     pPainter->drawImage(QPoint(0,0),aImage);
 
     pPainter->setOpacity(currentOpacity);
@@ -312,13 +308,13 @@ private:
 
 #include <QPaintEngine>
 
-void SimpleBitmapScene::drawBackground( QPainter * pPainter, const QRectF & area )
+void SimpleBitmapScene::drawBackground( QPainter * pPainter, const QRectF & /*area*/ )
 {
 //    cout << "DRAW paintEngine " << pPainter->paintEngine() << " feat=" << (int) pPainter->paintEngine()->type() << endl;
 //    cout << "### scene " << sceneRect().x() << " " << sceneRect().y() << " " << sceneRect().width() << " " << sceneRect().height() << endl;
 //    QGraphicsView * pView = views().at(0);
 //    cout << "    view  " <<  pView->x() << " " <<  pView->y() << " sz: " << pView->width() << " " << pView->height() << endl;
-    _FadeImage(pPainter,area,m_iFadeFactor,*m_pImagePrevious,*m_pImage);
+    _FadeImage(pPainter,m_iFadeFactor,*m_pImagePrevious,*m_pImage);
 }
 
 // *******************************************************************
@@ -509,7 +505,7 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt
     connect( m_pScene, SIGNAL(sceneRectChanged(QRectF)), this, SLOT(sltSceneRectChanged(QRectF)) );
 }
 
-void PlayInfoDlgImpl::sltSceneRectChanged( const QRectF & rect )
+void PlayInfoDlgImpl::sltSceneRectChanged( const QRectF & /*rect*/ )
 {
 //    cout << "*** scene rect changed " << rect.width() << " " << rect.height() << endl;
 }

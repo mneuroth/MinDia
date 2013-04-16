@@ -4,38 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/diapresentation.cpp,v $
- *
- *  $Revision: 1.7 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.6  2004/02/26 22:20:21  min
- *	Fixes to compile MinDia for the Zaurus.
- *	
- *	Revision 1.5  2004/01/18 23:51:48  min
- *	General device driver included.
- *	
- *	Revision 1.4  2003/10/26 22:39:11  min
- *	Bugfix
- *	
- *	Revision 1.3  2003/10/26 17:36:05  min
- *	MakeRelativePaths() added.
- *	
- *	Revision 1.2  2003/08/15 19:38:32  min
- *	debug comments deleted
- *	
- *	Revision 1.1.1.1  2003/08/15 16:38:21  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -59,11 +33,10 @@
 
 #include <qobject.h>
 
-#include <qimage.h>
-#include <qpainter.h>
+#include <QImage>
+#include <QPainter>
 
-//QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor );
-void _FadeImage( QPainter * pPainter, const QRectF & area, int iFadeFactor, const QImage & aImagePrevious, const QImage & aImage );
+void _FadeImage( QPainter * pPainter, int iFadeFactor, const QImage & aImagePrevious, const QImage & aImage );
 
 // *******************************************************************
 // *******************************************************************
@@ -1375,10 +1348,7 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
             QImage aImage1;
 // TODO gulp --> ggf. inklusive image area cachen !
             ReadQImageOrEmpty( ToQString( hDia1->GetImageFile() ), aImage1 );
-            if( !IsFullArea(hDia1->GetRelX(), hDia1->GetRelY(), hDia1->GetRelDX(), hDia1->GetRelDY()) )
-            {
-                aImage1 = CopyImageArea( aImage1, hDia1->GetRelX(), hDia1->GetRelY(), hDia1->GetRelDX(), hDia1->GetRelDY() );
-            }
+            aImage1 = CopyImageArea( aImage1, hDia1->GetRelX(), hDia1->GetRelY(), hDia1->GetRelDX(), hDia1->GetRelDY() );
 
             if( iWidth<0 )
             {
@@ -1401,12 +1371,9 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
             {
                 QImage aImage2;
                 ReadQImageOrEmpty( ToQString( hDia2->GetImageFile() ), aImage2 );
-                if( !IsFullArea(hDia2->GetRelX(), hDia2->GetRelY(), hDia2->GetRelDX(), hDia2->GetRelDY()) )
-                {
-                    aImage2 = CopyImageArea( aImage2, hDia2->GetRelX(), hDia2->GetRelY(), hDia2->GetRelDX(), hDia2->GetRelDY() );
-                }
+                aImage2 = CopyImageArea( aImage2, hDia2->GetRelX(), hDia2->GetRelY(), hDia2->GetRelDX(), hDia2->GetRelDY() );
                 aImage2 = aImage2.scaled( iWidth, iHeight );
-                _FadeImage(&aPainter,QRectF(aRect),iFadeFactor,aImage1,aImage2);
+                _FadeImage(&aPainter,iFadeFactor,aImage1,aImage2);
             }
             else
             {
