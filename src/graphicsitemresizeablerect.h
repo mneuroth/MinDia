@@ -38,6 +38,7 @@ enum ResizeState
 class GraphicsItemChangedCallback
 {
 public:
+    virtual ~GraphicsItemChangedCallback() {}
     virtual void ItemModified( QGraphicsItem * pItem ) = 0;
 };
 
