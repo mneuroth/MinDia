@@ -39,6 +39,8 @@
 
 using namespace std;
 
+#include <QMutex>
+
 class minLoggingInterface;
 class minCmdProcessor;
 class minSyncObject;
@@ -156,7 +158,7 @@ private:
 	bool						m_bDoLogging;
 	bool						m_bStopGoFlag;
 	bool						m_bIgnoreComSettings;
-    string                     m_sComPort;
+    string                      m_sComPort;
 	int							m_iBaudrate;
 	int							m_iParityMode;
 	int							m_iStopBits;
@@ -164,7 +166,7 @@ private:
 	int							m_iFlowMode;			// new since 27.3.2002
 	int							m_iProjectorType;		// new since 22.3.2002
 	int							m_bIsPcMode;			// new since 14.9.2003 (Olaf Schlachter)
-	minSyncObject *				m_pComPortSync;			// new since 15.2.2003, to synchronize access to the Com-Port
+    QMutex                      m_aComPortSync;         // new since 15.2.2003, to synchronize access to the Com-Port
 };
 
 #endif

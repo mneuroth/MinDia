@@ -49,7 +49,6 @@ HEADERS         = diainfodlgimpl.h \
                   minhandle.h \
                   misctools.h \
                   appconfig.h \
-                  osdep2.h \
                   CreateMovieDlg4.h \
                   ../gendev/igendev.h \
                   ../minsrv/minbase.h \
