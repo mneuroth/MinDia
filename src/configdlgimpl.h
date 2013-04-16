@@ -1,27 +1,15 @@
-//Added by qt3to4:
-#include <QShowEvent>
-#include <QKeyEvent>
-#include <QCloseEvent>
 /**************************************************************************
  *
  *	project				 : MinDia
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/configdlgimpl.h,v $
- *
- *  $Revision: 1.1.1.1 $
- *
- *	$Log: not supported by cvs2svn $
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -32,6 +20,10 @@
 
 #ifndef _CONFIGDLGIMPL_H
 #define _CONFIGDLGIMPL_H
+
+#include <QShowEvent>
+#include <QKeyEvent>
+#include <QCloseEvent>
 
 #include "ui_ConfigurationDlg4.h"
 
