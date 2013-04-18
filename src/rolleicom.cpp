@@ -48,13 +48,9 @@ public:
 // *******************************************************************
 // *******************************************************************
 
-#if !defined(Q_OS_WIN32)
-#define _with_qextserial
-#endif
-
-#ifdef _with_qextserial
-
-#include "../qextserialport/src/qextserialport.h"
+//#include "../qextserialport/src/qextserialport.h"
+//#include "../qt-qtserialport/src/serialport/qserialport.h"
+#include <QtSerialPort/qserialport.h>
 
 #define MAX_READ_TIMEOUT    50  /*ms*/
 
@@ -84,7 +80,7 @@ struct RolleiComHelperData
 
     bool Open( const string & sComPort )
     {
-        m_pPort = new QextSerialPort(sComPort.c_str());
+        m_pPort = new QSerialPort(sComPort.c_str());
         m_pPort->open(QIODevice::ReadWrite);
         return IsOk();
     }
@@ -100,106 +96,104 @@ struct RolleiComHelperData
     {
         if( !bIgnoreComSettings )
         {
-            BaudRateType aBaudRate;
+            QSerialPort::BaudRate aBaudRate;
 
             switch( iBaudrate )
             {
-                case 110:
-                    aBaudRate = BAUD110;
-                    break;
-                case 300:
-                    aBaudRate = BAUD300;
-                    break;
+//                case 110:
+//                    aBaudRate = BAUD110;
+//                    break;
+//                case 300:
+//                    aBaudRate = BAUD300;
+//                    break;
                 case 1200:
-                    aBaudRate = BAUD1200;
+                    aBaudRate = QSerialPort::Baud1200;
                     break;
                 case 2400:
-                    aBaudRate = BAUD2400;
+                    aBaudRate = QSerialPort::Baud2400;
                     break;
                 case 4800:
-                    aBaudRate = BAUD4800;
+                    aBaudRate = QSerialPort::Baud4800;
                     break;
                 case 9600:
-                    aBaudRate = BAUD9600;
+                    aBaudRate = QSerialPort::Baud9600;
                     break;
                 case 19200:
-                    aBaudRate = BAUD19200;
+                    aBaudRate = QSerialPort::Baud19200;
                     break;
                 case 38400:
-                    aBaudRate = BAUD38400;
+                    aBaudRate = QSerialPort::Baud38400;
                     break;
                 case 57600:
-                    aBaudRate = BAUD57600;
+                    aBaudRate = QSerialPort::Baud57600;
                     break;
                 case 115200:
-                    aBaudRate = BAUD115200;
+                    aBaudRate = QSerialPort::Baud115200;
                     break;
                 default:
-                    aBaudRate = BAUD1200;
+                    aBaudRate = QSerialPort::Baud1200;
             }
 
-            DataBitsType aDataBits;
+            QSerialPort::DataBits aDataBits;
 
             switch( iDataBits )
             {
                 case 6:
-                    aDataBits = DATA_6;
+                    aDataBits = QSerialPort::Data6;
                     break;
                 case 7:
-                    aDataBits = DATA_7;
+                    aDataBits = QSerialPort::Data7;
                     break;
                 case 8:
-                    aDataBits = DATA_8;
+                    aDataBits = QSerialPort::Data8;
                     break;
                 default:
-                    aDataBits = DATA_7;
+                    aDataBits = QSerialPort::Data7;
             }
 
-            ParityType aParity = PAR_EVEN;
+            QSerialPort::Parity aParity = QSerialPort::EvenParity;
 
             if( iParityMode == RolleiCom::NONE )
             {
-                aParity = PAR_NONE;
+                aParity = QSerialPort::NoParity;
             }
             else if( iParityMode == RolleiCom::ODD )
             {
-                aParity = PAR_ODD;
+                aParity = QSerialPort::OddParity;
             }
             else if( iParityMode == RolleiCom::EVEN )
             {
-                aParity = PAR_EVEN;
+                aParity = QSerialPort::EvenParity;
             }
 
-            FlowType aFlowType = FLOW_OFF;
+            QSerialPort::FlowControl aFlowType = QSerialPort::NoFlowControl;
 
             if( iFlowMode == RolleiCom::NO_FLOW )
             {
-                aFlowType = FLOW_OFF;
+                aFlowType = QSerialPort::NoFlowControl;
             }
             if( iFlowMode == RolleiCom::HARDWARE_FLOW )
             {
-                aFlowType = FLOW_HARDWARE;
+                aFlowType = QSerialPort::HardwareControl;
             }
             if( iFlowMode == RolleiCom::XON_XOFF_FLOW )
             {
-                aFlowType = FLOW_XONXOFF;
+                aFlowType = QSerialPort::SoftwareControl;
             }
 
-            StopBitsType aStopBits = STOP_2;
+            QSerialPort::StopBits aStopBits = QSerialPort::TwoStop;
 
             if( sStopBitsStrg=="1" )
             {
-                aStopBits = STOP_1;
+                aStopBits = QSerialPort::OneStop;
             }
             if( sStopBitsStrg=="1.5" )
             {
-#if defined(Q_OS_WIN) || defined(qdoc)
-                aStopBits = STOP_1_5;
-#endif
+                aStopBits = QSerialPort::OneAndHalfStop;
             }
             if( sStopBitsStrg=="2" )
             {
-                aStopBits = STOP_2;
+                aStopBits = QSerialPort::TwoStop;
             }
 
             m_pPort->setBaudRate(aBaudRate);
@@ -207,7 +201,7 @@ struct RolleiComHelperData
             m_pPort->setParity(aParity);
             m_pPort->setFlowControl(aFlowType);
             m_pPort->setStopBits(aStopBits);
-            m_pPort->setTimeout(1000);
+            //TODO: not supported for QSerialPort: m_pPort->setTimeout(1000);
         }
         return true;
     }
@@ -303,10 +297,8 @@ struct RolleiComHelperData
         return -1;
     }
 
-    QextSerialPort * m_pPort;
+    QSerialPort * m_pPort;
 };
-
-#endif //_with_qextserial
 
 // *******************************************************************
 // *******************************************************************

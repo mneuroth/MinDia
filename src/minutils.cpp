@@ -83,19 +83,19 @@
 #endif
 
 #ifdef _WIN32
-typedef struct
-{
-	WORD day:5;
-	WORD month:4;
-	WORD year:7;
-} DOSDATE;
+//typedef struct
+//{
+//	WORD day:5;
+//	WORD month:4;
+//	WORD year:7;
+//} DOSDATE;
 
-typedef struct
-{
-	WORD twosecs:5;
-	WORD minutes:6;
-	WORD hours:5;
-} DOSTIME;
+//typedef struct
+//{
+//	WORD twosecs:5;
+//	WORD minutes:6;
+//	WORD hours:5;
+//} DOSTIME;
 #endif
 
 // *************************************************************************
@@ -380,7 +380,7 @@ const int MAX_BUFFER_LENGTH =	512;
 	//cout << "SPLIT: " << sPath << " --> " << sDirBuf << " *** " << sNameBuf << " *** " << sExtBuf << endl;
 	return true;
   }
-
+/*
   string FileUtilityObj::GetFullPath( const char * sFileName )
   {
 	char sBuffer[2048];
@@ -400,7 +400,7 @@ const int MAX_BUFFER_LENGTH =	512;
 
 	return sBuffer;
   }
-
+*/
     const char * FileUtilityObj::GetDirectorySeparatorStrg()
     {
 #if defined(__linux__) || defined(__APPLE__)
@@ -455,7 +455,7 @@ const int MAX_BUFFER_LENGTH =	512;
   {
   	  return rename( sName, sNewName ) == 0;
   }
-
+/*
   bool FileUtilityObj::_MoveFile( const char * sSource, const char * sTarget )
   {
 	  bool bOk = false;
@@ -471,22 +471,22 @@ const int MAX_BUFFER_LENGTH =	512;
 #endif
 	  return bOk;
   }
-  
-  bool FileUtilityObj::_CopyFile( const char * sSource, const char * sTarget )
-  {
-	  bool bOk = false;
-#ifdef _WIN32
-	  bOk = (bool)::CopyFile( (LPCTSTR)sSource, (LPCTSTR)sTarget, /*bFailIfExists*/(BOOL)false );	// immer ueberschreiben
-#endif
-#if defined(__linux__) || defined(__APPLE__)
-    sSource = sSource;
-    sTarget = sTarget;
-#ifdef _do_not_ignore_linux_errors
-#error not implemented yet (?)
-#endif
-#endif
-	  return bOk;
-  }
+*/
+//  bool FileUtilityObj::_CopyFile( const char * sSource, const char * sTarget )
+//  {
+//	  bool bOk = false;
+//#ifdef _WIN32
+//	  bOk = (bool)::CopyFile( (LPCTSTR)sSource, (LPCTSTR)sTarget, /*bFailIfExists*/(BOOL)false );	// immer ueberschreiben
+//#endif
+//#if defined(__linux__) || defined(__APPLE__)
+//    sSource = sSource;
+//    sTarget = sTarget;
+//#ifdef _do_not_ignore_linux_errors
+//#error not implemented yet (?)
+//#endif
+//#endif
+//	  return bOk;
+//  }
 
   unsigned long FileUtilityObj::GetFileSize( const char *sFileName )
   {
@@ -1290,63 +1290,64 @@ static string MakeRealPath( const string & sPathIn )
 //	}
 //}
 
-string SearchForExistingFileInEnv( const char * sEnvironment, const char * sFullFileName )
-{
-	if( FileUtilityObj::ExistsFile( sFullFileName )  )
-	{
-  		return FileUtilityObj::GetFullPath( sFullFileName );
-	}
-	else if( sEnvironment )
-	{
-		// nur wenn kein Laufwerk und kein Pfad angegeben wurde die Suche durchfuehren
-		string sDrive, sDir, sFileName, sExt;
-		// falls notwendig / in \ umwandeln
-		string sFullFileNameIn( sFullFileName );
-		sFullFileNameIn = MakePathToOSPath( sFullFileNameIn );
-		FileUtilityObj::SplitPath( sFullFileNameIn.c_str(), sDrive, sDir, sFileName, sExt );
-		if( sDrive.length()==0 /*&& sDir.length()==0*/ )
-		//if( FileUtilityObj::IsOnlyFileName( sFullFileName ) )
-		{
-			// nicht gefunden, d.h. jetzt in der uebergebenen Environment-Variable suchen
-			char * sEnvPath = getenv( sEnvironment );
-			if( sEnvPath )
-			{
-				string sTempEnvPath( sEnvPath );
 
-				bool bContinue = true;
-				int nPos = 0;
-				int nLastPos = 0;
-				do
-				{
-					nPos = sTempEnvPath.find( ";", nLastPos );
-					if( nPos!=(int)string::npos || nLastPos<(int)sTempEnvPath.length() )
-					{
-						// ist es ggf. der letzte Eintrag in der Environment-Variable ?
-						if( nPos==(int)string::npos )
-							nPos = sTempEnvPath.length();
+//string SearchForExistingFileInEnv( const char * sEnvironment, const char * sFullFileName )
+//{
+//	if( FileUtilityObj::ExistsFile( sFullFileName )  )
+//	{
+//  		return FileUtilityObj::GetFullPath( sFullFileName );
+//	}
+//	else if( sEnvironment )
+//	{
+//		// nur wenn kein Laufwerk und kein Pfad angegeben wurde die Suche durchfuehren
+//		string sDrive, sDir, sFileName, sExt;
+//		// falls notwendig / in \ umwandeln
+//		string sFullFileNameIn( sFullFileName );
+//		sFullFileNameIn = MakePathToOSPath( sFullFileNameIn );
+//		FileUtilityObj::SplitPath( sFullFileNameIn.c_str(), sDrive, sDir, sFileName, sExt );
+//		if( sDrive.length()==0 /*&& sDir.length()==0*/ )
+//		//if( FileUtilityObj::IsOnlyFileName( sFullFileName ) )
+//		{
+//			// nicht gefunden, d.h. jetzt in der uebergebenen Environment-Variable suchen
+//			char * sEnvPath = getenv( sEnvironment );
+//			if( sEnvPath )
+//			{
+//				string sTempEnvPath( sEnvPath );
 
-						string sTempPath = sTempEnvPath.substr( nLastPos, (nPos-nLastPos) );
-						if( sTempPath.length()>0 )
-						{
-							sTempPath += FileUtilityObj::GetDirectorySeparatorStrg();
-							sTempPath += sDir;
-							sTempPath += sFileName;
-							sTempPath += sExt;
-							if( FileUtilityObj::ExistsFile( sTempPath.c_str() )  )
-								return FileUtilityObj::GetFullPath( sTempPath.c_str() );
-						}
-						nLastPos = nPos+1;	// eins hinter dem gefundenen ; weitersuchen
-					}
-					else
-					{
-						bContinue = false;
-					}
-				} while( bContinue );
-			}
-		}
-	}
-	return "";
-}
+//				bool bContinue = true;
+//				int nPos = 0;
+//				int nLastPos = 0;
+//				do
+//				{
+//					nPos = sTempEnvPath.find( ";", nLastPos );
+//					if( nPos!=(int)string::npos || nLastPos<(int)sTempEnvPath.length() )
+//					{
+//						// ist es ggf. der letzte Eintrag in der Environment-Variable ?
+//						if( nPos==(int)string::npos )
+//							nPos = sTempEnvPath.length();
+
+//						string sTempPath = sTempEnvPath.substr( nLastPos, (nPos-nLastPos) );
+//						if( sTempPath.length()>0 )
+//						{
+//							sTempPath += FileUtilityObj::GetDirectorySeparatorStrg();
+//							sTempPath += sDir;
+//							sTempPath += sFileName;
+//							sTempPath += sExt;
+//							if( FileUtilityObj::ExistsFile( sTempPath.c_str() )  )
+//								return FileUtilityObj::GetFullPath( sTempPath.c_str() );
+//						}
+//						nLastPos = nPos+1;	// eins hinter dem gefundenen ; weitersuchen
+//					}
+//					else
+//					{
+//						bContinue = false;
+//					}
+//				} while( bContinue );
+//			}
+//		}
+//	}
+//	return "";
+//}
 
 string ToString( int iValue )
 {

@@ -386,7 +386,7 @@ void DiaInfoDlgImpl::SetDataChanged( bool bState )
 	m_pApplyAndNext->setEnabled( m_bDataChanged );
 	m_pApplyAndPrev->setEnabled( m_bDataChanged );
 
-	//emit sigDataChanged();
+    //emit sigDataChanged();
 	//emit sigUpdateViews();
 }
 

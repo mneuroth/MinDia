@@ -54,9 +54,9 @@ HEADERS         = diainfodlgimpl.h \
                   ../minsrv/minbase.h \
                   ../minsrv/dllbase.h \
                   playinfographicsview.h \
-    dynamictextitem.h \
-    playscreenediting.h \
-    graphicsitemresizeablerect.h
+                  dynamictextitem.h \
+                  playscreenediting.h \
+                  graphicsitemresizeablerect.h
 
 SOURCES         = diainfodlgimpl.cpp \
                   playinfodlgimpl.cpp \
@@ -96,9 +96,9 @@ SOURCES         = diainfodlgimpl.cpp \
                   ../minsrv/minbase.cpp \
                   ../minsrv/dllbase.cpp \
                   playinfographicsview.cpp \
-    dynamictextitem.cpp \
-    playscreenediting.cpp \
-    graphicsitemresizeablerect.cpp
+                  dynamictextitem.cpp \
+                  playscreenediting.cpp \
+                  graphicsitemresizeablerect.cpp
 
 FORMS       = CreateMovieDlg4.ui \
                   PresentationDataDlg4.ui \
@@ -137,20 +137,40 @@ macx {
     QMAKE_INFO_PLIST = Info.plist
 }
 
+#win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/release/ -lqtserialport
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/debug/ -lqtserialportd
+#else:unix: LIBS += -L$$OUT_PWD/../qextserialport/ -lqtserialport
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qextserialport/release/ -lqextserialport
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qextserialport/debug/ -lqextserialportd
-else:unix: LIBS += -L$$OUT_PWD/../qextserialport/ -lqextserialport
+#INCLUDEPATH += $$PWD/../qt-qtserialport/include
+#DEPENDPATH += $$PWD/../qt-qtserialport/src/serialport
 
-INCLUDEPATH += $$PWD/../qextserialport
-DEPENDPATH += $$PWD/../qextserialport
+#win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qt-qtserialport/src/serialport/release/libqtserialport.a
+#else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qt-qtserialport/src/serialport/debug/libqtserialportd.a
+#else:unix: PRE_TARGETDEPS += $$OUT_PWD/../qt-qtserialport/src/serialport/libqtserialport.a
 
-win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qextserialport/release/libqextserialport.a
-else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qextserialport/debug/libqextserialportd.a
-else:unix: PRE_TARGETDEPS += $$OUT_PWD/../qextserialport/libqextserialport.a
+
+#win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/qextserialport/release/ -lqextserialport
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/qextserialport/debug/ -lqextserialport
+#else:symbian: LIBS += -lqextserialport
+#else:unix: LIBS += -L$$OUT_PWD/qextserialport/ -lqextserialport
+
+#INCLUDEPATH += $$PWD/qt-qtserialport
+#DEPENDPATH += $$PWD/qt-qtserialport
+
+#win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/qextserialport/release/qextserialport.lib
+#else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/qextserialport/debug/qextserialport.lib
+#else:unix:!symbian: PRE_TARGETDEPS += $$OUT_PWD/qextserialport/libqextserialport.a
+
 
 RESOURCES += \
     mindia.qrc
 
 
 
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/ -lQtSerialPort_debug
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/ -lQtSerialPort_debugd
+else:unix: LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/ -lQtSerialPort_debug
+
+INCLUDEPATH += $$PWD/../qt-qtserialport/include
+DEPENDPATH += $$PWD/../qt-qtserialport/src/serialport

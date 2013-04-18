@@ -996,6 +996,11 @@ void PlayInfoDlgImpl::sltSetImage( const QImage & aImage, bool bIsPlaying, int i
     }
 }
 
+void PlayInfoDlgImpl::Refresh()
+{
+    SetCurrentImage( m_aActImage );
+}
+
 void PlayInfoDlgImpl::SetCurrentImage( const QImage & aImage, bool bForceSet )
 {
 	m_aActImage = aImage;

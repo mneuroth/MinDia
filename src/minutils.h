@@ -72,8 +72,8 @@ class FileUtilityObj
 public:
   static bool _DeleteFile( const char * sFileName );
   static bool _RenameFile( const char * sName, const char * sNewName );
-  static bool _MoveFile( const char * sSource, const char * sTarget );
-  static bool _CopyFile( const char * sSource, const char * sTarget );
+  //static bool _MoveFile( const char * sSource, const char * sTarget );
+  //static bool _CopyFile( const char * sSource, const char * sTarget );
   static unsigned long GetFileSize( const char * sFileName );
   //static bool _GetFileTimeInfos( const char * sFileNameIn, FileTime & aFileTimeOut );
   static bool GetFileDate( const char * sFileNameIn, string & sDateOut );
@@ -90,7 +90,7 @@ public:
 //  static DriveInfoList GetAllLogicalDrives();
   static bool IsAbsPath( const char * sPath );
   static bool SplitPath( const char * sPath, string & sDrive, string & sDir, string & sFileName, string & sExt );
-  static string GetFullPath( const char * sFileName );
+  //static string GetFullPath( const char * sFileName );
   static string MakeSaveDOSPath( const char * sFullFileName );
   static string GetOnlyFileNameWithoutExt( const char * sFullFileName );	// liefert Dateinamen ohne Pfad und ohne Extention aus dem uebergebenen vollstaendigen Pfad
   static string GetOnlyExtention( const char * sFullFileName );			// liefert die Extention einer Datei (inkl. des Punktes, d.h. ".exe") aus dem uebergebenen vollstaendigen Pfad

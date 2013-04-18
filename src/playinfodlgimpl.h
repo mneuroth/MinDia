@@ -145,6 +145,7 @@ public:
     void SetImageRatio( ImageRatio ratio );
 
     void SetCurrentImage( const QImage & aImage, bool bForceSet = false );
+    void Refresh();
 
 	// ** implements the IDiaOutputWindow-(Script)Interface **
 	virtual bool	IsValid() const;
