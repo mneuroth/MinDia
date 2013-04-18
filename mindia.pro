@@ -2,8 +2,9 @@ TEMPLATE = subdirs
 #SUBDIRS  = minsrv \
 #           gendev \
 #           src
-SUBDIRS = qextserialport \
+SUBDIRS = qt-qtserialport\
           src
+
 
 OTHER_FILES += \
     android/AndroidManifest.xml \
@@ -25,3 +26,17 @@ OTHER_FILES += \
     android/src/eu/licentia/necessitas/mobile/QtMediaPlayer.java \
     android/src/eu/licentia/necessitas/mobile/QtSensors.java \
     android/src/eu/licentia/necessitas/mobile/QtSystemInfo.java
+
+#win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/qextserialport/release/ -lqextserialport
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/qextserialport/debug/ -lqextserialport
+#else:symbian: LIBS += -lqextserialport
+#else:unix: LIBS += -L$$OUT_PWD/qextserialport/ -lqextserialport
+
+#INCLUDEPATH += $$PWD/qt-qtserialport
+#DEPENDPATH += $$PWD/qt-qtserialport
+
+#win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/qextserialport/release/qextserialport.lib
+#else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/qextserialport/debug/qextserialport.lib
+#else:unix:!symbian: PRE_TARGETDEPS += $$OUT_PWD/qextserialport/libqextserialport.a
+
+
