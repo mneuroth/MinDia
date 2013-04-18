@@ -1755,6 +1755,9 @@ void MinDiaWindow::sltDoDataChanged()
 	sltDoUpdateAllViews();
 	sltDoDocumentStateUpdate();
 	//m_pControler->sltDataChanged();
+
+    // update content of play info dialog (clipping area):
+    sltItemSelected( m_iCount, m_pFirstSelectedItem, m_iFirstSelectedItemNo, 0 );
 }
 
 void MinDiaWindow::sltPlayFromSelected()
