@@ -1003,6 +1003,7 @@ void TimeLineView::dropEvent( QDropEvent * pEvent )
                     // this is needed because otherwise the qt phonon framework does not deliver the correct length (unix)
                     QEvent * pEvent = new GetSoundLengthEvent(aLst.at(i).toLocalFile(),this);
                     QApplication::postEvent(m_pParent,pEvent);
+                    // processing will be continued in customEvent() handling below
 				}
 			}            
 		}
