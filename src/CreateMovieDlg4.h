@@ -34,7 +34,9 @@ public slots:
     void sltSetToTemp();
     void sltImagesPerSecondsChanged( const QString & );
     void sltImageOutputChanged( const QString & );
-    void sltMovieOutputChanged( const QString &);
+    void sltMovieOutputChanged( const QString & );
+    void sltMovieExtensionChanged( const QString & );
+    void sltOutputDirectoryChanged( const QString & );
     void sltReadyReadStdOutput();
     void sltReadyReadStdError();
     void sltProcessFinished( int exitCode, QProcess::ExitStatus exitStatus );
