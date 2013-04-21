@@ -1,3 +1,5 @@
+#include(qt-qtserialport/src/serialport/serialport-lib.pri)
+
 PROJECT			= mindia
 TARGET			= mindia
 TEMPLATE        = app
@@ -137,40 +139,19 @@ macx {
     QMAKE_INFO_PLIST = Info.plist
 }
 
-#win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/release/ -lqtserialport
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/debug/ -lqtserialportd
-#else:unix: LIBS += -L$$OUT_PWD/../qextserialport/ -lqtserialport
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/release/ -lqtserialport
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/debug/ -lqtserialportd
+else:unix: LIBS += -L$$OUT_PWD/../qextserialport/ -lqtserialport
 
-#INCLUDEPATH += $$PWD/../qt-qtserialport/include
-#DEPENDPATH += $$PWD/../qt-qtserialport/src/serialport
+INCLUDEPATH += $$PWD/../qt-qtserialport/include
+DEPENDPATH += $$PWD/../qt-qtserialport/src/serialport
 
-#win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qt-qtserialport/src/serialport/release/libqtserialport.a
-#else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qt-qtserialport/src/serialport/debug/libqtserialportd.a
-#else:unix: PRE_TARGETDEPS += $$OUT_PWD/../qt-qtserialport/src/serialport/libqtserialport.a
-
-
-#win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/qextserialport/release/ -lqextserialport
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/qextserialport/debug/ -lqextserialport
-#else:symbian: LIBS += -lqextserialport
-#else:unix: LIBS += -L$$OUT_PWD/qextserialport/ -lqextserialport
-
-#INCLUDEPATH += $$PWD/qt-qtserialport
-#DEPENDPATH += $$PWD/qt-qtserialport
-
-#win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/qextserialport/release/qextserialport.lib
-#else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/qextserialport/debug/qextserialport.lib
-#else:unix:!symbian: PRE_TARGETDEPS += $$OUT_PWD/qextserialport/libqextserialport.a
-
+win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qt-qtserialport/src/serialport/release/libqtserialport.a
+else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qt-qtserialport/src/serialport/debug/libqtserialportd.a
+else:unix: PRE_TARGETDEPS += $$OUT_PWD/../qt-qtserialport/src/serialport/libqtserialport.a
 
 RESOURCES += \
     mindia.qrc
 
 
 
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/ -lQtSerialPort_debug
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/ -lQtSerialPort_debugd
-else:unix: LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/ -lQtSerialPort_debug
-
-INCLUDEPATH += $$PWD/../qt-qtserialport/include
-DEPENDPATH += $$PWD/../qt-qtserialport/src/serialport
