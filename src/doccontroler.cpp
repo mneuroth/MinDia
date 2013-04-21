@@ -823,8 +823,10 @@ void DocumentAndControler::ExecuteScript( bool bDissolve, const string & sScript
 QApplication * GetApplication();
 
 int DocumentAndControler::CreateImagesForMovie( 
+        QWidget * pOwner,
 		const string & sOutputDirectory, 
 		const string & sFileNameOffset, 
+        const string & sDirSeparator,
 		int iWidth, 
 		int iHeight, 
 		double dStartMS, 
@@ -843,10 +845,10 @@ int DocumentAndControler::CreateImagesForMovie(
 	int iCount = 0;
     //if( InitImageCache( aImageCache, GetPresentation(), iWidth, iHeight ) )
 	{		
-        QProgressDialog aProgress( QObject::tr("creating images for movie"), QObject::tr("Cancel"), 0, (int)dStopMS/*, 0, "progress", TRUE*/ );
-
-        aProgress.show();
+        QProgressDialog aProgress( QObject::tr("creating images for movie"), QObject::tr("Cancel"), 0, (int)dStopMS, pOwner/*, 0, "progress", TRUE*/ );
+        //aProgress.setWindowModality(Qt::WindowModal);
         aProgress.setValue( 0 );
+        aProgress.show();
 
 		string sLastFileName;
 		double dTimeMS = dStartMS;
@@ -855,7 +857,9 @@ int DocumentAndControler::CreateImagesForMovie(
 			//bool bForcePainting = true;
             // /Users/min/Documents/home/Entwicklung/projects/mindia_qt4/src/
             QString sBuffer;
-            sBuffer = QString( "%1/%2%3.jpg" ).arg( ToQString( sOutputDirectory ) ).arg( ToQString( sFileNameOffset ) ).arg(iCount);
+            QString sFileName;
+            sFileName.sprintf( sFileNameOffset.c_str(), iCount );
+            sBuffer = QString( "%1%2%3.jpg" ).arg( ToQString( sOutputDirectory ) ).arg( ToQString( sDirSeparator ) ).arg( sFileName );
 
 			if( GetPresentation().IsNextSlideChanging( dTimeMS, dDeltaMS ) )
 			{
