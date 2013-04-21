@@ -121,7 +121,7 @@ void miniSound::AsyncGetTotalLengthForFile( const QString & sWavFileName, QWidge
         m_pRequester = pRequester;
         SetWavFile( sWavFileName );
         // ggf. sound ausschalten
-        Start(0);
+        Start(999999999);     // get the length for the last sound file (new files will always appended !)
     }
 }
 
