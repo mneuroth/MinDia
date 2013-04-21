@@ -130,7 +130,7 @@ public:
 	bool					UpdateDissolveTimeForDia( int iIndex, double dDeltaTime );
 
 	// ** handling of the presentation (play-modus) **
-	double					GetTotalTime() const;
+    double					GetTotalTime() const;               // in seconds
 	double					GetActPlayTime() /*const*/;
 	double					GetActSoundPlayTime() /*const*/;
 	double					GetCountDownTime() /*const*/;

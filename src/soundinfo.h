@@ -90,7 +90,7 @@ public:
 	int		GetStartPos() const;
 	int		GetStopPos() const;
 	int		GetDelta() const;
-	int		GetTotalLength() const;
+    int		GetTotalLength() const;             // in milli seconds
 	int		GetFadeInStartPos() const;
 	int		GetFadeInLength() const;
 	int		GetFadeOutStartPos() const;
