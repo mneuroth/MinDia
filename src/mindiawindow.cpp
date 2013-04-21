@@ -319,6 +319,7 @@ void MinDiaWindow::CreateMenus()
     m_pFileExportAction->setStatusTip( tr( "Export presentation" ) );
 	connect( m_pFileExportAction, SIGNAL( activated() ), this, SLOT( sltExportDoc() ) );
     m_pFileExportAVIAction = new QAction( tr( "Export as &AVI..." ), this );
+    m_pFileExportAVIAction->setShortcut(Qt::Key_F8);
     m_pFileExportAVIAction->setStatusTip( tr( "Export presentation as AVI video" ) );
 	connect( m_pFileExportAVIAction, SIGNAL( activated() ), this, SLOT( sltExportAVI() ) );
     m_pFileExportDynGraphAction = new QAction( tr( "Export dyn. &graphics..." ), this );
@@ -1757,6 +1758,7 @@ void MinDiaWindow::sltDoDataChanged()
 	//m_pControler->sltDataChanged();
 
     // update content of play info dialog (clipping area):
+// TODO gulp working --> problem mit delete items !!! --> deselektieren !?
     sltItemSelected( m_iCount, m_pFirstSelectedItem, m_iFirstSelectedItemNo, 0 );
 }
 
