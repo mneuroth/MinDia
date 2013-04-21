@@ -80,7 +80,7 @@ struct RolleiComHelperData
 
     bool Open( const string & sComPort )
     {
-        m_pPort = new QSerialPort(sComPort.c_str());
+        m_pPort = new QSerialPort(ToQString(sComPort),0);
         m_pPort->open(QIODevice::ReadWrite);
         return IsOk();
     }
@@ -196,11 +196,13 @@ struct RolleiComHelperData
                 aStopBits = QSerialPort::TwoStop;
             }
 
+// TODO gulp working: problems with static linking: http://qt-project.org/forums/viewthread/26229
             m_pPort->setBaudRate(aBaudRate);
             m_pPort->setDataBits(aDataBits);
             m_pPort->setParity(aParity);
             m_pPort->setFlowControl(aFlowType);
             m_pPort->setStopBits(aStopBits);
+
             //TODO: not supported for QSerialPort: m_pPort->setTimeout(1000);
         }
         return true;
