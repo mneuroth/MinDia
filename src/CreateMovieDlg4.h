@@ -29,10 +29,11 @@ public slots:
     void sltAddSound();
     void sltCreateVCD();
     void sltMakeShow();
-    void sltDeleteTempFiles();
+    void sltDeleteTempFiles( bool bAsk = true );
     void sltChangeMjpegToolsDirectory();
     void sltSetToTemp();
     void sltImagesPerSecondsChanged( const QString & );
+    void sltImageExtensionChanged( const QString & );
     void sltImageOutputChanged( const QString & );
     void sltMovieOutputChanged( const QString & );
     void sltMovieExtensionChanged( const QString & );

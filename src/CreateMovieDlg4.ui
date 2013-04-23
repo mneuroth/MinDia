@@ -46,7 +46,7 @@
           <item row="0" column="1" colspan="3">
            <widget class="QLineEdit" name="m_pImageNameOffset"/>
           </item>
-          <item row="0" column="5" colspan="4">
+          <item row="0" column="6" colspan="3">
            <spacer name="horizontalSpacer_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -286,13 +286,16 @@
           <item row="1" column="5">
            <widget class="QComboBox" name="m_pMovieExtension"/>
           </item>
+          <item row="0" column="5">
+           <widget class="QComboBox" name="m_pImageExtension"/>
+          </item>
          </layout>
         </widget>
        </item>
        <item row="1" column="0">
         <widget class="QGroupBox" name="groupBox2">
          <property name="title">
-          <string>AVI</string>
+          <string>Movie</string>
          </property>
          <layout class="QGridLayout">
           <item row="0" column="0">
@@ -914,6 +917,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>m_pImageExtension</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>CreateMovieDlg4</receiver>
+   <slot>sltImageExtensionChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>549</x>
+     <y>72</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>748</x>
+     <y>12</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>sltCreateImages()</slot>
@@ -931,5 +950,6 @@
   <slot>sltSetToTemp()</slot>
   <slot>sltOutputDirectoryChanged(QString)</slot>
   <slot>sltMovieExtensionChanged(QString)</slot>
+  <slot>sltImageExtensionChanged(QString)</slot>
  </slots>
 </ui>

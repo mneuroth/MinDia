@@ -24,9 +24,14 @@
 #define CMD_TEST        "/opt/local/bin/mpg123 -q /Users/min/Documents/home/Entwicklung/projects/mindia/MinDia.zip/examples/01_WalkThroughTheWorld.mp3" // ls -lrt >/Users/min/Documents/home/Entwicklung/projects/mindia/MinDia.zip/examples/outdir.txt"
 #endif
 
+// for resolutions see: http://de.wikipedia.org/wiki/Standard_Definition_Television
 const QString g_sDefaultSize1 = QObject::tr("400:304");
 const QString g_sDefaultSize2 = QObject::tr("576:400");
-const QString g_sDefaultSize3 = QObject::tr("1920:1080");
+// 768x576   // PAL (DVB)
+// 704x576   // PAL (DVD)
+// 720x576   // PAL (DV)
+const QString g_sDefaultSize3 = QObject::tr("1280:720");        // 720p:  hd ready
+const QString g_sDefaultSize4 = QObject::tr("1920:1080");       // 1080p: full hd
 const QString g_sSizeOfFirstImage = QObject::tr("size of first image");
 const QString g_sUserValue = QObject::tr("user value");
 
@@ -47,13 +52,18 @@ CreateMovieDlg4::CreateMovieDlg4(DocumentAndControler * pDocControler, double dT
     ui.m_pImageRatio->insertItem( 0, g_sDefaultSize1 );
     ui.m_pImageRatio->insertItem( 1, g_sDefaultSize2 );
     ui.m_pImageRatio->insertItem( 2, g_sDefaultSize3 );
-    ui.m_pImageRatio->insertItem( 3, g_sUserValue );
-    ui.m_pImageRatio->insertItem( 4, g_sSizeOfFirstImage );
+    ui.m_pImageRatio->insertItem( 3, g_sDefaultSize4 );
+    ui.m_pImageRatio->insertItem( 4, g_sUserValue );
+    ui.m_pImageRatio->insertItem( 5, g_sSizeOfFirstImage );
 
     ui.m_pMovieExtension->addItem("avi");
     ui.m_pMovieExtension->addItem("mov");
     ui.m_pMovieExtension->addItem("mp4");
     ui.m_pMovieExtension->addItem("mpg");
+
+    ui.m_pImageExtension->addItem("jpg");
+    ui.m_pImageExtension->addItem("bmp");
+    ui.m_pImageExtension->addItem("png");
 }
 
 CreateMovieDlg4::~CreateMovieDlg4()
@@ -78,6 +88,13 @@ void CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
         ui.m_pImageHeight->setEnabled( false );
     }
     else if( sValue==g_sDefaultSize3 )
+    {
+        ui.m_pImageWidth->setText( sValue.split(":")[0] );
+        ui.m_pImageHeight->setText( sValue.split(":")[1] );
+        ui.m_pImageWidth->setEnabled( false );
+        ui.m_pImageHeight->setEnabled( false );
+    }
+    else if( sValue==g_sDefaultSize4 )
     {
         ui.m_pImageWidth->setText( sValue.split(":")[0] );
         ui.m_pImageHeight->setText( sValue.split(":")[1] );
@@ -129,12 +146,12 @@ void CreateMovieDlg4::sltCreateImages()
     {
         if( QMessageBox::question(this,tr("Question"),tr("Temporary directory is not empty, remove all files in temporary directory?"),QMessageBox::Yes,QMessageBox::No)==QMessageBox::Yes)
         {
-            // TODO gulp --> temporary directory loeschen
+            sltDeleteTempFiles( false );
         }
     }
 
     int iCount = m_pDocControler->CreateImagesForMovie( this,
-              ToStdString( sDir ), ToStdString( sName ), ToStdString( QDir::separator() ),
+              ToStdString( sDir ), ToStdString( sName ), ToStdString( QDir::separator() ), ToStdString( ui.m_pImageExtension->currentText() ),
               iWidth, iHeight,
               0, m_pDocControler->GetPresentation().GetTotalTime()*1000, dDeltaInMS );
 
@@ -145,13 +162,23 @@ void CreateMovieDlg4::sltCreateImages()
 
 void CreateMovieDlg4::sltCreateAVI()
 {
+    // http://superuser.com/questions/409987/how-to-embed-multiple-audio-files-to-one-video-file-with-timeline-offset
+    // http://ffmpeg.org/trac/ffmpeg/wiki/How%20to%20concatenate%20(join,%20merge)%20media%20files
+    // http://zoid.cc/ffmpeg-audio-video/
+
+    // https://docs.google.com/file/d/0BxRalAlWlsgjclFzOTVKLTBGUnM/edit?usp=drive_web&pli=1
+
+    // concat files with ffpmeg: http://ffmpeg.org/trac/ffmpeg/wiki/How%20to%20concatenate%20(join,%20merge)%20media%20files
+    // ffmpeg -f concat -i test.txt -c copy outffmpeg.mp3
+    // ffmpeg -i "concat:WhistleTheme.mp3|01_WalkThroughTheWorld.mp3" -c copy outputff.mp3
+
     // ffmpeg -f image2 -i image%05d.jpg output.mpg
-    QString sName = ui.m_pImageNameOffset->text();
-    QString sOutput = ui.m_pMovieFileName->text();
-    QDir aTempDir(ui.m_pDirectoryName->text());
+    //QString sName = ui.m_pImageNameOffset->text();
+    //QString sOutput = ui.m_pMovieFileName->text();
+    //QDir aTempDir(ui.m_pDirectoryName->text());
 // TODO: check if sOutput eine extension besitzt, falls nicht eine dran haengen
 // TODO --> pfade korrekt setzen etc...
-    QString sCmd = QString("C:\\usr\\neurothmi\\Android\\mindia-1.0.2\\src\\debug\\ffmpeg -f image2 -i %1/%2.jpg %3").arg(aTempDir.absolutePath()).arg( sName ).arg( sOutput );
+    QString sCmd; // = QString("C:\\usr\\neurothmi\\Android\\mindia-1.0.2\\src\\debug\\ffmpeg -f image2 -i %1/%2.jpg %3").arg(aTempDir.absolutePath()).arg( sName ).arg( sOutput );
 
     // TODO: hier muss %05d stehen, noch nicht beim image erzeugen !
     //QString sCmd("%1%2jpeg2yuv -I p -f %3 -j %6%2%4%7.jpg | %1%2yuv2lav -f avi -o %6%2%5.avi");
@@ -170,6 +197,10 @@ void CreateMovieDlg4::sltCreateAVI()
     {
         m_pProcess = new QProcess(this);
 
+        connect(m_pProcess,SIGNAL( readyReadStandardOutput() ), this, SLOT( sltReadyReadStdOutput() ) );
+        connect(m_pProcess,SIGNAL( readyReadStandardError() ), this, SLOT( sltReadyReadStdError() ) );
+        connect(m_pProcess,SIGNAL( finished( int, QProcess::ExitStatus ) ), this, SLOT( sltProcessFinished( int, QProcess::ExitStatus ) ) );
+
         QString sProg = CMD_SHELL;
         QStringList aArgs;
         aArgs << CMD_SHELL_ARG << sCmd;
@@ -178,9 +209,6 @@ void CreateMovieDlg4::sltCreateAVI()
 //        QString sOut;
 //        sOut.sprintf("started %d",(int)bOk);
 //        ui.m_pOutput->append(sOut);
-        connect(m_pProcess,SIGNAL( readyReadStandardOutput() ), this, SLOT( sltReadyReadStdOutput() ) );
-        connect(m_pProcess,SIGNAL( readyReadStandardError() ), this, SLOT( sltReadyReadStdError() ) );
-        connect(m_pProcess,SIGNAL( finished( int, QProcess::ExitStatus ) ), this, SLOT( sltProcessFinished( int, QProcess::ExitStatus ) ) );
     }
 }
 
@@ -188,23 +216,31 @@ void CreateMovieDlg4::sltAddSound()
 {
     // ffmpeg -i video.mp4 -i sound.mp3 -qscale 0 videowithsound.mp4
 
-    QString sCmd = ui.m_pSoundGeneratorCmd->text();
+    QString sCmdIn = ui.m_pSoundGeneratorCmd->text();
+    QStringList aCmdList = sCmdIn.split(';');
 
     if( m_pProcess==0 )
     {
         m_pProcess = new QProcess(this);
 
-        QString sProg = CMD_SHELL;
-        QStringList aArgs;
-        aArgs << CMD_SHELL_ARG << sCmd;
-        m_pProcess->start(sProg,aArgs);
+        connect(m_pProcess,SIGNAL( readyReadStandardOutput() ), this, SLOT( sltReadyReadStdOutput() ) );
+        connect(m_pProcess,SIGNAL( readyReadStandardError() ), this, SLOT( sltReadyReadStdError() ) );
+        connect(m_pProcess,SIGNAL( finished( int, QProcess::ExitStatus ) ), this, SLOT( sltProcessFinished( int, QProcess::ExitStatus ) ) );
+
+        foreach( const QString & sCmd, aCmdList)
+        {
+            ui.m_pOutput->append( sCmd );
+
+            QString sProg = CMD_SHELL;
+            QStringList aArgs;
+            aArgs << CMD_SHELL_ARG << sCmd;
+            m_pProcess->start(sProg,aArgs);
+            m_pProcess->waitForFinished();
+        }
 //        bool bOk = QProcess::execute(sProg,aArgs);
 //        QString sOut;
 //        sOut.sprintf("started %d",(int)bOk);
 //        ui.m_pOutput->append(sOut);
-        connect(m_pProcess,SIGNAL( readyReadStandardOutput() ), this, SLOT( sltReadyReadStdOutput() ) );
-        connect(m_pProcess,SIGNAL( readyReadStandardError() ), this, SLOT( sltReadyReadStdError() ) );
-        connect(m_pProcess,SIGNAL( finished( int, QProcess::ExitStatus ) ), this, SLOT( sltProcessFinished( int, QProcess::ExitStatus ) ) );
     }
 
     // audio beschneiden: ffmpeg -i output_audio.aac -ss 00:00:30:00 -acodec copy -t 00:00:30:10 output_audio_cut.aac
@@ -249,9 +285,17 @@ void CreateMovieDlg4::sltMakeShow()
     QMessageBox::warning(this,"Warning","Not implemented yet !");
 }
 
-void CreateMovieDlg4::sltDeleteTempFiles()
+void CreateMovieDlg4::sltDeleteTempFiles( bool bAsk )
 {
-    QMessageBox::warning(this,"Warning","Not implemented yet !");
+    QDir aTempDir(ui.m_pDirectoryName->text());
+    QStringList lstAllFiles = aTempDir.entryList(QDir::Files);
+    if( lstAllFiles.length()>0 && (!bAsk || QMessageBox::question(this,tr("Question"),tr("Really delete all files in temporary directory?"),QMessageBox::Yes,QMessageBox::No)==QMessageBox::Yes) )
+    {
+        foreach( const QString & sFileName, lstAllFiles )
+        {
+            aTempDir.remove( sFileName );
+        }
+    }
 }
 
 void CreateMovieDlg4::sltChangeMjpegToolsDirectory()
@@ -269,6 +313,10 @@ void CreateMovieDlg4::sltImagesPerSecondsChanged( const QString & /*sValue*/ )
     UpdateCmds();
 }
 
+void CreateMovieDlg4::sltImageExtensionChanged( const QString & /*sValue*/ )
+{
+    UpdateCmds();
+}
 
 void CreateMovieDlg4::sltImageOutputChanged( const QString & /*sValue*/ )
 {
@@ -329,16 +377,18 @@ void CreateMovieDlg4::UpdateCmds()
     QString sSeparator = QDir::separator();
     QString sRate = QString("%1").arg( ui.m_pImagesPerSecond->value() );
     QString sFfmpegDir = ui.m_pMjpegtoolsDirectory->text();
+    QString sImageExtension = ui.m_pImageExtension->currentText();
     QString sNoSound = "nosound_";
+    QString sTempSoundFile = "_temp_sound_.mp3";
     //QDir aTempDir(ui.m_pDirectoryName->text());
     QString sTempDir = ui.m_pDirectoryName->text();
-    QString sCmd = QString("%6%2ffmpeg -f image2 -i %1%2%7.jpg -r %5 %1%2%3%4").arg( sTempDir ).arg( sSeparator ).arg( sNoSound+sMovieOutput ).arg( sMovieExtension ).arg( sRate ).arg( sFfmpegDir ).arg( sName );
+    QString sCmd = QString("%6%2ffmpeg -f image2 -i %1%2%8.%7 -r %5 %1%2%3%4").arg( sTempDir ).arg( sSeparator ).arg( sNoSound+sMovieOutput ).arg( sMovieExtension ).arg( sRate ).arg( sFfmpegDir ).arg( sImageExtension ).arg( sName );
 
     ui.m_pGeneratorCmd->setText( sCmd );
 
     // ffmpeg -i video.mp4 -i sound.mp3 -qscale 0 videowithsound.mp4
 
-    QString sSoundFiles;
+    QString sSoundFiles = QString( "%1%2ffmpeg -i \"concat:" ).arg( sFfmpegDir ).arg( sSeparator );
     double dPresentationLength = m_pDocControler->GetPresentation().GetTotalTime();
     SoundInfoContainer aSoundContainer = m_pDocControler->GetPresentation().GetSoundInfoData();
     SoundInfoContainer::const_iterator aIter = aSoundContainer.begin();
@@ -346,19 +396,27 @@ void CreateMovieDlg4::UpdateCmds()
     while( aIter!=aSoundContainer.end() )
     {
         double dCurrentLength = (double)(*aIter)->GetTotalLength()/1000.0;
-        sSoundFiles += QString( "-itsoffset %1 " ).arg( dCurrentPos );
-        sSoundFiles += "-i "+ToQString( (*aIter)->GetFileName() )+" ";
-        sSoundFiles += QString( "-ss %1 " ).arg( 0 );              // start always at beginning
-        sSoundFiles += QString( "-t %1 " ).arg( dCurrentLength );
+        //sSoundFiles += QString( "-itsoffset %1 " ).arg( dCurrentPos );
+        //sSoundFiles += "-i "+ToQString( (*aIter)->GetFileName() )+" ";
+        //sSoundFiles += QString( "-ss %1 " ).arg( 0 );              // start always at beginning
+        //sSoundFiles += QString( "-t %1 " ).arg( dCurrentLength );
+        sSoundFiles += ToQString( (*aIter)->GetFileName() );
         aIter++;
+        if( aIter != aSoundContainer.end() )
+        {
+            sSoundFiles += "|";
+        }
         dCurrentPos += dCurrentLength;
     }
+    sSoundFiles += "\" -c copy "+sTempSoundFile;
+
+    QString sSounds = QString( "-i %1 -t %2 " ).arg( sTempSoundFile ).arg( dPresentationLength );
 
 // http://stackoverflow.com/questions/11579952/add-multiple-audio-files-to-video-at-specific-points-using-ffmpeg
 
     //QString sSoundFile = "sound.mp3";
 // TODO --> start und stop fuer soundfile angeben, soundfiles loopen ueber alle verfuegbare...
-    sCmd = QString("%6%4ffmpeg -i %3%4%1%7 %2 -qscale 0 %3%4%5%7").arg( sNoSound+sMovieOutput ).arg( sSoundFiles ).arg( sTempDir ).arg( sSeparator ).arg( sMovieOutput ).arg( sFfmpegDir ).arg( sMovieExtension );
+    sCmd = QString("%2; %6%4ffmpeg -i %3%4%1%8 %7 -qscale 0 %3%4%5%8").arg( sNoSound+sMovieOutput ).arg( sSoundFiles ).arg( sTempDir ).arg( sSeparator ).arg( sMovieOutput ).arg( sFfmpegDir ).arg( sSounds ).arg( sMovieExtension );
 
     if( aSoundContainer.size()>0 )
     {
@@ -401,11 +459,13 @@ void CreateMovieDlg4::saveSettings()
     QSettings aSettings;
 
     aSettings.setValue("CreateMoveDlg/OutputDir",ui.m_pDirectoryName->text());
-    aSettings.setValue("CreateMoveDlg/OutputName",ui.m_pImageNameOffset->text());
+    aSettings.setValue("CreateMoveDlg/OutputName",ui.m_pImageNameOffset->text());    
     aSettings.setValue("CreateMoveDlg/OutputMovieName",ui.m_pMovieFileName->text());
     aSettings.setValue("CreateMoveDlg/MjpegToolsDir",ui.m_pMjpegtoolsDirectory->text());
     aSettings.setValue("CreateMoveDlg/ImagesPerSeconds",ui.m_pImagesPerSecond->value());
     aSettings.setValue("CreateMoveDlg/ImageSizeItem",ui.m_pImageRatio->currentIndex());
+    aSettings.setValue("CreateMoveDlg/ImageExtension",ui.m_pImageExtension->currentIndex());
+    aSettings.setValue("CreateMoveDlg/MovieExtension",ui.m_pMovieExtension->currentIndex());
 }
 
 
@@ -423,6 +483,8 @@ void CreateMovieDlg4::restoreSettings()
     ui.m_pMjpegtoolsDirectory->setText(aSettings.value("CreateMoveDlg/MjpegToolsDir",sMjpegToolsDir).toString());
     ui.m_pImagesPerSecond->setValue(aSettings.value("CreateMoveDlg/ImagesPerSeconds",10).toInt());
     ui.m_pImageRatio->setCurrentIndex(aSettings.value("CreateMoveDlg/ImageSizeItem",0).toInt());
+    ui.m_pImageExtension->setCurrentIndex(aSettings.value("CreateMoveDlg/ImageExtension",0).toInt());
+    ui.m_pMovieExtension->setCurrentIndex(aSettings.value("CreateMoveDlg/MovieExtension",0).toInt());
 
     UpdateCmds();
 }
