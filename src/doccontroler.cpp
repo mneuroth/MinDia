@@ -834,70 +834,59 @@ int DocumentAndControler::CreateImagesForMovie(
 		double dStopMS, 
 		double dDeltaMS )
 {
-	// 1600x1200 = 1,3333333 = 4:3
-	// 540 x 360 = 1,5
-    //QImageCache aImageCache;
-    //QPixmap aPixmap( iWidth, iHeight );
-    //QPainter aPainter;
-
-	//QCanvas::drawArea()
-	//QImage aImage = aPixmap.convertToImage();
-
 	int iCount = 0;
-    //if( InitImageCache( aImageCache, GetPresentation(), iWidth, iHeight ) )
-	{		
-        QProgressDialog aProgress( QObject::tr("creating images for movie"), QObject::tr("Cancel"), 0, (int)dStopMS, pOwner/*, 0, "progress", TRUE*/ );
-        //aProgress.setWindowModality(Qt::WindowModal);
-        aProgress.setValue( 0 );
-        aProgress.show();
 
-		string sLastFileName;
-		double dTimeMS = dStartMS;
-		while( dTimeMS < dStopMS )
-		{
-			//bool bForcePainting = true;
-            // /Users/min/Documents/home/Entwicklung/projects/mindia_qt4/src/
-            QString sBuffer;
-            QString sFileName;
-            sFileName.sprintf( sFileNameOffset.c_str(), iCount );
-            sBuffer = QString( "%1%2%3.%4" ).arg( ToQString( sOutputDirectory ) ).arg( ToQString( sDirSeparator ) ).arg( sFileName ).arg( ToQString(sImageExtension) );
+    QProgressDialog aProgress( QObject::tr("creating images for movie"), QObject::tr("Cancel"), 0, (int)dStopMS, pOwner/*, 0, "progress", TRUE*/ );
+    aProgress.setValue( 0 );
+    aProgress.show();
 
-			if( GetPresentation().IsNextSlideChanging( dTimeMS, dDeltaMS ) )
-			{
-                //aPixmap.fill();
-                //aPainter.begin( &aPixmap );
-                //GetPresentation().PaintSlideForTime( aImageCache, aPainter, dTimeMS );
-                //aPainter.end();
+    string sLastFileName;
+    double dTimeMS = dStartMS;
+    while( dTimeMS < dStopMS )
+    {
+        QString sBuffer;
+        QString sFileName;
+        sFileName.sprintf( sFileNameOffset.c_str(), iCount );
+        sBuffer = QString( "%1%2%3.%4" ).arg( ToQString( sOutputDirectory ) ).arg( ToQString( sDirSeparator ) ).arg( sFileName ).arg( ToQString(sImageExtension) );
+#ifdef Q_WS_WIN
+        QString sLinkExt = ".lnk";
+#else
+        QString sLinkExt;
+#endif
 
-                QImage aPixmap = GetPresentation().GetSlideForTime( dTimeMS, iWidth, iHeight );
+        if( GetPresentation().IsNextSlideChanging( dTimeMS, dDeltaMS ) )
+        {
+            QImage aPixmap = GetPresentation().GetSlideForTime( dTimeMS, iWidth, iHeight );
 
-                /*bool bOk =*/ aPixmap.save(sBuffer,/*"JPEG"*/sImageExtension.c_str(),100);
+            /*bool bOk =*/ aPixmap.save(sBuffer,/*"JPEG"*/sImageExtension.c_str(),100);
 
-                sLastFileName = ToStdString( sBuffer );
-			}
-			else
-			{
-				// use last generated file for new movie image
-                /*bool ok =*/ QFile::copy( ToQString( sLastFileName ), sBuffer );
-			}
+            sLastFileName = ToStdString( sBuffer );
+        }
+        else
+        {
+            // use last generated file for new movie image
+#ifdef Q_WS_WIN
+            // ffmpeg does not work with windows shortcuts *.lnk :-(
+            /*bool ok =*/ QFile::copy( ToQString( sLastFileName ), sBuffer );
+#else
+            /*bool ok =*/ QFile::link( ToQString( sLastFileName ), sBuffer+sLinkExt );
+#endif
+        }
 
-			dTimeMS += dDeltaMS;
-			iCount++;
+        dTimeMS += dDeltaMS;
+        iCount++;
 
-            aProgress.setValue( (int)dTimeMS );
-            GetApplication()->processEvents();
-			if( aProgress.wasCanceled() )
-			{
-				dTimeMS = dStopMS;
-			}
-		}
+        aProgress.setValue( (int)dTimeMS );
+        GetApplication()->processEvents();
+        if( aProgress.wasCanceled() )
+        {
+            dTimeMS = dStopMS;
+        }
+    }
 
-        aProgress.setValue( (int)dStopMS );
-	}
+    aProgress.setValue( (int)dStopMS );
 
-//	ClearImageCache( aImageCache );
-
-	return iCount;
+    return iCount;
 }
 
 QStringList DocumentAndControler::GetFileHistoryList() const
