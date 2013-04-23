@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>752</width>
-    <height>633</height>
+    <height>634</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -308,23 +308,6 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0" colspan="2">
-           <widget class="QLineEdit" name="m_pGeneratorCmd">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QPushButton" name="m_pCreateAVI">
-            <property name="text">
-             <string>Create &amp;AVI (2)</string>
-            </property>
-            <property name="shortcut">
-             <string>Alt+A</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="0">
            <spacer name="spacer4">
             <property name="orientation">
@@ -340,6 +323,23 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="2" column="1">
+           <widget class="QPushButton" name="m_pCreateAVI">
+            <property name="text">
+             <string>Create &amp;Movie (2)</string>
+            </property>
+            <property name="shortcut">
+             <string>Alt+A</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2">
+           <widget class="QTextBrowser" name="m_pGeneratorCmd">
+            <property name="lineWrapMode">
+             <enum>QTextEdit::NoWrap</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -357,13 +357,6 @@
             </property>
             <property name="wordWrap">
              <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" colspan="2">
-           <widget class="QLineEdit" name="m_pSoundGeneratorCmd">
-            <property name="readOnly">
-             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -393,57 +386,15 @@
             </property>
            </spacer>
           </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QGroupBox" name="groupBox2_2_2">
-         <property name="title">
-          <string>Video CD</string>
-         </property>
-         <layout class="QGridLayout">
-          <item row="0" column="0">
-           <widget class="QLabel" name="textLabel2_2_2_2">
-            <property name="text">
-             <string>Generator cmd:</string>
-            </property>
-            <property name="wordWrap">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="0" colspan="2">
-           <widget class="QLineEdit" name="m_pVCDGeneratorCmd">
+           <widget class="QTextBrowser" name="m_pSoundGeneratorCmd">
+            <property name="lineWrapMode">
+             <enum>QTextEdit::NoWrap</enum>
+            </property>
             <property name="readOnly">
              <bool>true</bool>
             </property>
            </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QPushButton" name="m_pCreateVCD">
-            <property name="text">
-             <string>Create &amp;VCD (4)</string>
-            </property>
-            <property name="shortcut">
-             <string>Alt+V</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <spacer name="spacer7_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>308</width>
-              <height>16</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </widget>
@@ -613,12 +564,8 @@
   <tabstop>m_pImageHeight</tabstop>
   <tabstop>m_pImagesPerSecond</tabstop>
   <tabstop>m_pCreateImages</tabstop>
-  <tabstop>m_pGeneratorCmd</tabstop>
   <tabstop>m_pCreateAVI</tabstop>
-  <tabstop>m_pSoundGeneratorCmd</tabstop>
   <tabstop>m_pAddSound</tabstop>
-  <tabstop>m_pVCDGeneratorCmd</tabstop>
-  <tabstop>m_pCreateVCD</tabstop>
   <tabstop>m_pMakeShow</tabstop>
   <tabstop>m_pDeleteTemp</tabstop>
   <tabstop>buttonHelp</tabstop>
@@ -738,22 +685,6 @@
     <hint type="destinationlabel">
      <x>588</x>
      <y>454</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_pCreateVCD</sender>
-   <signal>clicked()</signal>
-   <receiver>CreateMovieDlg4</receiver>
-   <slot>sltCreateVCD()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>570</x>
-     <y>569</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>587</x>
-     <y>587</y>
     </hint>
    </hints>
   </connection>

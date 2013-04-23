@@ -1,3 +1,49 @@
+/**************************************************************************
+ *
+ *	project				 : MinDia
+ *
+ *	copyright            : (C) 2002 by Michael Neuroth
+ *
+ ***************************************************************************/
+/***************************************************************************
+ *																		   *
+ * This file is part of the MinDia package (program to make slide shows),  *
+ *																		   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
+ *                                                                         *
+ * This program is free software; you can redistribute it and/or modify    *
+ * it under the terms of the GNU General Public License as published by    *
+ * the Free Software Foundation; either version 2 of the License, or       *
+ * (at your option) any later version.                                     *
+ *                                                                         *
+ ***************************************************************************/
+
+// see: http://ffmpeg.org/trac/ffmpeg/wiki/Create%20a%20video%20slideshow%20from%20images
+
+// http://stackoverflow.com/questions/11579952/add-multiple-audio-files-to-video-at-specific-points-using-ffmpeg
+
+// http://superuser.com/questions/409987/how-to-embed-multiple-audio-files-to-one-video-file-with-timeline-offset
+// http://ffmpeg.org/trac/ffmpeg/wiki/How%20to%20concatenate%20(join,%20merge)%20media%20files
+// http://zoid.cc/ffmpeg-audio-video/
+
+// https://docs.google.com/file/d/0BxRalAlWlsgjclFzOTVKLTBGUnM/edit?usp=drive_web&pli=1
+
+// concat files with ffpmeg: http://ffmpeg.org/trac/ffmpeg/wiki/How%20to%20concatenate%20(join,%20merge)%20media%20files
+// ffmpeg -f concat -i test.txt -c copy outffmpeg.mp3
+// ffmpeg -i "concat:WhistleTheme.mp3|01_WalkThroughTheWorld.mp3" -c copy outputff.mp3
+
+// ffmpeg -i video.mp4 -i sound.mp3 -qscale 0 videowithsound.mp4
+
+// audio beschneiden: ffmpeg -i output_audio.aac -ss 00:00:30:00 -acodec copy -t 00:00:30:10 output_audio_cut.aac
+// --> http://www.admindu.de/wordpress/?p=187
+// ffmpeg -i sound.mp3 -ss 0 -t 10 -acodec copy out.mp3     // beschneiden auf 10 sec laenge !
+
+// ffmpeg -i input.aac -f wav - | sox -t wav - -t wav - fade t 0 32 3 | ffmpeg -f wav -i - -acodec libfaac -ab 128k -ac 2 output.aac
+
+// http://randykarels.com/blog/batch-create-audio-clips-with-fades/
+
+// output formats: *.mpg, *.avi, *.mp4, *.mov, *.h264
+
 
 #include "CreateMovieDlg4.h"
 
@@ -12,6 +58,8 @@
 #include "doccontroler.h"
 
 #include "misctools.h"
+
+QApplication * GetApplication();
 
 #if defined(Q_OS_WIN32)
 #define CMD_SHELL       "cmd.exe"
@@ -35,10 +83,13 @@ const QString g_sDefaultSize4 = QObject::tr("1920:1080");       // 1080p: full h
 const QString g_sSizeOfFirstImage = QObject::tr("size of first image");
 const QString g_sUserValue = QObject::tr("user value");
 
+// *************************************************************************
+
 CreateMovieDlg4::CreateMovieDlg4(DocumentAndControler * pDocControler, double dTotalTimeMS, QWidget * parent)
 : QDialog(parent),
   m_pDocControler(0),
-  m_pProcess(0)
+  m_pProcess(0),
+  m_bAutoDeleteProcess( false )
 {
     ui.setupUi(this);
 
@@ -68,7 +119,7 @@ CreateMovieDlg4::CreateMovieDlg4(DocumentAndControler * pDocControler, double dT
 
 CreateMovieDlg4::~CreateMovieDlg4()
 {
-    delete m_pProcess;
+    DeleteProcess();
 }
 
 void CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
@@ -130,6 +181,8 @@ void CreateMovieDlg4::sltSelectOutputDirectory()
 
 void CreateMovieDlg4::sltCreateImages()
 {
+    sltDisable();
+
     QString sName = ui.m_pImageNameOffset->text();
     QString sDir = ui.m_pDirectoryName->text();
     int iImagesPerSecond = ui.m_pImagesPerSecond->text().toInt();
@@ -150,6 +203,18 @@ void CreateMovieDlg4::sltCreateImages()
         }
     }
 
+// TODO gulp: Optimierung: referenzen auf Images erzeugen, wenn sich bild nicht geändert hat ! --> Optimierung bei Image schreiben !
+// TODO gulp: ggf. ffmpeg mit named pipes ansteuern
+
+//http://stackoverflow.com/questions/5571566/give-input-to-ffmpeg-using-named-pipes
+//
+//ffmpeg -i \\.\pipe\vbam
+//ffmpeg -f video4linux2 -i /dev/video0 -i record.ssa -scodec ass foo.mkv
+//
+//http://stackoverflow.com/questions/3861948/how-do-i-read-a-fifo-named-pipe-line-by-line-from-a-c-qt-linux-app
+//
+//http://www.developer.nokia.com/Community/Wiki/Named_Pipes_Example
+
     int iCount = m_pDocControler->CreateImagesForMovie( this,
               ToStdString( sDir ), ToStdString( sName ), ToStdString( QDir::separator() ), ToStdString( ui.m_pImageExtension->currentText() ),
               iWidth, iHeight,
@@ -158,131 +223,35 @@ void CreateMovieDlg4::sltCreateImages()
     QString sOutput;
     QTextStream(&sOutput) << tr("Created ") << iCount << tr(" images");
     ui.m_pOutput->append( sOutput );
+
+    sltEnable();
 }
 
 void CreateMovieDlg4::sltCreateAVI()
 {
-    // http://superuser.com/questions/409987/how-to-embed-multiple-audio-files-to-one-video-file-with-timeline-offset
-    // http://ffmpeg.org/trac/ffmpeg/wiki/How%20to%20concatenate%20(join,%20merge)%20media%20files
-    // http://zoid.cc/ffmpeg-audio-video/
-
-    // https://docs.google.com/file/d/0BxRalAlWlsgjclFzOTVKLTBGUnM/edit?usp=drive_web&pli=1
-
-    // concat files with ffpmeg: http://ffmpeg.org/trac/ffmpeg/wiki/How%20to%20concatenate%20(join,%20merge)%20media%20files
-    // ffmpeg -f concat -i test.txt -c copy outffmpeg.mp3
-    // ffmpeg -i "concat:WhistleTheme.mp3|01_WalkThroughTheWorld.mp3" -c copy outputff.mp3
-
-    // ffmpeg -f image2 -i image%05d.jpg output.mpg
-    //QString sName = ui.m_pImageNameOffset->text();
-    //QString sOutput = ui.m_pMovieFileName->text();
-    //QDir aTempDir(ui.m_pDirectoryName->text());
-// TODO: check if sOutput eine extension besitzt, falls nicht eine dran haengen
-// TODO --> pfade korrekt setzen etc...
-    QString sCmd; // = QString("C:\\usr\\neurothmi\\Android\\mindia-1.0.2\\src\\debug\\ffmpeg -f image2 -i %1/%2.jpg %3").arg(aTempDir.absolutePath()).arg( sName ).arg( sOutput );
-
-    // TODO: hier muss %05d stehen, noch nicht beim image erzeugen !
-    //QString sCmd("%1%2jpeg2yuv -I p -f %3 -j %6%2%4%7.jpg | %1%2yuv2lav -f avi -o %6%2%5.avi");
-    //sCmd = sCmd.arg(ui.m_pMjpegtoolsDirectory->text(),QString(QDir::separator()),ui.m_pImagesPerSecond->text(),ui.m_pImageNameOffset->text(),ui.m_pMovieFileName->text(),ui.m_pDirectoryName->text(),QString("%05d") );
-
-    sCmd = ui.m_pGeneratorCmd->text();
-
-    ui.m_pOutput->append( sCmd );
-
-    //QString sProg = CMD_SHELL;
-    //QStringList aArgs;
-    //aArgs << CMD_SHELL_ARG << sCmd;
-    //bool bOk = QProcess::execute(sProg,aArgs);
-
-    if( m_pProcess==0 )
-    {
-        m_pProcess = new QProcess(this);
-
-        connect(m_pProcess,SIGNAL( readyReadStandardOutput() ), this, SLOT( sltReadyReadStdOutput() ) );
-        connect(m_pProcess,SIGNAL( readyReadStandardError() ), this, SLOT( sltReadyReadStdError() ) );
-        connect(m_pProcess,SIGNAL( finished( int, QProcess::ExitStatus ) ), this, SLOT( sltProcessFinished( int, QProcess::ExitStatus ) ) );
-
-        QString sProg = CMD_SHELL;
-        QStringList aArgs;
-        aArgs << CMD_SHELL_ARG << sCmd;
-        m_pProcess->start(sProg,aArgs);
-//        bool bOk = QProcess::execute(sProg,aArgs);
-//        QString sOut;
-//        sOut.sprintf("started %d",(int)bOk);
-//        ui.m_pOutput->append(sOut);
-    }
+    RunCommands( ui.m_pGeneratorCmd->document()->toPlainText() );
 }
 
 void CreateMovieDlg4::sltAddSound()
 {
-    // ffmpeg -i video.mp4 -i sound.mp3 -qscale 0 videowithsound.mp4
-
-    QString sCmdIn = ui.m_pSoundGeneratorCmd->text();
-    QStringList aCmdList = sCmdIn.split(';');
-
-    if( m_pProcess==0 )
-    {
-        m_pProcess = new QProcess(this);
-
-        connect(m_pProcess,SIGNAL( readyReadStandardOutput() ), this, SLOT( sltReadyReadStdOutput() ) );
-        connect(m_pProcess,SIGNAL( readyReadStandardError() ), this, SLOT( sltReadyReadStdError() ) );
-        connect(m_pProcess,SIGNAL( finished( int, QProcess::ExitStatus ) ), this, SLOT( sltProcessFinished( int, QProcess::ExitStatus ) ) );
-
-        foreach( const QString & sCmd, aCmdList)
-        {
-            ui.m_pOutput->append( sCmd );
-
-            QString sProg = CMD_SHELL;
-            QStringList aArgs;
-            aArgs << CMD_SHELL_ARG << sCmd;
-            m_pProcess->start(sProg,aArgs);
-            m_pProcess->waitForFinished();
-        }
-//        bool bOk = QProcess::execute(sProg,aArgs);
-//        QString sOut;
-//        sOut.sprintf("started %d",(int)bOk);
-//        ui.m_pOutput->append(sOut);
-    }
-
-    // audio beschneiden: ffmpeg -i output_audio.aac -ss 00:00:30:00 -acodec copy -t 00:00:30:10 output_audio_cut.aac
-    // --> http://www.admindu.de/wordpress/?p=187
-    // ffmpeg -i sound.mp3 -ss 0 -t 10 -acodec copy out.mp3     // beschneiden auf 10 sec laenge !
-
-    // ffmpeg -i input.aac -f wav - | sox -t wav - -t wav - fade t 0 32 3 | ffmpeg -f wav -i - -acodec libfaac -ab 128k -ac 2 output.aac
-
-    // http://randykarels.com/blog/batch-create-audio-clips-with-fades/
-
-    // output formats: *.mpg, *.avi, *.mp4, *.mov, *.h264
-
-//    if( m_pProcess )
-//    {
-//        delete m_pProcess;
-//        m_pProcess = 0;
-//    }
-
-//    m_pProcess = new QProcess( this );
-
-//// TODO --> nur fuer Windows !!!
-//    m_pProcess->addArgument("cmd.exe");
-//    m_pProcess->addArgument("/k");
-//    m_pProcess->addArgument("dir");
-//    m_pProcess->addArgument("/od");
-//    m_pProcess->addArgument("|");
-//    m_pProcess->addArgument("grep");
-//    m_pProcess->addArgument("INSTALL");
-
-//    connect( m_pProcess, SIGNAL(readyReadStdout()), this, SLOT(sltReadFromStdout()) );
-
-//    m_pProcess->start();
-}
-
-void CreateMovieDlg4::sltCreateVCD()
-{
-    QMessageBox::warning(this,"Warning","Not implemented yet !");
+    RunCommands( ui.m_pSoundGeneratorCmd->document()->toPlainText() );
 }
 
 void CreateMovieDlg4::sltMakeShow()
 {
-    QMessageBox::warning(this,"Warning","Not implemented yet !");
+    sltCreateImages();
+    sltCreateAVI();
+    sltAddSound();
+}
+
+void CreateMovieDlg4::sltEnable()
+{
+    EnableDialog( true );
+}
+
+void CreateMovieDlg4::sltDisable()
+{
+    EnableDialog( false );
 }
 
 void CreateMovieDlg4::sltDeleteTempFiles( bool bAsk )
@@ -363,14 +332,14 @@ void CreateMovieDlg4::sltProcessFinished( int /*exitCode*/, QProcess::ExitStatus
 {
     ui.m_pOutput->append("done.");
 
-    delete m_pProcess;
-    m_pProcess = 0;
+    if( m_bAutoDeleteProcess )
+    {
+        DeleteProcess();
+    }
 }
 
 void CreateMovieDlg4::UpdateCmds()
 {
-    // see: http://ffmpeg.org/trac/ffmpeg/wiki/Create%20a%20video%20slideshow%20from%20images
-
     QString sName = ui.m_pImageNameOffset->text();
     QString sMovieOutput = ui.m_pMovieFileName->text();
     QString sMovieExtension = "."+ui.m_pMovieExtension->currentText();
@@ -378,15 +347,12 @@ void CreateMovieDlg4::UpdateCmds()
     QString sRate = QString("%1").arg( ui.m_pImagesPerSecond->value() );
     QString sFfmpegDir = ui.m_pMjpegtoolsDirectory->text();
     QString sImageExtension = ui.m_pImageExtension->currentText();
-    QString sNoSound = "nosound_";
-    QString sTempSoundFile = "_temp_sound_.mp3";
-    //QDir aTempDir(ui.m_pDirectoryName->text());
     QString sTempDir = ui.m_pDirectoryName->text();
+    QString sNoSound = "nosound_";
+    QString sTempSoundFile = sTempDir+sSeparator+"_temp_sound_.mp3";
     QString sCmd = QString("%6%2ffmpeg -f image2 -i %1%2%8.%7 -r %5 %1%2%3%4").arg( sTempDir ).arg( sSeparator ).arg( sNoSound+sMovieOutput ).arg( sMovieExtension ).arg( sRate ).arg( sFfmpegDir ).arg( sImageExtension ).arg( sName );
 
     ui.m_pGeneratorCmd->setText( sCmd );
-
-    // ffmpeg -i video.mp4 -i sound.mp3 -qscale 0 videowithsound.mp4
 
     QString sSoundFiles = QString( "%1%2ffmpeg -i \"concat:" ).arg( sFfmpegDir ).arg( sSeparator );
     double dPresentationLength = m_pDocControler->GetPresentation().GetTotalTime();
@@ -396,10 +362,6 @@ void CreateMovieDlg4::UpdateCmds()
     while( aIter!=aSoundContainer.end() )
     {
         double dCurrentLength = (double)(*aIter)->GetTotalLength()/1000.0;
-        //sSoundFiles += QString( "-itsoffset %1 " ).arg( dCurrentPos );
-        //sSoundFiles += "-i "+ToQString( (*aIter)->GetFileName() )+" ";
-        //sSoundFiles += QString( "-ss %1 " ).arg( 0 );              // start always at beginning
-        //sSoundFiles += QString( "-t %1 " ).arg( dCurrentLength );
         sSoundFiles += ToQString( (*aIter)->GetFileName() );
         aIter++;
         if( aIter != aSoundContainer.end() )
@@ -412,11 +374,7 @@ void CreateMovieDlg4::UpdateCmds()
 
     QString sSounds = QString( "-i %1 -t %2 " ).arg( sTempSoundFile ).arg( dPresentationLength );
 
-// http://stackoverflow.com/questions/11579952/add-multiple-audio-files-to-video-at-specific-points-using-ffmpeg
-
-    //QString sSoundFile = "sound.mp3";
-// TODO --> start und stop fuer soundfile angeben, soundfiles loopen ueber alle verfuegbare...
-    sCmd = QString("%2; %6%4ffmpeg -i %3%4%1%8 %7 -qscale 0 %3%4%5%8").arg( sNoSound+sMovieOutput ).arg( sSoundFiles ).arg( sTempDir ).arg( sSeparator ).arg( sMovieOutput ).arg( sFfmpegDir ).arg( sSounds ).arg( sMovieExtension );
+    sCmd = QString("%2 -y;\n%6%4ffmpeg -i %3%4%1%8 %7 -qscale 0 %3%4%5%8 -y").arg( sNoSound+sMovieOutput ).arg( sSoundFiles ).arg( sTempDir ).arg( sSeparator ).arg( sMovieOutput ).arg( sFfmpegDir ).arg( sSounds ).arg( sMovieExtension );
 
     if( aSoundContainer.size()>0 )
     {
@@ -426,32 +384,6 @@ void CreateMovieDlg4::UpdateCmds()
     {
         ui.m_pSoundGeneratorCmd->setText( "<no sound found>" );
     }
-
-    //QString sCmd;
-    //sCmd.sprintf( "jpeg2yuv -I p -f %d -j movie\\image%05d.jpg | yuv2lav -o movie\\movie.avi", iImagesPerSecond );
-
-    // for mac: use mjpegtools 2.0.0 (1.9.0 funktioniert nicht --> Segmentation fault) aber ggf. ist die Qualitaet nicht so gut !?
-
-// TODO --> pfade anpassen an Plattform !!! Qt immer / ?
-//    ui.m_pGeneratorCmd->setText( QString("jpeg2yuv -I p -f %1 -j <output_dir>%2%3.jpg | yuv2lav -f avi -o <output_dir>%4%5.avi").arg(ui.m_pImagesPerSecond->value()).arg(QDir::separator()).arg(ui.m_pImageNameOffset->text()).arg(QDir::separator()).arg(ui.m_pMovieFileName->text()));
-
-    //ui.m_pGeneratorCmd->setText( QString("<mjpegtools_dir>%2jpeg2yuv -I p -f %1 -j <output_dir>%2%3%6.jpg | <mjpegtools_dir>%2yuv2lav -f avi -o <output_dir>%4%5.avi").arg(ui.m_pImagesPerSecond->text(),QString(QDir::separator()),ui.m_pImageNameOffset->text(),QString(QDir::separator()),ui.m_pMovieFileName->text(),QString("%05d") ) );
-    //ui.m_pSoundGeneratorCmd->setText( QString("<mjpegtools_dir>%1lavaddwav <output_dir>%1%2.avi <sound_for_movie>.wav <output_dir>%1%2.avi").arg(QString(QDir::separator()),ui.m_pMovieFileName->text()) );
-
-    // convert mp3 to wav: mpg123 -w 01_WalkThroughTheWorld.wav 01_WalkThroughTheWorld.mp3
-    // cat mp3file1.mp3 >movie.mp3
-    // cat mp3file2.mp3 >>movie.mp3     --> geht nicht !
-
-    // lavaddwav mit mehreren wav files moeglich? --> wohl nicht !
-
-    // mpg123 -w sound.wav sound.mp3
-    // sox sound1.wav sound2.wav sound_out.wav
-
-    // http://sox.sourceforge.net/Main/HomePage
-
-
-    //ui.m_pVCDGeneratorCmd->setText( QString("<mjpegtools_dir>%1lav2yuv <output_dir>%1%2.avi | <mjpegtools_dir>%1yuvscaler -O VCD | <mjpegtools_dir>%1mpeg2enc -f 1 -r 16 -o <output_dir>%1%2.mpg").arg(QString(QDir::separator()),ui.m_pMovieFileName->text()) );
-
 }
 
 void CreateMovieDlg4::saveSettings()
@@ -488,3 +420,84 @@ void CreateMovieDlg4::restoreSettings()
 
     UpdateCmds();
 }
+
+void CreateMovieDlg4::CreateProcess( bool bAutoDelete )
+{
+    m_bAutoDeleteProcess = bAutoDelete;
+    m_pProcess = new QProcess(this);
+
+    connect(m_pProcess,SIGNAL( readyReadStandardOutput() ), this, SLOT( sltReadyReadStdOutput() ) );
+    connect(m_pProcess,SIGNAL( readyReadStandardError() ), this, SLOT( sltReadyReadStdError() ) );
+    connect(m_pProcess,SIGNAL( finished( int, QProcess::ExitStatus ) ), this, SLOT( sltProcessFinished( int, QProcess::ExitStatus ) ) );
+}
+
+void CreateMovieDlg4::DeleteProcess()
+{
+    delete m_pProcess;
+    m_pProcess = 0;
+}
+
+void CreateMovieDlg4::EnableDialog( bool value )
+{
+    ui.m_pCreateAVI->setEnabled( value );
+    ui.m_pCreateImages->setEnabled( value );
+    ui.m_pAddSound->setEnabled( value );
+    ui.m_pDeleteTemp->setEnabled( value );
+    ui.m_pMakeShow->setEnabled( value );
+    ui.m_pChangeMjpegToolsDirectory->setEnabled( value );
+    ui.m_pDirectoryName->setEnabled( value );
+    ui.m_pImagesPerSecond->setEnabled( value );
+    ui.m_pSelectDirectory->setEnabled( value );
+    ui.m_pSetToTemp->setEnabled( value );
+    ui.m_pImageExtension->setEnabled( value );
+    ui.m_pMovieExtension->setEnabled( value );
+    ui.m_pImageRatio->setEnabled( value );
+}
+
+void CreateMovieDlg4::RunCommands( const QString & sCmds )
+{
+    sltDisable();
+
+    // switch to logging output tab page
+    ui.tabWidgetOps->setCurrentIndex(1);
+
+    ProcessCommands( sCmds );
+
+    sltEnable();
+}
+
+void CreateMovieDlg4::ProcessCommands( const QString & sCmdsIn )
+{
+    QStringList aCmdList = sCmdsIn.split(';');
+
+    if( m_pProcess==0 )
+    {
+        CreateProcess( false );
+
+        foreach( const QString & sCmd, aCmdList)
+        {
+            ui.m_pOutput->append( sCmd );
+
+            QString sProg = CMD_SHELL;
+            QStringList aArgs;
+#ifdef Q_WS_WIN
+            // see: http://stackoverflow.com/questions/12769321/qprocess-and-command-line-c-argument
+            aArgs << CMD_SHELL_ARG;
+            m_pProcess->setNativeArguments(sCmd);
+#else
+            aArgs << CMD_SHELL_ARG << sCmd;
+#endif
+            m_pProcess->start(sProg,aArgs);
+
+            while( m_pProcess->state()!=QProcess::NotRunning )
+            {
+                GetApplication()->processEvents();
+            }
+            m_pProcess->waitForFinished();
+        }
+
+        DeleteProcess();
+    }
+}
+
+
