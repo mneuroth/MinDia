@@ -1823,13 +1823,14 @@ void MinDiaWindow::sltItemSelected( int iCount, HItem * pFirstSelectedItem, int 
 
 void MinDiaWindow::sltPlayMarkChanged( double dTimePosInSec )
 {
-    //int iWidth = m_pPlayInfoDialog->GetDrawWidth();
-    //int iHeight = m_pPlayInfoDialog->GetDrawHeight();
-// TODO gulp --> Performance Optimierung: besser Bilder erst skalieren und dann setzen ?
-    QImage aImage = m_pControler->GetPresentation().GetSlideForTime( dTimePosInSec*1000.0/*, iWidth, iHeight*/ );
-    // let the play info dialog decide which output format is needed...
     if( m_pPlayInfoDialog && m_pPlayInfoDialog->isVisible() )
     {
+// TODO gulp --> Performance Optimierung: besser Bilder erst skalieren und dann setzen ?
+        //int iWidth = m_pPlayInfoDialog->GetDrawWidth();
+        //int iHeight = m_pPlayInfoDialog->GetDrawHeight();
+        // let the play info dialog decide which output format is needed...
+        //QSize aSize = m_pPlayInfoDialog->GetViewSizeForImage()
+        QImage aImage = m_pControler->GetPresentation().GetSlideForTime( dTimePosInSec*1000.0/*, iWidth, iHeight*/ );
         m_pPlayInfoDialog->SetCurrentImage( aImage, /*bForceSet*/true );
     }
     sltShowStatusBarMessage( QString(tr("play mark %1 sec")).arg(dTimePosInSec) );

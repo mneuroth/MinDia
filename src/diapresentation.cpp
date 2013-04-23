@@ -1356,6 +1356,7 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
             {
                 iHeight = aImage1.height();
             }
+// TODO --> falls leeres bild, dann ausgabe-format als groesse verwenden !
 
             aImage1 = aImage1.scaled( iWidth, iHeight );
 
@@ -1363,7 +1364,6 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
             QPainter aPainter;
 
             aPainter.begin( &aPixmap );
-            QRect aRect = aPainter.viewport();
 
             if( hDia2.IsOk() )
             {
