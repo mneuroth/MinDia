@@ -141,8 +141,8 @@ macx {
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/release/ -lqtserialport
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/debug/ -lqtserialportd
-else:unix:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/ -lqtserialport
-else:unix:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/ -lqtserialport_debug
+else:unix:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/ -lQtSerialPort
+else:unix:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/ -lQtSerialPort_debug
 
 INCLUDEPATH += $$PWD/../qt-qtserialport/include
 DEPENDPATH += $$PWD/../qt-qtserialport/src/serialport
