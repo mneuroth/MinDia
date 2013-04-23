@@ -1544,6 +1544,8 @@ void DynText::Delta( double dDeltaTimeInMS )
 
 	hItem = m_aOpContainer[ c_iHideStopIndex ];
 	hItem->SetDelayInMS( (int)(hItem->GetDelayInMS() + dDeltaTimeInMS) );
+
+    m_dRelativeTimeInMS += dDeltaTimeInMS;
 }
 
 bool DynText::SetRelativePos( double xRel, double yRel )
