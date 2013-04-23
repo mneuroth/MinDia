@@ -44,7 +44,7 @@ enum ImageRatio {
 
 // *******************************************************************
 
-QImage CreateWhiteImage();
+QImage CreateWhiteImage( int iWidth = 1024, int iHeight = 768 );
 
 QImage GetImageFromFileName( const QString & sImageFileName );
 

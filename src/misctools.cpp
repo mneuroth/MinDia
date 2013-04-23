@@ -128,13 +128,11 @@ QImageCache g_aImageCache;
 // *******************************************************************
 
 // help function to create a image with a white background
-QImage CreateWhiteImage()
+QImage CreateWhiteImage( int iWidth, int iHeight )
 {
-    const int c_iWidth = 3;
-    const int c_iHeight = 3;
-
-    QImage aImage( c_iWidth, c_iHeight, /*32*/QImage::Format_RGB32 );
-
+    QImage aImage( iWidth, iHeight, /*32*/QImage::Format_RGB32 );
+    aImage.fill(255+255*256+255*256*256);
+/*
     for( int y=0; y<c_iHeight; y++ )
     {
         uchar * pLine = aImage.scanLine( y );
@@ -147,7 +145,7 @@ QImage CreateWhiteImage()
             pLine[x+3] = 0;
         }
     }
-
+*/
     return aImage;
 }
 
