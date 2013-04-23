@@ -174,6 +174,10 @@ void DiaInfoDlgImpl::sltUpdateData( minHandle<DiaInfo> hData, bool bEnable )
 
 	if( hData.IsOk() )
 	{
+        QImage aImage;
+        ReadQImageOrEmpty( ToQString( hData->GetImageFile() ), aImage );
+        m_pImageSize->setText( QString("%1 x %2").arg(aImage.width()).arg(aImage.height()) );
+
         m_pIDEdit->setText( ToQString(hData->GetId()) );
         m_pFileNameEdit->setText( ToQString(hData->GetImageFile()) );
         m_pCommentEdit->setText( ToQString(hData->GetComment()) );

@@ -94,7 +94,14 @@
     </widget>
    </item>
    <item row="2" column="1" colspan="3">
-    <widget class="QLineEdit" name="m_pFileNameEdit"/>
+    <widget class="QLineEdit" name="m_pFileNameEdit">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="2" column="4">
     <widget class="QPushButton" name="m_pFileNameButton">
@@ -103,7 +110,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="4" column="0">
     <widget class="QLabel" name="DissolveLabel">
      <property name="text">
       <string>Dissolve [s]:</string>
@@ -116,10 +123,10 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1" colspan="2">
+   <item row="4" column="1" colspan="2">
     <widget class="QLineEdit" name="m_pDissolveEdit"/>
    </item>
-   <item row="9" column="0" colspan="5">
+   <item row="10" column="0" colspan="5">
     <widget class="QGroupBox" name="m_pEffectButtonGroup">
      <property name="title">
       <string>Effects</string>
@@ -203,7 +210,7 @@
      </layout>
     </widget>
    </item>
-   <item row="10" column="0" colspan="5">
+   <item row="11" column="0" colspan="5">
     <layout class="QVBoxLayout">
      <item>
       <layout class="QHBoxLayout">
@@ -345,7 +352,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="5">
+   <item row="6" column="0" colspan="5">
     <widget class="QGroupBox" name="m_pBoxClipping">
      <property name="title">
       <string>Image clipping</string>
@@ -357,10 +364,10 @@
      </layout>
     </widget>
    </item>
-   <item row="4" column="1" colspan="2">
+   <item row="5" column="1" colspan="2">
     <widget class="QLineEdit" name="m_pTimerEdit"/>
    </item>
-   <item row="4" column="0">
+   <item row="5" column="0">
     <widget class="QLabel" name="TimerLabel">
      <property name="text">
       <string>Timer [s]:</string>
@@ -373,7 +380,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="3" rowspan="2" colspan="2">
+   <item row="4" column="3" rowspan="2" colspan="2">
     <widget class="QGroupBox" name="m_pSlideFormat">
      <property name="title">
       <string>Format</string>
@@ -399,7 +406,7 @@
      </layout>
     </widget>
    </item>
-   <item row="8" column="0" colspan="5">
+   <item row="9" column="0" colspan="5">
     <widget class="QGroupBox" name="m_pBoxScripts">
      <property name="title">
       <string>Scripts</string>
@@ -433,6 +440,26 @@
        </layout>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Size [pixel]:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="2">
+    <widget class="QLineEdit" name="m_pImageSize">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
   </layout>
