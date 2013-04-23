@@ -145,6 +145,9 @@ public:
     void SetImageRatio( ImageRatio ratio );
 
     void SetCurrentImage( const QImage & aImage, bool bForceSet = false );
+
+//    QSize GetViewSizeForImage( const QImage & aImage ) const;
+
     void Refresh();
 
 	// ** implements the IDiaOutputWindow-(Script)Interface **

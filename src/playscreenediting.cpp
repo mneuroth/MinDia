@@ -49,7 +49,7 @@ void PlayScreenEditing::Rescale()
     QImage aImage;
     if( !ReadQImage( m_sImageFileName, aImage ) )
     {
-        aImage = CreateWhiteImage();
+        aImage = CreateWhiteImage( this->width(), this->height() );
     }
     QPixmap aPixmap;
     aPixmap.convertFromImage( aImage );

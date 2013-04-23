@@ -1217,10 +1217,67 @@ void PlayInfoDlgImpl::TransferDataFromControl()
 {
 }
 
+const int BORDER = 0;
+/*
+QSize PlayInfoDlgImpl::GetViewSizeForImage( const QImage & aImage ) const
+{
+    QRect aFrameRect = m_pCanvasView->geometry();   // frameRect()
+    QSize aRet( aFrameRect.size() );
+
+    if( !aImage.isNull() )
+    {
+        if( m_pScaleOriginal->isChecked() )
+        {
+            aRet = aImage.size();
+        }
+        else if( m_pScaleFillX->isChecked() )
+        {
+            m_pCanvasView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+            int SCROLLBAR = m_pCanvasView->verticalScrollBar()->frameSize().width();
+            int iCalcHeight = (aFrameRect.width()-SCROLLBAR) * aImage.height() / aImage.width();
+            aRet = QSize( aFrameRect.width()-SCROLLBAR, (double)(iCalcHeight>aFrameRect.height() ? iCalcHeight : aFrameRect.height())-SCROLLBAR );
+        }
+        else if( m_pScaleFillY->isChecked() )
+        {
+            m_pCanvasView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+            int SCROLLBAR = m_pCanvasView->horizontalScrollBar()->frameSize().height();
+            int iCalcWidth = (aFrameRect.height()-SCROLLBAR) * aImage.width() / aImage.height();
+            aRet = QSize( (iCalcWidth>aFrameRect.width() ? iCalcWidth : aFrameRect.width())-SCROLLBAR, aFrameRect.height()-SCROLLBAR );
+        }
+        else if( m_pScaleExpand->isChecked() )
+        {
+            m_pCanvasView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            m_pCanvasView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            aRet = QSize( aFrameRect.width()-BORDER, aFrameRect.height()-BORDER );
+        }
+        else if( m_pScaleOptimal->isChecked() )
+        {
+            m_pCanvasView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            m_pCanvasView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            int screenDx = m_pCanvasView->width()-BORDER;
+            int screenDy = m_pCanvasView->height()-BORDER;
+            int imgDx = aImage.width();
+            int imgDy = aImage.height();
+            double screenRatio = (double)screenDx/(double)screenDy;
+            double imgRatio = (double)imgDx/(double)imgDy;
+            if( imgRatio>screenRatio )
+            {
+                // use screen dx for image dx and use image ratio to calculate new image dy
+                aRet = QSize( screenDx, (int)((double)screenDx/imgRatio) );
+            }
+            else
+            {
+                aRet = QSize( (int)((double)screenDy*imgRatio), screenDy );
+            }
+        }
+    }
+
+    return aRet;
+}
+*/
 QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
 {
 	QImage aScaledImage;
-    const int BORDER = 0;
 
    // cout << "doscaleimage " << m_pCanvasView->width() << " " << m_pCanvasView->height() << endl;
 
