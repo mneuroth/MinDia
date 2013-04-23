@@ -108,7 +108,7 @@ public:
     miniSound &         GetSoundInfo();
 
 	// returns the number of created images
-    int CreateImagesForMovie( QWidget * pOwner, const string & sOutputDirectory, const string & sFileNameOffset, const string & sDirSeparator,
+    int CreateImagesForMovie( QWidget * pOwner, const string & sOutputDirectory, const string & sFileNameOffset, const string & sDirSeparator, const string & sImageExtension,
 							  int iWidth, int iHeight,
 							  double dStartMS, double dStopMS, double dDeltaMS );
 

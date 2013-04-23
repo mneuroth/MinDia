@@ -827,6 +827,7 @@ int DocumentAndControler::CreateImagesForMovie(
 		const string & sOutputDirectory, 
 		const string & sFileNameOffset, 
         const string & sDirSeparator,
+        const string & sImageExtension,
 		int iWidth, 
 		int iHeight, 
 		double dStartMS, 
@@ -859,7 +860,7 @@ int DocumentAndControler::CreateImagesForMovie(
             QString sBuffer;
             QString sFileName;
             sFileName.sprintf( sFileNameOffset.c_str(), iCount );
-            sBuffer = QString( "%1%2%3.jpg" ).arg( ToQString( sOutputDirectory ) ).arg( ToQString( sDirSeparator ) ).arg( sFileName );
+            sBuffer = QString( "%1%2%3.%4" ).arg( ToQString( sOutputDirectory ) ).arg( ToQString( sDirSeparator ) ).arg( sFileName ).arg( ToQString(sImageExtension) );
 
 			if( GetPresentation().IsNextSlideChanging( dTimeMS, dDeltaMS ) )
 			{
@@ -870,7 +871,7 @@ int DocumentAndControler::CreateImagesForMovie(
 
                 QImage aPixmap = GetPresentation().GetSlideForTime( dTimeMS, iWidth, iHeight );
 
-				/*bool bOk =*/ aPixmap.save(sBuffer,"JPEG",100);
+                /*bool bOk =*/ aPixmap.save(sBuffer,/*"JPEG"*/sImageExtension.c_str(),100);
 
                 sLastFileName = ToStdString( sBuffer );
 			}
