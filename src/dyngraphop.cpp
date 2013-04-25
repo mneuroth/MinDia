@@ -819,6 +819,7 @@ void DynTextContainer::UpdateInfos()
 
 	while( aIter != end() )
 	{
+// gulp49
         (*aIter)->SetCanvas( m_pOutputWindowProxy->GetCanvas() );
 		++aIter;
 	}
@@ -1062,10 +1063,11 @@ DynText::DynText( const string & sText, QGraphicsScene * pOwner )
   m_yOld( -1 ),
   m_pSelectedHelper( 0 )
 {
-    if( pOwner )
-    {
-        pOwner->addItem(this);
-    }
+//    if( pOwner )
+//    {
+//cout << "DynText" << endl;
+//        pOwner->addItem(this);
+//    }
 	Sync();
 }
 
@@ -1084,7 +1086,8 @@ void DynText::SetCanvas( QGraphicsScene * pCanvas )
 {
     if( pCanvas )
     {
-        pCanvas->addItem(this);
+//cout << "DynText::SetCanvas" << endl;       // gulp49
+        pCanvas->addItem(this);         // produces "item has already been added to this scene" after second play !
     }
 
 	setFont( m_aInitFont );
@@ -1115,6 +1118,7 @@ void DynText::SetSelected( bool bSelected )
 		if( !m_pSelectedHelper )
 		{
             m_pSelectedHelper = new QGraphicsRectItem( boundingRect() );
+//cout << "DynText::SetSelected" << endl;
             scene()->addItem(m_pSelectedHelper);
 			m_pSelectedHelper->setPen( QPen( QColor( 255,0,0 ) ) );
 		}
