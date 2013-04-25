@@ -572,8 +572,9 @@ int main( int argc, char** argv )
     IGeneralScriptFcnImpl * pGenScriptFcn = new IGeneralScriptFcnImpl( ToStdString(sLanguage), "mindia_for_py", &aWindow );
 	pSrvManager->RegisterService( pGenScriptFcn, /*bOwnerIn*/true );
 
-	minDll * pNewDll = 0;
-	if( !pSrvManager->GetDllManager().LoadMinDll( _MINDIAPYC_DLL_NAME, pNewDll ) )
+    /*
+    minDll * pNewDll = 0;
+    if( !pSrvManager->GetDllManager().LoadMinDll( _MINDIAPYC_DLL_NAME, pNewDll ) )
 	{
 		cout << "Error loading mindiapy-dll" << endl;
 	}
@@ -589,7 +590,7 @@ int main( int argc, char** argv )
 	{
 		cout << "Successfully loaded gendev-dll" << endl;
 	}
-
+    */
 	//aSrvManager.GetDllManager().Dump( cout );
 
 	/*
