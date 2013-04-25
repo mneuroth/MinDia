@@ -76,7 +76,7 @@ static int g_iTimerDelay = MAX_FADE_DELAY;
 
 //    QAction * pAction = new QAction( tr( "Dissolve &Start/Stop" ), 0 );
 //	addAction( pAction );
-//    connect( pAction, SIGNAL(activated()), this, SLOT(sltStartStopFade()) );
+//    connect( pAction, SIGNAL(triggered()), this, SLOT(sltStartStopFade()) );
 
 //    addMenu( m_pImageFormats);
     
@@ -84,13 +84,13 @@ static int g_iTimerDelay = MAX_FADE_DELAY;
     
 //    m_pActionFullScreen = new QAction( tr( "&Full screen" ), 0 );
 //	addAction( m_pActionFullScreen );
-//    connect( m_pActionFullScreen, SIGNAL(activated()), this, SLOT(sltToggleFullScreen()) );
+//    connect( m_pActionFullScreen, SIGNAL(triggered()), this, SLOT(sltToggleFullScreen()) );
 
 //    addSeparator();
 
 //    pAction = new QAction( tr( "&Close" ), 0 );
 //	addAction( pAction );
-//    connect( pAction, SIGNAL(activated()), this, SLOT(sltClose()) );
+//    connect( pAction, SIGNAL(triggered()), this, SLOT(sltClose()) );
     
 //    //insertItem( tr( "Dissolve &Start/Stop" ), STOP_START_ID ) );
 //	//insertItem( tr( "Save &image..." ), m_pImageFormats );
