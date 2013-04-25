@@ -49,7 +49,7 @@ PlayInfoContextMenu::PlayInfoContextMenu( QWidget * parent, PlayInfoDlgImpl * pM
 
     QAction * pAction = new QAction( tr( "Dissolve &Start/Stop" ), 0 );
     addAction( pAction );
-    connect( pAction, SIGNAL(activated()), this, SLOT(sltStartStopFade()) );
+    connect( pAction, SIGNAL(triggered()), this, SLOT(sltStartStopFade()) );
 
     addMenu( m_pImageFormats);
 
@@ -57,25 +57,25 @@ PlayInfoContextMenu::PlayInfoContextMenu( QWidget * parent, PlayInfoDlgImpl * pM
 
     m_pActionFullScreen = new QAction( tr( "&Full screen" ), 0 );
     addAction( m_pActionFullScreen );
-    connect( m_pActionFullScreen, SIGNAL(activated()), this, SLOT(sltToggleFullScreen()) );
+    connect( m_pActionFullScreen, SIGNAL(triggered()), this, SLOT(sltToggleFullScreen()) );
 
     addSeparator();
 
     pAction = new QAction( tr( "Sta&rt" ), 0 );
     addAction( pAction );
-    connect( pAction, SIGNAL(activated()), m_pMyDialog, SLOT(sltPlay()) );
+    connect( pAction, SIGNAL(triggered()), m_pMyDialog, SLOT(sltPlay()) );
     pAction = new QAction( tr( "P&ause" ), 0 );
     addAction( pAction );
-    connect( pAction, SIGNAL(activated()), m_pMyDialog, SLOT(sltPause()) );
+    connect( pAction, SIGNAL(triggered()), m_pMyDialog, SLOT(sltPause()) );
     pAction = new QAction( tr( "S&top" ), 0 );
     addAction( pAction );
-    connect( pAction, SIGNAL(activated()), m_pMyDialog, SLOT(sltStop()) );
+    connect( pAction, SIGNAL(triggered()), m_pMyDialog, SLOT(sltStop()) );
 
     addSeparator();
 
     pAction = new QAction( tr( "&Close" ), 0 );
     addAction( pAction );
-    connect( pAction, SIGNAL(activated()), this, SLOT(sltClose()) );
+    connect( pAction, SIGNAL(triggered()), this, SLOT(sltClose()) );
 
     //insertItem( tr( "Dissolve &Start/Stop" ), STOP_START_ID ) );
     //insertItem( tr( "Save &image..." ), m_pImageFormats );
