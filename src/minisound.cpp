@@ -169,7 +169,7 @@ int  miniSound::GetTotalLengthInMS() const
 
 bool miniSound::Start( int iAbsStartTimeInMS )
 {
-	// ** reset total play time **
+    // ** reset total play time **
 	m_iTotalTimeInMS = 0;
 
 	m_iAbsStartTimeInMS = iAbsStartTimeInMS;
@@ -390,7 +390,9 @@ void miniSound::StartThread()
 
 void miniSound::run()
 {
-	bool bStopedInThread = false;
+    qRegisterMetaType<Phonon::MediaSource>( "MediaSource" );
+
+    bool bStopedInThread = false;
 
 	m_bStop = false;
 	m_iMciCmdId = _MCI_NONE;		// bugfix: 25.1.2003
@@ -407,7 +409,7 @@ void miniSound::run()
 		int iOffsetTime = 0;
 		m_aIterator = m_pSoundInfoContainer->GetItemForAbsPlayPos( m_iAbsStartTimeInMS, iOffsetTime );
 
-		while( !m_bStop )
+        while( !m_bStop )
 		{
 			if( IsFileChangeNeeded( iNextRelStopPos, iOffsetTime ) )
 			{
@@ -418,7 +420,6 @@ void miniSound::run()
 				{
 					iOffsetTime = 0;
 				}
-
 				// ** are we finished ?
 				if( iNextRelStopPos >= 0 /*!= -1*/ )		// since 25.1.2003
 				{
@@ -441,8 +442,8 @@ void miniSound::run()
 
 					if( iNextRelStopPos == -1 )
 					{
-						iNextRelStopPos = GetTotalLengthInMS();
-					}
+                        iNextRelStopPos = hItem->GetTotalLength(); //GetTotalLengthInMS();
+                    }
 
 					iDeltaTime = iNextRelStopPos - hItem->GetStartPos();
 
