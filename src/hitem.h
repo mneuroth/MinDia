@@ -24,14 +24,13 @@
 // ** gui
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
+#include <QImage>
 
 #include "minhandle.h"		// for the smart-ptr
 
 // *******************************************************************
 
 class DiaInfo;
-class SlideItem;
-class QImage;
 
 // *******************************************************************
 /** Represents an Item in an ItemView.

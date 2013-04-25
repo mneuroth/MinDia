@@ -24,11 +24,8 @@
 
 #include "misctools.h"
 
-#include <qobject.h>
-#include <qpainter.h>
-#include <qimage.h>
-
-#include <stdio.h>
+#include <QObject>
+#include <QPainter>
 
 // *******************************************************************
 
@@ -45,16 +42,16 @@ const int c_iSlideOffsY2	= 39;	//40;
 // *******************************************************************
 
 HItem::HItem( const QRect & aRect, QGraphicsScene * pCanvas, minHandle<DiaInfo> hData  )
-: QGraphicsRectItem(QRectF(aRect.x(),aRect.y(),aRect.width(),aRect.height())),
+: QGraphicsRectItem( QRectF( aRect.x(), aRect.y(), aRect.width(), aRect.height() ) ),
   m_pImageCache( 0 )
 {
-	m_hData = hData;
+    m_hData = hData;
 	m_bIsSelected = false;
 
 	// ** do not draw the rectangle of this item 
 	setPen( QPen( QColor( 255, 255, 255 ) ) );
-    //old: setZ( 50 );
 
+//cout << "HItem" << endl;
     pCanvas->addItem(this);
 }
 
