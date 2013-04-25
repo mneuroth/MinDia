@@ -34,6 +34,8 @@
 #include <QImage>
 #include <QPainter>
 
+extern bool IsExecuteScriptAllowed();
+
 void _FadeImage( QPainter * pPainter, int iFadeFactor, const QImage & aImagePrevious, const QImage & aImage );
 
 // *******************************************************************
@@ -1279,16 +1281,19 @@ double DiaPresentation::GetDissolveTimeOfSlide( int iSlideIndex ) const
 
 bool DiaPresentation::IsScriptEnabled() const
 {
-	return m_aScriptEnv.IsEnabled();
+    return m_aScriptEnv.IsEnabled() && IsExecuteScriptAllowed();
 }
 
 void DiaPresentation::MyExecuteScript( const string & sEvent )
 {
-	bool bScriptFound;
-	int  iRet;
+    if( IsScriptEnabled() )
+    {
+        bool bScriptFound;
+        int  iRet;
 
-	m_aScriptEnv.ExecuteScriptForEvent( sEvent, bScriptFound, &iRet );
-	CheckScriptResult( sEvent, bScriptFound, iRet );
+        m_aScriptEnv.ExecuteScriptForEvent( sEvent, bScriptFound, &iRet );
+        CheckScriptResult( sEvent, bScriptFound, iRet );
+    }
 }
 
 void DiaPresentation::CheckScriptResult( const string & sEvent, bool bFoundScript, int iRet )
