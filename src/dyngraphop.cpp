@@ -144,7 +144,7 @@ void OpItem_ChangeColor::sltOnTimer()
         m_iCount++;
         if( m_pItem->scene() )
 		{
-            m_pItem->scene()->update();
+            m_pItem->scene()->update(m_pItem->scene()->sceneRect());
 		}
         m_aTimer->start( m_iTimeout );
 	}
@@ -275,7 +275,7 @@ void OpItem_Hide::sltOnTimer()
     m_pItem->hide();
     if( m_pItem->scene() )
 	{
-        m_pItem->scene()->update();
+        m_pItem->scene()->update(m_pItem->scene()->sceneRect());
 	}
     m_bDone = true;
 }
@@ -293,7 +293,7 @@ void OpItem_Show::sltOnTimer()
     m_pItem->show();
     if( m_pItem->scene() )
 	{
-        m_pItem->scene()->update();
+        m_pItem->scene()->update(m_pItem->scene()->sceneRect());
 	}
     m_bDone = true;
 }
@@ -389,7 +389,7 @@ void OpItem_ChangeFontSize::sltOnTimer()
         m_iCount++;
         if( m_pItem->scene() )
 		{
-            m_pItem->scene()->update();
+            m_pItem->scene()->update(m_pItem->scene()->sceneRect());
 		}
         m_aTimer->start( m_iTimeout );
 	}
@@ -516,7 +516,7 @@ void OpItem_MoveTo::sltOnTimer()
         m_iCount++;
         if( m_pItem->scene() )
 		{
-            m_pItem->scene()->update();
+            m_pItem->scene()->update(m_pItem->scene()->sceneRect());
 		}
         m_aTimer->start( m_iTimeout );
 	}
@@ -809,7 +809,7 @@ void DynTextContainer::Update()
 {
     if( m_pOutputWindowProxy && m_pOutputWindowProxy->GetCanvas() )
 	{
-        m_pOutputWindowProxy->GetCanvas()->update();
+        m_pOutputWindowProxy->GetCanvas()->update(m_pOutputWindowProxy->GetCanvas()->sceneRect());
 	}
 }
 
@@ -847,11 +847,11 @@ bool DynTextContainer::Write( ostream & aStream ) const
 {
 	bool bOk = IOContainer< DynText >::Write( aStream );
 
-	//Update();
+    //Update();
     if( m_pOutputWindowProxy && m_pOutputWindowProxy->GetCanvas() )
-	{
-        m_pOutputWindowProxy->GetCanvas()->update();
-	}
+    {
+        m_pOutputWindowProxy->GetCanvas()->update(m_pOutputWindowProxy->GetCanvas()->sceneRect());
+    }
 
 	return bOk;
 }
@@ -1128,7 +1128,7 @@ void DynText::SetSelected( bool bSelected )
 			m_pSelectedHelper->hide();
 		}
 	}
-    scene()->update();
+    scene()->update(scene()->sceneRect());
 }
 
 bool DynText::IsAttachedToSlide() const
@@ -1200,7 +1200,7 @@ void DynText::DoMouseMove( int x, int y )
         move( (double)pos().x()+dx, (double)pos().y()+dy );
 		m_xOld = x;
 		m_yOld = y;
-        scene()->update();
+        scene()->update(scene()->sceneRect());
 	}
 }
 

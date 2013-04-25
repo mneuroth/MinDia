@@ -1801,10 +1801,14 @@ void MinDiaWindow::sltItemSelected( int iCount, HItem * pFirstSelectedItem, int 
 
 		if( iCount==1 )
 		{
-            QImage aImage;
+            cout << "xxx " << (void *)pFirstSelectedItem << endl;
             minHandle<DiaInfo> hDiaInfo = pFirstSelectedItem->GetInfoData();
-            QString sFileName = ToQString( hDiaInfo->GetImageFile() );
-            m_pPlayInfoDialog->sltSetImage( CopyImageArea( GetImageFromFileName( sFileName ), hDiaInfo->GetRelX(), hDiaInfo->GetRelY(), hDiaInfo->GetRelDX(), hDiaInfo->GetRelDY() ), bIsPlaying, iDissolveTimeInMS );
+// TODO working gulpx49
+            if( hDiaInfo.IsOk() )
+            {
+                QString sFileName = ToQString( hDiaInfo->GetImageFile() );
+                m_pPlayInfoDialog->sltSetImage( CopyImageArea( GetImageFromFileName( sFileName ), hDiaInfo->GetRelX(), hDiaInfo->GetRelY(), hDiaInfo->GetRelDX(), hDiaInfo->GetRelDY() ), bIsPlaying, iDissolveTimeInMS );
+            }
 		}
 		else
 		{
