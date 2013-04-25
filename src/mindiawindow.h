@@ -129,6 +129,8 @@ MinDiaWindow * GetMainWindow();
 
 DiaPresentation * GetCurrentPresentation();
 
+bool IsExecuteScriptAllowed();
+
 // *******************************************************************
 /** The main window for the slide show program.
   */
