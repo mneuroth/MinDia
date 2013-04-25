@@ -339,7 +339,6 @@ void HItemView::mousePressEvent( QMouseEvent * pEvent )
 			sltSelectAllItems( false, true );
 		}
 
-cout << "mouseMove " << (void *)pFirstSelectedItem << endl;
 		emit sigItemSelected( GetSelectedCount(), pFirstSelectedItem, iFirstSelectedItemNo, 0 );
 
 		// ** update the view
@@ -864,10 +863,10 @@ void HItemView::ResetView()
 {
 	m_aNextItemPos	= QPoint( 0, 0 );
 
-	// ** reset scrollbars 
-//    m_pCanvas->setSceneRect( 0, 0, m_aSizeHint.width(), m_aSizeHint.height() );
-
 	DeleteAllHItems();
+
+    // deselect all selected items
+    emit sigItemSelected( 0, 0, -1, 0 );
 }
 
 void HItemView::DeleteAllHItems()
@@ -922,7 +921,6 @@ void HItemView::SelectItemDelta( int iDeltaIndex )
 					pItemNext->SetSelected( !pItemNext->GetSelected() );
 				}
 
-                cout << "SelectItemDelta " << (void *)pItemNext << endl;
                 emit sigItemSelected( 1, pItemNext, i+iDeltaIndex, 0 );
 
 				// ** shift scrollbar if needed
@@ -968,11 +966,6 @@ bool HItemView::SelectItem( int iIndex, int iDissolveTimeInMS )
 
 		if( pItemSelected )
 		{
-            cout << "SelectItem " << (void *)pItemSelected << " " << iIndex << endl;
-            if( iIndex==11 )
-            {
-                cout << "xxxxxyyyy" << endl;
-            }
             emit sigItemSelected( 1, pItemSelected, iIndex, iDissolveTimeInMS );
 		}
 
