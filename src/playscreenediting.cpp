@@ -4,6 +4,8 @@
 
 #include <QGraphicsSimpleTextItem>
 
+#include <iostream>
+
 PlayScreenEditing::PlayScreenEditing(QObject *parent) :
     QGraphicsScene(parent),
     m_pBackgroundImage( 0 )
