@@ -154,16 +154,17 @@ void HItemView::sltNewItem()
 
 void HItemView::sltUpdateView()
 {
-    m_pCanvas->update();
+    m_pCanvas->update(m_pCanvas->sceneRect());
     // ** update view widget to show the new created item
     update( x(), y(), width(), height() );
 }
 
 void HItemView::sltUpdateSelected()
 {
-    m_pCanvas->update();
-    // ** only repaint the selected border of all dias
-    update( x(), y(), width(), height() );
+//    m_pCanvas->update();
+//    // ** only repaint the selected border of all dias
+//    update( /*x(), y(), width(), height()*/ );
+    sltUpdateView();
 }
 
 void HItemView::AddItemAt( minHandle<DiaInfo> hDia, int iIndex, bool bInsert, bool bUpdateView, bool bDoResize )
@@ -338,6 +339,7 @@ void HItemView::mousePressEvent( QMouseEvent * pEvent )
 			sltSelectAllItems( false, true );
 		}
 
+cout << "mouseMove " << (void *)pFirstSelectedItem << endl;
 		emit sigItemSelected( GetSelectedCount(), pFirstSelectedItem, iFirstSelectedItemNo, 0 );
 
 		// ** update the view
@@ -420,7 +422,7 @@ void HItemView::mouseMoveEvent( QMouseEvent * pEvent )
 						}
 
 						sltSelectItem( *aIter + iOffset, 0 );
-						sltDeleteAllSlectedItems();
+/*TODO gulp47*/						sltDeleteAllSlectedItems();
 						++aIter;
 					}
 
@@ -525,7 +527,9 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 		{
 			int iIndex = -1;
 
-			QPoint aPoint = pEvent->pos();
+            //QPoint aPoint = pEvent->pos();
+            QPointF pos = mapToScene(pEvent->pos().x(),pEvent->pos().y());
+            QPoint aPoint((int)pos.x(),(int)pos.y());
 
             int xx = aPoint.x() + x();
             int yy = aPoint.y() + y();
@@ -554,12 +558,14 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 		{
 			int iIndex = -1;
 
-			QPoint aPoint = pEvent->pos();
+            //QPoint aPoint = pEvent->pos();
+            QPointF pos = mapToScene(pEvent->pos().x(),pEvent->pos().y());
+            QPoint aPoint((int)pos.x(),(int)pos.y());
 
             int xx = aPoint.x() + x();
             int yy = aPoint.y() + y();
 
-            sFileName = pEvent->mimeData()->text();
+            QString sClipboarData = pEvent->mimeData()->text();
             
 			// find the index for the selected image
 			for( int i=0; i<(int)m_aItemContainer.size(); i++ )
@@ -577,7 +583,7 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 
 			sltSelectItem( iIndex, 0 );
 
-            SetFromClipboardData( sFileName, true );
+            SetFromClipboardData( sClipboarData, true );
 
 			m_iDragTargetIndex = iIndex;
 
@@ -607,8 +613,6 @@ void HItemView::sltDeleteAllSlectedItems()
 
 	SyncViewWithData();
 
-	emit sigViewDataChanged();
-
 	// ** if items were selected, select the first item again and make it visible
 	if( iLastSelected != -1 )
 	{
@@ -617,6 +621,10 @@ void HItemView::sltDeleteAllSlectedItems()
 		// ** update the view
 		sltUpdateSelected();
 	}
+
+    emit sigViewDataChanged();      // TODO gulp moved !
+
+    //sltUpdateView(); --> post update view ?
 }
 
 void HItemView::sltSelectAllItems( bool bSelect, bool bUpdateView )
@@ -633,7 +641,7 @@ void HItemView::sltSelectAllItems( bool bSelect, bool bUpdateView )
 	// ** update the view (if needed)
 	if( bUpdateView )
 	{
-		emit sigItemSelected( GetSelectedCount(), 0, -1, 0 );
+        emit sigItemSelected( GetSelectedCount(), 0, -1, 0 );
 
 		sltUpdateSelected();
 	}
@@ -795,8 +803,6 @@ bool HItemView::SetFromClipboardData( const QString & sData, bool bIsDrop )
 
 	SyncViewWithData();
 
-	emit sigViewDataChanged();
-
 	// ** if a item was selected, select this item again and make it visible
 	if( pSelectedItem != 0 )
 	{
@@ -806,7 +812,9 @@ bool HItemView::SetFromClipboardData( const QString & sData, bool bIsDrop )
 		sltUpdateSelected();
 	}
 
-	return true;
+    emit sigViewDataChanged();      // TODO gulp moved
+
+    return true;
 }
 
 int HItemView::GetCountValidClipboardData( const QString & sData )
@@ -914,7 +922,8 @@ void HItemView::SelectItemDelta( int iDeltaIndex )
 					pItemNext->SetSelected( !pItemNext->GetSelected() );
 				}
 
-				emit sigItemSelected( 1, pItemNext, i+iDeltaIndex, 0 );
+                cout << "SelectItemDelta " << (void *)pItemNext << endl;
+                emit sigItemSelected( 1, pItemNext, i+iDeltaIndex, 0 );
 
 				// ** shift scrollbar if needed
                 QRectF aRect = pItemNext->rect();
@@ -959,7 +968,12 @@ bool HItemView::SelectItem( int iIndex, int iDissolveTimeInMS )
 
 		if( pItemSelected )
 		{
-			emit sigItemSelected( 1, pItemSelected, iIndex, iDissolveTimeInMS );
+            cout << "SelectItem " << (void *)pItemSelected << " " << iIndex << endl;
+            if( iIndex==11 )
+            {
+                cout << "xxxxxyyyy" << endl;
+            }
+            emit sigItemSelected( 1, pItemSelected, iIndex, iDissolveTimeInMS );
 		}
 
 		// ** shift scrollbar if needed
