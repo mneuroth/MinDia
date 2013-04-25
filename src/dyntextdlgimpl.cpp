@@ -52,6 +52,7 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, c
     m_pCanvasText = new DynamicTextItem(this);
     m_pCanvasText->setText( ToQString(m_hItem->GetString()) );
     m_pCanvasText->setFlag(QGraphicsItem::ItemIsMovable);
+//cout << "DynamicTextDlgImpl" << endl;
     m_pCanvas->addItem(m_pCanvasText);
 
     connect( this, SIGNAL( sigDialogHelp(QWidget *, const QString &) ), pMain, SLOT( sltShowModalHelp(QWidget *, const QString &) ) );

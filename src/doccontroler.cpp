@@ -107,7 +107,7 @@ DocumentAndControler::DocumentAndControler( bool bEnableScript,
     connect( this, SIGNAL( sigSelectAllClipboard() ), pMainWindow, SLOT( sltSelectAllClipboard() ) );
     connect( this, SIGNAL( sigDeleteSelectedItems() ), pMainWindow, SLOT( sltDeleteSelectedItems() ) );
 
-    connect( this, SIGNAL( sigShowActImage(const QString &) ), pMainWindow, SLOT( sltShowImageFile(const QString &) ) );
+    //connect( this, SIGNAL( sigShowActImage(const QString &) ), pMainWindow, SLOT( sltShowImageFile(const QString &) ) );
     connect( this, SIGNAL( sigModusIsSwitched() ), pMainWindow, SLOT( sltModusIsSwitched() ) );
     connect( this, SIGNAL( sigPlayFinished() ), pMainWindow, SLOT( sltPlayFinished() ) );
     connect( this, SIGNAL( sigSelectItem(int,int) ), pMainWindow, SLOT( sltSelectItem(int,int) ) );
