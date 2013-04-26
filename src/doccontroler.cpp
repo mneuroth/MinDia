@@ -360,7 +360,7 @@ void DocumentAndControler::sltSaveDocAsXML( const QString & sFileName, bool & bO
 
 void DocumentAndControler::sltExportDynGraphicData( const QString & sFileName )
 {
-    fstream aFile( sFileName.toLocal8Bit(), ios::in );
+    fstream aFile( sFileName.toLocal8Bit(), ios::out );
 
 	if( aFile.good() )
 	{
