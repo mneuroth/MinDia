@@ -1049,6 +1049,11 @@ void PlayInfoDlgImpl::sltFadeInImage( const QImage & aNewImage, int iFadeInTimeI
 	}
 
 	m_iFadeInTimeInMS	= iFadeInTimeInMS;
+    if( m_iFadeInTimeInMS<=0 )
+    {
+        m_iFadeInTimeInMS = 1;      // Bugfix for 0 dissiove time for white image at show start
+        // use a dissolve time > 0 for slide show, use at leas 1 ms
+    }
 	m_aFadeTime.Reset();
     m_aFadeTime.Start();
 
