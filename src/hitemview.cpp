@@ -93,6 +93,7 @@ HItemView::HItemView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMai
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	m_iDragTargetIndex = -1;
+    m_iDragSourceIndex = -1;
 
 	m_pContextMenu		= new QMenu( this );
     
@@ -385,6 +386,7 @@ void HItemView::mouseMoveEvent( QMouseEvent * pEvent )
 
 		if( GetActClipboardData( sDragString, &aIndexContainer ) )
 		{
+            m_iDragSourceIndex = aIndexContainer[0];
 			QDrag *d = new QDrag( this );
             QMimeData * pMimeData = new QMimeData();
             pMimeData->setText(sDragString);
@@ -410,15 +412,15 @@ void HItemView::mouseMoveEvent( QMouseEvent * pEvent )
 					{
 						// is the target-index of the dragging operation before 
 						// the source-index ?
-						// if yes, than there have to be an offset !
-						if( m_iDragTargetIndex<= *aIter )
+                        // if yes, than there has to be an offset !
+                        if( m_iDragTargetIndex <= *aIter )
 						{
 							iOffset = aIndexContainer.size();
 						}
 						else
 						{
-							iOffset = 0;
-						}
+                            iOffset = 0;
+                        }
 
 						sltSelectItem( *aIter + iOffset, 0 );
 /*TODO gulp47*/						sltDeleteAllSlectedItems();
@@ -555,6 +557,8 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 		}
 		else if( pEvent->mimeData()->hasText() ) 
 		{
+            // accept dropping of data --> see also the sender of Drag&Drop in mouseMoveEvent()
+
 			int iIndex = -1;
 
             //QPoint aPoint = pEvent->pos();
@@ -572,13 +576,14 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 				HItem * pItem = m_aItemContainer[ i ];
                 if( pItem && pItem->IsPointInItem( xx, yy ) )
 				{
-					iIndex = i;
+                    iIndex = i;
 				}
 			}
 
-			// min todo gulp: wenn iIndex == ActSelectedIndex --> ignorieren, nur wenn unterschiedlich draggen !
+            // do we drag from left to right ?
+            bool bRightDrag = m_iDragSourceIndex < iIndex;
 
-			//QDropEvent::Action aAction = pEvent->action();
+            iIndex = iIndex + (bRightDrag ? 1 : 0);
 
 			sltSelectItem( iIndex, 0 );
 
@@ -621,7 +626,7 @@ void HItemView::sltDeleteAllSlectedItems()
 		sltUpdateSelected();
 	}
 
-    emit sigViewDataChanged();      // TODO gulp moved !
+    emit sigViewDataChanged();
 
     //sltUpdateView(); --> post update view ?
 }
@@ -730,7 +735,7 @@ bool HItemView::GetActClipboardData( QString & sDataOut, MyIndexContainer * pInd
 
 bool HItemView::GetActClipboardData( QString & sDataOut ) const
 {
-	return GetActClipboardData( sDataOut, 0 );
+    return GetActClipboardData( sDataOut, 0 );
 }
 
 bool HItemView::SetFromClipboardData( const QString & sData, bool bIsDrop )
@@ -811,7 +816,7 @@ bool HItemView::SetFromClipboardData( const QString & sData, bool bIsDrop )
 		sltUpdateSelected();
 	}
 
-    emit sigViewDataChanged();      // TODO gulp moved
+    emit sigViewDataChanged();
 
     return true;
 }

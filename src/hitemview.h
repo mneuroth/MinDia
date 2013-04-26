@@ -83,7 +83,7 @@ public:
 	int  GetLastSelectedItemIndex() const;
 	bool GetTwoSelectedItems( HItem * & aItem1, HItem * & aItem2 ) const;	// needed for dissolve tests
 
-	bool GetActClipboardData( QString & sDataOut ) const;
+    bool GetActClipboardData( QString & sDataOut ) const;
     bool SetFromClipboardData( const QString & sData, bool bIsDrop );
 	int  GetCountValidClipboardData( const QString & sData );
 
@@ -135,6 +135,7 @@ private:
 	QRect				m_aDefaultItemSize;
 
 	int					m_iDragTargetIndex;		// temp
+    int					m_iDragSourceIndex;		// temp
 
 	MyItemContainer		m_aItemContainer;
 
