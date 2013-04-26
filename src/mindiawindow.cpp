@@ -299,7 +299,7 @@ void MinDiaWindow::CreateMenus()
     m_pFileLoadAction->setShortcut(Qt::CTRL+Qt::Key_O);
     connect( m_pFileLoadAction, SIGNAL( triggered() ), this, SLOT( sltAskLoadDoc() ) );
     pTools->addAction(m_pFileLoadAction);
-    m_pFileLoadForEditAction = new QAction( tr( "Open for &edit..." ), this );
+    m_pFileLoadForEditAction = new QAction( tr( "Open for e&dit..." ), this );
     m_pFileLoadForEditAction->setStatusTip(tr( "Open an existing file for edit (script-events are not executed)" ));
     m_pFileLoadForEditAction->setShortcut(Qt::ALT+Qt::Key_O);
     connect( m_pFileLoadForEditAction, SIGNAL( triggered() ), this, SLOT( sltAskLoadForEditDoc() ) );
@@ -327,10 +327,6 @@ void MinDiaWindow::CreateMenus()
     m_pFileExportAction = new QAction(  tr( "Expo&rt..." ), this );
     m_pFileExportAction->setStatusTip( tr( "Export presentation" ) );
     connect( m_pFileExportAction, SIGNAL( triggered() ), this, SLOT( sltExportDoc() ) );
-    m_pFileExportAVIAction = new QAction( tr( "Export as &AVI..." ), this );
-    m_pFileExportAVIAction->setShortcut(Qt::Key_F8);
-    m_pFileExportAVIAction->setStatusTip( tr( "Export presentation as AVI video" ) );
-    connect( m_pFileExportAVIAction, SIGNAL( triggered() ), this, SLOT( sltExportAVI() ) );
     m_pFileExportDynGraphAction = new QAction( tr( "Export dyn. &graphics..." ), this );
     m_pFileExportDynGraphAction->setStatusTip( tr( "Export dynamic graphic data" ) );
     connect( m_pFileExportDynGraphAction, SIGNAL( triggered() ), this, SLOT( sltExportDynGraphData() ) );
@@ -340,6 +336,10 @@ void MinDiaWindow::CreateMenus()
     m_pFilePrintAction = new QAction( tr( "&Print..." ), this );
     m_pFilePrintAction->setStatusTip( tr( "Print data" ) );
     connect( m_pFilePrintAction, SIGNAL( triggered() ), this, SLOT( sltPrintDoc() ) );
+    m_pFileExportAVIAction = new QAction( tr( "Cr&eate as Movie..." ), this );
+    m_pFileExportAVIAction->setShortcut(Qt::CTRL+Qt::Key_E);
+    m_pFileExportAVIAction->setStatusTip( tr( "Export presentation as AVI video" ) );
+    connect( m_pFileExportAVIAction, SIGNAL( triggered() ), this, SLOT( sltExportAVI() ) );
     m_pFileExitAction = new QAction( tr( "E&xit" ), this );
     m_pFileExitAction->setStatusTip( tr( "Exit application" ) );
     m_pFileExitAction->setShortcut(Qt::ALT+Qt::Key_F4);
@@ -358,7 +358,6 @@ void MinDiaWindow::CreateMenus()
     m_pImportExportFilesSubMenu->addAction(m_pFileExportDynGraphAction);
     m_pImportExportFilesSubMenu->addSeparator();
     m_pImportExportFilesSubMenu->addAction(m_pFileExportAction);
-    m_pImportExportFilesSubMenu->addAction(m_pFileExportAVIAction);
 
     m_pFile->addAction(m_pFileNewAction);
     m_pFile->addSeparator();
@@ -369,6 +368,7 @@ void MinDiaWindow::CreateMenus()
     m_pFile->addAction(m_pFileMakeRelPathsAction);
     m_pFile->addAction(m_pFileMakeAbsPathsAction);
     m_pFile->addSeparator();
+    m_pFile->addAction(m_pFileExportAVIAction);
     m_pFile->addAction(m_pFilePrintAction);
     m_pFile->addSeparator();
     m_pFile->addMenu( m_pImportExportFilesSubMenu );
@@ -433,7 +433,7 @@ void MinDiaWindow::CreateMenus()
     m_pExtrasModifyItemAction->setCheckable(true);
     connect( m_pExtrasModifyItemAction, SIGNAL( triggered() ), this, SLOT( sltDoModifyItem() ) );
 
-    m_pEditUpdateAction = new QAction( tr( "&Update" ), this );
+    m_pEditUpdateAction = new QAction( tr( "Re&fresh" ), this );
     m_pEditUpdateAction->setStatusTip( tr("Refresh the view") );
     m_pEditUpdateAction->setShortcut(Qt::Key_F5);
     connect( m_pEditUpdateAction, SIGNAL( triggered() ), this, SLOT( sltUpdate() ) );
@@ -979,9 +979,9 @@ void MinDiaWindow::sltDoPlayInfos()
 	{
         m_pPlayInfoDialog->SetImageRatio( GetCurrentImageRatio() );
         m_pPlayInfoDialog->show();
-        // workaround for showing dialog with updated view-rect
-//        m_pPlayInfoDialog->resize(m_pPlayInfoDialog->width()-1,m_pPlayInfoDialog->height()-1);
-//        m_pPlayInfoDialog->resize(m_pPlayInfoDialog->width()+1,m_pPlayInfoDialog->height()+1);
+
+        // ** update the data for the selected item
+        sltItemSelected( m_iCount, m_pFirstSelectedItem, m_iFirstSelectedItemNo, 0 );
     }
 }
 
