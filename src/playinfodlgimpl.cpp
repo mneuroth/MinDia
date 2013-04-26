@@ -752,7 +752,7 @@ bool PlayInfoDlgImpl::Clear()
 	{
 		QtMTLock aMTLock;
 
-        m_pScene->update(m_pScene->sceneRect());
+        m_pScene->update();
 	}
 
 	return true;
@@ -821,7 +821,7 @@ bool PlayInfoDlgImpl::MoveText( int iTextID, int x, int y )
 
         aItem->setPos( x, y );
 
-        m_pScene->update(m_pScene->sceneRect());
+        m_pScene->update();
 
 		return true;
 	}
@@ -898,7 +898,7 @@ bool PlayInfoDlgImpl::SetTextColor( int iTextID, int iRed, int iGreen, int iBlue
 		{
             pText->setBrush( QColor( iRed, iGreen, iBlue ) );
 
-            m_pScene->update(m_pScene->sceneRect());
+            m_pScene->update();
 
 			return true;
 		}
@@ -948,7 +948,7 @@ bool PlayInfoDlgImpl::DeleteText( int iTextID )
 			QtMTLock aMTLock;
 
 			// ** everything is ok, update the view and return
-            m_pScene->update(m_pScene->sceneRect());
+            m_pScene->update();
 		}
 
 		return true;
@@ -1010,7 +1010,7 @@ void PlayInfoDlgImpl::SetCurrentImage( const QImage & aImage, bool bForceSet )
 
     //m_pScene->SetFadeFactor(0.5);
 
-    m_pScene->update(m_pScene->sceneRect());
+    m_pScene->update();
 }
 
 void PlayInfoDlgImpl::sltFadeInImage( const QImage & aNewImage, int iFadeInTimeInMS )
@@ -1062,7 +1062,7 @@ void PlayInfoDlgImpl::sltFadeInImage( const QImage & aNewImage, int iFadeInTimeI
 
     SetCurrentImage( aFadeInImage );
     m_pScene->SetFadeFactor(iFadeInFactor);
-    m_pScene->update(m_pScene->sceneRect());
+    m_pScene->update();
 
     // ** and start the fade in process...
     m_pFadeInTimer->start( 1 );
@@ -1096,7 +1096,7 @@ void PlayInfoDlgImpl::sltFadeInTimer()
         {
             m_pScene->SetFadeFactor(iFadeInFactor);
         }
-        m_pScene->update(m_pScene->sceneRect());
+        m_pScene->update();
 
         m_pFadeInTimer->start( g_iTimerDelay );
 	}
