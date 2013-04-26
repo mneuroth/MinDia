@@ -336,9 +336,9 @@ void MinDiaWindow::CreateMenus()
     m_pFilePrintAction = new QAction( tr( "&Print..." ), this );
     m_pFilePrintAction->setStatusTip( tr( "Print data" ) );
     connect( m_pFilePrintAction, SIGNAL( triggered() ), this, SLOT( sltPrintDoc() ) );
-    m_pFileExportAVIAction = new QAction( tr( "Cr&eate as Movie..." ), this );
+    m_pFileExportAVIAction = new QAction( tr( "Cr&eate Movie..." ), this );
     m_pFileExportAVIAction->setShortcut(Qt::CTRL+Qt::Key_E);
-    m_pFileExportAVIAction->setStatusTip( tr( "Export presentation as AVI video" ) );
+    m_pFileExportAVIAction->setStatusTip( tr( "Export presentation as movie" ) );
     connect( m_pFileExportAVIAction, SIGNAL( triggered() ), this, SLOT( sltExportAVI() ) );
     m_pFileExitAction = new QAction( tr( "E&xit" ), this );
     m_pFileExitAction->setStatusTip( tr( "Exit application" ) );
@@ -365,6 +365,7 @@ void MinDiaWindow::CreateMenus()
     m_pFile->addAction(m_pFileLoadForEditAction);
     m_pFile->addAction(m_pFileSaveAction);
     m_pFile->addAction(m_pFileSaveAsAction);
+    m_pFile->addSeparator();
     m_pFile->addAction(m_pFileMakeRelPathsAction);
     m_pFile->addAction(m_pFileMakeAbsPathsAction);
     m_pFile->addSeparator();
