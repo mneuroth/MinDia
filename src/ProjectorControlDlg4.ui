@@ -31,12 +31,18 @@
         <property name="text">
          <string>&amp;Back</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="0" column="1">
        <widget class="QPushButton" name="m_pForward">
         <property name="text">
          <string>&amp;Forward</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -45,12 +51,18 @@
         <property name="text">
          <string>&amp;Direct Mode</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="0" column="3">
        <widget class="QPushButton" name="m_pReset">
         <property name="text">
          <string>&amp;Reset</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -74,6 +86,9 @@
        <widget class="QPushButton" name="m_pStopGo">
         <property name="text">
          <string>&amp;Stop / Go</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -198,6 +213,9 @@
         <property name="text">
          <string>&amp;-</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="1" column="2">
@@ -210,6 +228,9 @@
         </property>
         <property name="text">
          <string>&amp;+</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -226,6 +247,9 @@
        <widget class="QPushButton" name="m_pGetDiaNo">
         <property name="text">
          <string>Get s&amp;lide no</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -255,6 +279,9 @@
        <widget class="QPushButton" name="m_pStatusButton">
         <property name="text">
          <string>St&amp;atus</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -301,6 +328,9 @@
        <widget class="QPushButton" name="m_pTestButton">
         <property name="text">
          <string>&amp;Test</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
         </property>
        </widget>
       </item>

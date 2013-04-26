@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>407</width>
-    <height>636</height>
+    <height>672</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -65,6 +65,9 @@
      <property name="shortcut">
       <string>Ctrl+Left</string>
      </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
     </widget>
    </item>
    <item row="2" column="0">
@@ -107,6 +110,9 @@
     <widget class="QPushButton" name="m_pFileNameButton">
      <property name="text">
       <string>&amp;...</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -210,135 +216,6 @@
      </layout>
     </widget>
    </item>
-   <item row="11" column="0" colspan="5">
-    <layout class="QVBoxLayout">
-     <item>
-      <layout class="QHBoxLayout">
-       <item>
-        <widget class="QPushButton" name="m_pApply">
-         <property name="text">
-          <string>&amp;Apply</string>
-         </property>
-         <property name="autoDefault">
-          <bool>true</bool>
-         </property>
-         <property name="default">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="m_pApplyAndPrev">
-         <property name="text">
-          <string>Apply and pre&amp;v.</string>
-         </property>
-         <property name="autoDefault">
-          <bool>true</bool>
-         </property>
-         <property name="default">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="m_pApplyAndNext">
-         <property name="text">
-          <string>Apply and ne&amp;xt</string>
-         </property>
-         <property name="autoDefault">
-          <bool>true</bool>
-         </property>
-         <property name="default">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="Spacer3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout">
-       <item>
-        <widget class="QPushButton" name="m_pNewItem">
-         <property name="text">
-          <string>&amp;New dia</string>
-         </property>
-         <property name="shortcut">
-          <string>Alt+N</string>
-         </property>
-         <property name="autoDefault">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="m_pDeleteItem">
-         <property name="text">
-          <string>&amp;Delete dia</string>
-         </property>
-         <property name="shortcut">
-          <string>Alt+D</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="Spacer2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>43</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="buttonOk">
-         <property name="text">
-          <string>&amp;OK</string>
-         </property>
-         <property name="autoDefault">
-          <bool>true</bool>
-         </property>
-         <property name="default">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="buttonCancel">
-         <property name="text">
-          <string>&amp;Cancel</string>
-         </property>
-         <property name="autoDefault">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </item>
    <item row="1" column="1" colspan="4">
     <widget class="QLineEdit" name="m_pCommentEdit"/>
    </item>
@@ -350,7 +227,13 @@
      <property name="shortcut">
       <string>Ctrl+Right</string>
      </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
     </widget>
+   </item>
+   <item row="5" column="1" colspan="2">
+    <widget class="QLineEdit" name="m_pTimerEdit"/>
    </item>
    <item row="6" column="0" colspan="5">
     <widget class="QGroupBox" name="m_pBoxClipping">
@@ -363,9 +246,6 @@
       </item>
      </layout>
     </widget>
-   </item>
-   <item row="5" column="1" colspan="2">
-    <widget class="QLineEdit" name="m_pTimerEdit"/>
    </item>
    <item row="5" column="0">
     <widget class="QLabel" name="TimerLabel">
@@ -406,6 +286,16 @@
      </layout>
     </widget>
    </item>
+   <item row="3" column="1" colspan="2">
+    <widget class="QLineEdit" name="m_pImageSize">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
    <item row="9" column="0" colspan="5">
     <widget class="QGroupBox" name="m_pBoxScripts">
      <property name="title">
@@ -435,6 +325,9 @@
           <property name="text">
            <string>&amp;Modify...</string>
           </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
          </widget>
         </item>
        </layout>
@@ -452,15 +345,137 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1" colspan="2">
-    <widget class="QLineEdit" name="m_pImageSize">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
+   <item row="11" column="0" colspan="5">
+    <layout class="QVBoxLayout">
+     <item>
+      <layout class="QHBoxLayout">
+       <item>
+        <widget class="QPushButton" name="m_pApply">
+         <property name="text">
+          <string>&amp;Apply</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+         <property name="default">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="m_pApplyAndPrev">
+         <property name="text">
+          <string>Apply and pre&amp;v.</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+         <property name="default">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="m_pApplyAndNext">
+         <property name="text">
+          <string>Apply and ne&amp;xt</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+         <property name="default">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="Spacer3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout">
+       <item>
+        <widget class="QPushButton" name="m_pNewItem">
+         <property name="text">
+          <string>&amp;New dia</string>
+         </property>
+         <property name="shortcut">
+          <string>Alt+N</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="m_pDeleteItem">
+         <property name="text">
+          <string>&amp;Delete dia</string>
+         </property>
+         <property name="shortcut">
+          <string>Alt+D</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="Spacer2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>43</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="buttonCancel">
+         <property name="text">
+          <string>&amp;Cancel</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="buttonOk">
+         <property name="text">
+          <string>&amp;OK</string>
+         </property>
+         <property name="autoDefault">
+          <bool>true</bool>
+         </property>
+         <property name="default">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
@@ -477,7 +492,6 @@
   <tabstop>m_pNewItem</tabstop>
   <tabstop>m_pApply</tabstop>
   <tabstop>buttonOk</tabstop>
-  <tabstop>buttonCancel</tabstop>
   <tabstop>m_pDarkPhase</tabstop>
   <tabstop>m_pFlash</tabstop>
   <tabstop>m_pSwing</tabstop>

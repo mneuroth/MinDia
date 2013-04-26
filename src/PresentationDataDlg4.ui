@@ -127,16 +127,19 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="m_pOk">
+      <widget class="QPushButton" name="m_pCancel">
        <property name="text">
-        <string>&amp;Ok</string>
+        <string>&amp;Cancel</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="m_pCancel">
+      <widget class="QPushButton" name="m_pOk">
        <property name="text">
-        <string>&amp;Cancel</string>
+        <string>&amp;Ok</string>
        </property>
       </widget>
      </item>

@@ -88,12 +88,18 @@
        <property name="text">
         <string>&amp;Up</string>
        </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="m_pLineDown">
        <property name="text">
         <string>&amp;Down</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -107,7 +113,7 @@
         <string>&amp;New Line</string>
        </property>
        <property name="autoDefault">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -117,7 +123,7 @@
         <string>&amp;Delete Line</string>
        </property>
        <property name="autoDefault">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -138,6 +144,16 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="buttonCancel">
+       <property name="text">
+        <string>&amp;Cancel</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="buttonOk">
        <property name="text">
         <string>&amp;OK</string>
@@ -150,16 +166,6 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="buttonCancel">
-       <property name="text">
-        <string>&amp;Cancel</string>
-       </property>
-       <property name="autoDefault">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
    <item row="0" column="0" colspan="2">
@@ -169,7 +175,6 @@
  </widget>
  <tabstops>
   <tabstop>buttonOk</tabstop>
-  <tabstop>buttonCancel</tabstop>
   <tabstop>m_pNewLine</tabstop>
   <tabstop>m_pDeleteLine</tabstop>
  </tabstops>
