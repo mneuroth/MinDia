@@ -725,7 +725,7 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
         QRect aRect = GetTipRect( point, &sText, &iIndexOut );
 	    if( aRect.isValid() )
 		{
-            if( (pEvent->modifiers() & Qt::ShiftModifier) == Qt::ShiftModifier )
+            if( (pEvent->modifiers() & Qt::AltModifier) == Qt::AltModifier )
 			{
 				ShowModifyDynObjectDialog( iIndexOut );
 			}

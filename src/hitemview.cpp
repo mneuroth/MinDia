@@ -125,6 +125,7 @@ HItemView::HItemView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMai
 	    connect( this, SIGNAL( sigDialogHelp(const QString &) ), pMainWin, SLOT( sltShowHelp(const QString &) ) );
 //    	connect( this, SIGNAL( sigModifySelectedEntry() ), pMainWin, SLOT( sltShowModifyItem() ) );
 		connect( this, SIGNAL( sigLoadDoc(const QString &, bool) ), pMainWin, SLOT( sltLoadDoc(const QString &, bool) ) );
+        connect( this, SIGNAL( sigShowItemModifyDialog() ), pMainWin, SLOT( sltShowModifyItem() ) );
 	}
 }
 
@@ -344,7 +345,12 @@ void HItemView::mousePressEvent( QMouseEvent * pEvent )
 
 		// ** update the view
         sltUpdateSelected();
-	}
+
+        if( ( (pEvent->modifiers() & Qt::AltModifier) == Qt::AltModifier) )
+        {
+            emit sigShowItemModifyDialog();
+        }
+    }
 	else if( (pEvent->button() == Qt::RightButton) )
 	{
 		// ** handle popup menu...

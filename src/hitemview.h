@@ -108,6 +108,7 @@ signals:
 	void sigViewDataChanged();
 	void sigDialogHelp( const QString & sHelpTag);
 	void sigLoadDoc( const QString & sFileName, bool bExecuteEvent );
+    void sigShowItemModifyDialog();
 
 private:
 	// *** helper methods ***
