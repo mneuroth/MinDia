@@ -66,6 +66,9 @@ protected:
 	virtual void keyPressEvent( QKeyEvent * pEvent ); 
     virtual void resizeEvent( QResizeEvent * event );
 
+    void SetTextColor( const QColor & aColor );
+    void SetTextFont( const QFont & aFont );
+
     void UpdateTextPosition();
     void UpdateTextData();
 
@@ -74,6 +77,7 @@ private:
     QFont                      m_aInitFont;
     QGraphicsScene *           m_pCanvas;
     DynamicTextItem *          m_pCanvasText;
+    QGraphicsRectItem *        m_pClippingArea;
 };
 
 #endif

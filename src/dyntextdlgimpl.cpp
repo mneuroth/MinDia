@@ -22,14 +22,15 @@
 
 #include "misctools.h"
 
-#include <qcolordialog.h>
-#include <qfontdialog.h>
-#include <qpushbutton.h>
-#include <qlineedit.h>
-#include <qcheckbox.h>
+#include <QColorDialog>
+#include <QFontDialog>
+#include <QPushButton>
+#include <QLineEdit>
+#include <QCheckBox>
 #include <QBoxLayout>
 #include <QMouseEvent>
 #include <QKeyEvent>
+#include <QGraphicsRectItem>
 
 // *******************************************************************
 // *******************************************************************
@@ -51,9 +52,12 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, c
 
     m_pCanvasText = new DynamicTextItem(this);
     m_pCanvasText->setText( ToQString(m_hItem->GetString()) );
-    m_pCanvasText->setFlag(QGraphicsItem::ItemIsMovable);
-//cout << "DynamicTextDlgImpl" << endl;
+    m_pCanvasText->setFlag( QGraphicsItem::ItemIsMovable );
+
+    m_pClippingArea = new QGraphicsRectItem();
+
     m_pCanvas->addItem(m_pCanvasText);
+    m_pCanvas->addItem(m_pClippingArea);
 
     connect( this, SIGNAL( sigDialogHelp(QWidget *, const QString &) ), pMain, SLOT( sltShowModalHelp(QWidget *, const QString &) ) );
 
@@ -64,7 +68,7 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, c
     m_pDrawingArea->setScene(m_pCanvas);
     m_pDrawingArea->show();
 
-    m_pCanvas->setSceneRect(0,0,this->m_pDrawingArea->width(),this->m_pDrawingArea->height());
+//    m_pCanvas->setSceneRect( 0, 0, this->m_pDrawingArea->width(), this->m_pDrawingArea->height());
 
     show();
 
@@ -75,8 +79,11 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, c
     sTemp = sTemp.setNum( hItem->font().pointSize() );
     m_pFontSize->setText( sTemp );
 
+    SetTextFont( hItem->font() );
+
     QColor aColor = hItem->brush().color();
-    m_pSelectFontcolor->setPalette( QPalette( aColor ) );
+    SetTextColor( aColor );
+
     UpdateTextPosition();
     m_pCanvasText->show();
 
@@ -213,9 +220,7 @@ void DynamicTextDlgImpl::sltSelectFontcolor()
 
 	if( aColor.isValid() )
 	{
-        QPalette aPalette;
-        aPalette.setColor(backgroundRole(),aColor);
-        m_pSelectFontcolor->setPalette( aPalette );
+        SetTextColor( aColor );
 	}
 }
 
@@ -233,6 +238,8 @@ void DynamicTextDlgImpl::sltSelectFont()
 		m_pFontName->setText( m_aInitFont.family() );
 		sTemp = sTemp.setNum( m_aInitFont.pointSize() );
 		m_pFontSize->setText( sTemp );
+
+        SetTextFont( aFont );
 	}
 }
 
@@ -282,9 +289,28 @@ void DynamicTextDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 void DynamicTextDlgImpl::resizeEvent( QResizeEvent * event )
 {
     QDialog::resizeEvent(event);
-    m_pCanvas->setSceneRect(0,0,this->m_pDrawingArea->width()-2,this->m_pDrawingArea->height()-2);
+
+    m_pCanvas->setSceneRect(0,0,this->m_pDrawingArea->width()-4,this->m_pDrawingArea->height()-4);
     sltUpdateData();
     // update the relative positions after resize
     UpdateTextPosition();
+    // update clipping area size
+    QSize aClippingAreaSize = GetRatioSizeForAvailableSize( m_pDrawingArea->size(), GetCurrentImageRatio() );
+    m_pClippingArea->setRect(0,0,aClippingAreaSize.width()-4,aClippingAreaSize.height()-4);
 }
 
+void DynamicTextDlgImpl::SetTextColor( const QColor & aColor )
+{
+    QPalette aPalette = palette();
+    aPalette.setBrush( QPalette::ButtonText, aColor);
+    m_pSelectFontcolor->setPalette( aPalette );
+    m_pCanvasText->setBrush( QBrush( aColor ) );
+}
+
+void DynamicTextDlgImpl::SetTextFont( const QFont & aFont )
+{
+    QFont aTempFont = aFont;
+    aTempFont.setPointSize(m_pSelectFont->font().pointSize());
+    m_pSelectFont->setFont( aTempFont );
+    m_pCanvasText->setFont( aTempFont );
+}
