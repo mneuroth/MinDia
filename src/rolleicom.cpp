@@ -38,11 +38,17 @@ class MySleep : public QThread
 public:
     static void msleep(int ms)
     {
-        QThread::msleep(ms);
+        QThread::msleep((unsigned long)ms);
     }
 };
 
 #define BUFFER_MAX 255
+
+#ifdef _WIN32
+const int c_iDelay = 15;        /* TODO check for Windows !!! */
+#else
+const int c_iDelay = 15;        // original 10
+#endif
 
 // *******************************************************************
 // *******************************************************************
@@ -203,7 +209,7 @@ struct RolleiComHelperData
             m_pPort->setFlowControl(aFlowType);
             m_pPort->setStopBits(aStopBits);
 
-            //TODO: not supported for QSerialPort: m_pPort->setTimeout(1000);
+            //TODO gulp: not supported for QSerialPort: m_pPort->setTimeout(1000);
         }
         return true;
     }
@@ -219,14 +225,6 @@ struct RolleiComHelperData
         {
             int iRet = m_pPort->write(sMsg.c_str());
             return iRet!=0;
-//            int iRet = write( m_hFile, sMsg.c_str(), sMsg.length() );
-//            /* in case of an error... */
-//            if( iRet == 0 )
-//            {
-//                m_iLastError = errno;
-//            }
-//            //dbg: cout << "write: " << sMsg.c_str() << " wcount=" << iRet << endl;
-//            return (iRet != 0);
         }
         return false;
     }
@@ -236,37 +234,16 @@ struct RolleiComHelperData
         if( IsOk() )
         {
             char sBuffer[BUFFER_MAX];
-
-//            // ** check if there is any response on the com-port --> timeout !
-//            fd_set aReadfs;    /* file descriptor set */
-//            FD_ZERO(&aReadfs);
-//            FD_SET( m_hFile, &aReadfs );  /* set testing for source 1 */
-
-//            // hier ggf. optimierter timeout, z.b. beim Testen kleiner als waehrend der Praesentation !?
-//            struct timeval aTimeout;
-//            aTimeout.tv_usec = 0;  /* milliseconds */
-//            aTimeout.tv_sec  = 20;  /* seconds */
-
-//            // wait for first character which could be read...
-//            int iRes = select( m_hFile+1, &aReadfs, NULL, NULL, &aTimeout );
-//            if( iRes==0 )
-//            {
-//                /* number of file descriptors with input = 0, timeout occurred. */
-//                return false;
-//            }
-
-//            // a maximum nuber of 000<CR><LF> with delay of 10ms
-//            //Delay(50);      // give a little bit time to read all characters...
-//            // this is not needed since new handling of command reading below
+            sprintf(sBuffer,"");
 
             // new since 17.1.2011: try to read one command (ending with CR LF) or timeout when trying to read more characters
             int iReadTimeout = 0;
             while( !IsCommandReceived(sMsgOut) && /*NotTimeoutSinceLastSuccessfullRead==*/iReadTimeout<MAX_READ_TIMEOUT )
             {
+                bool ok = m_pPort->waitForReadyRead(c_iDelay);
+
                 // ** if we are here, there is something to read !
-//                int iRet = read( m_hFile, sBuffer, BUFFER_MAX );
                 int iRet = m_pPort->read(sBuffer,BUFFER_MAX);
-//                int iRet = m_pPort->readLine(sBuffer,BUFFER_MAX);
                 if( iRet>0 )
                 {
                     sBuffer[ iRet ] = 0;
@@ -274,13 +251,11 @@ struct RolleiComHelperData
                     sMsgOut += sBuffer;
                     // reset timeout, because we read something !
                     iReadTimeout = 0;
-
-
                 }
                 else
                 {
-                    iReadTimeout += 10;
-                    Delay(10);
+                    iReadTimeout += c_iDelay;
+                    Delay(c_iDelay);
                     //old: m_iLastError = errno;
                 }
             }
@@ -336,12 +311,6 @@ const int RolleiCom::LIGHT_DISPLAY_HIGH		= 5;
 const int RolleiCom::TWIN_DIGITAL_P			= 1;
 const int RolleiCom::MSC_300_P				= 2;
 
-#ifdef _WIN32
-const int c_iDelay = 15;        /* TODO check for Windows !!! */
-#else
-const int c_iDelay = 10;
-#endif
-
 /* example for ini file settings (NO WHITESPACES !)
 com.port_no=2
 com.baudrate=9600
@@ -361,7 +330,8 @@ RolleiCom::RolleiCom( bool bIgnoreComSettings, bool bSimulation, int iProjectorT
   m_bIgnoreComSettings( bIgnoreComSettings ),
   m_sComPort(""),
   m_iProjectorType( iProjectorType ),
-  m_bIsPcMode(false)
+  m_bIsPcMode(false),
+  m_aComPortSync(QMutex::Recursive)
 {
 	// ** default values for projector type may be overwritten with ini-file values
 	SetDefaultValues( m_iProjectorType );
