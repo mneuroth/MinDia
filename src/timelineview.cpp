@@ -1077,7 +1077,7 @@ void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
                 hItem->setPos( aDlg.m_pPosX->text().toInt(),aDlg.m_pPosY->text().toInt() );
     			hItem->SetRelativePos( -1.0, -1.0 );
     		}
-            QColor aColor = aDlg.m_pSelectFontcolor->palette().background().color(); //backgroundColor();
+            QColor aColor = aDlg.m_pSelectFontcolor->palette().brush(QPalette::ButtonText).color();
             hItem->setBrush( aColor );
             hItem->font().setPointSize(aDlg.m_pFontSize->text().toInt());
             hItem->font().setFamily(aDlg.m_pFontName->text());

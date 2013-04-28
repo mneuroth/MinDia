@@ -54,8 +54,9 @@ public slots:
     void sltDeleteText();
     void sltSelectFont();
     void sltSelectFontcolor();
-    void sltToggleImage1(bool bValue);
-    void sltToggleImage2(bool bValue);
+    void sltToggleImage1( bool bValue );
+    void sltToggleImage2( bool bValue );
+    void sltTextChanged( const QString & sNewText );
 
 	void sltUpdateData();
 

@@ -121,9 +121,10 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, c
     }
     else
     {
-        m_pChbAttachToImage2->setVisible(false);
-        m_pAttachedImageUUID2->setVisible(false);
-        m_pAttachedImageIndex2->setVisible(false);
+        // do not use setVisible, because size of cliping area is than not calculated correctly !
+        m_pChbAttachToImage2->setEnabled(false);
+        m_pAttachedImageUUID2->setEnabled(false);
+        m_pAttachedImageIndex2->setEnabled(false);
     }
 
     sltUpdateData();
@@ -274,6 +275,11 @@ void DynamicTextDlgImpl::sltToggleImage2(bool bValue)
     }
 }
 
+void DynamicTextDlgImpl::sltTextChanged( const QString & sNewText )
+{
+    m_pCanvasText->setText( sNewText );
+}
+
 void DynamicTextDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 {
 	if( (pEvent->key() == Qt::Key_F1) )
@@ -309,6 +315,9 @@ void DynamicTextDlgImpl::SetTextColor( const QColor & aColor )
 
 void DynamicTextDlgImpl::SetTextFont( const QFont & aFont )
 {
+    QSize aClippingAreaSize = GetRatioSizeForAvailableSize( m_pDrawingArea->size(), GetCurrentImageRatio() );
+// TODO gulp --> reale groesse der ausgabe mit angezeigter groesse vergleichen --> skaliere fontgroesse damit
+
     QFont aTempFont = aFont;
     aTempFont.setPointSize(m_pSelectFont->font().pointSize());
     m_pSelectFont->setFont( aTempFont );
