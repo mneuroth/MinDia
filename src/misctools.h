@@ -43,6 +43,13 @@ enum ImageRatio {
 };
 
 // *******************************************************************
+enum ImageSize {
+    SIZE_UNDEFINED,
+    SIZE_1920_1080,
+    SIZE_1280_720
+};
+
+// *******************************************************************
 
 QImage CreateWhiteImage( int iWidth = 1024, int iHeight = 768 );
 
@@ -74,7 +81,9 @@ string ConvertToRelPath( const string & sPath );
 QString ConvertToAbsPath( const QString & sPath, const QString & sDir );
 string ConvertToAbsPath( const string & sPath, const string & sDir );
 
+double GetFactorForImageRatio( ImageRatio ratio );
 ImageRatio GetCurrentImageRatio();
+QSize GetCurrentOutputSize();
 
 // return a size object for the given ratio
 // which fits perfectly into the given availabale size

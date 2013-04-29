@@ -428,6 +428,19 @@ ImageRatio GetCurrentImageRatio()
     return GetCurrentPresentation()->GetImageRatio();
 }
 
+QSize GetCurrentOutputSize()
+{
+    unsigned long ulWidth, ulHeight;
+    GetCurrentPresentation()->GetImageSize( ulWidth, ulHeight );
+    return QSize( ulWidth, ulHeight );
+}
+
+double GetFactorForImageRatio( ImageRatio ratio )
+{
+    QSize aSize = GetRatioSizeForAvailableSize( QSize(1920,1920), ratio );
+    return (double)aSize.width()/(double)aSize.height();
+}
+
 static ImageRatio GetImageRatio( const QSize & aSize )
 {
     double dFactor = (double)aSize.width()/(double)aSize.height();
