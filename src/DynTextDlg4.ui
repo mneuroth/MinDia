@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>604</width>
-    <height>546</height>
+    <width>606</width>
+    <height>620</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -206,8 +206,14 @@
       </item>
       <item row="0" column="4" colspan="2">
        <widget class="QCheckBox" name="m_pRelPos">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>&amp;rel. pos</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -352,8 +358,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>597</x>
-     <y>541</y>
+     <x>596</x>
+     <y>610</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -368,8 +374,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>514</x>
-     <y>541</y>
+     <x>515</x>
+     <y>610</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -384,8 +390,8 @@
    <slot>sltDeleteText()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>88</x>
-     <y>515</y>
+     <x>83</x>
+     <y>610</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -400,8 +406,8 @@
    <slot>sltRelPosToggled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>585</x>
-     <y>53</y>
+     <x>586</x>
+     <y>49</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -416,8 +422,8 @@
    <slot>sltSelectFont()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>477</x>
-     <y>282</y>
+     <x>505</x>
+     <y>237</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -432,8 +438,8 @@
    <slot>sltSelectFontcolor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>582</x>
-     <y>282</y>
+     <x>586</x>
+     <y>237</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -448,8 +454,8 @@
    <slot>sltToggleImage1(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>81</x>
-     <y>141</y>
+     <x>100</x>
+     <y>126</y>
     </hint>
     <hint type="destinationlabel">
      <x>2</x>
@@ -464,8 +470,8 @@
    <slot>sltToggleImage2(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>87</x>
-     <y>161</y>
+     <x>106</x>
+     <y>149</y>
     </hint>
     <hint type="destinationlabel">
      <x>5</x>

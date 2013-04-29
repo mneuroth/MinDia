@@ -315,11 +315,20 @@ void DynamicTextDlgImpl::SetTextColor( const QColor & aColor )
 
 void DynamicTextDlgImpl::SetTextFont( const QFont & aFont )
 {
+    // calculate scaling factor for output of dynamic text
     QSize aClippingAreaSize = GetRatioSizeForAvailableSize( m_pDrawingArea->size(), GetCurrentImageRatio() );
-// TODO gulp --> reale groesse der ausgabe mit angezeigter groesse vergleichen --> skaliere fontgroesse damit
+    QSize aOutputAreaSize = GetRatioSizeForAvailableSize( GetCurrentOutputSize(), GetCurrentImageRatio() );
+    double dScaleX = (double)aClippingAreaSize.width()/(double)aOutputAreaSize.width();
+    //double dScaleY = (double)aClippingAreaSize.height()/(double)aOutputAreaSize.height();
 
+    // use default size for button text
     QFont aTempFont = aFont;
-    aTempFont.setPointSize(m_pSelectFont->font().pointSize());
+    aTempFont.setPointSize( m_pSelectFont->font().pointSize() );
     m_pSelectFont->setFont( aTempFont );
+
+    // scale dynamic text for output image size
+    aTempFont = aFont;
+    int iScaledFontSize = (int)((double)aFont.pointSize()*dScaleX);
+    aTempFont.setPointSize( iScaledFontSize );
     m_pCanvasText->setFont( aTempFont );
 }
