@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>377</width>
-    <height>383</height>
+    <width>386</width>
+    <height>387</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -34,8 +34,8 @@
   <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
     <widget class="QLabel" name="m_pCommentLabel">
      <property name="text">
       <string>Comment:</string>
@@ -45,10 +45,10 @@
      </property>
     </widget>
    </item>
-   <item>
+   <item row="1" column="0">
     <widget class="QTextEdit" name="m_pComment"/>
    </item>
-   <item>
+   <item row="2" column="0">
     <widget class="QGroupBox" name="gpbImageRatio">
      <property name="title">
       <string>Image ratio</string>
@@ -58,6 +58,9 @@
        <widget class="QRadioButton" name="m_prbt16_9">
         <property name="text">
          <string>16:9 (HD)</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -69,7 +72,14 @@
        </widget>
       </item>
       <item row="3" column="3">
-       <widget class="QLineEdit" name="txtDY"/>
+       <widget class="QLineEdit" name="txtDY">
+        <property name="inputMask">
+         <string>0000; </string>
+        </property>
+        <property name="text">
+         <string>768</string>
+        </property>
+       </widget>
       </item>
       <item row="3" column="0">
        <widget class="QRadioButton" name="m_prbt4_3">
@@ -86,7 +96,14 @@
        </widget>
       </item>
       <item row="3" column="2">
-       <widget class="QLineEdit" name="txtDX"/>
+       <widget class="QLineEdit" name="txtDX">
+        <property name="inputMask">
+         <string>0000; </string>
+        </property>
+        <property name="text">
+         <string>1024</string>
+        </property>
+       </widget>
       </item>
       <item row="2" column="1" colspan="3">
        <widget class="QRadioButton" name="m_prbtVariable">
@@ -94,7 +111,7 @@
          <string>variable</string>
         </property>
         <property name="checked">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -108,7 +125,68 @@
      </layout>
     </widget>
    </item>
-   <item>
+   <item row="3" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Output size</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0" colspan="4">
+       <widget class="QComboBox" name="m_pOutputSize"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>user width [pixel]:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="m_pOutputWidth">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="inputMask">
+         <string>0000; </string>
+        </property>
+        <property name="text">
+         <string>1920</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>x</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="m_pOutputHeight">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="inputMask">
+         <string>0000; </string>
+        </property>
+        <property name="text">
+         <string>1080</string>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+     <zorder>m_pOutputSize</zorder>
+     <zorder>m_pOutputSize</zorder>
+     <zorder>label</zorder>
+     <zorder>m_pOutputWidth</zorder>
+     <zorder>label_2</zorder>
+     <zorder>m_pOutputHeight</zorder>
+    </widget>
+   </item>
+   <item row="4" column="0">
     <layout class="QHBoxLayout">
      <item>
       <spacer name="Spacer18">
@@ -156,8 +234,8 @@
    <slot>sltCloseDialog()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
+     <x>321</x>
+     <y>374</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -172,8 +250,8 @@
    <slot>sltCancelDialog()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
+     <x>240</x>
+     <y>374</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -181,5 +259,138 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>m_pOutputSize</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>PresentationDataDlg</receiver>
+   <slot>sltCurrentOutputSizeChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>149</x>
+     <y>297</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>369</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pOutputWidth</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>PresentationDataDlg</receiver>
+   <slot>sltUserWidthChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>145</x>
+     <y>328</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>119</x>
+     <y>366</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_prbt16_9</sender>
+   <signal>clicked()</signal>
+   <receiver>PresentationDataDlg</receiver>
+   <slot>sltImageRatioChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>26</x>
+     <y>195</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>3</x>
+     <y>196</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_prbt3_2</sender>
+   <signal>clicked()</signal>
+   <receiver>PresentationDataDlg</receiver>
+   <slot>sltImageRatioChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>26</x>
+     <y>219</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>5</x>
+     <y>233</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_prbt4_3</sender>
+   <signal>clicked()</signal>
+   <receiver>PresentationDataDlg</receiver>
+   <slot>sltImageRatioChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>31</x>
+     <y>244</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1</x>
+     <y>279</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_prbtImageRatio</sender>
+   <signal>clicked()</signal>
+   <receiver>PresentationDataDlg</receiver>
+   <slot>sltImageRatioChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>169</x>
+     <y>195</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>382</x>
+     <y>154</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_prbtVariable</sender>
+   <signal>clicked()</signal>
+   <receiver>PresentationDataDlg</receiver>
+   <slot>sltImageRatioChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>180</x>
+     <y>215</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>382</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_prbtUser</sender>
+   <signal>clicked()</signal>
+   <receiver>PresentationDataDlg</receiver>
+   <slot>sltImageRatioChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>167</x>
+     <y>241</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>385</x>
+     <y>267</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>sltCurrentOutputSizeChanged(QString)</slot>
+  <slot>sltUserWidthChanged(QString)</slot>
+  <slot>sltImageRatioChanged()</slot>
+ </slots>
 </ui>

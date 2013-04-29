@@ -35,6 +35,8 @@
 #include <QKeyEvent>
 #include <QCloseEvent>
 
+#include "misctools.h"
+
 class DiaPresentation;
 
 
@@ -53,6 +55,10 @@ public slots:
 	virtual void sltCloseDialog();
 	virtual void sltCancelDialog();
 
+    void sltCurrentOutputSizeChanged( const QString & sValue );
+    void sltUserWidthChanged( const QString & sValue );
+    void sltImageRatioChanged();
+
 signals:
 	void sigDialogClosed();
 	void sigDocumentUpdate();
@@ -64,6 +70,7 @@ protected:
 	virtual void keyPressEvent( QKeyEvent * pEvent ); 
 
 private:
+    ImageRatio GetCurrentImageRatio() const;
 	// ** help methods **
 	void TransferDataToControl();
 	void TransferDataFromControl();
