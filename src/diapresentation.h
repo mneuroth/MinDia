@@ -165,6 +165,9 @@ public:
     ImageRatio              GetImageRatio() const;
     void                    SetImageRatio( ImageRatio value );
 
+    void                    GetImageSize( unsigned long & iWidth, unsigned long & iHeight ) const;
+    void                    SetImageSize( unsigned long iWidth, unsigned long iHeight );
+
 	int						GetProjectorCount() const;
 	minHandle<DiaProjector> GetProjectorPtr( int iNo ) const;
 
@@ -232,6 +235,8 @@ private:
 	QTime					m_aCountDown;
 	QTime 					m_aPlayTime;
     ImageRatio              m_aImageRatio;
+    unsigned long           m_ulOutputWidth;
+    unsigned long           m_ulOutputHeight;
 	RolleiCom *				m_pProjectorCom;	// no owner !
 	miniSound *				m_pSoundPlayer;		// no owner !
 	DiaCallback *			m_pCallback;		// no owner !
