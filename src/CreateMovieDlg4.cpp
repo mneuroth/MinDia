@@ -75,9 +75,16 @@ QApplication * GetApplication();
 // for resolutions see: http://de.wikipedia.org/wiki/Standard_Definition_Television
 const QString g_sDefaultSize1 = QObject::tr("400:304");
 const QString g_sDefaultSize2 = QObject::tr("576:400");
-// 768x576   // PAL (DVB)
+// 640x480   // NTSC (VGA)      4:3
+// 800x600
+// 1024x768
+// 720x480   // NTSC (DV)       3:2
+// 768x576   // PAL (DVB)       4:3
+// 1024x576  // PAL-wide (DVB)  16:9
 // 704x576   // PAL (DVD)
 // 720x576   // PAL (DV)
+// 960x720   // HD720 HDTV      4:3
+// 1440x1080 // HD1080 HDTV     4:3
 const QString g_sDefaultSize3 = QObject::tr("1280:720");        // 720p:  hd ready
 const QString g_sDefaultSize4 = QObject::tr("1920:1080");       // 1080p: full hd
 const QString g_sSizeOfFirstImage = QObject::tr("size of first image");
