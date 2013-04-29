@@ -1437,7 +1437,7 @@ void PlayInfoDlgImpl::resizeEvent( QResizeEvent * pEvent )
 {
     QDialog::resizeEvent( pEvent );
     // refresh the image...
-    SetCurrentImage( m_aActImage );
+    SetCurrentImage( m_aActImage, true );   // 29.4.2013 bugfix: support resize of play mark images with dynamic texts
 }
 
 void PlayInfoDlgImpl::SetExpandImage( bool bExpand )
