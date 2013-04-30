@@ -18,6 +18,58 @@
  *                                                                         *
  ***************************************************************************/
 
+/*
+Bugs/TODOs:
+- Ueberblend-Zeiten bei Dia 1 veraendert DynText Position bei Dia 2 und 3 !!!??? Dissolve <--> Timer
+- ggf. Plot Comments Dialog / Menue entfernen ==> ist nicht an Dias geheftet
+- ggf. Laenge des DynTexts in Timeline View anzeigen
+- ggf. DynText ebenfalls als CommentContainer behandeln
+- ggf. SoundInfo Markierungen an Sound-Dateien anheften
+- ggf. beim Shift+Click auf leeres Dia den Datei-Auswahl Dialog oeffnen um Image anzugeben
+- Verschieben von Sound Dateien mit Sound Data Dialog (hoch, runter) funktioniert nicht ==> ggf. Dialog entfernen
+//- ggf. Presentation Data Dialog anzeigen, wenn neue Praesenetation angelegt wird
+
+Mobile Version:
+- moeglichst viele Dialog obsolet machen
+- Icon/Menu Item fuer Add Sound und Add Dia
+- Minus Icon auf Dia und Sound-Datei zum loeschen
+- Pfeile Icon zum verschieben auf Dia und Sound-Datei zum loeschen
+- Frage: wie kann man Ueberblend- und Standzeigen mit Touch modifizieren ? Funkioniert das schon?
+- Frage: wie kann man DynTexte anlegen? Lange druecken?
+
+Dialogs:                    Mobile                          Demo
+- About                                                     modal
+- PresentationData          Aufloesung, Seitenverhaeltnis	modal
+- PlayInfo                  Anzeige
+- DiaInfo                   Clipping Area
+- DynText                   Position, Text
+- CreateMovie		-       Movie Export                    modal (saved)
+- Help              -
+- CommentDialog		-                                       modal
+- SoundInfo         -                                   	modal
+- Logging           (-)     -
+- Configuration (RS232)		-           					modal (saved)
+- ProjektorControl          -
+
+Hilfe:
+- Praesentation anlegen: Ausgabegroesse und Format festlegen
+- Dias hinzufuegen: Drag&Drop oder Icon/Menu
+- Reihenfolge der Dias festlegen: Drag&Drop oder Pfeil-Icons auf Dia
+- Standzeiten und Ueberblendezeiten festlegen: Mouse-Move oder Dialog
+- Musik hinzufuegen: Drag&Drop oder Icon/Menu
+- Reihenfolge der Musik festlegen: Drag&Drop oder Pfeil-Icons auf Sound
+- DynText hinzufuegen: Menu-Shortcut waehrend Play oder Context-Menu
+- SoundInfo hinzufuegen (zum Markieren von Sound-Stellen): Menu-Shortcut waehrend Play oder Dialog
+- Vorfuehren (Play)
+- Exportieren als Movie
+- Speichern/Laden
+
+ffmpeg fuer Android:
+https://play.google.com/store/apps/details?id=com.netcompss.ffmpeg4android&hl=de
+http://sourceforge.net/projects/ffmpeg4android/files/20130409/
+http://sourceforge.net/projects/ffmpeg4android/
+*/
+
 #include "mindiawindow.h"
 
 #include "minbase.h"
@@ -138,18 +190,12 @@ bool IsExecuteScriptAllowed()
 
 MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, bool bSimulation, int iProjectorType, QWidget* parent, Qt::WFlags f )
     : QMainWindow( parent, f ),
-	  m_pConfigurationDialog( 0 ),
       //m_pConfigPlayerDialog( 0 ),
 	  m_pLoggingDialog( 0 ),
 	  m_pProjectorControlDialog( 0 ),
-	  m_pPresentationDataDialog( 0 ),
 	  m_pPresentationEventsDialog( 0 ),
 	  m_pDiaInfoDialog( 0 ),
 	  m_pPlayInfoDialog( 0 ),
-	  m_pSoundInfoDialog( 0 ),
-	  m_pSoundCommentDialog( 0 ),
-	  m_pPlotCommentDialog( 0 ),
-	  m_pDynGraphicOpDialog( 0 ),
 	  m_pHelpDialog( 0 ),
 	  m_pStatusUpdateTimer( 0 ),
 	  m_pAutoStartTimer( 0 ),
@@ -715,65 +761,28 @@ void MinDiaWindow::CreateChildWidgets()
 	m_pStatusUpdateTimer->start( c_ulStatusBarTimer );
 }
 
-//void MinDiaWindow::sltDoPlayerConfiguration()
-//{
-//	if( !m_pConfigPlayerDialog )
-//	{
-//        m_pConfigPlayerDialog = new ConfigPlayerDlgImpl( this );
-//        m_pConfigPlayerDialog->setModal(true);
-//		//m_pConfigPlayerDialog->move( 450, 10 );
-//	}
-
-//	int iRet = m_pConfigPlayerDialog->exec();
-
-//	if( iRet == 1 )
-//	{
-//		// ** ok
-//		// ** nothing to do, all things will be done in the dialog !
-//	}
-
-//	// ** destroy modal dialog ! **
-//	delete m_pConfigPlayerDialog;
-//	m_pConfigPlayerDialog = 0;
-//}
-
 void MinDiaWindow::sltDoConfiguration()
 {
-/*	if( !m_pExtrasConfigAction->isChecked() )
-	{
-		if( m_pConfigurationDialog )
-		{
-			m_pConfigurationDialog->hide();
-		}
-	}
-	else
-*/	{
-		if( !m_pConfigurationDialog )
-		{
-            m_pConfigurationDialog = new ConfigurationDlgImpl( m_pControler, this );
-            m_pConfigurationDialog->setModal(true);
-			//m_pConfigurationDialog->move( 450, 10 );
-            
-            if( m_aConfigDialogGeometry.count()>0 )
-            {
-                m_pConfigurationDialog->restoreGeometry(m_aConfigDialogGeometry);
-            }
-		}
+    ConfigurationDlgImpl * pConfigurationDialog = new ConfigurationDlgImpl( m_pControler, this );
+    pConfigurationDialog->setModal(true);
 
-		int iRet = m_pConfigurationDialog->exec();
+    if( m_aConfigDialogGeometry.count()>0 )
+    {
+        pConfigurationDialog->restoreGeometry(m_aConfigDialogGeometry);
+    }
 
-		if( iRet == 1 )
-		{
-			// ** ok 
-			// ** nothing to do, all things will be done in the dialog !
-		}
-        
-        m_aConfigDialogGeometry = m_pConfigurationDialog->saveGeometry();
+    int iRet = pConfigurationDialog->exec();
 
-		// ** destroy modal dialog ! **
-		delete m_pConfigurationDialog;
-		m_pConfigurationDialog = 0;
-	}
+    if( iRet == 1 )
+    {
+        // ** ok
+        // ** nothing to do, all things will be done in the dialog !
+    }
+
+    m_aConfigDialogGeometry = pConfigurationDialog->saveGeometry();
+
+    // ** destroy modal dialog ! **
+    delete pConfigurationDialog;
 }
 
 void MinDiaWindow::sltDoModifyItem()
@@ -817,28 +826,13 @@ void MinDiaWindow::sltShowModifyItem()
 
 void MinDiaWindow::sltDoSoundData()
 {
-/*	if( !m_pExtrasSoundDataAction->isChecked() )
-	{
-		if( m_pSoundInfoDialog )
-		{
-			m_pSoundInfoDialog->hide();
-		}
-	}
-	else
-*/	{
-		if( !m_pSoundInfoDialog )
-		{
-            m_pSoundInfoDialog = new SoundInfoDlgImpl( &m_pControler->GetPresentation().GetSoundInfoData(), this );
-            m_pSoundInfoDialog->setModal(true);
-			//m_pSoundInfoDialog->move( 10, 350 );
-		}
+    SoundInfoDlgImpl * pSoundInfoDialog = new SoundInfoDlgImpl( &m_pControler->GetPresentation().GetSoundInfoData(), this );
+    pSoundInfoDialog->setModal(true);
 
-		m_pSoundInfoDialog->exec();
+    pSoundInfoDialog->exec();
 
-		// ** destroy modal dialog ! **
-		delete m_pSoundInfoDialog;
-		m_pSoundInfoDialog = 0;
-	}
+    // ** destroy modal dialog ! **
+    delete pSoundInfoDialog;
 }
 
 void MinDiaWindow::sltShowSoundData()
@@ -848,28 +842,13 @@ void MinDiaWindow::sltShowSoundData()
 
 void MinDiaWindow::sltDoSoundComment()
 {
-/*	if( !m_pExtrasSoundCommentAction->isChecked() )
-	{
-		if( m_pSoundCommentDialog )
-		{
-			m_pSoundCommentDialog->hide();
-		}
-	}
-	else
-*/	{
-		if( !m_pSoundCommentDialog )
-		{
-            m_pSoundCommentDialog = new CommentDlgImpl( &m_pControler->GetPresentation().GetSoundCommentData(), this );
-            m_pSoundCommentDialog->setModal(true);
-			//m_pSoundCommentDialog->move( 10, 350 );
-		}
+    CommentDlgImpl * pSoundCommentDialog = new CommentDlgImpl( &m_pControler->GetPresentation().GetSoundCommentData(), this );
+    pSoundCommentDialog->setModal(true);
 
-		m_pSoundCommentDialog->exec();
+    pSoundCommentDialog->exec();
 
-		// ** destroy modal dialog ! **
-		delete m_pSoundCommentDialog;
-		m_pSoundCommentDialog = 0;
-	}
+    // ** destroy modal dialog ! **
+    delete pSoundCommentDialog;
 }
 
 void MinDiaWindow::sltShowSoundComment()
@@ -879,55 +858,25 @@ void MinDiaWindow::sltShowSoundComment()
 
 void MinDiaWindow::sltDoPlotComment()
 {
-/*	if( !m_pExtrasPlotCommentAction->isChecked() )
-	{
-		if( m_pPlotCommentDialog )
-		{
-			m_pPlotCommentDialog->hide();
-		}
-	}
-	else
-*/	{
-		if( !m_pPlotCommentDialog )
-		{
-            m_pPlotCommentDialog = new CommentDlgImpl( &m_pControler->GetPresentation().GetPlotCommentData(), this );
-            m_pPlotCommentDialog->setModal(true);
-			//m_pPlotCommentDialog->move( 10, 350 );
-		}
+    CommentDlgImpl * pPlotCommentDialog = new CommentDlgImpl( &m_pControler->GetPresentation().GetPlotCommentData(), this );
+    pPlotCommentDialog->setModal(true);
 
-		m_pPlotCommentDialog->exec();
+    pPlotCommentDialog->exec();
 
-		// ** destroy modal dialog ! **
-		delete m_pPlotCommentDialog;
-		m_pPlotCommentDialog = 0;
-	}
+    // ** destroy modal dialog ! **
+    delete pPlotCommentDialog;
 }
 
 void MinDiaWindow::sltDoDynGraphicOp()
 {
-/*	if( !m_pExtrasDynGraphOpAction->isChecked() )
-	{
-		if( m_pDynGraphicOpDialog )
-		{
-			m_pDynGraphicOpDialog->hide();
-		}
-	}
-	else
-*/	{
-		if( !m_pDynGraphicOpDialog )
-		{
 // TODO --> GenericCommentContainer noch nicht implementiert fuer DynamicTextOp Container --> verwende Context-Menu
-            m_pDynGraphicOpDialog = new CommentDlgImpl( /*&m_pControler->GetPresentation().GetPlotCommentData()*/0, this );
-            m_pDynGraphicOpDialog->setModal(true);
-			//m_pDynGraphicOpDialog->move( 10, 350 );
-		}
+    CommentDlgImpl * pDynGraphicOpDialog = new CommentDlgImpl( /*&m_pControler->GetPresentation().GetPlotCommentData()*/0, this );
+    pDynGraphicOpDialog->setModal(true);
 
-		m_pDynGraphicOpDialog->exec();
+    pDynGraphicOpDialog->exec();
 
-		// ** destroy modal dialog ! **
-		delete m_pDynGraphicOpDialog;
-		m_pDynGraphicOpDialog = 0;
-	}
+    // ** destroy modal dialog ! **
+    delete pDynGraphicOpDialog;
 }
 
 void MinDiaWindow::sltShowPlotComment()
@@ -998,29 +947,13 @@ void MinDiaWindow::sltShowPlayStatus()
 
 void MinDiaWindow::sltDoPresentationData()
 {
-/*
-    if( !m_pExtrasPresentationDataAction->isChecked() )
-	{
-		if( m_pPresentationDataDialog )
-		{
-			m_pPresentationDataDialog->hide();
-		}
-	}
-	else
-*/	{
-		if( !m_pPresentationDataDialog )
-		{
-            m_pPresentationDataDialog = new PresentationDataDlgImpl( &(m_pControler->GetPresentation()), this );
-            m_pPresentationDataDialog->setModal(true);
-			//m_pPresentationDataDialog->move( 450, 10 );
-		}
+    PresentationDataDlgImpl * pPresentationDataDialog = new PresentationDataDlgImpl( &(m_pControler->GetPresentation()), this );
+    pPresentationDataDialog->setModal(true);
 
-		m_pPresentationDataDialog->exec();
+    pPresentationDataDialog->exec();
 
-		// ** destroy modal dialog ! **
-		delete m_pPresentationDataDialog;
-		m_pPresentationDataDialog = 0;
-	}
+    // ** destroy modal dialog ! **
+    delete pPresentationDataDialog;
 }
 
 //void MinDiaWindow::sltDoPresentationEvents()
@@ -1200,12 +1133,17 @@ void MinDiaWindow::sltConfigurationDialogClosed()
 
 void MinDiaWindow::sltAskNewDoc()
 {
+    int iRet = 1;
 	// ask user before deleting the actual document...
-	int iRet = QMessageBox::warning( 0, tr( "MinDia - Question" ), 
+    if( m_pControler->IsChanged() )
+    {
+        iRet = QMessageBox::warning( 0, tr( "MinDia - Question" ),
                                         tr( "Really create a new document and lose all changes ?" ), 1, 2 );
-	if( iRet == 1 )
+    }
+    if( iRet == 1 )
 	{
 		m_pControler->sltNewDoc();
+        sltDoPresentationData();
 	}
 }
 
@@ -1541,10 +1479,11 @@ void MinDiaWindow::sltShowStatusBarMessage( const QString & sMsg )
 {
 	if( m_pStatusBarMsg )
 	{
-		m_pStatusBarMsg->setText( sMsg );
+        m_pStatusBarMsg->setText( sMsg );
 
 		// clear tooltips showed over the status bar
         statusBar()->clearMessage();
+        //ggf.statusBar()->showMessage( sMsg, 3000 );
 	}
 }
 

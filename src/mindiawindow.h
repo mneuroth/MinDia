@@ -106,12 +106,9 @@ class QTranslator;
 class QWidget;
 class QGraphicsScene;
 
-class ConfigurationDlgImpl;
-//class ConfigPlayerDlgImpl;
 class ProjectorControlDlgImpl;
 class ComLoggingDialogImpl;
 class PlayInfoDlgImpl;
-class PresentationDataDlgImpl;
 class EventMapDlgImpl;
 class DiaInfoDlgImpl;
 class SoundInfoDlgImpl;
@@ -333,18 +330,11 @@ private:
 	QLabel *					m_pStatusBarModus;
 	QLabel *					m_pStatusBarMsg;
 
-	ConfigurationDlgImpl *		m_pConfigurationDialog;		// modal
-    //ConfigPlayerDlgImpl *		m_pConfigPlayerDialog;		// modal
 	ComLoggingDialogImpl *		m_pLoggingDialog;
 	ProjectorControlDlgImpl *	m_pProjectorControlDialog;
-	PresentationDataDlgImpl *	m_pPresentationDataDialog;	// modal
 	EventMapDlgImpl *			m_pPresentationEventsDialog;// modal
 	DiaInfoDlgImpl *			m_pDiaInfoDialog;
 	PlayInfoDlgImpl *			m_pPlayInfoDialog;
-	SoundInfoDlgImpl *			m_pSoundInfoDialog;			// modal
-	CommentDlgImpl *			m_pSoundCommentDialog;		// modal
-	CommentDlgImpl *			m_pPlotCommentDialog;		// modal
-	CommentDlgImpl *			m_pDynGraphicOpDialog;		// modal
 	HelpDlgImpl *				m_pHelpDialog;
 
 	// ****************************************
