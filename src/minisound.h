@@ -21,13 +21,21 @@
 #ifndef _MINISOUND_H
 #define _MINISOUND_H
 
+#if defined(Q_OS_ANDROID)
+#undef _WITH_PHONON
+#else
+#define _WITH_PHONON
+#endif
+
 #include "soundinfo.h"
 
 #include <QDateTime>		// for QTime
 #include <QThread>
 #include <QString>
+#ifdef _WITH_PHONON
 #include <phonon/AudioOutput>
 #include <phonon/MediaObject>
+#endif
 
 // *******************************************************************
 /** a very simple interface for playing sounds.
@@ -104,7 +112,9 @@ private:
 	SoundInfoContainer::iterator	m_aIterator;
     QWidget *                       m_pRequester;
     QString                         m_sSoundFile;
+#ifdef _WITH_PHONON
     Phonon::MediaObject *           m_pPlayer;
+#endif
 };
 
 #endif

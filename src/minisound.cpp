@@ -48,13 +48,16 @@ miniSound::miniSound( const QString & sWavFileName )
   m_iMciCmdId( _MCI_NONE ),
   m_ulMciThreadID( 0 ),
   m_pSoundInfoContainer( 0 ),
-  m_pRequester( 0 ),
-  m_pPlayer( 0 )
+  m_pRequester( 0 )
+#ifdef _WITH_PHONON
+  , m_pPlayer( 0 )
+#endif
 {
+#ifdef _WITH_PHONON
     m_pPlayer = Phonon::createPlayer(Phonon::MusicCategory);
 
     connect(m_pPlayer,SIGNAL(totalTimeChanged(qint64)),this,SLOT(sltTotalTimeChanged(qint64)));
-
+#endif
     SetWavFile( sWavFileName );
 }
 
@@ -64,7 +67,9 @@ miniSound::~miniSound()
 
 	CloseSound();
 
+#ifdef _WITH_PHONON
     delete m_pPlayer;
+#endif
 }
 
 void miniSound::sltTotalTimeChanged(qint64 val)
@@ -91,7 +96,9 @@ bool miniSound::SetWavFile( const QString & sWavFileName )
 	{
         m_sSoundFile = sWavFileName;
 
+#ifdef _WITH_PHONON
         m_pPlayer->setCurrentSource(Phonon::MediaSource(sWavFileName));
+#endif
 
         m_iOpenCount++;
 
@@ -142,12 +149,20 @@ bool miniSound::IsSilent() const
 
 bool miniSound::IsPlaying() const
 {
+#ifdef _WITH_PHONON
     return m_pPlayer->state()==Phonon::PlayingState;
+#else
+    return false;
+#endif
 }
 
 bool miniSound::IsPause() const
 {
+#ifdef _WITH_PHONON
     return m_pPlayer->state()==Phonon::PausedState;
+#else
+    return false;
+#endif
 }
 
 int  miniSound::GetPositionInMS() const
@@ -163,7 +178,11 @@ int  miniSound::GetTotalLengthInMS() const
 	}
 	else
 	{
+#ifdef _WITH_PHONON
         return m_pPlayer->totalTime();
+#else
+        return 0;
+#endif
     }
 }
 
@@ -210,7 +229,11 @@ int  miniSound::GetPositionInMSImpl() const
 	}
 	else
 	{
+#ifdef _WITH_PHONON
         return m_pPlayer->currentTime();
+#else
+        return 0;
+#endif
     }
 }
 
@@ -229,7 +252,9 @@ bool miniSound::StartPlayImpl( int /*iStartPosInMs*/, int /*iStopPosInMs*/,
 		}
 		else
 		{
+#ifdef _WITH_PHONON
             m_pPlayer->play();
+#endif
 		}
 
 		return true;
@@ -251,7 +276,9 @@ bool miniSound::Pause()
 		{
 			if( IsCallingThreadMciThread() )
 			{
+#ifdef _WITH_PHONON
                 m_pPlayer->pause();
+#endif
 			}
 			else
 			{
@@ -278,7 +305,9 @@ bool miniSound::Continue()
 		{
 			if( IsCallingThreadMciThread() )
 			{
+#ifdef _WITH_PHONON
                 m_pPlayer->play();
+#endif
 			}
 			else
 			{
@@ -308,7 +337,9 @@ bool miniSound::Stop()
 			//   thread which opens/initiates the mci-stream
 			if( IsCallingThreadMciThread() )
 			{
+#ifdef _WITH_PHONON
                 m_pPlayer->stop();
+#endif
 			}
 			else
 			{
@@ -340,7 +371,9 @@ bool miniSound::CloseSound()
 	{
 		if( m_iOpenCount>0 )
 		{
+#ifdef _WITH_PHONON
             m_pPlayer->stop();
+#endif
 			m_iOpenCount--;
 		}
 		else
@@ -390,7 +423,9 @@ void miniSound::StartThread()
 
 void miniSound::run()
 {
+#ifdef _WITH_PHONON
     qRegisterMetaType<Phonon::MediaSource>( "MediaSource" );
+#endif
 
     bool bStopedInThread = false;
 

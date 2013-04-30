@@ -449,7 +449,21 @@ int main( int argc, char** argv )
 
     MindiaApp myApp( argc, argv );
 
-	g_pApplication = &myApp;
+#if defined(Q_OS_ANDROID)
+    //qApp->setStyle("plastique");        // motif cde windows windowsxp windowsvista mac plastique gtk cleanlooks
+    QFont f = qApp->font();
+    f.setBold(true);
+    f.setPixelSize(16);
+    //    f.setPointSize(6);
+    qApp->setFont(f);
+
+    //qApp->setStyleSheet("QTextEdit { background-color: yellow }");
+    //qApp->setStyleSheet("QSvgWidget { background-color: yellow }");
+    //qApp->setStyleSheet("QListWidget { background-color: yellow }");
+    qApp->setStyleSheet("QFontListView { background-color: black }");
+#endif
+
+    g_pApplication = &myApp;
 
 	bool bIgnoreComSettings = false;
     bool bSimulation = true;
