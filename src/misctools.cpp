@@ -103,10 +103,11 @@ const QImage & QImageCache::Get( const QString & sImageFileName )
         // add a new image to the cache
         QImage aImage(sImageFileName);
         // scale to maximum image size (if needed)
-        if( aImage.width()>m_iMaxWidth || aImage.height()>m_iMaxHeight )
-        {
-            aImage = aImage.scaled(m_iMaxWidth,m_iMaxHeight,Qt::KeepAspectRatio);
-        }
+   // disable cache to improve quality !
+   //     if( aImage.width()>m_iMaxWidth || aImage.height()>m_iMaxHeight )
+   //     {
+   //         aImage = aImage.scaled(m_iMaxWidth,m_iMaxHeight,Qt::KeepAspectRatio);
+   //     }
         if( !aImage.isNull() )
         {
             m_aMap[sImageFileName] = QPair<QImage,unsigned long>(aImage,1);
@@ -435,6 +436,17 @@ QSize GetCurrentOutputSize()
     return QSize( ulWidth, ulHeight );
 }
 
+QSize GetSizeForSizeX( ImageSize aImageSize, ImageRatio aImageRatio )
+{
+    int iWidth = (int)aImageSize;
+    return QSize( iWidth, (int)((double)iWidth/GetFactorForImageRatio(aImageRatio)) );
+}
+
+QSize GetSizeForSizeX( ImageSize aImageSize )
+{
+    return GetSizeForSizeX(aImageSize,GetCurrentImageRatio());
+}
+
 double GetFactorForImageRatio( ImageRatio ratio )
 {
     QSize aSize = GetRatioSizeForAvailableSize( QSize(1920,1920), ratio );
@@ -463,3 +475,35 @@ static ImageRatio GetImageRatio( const QSize & aSize )
     }
 }
 
+QString GetSizeString( const QSize & aSize )
+{
+    if( aSize.width()==0 )
+    {
+        return QString("user");
+    }
+    return QString("%1:%2").arg(aSize.width()).arg(aSize.height());
+}
+
+QStringList GetSizeStrings( ImageRatio ratio )
+{
+    QStringList lstStrings;
+
+    lstStrings.append( GetSizeString( GetSizeForSizeX( SIZEX_UNDEFINED, ratio ) ) );
+    lstStrings.append( GetSizeString( GetSizeForSizeX( SIZEX_1920, ratio ) ) );
+    lstStrings.append( GetSizeString( GetSizeForSizeX( SIZEX_1440, ratio ) ) );
+    lstStrings.append( GetSizeString( GetSizeForSizeX( SIZEX_1280, ratio ) ) );
+    lstStrings.append( GetSizeString( GetSizeForSizeX( SIZEX_1024, ratio ) ) );
+    lstStrings.append( GetSizeString( GetSizeForSizeX( SIZEX_960, ratio ) ) );
+    lstStrings.append( GetSizeString( GetSizeForSizeX( SIZEX_800, ratio ) ) );
+    lstStrings.append( GetSizeString( GetSizeForSizeX( SIZEX_720, ratio ) ) );
+    lstStrings.append( GetSizeString( GetSizeForSizeX( SIZEX_640, ratio ) ) );
+    lstStrings.append( GetSizeString( GetSizeForSizeX( SIZEX_533, ratio ) ) );
+    lstStrings.append( GetSizeString( GetSizeForSizeX( SIZEX_320, ratio ) ) );
+
+    return lstStrings;
+}
+
+ImageSize GetImageSizeTypeFromSize( const QSize & aSize )
+{
+    return (ImageSize)aSize.width();
+}

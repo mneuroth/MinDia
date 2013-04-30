@@ -98,13 +98,14 @@ PresentationDataDlgImpl::PresentationDataDlgImpl( DiaPresentation * pData, QWidg
 {
     setupUi(this);
 
-    m_pOutputSize->addItem("user");
-    m_pOutputSize->addItem("1920:1080");
-    m_pOutputSize->addItem("1280:720");
-
     connect( this, SIGNAL( sigDialogClosed() ), parent, SLOT( sltPresentationDataDialogClosed() ) );
     connect( this, SIGNAL( sigDocumentUpdate() ), parent, SLOT( sltDoDocumentStateUpdate() ) );
     connect( this, SIGNAL( sigDialogHelp(QWidget *, const QString &) ), parent, SLOT( sltShowModalHelp(QWidget *, const QString &) ) );
+
+    // center dialog on parent window
+    move( parentWidget()->window()->frameGeometry().topLeft()+
+          parentWidget()->window()->rect().center() -
+          rect().center());
 }
 
 PresentationDataDlgImpl::~PresentationDataDlgImpl()
@@ -139,6 +140,12 @@ void PresentationDataDlgImpl::sltCurrentOutputSizeChanged( const QString & sValu
         m_pOutputWidth->setEnabled( false );
         m_pOutputHeight->setEnabled( false );
     }
+    QString s = sValue; //m_pOutputSize->currentText();
+    QStringList lst = s.split(':');
+    if( lst.size()>1 )
+    {
+        m_pOutputWidth->setText( lst[0] );
+    }
 }
 
 void PresentationDataDlgImpl::sltUserWidthChanged( const QString & sValue )
@@ -150,6 +157,12 @@ void PresentationDataDlgImpl::sltUserWidthChanged( const QString & sValue )
 
 void PresentationDataDlgImpl::sltImageRatioChanged()
 {
+    // update combobox with sizes
+    int iCurrentIndex = m_pOutputSize->currentIndex();
+    m_pOutputSize->clear();
+    m_pOutputSize->addItems( GetSizeStrings( GetCurrentImageRatio() ) );
+    m_pOutputSize->setCurrentIndex( iCurrentIndex<0 ? 0 : iCurrentIndex );
+    // update text input field for user width
     sltUserWidthChanged( m_pOutputWidth->text() );
 }
 
@@ -163,6 +176,21 @@ void PresentationDataDlgImpl::closeEvent( QCloseEvent * pCloseEvent )
 void PresentationDataDlgImpl::showEvent( QShowEvent * /*pShowEvent*/ )
 {
 	TransferDataToControl();
+// TODO gulp --> aus current image size den Wert fuer die combobox
+
+    unsigned long ulWidth, ulHeight;
+    m_pData->GetImageSize( ulWidth, ulHeight );
+    ImageSize aImageSize = GetImageSizeTypeFromSize( QSize( (int)ulWidth, (int)ulHeight ) );
+
+    // update combobox with sizes
+    int iCurrentIndex = m_pOutputSize->currentIndex();
+    m_pOutputSize->clear();
+    m_pOutputSize->addItems( GetSizeStrings( GetCurrentImageRatio() ) );
+    m_pOutputSize->setCurrentIndex( iCurrentIndex<0 ? 0 : iCurrentIndex );
+    // update text input field for user width
+    sltUserWidthChanged( m_pOutputWidth->text() );
+
+//    sltImageRatioChanged();
 }
 
 void PresentationDataDlgImpl::TransferDataToControl()
@@ -228,6 +256,11 @@ void PresentationDataDlgImpl::TransferDataFromControl()
         {
 // TODO --> ggf. message dialog anzeigen ob Aenderungen wirklich uebernommen werden sollen !?
             m_pData->SetImageRatio( aImageRatioNew );
+
+            unsigned long ulWidth, ulHeight;
+            ulWidth = (unsigned long)m_pOutputWidth->text().toInt();
+            ulHeight = (unsigned long)m_pOutputHeight->text().toInt();
+            m_pData->SetImageSize( ulWidth, ulHeight );
 
             bUpdate = true;
         }
