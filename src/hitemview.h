@@ -41,14 +41,6 @@ using namespace std;
 class DiaPresentation;
 class QMenu;
     
-/*
-class VectorHItem : public vector<HItem *>
-{
-public:
-	int count() const	{ return size(); }
-};
-*/
-
 // *******************************************************************
 /** Handels a container view for viewable
   * items. 
@@ -71,9 +63,9 @@ public:
 //	void setSizeHint( const QSize & aSize );
 
 	// *** handle signals
+    virtual void mouseDoubleClickEvent( QMouseEvent * pEvent );
     virtual void mousePressEvent( QMouseEvent * pEvent );
     virtual void mouseMoveEvent( QMouseEvent * pEvent );
-	//virtual void contentsMouseDoubleClickEvent( QMouseEvent * pEvent );
 	virtual void keyPressEvent( QKeyEvent * pEvent ); 
 	virtual void dragEnterEvent( QDragEnterEvent * pEvent );
 	virtual void dropEvent( QDropEvent * pEvent );
@@ -122,7 +114,6 @@ private:
 	// *** operations on the data ***
 	void AddItemAt( minHandle<DiaInfo> hDiaInfo, int iIndex = -1, bool bInsert = false, bool bUpdateView = true, bool bDoResize = true );
 	void RemoveItemAt( int iIndex, bool bDeleteData = false, bool bUpdateView = true );
-	//DiaInfo * GetItemAt( int iIndex ) const;
 	bool GetActClipboardData( QString & sDataOut, MyIndexContainer * pIndexContainer ) const;
 	bool IsDragTargetNotDragSource( QMouseEvent * pEvent, int iActIndex );
 

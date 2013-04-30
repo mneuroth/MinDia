@@ -104,11 +104,12 @@ public:
 	virtual QSize sizeHint() const;
 
 	// *** handle signals
+    virtual void mouseDoubleClickEvent( QMouseEvent * pEvent );
     virtual void mousePressEvent( QMouseEvent * pEvent );
     virtual void mouseReleaseEvent( QMouseEvent * pEvent );
     virtual void mouseMoveEvent( QMouseEvent * pEvent );
 	virtual void dragEnterEvent( QDragEnterEvent * pEvent );
-	virtual void dragMoveEvent ( QDragMoveEvent * pEvent );
+    virtual void dragMoveEvent( QDragMoveEvent * pEvent );
 	virtual void dropEvent( QDropEvent * pEvent );
     virtual void customEvent(QEvent * pEvent);
 
@@ -118,8 +119,6 @@ public:
 	void SyncViewWithData();
 
 	void SetPlayMark( double dActPlayTime );
-
-    QRect GetTipRect( const QPoint & aPoint, QString * psText = 0, int * piIndex = 0 );
 
 public slots:
 	// ** helper methods **
@@ -137,10 +136,12 @@ signals:
 	void sigItemSelected( int iNo, int iDissolveTimeInMS );
 	void sigLoadDoc( const QString & sFileName, bool bExecuteEvent );
     void sigPlayMarkChanged( double dTimePosInSec );
+    void sigShowStatusMessage( const QString & sMessge );
 
 private:
 	// ** helper methods **
-	void ShowPlotComments();
+    bool IsDynTextSelected( const QPoint & aPoint, QString * psText = 0, int * piIndex = 0 );
+    void ShowPlotComments();
 	void ShowMusicComments();
 	void ShowMusicTracks();
 	void ShowGraphicOperations();

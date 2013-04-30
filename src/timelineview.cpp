@@ -4,26 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/timelineview.cpp,v $
- *
- *  $Revision: 1.3 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.2  2004/01/18 23:36:10  min
- *	Bugfixes and dynamic text handling improved (new menu item).
- *	
- *	Revision 1.1.1.1  2003/08/15 16:38:22  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -134,6 +120,8 @@ TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget 
     connect( m_pMenuDynTextEdit, SIGNAL(triggered()), this, SLOT(sltEditDynText()) );
     m_pContextMenu->addAction( m_pMenuDynTextEdit );
     
+    connect( this, SIGNAL(sigShowStatusMessage(QString)), pMainWin, SLOT(sltShowStatusBarMessage(QString)) );
+
     m_pCanvas			= new QGraphicsScene( 0, 0, iWidth, iHeight );
 	//m_pCanvas->setDoubleBuffering( true );
     setScene( m_pCanvas );
@@ -606,7 +594,7 @@ void TimeLineView::ShowGraphicOperations()
 	}
 }
 
-QRect TimeLineView::GetTipRect( const QPoint & aPoint, QString * psText, int * piIndex )
+bool TimeLineView::IsDynTextSelected( const QPoint & aPoint, QString * psText, int * piIndex )
 {
 	MusicCommentItemContainer::const_iterator aIter = m_aDynGrapOpContainer.begin();
 
@@ -629,13 +617,13 @@ QRect TimeLineView::GetTipRect( const QPoint & aPoint, QString * psText, int * p
 				*piIndex = aItem.second.second;
 			}
 
-			return QRect( aPoint.x(), aPoint.y(), 20, 30 );
+            return true;
 		}
 
 		++aIter;
 	}
 
-	return QRect( 0, 0, -1, -1 );
+    return false;
 }
 
 void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
@@ -722,8 +710,8 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 		// check for touched dynamic text objects
 		int iIndexOut = 0;
 		QString sText;
-        QRect aRect = GetTipRect( point, &sText, &iIndexOut );
-	    if( aRect.isValid() )
+        bool bIsDynTextSelected = IsDynTextSelected( point, &sText, &iIndexOut );
+        if( bIsDynTextSelected )
 		{
             if( (pEvent->modifiers() & Qt::AltModifier) == Qt::AltModifier )
 			{
@@ -746,8 +734,8 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 		// if mouse was clicked on a dynamic text,
 		// enable the item to allow the modification of the dynamic text
         int iSelectedDynTextIndex = m_iSelectedDynTextIndex;
-        QRect aRect = GetTipRect( point, 0, &iSelectedDynTextIndex );
-        m_pMenuDynTextEdit->setEnabled( aRect.isValid() );
+        bool bIsDynTextSelected = IsDynTextSelected( point, 0, &iSelectedDynTextIndex );
+        m_pMenuDynTextEdit->setEnabled( bIsDynTextSelected );
 				
         m_pContextMenu->setProperty("INDEX",iSelectedDynTextIndex);
 		m_pContextMenu->exec( pEvent->globalPos() );
@@ -785,6 +773,21 @@ void TimeLineView::mouseReleaseEvent( QMouseEvent * /*pEvent*/ )
 			m_bMouseMovedWhilePressed = false;
 		}
 	}
+}
+
+void TimeLineView::mouseDoubleClickEvent ( QMouseEvent * pEvent )
+{
+    QPointF pos = mapToScene(pEvent->x(),pEvent->y());
+    int x = (int)pos.x();
+    int y = (int)pos.y();
+    QPoint point(x,y);
+
+    int iSelectedDynTextIndex = 0;
+    bool bIsDynTextSelected = IsDynTextSelected( point, 0, &iSelectedDynTextIndex );
+    if( bIsDynTextSelected )
+    {
+        ShowModifyDynObjectDialog( iSelectedDynTextIndex );
+    }
 }
 
 // convert double time value in seconds
@@ -898,12 +901,14 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
 				{
 					setCursor( Qt::SizeHorCursor );
                     bCursorSet = true;
+                    emit sigShowStatusMessage( tr("press mouse button and move to change show time of slide") );
                     break;
 				}
                 else if( hItem->IsDissolveBorderSelected( x, y ) )
 				{
 					setCursor( Qt::SizeHorCursor );
                     bCursorSet = true;
+                    emit sigShowStatusMessage( tr("press mouse button and move to change dissolve time of slide") );
                     break;
 				}
 
@@ -913,16 +918,18 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
             if( !bCursorSet )
             {
                 // check for touched dynamic text objects
-                QRect aRect = GetTipRect( point );
-                if( aRect.isValid() )
+                bool bIsDynTextSelected = IsDynTextSelected( point );
+                if( bIsDynTextSelected )
                 {
                     setCursor( Qt::SizeHorCursor );
                     bCursorSet = true;
+                    emit sigShowStatusMessage( tr("double mose click or press ALT and left click with mouse to modify item") );
                 }
 
                 if( !bCursorSet )
                 {
                     setCursor( Qt::ArrowCursor );
+                    emit sigShowStatusMessage( "" );
                 }
             }
 

@@ -115,6 +115,7 @@ HItemView::HItemView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMai
 	m_pDiaPres			= pDoc;
 
 	setFocusPolicy( Qt::ClickFocus );
+    //viewport()->setMouseTracking( true );
 
 	// *** connect signals to slots ***
 	if( pMainWin )
@@ -163,9 +164,6 @@ void HItemView::sltUpdateView()
 
 void HItemView::sltUpdateSelected()
 {
-//    m_pCanvas->update();
-//    // ** only repaint the selected border of all dias
-//    update( /*x(), y(), width(), height()*/ );
     sltUpdateView();
 }
 
@@ -281,19 +279,6 @@ void HItemView::RemoveItemAt( int iIndex, bool bDeleteData, bool bUpdateView )
     }
 }
 
-/*
-DiaInfo * HItemView::GetItemAt( int iIndex ) const
-{
-	if( iIndex>=0 && iIndex<m_aItemContainer.size() )
-	{
-		HItem * pItem = m_aItemContainer[ iIndex ];
-
-		return pItem;
-	}
-	return 0;
-}
-*/
-
 void HItemView::mousePressEvent( QMouseEvent * pEvent )
 {
 	bool bIsOneSelected = false;
@@ -377,15 +362,20 @@ bool HItemView::IsDragTargetNotDragSource( QMouseEvent * pEvent, int iActIndex )
 	return false;
 }
 
+void HItemView::mouseDoubleClickEvent ( QMouseEvent * pEvent )
+{
+    emit sigShowItemModifyDialog();
+}
+
 void HItemView::mouseMoveEvent( QMouseEvent * pEvent )
 {
 	// ** disable mouse input in play-modus !
 	if( m_pDiaPres && !m_pDiaPres->IsEdit() )
 	{
-		return;
+        return;
 	}
 
-	if( GetSelectedCount()>0 && IsDragTargetNotDragSource( pEvent, GetLastSelectedItemIndex() ) )
+    if( GetSelectedCount()>0 && IsDragTargetNotDragSource( pEvent, GetLastSelectedItemIndex() ) )
 	{
 		QString sDragString;
 		MyIndexContainer aIndexContainer;
@@ -429,7 +419,7 @@ void HItemView::mouseMoveEvent( QMouseEvent * pEvent )
                         }
 
 						sltSelectItem( *aIter + iOffset, 0 );
-/*TODO gulp47*/						sltDeleteAllSlectedItems();
+                        sltDeleteAllSlectedItems();
 						++aIter;
 					}
 
@@ -439,12 +429,6 @@ void HItemView::mouseMoveEvent( QMouseEvent * pEvent )
 		}
 	}
 }
-
-/*
-void HItemView::contentsMouseDoubleClickEvent( QMouseEvent * pEvent )
-{
-}
-*/
 
 void HItemView::keyPressEvent( QKeyEvent * pEvent )
 {
