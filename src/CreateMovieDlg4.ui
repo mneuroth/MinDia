@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>752</width>
-    <height>634</height>
+    <height>788</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -292,7 +292,7 @@
          </layout>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="1" column="0" colspan="2">
         <widget class="QGroupBox" name="groupBox2">
          <property name="title">
           <string>Movie</string>
@@ -344,7 +344,7 @@
          </layout>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item row="2" column="0" colspan="2">
         <widget class="QGroupBox" name="groupBox2_2">
          <property name="title">
           <string>Sound</string>
@@ -395,48 +395,6 @@
              <bool>true</bool>
             </property>
            </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="1" column="1" rowspan="3">
-        <widget class="QGroupBox" name="m_pMisc">
-         <property name="title">
-          <string>Misc.</string>
-         </property>
-         <layout class="QVBoxLayout">
-          <item>
-           <widget class="QPushButton" name="m_pMakeShow">
-            <property name="text">
-             <string>&amp;Make Show (1)+(2)+(3)</string>
-            </property>
-            <property name="shortcut">
-             <string>Alt+M</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="m_pDeleteTemp">
-            <property name="text">
-             <string>&amp;Delete temp. files</string>
-            </property>
-            <property name="shortcut">
-             <string>Alt+D</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </widget>
@@ -503,6 +461,26 @@
    <item row="1" column="0">
     <layout class="QHBoxLayout">
      <item>
+      <widget class="QPushButton" name="m_pMakeShow">
+       <property name="text">
+        <string>&amp;Make Show (1)+(2)+(3)</string>
+       </property>
+       <property name="shortcut">
+        <string>Alt+M</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="m_pDeleteTemp">
+       <property name="text">
+        <string>&amp;Delete temp. files</string>
+       </property>
+       <property name="shortcut">
+        <string>Alt+D</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="spacer13">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -566,8 +544,6 @@
   <tabstop>m_pCreateImages</tabstop>
   <tabstop>m_pCreateAVI</tabstop>
   <tabstop>m_pAddSound</tabstop>
-  <tabstop>m_pMakeShow</tabstop>
-  <tabstop>m_pDeleteTemp</tabstop>
   <tabstop>buttonHelp</tabstop>
   <tabstop>buttonOk</tabstop>
   <tabstop>tabWidgetOps</tabstop>

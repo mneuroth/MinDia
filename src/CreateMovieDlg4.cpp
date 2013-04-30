@@ -56,6 +56,7 @@
 #include <QTextStream>
 
 #include "doccontroler.h"
+#include "diapresentation.h"
 
 #include "misctools.h"
 
@@ -103,6 +104,13 @@ CreateMovieDlg4::CreateMovieDlg4(DocumentAndControler * pDocControler, double dT
     m_dTotalTimeMS = dTotalTimeMS;
     m_pDocControler = pDocControler;
 
+    unsigned long iWidth, iHeight;
+    pDocControler->GetPresentation().GetImageSize( iWidth, iHeight );
+    ui.m_pImageWidth->setText( QString("%1").arg(iWidth) );
+    ui.m_pImageHeight->setText( QString("%1").arg(iHeight) );
+    ui.m_pImageWidth->setEnabled( false );
+    ui.m_pImageHeight->setEnabled( false );
+
     ui.m_pImagesPerSecond->setMinimum(1);
     ui.m_pImagesPerSecond->setMaximum(100);
     ui.m_pImagesPerSecond->setValue(25);
@@ -131,6 +139,7 @@ CreateMovieDlg4::~CreateMovieDlg4()
 
 void CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
 {
+    return;
     if( sValue==g_sDefaultSize1 )
     {
         ui.m_pImageWidth->setText( sValue.split(":")[0] );
@@ -210,7 +219,7 @@ void CreateMovieDlg4::sltCreateImages()
         }
     }
 
-// TODO gulp: Optimierung: referenzen auf Images erzeugen, wenn sich bild nicht geändert hat ! --> Optimierung bei Image schreiben !
+// TODO gulp: Optimierung: referenzen auf Images erzeugen, wenn sich bild nicht geaendert hat ! --> Optimierung bei Image schreiben !
 // TODO gulp: ggf. ffmpeg mit named pipes ansteuern
 
 //http://stackoverflow.com/questions/5571566/give-input-to-ffmpeg-using-named-pipes
