@@ -90,7 +90,7 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, c
     double dStart, dDelta;
     hItem->GetDefaultData( dStart, dDelta );
 
-    sTemp = sTemp.setNum( /*hItem->GetStartTime()*/dStart );
+    sTemp = sTemp.setNum( dStart );
     m_pShowAtTime->setText( sTemp );
     sTemp = sTemp.setNum( dDelta );
     m_pShowTime->setText( sTemp );

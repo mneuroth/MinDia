@@ -463,7 +463,7 @@ public:
 
 	bool IsDone() const;
 
-    double GetStartTimeInMS() const;
+    double GetStartTimeInMS() const;        // see GetDefaultData()
 	string GetString() const;
 
 	void CreateDefaultOperations( double dStartTimeInMS, double dShowTimeInMS );
