@@ -4,23 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/sndinfodlgimpl.cpp,v $
- *
- *  $Revision: 1.2 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.1.1.1  2003/08/15 16:38:22  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -59,7 +48,6 @@ SoundInfoDlgImpl::SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* pa
     m_pTable->setSelectionMode( QAbstractItemView::SingleSelection );
     m_pTable->setColumnCount( 11 );
     m_pTable->setRowCount( 1 );
-	//m_pTable->setText( 0, 0, "Filenamexyz" );
     m_pTable->setHorizontalHeaderItem(0,new QTableWidgetItem( tr( "wav-filename" ) ) );
 	m_pTable->setColumnWidth( 0, 186 );
     m_pTable->setHorizontalHeaderItem(1,new QTableWidgetItem( tr( "start-pos [ms]" ) ) );
@@ -125,17 +113,23 @@ void SoundInfoDlgImpl::sltDeleteRow()
 		int iActRow = GetSelectedRow();
         m_pTable->removeRow(iActRow);
 
-//        for( int i=iActRow; i<m_pTable->rowCount()-1; i++ )
-//		{
-//			m_pTable->swapRows( i, i+1 );
-//		}
-//
-//		// ** and than delete the last row of the table
-//        m_pTable->setRowCount( m_pTable->rowCount()-1 );
-
 		// ** update the document data ***
 		TransferData( false );
 	}
+}
+
+void SoundInfoDlgImpl::SwapRows( int iRow1, int iRow2 )
+{
+    // simulate swapRows()
+    for( int iCol=0; iCol<m_pTable->columnCount(); iCol++ )
+    {
+        QTableWidgetItem * pItem1 = m_pTable->takeItem( iRow1, iCol );
+        QTableWidgetItem * pItem2 = m_pTable->takeItem( iRow2, iCol );
+
+        m_pTable->setItem( iRow2, iCol, pItem1 );
+        m_pTable->setItem( iRow1, iCol, pItem2 );
+    }
+
 }
 
 void SoundInfoDlgImpl::sltRowUp()
@@ -146,17 +140,13 @@ void SoundInfoDlgImpl::sltRowUp()
 
 		if( iActRow>0 )
 		{
-// TODO porting			m_pTable->swapRows( iActRow, iActRow-1 );
-			m_pTable->clearSelection();
-			RepaintRow( iActRow );
-			RepaintRow( iActRow-1 );
-/* TODO
-			Q3TableSelection aSelection;
-			aSelection.init( iActRow-1, -1 );
-            aSelection.expandTo( iActRow-1, m_pTable->columnCount() );
-			m_pTable->addSelection( aSelection );
-*/
-			// ** update the document data ***
+            SwapRows( iActRow, iActRow-1 );
+
+            m_pTable->clearSelection();
+
+            m_pTable->update(0,0,width(),height());
+
+            // ** update the document data ***
 			TransferData( false );
 		}
 	}
@@ -170,18 +160,13 @@ void SoundInfoDlgImpl::sltRowDown()
 
         if( iActRow<m_pTable->rowCount()-1 )
 		{
-//TODO porting			m_pTable->swapRows( iActRow, iActRow+1 );
-			m_pTable->clearSelection();
-			RepaintRow( iActRow );
-			RepaintRow( iActRow+1 );
+            SwapRows( iActRow, iActRow+1 );
 
-  /* TODO
-            Q3TableSelection aSelection;
-			aSelection.init( iActRow+1, -1 );
-            aSelection.expandTo( iActRow+1, m_pTable->columnCount() );
-			m_pTable->addSelection( aSelection );
-*/
-			// ** update the document data ***
+			m_pTable->clearSelection();
+
+            m_pTable->update(0,0,width(),height());
+
+            // ** update the document data ***
 			TransferData( false );
 		}
 	}
@@ -192,7 +177,7 @@ void SoundInfoDlgImpl::sltTableSelectionChanged()
 	bool bSel = false;
     for( int i=0; i<m_pTable->rowCount(); i++ )
 	{
-        bSel = bSel || GetSelectedRow()<m_pTable->rowCount(); //m_pTable->isRowSelected( i, TRUE );
+        bSel = bSel || GetSelectedRow()<m_pTable->rowCount();
 	}
 	m_pDeleteLine->setEnabled( bSel );
 	m_pLineUp->setEnabled( bSel );
@@ -241,8 +226,6 @@ void SoundInfoDlgImpl::TransferData( bool bToTable )
 				s = s.setNum( iPos );
                 m_pTable->setItem(i,2,new QTableWidgetItem( s ) );
                 iPos = (*m_pSoundData)[i]->GetDelta();
-				//QTableItem * pItem = m_pTable->item( 0, 3 );
-				//pItem->EditType = QTableItem::None;
 				s = s.setNum( iPos );
                 m_pTable->setItem(i,3,new QTableWidgetItem( s ) );
                 s = ToQString( SecondsInMinSec( iPos / 1000 ) );
@@ -349,15 +332,6 @@ int SoundInfoDlgImpl::GetSelectedRow() const
         }
 	}
 	return iActRow;
-}
-
-void SoundInfoDlgImpl::RepaintRow( int /*iRow*/ )
-{
-    m_pTable->update(0,0,width(),height());
-//    for( int i=0; i<m_pTable->columnCount(); i++ )
-//	{
-////TODO        m_pTable->updateCell( iRow, i );
-//	}
 }
 
 void SoundInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )

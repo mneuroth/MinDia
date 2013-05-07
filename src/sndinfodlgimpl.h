@@ -1,29 +1,15 @@
-//Added by qt3to4:
-#include <QKeyEvent>
-#include <QCloseEvent>
 /**************************************************************************
  *
  *	project				 : MinDia
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/sndinfodlgimpl.h,v $
- *
- *  $Revision: 1.2 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.1.1.1  2003/08/15 16:38:22  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -38,6 +24,8 @@
 #include "ui_SoundInfoDlg4.h"
 
 #include <QDialog>
+#include <QKeyEvent>
+#include <QCloseEvent>
 
 class SoundInfoContainer;
 
@@ -78,7 +66,7 @@ private:
 	void TransferData( bool bToTable );
 	void UpdateCalculatedData();
 	int  GetSelectedRow() const;
-	void RepaintRow( int iRow );
+    void SwapRows( int iRow1, int iRow2 );
 
 	// ** data **
 	SoundInfoContainer *	m_pSoundData;	// no owner !
