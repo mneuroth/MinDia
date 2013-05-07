@@ -193,6 +193,7 @@ public:
 
 private:
 	void	Init();
+    void    UpdateAttachedDynamicTexts( int iIndex, double dDeltaTime );
 	double	GetDissolveTimeOfSlide( int iSlideIndex ) const;
 	void	MyExecuteScript( const string & sEvent );
 	void	CheckScriptResult( const string & sEvent, bool bFoundScript, int iRet );

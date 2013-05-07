@@ -707,28 +707,38 @@ bool DiaPresentation::UpdateShowTimeForDia( int iIndex, double dDeltaTime )
 	if( (iIndex>=0) && (iIndex<(int)m_aDiaContainer.size()) )
 	{
         ok = m_aDiaContainer[ iIndex ]->SetShowTime( m_aDiaContainer[ iIndex ]->GetShowTime()+dDeltaTime );
-        // update the attached Dynamic Text items for all following dias...
-        for( unsigned int i=iIndex+1; i<m_aDiaContainer.size(); i++ )
-        {
-            string sUUID = m_aDiaContainer[ i ]->GetUUID();
-            if( sUUID.length()>0 )
-            {
-                m_aDynTextContainer.UpdateShowTimeForDia( sUUID, dDeltaTime*1000.0 );
-            }
-        }
-	}
+
+        UpdateAttachedDynamicTexts( iIndex, dDeltaTime );
+    }
 
     return ok;
 }
 
 bool DiaPresentation::UpdateDissolveTimeForDia( int iIndex, double dDeltaTime )
 {
-	if( (iIndex>=0) && (iIndex<(int)m_aDiaContainer.size()) )
-	{
-		return m_aDiaContainer[ iIndex ]->SetDissolveTime( m_aDiaContainer[ iIndex ]->GetDissolveTime()+dDeltaTime );
-	}
+    bool ok = false;
 
-	return false;
+    if( (iIndex>=0) && (iIndex<(int)m_aDiaContainer.size()) )
+	{
+        ok = m_aDiaContainer[ iIndex ]->SetDissolveTime( m_aDiaContainer[ iIndex ]->GetDissolveTime()+dDeltaTime );
+
+        UpdateAttachedDynamicTexts( iIndex, dDeltaTime );
+    }
+
+    return ok;
+}
+
+void DiaPresentation::UpdateAttachedDynamicTexts( int iIndex, double dDeltaTime )
+{
+    // update the attached Dynamic Text items for all following dias...
+    for( unsigned int i=iIndex+1; i<m_aDiaContainer.size(); i++ )
+    {
+        string sUUID = m_aDiaContainer[ i ]->GetUUID();
+        if( sUUID.length()>0 )
+        {
+            m_aDynTextContainer.UpdateShowTimeForDia( sUUID, dDeltaTime*1000.0 );
+        }
+    }
 }
 
 double DiaPresentation::GetTotalTime() const
