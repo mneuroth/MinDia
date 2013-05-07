@@ -81,20 +81,26 @@ class TimeLineView : public QGraphicsView
 {
 	Q_OBJECT
 
-	typedef vector< minHandle<TimeLineItem> >	MyItemContainer;
+    typedef vector< minHandle<TimeLineItem> >                                           MyItemContainer;
 
     typedef pair< pair< minHandle<QGraphicsLineItem>, minHandle<QGraphicsLineItem> >, minHandle<QGraphicsSimpleTextItem> > PlotCommentItem;
-	typedef vector< PlotCommentItem >	PlotCommentItemContainer;
+    typedef vector< PlotCommentItem >                                                   PlotCommentItemContainer;
 
-    typedef pair< minHandle<QGraphicsLineItem>, minHandle<QGraphicsSimpleTextItem> > MusicCommentItemHelper;
-	typedef pair< QString, int > ItemInfoHelper;
-	typedef pair< MusicCommentItemHelper, ItemInfoHelper > MusicCommentItem;
-	typedef vector< MusicCommentItem >	MusicCommentItemContainer;
+    typedef pair< minHandle<QGraphicsLineItem>, minHandle<QGraphicsSimpleTextItem> >    CommentItemHelper;
+    typedef pair< QString, int >                                                        ItemInfoHelper;
+    typedef pair< CommentItemHelper, ItemInfoHelper >                                   CommentItem;
+    typedef vector< CommentItem >                                                       CommentItemContainer;
 
-    typedef pair< minHandle<QGraphicsLineItem>, minHandle<QGraphicsLineItem> > FadeItem;
-    typedef pair< minHandle<QGraphicsRectItem>, minHandle<QGraphicsSimpleTextItem> > MusicItem;
-	typedef vector< MusicItem >	MusicItemContainer;
-	typedef vector< FadeItem >	FadeItemContainer;
+    typedef pair< minHandle<QGraphicsLineItem>, minHandle<QGraphicsLineItem> >          DoubleLineItem;
+    typedef pair< DoubleLineItem, minHandle<QGraphicsSimpleTextItem> >                  TextCommentItemHelper;
+    typedef pair< TextCommentItemHelper, ItemInfoHelper >                               TextCommentItem;
+    typedef vector< TextCommentItem >                                                   TextCommentItemContainer;
+
+    typedef pair< minHandle<QGraphicsLineItem>, minHandle<QGraphicsLineItem> >          FadeItem;
+    typedef vector< FadeItem >                                                          FadeItemContainer;
+
+    typedef pair< minHandle<QGraphicsRectItem>, minHandle<QGraphicsSimpleTextItem> >    MusicItem;
+    typedef vector< MusicItem >                                                         MusicItemContainer;
 
 public:
 	TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMainWin = 0, QObject * pControler = 0, DiaPresentation * pDoc = 0 );
@@ -162,11 +168,11 @@ private:
 	minHandle<TimeLineAxis>		m_hTimeAxis;
 
 	MyItemContainer				m_aItemContainer;			// container for slides
-	MusicCommentItemContainer	m_aMusicCommentContainer;	// container for the (music) comment items
+    CommentItemContainer        m_aMusicCommentContainer;	// container for the (music) comment items
 	MusicItemContainer			m_aMusicContainer;			// container for music/wav files
 	FadeItemContainer			m_aFadeContainer;			// conatiner for music fade/in/out infos
 	PlotCommentItemContainer	m_aPlotCommentContainer;	// container for the plot comment items
-	MusicCommentItemContainer	m_aDynGrapOpContainer;		// container for the dynamic graphic operations items
+    TextCommentItemContainer    m_aDynGrapOpContainer;		// container for the dynamic graphic operations items
 
 	// ** reference to data **
 	DiaPresentation *			m_pDiaPres;					// !!! NO OWNER !!!

@@ -466,7 +466,7 @@ void TimeLineView::ShowMusicComments()
         pText->setPos( iPos+2, g_iStartPosY+c_iOffset+10+iLength );
 		pText->show(); 
 
-        m_aMusicCommentContainer.push_back( MusicCommentItem( MusicCommentItemHelper( minHandle<QGraphicsLineItem>( pLine ), minHandle<QGraphicsSimpleTextItem>( pText ) ), ItemInfoHelper( sText, -1 ) ) );
+        m_aMusicCommentContainer.push_back( CommentItem( CommentItemHelper( minHandle<QGraphicsLineItem>( pLine ), minHandle<QGraphicsSimpleTextItem>( pText ) ), ItemInfoHelper( sText, -1 ) ) );
 	}
 }
 
@@ -560,8 +560,11 @@ void TimeLineView::ShowGraphicOperations()
 	int iSize = aDynGrOpContainer.size();
 	int iOffset = (int)(m_pDiaPres->GetOffsetForSound()*g_dFactor);
 	for( int i=0; i<iSize; i++ )
-	{
-        int iPos = (int)(aDynGrOpContainer[i]->GetStartTimeInMS()*0.001*g_dFactor);
+	{        
+        double dStartTimeInMS, dShowTimeInMS;
+        aDynGrOpContainer[i]->GetDefaultData( dStartTimeInMS, dShowTimeInMS );
+        int iPos = (int)(dStartTimeInMS*0.001*g_dFactor);
+        int iShowLength = (int)(dShowTimeInMS*0.001*g_dFactor);
 		int iLength = 10 * (i % 2);
 
 		// ** connect the sound comments to the sound play time
@@ -577,6 +580,15 @@ void TimeLineView::ShowGraphicOperations()
         pLine->setPos( iPos, g_iStartPosY+c_iDynOpOffset );
 		pLine->show();
 
+        // Length of Text showing
+        QGraphicsLineItem * pLineLength = new QGraphicsLineItem();
+        m_pCanvas->addItem(pLineLength);
+        pLineLength->setLine( 0, 20+iLength, iShowLength, 20+iLength );
+        //pLine->setBrush( QBrush( aColor ) );
+        pLineLength->setPen( QPen( bIsAttached ? aConnectedColor : aColor ) );
+        pLineLength->setPos( iPos, g_iStartPosY+c_iDynOpOffset );
+        pLineLength->show();
+
         QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
         m_pCanvas->addItem(pText);
         QString sText = ToQString( aDynGrOpContainer[i]->GetString() );
@@ -590,17 +602,17 @@ void TimeLineView::ShowGraphicOperations()
         pText->setPos( iPos+2, g_iStartPosY+c_iDynOpOffset+10+iLength );
 		pText->show(); 
 
-        m_aDynGrapOpContainer.push_back( MusicCommentItem( MusicCommentItemHelper( minHandle<QGraphicsLineItem>( pLine ), minHandle<QGraphicsSimpleTextItem>( pText ) ), ItemInfoHelper( sText, i ) ) );
+        m_aDynGrapOpContainer.push_back( TextCommentItem( TextCommentItemHelper( DoubleLineItem( minHandle<QGraphicsLineItem>( pLine ), minHandle<QGraphicsLineItem>( pLineLength ) ), minHandle<QGraphicsSimpleTextItem>( pText ) ), ItemInfoHelper( sText, i ) ) );
 	}
 }
 
 bool TimeLineView::IsDynTextSelected( const QPoint & aPoint, QString * psText, int * piIndex )
 {
-	MusicCommentItemContainer::const_iterator aIter = m_aDynGrapOpContainer.begin();
+    TextCommentItemContainer::const_iterator aIter = m_aDynGrapOpContainer.begin();
 
 	while( aIter != m_aDynGrapOpContainer.end() )
 	{
-		MusicCommentItem aItem = *aIter;
+        TextCommentItem aItem = *aIter;
 
 		int x = aPoint.x();
 		int y = aPoint.y();
@@ -824,7 +836,7 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
 				{
 					// ** if dissolve time is increased,
 					// ** the show time has to be decreased
-					m_hSelectedItem->ChangeShowTime( -dDelta );
+                    m_hSelectedItem->ChangeShowTime( -dDelta );
 				}
 			}
 			else
