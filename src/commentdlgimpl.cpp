@@ -94,6 +94,8 @@ CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* pa
 	buttonCancel->setEnabled( false );
 
 	TransferData( true );
+
+    m_pTable->resizeColumnsToContents();
 }
 
 CommentDlgImpl::~CommentDlgImpl()
@@ -162,7 +164,6 @@ void CommentDlgImpl::sltTableSelectionChanged()
 	for( int i=0; i<m_pTable->/*numRows*/rowCount(); i++ )
 	{
         bSel = bSel || m_pTable->item(i,0)->isSelected();
-		//bSel = bSel || m_pTable->isRowSelected( i, TRUE );
 	}
 	m_pDeleteLine->setEnabled( bSel );
 }
