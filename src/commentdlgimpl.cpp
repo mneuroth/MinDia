@@ -46,7 +46,7 @@ CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* pa
 
 	// ** init table **
 	m_pTable->setSelectionMode( QAbstractItemView::SingleSelection );
-	m_pTable->/*setNumRows*/setRowCount( 1 );
+    m_pTable->setRowCount( 1 );
 
 	// ** init the title text for the columns
 	// ** get one item to inspect the name for the columns
@@ -63,7 +63,7 @@ CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* pa
 		int iCount = pItem->GetDataCount();
 		int iDefWidth = m_pTable->width() / (iCount+1);
 
-		m_pTable->/*setNumCols*/setColumnCount( iCount );
+        m_pTable->setColumnCount( iCount );
 
         QStringList aLabels;
 		for( int i=0; i<iCount; i++ )
@@ -204,8 +204,7 @@ void CommentDlgImpl::TransferData( bool bToTable )
 		if( bToTable )
 		{
 			// ** transfer data from data-container to gui
-			m_pTable->/*setNumRows*/setRowCount( m_pComments->size() );
-//m_pTable->/*setNumRows*/setColumnCount( 10 );
+            m_pTable->setRowCount( m_pComments->size() );
 
 			for( int i=0; i<m_pComments->size(); i++ )
 			{
