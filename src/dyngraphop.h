@@ -413,7 +413,7 @@ protected:
 };
 
 // *******************************************************************
-class DynText : public QGraphicsSimpleTextItem
+class DynText : public QGraphicsSimpleTextItem, public GenericDataInterface
 {
 public:
 	typedef minHandle<OpItem_Base>		OperationT;
@@ -479,6 +479,17 @@ public:
 	void PaintForTime( QPainter & aPainter, double dTimeMS ) const;
 	bool IsNextChanging( double dTimeMS, double dDeltaMS ) const;
 
+    // *** implement GenericDataInterface ***
+    virtual string		GetName() const;
+
+    virtual int			GetDataCount() const;
+    virtual string		GetDataName( int iIndex ) const;
+    virtual DataType	GetDataType( int iIndex ) const;
+    virtual string		GetDataValue( int iIndex ) const;
+    virtual bool		SetDataValue( int iIndex, const string & sValue );
+
+    bool operator<( const DynText & right );
+
 private:
 	bool WriteOpContainer( ostream & aStream ) const;
 	bool ReadOpContainer( istream & aStream );
@@ -499,7 +510,7 @@ private:
 
 //********************************************************************
 
-class DynTextContainer : public IOContainer< DynText >, public ObjectChanged
+class DynTextContainer : public IOContainer< DynText >, public GenericCommentContainer
 {
 public:
     DynTextContainer( IDiaOutputWindowInternal * pOutputWindowProxy );
@@ -524,6 +535,13 @@ public:
 	bool IsNextElementChanging( double dTimeMS, double dDeltaMS ) const;
 
     void UpdateShowTimeForDia( const string & sUUID, double dDeltaMS );
+
+    // *** implement GenericCommentContainer **
+    virtual int						size() const;
+    virtual void					clear();
+    virtual GenericDataInterface *	at( int iIndex );
+    virtual GenericDataInterface *	push_back_new_item();
+    virtual void                    SortData();
 
 private:
 	void Update();

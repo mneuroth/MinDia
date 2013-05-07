@@ -1051,6 +1051,34 @@ void DynTextContainer::UpdateShowTimeForDia( const string & sUUID, double dDelta
     }
 }
 
+int	DynTextContainer::size() const
+{
+    return IOContainer<DynText>::size();
+}
+
+void DynTextContainer::clear()
+{
+    IOContainer<DynText>::erase( IOContainer<DynText>::begin(), IOContainer<DynText>::end() );
+}
+
+GenericDataInterface * DynTextContainer::at( int iIndex )
+{
+    return /*IOContainer<DynText>*/(*this)[ iIndex ].GetPtr();
+}
+
+GenericDataInterface * DynTextContainer::push_back_new_item()
+{
+    minHandle<DynText> hItem( new DynText( "" ) );
+    hItem->CreateDefaultOperations( 0.0, 0.0 );     // must be set later in TransferData()
+    IOContainer<DynText>::push_back( hItem );
+    return at( size()-1 );
+}
+
+void DynTextContainer::SortData()
+{
+    sort( begin(), end(), minHandleCompare< DynText >() );
+}
+
 //********************************************************************
 
 int DynText::ACT_FILE_VERSION = 0;      // new since 31.3.2013
@@ -1621,4 +1649,130 @@ bool DynText::IsNextChanging( double dTimeMS, double dDeltaMS ) const
 		return true;
 	}
 	return false;
+}
+
+string DynText::GetName() const
+{
+    return ToStdString(QObject::tr( "Dynamic texts" ));
+}
+
+int	DynText::GetDataCount() const
+{
+    return 4;
+}
+
+string DynText::GetDataName( int iIndex ) const
+{
+    string sRet;
+
+    switch( iIndex )
+    {
+        case 0:
+            sRet = ToStdString(QObject::tr( "start [ms]" ));
+            break;
+        case 1:
+            sRet = ToStdString(QObject::tr( "length [ms]" ));
+            break;
+        case 2:
+            sRet = ToStdString(QObject::tr( "text" ));
+            break;
+        case 3:
+            sRet = ToStdString(QObject::tr( "attached slide" ));
+            break;
+    }
+
+    return sRet;
+}
+
+GenericDataInterface::DataType DynText::GetDataType( int iIndex ) const
+{
+    switch( iIndex )
+    {
+        case 0:
+            return _INT;
+        case 1:
+            return _INT;
+        case 2:
+            return _STRING;
+        case 3:
+            return _STRING;
+    }
+
+    return _VOID;
+}
+
+string DynText::GetDataValue( int iIndex ) const
+{
+    string sRet;
+
+    switch( iIndex )
+    {
+        case 0:
+            {
+                char sBuffer[512];
+                sprintf( sBuffer, "%8.0lf", GetStartTimeInMS() );
+                sRet = sBuffer;
+            }
+            break;
+        case 1:
+            {
+                double dStart, dLength;
+                GetDefaultData( dStart, dLength );
+                char sBuffer[512];
+                sprintf( sBuffer, "%8.0lf", dLength );
+                sRet = sBuffer;
+            }
+            break;
+        case 2:
+            sRet = GetString();
+            break;
+        case 3:
+// TODO --> ggf. read only daten anzeigen !
+            sRet = GetAttachedSlideUUID();
+            break;
+    }
+
+    return sRet;
+}
+
+bool DynText::SetDataValue( int iIndex, const string & sValue )
+{
+    bool bRet = false;
+
+    switch( iIndex )
+    {
+        case 0:
+            {
+                double dStart, dLength;
+                GetDefaultData( dStart, dLength );
+                dStart = atof( sValue.c_str() );
+                ChangeDefaultData( dStart, dLength );
+                bRet = true;
+            }
+            break;
+        case 1:
+            {
+                double dStart, dLength;
+                GetDefaultData( dStart, dLength );
+                dLength = atof( sValue.c_str() );
+                ChangeDefaultData( dStart, dLength );
+                bRet = true;
+            }
+            break;
+        case 2:
+            setText( ToQString(sValue) );
+            bRet = true;
+            break;
+        case 3:
+            SetAttachedSlideUUID( sValue, 0 );
+            bRet = true;
+            break;
+    }
+
+    return bRet;
+}
+
+bool DynText::operator<( const DynText & right )
+{
+    return GetString()<right.GetString();
 }
