@@ -20,7 +20,7 @@
 
 /*
 Bugs/TODOs:
-- Ueberblend-Zeiten bei Dia 1 veraendert DynText Position bei Dia 2 und 3 !!!??? Dissolve <--> Timer
+//- Ueberblend-Zeiten bei Dia 1 veraendert DynText Position bei Dia 2 und 3 !!!??? Dissolve <--> Timer
 - ggf. Plot Comments Dialog / Menue entfernen ==> ist nicht an Dias geheftet
 - ggf. Laenge des DynTexts in Timeline View anzeigen
 - ggf. DynText ebenfalls als CommentContainer behandeln
@@ -28,6 +28,7 @@ Bugs/TODOs:
 - ggf. beim Shift+Click auf leeres Dia den Datei-Auswahl Dialog oeffnen um Image anzugeben
 - Verschieben von Sound Dateien mit Sound Data Dialog (hoch, runter) funktioniert nicht ==> ggf. Dialog entfernen
 //- ggf. Presentation Data Dialog anzeigen, wenn neue Praesenetation angelegt wird
+- aenderung der Show-Zeit fuer DynamicText ermoeglichen
 
 Mobile Version:
 - moeglichst viele Dialog obsolet machen
@@ -1838,15 +1839,11 @@ void MinDiaWindow::sltTest()
 
 void MinDiaWindow::sltEditFadeInTime()
 {
-    bool ok;
-
-   	char sBuffer[255];
-	sprintf( sBuffer, "%4.1f", m_dDissolveTime );
-	
-    QString sTxt = QInputDialog::getText(this,tr("Enter new default dissolve time"),tr("default dissolve time [s]:"),/*QLineEdit::EchoMode mode=*/QLineEdit::Normal,/*text=*/sBuffer,&ok,/*Qt::WindowFlags flags =*/0);
-    if( ok && !sTxt.isEmpty() )
+    bool ok;	
+    double dValue = QInputDialog::getDouble(this,tr("Enter new default dissolve time"),tr("default dissolve time [s]:"),(double)m_dDissolveTime,-2147483647,2147483647,1,&ok,/*Qt::WindowFlags flags =*/0);
+    if( ok )
     {
-		m_dDissolveTime = sTxt.toDouble();
+        m_dDissolveTime = dValue;
     }
 }
 
