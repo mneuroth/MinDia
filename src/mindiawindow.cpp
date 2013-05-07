@@ -21,14 +21,40 @@
 /*
 Bugs/TODOs:
 //- Ueberblend-Zeiten bei Dia 1 veraendert DynText Position bei Dia 2 und 3 !!!??? Dissolve <--> Timer
-- ggf. Plot Comments Dialog / Menue entfernen ==> ist nicht an Dias geheftet
 ((- ggf. Laenge des DynTexts in Timeline View anzeigen
 ((- ggf. DynText ebenfalls als CommentContainer behandeln
+((- Aenderung der Show-Zeit fuer DynamicText ermoeglichen
+//- Verschieben von Sound Dateien mit Sound Data Dialog (hoch, runter) funktioniert nicht ==> ggf. Dialog entfernen
+//- ggf. Presentation Data Dialog anzeigen, wenn neue Praesenetation angelegt wird
+
+- ist Open for Edit notwendig?
+- fuer was ist die Suche gut?
+- Loeschen --> Dia loeschen
+- Aendere Eintrag --> Dia Daten aendern
+- Musik Daten --> Musikdaten
+- Kommentare zur Musik --> Kommentare zu der Musik
+- Dyn. Graf. Operation --> Grafik Operation
+- Behandlung DynText edit verbessern --> attach to dia
+- About Dialog aktualisieren
+- ggf. Eingaben in Logging Dialog disablen
+- Uebertragung von CommentDialog in Daten funktioniert nicht korrekt ? Aenderung im Dialog werden nicht uebernommen --> fehlt update ?
+    => anscheinend muss Feld verlassen werden bevor Aenderungen akzeptiert werden
+- Disablen fuer Spalten im CommentDialog realisieren --> fuer attached texts
+- Live Play Mark Anzeige zeigt falsches Seitenverhaeltnis fuer Images an !
+
+- Changes.txt fuer Version erstellen: live play mark, vorschau
+- Quellcode aufrauemen
+- ungenutzte SourceCode Dateien in old Verzeichnis verschieben
+- Sprachresourcen aktualisierens
+- RS232 Kommunikation verbessern -> Verbesserung des RS232 Dialogs zur direkten Ansteuerung --> nicht disablen nach erstem erfolglosen Versuch…
+- Binaere Packete erzeugen
+- Hilfe Dokument / Webseite fuer Bedienung erstellen
+- Hilfe Dialog verbessern
+- automatisch ffmpeg binary suchen (PATH suche)
+- Geometrie-Zustand von anderen Dialogen ebenfalls sichern und restaurieren
+- ggf. Plot Comments Dialog / Menue entfernen ==> ist nicht an Dias geheftet
 - ggf. SoundInfo Markierungen an Sound-Dateien anheften
 - ggf. beim Shift+Click auf leeres Dia den Datei-Auswahl Dialog oeffnen um Image anzugeben
-- Verschieben von Sound Dateien mit Sound Data Dialog (hoch, runter) funktioniert nicht ==> ggf. Dialog entfernen
-//- ggf. Presentation Data Dialog anzeigen, wenn neue Praesenetation angelegt wird
-((- Aenderung der Show-Zeit fuer DynamicText ermoeglichen
 - ggf Show-Zeit fuer DynamicText via Maus-Move ermoeglichen
 
 Mobile Version:
