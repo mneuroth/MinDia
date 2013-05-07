@@ -22,13 +22,14 @@
 Bugs/TODOs:
 //- Ueberblend-Zeiten bei Dia 1 veraendert DynText Position bei Dia 2 und 3 !!!??? Dissolve <--> Timer
 - ggf. Plot Comments Dialog / Menue entfernen ==> ist nicht an Dias geheftet
-- ggf. Laenge des DynTexts in Timeline View anzeigen
-- ggf. DynText ebenfalls als CommentContainer behandeln
+((- ggf. Laenge des DynTexts in Timeline View anzeigen
+((- ggf. DynText ebenfalls als CommentContainer behandeln
 - ggf. SoundInfo Markierungen an Sound-Dateien anheften
 - ggf. beim Shift+Click auf leeres Dia den Datei-Auswahl Dialog oeffnen um Image anzugeben
 - Verschieben von Sound Dateien mit Sound Data Dialog (hoch, runter) funktioniert nicht ==> ggf. Dialog entfernen
 //- ggf. Presentation Data Dialog anzeigen, wenn neue Praesenetation angelegt wird
-- aenderung der Show-Zeit fuer DynamicText ermoeglichen
+((- Aenderung der Show-Zeit fuer DynamicText ermoeglichen
+- ggf Show-Zeit fuer DynamicText via Maus-Move ermoeglichen
 
 Mobile Version:
 - moeglichst viele Dialog obsolet machen
@@ -621,16 +622,17 @@ void MinDiaWindow::CreateMenus()
     m_pExtrasPlotCommentAction->setStatusTip( tr( "Show dialog to modify the plot comments (internal comments for presentation, yellow text in timeline view)" ) );
     m_pExtrasPlotCommentAction->setShortcut(Qt::ALT+Qt::Key_Z);
     connect( m_pExtrasPlotCommentAction, SIGNAL( triggered() ), this, SLOT( sltDoPlotComment() ) );
-// TODO ? --> noch nicht implementiert, verwende context menu in TimelineView
-    m_pExtrasDynGraphOpAction = 0; //new QAction( tr( "Dynamic graphic operations" ), tr( "D&yn. graphic operations..." ), ALT+Key_G, this, "dyngraphops"/*, TRUE*/ );
-    //connect( m_pExtrasDynGraphOpAction, SIGNAL( triggered() ), this, SLOT( sltDoDynGraphicOp() ) );
+    m_pExtrasDynGraphOpAction = new QAction( tr( "D&yn. graphic operations..." ), this );
+    m_pExtrasDynGraphOpAction->setStatusTip( tr( "Show dialog to modify the dynamic graphic operations" ) );
+    m_pExtrasDynGraphOpAction->setShortcut(Qt::ALT+Qt::Key_G);
+    connect( m_pExtrasDynGraphOpAction, SIGNAL( triggered() ), this, SLOT( sltDoDynGraphicOp() ) );
 
     m_pPresentation->addAction( m_pExtrasPresentationDataAction );
 //	m_pPresentation->addAction( m_pExtrasPresentationEventsAction );
     m_pPresentation->addAction( m_pExtrasSoundDataAction );
     m_pPresentation->addAction( m_pExtrasSoundCommentAction );
     m_pPresentation->addAction( m_pExtrasPlotCommentAction );
-    //m_pPresentation->addAction( m_pExtrasDynGraphOpAction );
+    m_pPresentation->addAction( m_pExtrasDynGraphOpAction );
 
     // *** submenu: scripts ***
     // will be filled in the dll-module !
@@ -870,8 +872,7 @@ void MinDiaWindow::sltDoPlotComment()
 
 void MinDiaWindow::sltDoDynGraphicOp()
 {
-// TODO --> GenericCommentContainer noch nicht implementiert fuer DynamicTextOp Container --> verwende Context-Menu
-    CommentDlgImpl * pDynGraphicOpDialog = new CommentDlgImpl( /*&m_pControler->GetPresentation().GetPlotCommentData()*/0, this );
+    CommentDlgImpl * pDynGraphicOpDialog = new CommentDlgImpl( &m_pControler->GetPresentation().GetDynGraphicData(), this );
     pDynGraphicOpDialog->setModal(true);
 
     pDynGraphicOpDialog->exec();
@@ -1708,7 +1709,6 @@ void MinDiaWindow::sltDoDataChanged()
 	//m_pControler->sltDataChanged();
 
     // update content of play info dialog (clipping area):
-// TODO gulp working --> problem mit delete items !!! --> deselektieren !?
     sltItemSelected( m_iCount, m_pFirstSelectedItem, m_iFirstSelectedItemNo, 0 );
 }
 
