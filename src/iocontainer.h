@@ -77,5 +77,50 @@ private:
 	string		m_sName;
 };
 
-#endif
+// *******************************************************************
+/** meta interface, to inspect this class dynamically.
+  * used for generic table dialog. */
+class GenericDataInterface
+{
+public:
+    enum DataType { _VOID, _INT, _DOUBLE, _STRING };
 
+    virtual ~GenericDataInterface()		{}
+
+    virtual string		GetName() const = 0;
+
+    virtual int			GetDataCount() const = 0;
+    virtual string		GetDataName( int iIndex ) const = 0;
+    virtual DataType	GetDataType( int iIndex ) const = 0;
+    virtual string		GetDataValue( int iIndex ) const = 0;
+    virtual bool		SetDataValue( int iIndex, const string & sValue ) = 0;
+};
+
+// *******************************************************************
+/** generic comment container class interface. */
+class GenericCommentContainer : public ObjectChanged
+{
+public:
+    virtual ~GenericCommentContainer()		{}
+
+    virtual int						size() const = 0;
+    virtual void					clear() = 0;
+    virtual GenericDataInterface *	at( int iIndex ) = 0;
+    virtual GenericDataInterface *	push_back_new_item() = 0;
+
+    virtual void                    SortData() = 0;
+};
+
+// *******************************************************************
+// ** helper class, to compare two objects handled with an smart-pointer
+template <class T>
+class minHandleCompare : public binary_function< minHandle<T>, minHandle<T>, bool >
+{
+public:
+    bool operator()( minHandle<T> hLeft, minHandle<T> hRight ) const
+    {
+        return *hLeft < *hRight;
+    }
+};
+
+#endif

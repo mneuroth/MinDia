@@ -43,40 +43,6 @@
 using namespace std;
 
 // *******************************************************************
-/** meta interface, to inspect this class dynamically. 
-  * used for generic table dialog. */
-class GenericDataInterface
-{
-public:
-	enum DataType { _VOID, _INT, _DOUBLE, _STRING };
-
-	virtual ~GenericDataInterface()		{}
-
-	virtual string		GetName() const = 0;
-
-	virtual int			GetDataCount() const = 0;
-	virtual string		GetDataName( int iIndex ) const = 0;
-	virtual DataType	GetDataType( int iIndex ) const = 0;
-	virtual string		GetDataValue( int iIndex ) const = 0;
-	virtual bool		SetDataValue( int iIndex, const string & sValue ) = 0;
-};
-
-// *******************************************************************
-/** generic comment container class interface. */
-class GenericCommentContainer : public ObjectChanged
-{
-public:
-	virtual ~GenericCommentContainer()		{}
-
-	virtual int						size() const = 0;
-	virtual void					clear() = 0;
-	virtual GenericDataInterface *	at( int iIndex ) = 0;
-	virtual GenericDataInterface *	push_back_new_item() = 0;
-
-	virtual void	SortData() = 0;
-};
-
-// *******************************************************************
 /** sound info item. */
 class SoundInfo
 {

@@ -556,18 +556,6 @@ bool SoundComment::SetDataValue( int iIndex, const string & sValue )
 // *******************************************************************
 // *******************************************************************
 
-// ** helper class, to compare two objects handled with an smart-pointer
-template <class T>
-class minHandleCompare : public binary_function< minHandle<T>, minHandle<T>, bool >
-{
-public:
-	bool operator()( minHandle<T> hLeft, minHandle<T> hRight ) const
-	{
-		return *hLeft < *hRight;
-	}
-};
-
-
 SoundCommentContainer::SoundCommentContainer()
 : IOContainer<SoundComment>( _SOUND_COMMENT_CONTAINER )
 {
