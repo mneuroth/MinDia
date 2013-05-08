@@ -70,7 +70,7 @@ public:
 
 	bool IsChanged() const; 
 
-	const_iterator FindItemWithText( const string & sText, const_iterator aStartPosIterator /*= begin()*/ ) const;
+    const_iterator FindItemWithText( const string & sText, const_iterator aStartPosIterator /*= begin()*/, const DynTextContainer & aDynTextContainer ) const;
 	void MakeRelativePaths();
     void MakeAbsolutePaths( const string & sDir );
 
@@ -111,7 +111,7 @@ public:
 	bool IsPause() const;
 	bool IsEdit() const;
 
-    QImage GetSlideForTime( double dTimeMS, int iWidth = -1, int iHeight = -1 ) const;
+    QImage GetSlideForTime( double dTimeMS, int iWidth = -1, int iHeight = -1, bool bScale = true ) const;
 	bool IsNextSlideChanging( double dTimeMS, double dDeltaMS ) const;
 	bool GetIndexForTime( double dTimeMS, int & iIndex1, int & iIndex2, int & iFadeFactor ) const;
 

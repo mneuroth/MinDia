@@ -259,7 +259,7 @@ int	DiaPresentation::FindItemWithText( const string & sText, int iStartIndex ) c
 	if( (iStartIndex >= 0) && (iStartIndex < (int)m_aDiaContainer.size()) )
 	{
 		DiaInfoContainer::const_iterator aStartIter = m_aDiaContainer.begin() + iStartIndex; 
-		DiaInfoContainer::const_iterator aIter = m_aDiaContainer.FindItemWithText( sText, aStartIter );
+        DiaInfoContainer::const_iterator aIter = m_aDiaContainer.FindItemWithText( sText, aStartIter, GetDynGraphicData() );
 
 		if( aIter != m_aDiaContainer.end() )
 		{
@@ -1382,7 +1382,7 @@ bool DiaPresentation::ExistsExternalDevice()
 	return false;
 }
 
-QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight ) const
+QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight, bool bScale ) const
 {
     int iIndex1 = -1;
     int iIndex2 = -1;
@@ -1395,21 +1395,26 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
         if( hDia1.IsOk() )
         {
             QImage aImage1;
-// TODO gulp --> ggf. inklusive image area cachen !
             ReadQImageOrEmpty( ToQString( hDia1->GetImageFile() ), aImage1 );
             aImage1 = CopyImageArea( aImage1, hDia1->GetRelX(), hDia1->GetRelY(), hDia1->GetRelDX(), hDia1->GetRelDY() );
 
-            if( iWidth<0 )
+            if( bScale )
             {
-                iWidth = m_ulOutputWidth; // or: aImage1.width();
+                if( iWidth<0 )
+                {
+                    iWidth = m_ulOutputWidth; // or: aImage1.width();
+                }
+                if( iHeight<0 )
+                {
+                    iHeight = m_ulOutputHeight; // or: aImage1.height();
+                }
+                aImage1 = aImage1.scaled( iWidth, iHeight );
             }
-            if( iHeight<0 )
+            else
             {
-                iHeight = m_ulOutputHeight; // or: aImage1.height();
+                iWidth = aImage1.width();
+                iHeight = aImage1.height();
             }
-// TODO --> falls leeres bild, dann ausgabe-format als groesse verwenden !
-
-            aImage1 = aImage1.scaled( iWidth, iHeight );
 
             QImage aPixmap( iWidth, iHeight, QImage::Format_RGB32 );
             QPainter aPainter;
@@ -1530,7 +1535,7 @@ bool DiaInfoContainer::IsChanged() const
 	return false;
 }
 
-DiaInfoContainer::const_iterator DiaInfoContainer::FindItemWithText( const string & sText, const_iterator aStartPosIterator ) const
+DiaInfoContainer::const_iterator DiaInfoContainer::FindItemWithText( const string & sText, const_iterator aStartPosIterator, const DynTextContainer & aDynTextContainer ) const
 {
 	while( aStartPosIterator != end() )
 	{
@@ -1538,6 +1543,15 @@ DiaInfoContainer::const_iterator DiaInfoContainer::FindItemWithText( const strin
 		{
 			return aStartPosIterator;
 		}
+        else
+        {
+            minHandle<DiaInfo> hItem = (*aStartPosIterator);
+
+            if( aDynTextContainer.HasTextFor( hItem->GetUUID(), sText ) )
+            {
+                return aStartPosIterator;
+            }
+        }
 		++aStartPosIterator;
 	}
 
