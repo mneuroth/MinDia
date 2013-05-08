@@ -487,6 +487,7 @@ public:
     virtual DataType	GetDataType( int iIndex ) const;
     virtual string		GetDataValue( int iIndex ) const;
     virtual bool		SetDataValue( int iIndex, const string & sValue );
+    virtual bool        IsDataEditable( int /*iIndex*/ ) const;
 
     bool operator<( const DynText & right );
 
@@ -535,6 +536,8 @@ public:
 	bool IsNextElementChanging( double dTimeMS, double dDeltaMS ) const;
 
     void UpdateShowTimeForDia( const string & sUUID, double dDeltaMS );
+
+    bool HasTextFor( const string & sUUID, const string & sText ) const;
 
     // *** implement GenericCommentContainer **
     virtual int						size() const;

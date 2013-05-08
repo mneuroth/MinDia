@@ -1051,6 +1051,26 @@ void DynTextContainer::UpdateShowTimeForDia( const string & sUUID, double dDelta
     }
 }
 
+bool DynTextContainer::HasTextFor( const string & sUUID, const string & sText ) const
+{
+    const_iterator aIter = begin();
+    while( aIter != end() )
+    {
+        HandleType hItem = *aIter;
+
+        if( hItem->GetAttachedSlideUUID()==sUUID )
+        {
+            if( hItem->GetString().find( sText )!=string::npos )
+            {
+                return true;
+            }
+        }
+
+        ++aIter;
+    }
+    return false;
+}
+
 int	DynTextContainer::size() const
 {
     return IOContainer<DynText>::size();
@@ -1760,7 +1780,7 @@ bool DynText::SetDataValue( int iIndex, const string & sValue )
             }
             break;
         case 2:
-            setText( ToQString(sValue) );
+            setText( ToQString( sValue ) );
             bRet = true;
             break;
         case 3:
@@ -1771,6 +1791,17 @@ bool DynText::SetDataValue( int iIndex, const string & sValue )
 
     return bRet;
 }
+
+bool DynText::IsDataEditable( int iIndex ) const
+{
+    switch( iIndex )
+    {
+        case 3:
+            return false;
+    }
+    return true;
+}
+
 
 bool DynText::operator<( const DynText & right )
 {

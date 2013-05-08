@@ -94,6 +94,7 @@ public:
     virtual DataType	GetDataType( int iIndex ) const = 0;
     virtual string		GetDataValue( int iIndex ) const = 0;
     virtual bool		SetDataValue( int iIndex, const string & sValue ) = 0;
+    virtual bool        IsDataEditable( int /*iIndex*/ ) const { return true; }
 };
 
 // *******************************************************************

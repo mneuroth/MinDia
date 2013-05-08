@@ -214,7 +214,13 @@ void CommentDlgImpl::TransferData( bool bToTable )
 				for( int j=0; j<pItem->GetDataCount(); j++ )
 				{
 					string s = pItem->GetDataValue( j );
-                    m_pTable->setItem(i,j,new QTableWidgetItem( ToQString(s) ) );
+                    QTableWidgetItem * pCellItem = new QTableWidgetItem( ToQString(s) );
+                    m_pTable->setItem( i, j, pCellItem );
+
+                    if( !pItem->IsDataEditable( j ) )
+                    {
+                        pCellItem->setFlags( (Qt::ItemFlags)((int)~(Qt::ItemIsEnabled) & (int)pCellItem->flags()) );
+                    }
 				}
 			}
 		}
