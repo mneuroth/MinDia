@@ -391,7 +391,7 @@ private:
 
 	QAction *		m_pFileNewAction;
 	QAction *		m_pFileLoadAction;
-	QAction *		m_pFileLoadForEditAction;
+    QAction *		m_pFileLoadForEditAction;
 	QAction *		m_pFileSaveAction;
 	QAction *		m_pFileSaveAsAction;
 	QAction *		m_pFileMakeRelPathsAction;

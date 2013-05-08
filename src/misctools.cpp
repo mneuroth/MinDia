@@ -276,6 +276,7 @@ bool ReadQImage( const QString & sFileName, QImage & aImageOut )
 
 void ReadQImageOrEmpty( const QString & sFileName, QImage & aImageOut )
 {
+// TODO gulp --> ggf. inklusive image area cachen !
     if( !ReadQImage(sFileName,aImageOut) )
     {
         aImageOut = CreateWhiteImage();

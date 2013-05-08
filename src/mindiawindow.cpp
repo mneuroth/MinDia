@@ -27,22 +27,25 @@ Bugs/TODOs:
 //- Verschieben von Sound Dateien mit Sound Data Dialog (hoch, runter) funktioniert nicht ==> ggf. Dialog entfernen
 //- ggf. Presentation Data Dialog anzeigen, wenn neue Praesenetation angelegt wird
 
-- ist Open for Edit notwendig?
-- fuer was ist die Suche gut?
-- Loeschen --> Dia loeschen
-- Aendere Eintrag --> Dia Daten aendern
+//- ist Open for Edit notwendig? --> nein, nur wenn scripte enabled sind
+//- fuer was ist die Suche gut? --> text in daten des Dias (und des attached dyn text neu)
+//- Loeschen --> Dia loeschen
+//- Aendere Eintrag --> Dia Daten aendern
 - Musik Daten --> Musikdaten
 - Kommentare zur Musik --> Kommentare zu der Musik
-- Dyn. Graf. Operation --> Grafik Operation
-- Behandlung DynText edit verbessern --> attach to dia
-- About Dialog aktualisieren
-- ggf. Eingaben in Logging Dialog disablen
+//- Dyn. Graf. Operation --> Dyn. Text
+//- About Dialog aktualisieren
+//- ggf. Eingaben in Logging Dialog disablen
 - Uebertragung von CommentDialog in Daten funktioniert nicht korrekt ? Aenderung im Dialog werden nicht uebernommen --> fehlt update ?
     => anscheinend muss Feld verlassen werden bevor Aenderungen akzeptiert werden
-- Disablen fuer Spalten im CommentDialog realisieren --> fuer attached texts
-- Live Play Mark Anzeige zeigt falsches Seitenverhaeltnis fuer Images an !
+((- Behandlung DynText edit verbessern --> attach to dia
+//- Disablen fuer Spalten im CommentDialog realisieren --> fuer attached texts
+//- Live Play Mark Anzeige zeigt falsches Seitenverhaeltnis fuer Images an !
 
-- Changes.txt fuer Version erstellen: live play mark, vorschau
+- *.qm Dateien in src.tar.gz aufnehmen
+- Changes.txt fuer Version erstellen:
+    port to Qt4, using phonon instead of external music player, using qserialport, removed script support (temporary)
+    live play mark, vorschau in play info, suche auch in attached dyn text, attached dyn text
 - Quellcode aufrauemen
 - ungenutzte SourceCode Dateien in old Verzeichnis verschieben
 - Sprachresourcen aktualisierens
@@ -373,10 +376,12 @@ void MinDiaWindow::CreateMenus()
     m_pFileLoadAction->setShortcut(Qt::CTRL+Qt::Key_O);
     connect( m_pFileLoadAction, SIGNAL( triggered() ), this, SLOT( sltAskLoadDoc() ) );
     pTools->addAction(m_pFileLoadAction);
-    m_pFileLoadForEditAction = new QAction( tr( "Open for e&dit..." ), this );
-    m_pFileLoadForEditAction->setStatusTip(tr( "Open an existing file for edit (script-events are not executed)" ));
-    m_pFileLoadForEditAction->setShortcut(Qt::ALT+Qt::Key_O);
-    connect( m_pFileLoadForEditAction, SIGNAL( triggered() ), this, SLOT( sltAskLoadForEditDoc() ) );
+    // open for edit is only needed if script events are enabled (script not supported yet)
+    m_pFileLoadForEditAction = 0;
+    //m_pFileLoadForEditAction = new QAction( tr( "Open for e&dit..." ), this );
+    //m_pFileLoadForEditAction->setStatusTip(tr( "Open an existing file for edit (script-events are not executed)" ));
+    //m_pFileLoadForEditAction->setShortcut(Qt::ALT+Qt::Key_O);
+    //connect( m_pFileLoadForEditAction, SIGNAL( triggered() ), this, SLOT( sltAskLoadForEditDoc() ) );
     m_pFileSaveAction = new QAction( aSaveIcon, tr( "&Save" ), this );
     m_pFileSaveAction->setStatusTip( tr( "Save presentation" ) );
     m_pFileSaveAction->setShortcut(Qt::CTRL+Qt::Key_S);
@@ -436,7 +441,7 @@ void MinDiaWindow::CreateMenus()
     m_pFile->addAction(m_pFileNewAction);
     m_pFile->addSeparator();
     m_pFile->addAction(m_pFileLoadAction);
-    m_pFile->addAction(m_pFileLoadForEditAction);
+    if( m_pFileLoadForEditAction ) { m_pFile->addAction(m_pFileLoadForEditAction); }
     m_pFile->addAction(m_pFileSaveAction);
     m_pFile->addAction(m_pFileSaveAsAction);
     m_pFile->addSeparator();
@@ -480,7 +485,7 @@ void MinDiaWindow::CreateMenus()
     m_pEditSelectAllAction->setShortcut(Qt::CTRL+Qt::Key_A);
     connect( m_pEditSelectAllAction, SIGNAL( triggered() ), m_pControler, SLOT( sltSelectAllClipboard() ) );
     m_pEditNewDiaAction = new QAction( tr( "Append d&ia" ), this );
-    m_pEditNewDiaAction->setStatusTip( tr( "Append dia" ) );
+    m_pEditNewDiaAction->setStatusTip( tr( "Append dia at the end of the presentation" ) );
     m_pEditNewDiaAction->setShortcut(Qt::CTRL+Qt::Key_I);
     connect( m_pEditNewDiaAction, SIGNAL( triggered() ), this, SLOT( sltNewItem() ) );
     m_pEditAddDiaAction = new QAction( tr( "Add &dia" ), this );
@@ -488,7 +493,7 @@ void MinDiaWindow::CreateMenus()
     m_pEditAddDiaAction->setShortcut(Qt::ALT+Qt::Key_I);
     connect( m_pEditAddDiaAction, SIGNAL( triggered() ), this, SLOT( sltAddItem() ) );
     
-    m_pEditDeleteAction = new QAction( tr( "&Delete" ), this );
+    m_pEditDeleteAction = new QAction( tr( "&Delete dia(s)" ), this );
     m_pEditDeleteAction->setStatusTip( tr( "Delete selected dia(s)" ) );
     m_pEditDeleteAction->setShortcut(Qt::Key_Delete);    
     connect( m_pEditDeleteAction, SIGNAL( triggered() ), m_pControler, SLOT( sltDeleteSelectedItems() ) );
@@ -502,8 +507,8 @@ void MinDiaWindow::CreateMenus()
     m_pEditFindNextAction->setShortcut(Qt::Key_F3);
     connect( m_pEditFindNextAction, SIGNAL( triggered() ), this, SLOT( sltFindNextItem() ) );
 
-    m_pExtrasModifyItemAction = new QAction( tr( "&Modify item..." ), this );
-    m_pExtrasModifyItemAction->setStatusTip( tr( "Show dialog to modify selected item" ) );
+    m_pExtrasModifyItemAction = new QAction( tr( "&Modify dia data..." ), this );
+    m_pExtrasModifyItemAction->setStatusTip( tr( "Show dialog to modify data of the selected dia" ) );
     m_pExtrasModifyItemAction->setShortcut(Qt::CTRL+Qt::Key_M);
     m_pExtrasModifyItemAction->setCheckable(true);
     connect( m_pExtrasModifyItemAction, SIGNAL( triggered() ), this, SLOT( sltDoModifyItem() ) );
@@ -648,8 +653,8 @@ void MinDiaWindow::CreateMenus()
     m_pExtrasPlotCommentAction->setStatusTip( tr( "Show dialog to modify the plot comments (internal comments for presentation, yellow text in timeline view)" ) );
     m_pExtrasPlotCommentAction->setShortcut(Qt::ALT+Qt::Key_Z);
     connect( m_pExtrasPlotCommentAction, SIGNAL( triggered() ), this, SLOT( sltDoPlotComment() ) );
-    m_pExtrasDynGraphOpAction = new QAction( tr( "D&yn. graphic operations..." ), this );
-    m_pExtrasDynGraphOpAction->setStatusTip( tr( "Show dialog to modify the dynamic graphic operations" ) );
+    m_pExtrasDynGraphOpAction = new QAction( tr( "D&yn. text..." ), this );
+    m_pExtrasDynGraphOpAction->setStatusTip( tr( "Show dialog to modify the dynamic texts" ) );
     m_pExtrasDynGraphOpAction->setShortcut(Qt::ALT+Qt::Key_G);
     connect( m_pExtrasDynGraphOpAction, SIGNAL( triggered() ), this, SLOT( sltDoDynGraphicOp() ) );
 
@@ -1394,7 +1399,7 @@ void MinDiaWindow::sltUpdateFileMenu()
 
 	m_pFileNewAction->setEnabled( bValue );
 	m_pFileLoadAction->setEnabled( bValue );
-	m_pFileLoadForEditAction->setEnabled( bValue );
+    if( m_pFileLoadForEditAction ) { m_pFileLoadForEditAction->setEnabled( bValue ); }
 	m_pFileSaveAction->setEnabled( bValue );
 	m_pFileSaveAsAction->setEnabled( bValue );
 	m_pFileExportAction->setEnabled( bValue );
@@ -1778,12 +1783,8 @@ void MinDiaWindow::sltItemSelected( int iCount, HItem * pFirstSelectedItem, int 
 		if( iCount==1 )
 		{
             minHandle<DiaInfo> hDiaInfo = pFirstSelectedItem->GetInfoData();
-// TODO working gulpx49
-//            if( hDiaInfo.IsOk() )
-            {
-                QString sFileName = ToQString( hDiaInfo->GetImageFile() );
-                m_pPlayInfoDialog->sltSetImage( CopyImageArea( GetImageFromFileName( sFileName ), hDiaInfo->GetRelX(), hDiaInfo->GetRelY(), hDiaInfo->GetRelDX(), hDiaInfo->GetRelDY() ), bIsPlaying, iDissolveTimeInMS );
-            }
+            QString sFileName = ToQString( hDiaInfo->GetImageFile() );
+            m_pPlayInfoDialog->sltSetImage( CopyImageArea( GetImageFromFileName( sFileName ), hDiaInfo->GetRelX(), hDiaInfo->GetRelY(), hDiaInfo->GetRelDX(), hDiaInfo->GetRelDY() ), bIsPlaying, iDissolveTimeInMS );
 		}
 		else
 		{
@@ -1806,7 +1807,7 @@ void MinDiaWindow::sltPlayMarkChanged( double dTimePosInSec )
     {
 // TODO gulp --> Performance Optimierung: besser Bilder erst skalieren und dann setzen ?
         // let the play info dialog decide which output format is needed...
-        QImage aImage = m_pControler->GetPresentation().GetSlideForTime( dTimePosInSec*1000.0 );
+        QImage aImage = m_pControler->GetPresentation().GetSlideForTime( dTimePosInSec*1000.0, -1, -1, false );
         m_pPlayInfoDialog->SetCurrentImage( aImage, /*bForceSet*/true );
     }
     sltShowStatusBarMessage( QString(tr("play mark %1 sec")).arg(dTimePosInSec) );
