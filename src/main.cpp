@@ -4,47 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/main.cpp,v $
- *
- *  $Revision: 1.10 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.9  2004/02/22 11:00:10  min
- *	QTranslator better handled.
- *	
- *	Revision 1.8  2004/02/21 00:54:52  min
- *	Automatic language detection implemented.
- *	
- *	Revision 1.7  2004/02/16 19:49:03  min
- *	Fixes for Borland C++
- *	
- *	Revision 1.6  2004/01/29 21:26:45  min
- *	Bugfix: accept -en as argument
- *	
- *	Revision 1.5  2004/01/18 23:42:05  min
- *	Windows only: get path .mindia.ini from registry.
- *	
- *	Revision 1.4  2003/11/09 14:25:45  min
- *	gendev project added
- *	
- *	Revision 1.3  2003/10/26 17:25:01  min
- *	Added new directories: images, sounds, data, scripts
- *
- *	Revision 1.2  2003/10/03 23:05:26  min
- *	Scripts in own directory moved, python conform dll nameing: mindiapy_d.dll
- *
- *	Revision 1.1.1.1  2003/08/15 16:38:21  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -53,11 +18,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qapplication.h>
-#include <qtextcodec.h>
+#include <QApplication>
+#include <QTextCodec>
 #include <QTranslator>
 #include <QMenu>
 #include <QLocale>
+#include <QLibraryInfo>
+#include <QDir>
 
 #include "mindiawindow.h"
 #include "doccontroler.h"
@@ -161,6 +128,7 @@ string GetMinDiaSharedDirectory()
 	sRet += sSep;
 #endif
 
+    cout << "Get shared dir "<< sRet.c_str() << endl;
 	return sRet;
 }
 
@@ -414,32 +382,55 @@ QApplication * GetApplication()
 	return g_pApplication;
 }
 
-QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, QApplication * /*myApp*/ )
+QString GetLocaleName(QStringList aArgs)
 {
-	// ** need global Translator for the other dialogs...
-	QString sLangTemp = sLanguage;
-	if( sLangTemp.length()==0 )
-	{
-		// if language is not given as command line argument
-		// than get the actual language now...
-        sLangTemp = QLocale::system().name();
-        if( sLangTemp.length()>=2 )
-		{
-			sLangTemp = sLangTemp.left(2);
-		}
-	}
-    QString sLang = ToQString( GetMinDiaSharedDirectory() );
-	sLang += "mindia_";
-	sLang += sLangTemp;
-	sLang += ".qm";
-	if( sLangTemp != "en" )
-	{
-        /*bool bOk =*/ pTranslator->load( sLang, "." );
-		//cout << "==>> " << (const char *)sLang << " bOk=" << bOk << " " << (const char *)sLangTemp << endl;
-		qApp->installTranslator( pTranslator );
-	}
-	return sLangTemp;
+    if( aArgs.size()>1 )
+    {
+        for( int i=1; i<aArgs.size(); i++ )
+        {
+            if( aArgs.at(i)=="-en" )
+            {
+                return "en";
+            }
+            if( aArgs.at(i)=="-nl" )
+            {
+                return "nl";
+            }
+            if( aArgs.at(i)=="-de" )
+            {
+                return "de";
+            }
+        }
+    }
+    return QLocale::system().name();
 }
+
+//QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, QApplication * /*myApp*/ )
+//{
+//	// ** need global Translator for the other dialogs...
+//	QString sLangTemp = sLanguage;
+//	if( sLangTemp.length()==0 )
+//	{
+//		// if language is not given as command line argument
+//		// than get the actual language now...
+//        sLangTemp = QLocale::system().name();
+//        if( sLangTemp.length()>=2 )
+//		{
+//			sLangTemp = sLangTemp.left(2);
+//		}
+//	}
+//    QString sLang = ToQString( GetMinDiaSharedDirectory() );
+//	sLang += "mindia_";
+//	sLang += sLangTemp;
+//	sLang += ".qm";
+//	if( sLangTemp != "en" )
+//	{
+//        /*bool bOk =*/ pTranslator->load( sLang, "." );
+//		//cout << "==>> " << (const char *)sLang << " bOk=" << bOk << " " << (const char *)sLangTemp << endl;
+//		qApp->installTranslator( pTranslator );
+//	}
+//	return sLangTemp;
+//}
 
 int main( int argc, char** argv )
 {
@@ -573,8 +564,50 @@ int main( int argc, char** argv )
 		}
 	}
 
-	MinDiaWindow aWindow( sLanguage, bIgnoreComSettings, bSimulation, iProjectorType );
-//	myApp.setMainWidget( &aWindow );
+    QString sLocale = GetLocaleName(g_pApplication->arguments());
+
+    // Remark: add translation objects before creating window !
+    QTranslator qtTranslator/*( &aWindow )*/;
+    bool bOk = qtTranslator.load(":/translations/qt_" + sLocale,QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    if( !bOk )
+    {
+        bOk = qtTranslator.load("qt_" + sLocale);
+#if defined(Q_OS_MAC)
+        if( !bOk )
+        {
+            bOk = qtTranslator.load(QDir::currentPath()+QString("/mindia.app/Contents/Resources/qt_")+sLocale);
+        }
+#elif defined(Q_OS_UNIX)
+        // should never be called because we read from the translation path before...
+        if( !bOk )
+        {
+            bOk = qtTranslator.load(QString("/usr/share/qt4/translations/qt_")+sLocale);
+        }
+#endif
+    }
+    g_pApplication->installTranslator(&qtTranslator);
+
+    QTranslator myappTranslator;
+    bOk = myappTranslator.load(":/translations/mindia_" + sLocale);
+#if defined(Q_OS_MAC)
+    if( !bOk )
+    {
+        // QCoreApplication::applicationDirPath();  + /../Resources/cliphist_
+        bOk = myappTranslator.load(QDir::currentPath()+QString("/mindia.app/Contents/Resources/mindia_")+sLocale);
+    }
+#elif defined(Q_OS_UNIX)
+    if( !bOk )
+    {
+        // PREFIX"/share/cliphist2" --> PREFIX from qmake PREFIX=/usr ==> is -DPREFIX=/usr option for compiler (define)
+        bOk = myappTranslator.load(QString(PREFIX)+QString("/share/mindia/mindia_")+sLocale);
+    }
+#else
+    bOk = bOk;      // disable compiler warning for other platforms than Mac
+#endif
+    g_pApplication->installTranslator(&myappTranslator);
+
+
+    MinDiaWindow aWindow( sLanguage, bIgnoreComSettings, bSimulation, iProjectorType );
 
 	// ** environment for dll starting... **
 	minServiceManager * pSrvManager = new minServiceManager;
@@ -618,10 +651,10 @@ int main( int argc, char** argv )
 	// ** done **
 
 	// ** need global Translator for the other dialogs...
-	QTranslator * pTranslator = new QTranslator( &aWindow );
-	myProcessLanguage( pTranslator, sLanguage, qApp );
+//	QTranslator * pTranslator = new QTranslator( &aWindow );
+//	myProcessLanguage( pTranslator, sLanguage, qApp );
 
-	// ** load file if any filename is given as an argument
+    // ** load file if any filename is given as an argument
 //	if( !sFileName.isEmpty() )
 //	{
 //		aWindow.sltLoadDoc( sFileName, bExecuteEvent );
@@ -654,7 +687,7 @@ int main( int argc, char** argv )
 
 	g_pApplication = 0;
 
-	delete pTranslator;
+//	delete pTranslator;
 
 	return iRet;
 }

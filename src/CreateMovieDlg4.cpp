@@ -186,7 +186,7 @@ void CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
 
 void CreateMovieDlg4::sltSelectOutputDirectory()
 {
-    QString sDir = QFileDialog::getExistingDirectory( this, tr("Open Directory"), ui.m_pDirectoryName->text() );
+    QString sDir = QFileDialog::getExistingDirectory( this, tr("Select directory"), ui.m_pDirectoryName->text() );
 
     if( !sDir.isEmpty() )
     {
@@ -285,7 +285,7 @@ void CreateMovieDlg4::sltDeleteTempFiles( bool bAsk )
 
 void CreateMovieDlg4::sltChangeMjpegToolsDirectory()
 {
-    QString sDir = QFileDialog::getExistingDirectory(this,tr("Existing Directory"),ui.m_pMjpegtoolsDirectory->text() );
+    QString sDir = QFileDialog::getExistingDirectory(this,tr("Select directory"),ui.m_pMjpegtoolsDirectory->text() );
 
     if( !sDir.isEmpty() )
     {

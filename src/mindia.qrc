@@ -6,4 +6,9 @@
         <file>icons/thumbnail.png</file>
         <file>icons/tv.png</file>
     </qresource>
+    <qresource prefix="/translations">
+        <file>mindia_de.qm</file>
+        <file>qt_de.qm</file>
+        <file>mindia_nl.qm</file>
+    </qresource>
 </RCC>

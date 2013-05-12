@@ -115,6 +115,9 @@ FORMS       = CreateMovieDlg4.ui \
                   HelpDlg4.ui \
                   DynTextDlg4.ui
 
+TRANSLATIONS = mindia_de.ts \
+    mindia_nl.ts
+
 INCLUDEPATH   		= ../gendev ../minsrv
 
 macx {
@@ -126,14 +129,14 @@ macx {
 
     # QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.5u.sdk
     # QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
-    target.path = /Applications
-    INSTALLS = target
-    utilities.path = Contents/Resources
-    utilities.files += ../mindia_de.qm \
-        ../mindia_nl.qm # \
+#    target.path = /Applications
+#    INSTALLS = target
+#    utilities.path = Contents/Resources
+#    utilities.files += ../src/mindia_de.qm  #\
+#        ../src/mindia_nl.qm # \
 
     # qt_de.qm
-    QMAKE_BUNDLE_DATA += utilities
+#    QMAKE_BUNDLE_DATA += utilities
     #INSTALLS += utilities
     ICON = mindia_new.icns
     QMAKE_INFO_PLIST = Info.plist

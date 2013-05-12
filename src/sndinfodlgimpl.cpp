@@ -48,7 +48,7 @@ SoundInfoDlgImpl::SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* pa
     m_pTable->setSelectionMode( QAbstractItemView::SingleSelection );
     m_pTable->setColumnCount( 11 );
     m_pTable->setRowCount( 1 );
-    m_pTable->setHorizontalHeaderItem(0,new QTableWidgetItem( tr( "wav-filename" ) ) );
+    m_pTable->setHorizontalHeaderItem(0,new QTableWidgetItem( tr( "sound-filename" ) ) );
 	m_pTable->setColumnWidth( 0, 186 );
     m_pTable->setHorizontalHeaderItem(1,new QTableWidgetItem( tr( "start-pos [ms]" ) ) );
 	m_pTable->setColumnWidth( 1, 75 );

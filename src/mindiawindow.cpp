@@ -27,6 +27,8 @@ Bugs/TODOs:
 //- Verschieben von Sound Dateien mit Sound Data Dialog (hoch, runter) funktioniert nicht ==> ggf. Dialog entfernen
 //- ggf. Presentation Data Dialog anzeigen, wenn neue Praesenetation angelegt wird
 
+- Sprachresource *.qm korrekt laden
+- Frage: sind *.qm in .app noch notwendig obwohl *.qm auch als qt-resource enthalten ist ?
 //- ist Open for Edit notwendig? --> nein, nur wenn scripte enabled sind
 //- fuer was ist die Suche gut? --> text in daten des Dias (und des attached dyn text neu)
 //- Loeschen --> Dia loeschen
@@ -41,6 +43,7 @@ Bugs/TODOs:
 ((- Behandlung DynText edit verbessern --> attach to dia
 //- Disablen fuer Spalten im CommentDialog realisieren --> fuer attached texts
 //- Live Play Mark Anzeige zeigt falsches Seitenverhaeltnis fuer Images an !
+- Abbrechen Button für Comment Dialog realisieren
 
 - *.qm Dateien in src.tar.gz aufnehmen
 - Changes.txt fuer Version erstellen:
@@ -196,7 +199,7 @@ string GetMinDiaSharedDirectory();
 
 // ** this function is defined in main.cpp */
 QApplication * GetApplication();
-QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, QApplication * myqApp );
+//QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, QApplication * myqApp );
 
 static MinDiaWindow * g_pMainWindow = 0;
 
@@ -249,7 +252,7 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 
 	// ** prepare application for different languages...**
 	m_pTranslator = new QTranslator( this );
-	m_sLanguage = myProcessLanguage( m_pTranslator, sLanguage, qApp );
+//	m_sLanguage = myProcessLanguage( m_pTranslator, sLanguage, qApp );
 
     QCoreApplication::setOrganizationName("mneuroth.de");       // mindia
     QCoreApplication::setOrganizationDomain("mneuroth.de");     // mindia.sf.net
@@ -392,10 +395,10 @@ void MinDiaWindow::CreateMenus()
     m_pFileSaveAsAction->setStatusTip( tr( "Save presentation as" ) );
     connect( m_pFileSaveAsAction, SIGNAL( triggered() ), this, SLOT( sltAskSaveAsDoc() ) );
     m_pFileMakeRelPathsAction = new QAction( tr( "Make &relative paths" ), this );
-    m_pFileMakeRelPathsAction->setStatusTip( tr( "Make absolute paths to reative paths" ));
+    m_pFileMakeRelPathsAction->setStatusTip( tr( "Convert absolute paths to reative paths" ));
     connect( m_pFileMakeRelPathsAction, SIGNAL( triggered() ), this, SLOT( sltMakeRelPaths() ) );
     m_pFileMakeAbsPathsAction = new QAction( tr( "Make &absolute paths..." ), this );
-    m_pFileMakeAbsPathsAction->setStatusTip( tr( "Make relative paths to absolute paths" ));
+    m_pFileMakeAbsPathsAction->setStatusTip( tr( "Convert relative paths to absolute paths" ));
     connect( m_pFileMakeAbsPathsAction, SIGNAL( triggered() ), this, SLOT( sltMakeAbsPaths() ) );
     m_pFileImportXMLAction = new QAction( tr( "&Import XML..." ), this );
     m_pFileImportXMLAction->setStatusTip( tr( "Import presentation from a XML file" ) );

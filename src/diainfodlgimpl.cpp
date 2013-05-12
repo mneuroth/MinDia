@@ -374,7 +374,7 @@ void DiaInfoDlgImpl::sltModifyScript()
 
 void DiaInfoDlgImpl::sltSelectFileName()
 {
-    QString sFileName = QFileDialog::getOpenFileName( this, tr("Select"), ToQString(GetImagePath()), tr("Images (*.jpg *.png *.bmp)"));
+    QString sFileName = QFileDialog::getOpenFileName( this, tr("Select file"), ToQString(GetImagePath()), tr("Images (*.jpg *.png *.bmp)"));
 
 	if( !sFileName.isEmpty() )
 	{
