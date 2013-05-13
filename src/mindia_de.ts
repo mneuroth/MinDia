@@ -1970,7 +1970,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+7"/>
         <source>&amp;Execute sript events</source>
-        <translation>&amp;Ausführen von Skript Ereignissen</translation>
+        <translation>Ausführen von S&amp;kript Ereignissen</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2083,7 +2083,7 @@ p, li { white-space: pre-wrap; }
         <location line="+13"/>
         <location line="+39"/>
         <source>pixel</source>
-        <translation>Pixel</translation>
+        <translation>Bildpunkte</translation>
     </message>
     <message>
         <location line="-13"/>
@@ -2096,7 +2096,7 @@ p, li { white-space: pre-wrap; }
         <translation>Bilder pro Sekunde:</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+45"/>
         <source>Create &amp;Images (1)</source>
         <translation>Erzeuge &amp;Bilder (1)</translation>
     </message>
@@ -2106,12 +2106,12 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+7"/>
         <source>set to TMP</source>
         <translation>Setze auf TMP</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+10"/>
         <source>Movie</source>
         <translation>Film</translation>
     </message>
@@ -2119,7 +2119,7 @@ p, li { white-space: pre-wrap; }
         <location line="+6"/>
         <location line="+52"/>
         <source>Generator cmd:</source>
-        <translation>Erzeuge Kommando:</translation>
+        <translation>Erzeuger Kommando:</translation>
     </message>
     <message>
         <location line="-26"/>
@@ -2306,7 +2306,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+7"/>
         <source>&amp;flash</source>
-        <translation>&amp;Blitzen</translation>
+        <translation>&amp;blitzen</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2392,7 +2392,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+14"/>
         <source>&amp;Apply</source>
-        <translation>&amp;Anwende</translation>
+        <translation>An&amp;wenden</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -2402,7 +2402,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+13"/>
         <source>Apply and ne&amp;xt</source>
-        <translation>Anwendun und n&amp;ächstes</translation>
+        <translation>Anwenden und n&amp;ächstes</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -2695,7 +2695,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MinDiaWindow</name>
     <message>
-        <location filename="mindiawindow.cpp" line="+261"/>
+        <location filename="mindiawindow.cpp" line="+262"/>
         <source>MinDia</source>
         <translation></translation>
     </message>
@@ -2745,12 +2745,11 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Öffnen...</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Open an existing file</source>
-        <translation>Öffne eine existiernde Datei</translation>
+        <translation type="obsolete">Öffne eine existiernde Datei</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>&amp;Save</source>
         <translation>&amp;Speichern</translation>
     </message>
@@ -2780,15 +2779,26 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+3"/>
-        <source>Make &amp;absolute paths...</source>
-        <translation>Ezeuge &amp;absolute Pfade...</translation>
+        <source>Make a&amp;bsolute paths...</source>
+        <oldsource>Make &amp;absolute paths...</oldsource>
+        <translation>Erzeuge &amp;absolute Pfade...</translation>
     </message>
     <message>
         <source>Make relative paths to absolute paths</source>
         <translation type="obsolete">Konvertiere relative Pfade in absolute Pfade</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-22"/>
+        <source>Open an existing presentation</source>
+        <translation>Öffne eine existierende Präsenation</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Convert absolute paths to reative paths</source>
+        <translation>Konvertiere absolute Pfade in relative Pfade</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Convert relative paths to absolute paths</source>
         <translation>Konvertiere relative Pfade in absolute Pfade</translation>
     </message>
@@ -2867,7 +2877,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+2"/>
         <source>E&amp;xit</source>
-        <translation>B&amp;eenden</translation>
+        <translation>&amp;Beenden</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2906,7 +2916,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+5"/>
-        <source>C&amp;ut</source>
+        <source>Cu&amp;t</source>
+        <oldsource>C&amp;ut</oldsource>
         <translation>&amp;Ausschneiden</translation>
     </message>
     <message>
@@ -2966,7 +2977,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+4"/>
-        <source>&amp;Delete dia(s)</source>
+        <source>D&amp;elete dia(s)</source>
+        <oldsource>&amp;Delete dia(s)</oldsource>
         <translation>L&amp;ösche Dia(s)</translation>
     </message>
     <message>
@@ -3077,7 +3089,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+4"/>
         <source>A&amp;dd sound comment</source>
-        <translation>Füge &amp;Musik Kommentar hinzu</translation>
+        <translation>Füge M&amp;usik Kommentar hinzu</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3096,7 +3108,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+4"/>
-        <source>&amp;Default dissolve time...</source>
+        <source>D&amp;efault dissolve time...</source>
+        <oldsource>&amp;Default dissolve time...</oldsource>
         <translation>&amp;Standard Überblendzeit...</translation>
     </message>
     <message>
@@ -3117,7 +3130,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+3"/>
         <source>Fade &amp;out test</source>
-        <translation>&amp;Ausblenden Test</translation>
+        <translation>A&amp;usblenden Test</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3502,8 +3515,9 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+7"/>
-        <source>Optimal</source>
-        <translation>Optimal</translation>
+        <source>O&amp;ptimal</source>
+        <oldsource>Optimal</oldsource>
+        <translation>O&amp;ptimal</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -3669,7 +3683,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+9"/>
         <source>user width [pixel]:</source>
-        <translation>Benutzerdefinierte Breite [Bildpunkt]:</translation>
+        <translation>Benutzerdefinierte Breite [Bildpunkte]:</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -3727,7 +3741,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+10"/>
         <source>&amp;Reset</source>
-        <translation>&amp;Zurücksetzen</translation>
+        <translation>Zur&amp;ücksetzen</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -3837,7 +3851,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+6"/>
         <source>St&amp;atus</source>
-        <translation></translation>
+        <translation>Stat&amp;us</translation>
     </message>
     <message>
         <location line="+10"/>

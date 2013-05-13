@@ -58,80 +58,6 @@
 #define _MUSIC_DIR		"music"
 #define _DATA_DIR		"data"
 
-// TEMP only !!! just for testing on min power book !
-#define APPLE_DIR_TEMP "/Users/min/Documents/home/Entwicklung/projects/mindia_qt4/src/mindia.app/Contents/Resources"
-
-// *************************************************************************
-
-/** Get the directory where all the help- and language-files are installed. */
-string GetMinDiaSharedDirectory()
-{
-	string sRet;
-	string sSep( FileUtilityObj::GetDirectorySeparatorStrg() );
-
-#if defined(__linux__) || defined(__APPLE__)
-	// ** if MinDia is installed, than the german language file is in this directory
-	string sTestFileInShared;
-
-#if defined(__linux__)
-	sTestFileInShared += MINDIA_INSTALLATION_DIR;		//_LINUX_MINDIA_SHARED;
-#endif
-#if defined(__APPLE__)
-    sTestFileInShared = APPLE_DIR_TEMP;		//_LINUX_MINDIA_SHARED;
-#endif
-    sTestFileInShared += sSep;
-	sTestFileInShared += "mindia_de.qm";
-
-    if( QFile::exists( ToQString( sTestFileInShared ) ) )
-	{
-#if defined(__linux__)
-        sRet = MINDIA_INSTALLATION_DIR;		//_LINUX_MINDIA_SHARED;
-#endif
-#if defined(__APPLE__)
-        sRet = APPLE_DIR_TEMP;
-#endif
-		sRet += sSep;
-	}
-	else
-	{
-		// ** if MinDia is not installed, try the local directory
-		sRet = ".";
-		sRet += sSep;
-	}
-#endif
-
-#if defined( _MSC_VER ) || defined( __BORLANDC__ ) || defined(__MINGW32__)
-	sRet = ".";
-	// HKEY_CURRENT_USER.Software.mindia.inifile
-	HKEY hKey;
-	if( RegOpenKeyEx( HKEY_CURRENT_USER, (WCHAR *)"Software", 0, KEY_ALL_ACCESS, &hKey ) == ERROR_SUCCESS )
-	{
-		HKEY hKeyMindia;
-		if( RegOpenKeyEx( hKey, (WCHAR *)"mindia", 0, KEY_ALL_ACCESS, &hKeyMindia ) == ERROR_SUCCESS )
-		{
-			char sBuffer[512];
-			DWORD dwLength = 512;
-			DWORD dwType = REG_SZ;
-
-			RegQueryValueEx( hKeyMindia, (WCHAR *)"inifile", NULL, &dwType, (LPBYTE)sBuffer, &dwLength );
-
-			sRet = sBuffer;
-
-			RegCloseKey( hKeyMindia );
-		}
-
-		RegCloseKey( hKey );
-
-		return sRet+sSep;
-	}
-	sRet = ".";
-	sRet += sSep;
-#endif
-
-    cout << "Get shared dir "<< sRet.c_str() << endl;
-	return sRet;
-}
-
 // *************************************************************************
 
 class IGeneralScriptFcnImpl : public IGeneralScriptFcn
@@ -219,8 +145,8 @@ string IGeneralScriptFcnImpl::GetDataDirecotry() const
 
 void IGeneralScriptFcnImpl::Init()
 {
-	string sTemp = GetMinDiaSharedDirectory();
-	string sSep( FileUtilityObj::GetDirectorySeparatorStrg() );
+    string sTemp = ToStdString(QCoreApplication::applicationDirPath());
+    //string sSep( FileUtilityObj::GetDirectorySeparatorStrg() );
 
 	m_sHelpDirectory = sTemp;	// this path endst with a directory separator
 	m_sScriptDirectory = sTemp + _SCRIPTS_DIR /*+ sSep*/;
@@ -386,6 +312,7 @@ QString GetLocaleName(QStringList aArgs)
 {
     if( aArgs.size()>1 )
     {
+        // see: http://de.selfhtml.org/diverses/sprachenlaenderkuerzel.htm
         for( int i=1; i<aArgs.size(); i++ )
         {
             if( aArgs.at(i)=="-en" )
@@ -400,37 +327,19 @@ QString GetLocaleName(QStringList aArgs)
             {
                 return "de";
             }
+            if( aArgs.at(i)=="-fr" )
+            {
+                return "fr";
+            }
+            if( aArgs.at(i)=="-es" )
+            {
+                return "es";
+            }
         }
     }
-    return QLocale::system().name();
+    return QLocale::system().name().mid(0,2);
+//    return QLocale::system()./*name*/languageToString(QLocale::system().language());
 }
-
-//QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, QApplication * /*myApp*/ )
-//{
-//	// ** need global Translator for the other dialogs...
-//	QString sLangTemp = sLanguage;
-//	if( sLangTemp.length()==0 )
-//	{
-//		// if language is not given as command line argument
-//		// than get the actual language now...
-//        sLangTemp = QLocale::system().name();
-//        if( sLangTemp.length()>=2 )
-//		{
-//			sLangTemp = sLangTemp.left(2);
-//		}
-//	}
-//    QString sLang = ToQString( GetMinDiaSharedDirectory() );
-//	sLang += "mindia_";
-//	sLang += sLangTemp;
-//	sLang += ".qm";
-//	if( sLangTemp != "en" )
-//	{
-//        /*bool bOk =*/ pTranslator->load( sLang, "." );
-//		//cout << "==>> " << (const char *)sLang << " bOk=" << bOk << " " << (const char *)sLangTemp << endl;
-//		qApp->installTranslator( pTranslator );
-//	}
-//	return sLangTemp;
-//}
 
 int main( int argc, char** argv )
 {
@@ -469,9 +378,9 @@ int main( int argc, char** argv )
 	int  iPosY = 0;
 	int  iProjectorType = RolleiCom::TWIN_DIGITAL_P;
 	QString sFileName;
-	QString sLanguage = "";
+    QString sLanguage = GetLocaleName(g_pApplication->arguments());
 
-	// ** do a very simple argument parsing
+    // ** do a very simple argument parsing
 	for( int i=1; i<argc; i++ )
 	{
 		QString s = argv[i];
@@ -541,22 +450,13 @@ int main( int argc, char** argv )
 		{
 			bExpand = true;
 		}
-		else if( s == "-en" )
-		{
-			sLanguage = "en";
-		}
-		else if( s == "-de" )
-		{
-			sLanguage = "de";
-		}
-		else if( s == "-fr" )
-		{
-			sLanguage = "fr";
-		}
-		else if( s == "-nl" )
-		{
-			sLanguage = "nl";
-		}
+        else if( s == "-en" ||
+                 s == "-de" ||
+                 s == "-nl" ||
+                 s == "-fr" )
+        {
+            // already processed
+        }
 		// ** everything else will be treated as a filename
 		else
 		{
@@ -564,42 +464,40 @@ int main( int argc, char** argv )
 		}
 	}
 
-    QString sLocale = GetLocaleName(g_pApplication->arguments());
-
     // Remark: add translation objects before creating window !
     QTranslator qtTranslator/*( &aWindow )*/;
-    bool bOk = qtTranslator.load(":/translations/qt_" + sLocale,QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    bool bOk = qtTranslator.load(":/translations/qt_" + sLanguage,QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     if( !bOk )
     {
-        bOk = qtTranslator.load("qt_" + sLocale);
+        bOk = qtTranslator.load("qt_" + sLanguage);
 #if defined(Q_OS_MAC)
         if( !bOk )
         {
-            bOk = qtTranslator.load(QDir::currentPath()+QString("/mindia.app/Contents/Resources/qt_")+sLocale);
+            bOk = qtTranslator.load(QDir::currentPath()+QString("/mindia.app/Contents/Resources/qt_")+sLanguage);
         }
 #elif defined(Q_OS_UNIX)
         // should never be called because we read from the translation path before...
         if( !bOk )
         {
-            bOk = qtTranslator.load(QString("/usr/share/qt4/translations/qt_")+sLocale);
+            bOk = qtTranslator.load(QString("/usr/share/qt4/translations/qt_")+sLanguage);
         }
 #endif
     }
     g_pApplication->installTranslator(&qtTranslator);
 
     QTranslator myappTranslator;
-    bOk = myappTranslator.load(":/translations/mindia_" + sLocale);
+    bOk = myappTranslator.load(":/translations/mindia_" + sLanguage);
 #if defined(Q_OS_MAC)
     if( !bOk )
     {
         // QCoreApplication::applicationDirPath();  + /../Resources/cliphist_
-        bOk = myappTranslator.load(QDir::currentPath()+QString("/mindia.app/Contents/Resources/mindia_")+sLocale);
+        bOk = myappTranslator.load(QDir::currentPath()+QString("/mindia.app/Contents/Resources/mindia_")+sLanguage);
     }
 #elif defined(Q_OS_UNIX)
     if( !bOk )
     {
         // PREFIX"/share/cliphist2" --> PREFIX from qmake PREFIX=/usr ==> is -DPREFIX=/usr option for compiler (define)
-        bOk = myappTranslator.load(QString(PREFIX)+QString("/share/mindia/mindia_")+sLocale);
+        bOk = myappTranslator.load(QString(PREFIX)+QString("/share/mindia/mindia_")+sLanguage);
     }
 #else
     bOk = bOk;      // disable compiler warning for other platforms than Mac

@@ -191,7 +191,7 @@
          <item row="0" column="2">
           <widget class="QRadioButton" name="m_pScaleOptimal">
            <property name="text">
-            <string>Optimal</string>
+            <string>O&amp;ptimal</string>
            </property>
            <property name="checked">
             <bool>true</bool>

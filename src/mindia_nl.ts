@@ -327,114 +327,114 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="246"/>
+        <location filename="CreateMovieDlg4.ui" line="265"/>
         <source>Create &amp;Images (1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="249"/>
+        <location filename="CreateMovieDlg4.ui" line="268"/>
         <source>Alt+I</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="282"/>
+        <location filename="CreateMovieDlg4.ui" line="275"/>
         <source>set to TMP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="298"/>
+        <location filename="CreateMovieDlg4.ui" line="285"/>
         <source>Movie</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="304"/>
-        <location filename="CreateMovieDlg4.ui" line="356"/>
+        <location filename="CreateMovieDlg4.ui" line="291"/>
+        <location filename="CreateMovieDlg4.ui" line="343"/>
         <source>Generator cmd:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="330"/>
+        <location filename="CreateMovieDlg4.ui" line="317"/>
         <source>Create &amp;Movie (2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="333"/>
+        <location filename="CreateMovieDlg4.ui" line="320"/>
         <source>Alt+A</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="350"/>
+        <location filename="CreateMovieDlg4.ui" line="337"/>
         <source>Sound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="366"/>
+        <location filename="CreateMovieDlg4.ui" line="353"/>
         <source>Add &amp;Sound (3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="369"/>
+        <location filename="CreateMovieDlg4.ui" line="356"/>
         <source>Alt+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="406"/>
+        <location filename="CreateMovieDlg4.ui" line="393"/>
         <source>Protocol</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="412"/>
+        <location filename="CreateMovieDlg4.ui" line="399"/>
         <source>Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="418"/>
+        <location filename="CreateMovieDlg4.ui" line="405"/>
         <source>Output:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="431"/>
+        <location filename="CreateMovieDlg4.ui" line="418"/>
         <source>&amp;Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="434"/>
-        <location filename="CreateMovieDlg4.ui" line="518"/>
+        <location filename="CreateMovieDlg4.ui" line="421"/>
+        <location filename="CreateMovieDlg4.ui" line="505"/>
         <source>Alt+C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="466"/>
+        <location filename="CreateMovieDlg4.ui" line="453"/>
         <source>&amp;Make Show (1)+(2)+(3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="469"/>
+        <location filename="CreateMovieDlg4.ui" line="456"/>
         <source>Alt+M</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="476"/>
+        <location filename="CreateMovieDlg4.ui" line="463"/>
         <source>&amp;Delete temp. files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="479"/>
+        <location filename="CreateMovieDlg4.ui" line="466"/>
         <source>Alt+D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="502"/>
+        <location filename="CreateMovieDlg4.ui" line="489"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="505"/>
+        <location filename="CreateMovieDlg4.ui" line="492"/>
         <source>F1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.ui" line="515"/>
+        <location filename="CreateMovieDlg4.ui" line="502"/>
         <source>&amp;Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -469,13 +469,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="CreateMovieDlg4.cpp" line="277"/>
         <source>Really delete all files in temporary directory?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="CreateMovieDlg4.cpp" line="189"/>
-        <location filename="CreateMovieDlg4.cpp" line="288"/>
-        <source>Select directory</source>
-        <oldsource>Existing Directory</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -933,698 +926,707 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MinDiaWindow</name>
     <message>
-        <location filename="mindiawindow.cpp" line="261"/>
+        <location filename="mindiawindow.cpp" line="262"/>
         <source>MinDia</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="356"/>
+        <location filename="mindiawindow.cpp" line="357"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="357"/>
+        <location filename="mindiawindow.cpp" line="358"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="358"/>
+        <location filename="mindiawindow.cpp" line="359"/>
         <source>&amp;Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="359"/>
+        <location filename="mindiawindow.cpp" line="360"/>
         <source>Pre&amp;sentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="360"/>
+        <location filename="mindiawindow.cpp" line="361"/>
         <source>P&amp;rojector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="362"/>
+        <location filename="mindiawindow.cpp" line="363"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="373"/>
+        <location filename="mindiawindow.cpp" line="374"/>
         <source>&amp;New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="374"/>
+        <location filename="mindiawindow.cpp" line="375"/>
         <source>Create a new presentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="377"/>
+        <location filename="mindiawindow.cpp" line="378"/>
         <source>&amp;Open...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="378"/>
-        <source>Open an existing file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mindiawindow.cpp" line="388"/>
-        <source>&amp;Save</source>
+        <location filename="mindiawindow.cpp" line="379"/>
+        <source>Open an existing presentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mindiawindow.cpp" line="389"/>
+        <source>&amp;Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mindiawindow.cpp" line="390"/>
         <source>Save presentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="394"/>
+        <location filename="mindiawindow.cpp" line="395"/>
         <source>Save &amp;as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="395"/>
+        <location filename="mindiawindow.cpp" line="396"/>
         <source>Save presentation as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="397"/>
+        <location filename="mindiawindow.cpp" line="398"/>
         <source>Make &amp;relative paths</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="400"/>
-        <source>Make &amp;absolute paths...</source>
+        <location filename="mindiawindow.cpp" line="399"/>
+        <source>Convert absolute paths to reative paths</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mindiawindow.cpp" line="401"/>
+        <source>Make a&amp;bsolute paths...</source>
+        <oldsource>Make &amp;absolute paths...</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mindiawindow.cpp" line="402"/>
         <source>Convert relative paths to absolute paths</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="403"/>
+        <location filename="mindiawindow.cpp" line="404"/>
         <source>&amp;Import XML...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="404"/>
+        <location filename="mindiawindow.cpp" line="405"/>
         <source>Import presentation from a XML file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="406"/>
+        <location filename="mindiawindow.cpp" line="407"/>
         <source>E&amp;xport XML...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="407"/>
+        <location filename="mindiawindow.cpp" line="408"/>
         <source>Export presentation as XML file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="409"/>
+        <location filename="mindiawindow.cpp" line="410"/>
         <source>Expo&amp;rt...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="410"/>
+        <location filename="mindiawindow.cpp" line="411"/>
         <source>Export presentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="412"/>
+        <location filename="mindiawindow.cpp" line="413"/>
         <source>Export dyn. &amp;graphics...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="413"/>
-        <location filename="mindiawindow.cpp" line="1319"/>
+        <location filename="mindiawindow.cpp" line="414"/>
+        <location filename="mindiawindow.cpp" line="1320"/>
         <source>Export dynamic graphic data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="415"/>
+        <location filename="mindiawindow.cpp" line="416"/>
         <source>Import d&amp;yn. graphics...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="416"/>
-        <location filename="mindiawindow.cpp" line="1329"/>
+        <location filename="mindiawindow.cpp" line="417"/>
+        <location filename="mindiawindow.cpp" line="1330"/>
         <source>Import dynamic graphic data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="418"/>
+        <location filename="mindiawindow.cpp" line="419"/>
         <source>&amp;Print...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="419"/>
+        <location filename="mindiawindow.cpp" line="420"/>
         <source>Print data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="421"/>
+        <location filename="mindiawindow.cpp" line="422"/>
         <source>Cr&amp;eate Movie...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="423"/>
+        <location filename="mindiawindow.cpp" line="424"/>
         <source>Export presentation as movie</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="425"/>
+        <location filename="mindiawindow.cpp" line="426"/>
         <source>E&amp;xit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="426"/>
+        <location filename="mindiawindow.cpp" line="427"/>
         <source>Exit application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="432"/>
+        <location filename="mindiawindow.cpp" line="433"/>
         <source>Las&amp;t files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="435"/>
+        <location filename="mindiawindow.cpp" line="436"/>
         <source>&amp;Import/Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="463"/>
+        <location filename="mindiawindow.cpp" line="464"/>
         <source>&amp;Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="464"/>
+        <location filename="mindiawindow.cpp" line="465"/>
         <source>Undo last operation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="468"/>
+        <location filename="mindiawindow.cpp" line="469"/>
         <source>&amp;Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="469"/>
+        <location filename="mindiawindow.cpp" line="470"/>
         <source>Redo last operation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="474"/>
-        <source>C&amp;ut</source>
+        <location filename="mindiawindow.cpp" line="475"/>
+        <source>Cu&amp;t</source>
+        <oldsource>C&amp;ut</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="475"/>
+        <location filename="mindiawindow.cpp" line="476"/>
         <source>Cut to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="478"/>
+        <location filename="mindiawindow.cpp" line="479"/>
         <source>&amp;Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="479"/>
+        <location filename="mindiawindow.cpp" line="480"/>
         <source>Copy to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="482"/>
+        <location filename="mindiawindow.cpp" line="483"/>
         <source>&amp;Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="483"/>
+        <location filename="mindiawindow.cpp" line="484"/>
         <source>Paste from clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="486"/>
+        <location filename="mindiawindow.cpp" line="487"/>
         <source>Select &amp;all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="487"/>
+        <location filename="mindiawindow.cpp" line="488"/>
         <source>Select all dias</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="490"/>
+        <location filename="mindiawindow.cpp" line="491"/>
         <source>Append d&amp;ia</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="491"/>
+        <location filename="mindiawindow.cpp" line="492"/>
         <source>Append dia at the end of the presentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="494"/>
+        <location filename="mindiawindow.cpp" line="495"/>
         <source>Add &amp;dia</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="495"/>
+        <location filename="mindiawindow.cpp" line="496"/>
         <source>Add dia at current position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="499"/>
-        <source>&amp;Delete dia(s)</source>
+        <location filename="mindiawindow.cpp" line="500"/>
+        <source>D&amp;elete dia(s)</source>
+        <oldsource>&amp;Delete dia(s)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="500"/>
+        <location filename="mindiawindow.cpp" line="501"/>
         <source>Delete selected dia(s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="504"/>
+        <location filename="mindiawindow.cpp" line="505"/>
         <source>&amp;Search...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="505"/>
+        <location filename="mindiawindow.cpp" line="506"/>
         <source>Search for text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="508"/>
+        <location filename="mindiawindow.cpp" line="509"/>
         <source>Search &amp;next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="509"/>
+        <location filename="mindiawindow.cpp" line="510"/>
         <source>Search for next occurence of search text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="513"/>
+        <location filename="mindiawindow.cpp" line="514"/>
         <source>&amp;Modify dia data...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="514"/>
+        <location filename="mindiawindow.cpp" line="515"/>
         <source>Show dialog to modify data of the selected dia</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="519"/>
+        <location filename="mindiawindow.cpp" line="520"/>
         <source>Re&amp;fresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="520"/>
+        <location filename="mindiawindow.cpp" line="521"/>
         <source>Refresh the view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="523"/>
+        <location filename="mindiawindow.cpp" line="524"/>
         <source>&amp;Test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="524"/>
+        <location filename="mindiawindow.cpp" line="525"/>
         <source>For testing only !</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="549"/>
+        <location filename="mindiawindow.cpp" line="550"/>
         <source>Sta&amp;rt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="550"/>
+        <location filename="mindiawindow.cpp" line="551"/>
         <source>Start presentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="554"/>
+        <location filename="mindiawindow.cpp" line="555"/>
         <source>&amp;Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="555"/>
+        <location filename="mindiawindow.cpp" line="556"/>
         <source>Pause presentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="559"/>
+        <location filename="mindiawindow.cpp" line="560"/>
         <source>S&amp;top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="560"/>
+        <location filename="mindiawindow.cpp" line="561"/>
         <source>Stop presentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="565"/>
+        <location filename="mindiawindow.cpp" line="566"/>
         <source>Start &amp;from selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="566"/>
+        <location filename="mindiawindow.cpp" line="567"/>
         <source>Start from selected position (goto position and start)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="570"/>
+        <location filename="mindiawindow.cpp" line="571"/>
         <source>Start &amp;at selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="571"/>
+        <location filename="mindiawindow.cpp" line="572"/>
         <source>Start at selected position (just start at position)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="575"/>
+        <location filename="mindiawindow.cpp" line="576"/>
         <source>A&amp;dd sound comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="576"/>
+        <location filename="mindiawindow.cpp" line="577"/>
         <source>Add sound comment (play presentation to enable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="580"/>
+        <location filename="mindiawindow.cpp" line="581"/>
         <source>Add &amp;graphic operation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="581"/>
+        <location filename="mindiawindow.cpp" line="582"/>
         <source>Add graphic operation (play presentation to enable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="585"/>
-        <source>&amp;Default dissolve time...</source>
+        <location filename="mindiawindow.cpp" line="586"/>
+        <source>D&amp;efault dissolve time...</source>
+        <oldsource>&amp;Default dissolve time...</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="586"/>
+        <location filename="mindiawindow.cpp" line="587"/>
         <source>Edit default dissolve time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="588"/>
+        <location filename="mindiawindow.cpp" line="589"/>
         <source>&amp;Fade in test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="589"/>
+        <location filename="mindiawindow.cpp" line="590"/>
         <source>Fade in test (select two dias to enable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="592"/>
+        <location filename="mindiawindow.cpp" line="593"/>
         <source>Fade &amp;out test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="593"/>
+        <location filename="mindiawindow.cpp" line="594"/>
         <source>Fade out test (select two dias to enable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="596"/>
+        <location filename="mindiawindow.cpp" line="597"/>
         <source>Pla&amp;y screen...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="599"/>
+        <location filename="mindiawindow.cpp" line="600"/>
         <source>Show dialog to show the dia presentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="621"/>
+        <location filename="mindiawindow.cpp" line="622"/>
         <source>&amp;Configuration...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="622"/>
+        <location filename="mindiawindow.cpp" line="623"/>
         <source>Show dialog for projector configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="625"/>
+        <location filename="mindiawindow.cpp" line="626"/>
         <source>Co&amp;ntrol...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="626"/>
+        <location filename="mindiawindow.cpp" line="627"/>
         <source>Show dialog for projector control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="630"/>
+        <location filename="mindiawindow.cpp" line="631"/>
         <source>&amp;Logging...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="631"/>
+        <location filename="mindiawindow.cpp" line="632"/>
         <source>Show dialog for logging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="640"/>
+        <location filename="mindiawindow.cpp" line="641"/>
         <source>Presentation &amp;data...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="641"/>
+        <location filename="mindiawindow.cpp" line="642"/>
         <source>Show dialog to modify the presentation data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="647"/>
+        <location filename="mindiawindow.cpp" line="648"/>
         <source>So&amp;und data...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="648"/>
+        <location filename="mindiawindow.cpp" line="649"/>
         <source>Show dialog to modify the sound data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="651"/>
+        <location filename="mindiawindow.cpp" line="652"/>
         <source>Sou&amp;nd comments...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="652"/>
+        <location filename="mindiawindow.cpp" line="653"/>
         <source>Show dialog to modify sound comments (blue text in timeline view)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="655"/>
+        <location filename="mindiawindow.cpp" line="656"/>
         <source>&amp;Plot comments...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="656"/>
+        <location filename="mindiawindow.cpp" line="657"/>
         <source>Show dialog to modify the plot comments (internal comments for presentation, yellow text in timeline view)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="659"/>
+        <location filename="mindiawindow.cpp" line="660"/>
         <source>D&amp;yn. text...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="660"/>
+        <location filename="mindiawindow.cpp" line="661"/>
         <source>Show dialog to modify the dynamic texts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="675"/>
+        <location filename="mindiawindow.cpp" line="676"/>
         <source>&amp;About...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="676"/>
+        <location filename="mindiawindow.cpp" line="677"/>
         <source>Infos about this application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="679"/>
+        <location filename="mindiawindow.cpp" line="680"/>
         <source>About &amp;Qt...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="680"/>
+        <location filename="mindiawindow.cpp" line="681"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="684"/>
+        <location filename="mindiawindow.cpp" line="685"/>
         <source>&amp;Help...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="685"/>
+        <location filename="mindiawindow.cpp" line="686"/>
         <source>Help for this application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1086"/>
+        <location filename="mindiawindow.cpp" line="1087"/>
         <source>This program is released under the GPL Version 2:
 
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1176"/>
+        <location filename="mindiawindow.cpp" line="1177"/>
         <source>MinDia - Question</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1177"/>
+        <location filename="mindiawindow.cpp" line="1178"/>
         <source>Really create a new document and lose all changes ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1201"/>
+        <location filename="mindiawindow.cpp" line="1202"/>
         <source>Loading aborted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1207"/>
+        <location filename="mindiawindow.cpp" line="1208"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1214"/>
+        <location filename="mindiawindow.cpp" line="1215"/>
         <source>Open for edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1221"/>
+        <location filename="mindiawindow.cpp" line="1222"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1231"/>
+        <location filename="mindiawindow.cpp" line="1232"/>
         <source>Save was aborted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1263"/>
+        <location filename="mindiawindow.cpp" line="1264"/>
         <source>Sorry, printing not implemented yet !</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1270"/>
+        <location filename="mindiawindow.cpp" line="1271"/>
         <source>Not implemented yet !</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1275"/>
+        <location filename="mindiawindow.cpp" line="1276"/>
         <source>Export as XML</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1283"/>
+        <location filename="mindiawindow.cpp" line="1284"/>
         <source>Export to XML was aborted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1290"/>
+        <location filename="mindiawindow.cpp" line="1291"/>
         <source>Use scripts to export the presentation-data for other applications.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1341"/>
-        <location filename="mindiawindow.cpp" line="1511"/>
-        <location filename="mindiawindow.cpp" line="2055"/>
+        <location filename="mindiawindow.cpp" line="1342"/>
+        <location filename="mindiawindow.cpp" line="1512"/>
+        <location filename="mindiawindow.cpp" line="2056"/>
         <source>MinDia - Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1341"/>
+        <location filename="mindiawindow.cpp" line="1342"/>
         <source>Write changed data ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1341"/>
+        <location filename="mindiawindow.cpp" line="1342"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1341"/>
+        <location filename="mindiawindow.cpp" line="1342"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1506"/>
+        <location filename="mindiawindow.cpp" line="1507"/>
         <source>MinDia - Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1686"/>
+        <location filename="mindiawindow.cpp" line="1687"/>
         <source>play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1688"/>
+        <location filename="mindiawindow.cpp" line="1689"/>
         <source>total time: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1693"/>
+        <location filename="mindiawindow.cpp" line="1694"/>
         <source> min</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1697"/>
+        <location filename="mindiawindow.cpp" line="1698"/>
         <source> *** next: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1697"/>
+        <location filename="mindiawindow.cpp" line="1698"/>
         <source> s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1703"/>
+        <location filename="mindiawindow.cpp" line="1704"/>
         <source> *** count: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1816"/>
+        <location filename="mindiawindow.cpp" line="1817"/>
         <source>play mark %1 sec</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1838"/>
+        <location filename="mindiawindow.cpp" line="1839"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1838"/>
+        <location filename="mindiawindow.cpp" line="1839"/>
         <source>search for:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1873"/>
+        <location filename="mindiawindow.cpp" line="1874"/>
         <source>Enter new default dissolve time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1873"/>
+        <location filename="mindiawindow.cpp" line="1874"/>
         <source>default dissolve time [s]:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="2055"/>
+        <location filename="mindiawindow.cpp" line="2056"/>
         <source>Can&apos;t close the application, because the presentation is still playing !</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1732,7 +1734,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="PlayInfoDlg4.ui" line="194"/>
-        <source>Optimal</source>
+        <source>O&amp;ptimal</source>
+        <oldsource>Optimal</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>

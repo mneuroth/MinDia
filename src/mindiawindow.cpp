@@ -38,30 +38,32 @@ Bugs/TODOs:
 //- Dyn. Graf. Operation --> Dyn. Text
 //- About Dialog aktualisieren
 //- ggf. Eingaben in Logging Dialog disablen
-- Uebertragung von CommentDialog in Daten funktioniert nicht korrekt ? Aenderung im Dialog werden nicht uebernommen --> fehlt update ?
-    => anscheinend muss Feld verlassen werden bevor Aenderungen akzeptiert werden
 ((- Behandlung DynText edit verbessern --> attach to dia
 //- Disablen fuer Spalten im CommentDialog realisieren --> fuer attached texts
 //- Live Play Mark Anzeige zeigt falsches Seitenverhaeltnis fuer Images an !
-- Abbrechen Button für Comment Dialog realisieren
+//- Abbrechen Button fuer CommentDialog realisieren
+- Uebertragung von CommentDialog in Daten funktioniert nicht korrekt ? Aenderung im Dialog werden nicht uebernommen --> fehlt update ?
+    => anscheinend muss Feld verlassen werden bevor Aenderungen akzeptiert werden => Mac only ?
+- ggf. Seitenverhaeltniss fuer Leinwand/PlayInfoDlg entfernen, verwende Seitenverhaeltniss von Praesentation
 
-- *.qm Dateien in src.tar.gz aufnehmen
+((- *.qm Dateien in src.tar.gz aufnehmen
+((- Sprachresourcen aktualisierens
 - Changes.txt fuer Version erstellen:
     port to Qt4, using phonon instead of external music player, using qserialport, removed script support (temporary)
     live play mark, vorschau in play info, suche auch in attached dyn text, attached dyn text
 - Quellcode aufrauemen
 - ungenutzte SourceCode Dateien in old Verzeichnis verschieben
-- Sprachresourcen aktualisierens
 - RS232 Kommunikation verbessern -> Verbesserung des RS232 Dialogs zur direkten Ansteuerung --> nicht disablen nach erstem erfolglosen Versuch…
 - Binaere Packete erzeugen
 - Hilfe Dokument / Webseite fuer Bedienung erstellen
-- Hilfe Dialog verbessern
-- automatisch ffmpeg binary suchen (PATH suche)
-- Geometrie-Zustand von anderen Dialogen ebenfalls sichern und restaurieren
+- Hilfe Dialog verbessern --> schoenere Icons verwenden, Signals/Slots verbinden und realisieren, z.B. Suche
+
+- ggf. automatisch ffmpeg binary suchen (PATH suche)
+- ggf. Geometrie-Zustand von anderen Dialogen ebenfalls sichern und restaurieren
 - ggf. Plot Comments Dialog / Menue entfernen ==> ist nicht an Dias geheftet
 - ggf. SoundInfo Markierungen an Sound-Dateien anheften
 - ggf. beim Shift+Click auf leeres Dia den Datei-Auswahl Dialog oeffnen um Image anzugeben
-- ggf Show-Zeit fuer DynamicText via Maus-Move ermoeglichen
+- ggf. Show-Zeit fuer DynamicText via Maus-Move ermoeglichen
 
 Mobile Version:
 - moeglichst viele Dialog obsolet machen
@@ -194,8 +196,6 @@ const unsigned long c_ulAutoStartTimeout	= 100;
 // ***********************************************************************
 
 #define DIA_EXTENSION "*.dia"
-
-string GetMinDiaSharedDirectory();
 
 // ** this function is defined in main.cpp */
 QApplication * GetApplication();
@@ -375,7 +375,7 @@ void MinDiaWindow::CreateMenus()
     m_pFileNewAction->setShortcut(Qt::CTRL+Qt::Key_N);
     connect( m_pFileNewAction, SIGNAL( triggered() ), this, SLOT( sltAskNewDoc() ) );
     m_pFileLoadAction = new QAction( aOpenIcon, tr( "&Open..." ), this );
-    m_pFileLoadAction->setStatusTip(tr( "Open an existing file" ));
+    m_pFileLoadAction->setStatusTip(tr( "Open an existing presentation" ));
     m_pFileLoadAction->setShortcut(Qt::CTRL+Qt::Key_O);
     connect( m_pFileLoadAction, SIGNAL( triggered() ), this, SLOT( sltAskLoadDoc() ) );
     pTools->addAction(m_pFileLoadAction);
@@ -397,7 +397,7 @@ void MinDiaWindow::CreateMenus()
     m_pFileMakeRelPathsAction = new QAction( tr( "Make &relative paths" ), this );
     m_pFileMakeRelPathsAction->setStatusTip( tr( "Convert absolute paths to reative paths" ));
     connect( m_pFileMakeRelPathsAction, SIGNAL( triggered() ), this, SLOT( sltMakeRelPaths() ) );
-    m_pFileMakeAbsPathsAction = new QAction( tr( "Make &absolute paths..." ), this );
+    m_pFileMakeAbsPathsAction = new QAction( tr( "Make a&bsolute paths..." ), this );
     m_pFileMakeAbsPathsAction->setStatusTip( tr( "Convert relative paths to absolute paths" ));
     connect( m_pFileMakeAbsPathsAction, SIGNAL( triggered() ), this, SLOT( sltMakeAbsPaths() ) );
     m_pFileImportXMLAction = new QAction( tr( "&Import XML..." ), this );
@@ -471,7 +471,7 @@ void MinDiaWindow::CreateMenus()
     connect( m_pEditRedoAction, SIGNAL( triggered() ), m_pControler, SLOT( sltRedoOperation() ) );
 	m_pEditRedoAction->setEnabled( false );
 
-    m_pEditCutAction = new QAction( tr( "C&ut" ), this );
+    m_pEditCutAction = new QAction( tr( "Cu&t" ), this );
     m_pEditCutAction->setStatusTip( tr( "Cut to clipboard" ) );
     m_pEditCutAction->setShortcut(Qt::CTRL+Qt::Key_X);
     connect( m_pEditCutAction, SIGNAL( triggered() ), m_pControler, SLOT( sltCutClipboard() ) );
@@ -496,7 +496,7 @@ void MinDiaWindow::CreateMenus()
     m_pEditAddDiaAction->setShortcut(Qt::ALT+Qt::Key_I);
     connect( m_pEditAddDiaAction, SIGNAL( triggered() ), this, SLOT( sltAddItem() ) );
     
-    m_pEditDeleteAction = new QAction( tr( "&Delete dia(s)" ), this );
+    m_pEditDeleteAction = new QAction( tr( "D&elete dia(s)" ), this );
     m_pEditDeleteAction->setStatusTip( tr( "Delete selected dia(s)" ) );
     m_pEditDeleteAction->setShortcut(Qt::Key_Delete);    
     connect( m_pEditDeleteAction, SIGNAL( triggered() ), m_pControler, SLOT( sltDeleteSelectedItems() ) );
@@ -582,7 +582,7 @@ void MinDiaWindow::CreateMenus()
     m_pPlayAddGraphicOpAction->setShortcut(Qt::CTRL+Qt::Key_G);
     connect( m_pPlayAddGraphicOpAction, SIGNAL( triggered() ), m_pControler, SLOT( sltAddGraphicOperation() ) );
 
-    m_pPlayEditFadeTimeAction = new QAction( tr( "&Default dissolve time..." ), this );
+    m_pPlayEditFadeTimeAction = new QAction( tr( "D&efault dissolve time..." ), this );
     m_pPlayEditFadeTimeAction->setStatusTip( tr( "Edit default dissolve time" ) );
     connect( m_pPlayEditFadeTimeAction, SIGNAL( triggered() ), this, SLOT( sltEditFadeInTime() ) );
     m_pPlayFadeInAction = new QAction( tr( "&Fade in test" ), this );
@@ -1526,7 +1526,7 @@ void MinDiaWindow::sltShowStatusBarMessage( const QString & sMsg )
 void MinDiaWindow::SetHelpFile( HelpDlgImpl * pHelpDialog, const QString & sHelpTag ) const
 {
 	// ** help-file is language sensitive
-    QString sHelp = ToQString( GetMinDiaSharedDirectory() );
+    QString sHelp("qrc:/help/");
 	sHelp += "mindia_";
 	sHelp += m_sLanguage;
 	sHelp += ".html";
@@ -1552,11 +1552,7 @@ void MinDiaWindow::SetHelpFile( HelpDlgImpl * pHelpDialog, const QString & sHelp
 		ScriptModifyDialog
 	*/
 
-//TODO Qt4:    pHelpDialog->m_pTextBrowser->mimeSourceFactory()->setFilePath( "." );
-//TODO Qt4:	pHelpDialog->m_pTextBrowser->mimeSourceFactory()->setExtensionType("html", "text/html;charset=iso8859-1");
-
-	//pHelpDialog->m_pTextBrowser->setText( sHelp );
-	pHelpDialog->m_pTextBrowser->setSource( sHelp );
+    pHelpDialog->m_pTextBrowser->setSource( sHelp );
 }
 
 void MinDiaWindow::sltShowModalHelp( QWidget * pParent, const QString & sHelpTag )
