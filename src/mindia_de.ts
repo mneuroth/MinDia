@@ -3002,7 +3002,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+1"/>
         <source>Show dialog to modify data of the selected dia</source>
-        <translation>Zeige Dialog zur Änderung der Daten für das aktuell ausgewählte Dia an</translation>
+        <translation>Zeige Dialog um Daten für das aktuell ausgewählte Dia zu ändern</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3102,7 +3102,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+1"/>
         <source>Edit default dissolve time</source>
-        <translation>Ändere standard Überblendzeit</translation>
+        <translation>Ändere Standard Überblendzeit</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3132,7 +3132,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+3"/>
         <source>Show dialog to show the dia presentation</source>
-        <translation>Zeige Dialog um die Präsentation anzuzeigen</translation>
+        <translation>Zeige Dialog zur Anzeige der Präsentation</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -3172,17 +3172,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+1"/>
         <source>Show dialog to modify the presentation data</source>
-        <translation></translation>
+        <translation>Zeige Dialog um Präsentationsdaten zu ändern</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>So&amp;und data...</source>
-        <translation>M&amp;usik Daten...</translation>
+        <translation>M&amp;usikdaten...</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show dialog to modify the sound data</source>
-        <translation>Zeige Dialog um Musik Daten zu ändern</translation>
+        <translation>Zeige Dialog um Musikdaten zu ändern</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -4131,7 +4131,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="timelineview.cpp" line="+103"/>
         <source>Sound &amp;data...</source>
-        <translation>Musik &amp;Daten...</translation>
+        <translation>Musik&amp;daten...</translation>
     </message>
     <message>
         <location line="+3"/>

@@ -27,14 +27,14 @@ Bugs/TODOs:
 //- Verschieben von Sound Dateien mit Sound Data Dialog (hoch, runter) funktioniert nicht ==> ggf. Dialog entfernen
 //- ggf. Presentation Data Dialog anzeigen, wenn neue Praesenetation angelegt wird
 
-- Sprachresource *.qm korrekt laden
-- Frage: sind *.qm in .app noch notwendig obwohl *.qm auch als qt-resource enthalten ist ?
+((- Sprachresource *.qm korrekt laden
+//- Frage: sind *.qm in .app noch notwendig obwohl *.qm auch als qt-resource enthalten ist ? --> nein
 //- ist Open for Edit notwendig? --> nein, nur wenn scripte enabled sind
 //- fuer was ist die Suche gut? --> text in daten des Dias (und des attached dyn text neu)
 //- Loeschen --> Dia loeschen
 //- Aendere Eintrag --> Dia Daten aendern
-- Musik Daten --> Musikdaten
-- Kommentare zur Musik --> Kommentare zu der Musik
+//- Musik Daten --> Musikdaten
+((- Kommentare zur Musik --> Kommentare zu der Musik
 //- Dyn. Graf. Operation --> Dyn. Text
 //- About Dialog aktualisieren
 //- ggf. Eingaben in Logging Dialog disablen
