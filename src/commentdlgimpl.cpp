@@ -91,7 +91,7 @@ CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* pa
 	}
 
 	// ** cancel button not supported yet
-	buttonCancel->setEnabled( false );
+//NEW support cancel	buttonCancel->setEnabled( false );
 
 	TransferData( true );
 
@@ -154,7 +154,7 @@ void CommentDlgImpl::sltDeleteRow()
 //		m_pTable->/*setNumRows*/setRowCount( m_pTable->/*numRows*/rowCount()-1 );
 
 		// ** update the document data ***
-		TransferData( false );
+//NEW support cancel		TransferData( false );
 	}
 }
 
@@ -188,7 +188,7 @@ void CommentDlgImpl::sltSortTable()
 	}
 
 	// ** after the data is sorted, update the gui
-	TransferData( /*bToTable*/true );
+    TransferData( /*bToTable*/true );
 }
 
 void CommentDlgImpl::closeEvent( QCloseEvent * pCloseEvent )
