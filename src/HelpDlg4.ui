@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>538</width>
-    <height>438</height>
+    <width>681</width>
+    <height>433</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,62 +24,53 @@
     <number>4</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="">
+    <widget class="QGroupBox" name="groupBox">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QPushButton" name="m_pHome">
-        <property name="maximumSize">
-         <size>
-          <width>26</width>
-          <height>26</height>
-         </size>
-        </property>
         <property name="toolTip">
          <string>home</string>
         </property>
         <property name="text">
-         <string/>
+         <string>&amp;Home</string>
         </property>
         <property name="shortcut">
          <string>Home, Alt+H</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="m_pBack">
-        <property name="maximumSize">
-         <size>
-          <width>26</width>
-          <height>26</height>
-         </size>
-        </property>
         <property name="toolTip">
          <string>back</string>
         </property>
         <property name="text">
-         <string/>
+         <string>&amp;Back</string>
         </property>
         <property name="shortcut">
          <string>Left, Alt+B</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="m_pForward">
-        <property name="maximumSize">
-         <size>
-          <width>26</width>
-          <height>26</height>
-         </size>
-        </property>
         <property name="toolTip">
          <string>forward</string>
         </property>
         <property name="text">
-         <string/>
+         <string>&amp;Forward</string>
         </property>
         <property name="shortcut">
          <string>Right, Alt+F</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -101,20 +92,17 @@
       </item>
       <item>
        <widget class="QPushButton" name="m_pSearch">
-        <property name="maximumSize">
-         <size>
-          <width>26</width>
-          <height>26</height>
-         </size>
-        </property>
         <property name="toolTip">
          <string>find text</string>
         </property>
         <property name="text">
-         <string/>
+         <string>&amp;Search</string>
         </property>
         <property name="shortcut">
          <string>Alt+S</string>
+        </property>
+        <property name="autoDefault">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -136,20 +124,17 @@
       </item>
       <item>
        <widget class="QPushButton" name="m_pClose">
-        <property name="maximumSize">
-         <size>
-          <width>26</width>
-          <height>26</height>
-         </size>
-        </property>
         <property name="toolTip">
          <string>close window</string>
         </property>
         <property name="text">
-         <string/>
+         <string>&amp;Close</string>
         </property>
         <property name="shortcut">
          <string>Alt+C</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -171,5 +156,58 @@
   <tabstop>m_pClose</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>m_pSearchText</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>HelpDialog</receiver>
+   <slot>sltSearchTextChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>203</x>
+     <y>34</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>536</x>
+     <y>76</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pSearch</sender>
+   <signal>clicked()</signal>
+   <receiver>HelpDialog</receiver>
+   <slot>sltFindClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>342</x>
+     <y>38</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>536</x>
+     <y>50</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pClose</sender>
+   <signal>clicked()</signal>
+   <receiver>HelpDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>488</x>
+     <y>36</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>538</x>
+     <y>21</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>sltSearchTextChanged(QString)</slot>
+  <slot>sltFindClicked()</slot>
+ </slots>
 </ui>
