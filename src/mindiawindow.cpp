@@ -45,9 +45,9 @@ Bugs/TODOs:
 - Uebertragung von CommentDialog in Daten funktioniert nicht korrekt ? Aenderung im Dialog werden nicht uebernommen --> fehlt update ?
     => anscheinend muss Feld verlassen werden bevor Aenderungen akzeptiert werden => Mac only ?
 - ggf. Seitenverhaeltniss fuer Leinwand/PlayInfoDlg entfernen, verwende Seitenverhaeltniss von Praesentation
-- Uebersetung: Musik --> Ton
-- Hilfe-Label Anspringen funktioniert fuer Mac nicht ? --> http://www.qtcentre.org/threads/34669-QTextBrowser-go-to-an-anchor
-    --> F1 kommt nicht vom PlayInfo Dialog zur MainWindow --> wird sofort abgefischt vom MainWindow !!! --> andere Key Behandlungsreihenfolge
+//- Uebersetung: Musik --> Ton
+//- Hilfe-Label Anspringen funktioniert fuer Mac nicht ? --> http://www.qtcentre.org/threads/34669-QTextBrowser-go-to-an-anchor
+//    --> F1 kommt nicht vom PlayInfo Dialog zur MainWindow --> wird sofort abgefischt vom MainWindow !!! --> andere Key Behandlungsreihenfolge
 
 ((- *.qm Dateien in src.tar.gz aufnehmen
 ((- Sprachresourcen aktualisierens
@@ -683,7 +683,10 @@ void MinDiaWindow::CreateMenus()
     //connect( helpLicenseAction, SIGNAL( triggered() ), this, SLOT( sltShowLicense() ) );
     QAction * helpAction = new QAction( tr( "&Help..." ), this );
     helpAction->setStatusTip( tr( "Help for this application" ) );
-    helpAction->setShortcut(Qt::Key_F1);
+// do not use short key for help --> otherwise F1 keypress will not be delivered to the non-modal windows in Mac-OS
+//#if !defined(Q_WS_MAC)
+//    helpAction->setShortcut(Qt::Key_F1);
+//#endif
     connect( helpAction, SIGNAL( triggered() ), this, SLOT( sltShowHelpForMe() ) );
 
     m_pHelp->addAction( helpAction );
