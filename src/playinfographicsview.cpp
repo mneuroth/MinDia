@@ -44,8 +44,7 @@ PlayInfoContextMenu::PlayInfoContextMenu( QWidget * parent, PlayInfoDlgImpl * pM
     {
         m_pImageFormats->addAction( new QAction( QString(aList.at( i )), 0 ) );
     }
-// TODO --> funktioniert das ?
-    connect( m_pImageFormats, SIGNAL( activated(int) ), this, SLOT( sltImageFormatActivated(int) ) );
+    connect( m_pImageFormats, SIGNAL( triggered(QAction*) ), this, SLOT( sltImageFormatTriggered(QAction*) ) );
 
     QAction * pAction = new QAction( tr( "Dissolve &Start/Stop" ), 0 );
     addAction( pAction );
@@ -55,7 +54,7 @@ PlayInfoContextMenu::PlayInfoContextMenu( QWidget * parent, PlayInfoDlgImpl * pM
 
     addSeparator();
 
-    m_pActionFullScreen = new QAction( tr( "&Full screen" ), 0 );
+    m_pActionFullScreen = new QAction( tr( "&Full screen" ), 0 );       // will be changed in sltShowMenu()
     addAction( m_pActionFullScreen );
     connect( m_pActionFullScreen, SIGNAL(triggered()), this, SLOT(sltToggleFullScreen()) );
 
@@ -77,59 +76,19 @@ PlayInfoContextMenu::PlayInfoContextMenu( QWidget * parent, PlayInfoDlgImpl * pM
     addAction( pAction );
     connect( pAction, SIGNAL(triggered()), this, SLOT(sltClose()) );
 
-    //insertItem( tr( "Dissolve &Start/Stop" ), STOP_START_ID ) );
-    //insertItem( tr( "Save &image..." ), m_pImageFormats );
-    //insertSeparator();
-    //insertItem( tr( "&Full screen" ), MAXIMIZE_ID );
-    //insertSeparator();
-    //insertItem( tr( "&Close" ), CLOSE_ID );
-
     connect( this, SIGNAL( aboutToShow() ), this, SLOT( sltShowMenu() ) );
-    //connect( this, SIGNAL( activated(int) ), this, SLOT( sltActivated(int) ) );
 }
 
 PlayInfoContextMenu::~PlayInfoContextMenu()
 {
     delete m_pImageFormats;
     delete m_pActionFullScreen;
-// TODO ---> andere actions auch zerstoreren ?
 }
 
-void PlayInfoContextMenu::sltImageFormatActivated( int iIndex )
+void PlayInfoContextMenu::sltImageFormatTriggered( QAction * pAction )
 {
-    QStringList aList = QPicture::outputFormatList();
-
-    if( m_pMyDialog && (iIndex>=0) && (iIndex<(int)aList.count()) )
-    {
-        m_pMyDialog->sltSaveActImage( aList.at( iIndex ) );
-    }
+    m_pMyDialog->sltSaveActImage( pAction->text() );
 }
-
-//void PlayInfoContextMenu::sltActivated( int iIndex )
-//{
-//	if( m_pMyDialog )
-//	{
-//		switch( iIndex )
-//		{
-//			case STOP_START_ID:
-//				m_pMyDialog->StartStopFade();
-//				break;
-//			case MAXIMIZE_ID :
-//				if( !m_pMyDialog->IsFullScreen() )
-//				{
-//					m_pMyDialog->FullScreen();
-//				}
-//				else
-//				{
-//					m_pMyDialog->RestoreSize();
-//				}
-//				break;
-//			case CLOSE_ID :
-//				m_pMyDialog->close();
-//				break;
-//		}
-//	}
-//}
 
 void PlayInfoContextMenu::sltStartStopFade()
 {
@@ -159,6 +118,7 @@ void PlayInfoContextMenu::sltShowMenu()
 {
     if( m_pMyDialog )
     {
+// TODO --> IsFullScreen() funktioniert anscheinend nicht korrekt ! --> Windows ? 4.7.3 ?, OK für Mac 4.8.1
         if( m_pMyDialog->IsFullScreen() )
         {
             m_pActionFullScreen->setText( tr("&Normal") );

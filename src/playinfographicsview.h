@@ -23,8 +23,7 @@ public slots:
     void sltToggleFullScreen();
     void sltClose();
 
-    void sltImageFormatActivated( int iIndex );
-    //void sltActivated( int iIndex );
+    void sltImageFormatTriggered( QAction * pAction );
     void sltShowMenu();
 
 private:
