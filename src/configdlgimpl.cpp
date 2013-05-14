@@ -133,7 +133,7 @@ void ConfigurationDlgImpl::TransferDataToControl()
 {
 	// ** fill the combo-boxes with all possible values **
 
-#if defined( _MSC_VER ) || defined( __BORLANDC__ ) || defined(__MINGW32__)
+#if defined( Q_OS_WIN )
     QStringList aDeviceLst;
     // "\\\\.\\COM%d"
     aDeviceLst.append(QString("COM1"));
@@ -145,8 +145,7 @@ void ConfigurationDlgImpl::TransferDataToControl()
     aDeviceLst.append(QString("COM7"));
     aDeviceLst.append(QString("COM8"));
     aDeviceLst.append(QString("COM9"));
-#endif
-#ifdef __linux__
+#elif defined( Q_OS_UNIX )
     // scan /dev directory for RS232 devices for unix plattforms
     QDir aDevDir("/dev","ttyS*;ttyUSB*",QDir::Name|QDir::IgnoreCase,QDir::AllEntries|QDir::System);
     QStringList aDeviceLst = aDevDir.entryList();
@@ -154,8 +153,7 @@ void ConfigurationDlgImpl::TransferDataToControl()
     {
         aDeviceLst[i] = "/dev/"+aDeviceLst[i];
     }
-#endif
-#ifdef __APPLE__
+#elif defined( Q_OS_MAC )
     QDir aDevDir("/dev","ttys*;tty.usb*",QDir::Name|QDir::IgnoreCase,QDir::AllEntries|QDir::System);
     QStringList aDeviceLst = aDevDir.entryList();
     for( int i=0; i<aDeviceLst.size(); i++ )

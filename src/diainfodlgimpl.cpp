@@ -25,13 +25,13 @@
 #include "applscriptenv.h"
 #include "misctools.h"
 
-#include <qlineedit.h>
-#include <qpushbutton.h>
-#include <qradiobutton.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qvalidator.h>
-#include <qmessagebox.h>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QCheckBox>
+#include <QLabel>
+#include <QValidator>
+#include <QMessageBox>
 #include <QCloseEvent>
 #include <QKeyEvent>
 #include <QFileDialog>
@@ -272,7 +272,6 @@ void DiaInfoDlgImpl::sltApplyData()
 
         double relX, relY, relDX, relDY;
         m_pScreen->GetClippingData( relX, relY, relDX, relDY );
-//cout << "CLIPPING DATA " << relX << " " << relY << " " << relDX << " " << relDY << endl;
         hData->SetRelX( relX );
         hData->SetRelY( relY );
         hData->SetRelDX( relDX );
@@ -441,7 +440,6 @@ void DiaInfoDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 	}
 }
 
-// TODO gulp --> auch hier muss die GraphicsView sich selbst die Groessenaenderung behandeln
 void DiaInfoDlgImpl::resizeEvent( QResizeEvent * pEvent )
 {
     QDialog::resizeEvent( pEvent );

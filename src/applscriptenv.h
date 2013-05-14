@@ -4,23 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/applscriptenv.h,v $
- *
- *  $Revision: 1.2 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.1.1.1  2003/08/15 16:38:21  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -33,7 +22,7 @@
 #define _SCRIPTENV_H
 
 #include "iscript.h"
-#include "minutils.h"
+#include "minutils.h"       // for ObjectChanged
 #include "writexml.h"
 
 #include <iostream>
@@ -49,10 +38,6 @@ class ScriptEventItem
 {
 public:
 	ScriptEventItem( const string & sLanguage = "", const string & sEvent = "", const string & sScript = "" );
-
-#ifdef __BORLANDC__
-	bool operator!=( const ScriptEventItem & ) const;
-#endif
 
 	string		GetLanguage() const;
 	string		GetEvent() const;

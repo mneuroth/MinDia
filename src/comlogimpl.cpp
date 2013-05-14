@@ -22,11 +22,10 @@
 #include "qtmtlock.h"
 #include "misctools.h"
 
-#include <qevent.h>
-#include <qapplication.h>
 #include <QEvent>
 #include <QKeyEvent>
 #include <QCloseEvent>
+#include <QApplication>
 
 const QEvent::Type c_iCustomEvent_Logging = (QEvent::Type)(QEvent::User+123);
 

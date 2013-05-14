@@ -29,8 +29,7 @@
 
 #include <stdio.h>
 
-#include <qobject.h>
-
+#include <QObject>
 #include <QImage>
 #include <QPainter>
 
@@ -1495,9 +1494,8 @@ bool DiaPresentation::GetIndexForTime( double dTimeMS, int & iIndex1, int & iInd
 // *******************************************************************
 // *******************************************************************
 
-DiaInfoContainer::DiaInfoContainer( /*IDiaOutputWindowInternal * pOutputWindowProxy*/ )
+DiaInfoContainer::DiaInfoContainer()
 : IOContainer< DiaInfo >( _DIA_INFO_CONTAINER )
-//  m_pOutputWindowProxy( pOutputWindowProxy )
 {}
 
 bool DiaInfoContainer::Read( istream & aStream )

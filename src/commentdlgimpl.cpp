@@ -22,9 +22,9 @@
 #include "soundinfo.h"
 #include "misctools.h"
 
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qcombobox.h>
+#include <QLabel>
+#include <QPushButton>
+#include <QComboBox>
 #include <QKeyEvent>
 #include <QCloseEvent>
 
@@ -108,14 +108,15 @@ void CommentDlgImpl::sltCloseDialog()
 
 	emit sigDialogClosed();
 
-	emit accept();
+// TODO --> ist das besser fuer Mac? ggf. in allen anderen Dialogen nachziehen
+    /*emit*/ accept();
 }
 
 void CommentDlgImpl::sltDialogCanceled()
 {
 	emit sigDialogClosed();
 
-	emit reject();
+    /*emit*/ reject();
 }
 
 void CommentDlgImpl::sltNewRow()

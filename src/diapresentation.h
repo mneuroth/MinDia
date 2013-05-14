@@ -66,7 +66,7 @@ class DiaInfoContainer : public IOContainer< DiaInfo >
 public:
 	typedef DiaInfo		ItemClass;
 
-    DiaInfoContainer( /*IDiaOutputWindowInternal * pOutputWindowProxy*/ );
+    DiaInfoContainer();
 
 	bool IsChanged() const; 
 
@@ -77,9 +77,6 @@ public:
 	void SyncPositionInfos();
 
 	virtual bool Read( istream & aStream );
-
-//private:
-//    IDiaOutputWindowInternal *  m_pOutputWindowProxy;
 };
 
 // *******************************************************************
