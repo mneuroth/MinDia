@@ -49,10 +49,6 @@
 #define _GENDEV_DLL_NAME		"gendev.dll"
 #endif
 
-#ifdef __BORLANDC__
-#define main qMain
-#endif
-
 #define _SCRIPTS_DIR	"scripts"
 #define _IMAGES_DIR		"images"
 #define _MUSIC_DIR		"music"
@@ -145,14 +141,14 @@ string IGeneralScriptFcnImpl::GetDataDirecotry() const
 
 void IGeneralScriptFcnImpl::Init()
 {
-    string sTemp = ToStdString(QCoreApplication::applicationDirPath());
-    //string sSep( FileUtilityObj::GetDirectorySeparatorStrg() );
+    string sSep( FileUtilityObj::GetDirectorySeparatorStrg() );
+    string sTemp = ToStdString(QCoreApplication::applicationDirPath()) + sSep;
 
 	m_sHelpDirectory = sTemp;	// this path endst with a directory separator
-	m_sScriptDirectory = sTemp + _SCRIPTS_DIR /*+ sSep*/;
-	m_sImageDirectory = sTemp + _IMAGES_DIR /*+ sSep*/;
-	m_sMusicDirectory = sTemp + _MUSIC_DIR /*+ sSep*/;
-	m_sDataDirectory = sTemp + _DATA_DIR /*+ sSep*/;
+    m_sScriptDirectory = sTemp + _SCRIPTS_DIR /*+ sSep*/;
+    m_sImageDirectory = sTemp + _IMAGES_DIR /*+ sSep*/;
+    m_sMusicDirectory = sTemp + _MUSIC_DIR /*+ sSep*/;
+    m_sDataDirectory = sTemp + _DATA_DIR /*+ sSep*/;
 }
 
 // *************************************************************************

@@ -45,6 +45,9 @@ Bugs/TODOs:
 - Uebertragung von CommentDialog in Daten funktioniert nicht korrekt ? Aenderung im Dialog werden nicht uebernommen --> fehlt update ?
     => anscheinend muss Feld verlassen werden bevor Aenderungen akzeptiert werden => Mac only ?
 - ggf. Seitenverhaeltniss fuer Leinwand/PlayInfoDlg entfernen, verwende Seitenverhaeltniss von Praesentation
+- Uebersetung: Musik --> Ton
+- Hilfe-Label Anspringen funktioniert fuer Mac nicht ? --> http://www.qtcentre.org/threads/34669-QTextBrowser-go-to-an-anchor
+    --> F1 kommt nicht vom PlayInfo Dialog zur MainWindow --> wird sofort abgefischt vom MainWindow !!! --> andere Key Behandlungsreihenfolge
 
 ((- *.qm Dateien in src.tar.gz aufnehmen
 ((- Sprachresourcen aktualisierens
@@ -64,6 +67,7 @@ Bugs/TODOs:
 - ggf. SoundInfo Markierungen an Sound-Dateien anheften
 - ggf. beim Shift+Click auf leeres Dia den Datei-Auswahl Dialog oeffnen um Image anzugeben
 - ggf. Show-Zeit fuer DynamicText via Maus-Move ermoeglichen
+- ggf. ImagePath in settings speicherun und restaurieren --> appconfig.h.GetImagePath()
 
 Mobile Version:
 - moeglichst viele Dialog obsolet machen
@@ -125,12 +129,9 @@ http://sourceforge.net/projects/ffmpeg4android/
 #include <QMenu>
 #include <QFileDialog>
 
-#include "appconfig.h"
 #include "configdlgimpl.h"
-//#include "configplayerdlgimpl.h"
 #include "comlogimpl.h"
 #include "pcdlgimpl.h"
-//#include "eventmapdlgimpl.h"
 #include "diainfodlgimpl.h"
 #include "playinfodlgimpl.h"
 #include "pddlgimpl.h"
@@ -138,7 +139,6 @@ http://sourceforge.net/projects/ffmpeg4android/
 #include "commentdlgimpl.h"
 #include "helpdlgimpl.h"
 
-//#include "LicenseDlg.h"
 #include "ui_AboutExtDlg4.h"
 
 #include "CreateMovieDlg4.h"
@@ -1204,7 +1204,7 @@ void MinDiaWindow::sltLoadDoc( const QString & sFileName, bool bExecuteEvent )
 
 void MinDiaWindow::sltAskLoadDoc()
 {
-    QString sFileName = QFileDialog::getOpenFileName( this, tr("Open"), ToQString( /*GetDataPath()*/m_pControler->GetName() ), DIA_EXTENSION );
+    QString sFileName = QFileDialog::getOpenFileName( this, tr("Open"), ToQString( m_pControler->GetName() ), DIA_EXTENSION );
 
 	sltLoadDoc( sFileName, /*bExecuteEvent*/true );
 }
@@ -1523,6 +1523,7 @@ void MinDiaWindow::sltShowStatusBarMessage( const QString & sMsg )
 	}
 }
 
+#include <QDebug>
 void MinDiaWindow::SetHelpFile( HelpDlgImpl * pHelpDialog, const QString & sHelpTag ) const
 {
 	// ** help-file is language sensitive
@@ -1530,9 +1531,12 @@ void MinDiaWindow::SetHelpFile( HelpDlgImpl * pHelpDialog, const QString & sHelp
 	sHelp += "mindia_";
 	sHelp += m_sLanguage;
 	sHelp += ".html";
+    QUrl aUrl( sHelp );
 
 	// ** and add the tag for the jump in the document
-	sHelp += "#" + sHelpTag;
+    //sHelp += "#" + sHelpTag;
+    aUrl.setFragment( sHelpTag );
+    qDebug() << " set help " << sHelpTag << endl;
 
 	// ** possible Help tags are (see code: emit sigDialogHelp) **
 	/*
@@ -1552,7 +1556,7 @@ void MinDiaWindow::SetHelpFile( HelpDlgImpl * pHelpDialog, const QString & sHelp
 		ScriptModifyDialog
 	*/
 
-    pHelpDialog->m_pTextBrowser->setSource( sHelp );
+    pHelpDialog->m_pTextBrowser->setSource( aUrl );
 }
 
 void MinDiaWindow::sltShowModalHelp( QWidget * pParent, const QString & sHelpTag )
