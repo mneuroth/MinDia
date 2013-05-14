@@ -2139,7 +2139,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+16"/>
         <source>Add &amp;Sound (3)</source>
-        <translation>Füge &amp;Musik hinzu (3)</translation>
+        <translation>Füge &amp;Ton hinzu (3)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3089,12 +3089,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+4"/>
         <source>A&amp;dd sound comment</source>
-        <translation>Füge M&amp;usik Kommentar hinzu</translation>
+        <translation>Füge &amp;Ton Kommentar hinzu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Add sound comment (play presentation to enable)</source>
-        <translation>Füge Musik Kommentare hinzu (Präsentation muss laufen um freigeschaltet zu sein)</translation>
+        <translation>Füge Ton Kommentare hinzu (Präsentation muss laufen um freigeschaltet zu sein)</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -3190,22 +3190,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+6"/>
         <source>So&amp;und data...</source>
-        <translation>M&amp;usikdaten...</translation>
+        <translation>&amp;Tondaten...</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show dialog to modify the sound data</source>
-        <translation>Zeige Dialog um Musikdaten zu ändern</translation>
+        <translation>Zeige Dialog um Tondaten zu ändern</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Sou&amp;nd comments...</source>
-        <translation>Mu&amp;sik Kommentare...</translation>
+        <translation>To&amp;n Kommentare...</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show dialog to modify sound comments (blue text in timeline view)</source>
-        <translation>Zeige Dialog um Musik Kommentare zu ändern (blaue Texte in Zeitlinien Ansicht)</translation>
+        <translation>Zeige Dialog um Ton Kommentare zu ändern (blaue Texte in Zeitlinien Ansicht)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -4009,7 +4009,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="soundinfo.cpp" line="+453"/>
         <source>Sound comments</source>
-        <translation>Musik Kommentare</translation>
+        <translation>Ton Kommentare</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -4043,7 +4043,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="SoundInfoDlg4.ui" line="+32"/>
         <source>Sound Info</source>
-        <translation>Musik Info</translation>
+        <translation>Ton Info</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -4087,7 +4087,7 @@ p, li { white-space: pre-wrap; }
         <location filename="sndinfodlgimpl.cpp" line="+51"/>
         <source>sound-filename</source>
         <oldsource>wav-filename</oldsource>
-        <translation>Musik Dateiname</translation>
+        <translation>Ton Dateiname</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4145,12 +4145,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="timelineview.cpp" line="+103"/>
         <source>Sound &amp;data...</source>
-        <translation>Musik&amp;daten...</translation>
+        <translation>Ton&amp;daten...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Sound &amp;comments...</source>
-        <translation>Musik &amp;Kommentare...</translation>
+        <translation>Ton &amp;Kommentare...</translation>
     </message>
     <message>
         <location line="+3"/>
