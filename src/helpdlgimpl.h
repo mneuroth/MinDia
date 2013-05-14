@@ -39,10 +39,6 @@ public:
 public slots:
     virtual void sltFindClicked();
     virtual void sltSearchTextChanged(const QString &);
-
-private:
-	int m_iParagraph;
-	int m_iIndex;
 };
 
 #endif

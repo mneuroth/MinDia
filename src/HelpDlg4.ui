@@ -164,7 +164,7 @@
    <slot>sltSearchTextChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>203</x>
+     <x>432</x>
      <y>34</y>
     </hint>
     <hint type="destinationlabel">
@@ -180,8 +180,8 @@
    <slot>sltFindClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>342</x>
-     <y>38</y>
+     <x>513</x>
+     <y>36</y>
     </hint>
     <hint type="destinationlabel">
      <x>536</x>
@@ -196,12 +196,92 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>488</x>
+     <x>666</x>
      <y>36</y>
     </hint>
     <hint type="destinationlabel">
      <x>538</x>
      <y>21</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pForward</sender>
+   <signal>clicked()</signal>
+   <receiver>m_pTextBrowser</receiver>
+   <slot>forward()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>197</x>
+     <y>30</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>218</x>
+     <y>93</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pBack</sender>
+   <signal>clicked()</signal>
+   <receiver>m_pTextBrowser</receiver>
+   <slot>backward()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>133</x>
+     <y>27</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>126</x>
+     <y>76</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pHome</sender>
+   <signal>clicked()</signal>
+   <receiver>m_pTextBrowser</receiver>
+   <slot>home()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>51</x>
+     <y>29</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>63</x>
+     <y>81</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pTextBrowser</sender>
+   <signal>forwardAvailable(bool)</signal>
+   <receiver>m_pForward</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>202</x>
+     <y>182</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>200</x>
+     <y>23</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pTextBrowser</sender>
+   <signal>backwardAvailable(bool)</signal>
+   <receiver>m_pBack</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>104</x>
+     <y>138</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>112</x>
+     <y>30</y>
     </hint>
    </hints>
   </connection>
