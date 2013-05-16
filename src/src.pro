@@ -13,6 +13,8 @@ QT              -=svg
 QT              -=script
 #CONFIG          -= debug
 
+win32:RC_FILE = mindia.rc
+
 HEADERS         = diainfodlgimpl.h \
                   playinfodlgimpl.h \
                   comlogimpl.h \
