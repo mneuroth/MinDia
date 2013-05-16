@@ -56,12 +56,6 @@ public:
 	HItemView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMainWin = 0, QObject * pControler = 0, DiaPresentation * pDoc = 0 );
 	virtual ~HItemView();
 
-    // *** overload inherited methods ***
-//    virtual QSize sizeHint() const;
-
-	// *** my own interface ***
-//	void setSizeHint( const QSize & aSize );
-
 	// *** handle signals
     virtual void mouseDoubleClickEvent( QMouseEvent * pEvent );
     virtual void mousePressEvent( QMouseEvent * pEvent );
@@ -120,7 +114,6 @@ private:
 	// *** data ***
 	QMenu *		        m_pContextMenu;
     QGraphicsScene *	m_pCanvas;
-//	QSize				m_aSizeHint;
 
 	QPoint				m_aNextItemPos;
 	QPoint				m_aItemShift;

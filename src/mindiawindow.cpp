@@ -58,8 +58,11 @@ Bugs/TODOs:
 - ungenutzte SourceCode Dateien in old Verzeichnis verschieben
 - RS232 Kommunikation verbessern -> Verbesserung des RS232 Dialogs zur direkten Ansteuerung --> nicht disablen nach erstem erfolglosen Versuch…
 - Binaere Packete erzeugen
+//- Icon fuer Windows Version korrekt setzen...
+((- Verzeichnisse fuer Bilder, Sound und Daten korrigieren --> nicht auf installationsverzeichnis gehen sondern auf userdaten (win)
 - Hilfe Dokument / Webseite fuer Bedienung erstellen
 - Hilfe Dialog verbessern --> schoenere Icons verwenden, Signals/Slots verbinden und realisieren, z.B. Suche
+- ggf. test ffmpeg button in export dialog
 
 - ggf. automatisch ffmpeg binary suchen (PATH suche)
 - ggf. Geometrie-Zustand von anderen Dialogen ebenfalls sichern und restaurieren

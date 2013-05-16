@@ -30,8 +30,6 @@ HelpDlgImpl::HelpDlgImpl( QWidget* parent, Qt::WFlags fl )
 : QDialog( parent, fl )
 {
     setupUi(this);
-
-    //TODO: MAC: m_pTextBrowser->setOpenLinks( true );
 }
 
 HelpDlgImpl::~HelpDlgImpl()

@@ -51,7 +51,6 @@ HItem::HItem( const QRect & aRect, QGraphicsScene * pCanvas, minHandle<DiaInfo> 
 	// ** do not draw the rectangle of this item 
 	setPen( QPen( QColor( 255, 255, 255 ) ) );
 
-//cout << "HItem" << endl;
     pCanvas->addItem(this);
 }
 

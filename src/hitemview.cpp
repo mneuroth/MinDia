@@ -89,7 +89,6 @@ HItemView::HItemView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMai
 {
     setAlignment(Qt::AlignLeft|Qt::AlignTop);
     setAcceptDrops(true);
-//TODO porting	setDragAutoScroll( TRUE );
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	m_iDragTargetIndex = -1;
@@ -104,9 +103,6 @@ HItemView::HItemView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMai
     m_pCanvas			= new QGraphicsScene( 0, 0, iWidth, iHeight );
 	//m_pCanvas->setDoubleBuffering( true );
     setScene( m_pCanvas );
-
-	// set default value for size hint
-//	m_aSizeHint			= QSize( 600, 240 );
 
 	m_aNextItemPos		= QPoint( 0, 0 );
 	m_aItemShift		= QPoint( 180, 0 );
@@ -124,7 +120,6 @@ HItemView::HItemView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMai
     	connect( this, SIGNAL( sigSelectItem(int,int) ), pMainWin, SLOT( sltSelectItem(int,int) ) );
     	connect( this, SIGNAL( sigViewDataChanged() ), pControler, SLOT( sltDataChanged() ) );
 	    connect( this, SIGNAL( sigDialogHelp(const QString &) ), pMainWin, SLOT( sltShowHelp(const QString &) ) );
-//    	connect( this, SIGNAL( sigModifySelectedEntry() ), pMainWin, SLOT( sltShowModifyItem() ) );
 		connect( this, SIGNAL( sigLoadDoc(const QString &, bool) ), pMainWin, SLOT( sltLoadDoc(const QString &, bool) ) );
         connect( this, SIGNAL( sigShowItemModifyDialog() ), pMainWin, SLOT( sltShowModifyItem() ) );
 	}
@@ -138,16 +133,6 @@ HItemView::~HItemView()
 
 	delete m_pContextMenu;
 }
-
-//QSize HItemView::sizeHint() const
-//{
-//    return m_aSizeHint;
-//}
-//
-//void HItemView::setSizeHint( const QSize & aSize )
-//{
-//	m_aSizeHint = aSize;
-//}
 
 void HItemView::sltNewItem()
 {
@@ -897,7 +882,6 @@ bool HItemView::IsValidIndex( int iIndex ) const
 	}
 	return false;
 }
-
 
 void HItemView::SelectItemDelta( int iDeltaIndex )
 {
