@@ -406,14 +406,14 @@ void CreateMovieDlg4::saveSettings()
 {
     QSettings aSettings;
 
-    aSettings.setValue("CreateMoveDlg/OutputDir",ui.m_pDirectoryName->text());
-    aSettings.setValue("CreateMoveDlg/OutputName",ui.m_pImageNameOffset->text());    
-    aSettings.setValue("CreateMoveDlg/OutputMovieName",ui.m_pMovieFileName->text());
-    aSettings.setValue("CreateMoveDlg/MjpegToolsDir",ui.m_pMjpegtoolsDirectory->text());
-    aSettings.setValue("CreateMoveDlg/ImagesPerSeconds",ui.m_pImagesPerSecond->value());
-    aSettings.setValue("CreateMoveDlg/ImageSizeItem",ui.m_pImageRatio->currentIndex());
-    aSettings.setValue("CreateMoveDlg/ImageExtension",ui.m_pImageExtension->currentIndex());
-    aSettings.setValue("CreateMoveDlg/MovieExtension",ui.m_pMovieExtension->currentIndex());
+    aSettings.setValue("CreateMovieDlg/OutputDir",ui.m_pDirectoryName->text());
+    aSettings.setValue("CreateMovieDlg/OutputName",ui.m_pImageNameOffset->text());
+    aSettings.setValue("CreateMovieDlg/OutputMovieName",ui.m_pMovieFileName->text());
+    aSettings.setValue("CreateMovieDlg/MjpegToolsDir",ui.m_pMjpegtoolsDirectory->text());
+    aSettings.setValue("CreateMovieDlg/ImagesPerSeconds",ui.m_pImagesPerSecond->value());
+    aSettings.setValue("CreateMovieDlg/ImageSizeItem",ui.m_pImageRatio->currentIndex());
+    aSettings.setValue("CreateMovieDlg/ImageExtension",ui.m_pImageExtension->currentIndex());
+    aSettings.setValue("CreateMovieDlg/MovieExtension",ui.m_pMovieExtension->currentIndex());
 }
 
 
@@ -422,17 +422,18 @@ void CreateMovieDlg4::restoreSettings()
     QSettings aSettings;
 
     QString sTempImagePath = QDir::tempPath()+QDir::separator()+"mindia_movie";
-    ui.m_pDirectoryName->setText(aSettings.value("CreateMoveDlg/OutputDir",sTempImagePath).toString());
+    ui.m_pDirectoryName->setText(aSettings.value("CreateMovieDlg/OutputDir",sTempImagePath).toString());
     QString sTempImageName("image%05d");
-    ui.m_pImageNameOffset->setText(aSettings.value("CreateMoveDlg/OutputName",sTempImageName).toString());
+    ui.m_pImageNameOffset->setText(aSettings.value("CreateMovieDlg/OutputName",sTempImageName).toString());
     QString sTempMovieName("movie");
-    ui.m_pMovieFileName->setText(aSettings.value("CreateMoveDlg/OutputMovieName",sTempMovieName).toString());
-    QString sMjpegToolsDir = "/opt/local/bin";
-    ui.m_pMjpegtoolsDirectory->setText(aSettings.value("CreateMoveDlg/MjpegToolsDir",sMjpegToolsDir).toString());
-    ui.m_pImagesPerSecond->setValue(aSettings.value("CreateMoveDlg/ImagesPerSeconds",10).toInt());
-    ui.m_pImageRatio->setCurrentIndex(aSettings.value("CreateMoveDlg/ImageSizeItem",0).toInt());
-    ui.m_pImageExtension->setCurrentIndex(aSettings.value("CreateMoveDlg/ImageExtension",0).toInt());
-    ui.m_pMovieExtension->setCurrentIndex(aSettings.value("CreateMoveDlg/MovieExtension",0).toInt());
+    ui.m_pMovieFileName->setText(aSettings.value("CreateMovieDlg/OutputMovieName",sTempMovieName).toString());
+    // ffmpeg will be delivered from installation as default...
+    QString sMjpegToolsDir = QCoreApplication::applicationDirPath();    // "/opt/local/bin";
+    ui.m_pMjpegtoolsDirectory->setText(aSettings.value("CreateMovieDlg/MjpegToolsDir",sMjpegToolsDir).toString());
+    ui.m_pImagesPerSecond->setValue(aSettings.value("CreateMovieDlg/ImagesPerSeconds",10).toInt());
+    ui.m_pImageRatio->setCurrentIndex(aSettings.value("CreateMovieDlg/ImageSizeItem",0).toInt());
+    ui.m_pImageExtension->setCurrentIndex(aSettings.value("CreateMovieDlg/ImageExtension",0).toInt());
+    ui.m_pMovieExtension->setCurrentIndex(aSettings.value("CreateMovieDlg/MovieExtension",0).toInt());
 
     UpdateCmds();
 }
