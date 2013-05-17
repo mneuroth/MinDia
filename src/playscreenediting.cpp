@@ -42,7 +42,7 @@ void PlayScreenEditing::ItemModified( QGraphicsItem * /*pItem*/ )
     emit sigDataChanged();
 }
 
-void PlayScreenEditing::sltSceneRectChanged( const QRectF & rect )
+void PlayScreenEditing::sltSceneRectChanged( const QRectF & /*rect*/ )
 {
     Rescale();
 }

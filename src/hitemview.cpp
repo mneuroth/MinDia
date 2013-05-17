@@ -347,7 +347,7 @@ bool HItemView::IsDragTargetNotDragSource( QMouseEvent * pEvent, int iActIndex )
 	return false;
 }
 
-void HItemView::mouseDoubleClickEvent ( QMouseEvent * pEvent )
+void HItemView::mouseDoubleClickEvent ( QMouseEvent * /*pEvent*/ )
 {
     emit sigShowItemModifyDialog();
 }

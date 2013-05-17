@@ -328,7 +328,7 @@ private:
 
 	ComLoggingDialogImpl *		m_pLoggingDialog;
 	ProjectorControlDlgImpl *	m_pProjectorControlDialog;
-	EventMapDlgImpl *			m_pPresentationEventsDialog;// modal
+    //EventMapDlgImpl *			m_pPresentationEventsDialog;// modal
 	DiaInfoDlgImpl *			m_pDiaInfoDialog;
 	PlayInfoDlgImpl *			m_pPlayInfoDialog;
 	HelpDlgImpl *				m_pHelpDialog;

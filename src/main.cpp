@@ -33,21 +33,21 @@
 #include "minbase.h"
 #include "iscript.h"
 
-#if defined(__linux__) || defined(__APPLE__)
-#include "minutils.h"
-#include "config.h"				// for autoconf values...
-#define _MINDIAPYC_DLL_NAME		"libmindiapyc.so"
-#define _GENDEV_DLL_NAME		"libgendev.so"
-//#define _LINUX_MINDIA_SHARED	"/usr/local/shared/mindia/";
-#else
-#include <windows.h>
-#ifdef _DEBUG
-#define _MINDIAPYC_DLL_NAME		"mindiapyc_d.dll"
-#else
-#define _MINDIAPYC_DLL_NAME		"mindiapyc.dll"
-#endif
-#define _GENDEV_DLL_NAME		"gendev.dll"
-#endif
+//#if defined(__linux__) || defined(__APPLE__)
+//#include "minutils.h"
+//#include "config.h"				// for autoconf values...
+//#define _MINDIAPYC_DLL_NAME		"libmindiapyc.so"
+//#define _GENDEV_DLL_NAME		"libgendev.so"
+////#define _LINUX_MINDIA_SHARED	"/usr/local/shared/mindia/";
+//#else
+//#include <windows.h>
+//#ifdef _DEBUG
+//#define _MINDIAPYC_DLL_NAME		"mindiapyc_d.dll"
+//#else
+//#define _MINDIAPYC_DLL_NAME		"mindiapyc.dll"
+//#endif
+//#define _GENDEV_DLL_NAME		"gendev.dll"
+//#endif
 
 #define _SCRIPTS_DIR	"scripts"
 #define _IMAGES_DIR		"images"

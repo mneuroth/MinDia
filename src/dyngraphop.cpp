@@ -1102,7 +1102,7 @@ void DynTextContainer::SortData()
 
 int DynText::ACT_FILE_VERSION = 0;      // new since 31.3.2013
 
-DynText::DynText( const string & sText, QGraphicsScene * pOwner )
+DynText::DynText( const string & sText, QGraphicsScene * /*pOwner*/ )
 : QGraphicsSimpleTextItem( ToQString( sText ), 0 ),
   m_dRelativeTimeInMS( 0 ),
   m_bIsSelected( false ),

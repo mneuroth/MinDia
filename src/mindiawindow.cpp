@@ -233,7 +233,6 @@ AboutExtDlg::AboutExtDlg( QWidget* parent, Qt::WFlags fl )
 
 MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, bool bSimulation, int iProjectorType, QWidget* parent, Qt::WFlags f )
     : QMainWindow( parent, f ),
-      //m_pConfigPlayerDialog( 0 ),
 	  m_pLoggingDialog( 0 ),
 	  m_pProjectorControlDialog( 0 ),
 	  m_pPresentationEventsDialog( 0 ),
