@@ -27,7 +27,6 @@
 #include <QFile>
 #include <QEvent>
 #include <QApplication>
-//#include <QtGlobal>
 
 // *******************************************************************
 // *******************************************************************
@@ -74,8 +73,6 @@ miniSound::~miniSound()
 
 void miniSound::sltTotalTimeChanged(qint64 val)
 {
-    //debug: cout << "TOTAL TIME " << val << endl;
-
     m_iTotalTimeInMS = (int)val;
 
     if( m_pRequester!=0 && m_iTotalTimeInMS>=0 )
@@ -224,7 +221,6 @@ int  miniSound::GetPositionInMSImpl() const
 		{
 			iRet += ((miniSound *)this)->m_aSilentStartTime.elapsed();
 		}
-		//cout << "GetActPos: " << iRet << endl;
 		return iRet;
 	}
 	else
@@ -378,7 +374,7 @@ bool miniSound::CloseSound()
 		}
 		else
 		{
-			// min todo gulp sollte nie auftreten !
+            // dieses sollte nie auftreten !
 			cerr << "BUG: closing sound !" << endl;
 		}
 	}
@@ -496,7 +492,7 @@ void miniSound::run()
 				}
                 else if( m_sSoundFile.length()>0 )
                 {
-// TODO --> hier zur bestimmung der sound file length abspielen starten
+                    // hier zur Bestimmung der sound file length abspielen starten
                     SetWavFile( m_sSoundFile );
                     StartPlayImpl();
                     bStopedInThread = false;

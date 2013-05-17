@@ -1,5 +1,5 @@
 /**************************************************************************
- *ƒ
+ *
  *	project				 : MinDia
  *
  *	copyright            : (C) 2002 by Michael Neuroth
@@ -28,22 +28,6 @@
 #include <QCloseEvent>
 
 /*
-const QString g_sDefaultSize1 = QObject::tr("400:304");
-const QString g_sDefaultSize2 = QObject::tr("576:400");
-// 640x480   // NTSC (VGA)      4:3
-// 800x600
-// 1024x768
-// 720x480   // NTSC (DV)       3:2
-// 768x576   // PAL (DVB)       4:3
-// 1024x576  // PAL-wide (DVB)  16:9
-// 704x576   // PAL (DVD)
-// 720x576   // PAL (DV)
-// 960x720   // HD720 HDTV      4:3
-// 1440x1080 // HD1080 HDTV     4:3
-const QString g_sDefaultSize3 = QObject::tr("1280:720");        // 720p:  hd ready
-const QString g_sDefaultSize4 = QObject::tr("1920:1080");       // 1080p: full hd
-const QString g_sSizeOfFirstImage = QObject::tr("size of first image");
-const QString g_sUserValue = QObject::tr("user value");
 
 http://de.wikipedia.org/wiki/Bildaufl%C3%B6sung
 http://de.wikipedia.org/wiki/DVD-Video
@@ -116,14 +100,14 @@ void PresentationDataDlgImpl::sltCloseDialog()
 {
 	TransferDataFromControl();
 
-	emit accept();
+    accept();
 
 	emit sigDialogClosed();
 }
 
 void PresentationDataDlgImpl::sltCancelDialog()
 {
-	emit reject();
+    reject();
 
 	emit sigDialogClosed();
 }
@@ -140,7 +124,7 @@ void PresentationDataDlgImpl::sltCurrentOutputSizeChanged( const QString & sValu
         m_pOutputWidth->setEnabled( false );
         m_pOutputHeight->setEnabled( false );
     }
-    QString s = sValue; //m_pOutputSize->currentText();
+    QString s = sValue;
     QStringList lst = s.split(':');
     if( lst.size()>1 )
     {
@@ -176,11 +160,10 @@ void PresentationDataDlgImpl::closeEvent( QCloseEvent * pCloseEvent )
 void PresentationDataDlgImpl::showEvent( QShowEvent * /*pShowEvent*/ )
 {
 	TransferDataToControl();
-// TODO gulp --> aus current image size den Wert fuer die combobox
 
+    // get image width and height from presentation data
     unsigned long ulWidth, ulHeight;
     m_pData->GetImageSize( ulWidth, ulHeight );
-    ImageSize aImageSize = GetImageSizeTypeFromSize( QSize( (int)ulWidth, (int)ulHeight ) );
 
     // update combobox with sizes
     int iCurrentIndex = m_pOutputSize->currentIndex();
@@ -189,8 +172,6 @@ void PresentationDataDlgImpl::showEvent( QShowEvent * /*pShowEvent*/ )
     m_pOutputSize->setCurrentIndex( iCurrentIndex<0 ? 0 : iCurrentIndex );
     // update text input field for user width
     sltUserWidthChanged( m_pOutputWidth->text() );
-
-//    sltImageRatioChanged();
 }
 
 void PresentationDataDlgImpl::TransferDataToControl()
@@ -223,7 +204,7 @@ void PresentationDataDlgImpl::TransferDataToControl()
                break;
             case RATIO_USER:
                m_prbtUser->setChecked(true);
-// TODO --> user daten fuer ration behandeln (not implemented yet)
+// TODO --> user daten fuer ratio behandeln (not implemented yet)
                break;
             case RATIO_UNDEFINED:
             default:
@@ -264,8 +245,6 @@ void PresentationDataDlgImpl::TransferDataFromControl()
 
             bUpdate = true;
         }
-
-// TODO gulp --> image output size setzen ...
 
         if( bUpdate )
         {

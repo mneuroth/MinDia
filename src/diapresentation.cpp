@@ -32,6 +32,8 @@
 #include <QObject>
 #include <QImage>
 #include <QPainter>
+#include <QFileInfo>
+#include <QDir>
 
 extern bool IsExecuteScriptAllowed();
 
@@ -100,7 +102,7 @@ void DiaPresentation::SyncDataContainers()
         double dStartTime = GetDiaAbsStartDissolveTime(i);
         string sUUID = m_aDiaContainer[i]->GetUUID();
 
-        for( unsigned int j=0; j<m_aDynTextContainer.size(); j++ )
+        for( unsigned int j=0; j<(unsigned int)m_aDynTextContainer.size(); j++ )
         {
             if( sUUID == m_aDynTextContainer[j]->GetAttachedSlideUUID() )
             {
@@ -235,7 +237,9 @@ string DiaPresentation::GetName() const
 
 void DiaPresentation::SetName( const string & sNewName )
 {
-    m_sName = FileUtilityObj::StripPath( sNewName.c_str(), &m_sPathInfo );
+    QFileInfo aNewFileInfo( ToQString(sNewName) );
+    m_sPathInfo = ToStdString( aNewFileInfo.absolutePath()+QDir::separator() );
+    m_sName = ToStdString( aNewFileInfo.fileName() );
 
 	// name is only for view, not a logical data item for a dia presentation (29.3.2003)
 	//m_aObjectChanged.SetChanged();

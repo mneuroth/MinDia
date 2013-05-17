@@ -4,20 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/writexml.cpp,v $
- *
- *  $Revision: 1.1.1.1 $
- *
- *	$Log: not supported by cvs2svn $
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -30,7 +22,7 @@
 
 #include <stdio.h>
 
-const char * _XML_HEADER		= "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
+const char * _XML_HEADER            = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
 
 const char * _FILE_VERSION_TAG		= "fileversion";
 

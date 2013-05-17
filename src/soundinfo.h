@@ -4,23 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/soundinfo.h,v $
- *
- *  $Revision: 1.2 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.1.1.1  2003/08/15 16:38:22  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -78,7 +67,6 @@ public:
 
 private:
 	// ** helper methods **
-    //int		GetTotalLengthImpl() const;
     void	SetData( const string & sFileName, int iTotalLength, int iStartPosInMS, int iStopPosInMS );
 
 	// ** data **
@@ -141,11 +129,6 @@ public:
 	iterator	GetItemForAbsPlayPos( int iAbsTimeInMS, int & iOffsetTime );
 	void		MakeRelativePaths();
     void		MakeAbsolutePaths( const string & sDir );
-
-    //void        UpdateAllLengths();
-
-private:
-    //UpdateLengths   m_aHelperThread;
 };
 
 // *******************************************************************

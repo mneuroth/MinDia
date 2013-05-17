@@ -54,8 +54,6 @@ const int c_iDelay = 15;        // original 10
 // *******************************************************************
 // *******************************************************************
 
-//#include "../qextserialport/src/qextserialport.h"
-//#include "../qt-qtserialport/src/serialport/qserialport.h"
 #include <QtSerialPort/qserialport.h>
 
 #define MAX_READ_TIMEOUT    50  /*ms*/
@@ -202,14 +200,14 @@ struct RolleiComHelperData
                 aStopBits = QSerialPort::TwoStop;
             }
 
-// TODO gulp working: problems with static linking: http://qt-project.org/forums/viewthread/26229
+// TODO working: problems with static linking: http://qt-project.org/forums/viewthread/26229 under Windows
             m_pPort->setBaudRate(aBaudRate);
             m_pPort->setDataBits(aDataBits);
             m_pPort->setParity(aParity);
             m_pPort->setFlowControl(aFlowType);
             m_pPort->setStopBits(aStopBits);
 
-            //TODO gulp: not supported for QSerialPort: m_pPort->setTimeout(1000);
+//TODO: not supported for QSerialPort: m_pPort->setTimeout(1000);
         }
         return true;
     }
@@ -234,13 +232,13 @@ struct RolleiComHelperData
         if( IsOk() )
         {
             char sBuffer[BUFFER_MAX];
-            sprintf(sBuffer,"");
+            strcpy(sBuffer,"");
 
             // new since 17.1.2011: try to read one command (ending with CR LF) or timeout when trying to read more characters
             int iReadTimeout = 0;
             while( !IsCommandReceived(sMsgOut) && /*NotTimeoutSinceLastSuccessfullRead==*/iReadTimeout<MAX_READ_TIMEOUT )
             {
-                bool ok = m_pPort->waitForReadyRead(c_iDelay);
+                /*bool ok =*/ m_pPort->waitForReadyRead(c_iDelay);
 
                 // ** if we are here, there is something to read !
                 int iRet = m_pPort->read(sBuffer,BUFFER_MAX);
@@ -281,7 +279,6 @@ struct RolleiComHelperData
 // *******************************************************************
 // *******************************************************************
 
-// temp. constants because of Borland C++ 5.5 
 const int _NONE = 0;
 const int _ODD = 1;
 const int _EVEN = 2;
@@ -1047,7 +1044,7 @@ char RolleiCom::GetStatus( bool /*bSync*/ )
 		{
 			if( m_pLoggingChannel && m_bDoLogging )
 			{
-// TODO encoding ?
+// TODO encoding ? --> http://stackoverflow.com/questions/1488866/how-to-replace-i-in-a-string
 				string s = "--> �";
 				m_pLoggingChannel->LogMsg( s.c_str() );
 			}

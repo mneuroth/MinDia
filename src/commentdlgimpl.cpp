@@ -108,15 +108,14 @@ void CommentDlgImpl::sltCloseDialog()
 
 	emit sigDialogClosed();
 
-// TODO --> ist das besser fuer Mac? ggf. in allen anderen Dialogen nachziehen
-    /*emit*/ accept();
+    accept();
 }
 
 void CommentDlgImpl::sltDialogCanceled()
 {
 	emit sigDialogClosed();
 
-    /*emit*/ reject();
+    reject();
 }
 
 void CommentDlgImpl::sltNewRow()
@@ -146,14 +145,6 @@ void CommentDlgImpl::sltDeleteRow()
 		}
         m_pTable->removeRow(iActRow);
 
-//		for( int i=iActRow; i<m_pTable->/*numRows*/rowCount()-1; i++ )
-//		{
-////TODO			m_pTable->swapRows( i, i+1 );
-//		}
-//
-//		// ** and than delete the last row of the table 
-//		m_pTable->/*setNumRows*/setRowCount( m_pTable->/*numRows*/rowCount()-1 );
-
 		// ** update the document data ***
 //NEW support cancel		TransferData( false );
 	}
@@ -175,10 +166,9 @@ void CommentDlgImpl::sltValueChanged( int /*iRow*/, int /*iColumn*/ )
 // waehrend dialog offen ist braucht man eigentlich keine aktualisierung !
 // Ansonsten ist dies hier eine rekursive endlos-schleife ! Event wird durch TransferData() ausgeloest !!!
 	// ** first: data from gui to container
-// TODO ? --> crash !    
-//    TransferData( false );
-//    // ** than update view with new data from container
-//    TransferData( true );
+    //TransferData( false );
+    // ** than update view with new data from container
+    //TransferData( true );
 }
 
 void CommentDlgImpl::sltSortTable()

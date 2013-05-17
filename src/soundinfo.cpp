@@ -4,26 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/soundinfo.cpp,v $
- *
- *  $Revision: 1.3 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.2  2003/10/26 17:18:48  min
- *	MakeRelativePaths() added.
- *	
- *	Revision 1.1.1.1  2003/08/15 16:38:22  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -32,15 +18,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qobject.h>
-
-#include <algorithm>
-#include <functional>
-
 #include "soundinfo.h"
 
 #include "minisound.h"
 #include "misctools.h"
+
+#include <QObject>
+
+#include <algorithm>
+#include <functional>
 
 #include <stdio.h>		// sprintf
 #include <stdlib.h>		// atoi
@@ -187,15 +173,8 @@ void SoundInfo::SetData( const string & sFileName, int iTotalLength, int iStartP
 	{
 		swap( m_iStartPosInMS, m_iStopPosInMS );
 	}
+}
 
-    //UpdateTotalLength();
-}
-/*
-void SoundInfo::UpdateTotalLength()
-{
-	m_iTotalLengthInMS = GetTotalLengthImpl();
-}
-*/
 bool SoundInfo::Read( istream & aStream )
 {
 	FileUtilityObj aFU;
@@ -237,8 +216,6 @@ bool SoundInfo::Read( istream & aStream )
         m_iTotalLengthInMS = 0;
     }
 	aFU.ReadStructEnd( aStream );
-
-    //UpdateTotalLength();
 
 	return aStream.good();
 }
@@ -308,7 +285,6 @@ void SoundInfo::MakeAbsolutePaths( const string & sDir )
 
 SoundInfoContainer::SoundInfoContainer()
 : IOContainer<SoundInfo>( _SOUND_INFO_CONTAINER )
-  //,m_aHelperThread(*this)
 {
 }
 

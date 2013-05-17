@@ -4,20 +4,12 @@
  *
  *	copyright            : (C) 2002-2003 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/timerjobproc.h,v $
- *
- *  $Revision: 1.1.1.1 $
- *
- *	$Log: not supported by cvs2svn $
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002-2003 by Michael Neuroth.							   *
+ * Copyright (C) 20013 by Michael Neuroth.							       *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -34,8 +26,8 @@
 
 using namespace std;
 
-#include <qobject.h>
-#include <qdatetime.h>		// for QTime
+#include <QObject>
+#include <QDateTime>		// for QTime
 
 #include "minhandle.h"
 
@@ -72,37 +64,37 @@ typedef minHandle<Job>		JobHandle;
 typedef vector<JobHandle>	JobContainerT;
 
 // *******************************************************************
-class TimerJobProcessor : public QObject
-{
-	Q_OBJECT
+//class TimerJobProcessor : public QObject
+//{
+//	Q_OBJECT
 
-public:
-	TimerJobProcessor( JobContainerT & aJobContainer );
-	~TimerJobProcessor();
+//public:
+//	TimerJobProcessor( JobContainerT & aJobContainer );
+//	~TimerJobProcessor();
 
-//	void Clear();
+////	void Clear();
 
-//	void AddJob( JobHandle hJob );
+////	void AddJob( JobHandle hJob );
 
-	void Start( int iAbsoluteStartTime = 0 );
-	void Continue();
-	void Pause();
-	void Stop();
+//	void Start( int iAbsoluteStartTime = 0 );
+//	void Continue();
+//	void Pause();
+//	void Stop();
 
-public slots:
+//public slots:
 
-	void sltTimerEvent();
+//	void sltTimerEvent();
 
-private:
-	JobContainerT::iterator FindPosForStartTime( int iAbsoluteStartTime );
-	int						GetNextTimeout() /*const*/;
+//private:
+//	JobContainerT::iterator FindPosForStartTime( int iAbsoluteStartTime );
+//	int						GetNextTimeout() /*const*/;
 	
-	QTimer *					m_pTimer;
-	QTime						m_aRealTime;
-	int							m_iRealPlayedTime/*SinceLastStopOrPause*/;	// allready played time without pause times
-	bool						m_bPaused;
-	JobContainerT &				m_aJobContainer;
-	JobContainerT::iterator		m_aActPosIter;
-};
+//	QTimer *					m_pTimer;
+//	QTime						m_aRealTime;
+//	int							m_iRealPlayedTime/*SinceLastStopOrPause*/;	// allready played time without pause times
+//	bool						m_bPaused;
+//	JobContainerT &				m_aJobContainer;
+//	JobContainerT::iterator		m_aActPosIter;
+//};
 
 #endif

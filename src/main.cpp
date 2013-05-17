@@ -141,7 +141,7 @@ string IGeneralScriptFcnImpl::GetDataDirecotry() const
 
 void IGeneralScriptFcnImpl::Init()
 {
-    string sSep( FileUtilityObj::GetDirectorySeparatorStrg() );
+    string sSep( ToStdString(QDir::separator()) );
     string sTemp = ToStdString(QCoreApplication::applicationDirPath()) + sSep;
 
 	m_sHelpDirectory = sTemp;	// this path endst with a directory separator

@@ -204,7 +204,6 @@ signals:
 	void sigPasteClipboard();
 	void sigSelectAllClipboard();
 	void sigDeleteSelectedItems();
-	void sigShowActImage( const QString & sFileName );
 
 private:
 	// ** help methods **

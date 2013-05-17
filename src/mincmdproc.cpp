@@ -22,33 +22,10 @@
 
 #include "rolleicom.h"
 
-//#define _with_min_threads
-
-//#include <iostream>
-//using namespace std;
-
 #include <QThread>
 
-#if defined(__linux__) || defined(__APPLE__)
-pthread_mutex_t g_aRecursiveMutex;
-#endif
-
 // *******************************************************************
 // *******************************************************************
-// *******************************************************************
-
-#ifdef _with_min_threads
-extern "C" void _CALLING_CONV _MinCmdProcThreadStarter( void * pData )
-{
-	minCmdProcessor * pCmdProcessor = (minCmdProcessor *)pData;
-
-	if( pCmdProcessor )
-	{
-		pCmdProcessor->run();
-	}
-}
-#endif
-
 // *******************************************************************
 
 minCmdProcessor::minCmdProcessor( RolleiCom * pProjector )
@@ -57,15 +34,12 @@ minCmdProcessor::minCmdProcessor( RolleiCom * pProjector )
   m_ulThreadId( (unsigned long )-1 ),
   m_pProjector( pProjector )
 {
-//    m_pSyncObj = 0; // TODO: new minSyncObject();
 }
 
 minCmdProcessor::~minCmdProcessor()
 {
 	Stop();
     QThread::msleep( 100 );
-
-//	delete m_pSyncObj;
 }
 
 bool minCmdProcessor::IsBusy() const
@@ -90,7 +64,6 @@ bool minCmdProcessor::IsStoped() const
 
 bool minCmdProcessor::AppendBatchCmd( const string & sCmd )
 {
-//	minLock aLock( m_pSyncObj );
     m_aSyncObj.lock();
 
 	m_aCmdQueue.push_back( sCmd );
@@ -101,7 +74,6 @@ bool minCmdProcessor::AppendBatchCmd( const string & sCmd )
 
 bool minCmdProcessor::ExecuteRealtimeCmd( const string & sCmd )
 {
-//	minLock aLock( m_pSyncObj );
     m_aSyncObj.lock();
 
 	m_aCmdQueue.push_front( sCmd );
@@ -114,12 +86,8 @@ bool minCmdProcessor::Start()
 {
 	if( !IsRunning() )
 	{
-#ifdef _with_min_threads
-		m_ulThreadId = minBeginThread( _MinCmdProcThreadStarter, _DEFAULT_STACK_SIZE, this );
-#else
         start();
         m_ulThreadId = 1;   // dummy id
-#endif
 	}
 	return IsRunning();
 }
@@ -140,7 +108,6 @@ void minCmdProcessor::run()
 
 		// ** protect the container in multithreading environment
 		{
-//			minLock aLock( m_pSyncObj );
             m_aSyncObj.lock();
 
 			// ** something to do ?

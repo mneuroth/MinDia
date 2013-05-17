@@ -21,12 +21,6 @@
 #ifndef _MINCMDPROC_H
 #define _MINCMDPROC_H
 
-#ifdef _MSC_VER
-#pragma warning( disable : 4786 )
-// disable warning: '...' : Bezeichner wurde auf '255' Zeichen in den Debug-Informationen reduziert
-// for stl-structs
-#endif
-
 #include <string>
 #include <list>
 
@@ -70,7 +64,6 @@ private:
 	unsigned long		m_ulThreadId;
 	list<string>		m_aCmdQueue;
 	RolleiCom *			m_pProjector;	// no owner !
-//	minSyncObject *		m_pSyncObj;
     QMutex              m_aSyncObj;
 };
 

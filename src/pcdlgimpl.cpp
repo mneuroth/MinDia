@@ -4,23 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/pcdlgimpl.cpp,v $
- *
- *  $Revision: 1.2 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.1.1.1  2003/08/15 16:38:22  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -35,16 +24,16 @@
 #include "diapresentation.h"
 #include "misctools.h"
 
-#include <qlabel.h>
-#include <qobject.h>
-#include <qpushbutton.h> 
-#include <qmessagebox.h>
+#include <QObject>
+#include <QLabel>
+#include <QPushButton>
+#include <QMessageBox>
 #include <QCloseEvent>
 #include <QKeyEvent>
 
 
 ProjectorControlDlgImpl::ProjectorControlDlgImpl( RolleiCom * pProjectorCom, DiaPresentation * pPresentation,  QWidget* parent, Qt::WFlags fl )
-: QDialog(parent, fl) //ProjectorControlDialog( parent, name, modal, fl )
+: QDialog(parent, fl)
 {
     setupUi(this);
 
@@ -89,7 +78,7 @@ string ProjectorControlDlgImpl::CheckReturn( const string & sValue )
 
 void ProjectorControlDlgImpl::DoDialogEnable( bool bEnable )
 {
-	/*QObjectList * */QList<QObject *> aList = /*(QObjectList *)*/children();
+    QList<QObject *> aList = children();
 
     for( int i=0; i<aList.count(); i++ )
 	{
@@ -276,7 +265,7 @@ void ProjectorControlDlgImpl::sltCloseDialog()
 {
 	emit sigDialogClosed();
 
-	emit accept();
+    accept();
 }
 
 void ProjectorControlDlgImpl::sltCheckMode()
@@ -315,7 +304,7 @@ void ProjectorControlDlgImpl::switchToDirectMode()
 	// ** and than selectivly disable controls
 	bool bValue = false;
 	m_pDirectMode->setEnabled( bValue );
-// todo --> hier ggf. forward und backward button enablen !!! --> neue Widget Hirachie --> anderes verhalten von enable/disable !!!
+// TODO --> hier ggf. forward und backward button enablen !!! --> neue Widget Hirachie --> anderes verhalten von enable/disable !!!
     m_pTestButton->setEnabled( true );
 }
 
@@ -400,7 +389,7 @@ void ProjectorControlDlgImpl::done( int iRet )
 {
 	emit sigDialogClosed();
 	
-	/*ProjectorControlDialog::*/QDialog::done( iRet );
+    QDialog::done( iRet );
 }
 
 void ProjectorControlDlgImpl::keyPressEvent( QKeyEvent * pEvent )
@@ -411,6 +400,6 @@ void ProjectorControlDlgImpl::keyPressEvent( QKeyEvent * pEvent )
 	}
 	else
 	{
-		/*ProjectorControlDialog::*/QDialog::keyPressEvent( pEvent );
+        QDialog::keyPressEvent( pEvent );
 	}
 }

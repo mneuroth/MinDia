@@ -22,8 +22,10 @@
 
 #include "appconfig.h"
 #include "misctools.h"
-
 #include "qtmtlock.h"
+
+#include <math.h>
+
 #include <QKeyEvent>
 #include <QPixmap>
 #include <QResizeEvent>
@@ -45,210 +47,13 @@
 #include <QToolButton>
 #include <QDateTime>
 #include <QFileDialog>
+#include <QPaintEngine>
 
-#include "icons.xpm"
-
-//#define _ORIGINAL_FADE
 
 #define MAX_FADE_DELAY  1   // in ms
 #define MAX_FADE_FACTOR 255
 
 static int g_iTimerDelay = MAX_FADE_DELAY;
-
-//// *******************************************************************
-//// *******************************************************************
-//// *******************************************************************
-
-//PlayInfoContextMenu::PlayInfoContextMenu( QWidget * parent, PlayInfoDlgImpl * pMyDialog )
-//: QMenu( parent ),
-//  m_pMyDialog( pMyDialog )
-//{
-//	m_pImageFormats = new QMenu( tr( "Save &image..." ), 0 );
-
-//	// ** get all supported image formates and fill the menu with this formats
-//    QList<QByteArray> aList = QImageWriter::supportedImageFormats();
-//	for( int i=0; i<aList.count(); i++ )
-//	{
-//		m_pImageFormats->addAction( new QAction( QString(aList.at( i )), 0 ) );
-//	}
-//// TODO --> funktioniert das ?
-//	connect( m_pImageFormats, SIGNAL( activated(int) ), this, SLOT( sltImageFormatActivated(int) ) );
-
-//    QAction * pAction = new QAction( tr( "Dissolve &Start/Stop" ), 0 );
-//	addAction( pAction );
-//    connect( pAction, SIGNAL(triggered()), this, SLOT(sltStartStopFade()) );
-
-//    addMenu( m_pImageFormats);
-    
-//    addSeparator();
-    
-//    m_pActionFullScreen = new QAction( tr( "&Full screen" ), 0 );
-//	addAction( m_pActionFullScreen );
-//    connect( m_pActionFullScreen, SIGNAL(triggered()), this, SLOT(sltToggleFullScreen()) );
-
-//    addSeparator();
-
-//    pAction = new QAction( tr( "&Close" ), 0 );
-//	addAction( pAction );
-//    connect( pAction, SIGNAL(triggered()), this, SLOT(sltClose()) );
-    
-//    //insertItem( tr( "Dissolve &Start/Stop" ), STOP_START_ID ) );
-//	//insertItem( tr( "Save &image..." ), m_pImageFormats );
-//	//insertSeparator();
-//	//insertItem( tr( "&Full screen" ), MAXIMIZE_ID );
-//	//insertSeparator();
-//	//insertItem( tr( "&Close" ), CLOSE_ID );
-
-//	connect( this, SIGNAL( aboutToShow() ), this, SLOT( sltShowMenu() ) );
-//	//connect( this, SIGNAL( activated(int) ), this, SLOT( sltActivated(int) ) );
-//}
-
-//PlayInfoContextMenu::~PlayInfoContextMenu()
-//{
-//	delete m_pImageFormats;
-//    delete m_pActionFullScreen;
-//// TODO ---> andere actions auch zerstoreren ?
-//}
-
-//void PlayInfoContextMenu::sltImageFormatActivated( int iIndex )
-//{
-//	QStringList aList = QPicture::outputFormatList();
-
-//	if( m_pMyDialog && (iIndex>=0) && (iIndex<(int)aList.count()) )
-//	{
-//		m_pMyDialog->sltSaveActImage( aList.at( iIndex ) );
-//	}
-//}
-
-////void PlayInfoContextMenu::sltActivated( int iIndex )
-////{
-////	if( m_pMyDialog )
-////	{
-////		switch( iIndex )
-////		{
-////			case STOP_START_ID:
-////				m_pMyDialog->StartStopFade();
-////				break;
-////			case MAXIMIZE_ID :
-////				if( !m_pMyDialog->IsFullScreen() )
-////				{
-////					m_pMyDialog->FullScreen();
-////				}
-////				else
-////				{
-////					m_pMyDialog->RestoreSize();
-////				}
-////				break;
-////			case CLOSE_ID :
-////				m_pMyDialog->close();
-////				break;
-////		}
-////	}
-////}
-
-//void PlayInfoContextMenu::sltStartStopFade()
-//{
-//	m_pMyDialog->StartStopFade();
-//}
-
-//void PlayInfoContextMenu::sltToggleFullScreen()
-//{
-//	if( !m_pMyDialog->IsFullScreen() )
-//    {
-//		m_pMyDialog->FullScreen();
-//	}
-//	else
-//	{
-//		m_pMyDialog->RestoreSize();
-//	}
-//}
-
-//void PlayInfoContextMenu::sltClose()
-//{
-//	m_pMyDialog->close();
-//}
-
-//void PlayInfoContextMenu::sltShowMenu()
-//{
-//	if( m_pMyDialog )
-//	{
-//		if( m_pMyDialog->IsFullScreen() )
-//		{
-//            m_pActionFullScreen->setText( tr("&Normal") );
-//		}
-//		else
-//		{
-//            m_pActionFullScreen->setText( tr("&Full screen") );
-//		}
-//	}
-//}
-
-// *******************************************************************
-// *******************************************************************
-// *******************************************************************
-
-//class MenuCanvasView : public QGraphicsView // Q3CanvasView
-//{
-//public:
-//    MenuCanvasView( /*Q3Canvas*/QGraphicsScene * viewing=0, QWidget * parent=0, const char * name=0, Qt::WFlags f=0 );
-//	~MenuCanvasView();
-
-//    void SetImagePtr( QImage * pImage )
-//    {
-//        m_pImage = pImage;
-//    }
-
-//    // ** WARNING: takes the ownership of the given pointer !!!
-//	void SetPopupMenu( QMenu * pMenu );
-
-//protected:
-//	virtual void contentsMousePressEvent( QMouseEvent * pEvent );
-
-//protected:
-//    virtual void drawBackground( QPainter &, const QRect & area );
-
-//private:
-//    QMenu *         m_pPopupMenu;
-//    QImage *        m_pImage;
-//};
-
-//MenuCanvasView::MenuCanvasView( /*Q3Canvas*/QGraphicsScene * viewing, QWidget * parent, const char * name, Qt::WFlags f )
-//: /*Q3CanvasView*/QGraphicsView( viewing, parent/*, name, f*/ ),
-//  m_pPopupMenu( 0 ),
-//  m_pImage( 0 )
-
-//{
-//}
-
-//MenuCanvasView::~MenuCanvasView()
-//{
-//	delete m_pPopupMenu;
-//}
-
-//void MenuCanvasView::SetPopupMenu( QMenu * pMenu )
-//{
-//	m_pPopupMenu = pMenu;
-//}
-
-//void MenuCanvasView::contentsMousePressEvent( QMouseEvent * pEvent )
-//{
-//	if( (pEvent->button() == Qt::RightButton) && m_pPopupMenu )
-//	{
-//		m_pPopupMenu->exec( pEvent->globalPos() );
-//	}
-//	else
-//	{
-////TODO        /*Q3CanvasView*/QGraphicsView::contentsMousePressEvent( pEvent );
-//	}
-//}
-
-//void MenuCanvasView::drawBackground( QPainter & aPainter, const QRect & area )
-//{
-//    // ** OPTIMIZE HERE: erase is not needed all the time !?
-//    aPainter.eraseRect( area );
-
-//    aPainter.drawImage( 0, 0, *m_pImage );
-//}
 
 // *******************************************************************
 // *******************************************************************
@@ -263,7 +68,6 @@ void _FadeImage( QPainter * pPainter, int iFadeFactor, const QImage & aImagePrev
 
     pPainter->setOpacity(1.0-dFactor);
 
-// TODO --> klaeren ob hier image erst scaliert werden sollen
     pPainter->drawImage(QPoint(0,0),aImagePrevious);
     pPainter->setOpacity(dFactor);
     pPainter->drawImage(QPoint(0,0),aImage);
@@ -271,6 +75,7 @@ void _FadeImage( QPainter * pPainter, int iFadeFactor, const QImage & aImagePrev
     pPainter->setOpacity(currentOpacity);
 }
 
+// *******************************************************************
 class SimpleBitmapScene : public QGraphicsScene
 {
 public:
@@ -306,21 +111,16 @@ private:
     QImage *        m_pImagePrevious;
 };
 
-#include <QPaintEngine>
-
 void SimpleBitmapScene::drawBackground( QPainter * pPainter, const QRectF & /*area*/ )
 {
-//    cout << "DRAW paintEngine " << pPainter->paintEngine() << " feat=" << (int) pPainter->paintEngine()->type() << endl;
-//    cout << "### scene " << sceneRect().x() << " " << sceneRect().y() << " " << sceneRect().width() << " " << sceneRect().height() << endl;
-//    QGraphicsView * pView = views().at(0);
-//    cout << "    view  " <<  pView->x() << " " <<  pView->y() << " sz: " << pView->width() << " " << pView->height() << endl;
     _FadeImage(pPainter,m_iFadeFactor,*m_pImagePrevious,*m_pImage);
 }
 
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************
-#ifdef xx
+#ifdef _old_fade_implementation
+
 typedef int myint;
 
 /* for lookup table tests:
@@ -449,12 +249,13 @@ QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor )
         }
     }
 }
-#endif
+
+#endif //_old_fade_implementation
 
 // *******************************************************************
 
 PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt::WFlags fl )
-: QDialog( parent, fl /*| Qt::WStyle_Maximize*/ ),      // TODO style for maximize ?
+: QDialog( parent, fl /*| Qt::WStyle_Maximize*/ ),
   m_pParent( parent ),
   m_iFadeInTimeInMS( 0 ),
   m_aFadeTime( 1 ),
@@ -462,10 +263,10 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt
 {
     setupUi(this);
 
-	QPixmap aPauseIcon( pausescript );
-	QPixmap aStopIcon( stopscript );
-	QPixmap aRunIcon( runscript );
-	QPixmap aFullscreenIcon( fullscreen );
+    QPixmap aPauseIcon( ":/icons/icons/pause.png" );
+    QPixmap aStopIcon( ":/icons/icons/stop.png" );
+    QPixmap aRunIcon( ":/icons/icons/run.png" );
+    QPixmap aFullscreenIcon( ":/icons/icons/fullscreen.png" );
 	m_pRun->setIcon( aRunIcon );	
 	m_pStop->setIcon( aStopIcon );
 	m_pPause->setIcon( aPauseIcon );
@@ -484,12 +285,6 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt
 
     m_pScene = new SimpleBitmapScene( /*m_pFrame*/0 );
 
-//    QRect aFrameRect = m_pCanvasView->frameRect();
-    // ** update size of the canvas
-//    m_pScene->setSceneRect(0,0,aFrameRect.width(), aFrameRect.height());
-
-//	m_pCanvasView->SetPopupMenu( new PlayInfoContextMenu( this, this ) );
-// TODO --> context Menu am Canvas/Graphics Scene setzen !
     m_pCanvasView->setScene(m_pScene);
     m_pCanvasView->show();
 
@@ -507,7 +302,6 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt
 
 void PlayInfoDlgImpl::sltSceneRectChanged( const QRectF & /*rect*/ )
 {
-//    cout << "*** scene rect changed " << rect.width() << " " << rect.height() << endl;
 }
 
 PlayInfoDlgImpl::~PlayInfoDlgImpl()
@@ -535,18 +329,11 @@ bool PlayInfoDlgImpl::IsFullScreen() const
     return isFullScreen();
 }
 
-// TODO improve handling --> dies ist temporaer !!!
-//static QByteArray g_test;
-
 void PlayInfoDlgImpl::FullScreen()
 {
-//    g_test = this->saveGeometry();
     //if( !IsFullScreen() )
 	{
 		// ** for full screen modus remove the controls in the control area
-//TODO		PlayInfoDialogLayout->setSpacing( 0 );
-//TODO		PlayInfoDialogLayout->setMargin( 0 );
-
 		m_pDisplayImage->hide();
 		m_pRun->hide();
 		m_pPause->hide();
@@ -557,27 +344,16 @@ void PlayInfoDlgImpl::FullScreen()
         m_pOperationGroup->hide();
 
         this->layout()->setContentsMargins(0,0,0,0);
-//        this->layout()->setSpacing(0);
         m_aScreenGroup->setContentsMargins(0,0,0,0);
         m_aScreenGroup->layout()->setContentsMargins(0,0,0,0);
-//        m_aScreenGroup->layout()->setSpacing(0);
-//TODO		delete m_pButtonLayout;
-//TODO		m_pButtonLayout = 0;
 
-        //m_pCanvasView->setLineWidth( 0 );
-//		m_pCanvasView->setFrameShadow( QFrame::Plain );
-        //m_pCanvasView->setFrameShape( QFrame::NoFrame );
-        //m_pCanvasView->setFrameStyle( QFrame::NoFrame );
-
-		// ** save flags and position before fullscreen modus
+        // ** save position before fullscreen modus
 		// ** this values have to be restored later !
-//TODO		m_flLastFlags = getWFlags();
 		m_aLastPos = pos();
 
         showFullScreen();
-//        this->repaint();
+
         this->resize(this->width(),this->height()+1);
-//        m_pCanvasView->showFullScreen();
 	}
 }
 
@@ -585,35 +361,6 @@ void PlayInfoDlgImpl::RestoreSize()
 {
     //if( IsFullScreen() )
 	{
-////TODO		m_pButtonLayout = new Q3HBoxLayout; 
-//		// ** see PlayInfoDlg.cpp for the values **
-////TODO		m_pButtonLayout->setSpacing( 4 );	// 6
-////TODO		m_pButtonLayout->setMargin( 0 );
-//
-//		// anscheinend werden auch Sub-Layouts zerstoert
-//		// wenn der Eltern-Layout-Container zerstoert wird !
-//// TODO !!!
-//		m_pLeftContainer = new Q3VBoxLayout( 0, 0, 6, "m_pLeftContainer");
-//		m_pButtonContainer = new Q3HBoxLayout( 0, 1, 1, "m_pButtonContainer");
-//		m_pButtonContainer->addWidget( m_pRun );
-//		m_pButtonContainer->addWidget( m_pPause );
-//		m_pButtonContainer->addWidget( m_pStop );
-//		m_pButtonContainer->addWidget( m_pFullScreen );
-//		m_pLeftContainer->addLayout( m_pButtonContainer );
-//		m_pLeftContainer->addWidget( m_pDisplayImage );
-//
-//		m_pButtonLayout->addLayout( m_pLeftContainer );
-//	    QSpacerItem* spacer1 = new QSpacerItem( 19, 15, QSizePolicy::Expanding, QSizePolicy::Minimum );
-//	    m_pButtonLayout->addItem( spacer1 );
-//		m_pButtonLayout->addWidget( m_pScaleImageGroup );
-//	    QSpacerItem* spacer2 = new QSpacerItem( 16, 16, QSizePolicy::Expanding, QSizePolicy::Minimum );
-//	    m_pButtonLayout->addItem( spacer2 );
-//	    m_pButtonLayout->addWidget( m_pClose );
-//		// ** see PlayInfoDlg.cpp for the values **
-//	    PlayInfoDialogLayout->setSpacing( 2 );	// 6
-//		PlayInfoDialogLayout->setMargin( 2 );	// 11
-//	    PlayInfoDialogLayout->addLayout( m_pButtonLayout );
-//
 		m_pDisplayImage->show();
 		m_pRun->show();
 		m_pPause->show();
@@ -624,28 +371,13 @@ void PlayInfoDlgImpl::RestoreSize()
         m_pOperationGroup->show();
 
 
-//        m_aScreenGroup->layout()->setSpacing(6);
         m_aScreenGroup->layout()->setContentsMargins(3,3,3,3);
         m_aScreenGroup->setContentsMargins(6,6,6,6);
         this->layout()->setContentsMargins(6,6,6,6);
-//        this->layout()->setSpacing(6);
-
-        //m_pCanvasView->setLineWidth( 2 );
-//		m_pCanvasView->setFrameShadow( Q3Frame::Sunken );
 
         showNormal();
 
-//        this->restoreGeometry(g_test);
-
-//        this->repaint();
         this->resize(this->width(),this->height()+1);
-
-       // resize();
-//        m_pCanvasView->showNormal();
-
-		// ** the method showFullScreen changes the parent and the flags
-		// ** so this values should be restored now !
-//		reparent( m_pParent, m_flLastFlags, m_aLastPos, TRUE );
 	}
 }
 
@@ -796,7 +528,6 @@ int PlayInfoDlgImpl::SetTextXY( int x, int y, const string & sText )
 	pText->setFont( m_aActFont );
     pText->setBrush( QBrush( m_aActColor ) );
     pText->setPos( x, y );
-//	pText->setZ( 100 );
 	pText->show();
 
 	m_aItemContainer.push_back( CanvasItem( pText ) );
@@ -968,14 +699,14 @@ void PlayInfoDlgImpl::sltCloseDialog()
 {
 	TransferDataFromControl();
 
-	emit accept();
+    accept();
 
 	emit sigDialogClosed();
 }
 
 void PlayInfoDlgImpl::sltCancelDialog()
 {
-	emit reject();
+    reject();
 
 	emit sigDialogClosed();
 }
@@ -1152,8 +883,6 @@ void PlayInfoDlgImpl::sltFullScreen()
 	Maximize();
 }
 
-#include <math.h>
-
 static bool is_approx(double value1, double value2)
 {
     const double EPS = 0.02;
@@ -1223,82 +952,19 @@ void PlayInfoDlgImpl::TransferDataFromControl()
 }
 
 const int BORDER = 0;
-/*
-QSize PlayInfoDlgImpl::GetViewSizeForImage( const QImage & aImage ) const
-{
-    QRect aFrameRect = m_pCanvasView->geometry();   // frameRect()
-    QSize aRet( aFrameRect.size() );
 
-    if( !aImage.isNull() )
-    {
-        if( m_pScaleOriginal->isChecked() )
-        {
-            aRet = aImage.size();
-        }
-        else if( m_pScaleFillX->isChecked() )
-        {
-            m_pCanvasView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-            int SCROLLBAR = m_pCanvasView->verticalScrollBar()->frameSize().width();
-            int iCalcHeight = (aFrameRect.width()-SCROLLBAR) * aImage.height() / aImage.width();
-            aRet = QSize( aFrameRect.width()-SCROLLBAR, (double)(iCalcHeight>aFrameRect.height() ? iCalcHeight : aFrameRect.height())-SCROLLBAR );
-        }
-        else if( m_pScaleFillY->isChecked() )
-        {
-            m_pCanvasView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-            int SCROLLBAR = m_pCanvasView->horizontalScrollBar()->frameSize().height();
-            int iCalcWidth = (aFrameRect.height()-SCROLLBAR) * aImage.width() / aImage.height();
-            aRet = QSize( (iCalcWidth>aFrameRect.width() ? iCalcWidth : aFrameRect.width())-SCROLLBAR, aFrameRect.height()-SCROLLBAR );
-        }
-        else if( m_pScaleExpand->isChecked() )
-        {
-            m_pCanvasView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-            m_pCanvasView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-            aRet = QSize( aFrameRect.width()-BORDER, aFrameRect.height()-BORDER );
-        }
-        else if( m_pScaleOptimal->isChecked() )
-        {
-            m_pCanvasView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-            m_pCanvasView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-            int screenDx = m_pCanvasView->width()-BORDER;
-            int screenDy = m_pCanvasView->height()-BORDER;
-            int imgDx = aImage.width();
-            int imgDy = aImage.height();
-            double screenRatio = (double)screenDx/(double)screenDy;
-            double imgRatio = (double)imgDx/(double)imgDy;
-            if( imgRatio>screenRatio )
-            {
-                // use screen dx for image dx and use image ratio to calculate new image dy
-                aRet = QSize( screenDx, (int)((double)screenDx/imgRatio) );
-            }
-            else
-            {
-                aRet = QSize( (int)((double)screenDy*imgRatio), screenDy );
-            }
-        }
-    }
-
-    return aRet;
-}
-*/
 QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
 {
 	QImage aScaledImage;
 
-   // cout << "doscaleimage " << m_pCanvasView->width() << " " << m_pCanvasView->height() << endl;
-
 	if( m_pDisplayImage->isChecked() )
 	{
-		//QRect aFrameRect = m_pFrame->frameRect();
         QRect aFrameRect = m_pCanvasView->geometry();   // frameRect()
 
-//		m_aScaleTime.Start();
 		if( !aImage.isNull() )
 		{
 			if( m_pScaleOriginal->isChecked() )
 			{
-// TODO gulp problem unter mac und windows !?
-//                m_pCanvasView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-//                m_pCanvasView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
                 m_pCanvasView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);       // anscheinend ok fuer mac und windows !
                 m_pCanvasView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
                 aScaledImage = aImage;
@@ -1308,10 +974,8 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
 			{
                 m_pCanvasView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
                 m_pCanvasView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-                //aFrameRect = m_pCanvasView->geometry();
                 int SCROLLBAR = m_pCanvasView->verticalScrollBar()->frameSize().width();
                 int iCalcHeight = (aFrameRect.width()-SCROLLBAR) * aImage.height() / aImage.width();
-                //cout << "SCROLLBAR x " << SCROLLBAR << " " << iCalcHeight << endl;
                 aScaledImage = aImage.scaled( aFrameRect.width()-SCROLLBAR, iCalcHeight, Qt::KeepAspectRatio );
                 m_pScene->setSceneRect(0.0,0.0,(double)aScaledImage.width(),(double)(iCalcHeight>aFrameRect.height() ? iCalcHeight : aFrameRect.height())-SCROLLBAR);
             }
@@ -1319,10 +983,8 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
 			{
                 m_pCanvasView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
                 m_pCanvasView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-                //aFrameRect = m_pCanvasView->geometry();   // frameRect()
                 int SCROLLBAR = m_pCanvasView->horizontalScrollBar()->frameSize().height();
                 int iCalcWidth = (aFrameRect.height()-SCROLLBAR) * aImage.width() / aImage.height();
-                //cout << "SCROLLBAR y " << SCROLLBAR << " " << iCalcWidth << endl;
                 aScaledImage = aImage.scaled( iCalcWidth, aFrameRect.height()-SCROLLBAR, Qt::KeepAspectRatio );
                 m_pScene->setSceneRect(0.0,0.0,(double)(iCalcWidth>aFrameRect.width() ? iCalcWidth : aFrameRect.width())-SCROLLBAR,(double)aScaledImage.height());
             }
@@ -1358,15 +1020,6 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
 		{
 			//aScaledImage = QImage();
 		}
-//		m_aScaleTime.Stop();
-		// ** for performance tests...
-		//cout << "scale= " << m_aScaleTime.GetAverageTimeInMS() << endl;
-/*
-        cout << "geoFRAME:   " <<  m_pCanvasView->geometry().x() << " " << m_pCanvasView->geometry().y() << " size: " << m_pCanvasView->geometry().width() << " " << m_pCanvasView->geometry().height() << endl;
-        cout << "scaleIMAGE: " << aScaledImage.width() << " " << aScaledImage.height() << endl;
-        cout << "frameRect   " << aFrameRect.width() << " " << aFrameRect.height() << endl;
-        cout << "sceneRect   " << m_pCanvasView->sceneRect().x() << " " << m_pCanvasView->sceneRect().y() << " dim: " << m_pCanvasView->sceneRect().width() << " " << m_pCanvasView->sceneRect().height() << endl;
-*/
     }
 	else
 	{

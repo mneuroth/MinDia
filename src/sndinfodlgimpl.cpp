@@ -22,8 +22,8 @@
 #include "soundinfo.h"
 #include "misctools.h"
 
-#include <qlabel.h>
-#include <qpushbutton.h>
+#include <QLabel>
+#include <QPushButton>
 #include <QCloseEvent>
 #include <QKeyEvent>
 #include <QTableWidget>
@@ -89,14 +89,14 @@ void SoundInfoDlgImpl::sltCloseDialog()
 
 	emit sigDialogClosed();
 
-	emit accept();
+    accept();
 }
 
 void SoundInfoDlgImpl::sltDialogCanceled()
 {
 	emit sigDialogClosed();
 
-	emit reject();
+    reject();
 }
 
 void SoundInfoDlgImpl::sltNewRow()
@@ -189,9 +189,8 @@ void SoundInfoDlgImpl::sltValueChanged( int /*iRow*/, int /*iColumn*/ )
     // wird nicht benoetigt, da beim schliessen des dialogs die uebertragung der daten erfolgt
     // waehrend dialog offen ist braucht man eigentlich keine aktualisierung !
     // Ansonsten ist dies hier eine rekursive endlos-schleife ! Event wird durch TransferData() ausgeloest !!!
-// TODO
-//	TransferData( false );
-//	TransferData( true );
+    //TransferData( false );
+    //TransferData( true );
 	UpdateCalculatedData();
 }
 
@@ -300,7 +299,7 @@ void SoundInfoDlgImpl::TransferData( bool bToTable )
 				m_pSoundData->push_back( hItem );
 			}
 
-			// min todo --> hier ggf. optimierte changed-Behandlung
+            // hier ggf. optimierte changed-Behandlung durchfuehren ?
 			m_pSoundData->SetChanged();
 
             emit sigDocumentUpdate();

@@ -107,7 +107,6 @@ DocumentAndControler::DocumentAndControler( bool bEnableScript,
     connect( this, SIGNAL( sigSelectAllClipboard() ), pMainWindow, SLOT( sltSelectAllClipboard() ) );
     connect( this, SIGNAL( sigDeleteSelectedItems() ), pMainWindow, SLOT( sltDeleteSelectedItems() ) );
 
-    //connect( this, SIGNAL( sigShowActImage(const QString &) ), pMainWindow, SLOT( sltShowImageFile(const QString &) ) );
     connect( this, SIGNAL( sigModusIsSwitched() ), pMainWindow, SLOT( sltModusIsSwitched() ) );
     connect( this, SIGNAL( sigPlayFinished() ), pMainWindow, SLOT( sltPlayFinished() ) );
     connect( this, SIGNAL( sigSelectItem(int,int) ), pMainWindow, SLOT( sltSelectItem(int,int) ) );
@@ -619,10 +618,7 @@ void DocumentAndControler::TriggerDissolveActDiaNo( int iNo, const string & sScr
 	int iDissolveTimeInMS = (int)(dDissolveTime*1000.0);
 	sltSelectItem( iNo, iDissolveTimeInMS );
 
-	//QString s = sFileNameOrScript;
-
-	// ** not needed here, because image will be updated in method sltSelectItem() !!!
-	//emit sigShowActImage( s );
+    // ** no signal to update actual image here, because image will be updated in method sltSelectItem() !!!
 
     if( sScript.size() > 0 )
 	{

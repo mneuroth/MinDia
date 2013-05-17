@@ -5,6 +5,12 @@
         <file>icons/display.png</file>
         <file>icons/thumbnail.png</file>
         <file>icons/tv.png</file>
+        <file>icons/openfile.png</file>
+        <file>icons/pause.png</file>
+        <file>icons/run.png</file>
+        <file>icons/savefile.png</file>
+        <file>icons/stop.png</file>
+        <file>icons/fullscreen.png</file>
     </qresource>
     <qresource prefix="/translations">
         <file>qt_de.qm</file>

@@ -49,21 +49,25 @@ Bugs/TODOs:
 //- Hilfe-Label Anspringen funktioniert fuer Mac nicht ? --> http://www.qtcentre.org/threads/34669-QTextBrowser-go-to-an-anchor
 //    --> F1 kommt nicht vom PlayInfo Dialog zur MainWindow --> wird sofort abgefischt vom MainWindow !!! --> andere Key Behandlungsreihenfolge
 
+//- Icon fuer Windows Version korrekt setzen...
+((- Verzeichnisse fuer Bilder, Sound und Daten korrigieren --> nicht auf installationsverzeichnis gehen sondern auf userdaten (win)
 ((- *.qm Dateien in src.tar.gz aufnehmen
 ((- Sprachresourcen aktualisierens
 - Changes.txt fuer Version erstellen:
     port to Qt4, using phonon instead of external music player, using qserialport, removed script support (temporary)
     live play mark, vorschau in play info, suche auch in attached dyn text, attached dyn text
-- Quellcode aufrauemen
+- knownbugs.txt anlegen --> Zellen-Update Problem unter Mac beschreiben
+((- Quellcode aufrauemen
+- icons.xpm Datei aus source.zip loeschen --> dafuer neue icon *.png aufnehmen
 - ungenutzte SourceCode Dateien in old Verzeichnis verschieben
 - RS232 Kommunikation verbessern -> Verbesserung des RS232 Dialogs zur direkten Ansteuerung --> nicht disablen nach erstem erfolglosen Versuch…
-- Binaere Packete erzeugen
-//- Icon fuer Windows Version korrekt setzen...
-((- Verzeichnisse fuer Bilder, Sound und Daten korrigieren --> nicht auf installationsverzeichnis gehen sondern auf userdaten (win)
+- encoding Text in rolleicom.cpp pruefen
+- CreateMovieDlg SourceCode aufraeumen
+- Binaere Packete erzeugen (Innosetup, macdeploy)
 - Hilfe Dokument / Webseite fuer Bedienung erstellen
 - Hilfe Dialog verbessern --> schoenere Icons verwenden, Signals/Slots verbinden und realisieren, z.B. Suche
-- ggf. test ffmpeg button in export dialog
 
+- ggf. test ffmpeg button in export dialog
 - ggf. automatisch ffmpeg binary suchen (PATH suche)
 - ggf. Geometrie-Zustand von anderen Dialogen ebenfalls sichern und restaurieren
 - ggf. Plot Comments Dialog / Menue entfernen ==> ist nicht an Dias geheftet
@@ -115,10 +119,6 @@ http://sourceforge.net/projects/ffmpeg4android/
 
 #include "mindiawindow.h"
 
-#include "minbase.h"
-#include "iscript.h"
-#include "qtmtlock.h"
-#include "misctools.h"
 
 #include <QPixmap>
 #include <QCloseEvent>
@@ -127,10 +127,29 @@ http://sourceforge.net/projects/ffmpeg4android/
 #include <QTranslator>
 #include <QString>
 #include <QStringList>
-
 #include <QToolBar>
 #include <QMenu>
+#include <QMenuBar>
 #include <QFileDialog>
+#include <QAction>
+#include <QMessageBox>
+#include <QStatusBar>
+#include <QClipboard>
+#include <QTimer>
+#include <QLabel>
+#include <QSpinBox>
+#include <QLineEdit>
+#include <QTextCodec>
+#include <QRadioButton>
+#include <QSettings>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QInputDialog>
+#include <QPrintDialog>
+
+#include "iscript.h"
+#include "qtmtlock.h"
+#include "misctools.h"
 
 #include "configdlgimpl.h"
 #include "comlogimpl.h"
@@ -141,34 +160,8 @@ http://sourceforge.net/projects/ffmpeg4android/
 #include "sndinfodlgimpl.h"
 #include "commentdlgimpl.h"
 #include "helpdlgimpl.h"
-
-#include "ui_AboutExtDlg4.h"
-
 #include "CreateMovieDlg4.h"
-
-#include <qapplication.h>
-#include <qmenubar.h>
-#include <qaction.h>
-#include <qmessagebox.h>
-#include <qstatusbar.h>
-#include <qclipboard.h>
-#include <qtimer.h>
-#include <qlabel.h>
-#include <qspinbox.h>
-#include <qtranslator.h>
-#include <qlineedit.h>
-#include <qtextcodec.h>
-#include <qradiobutton.h> 
-
-#include <QSettings>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QInputDialog>
-#include <QPrintDialog>
-
-//#include <qsound.h>
-
-#include "icons.xpm"
+#include "ui_AboutExtDlg4.h"
 
 #include <stdlib.h>
 
@@ -184,7 +177,7 @@ http://sourceforge.net/projects/ffmpeg4android/
 
 	@author		Michael Neuroth
 	@version	1.0
-	@date		2001-2011
+    @date		2001-2013
 
 	./COPYING
 
@@ -202,7 +195,6 @@ const unsigned long c_ulAutoStartTimeout	= 100;
 
 // ** this function is defined in main.cpp */
 QApplication * GetApplication();
-//QString myProcessLanguage( QTranslator * pTranslator, const QString & sLanguage, QApplication * myqApp );
 
 static MinDiaWindow * g_pMainWindow = 0;
 
@@ -221,6 +213,20 @@ static bool g_bExecuteScript = false;
 bool IsExecuteScriptAllowed()
 {
     return g_bExecuteScript;
+}
+
+// ***********************************************************************
+
+class AboutExtDlg : public QDialog, public Ui_AboutExtDlg
+{
+public:
+    AboutExtDlg( QWidget* parent, Qt::WFlags fl=0 );
+};
+
+AboutExtDlg::AboutExtDlg( QWidget* parent, Qt::WFlags fl )
+: QDialog(parent, fl)
+{
+    setupUi(this);
 }
 
 // ***********************************************************************
@@ -255,7 +261,6 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 
 	// ** prepare application for different languages...**
 	m_pTranslator = new QTranslator( this );
-//	m_sLanguage = myProcessLanguage( m_pTranslator, sLanguage, qApp );
 
     QCoreApplication::setOrganizationName("mneuroth.de");       // mindia
     QCoreApplication::setOrganizationDomain("mneuroth.de");     // mindia.sf.net
@@ -264,11 +269,8 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
     setWindowTitle( tr( "MinDia" ) );
 
 	// set application icon
-    //QPixmap aIcon( mindia_icon );
     QPixmap aIcon(":/icons/mindia_new.png");
     setWindowIcon( aIcon );
-
-	// Add your code
 
 	// *** create some needed sub-dialogs ***
 	m_pLoggingDialog = new ComLoggingDialogImpl( this );
@@ -343,12 +345,11 @@ void MinDiaWindow::CreateMenus()
 {
     // popuplate a menu with all actions
 
-    QPixmap aOpenIcon( fileopen );
-	QPixmap aSaveIcon( filesave );
-	QPixmap aRunIcon( runscript );
-	QPixmap aPauseIcon( pausescript );
-	QPixmap aStopIcon( stopscript );
-    //QPixmap aPlayInfoIcon( playinfo );
+    QPixmap aOpenIcon( ":/icons/icons/openfile.png" );      // original in xmp file contained
+    QPixmap aSaveIcon( ":/icons/icons/savefile.png" );
+    QPixmap aRunIcon( ":/icons/icons/run.png" );
+    QPixmap aPauseIcon( ":/icons/icons/pause.png" );
+    QPixmap aStopIcon( ":/icons/icons/stop.png" );
     QPixmap aPlayInfoIcon(":/icons/icons/display.png");    // for icons see nuvola in Develop/libs/nuvola
 
     QToolBar * pTools = addToolBar("MinDia");
@@ -682,8 +683,6 @@ void MinDiaWindow::CreateMenus()
     QAction * helpAboutQtAction = new QAction( tr( "About &Qt..." ), this );
     helpAboutQtAction->setStatusTip( tr( "About Qt" ) );
     connect( helpAboutQtAction, SIGNAL( triggered() ), this, SLOT( sltShowQtAbout() ) );
-    //QAction * helpLicenseAction = new QAction( tr( "License" ), tr( "&License..." ), this );
-    //connect( helpLicenseAction, SIGNAL( triggered() ), this, SLOT( sltShowLicense() ) );
     QAction * helpAction = new QAction( tr( "&Help..." ), this );
     helpAction->setStatusTip( tr( "Help for this application" ) );
 // do not use short key for help --> otherwise F1 keypress will not be delivered to the non-modal windows in Mac-OS
@@ -723,15 +722,12 @@ void MinDiaWindow::CreateMenus()
 
 void MinDiaWindow::customEvent(QEvent * pEvent)
 {
-// TODO nicht genutzte user events --> loeschen
     if( pEvent->type()==QEvent::User )
     {
         sltUpdate();
-//        sltTest();
     }
     if( pEvent->type()==QEvent::User+1 )
     {
-//        sltUpdate();
         sltTest();
     }
     if( pEvent->type()==_USER_EVENT_GET_SOUND_LENGTH )
@@ -1070,18 +1066,6 @@ void MinDiaWindow::sltDoLogging()
 	}
 }
 
-class AboutExtDlg : public QDialog, public Ui_AboutExtDlg
-{
-public:
-    AboutExtDlg( QWidget* parent, Qt::WFlags fl=0 );
-};
-
-AboutExtDlg::AboutExtDlg( QWidget* parent, Qt::WFlags fl )
-: QDialog(parent, fl)
-{
-    setupUi(this);
-}
-
 void MinDiaWindow::sltShowAbout()
 {
     AboutExtDlg * pAboutDlg = new AboutExtDlg( this );
@@ -1272,7 +1256,7 @@ void MinDiaWindow::sltPrintDoc()
 
 void MinDiaWindow::sltImportXMLDoc()
 {
-	// min todo gulp
+    // TODO: not supported yet !
 	sltShowErrorMessage( tr( "Not implemented yet !" ) );
 }
 
@@ -1529,7 +1513,6 @@ void MinDiaWindow::sltShowStatusBarMessage( const QString & sMsg )
 	}
 }
 
-#include <QDebug>
 void MinDiaWindow::SetHelpFile( HelpDlgImpl * pHelpDialog, const QString & sHelpTag ) const
 {
 	// ** help-file is language sensitive
@@ -1540,9 +1523,7 @@ void MinDiaWindow::SetHelpFile( HelpDlgImpl * pHelpDialog, const QString & sHelp
     QUrl aUrl( sHelp );
 
 	// ** and add the tag for the jump in the document
-    //sHelp += "#" + sHelpTag;
     aUrl.setFragment( sHelpTag );
-    qDebug() << " set help " << sHelpTag << endl;
 
 	// ** possible Help tags are (see code: emit sigDialogHelp) **
 	/*
@@ -1590,20 +1571,6 @@ void MinDiaWindow::sltShowHelpForMe()
 {
 	sltShowHelp( /*html-tag*/"mindia" );
 }
-
-/*
-void MinDiaWindow::sltShowImageFile( const QString & sFileName )
-{
-	if( m_pPlayInfoDialog && m_pPlayInfoDialog->isVisible() )
-	{
-        QImage aImage;
-        if( ReadQImage(sFileName, aImage) )
-        {
-            m_pPlayInfoDialog->sltSetImage( aImage );
-        }
-	}
-}
-*/
 
 void MinDiaWindow::sltDoDocumentStateUpdate()
 {
@@ -1663,8 +1630,6 @@ void MinDiaWindow::sltAutoStartTimerEvent()
 void MinDiaWindow::sltStatusUpdateTimerEvent()
 {
 	m_pStatusUpdateTimer->stop();
-
-	//debug: cout << "*** UPDATE act=" << m_pControler->GetPresentation().GetActPlayTime() << " total=" << m_pControler->GetPresentation().GetTotalTime() << endl;
 
 	double dActTime = m_pControler->GetPresentation().GetActPlayTime();
 
@@ -1727,7 +1692,7 @@ void MinDiaWindow::sltStatusUpdateTimerEvent()
 		}
 		else
 		{
-//disable since live play mark support (14.3.2013):			m_pTimeLineView->SetPlayMark( -1 );
+//disabled since live play mark support (14.3.2013):			m_pTimeLineView->SetPlayMark( -1 );
 		}
 	}
 
@@ -1746,7 +1711,6 @@ void MinDiaWindow::sltDoDataChanged()
     //sltDoSyncAllViews();
 	sltDoUpdateAllViews();
 	sltDoDocumentStateUpdate();
-	//m_pControler->sltDataChanged();
 
     // update content of play info dialog (clipping area):
     sltItemSelected( m_iCount, m_pFirstSelectedItem, m_iFirstSelectedItemNo, 0 );
@@ -1814,7 +1778,7 @@ void MinDiaWindow::sltPlayMarkChanged( double dTimePosInSec )
 {
     if( m_pPlayInfoDialog && m_pPlayInfoDialog->isVisible() )
     {
-// TODO gulp --> Performance Optimierung: besser Bilder erst skalieren und dann setzen ?
+// TODO --> Performance Optimierung: besser Bilder erst skalieren und dann setzen ?
         // let the play info dialog decide which output format is needed...
         QImage aImage = m_pControler->GetPresentation().GetSlideForTime( dTimePosInSec*1000.0, -1, -1, false );
         m_pPlayInfoDialog->SetCurrentImage( aImage, /*bForceSet*/true );
@@ -2046,7 +2010,6 @@ bool MinDiaWindow::IsValidClipboardData()
 
 	return false;
 }
-
 
 void MinDiaWindow::closeEvent( QCloseEvent * pCloseEvent )
 {
@@ -2345,7 +2308,7 @@ void MinDiaWindow::SaveSettings()
         aSettings.setValue("App/GeometryCreateMovieDlg",m_aCreateMovieDialogGeometry);
     }
 	aSettings.setValue("App/EnableScript",m_pControler->GetPresentation().GetScriptEnvironment().IsEnabled());
-    // TODO: ggf.
+// TODO: ggf. save data for other dialogs...
     // presentation data
     // presentation events
     // sound data

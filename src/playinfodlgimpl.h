@@ -4,29 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/playinfodlgimpl.h,v $
- *
- *  $Revision: 1.4 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.3  2004/04/09 15:43:28  min
- *	Optimizations for Zaurus port.
- *	
- *	Revision 1.2  2004/02/20 20:11:07  min
- *	Bugfixes and fullscreen button implemented.
- *
- *	Revision 1.1.1.1  2003/08/15 16:38:22  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -56,7 +39,6 @@
 #include <QDialog>
 
 class QGraphicsScene;
-
 class QAction;
 
 class MenuCanvasView;
@@ -91,32 +73,6 @@ private:
 	int		m_iDefaultTimeInMS;
 };
 
-//// *******************************************************************
-///** The context menu for the canvas view
-//  */
-//class PlayInfoContextMenu : public QMenu
-//{
-//	Q_OBJECT
-
-//public:
-//	PlayInfoContextMenu( QWidget * parent, PlayInfoDlgImpl * pMyDialog );
-//	~PlayInfoContextMenu();
-
-//public slots:
-//    void sltStartStopFade();
-//    void sltToggleFullScreen();
-//    void sltClose();
-
-//	void sltImageFormatActivated( int iIndex );
-//	//void sltActivated( int iIndex );
-//	void sltShowMenu();
-
-//private:
-//	PlayInfoDlgImpl *	m_pMyDialog;
-//	QMenu *		        m_pImageFormats;
-//    QAction *           m_pActionFullScreen;
-//};
-
 // *******************************************************************
 /** Implementation of the Play-Info-Dialog
   */
@@ -145,8 +101,6 @@ public:
     void SetImageRatio( ImageRatio ratio );
 
     void SetCurrentImage( const QImage & aImage, bool bForceSet = false );
-
-//    QSize GetViewSizeForImage( const QImage & aImage ) const;
 
     void Refresh();
 

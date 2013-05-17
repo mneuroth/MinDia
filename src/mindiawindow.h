@@ -116,7 +116,7 @@ class CommentDlgImpl;
 class HelpDlgImpl;
 class MinDiaWindow;
 
-// min todo --> richtige Implementation angeben
+// FUTURE --> richtige Implementation angeben
 typedef HItemView	IconItemView;
 typedef HItemView	DiaStateView;
 
@@ -191,7 +191,6 @@ public slots:
 	void sltDoModifyItem();
 	void sltShowModifyItem();
 	void sltDoConfiguration();
-//	void sltDoPlayerConfiguration();
 	void sltDoPlayInfos();
 	void sltShowPlayStatus();
 	void sltDoSoundData();
@@ -207,7 +206,6 @@ public slots:
 	void sltDoLogging();
 	void sltShowAbout();
 	void sltShowQtAbout();
-//	void sltShowLicense();
 
 	// handle gui request in this class and pass file-name to document
 	void sltLoadDoc( const QString & sFileName, bool bExecuteEvent );
@@ -232,7 +230,7 @@ public slots:
 	void sltUpdatePlayMenu();
 	void sltUpdateExtrasMenu();
 	void sltUpdateLastFilesMenu();
-	//void sltUpdateScriptsMenu();
+//	void sltUpdateScriptsMenu();
 
     void sltLastFilesMenuActivated( QAction * pAction );
 
@@ -243,8 +241,6 @@ public slots:
 	void sltShowHelp( const QString & sHelpTag );
 	void sltShowModalHelp( QWidget * pParent, const QString & sHelpTag );
 	void sltShowHelpForMe();
-
-//	void sltShowImageFile( const QString & sFileName );
 
 	void sltDoDocumentStateUpdate();
 	void sltDoDataChanged();
@@ -315,16 +311,16 @@ private:
 	DocumentAndControler *		m_pControler;
 
 	// ** gui elements **
-	QWidget *						m_pHBox;
-	QWidget *						m_pTargetBox;
-    //QWidget *						m_pSourceBox;
+    QWidget *					m_pHBox;
+    QWidget *					m_pTargetBox;
+    //QWidget *					m_pSourceBox;
 
 	HItemView *					m_pSlideView;		// dia pult view
 	TimeLineView *				m_pTimeLineView;	// time line view
 
-    //IconItemView *				m_pDiaPultView;
-    //IconItemView *				m_pAudioPultView;
-    //DiaStateView *				m_pDiaStateView;
+    //IconItemView *			m_pDiaPultView;
+    //IconItemView *			m_pAudioPultView;
+    //DiaStateView *			m_pDiaStateView;
 
 	QLabel *					m_pStatusBarTime;
 	QLabel *					m_pStatusBarModus;

@@ -55,14 +55,14 @@ void ConfigurationDlgImpl::sltCloseDialog()
 {
 	TransferDataFromControl();
 
-	emit accept();
+    accept();
 
 	emit sigDialogClosed();
 }
 
 void ConfigurationDlgImpl::sltCancelDialog()
 {
-	emit reject();
+    reject();
 
 	emit sigDialogClosed();
 }

@@ -692,7 +692,7 @@ void OpItem_Base::Run( int iStartFromPosInMS )
 		}
 	}
     m_aTime.start();
-    m_iElapsedTimeInMS = 0;		// min todo --> hier noch m_iDelayInMS beachten !
+    m_iElapsedTimeInMS = 0;		// FUTURE --> hier noch m_iDelayInMS beachten !
 }
 
 void OpItem_Base::Pause()
@@ -819,7 +819,6 @@ void DynTextContainer::UpdateInfos()
 
 	while( aIter != end() )
 	{
-// gulp49
         (*aIter)->SetCanvas( m_pOutputWindowProxy->GetCanvas() );
 		++aIter;
 	}
@@ -1111,11 +1110,6 @@ DynText::DynText( const string & sText, QGraphicsScene * pOwner )
   m_yOld( -1 ),
   m_pSelectedHelper( 0 )
 {
-//    if( pOwner )
-//    {
-//cout << "DynText" << endl;
-//        pOwner->addItem(this);
-//    }
 	Sync();
 }
 
@@ -1126,7 +1120,6 @@ DynText::~DynText()
 
 XmlTree	DynText::GetXMLTree() const
 {
-// min todo gulp
 	return XmlTree( "DynText" );
 }
 
@@ -1134,7 +1127,6 @@ void DynText::SetCanvas( QGraphicsScene * pCanvas )
 {
     if( pCanvas )
     {
-//cout << "DynText::SetCanvas" << endl;       // gulp49
         pCanvas->addItem(this);         // produces "item has already been added to this scene" after second play !
     }
 
@@ -1166,7 +1158,6 @@ void DynText::SetSelected( bool bSelected )
 		if( !m_pSelectedHelper )
 		{
             m_pSelectedHelper = new QGraphicsRectItem( boundingRect() );
-//cout << "DynText::SetSelected" << endl;
             scene()->addItem(m_pSelectedHelper);
 			m_pSelectedHelper->setPen( QPen( QColor( 255,0,0 ) ) );
 		}
@@ -1747,7 +1738,6 @@ string DynText::GetDataValue( int iIndex ) const
             sRet = GetString();
             break;
         case 3:
-// TODO --> ggf. read only daten anzeigen !
             sRet = GetAttachedSlideUUID();
             break;
     }

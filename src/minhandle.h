@@ -21,14 +21,6 @@
 #ifndef _MINHANDLE_H
 #define _MINHANDLE_H
 
-#ifdef _MSC_VER
-#pragma warning( disable : 4786 )
-// disable warning: '...' : Bezeichner wurde auf '255' Zeichen in den Debug-Informationen reduziert
-// for stl-structs
-#endif
-
-//#include "mstl_iostream.h"		// fuer cout
-
 // *************************************************************************
 /** Implementiert eine Handle-Klassse mit Referenz-Zaehler fuer Zeiger-Objekte. 
   * Abgewandelt fuer Verwaltung von Zeigern, d.h. weitere Indirektionsebene eingefuehrt (3.1.2000)

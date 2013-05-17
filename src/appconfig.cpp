@@ -20,8 +20,10 @@
 
 #include "appconfig.h"
 #include "minbase.h"
-#include "minutils.h"
 #include "iscript.h"
+#include "misctools.h"
+
+#include <QDir>
 
 string GetImagePath()
 {
@@ -30,7 +32,7 @@ string GetImagePath()
 
 	if( hScriptFcn.IsValid() && hScriptFcn->IsOk() )
 	{
-		sPath = hScriptFcn->GetImageDirecotry() + string(FileUtilityObj::GetDirectorySeparatorStrg());
+        sPath = hScriptFcn->GetImageDirecotry() + string(ToStdString(QDir::separator()));
 	}
 
 	return sPath;
@@ -43,7 +45,7 @@ string GetMusicPath()
 
 	if( hScriptFcn.IsValid() && hScriptFcn->IsOk() )
 	{
-		sPath = hScriptFcn->GetMusicDirecotry()+ string(FileUtilityObj::GetDirectorySeparatorStrg());
+        sPath = hScriptFcn->GetMusicDirecotry()+ string(ToStdString(QDir::separator()));
 	}
 
 	return sPath;
@@ -56,7 +58,7 @@ string GetDataPath()
 
 	if( hScriptFcn.IsValid() && hScriptFcn->IsOk() )
 	{
-		sPath = hScriptFcn->GetDataDirecotry()+ string(FileUtilityObj::GetDirectorySeparatorStrg());
+        sPath = hScriptFcn->GetDataDirecotry()+ string(ToStdString(QDir::separator()));
 	}
 
 	return sPath;

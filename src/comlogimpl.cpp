@@ -96,7 +96,7 @@ void ComLoggingDialogImpl::sltCloseDialog()
 {
 	emit sigDialogClosed();
 
-	emit accept();
+    accept();
 }
 
 void ComLoggingDialogImpl::closeEvent( QCloseEvent * pCloseEvent )

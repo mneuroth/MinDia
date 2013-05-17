@@ -56,7 +56,7 @@ DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, Qt::WF
     m_pPrevious->setShortcut( Qt::CTRL+Qt::Key_Left );
     m_pNext->setShortcut( Qt::CTRL+Qt::Key_Right );
 
-	// min todo --> Effekte werden noch nicht unterstuezt
+    // FUTURE --> Effekte werden noch nicht unterstuezt
 	m_pEffectButtonGroup->setEnabled( false );
 
     m_pBoxScripts->setVisible( false );
@@ -318,7 +318,7 @@ void DiaInfoDlgImpl::sltCloseDialog()
 
 	emit sigDialogClosed();
 
-	emit accept();
+    accept();
 }
 
 void DiaInfoDlgImpl::sltDialogCanceled()
@@ -328,7 +328,7 @@ void DiaInfoDlgImpl::sltDialogCanceled()
 
 	emit sigDialogClosed();
 
-	emit reject();
+    reject();
 }
 
 void DiaInfoDlgImpl::sltCreateNewItem()

@@ -28,23 +28,11 @@
 #include <QImageReader>
 #include <QList>
 #include <QUrl>
-#include <QMimeData>
-#include <QMimeSource>
 #include <QDropEvent>
 #include <QString>
 #include <QMap>
 #include <QPair>
 #include <QDir>
-
-#include <stdio.h>
-#include <ctype.h>
-
-#include <string>
-//#include <fstream>
-#include <locale.h>
-#include <algorithm>
-
-using namespace std;
 
 // *******************************************************************
 
@@ -133,20 +121,6 @@ QImage CreateWhiteImage( int iWidth, int iHeight )
 {
     QImage aImage( iWidth, iHeight, /*32*/QImage::Format_RGB32 );
     aImage.fill(255+255*256+255*256*256);
-/*
-    for( int y=0; y<c_iHeight; y++ )
-    {
-        uchar * pLine = aImage.scanLine( y );
-
-        for( int x=0; x<c_iWidth*4; x=x+4 )
-        {
-            pLine[x] = 255;
-            pLine[x+1] = 255;
-            pLine[x+2] = 255;
-            pLine[x+3] = 0;
-        }
-    }
-*/
     return aImage;
 }
 
@@ -276,7 +250,7 @@ bool ReadQImage( const QString & sFileName, QImage & aImageOut )
 
 void ReadQImageOrEmpty( const QString & sFileName, QImage & aImageOut )
 {
-// TODO gulp --> ggf. inklusive image area cachen !
+// TODO --> Performance Optimierung: ggf. inklusive image area cachen !
     if( !ReadQImage(sFileName,aImageOut) )
     {
         aImageOut = CreateWhiteImage();
@@ -454,6 +428,7 @@ double GetFactorForImageRatio( ImageRatio ratio )
     return (double)aSize.width()/(double)aSize.height();
 }
 
+/*
 static ImageRatio GetImageRatio( const QSize & aSize )
 {
     double dFactor = (double)aSize.width()/(double)aSize.height();
@@ -475,6 +450,7 @@ static ImageRatio GetImageRatio( const QSize & aSize )
         return RATIO_USER;
     }
 }
+*/
 
 QString GetSizeString( const QSize & aSize )
 {
