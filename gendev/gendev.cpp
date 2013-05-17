@@ -4,20 +4,12 @@
  *
  *	copyright            : (C) 2002-2003 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/gendev/gendev.cpp,v $
- *
- *  $Revision: 1.1 $
- *
- *	$Log: not supported by cvs2svn $
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002-2003 by Michael Neuroth.							   *
+ * Copyright (C) 20013 by Michael Neuroth.							       *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -31,7 +23,6 @@
 #include "dllbase.h"
 #include "minbase.h"
 #include "minhandle.h"
-//#include "minutils.h"
 
 #include "igendev.h"
 
