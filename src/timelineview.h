@@ -4,23 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/src/timelineview.h,v $
- *
- *  $Revision: 1.2 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.1.1.1  2003/08/15 16:38:22  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -50,7 +39,6 @@ using namespace std;
 
 class DiaPresentation;
 class QMenu;
-class MyDynamicToolTip;
 
 #define _USER_EVENT_GET_SOUND_LENGTH			 QEvent::User+4
 
@@ -79,6 +67,8 @@ private:
   */
 class TimeLineView : public QGraphicsView
 {
+    friend class MyDynamicToolTip;
+
 	Q_OBJECT
 
     typedef vector< minHandle<TimeLineItem> >                                           MyItemContainer;
@@ -160,7 +150,6 @@ private:
     QAction *                   m_pMenuDynTextEdit;
     QGraphicsScene *			m_pCanvas;
 	QSize						m_aSizeHint;
-	MyDynamicToolTip *			m_pToolTip;
 	QPoint						m_aLastMousePos;			// temp
 
     minHandle<QGraphicsLineItem>	m_hPlayMark;

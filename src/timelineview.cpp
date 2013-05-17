@@ -45,42 +45,6 @@
 #include <QGraphicsScene>
 
 // *******************************************************************
-/* TODO Qt4
-class MyDynamicToolTip : public QToolTip
-{
-public:
-    MyDynamicToolTip( QWidget * pParent );
-
-protected:
-    virtual void maybeTip( const QPoint & aPoint );
-};
-
-
-MyDynamicToolTip::MyDynamicToolTip( QWidget * pParent )
-: QToolTip( pParent )
-{
-}
-
-void MyDynamicToolTip::maybeTip( const QPoint &pos )
-{
-    if( !parentWidget()->inherits( "TimeLineView" ) )
-	{
-		return;
-	}
-
-	QString sText;
-    QRect aRect( ((TimeLineView*)parentWidget())->GetTipRect( pos, &sText ) );
-    if( !aRect.isValid() )
-	{
-		return;
-	}
-
-    //QString s;
-    //s.sprintf( "position: %d,%d", r.center().x(), r.center().y() );
-    tip( aRect, sText );
-}
-*/
-// *******************************************************************
 // *******************************************************************
 // *******************************************************************
 
@@ -94,7 +58,6 @@ TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget 
 {
     setAlignment(Qt::AlignLeft|Qt::AlignTop);
     setAcceptDrops(true);
-//TODO porting	setDragAutoScroll( TRUE );
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
@@ -159,21 +122,13 @@ TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget 
 
 	if( pMainWin )
 	{
-//   		connect( this, SIGNAL( sigModifySoundData() ), pMainWin, SLOT( sltShowSoundData() ) );
-//   		connect( this, SIGNAL( sigModifySoundComment() ), pMainWin, SLOT( sltShowSoundComment() ) );
-//   		connect( this, SIGNAL( sigModifyPlotComment() ), pMainWin, SLOT( sltShowPlotComment() ) );
 		connect( this, SIGNAL( sigLoadDoc(const QString &, bool) ), pMainWin, SLOT( sltLoadDoc(const QString &, bool) ) );
 	}
-
-//TODO Qt4	m_pToolTip = new MyDynamicToolTip( this );
-    m_pToolTip = 0;
 }
 
 TimeLineView::~TimeLineView()
 {
 	//let qt delete the object: delete m_pCanvas;
-
-//TODO Qt4	delete m_pToolTip;
 
     delete m_pMenuDynTextEdit;
     
@@ -342,7 +297,7 @@ void TimeLineView::sltItemSelected( int iCount, int iFirstSelectedItemNo )
 
 void TimeLineView::SetPlayMark( double dActPlayTime )
 {
-    const int iDelta = 200;     // TODO --> ggf. komplette Timeline View aktualisieren...
+    const int iDelta = 200;
 
 	int iActPos = (int)(dActPlayTime*g_dFactor);
 
@@ -351,6 +306,7 @@ void TimeLineView::SetPlayMark( double dActPlayTime )
     // ** repaint only needed in play or pause modus
     if( iActPos >= 0 )
     {
+        // Falls Probleme mit Repaint: ggf. komplette Timeline View aktualisieren...
         update( iActPos-iDelta, y(), 2*iDelta+1, /*contentsHeight()*/g_iStartPosY );
         // ** shift viewport, to ensure that the new item is visible
         //int iMargin = 50;
@@ -930,12 +886,16 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
             if( !bCursorSet )
             {
                 // check for touched dynamic text objects
-                bool bIsDynTextSelected = IsDynTextSelected( point );
+                QString sText;
+                bool bIsDynTextSelected = IsDynTextSelected( point, &sText );
                 if( bIsDynTextSelected )
                 {
                     setCursor( Qt::SizeHorCursor );
                     bCursorSet = true;
                     emit sigShowStatusMessage( tr("double mose click or press ALT and left click with mouse to modify item") );
+
+                    // show the full text of the dynamic text as tooltip
+                    QToolTip::showText( pEvent->globalPos(), sText, 0 );
                 }
 
                 if( !bCursorSet )
