@@ -74,6 +74,8 @@ class minService;
 class MINDLLEXPORT minServiceManagerEventInterface
 {
 public:
+    virtual ~minServiceManagerEventInterface()                      {}
+
 	virtual void ServiceRegisterd( long /*nServiceIdIn*/ )			{}
 	virtual void ServiceUnRegisterd( long /*nServiceIdIn*/ )		{}
 };
