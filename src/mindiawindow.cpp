@@ -235,8 +235,8 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
     : QMainWindow( parent, f ),
 	  m_pLoggingDialog( 0 ),
 	  m_pProjectorControlDialog( 0 ),
-	  m_pPresentationEventsDialog( 0 ),
-	  m_pDiaInfoDialog( 0 ),
+      //m_pPresentationEventsDialog( 0 ),
+      m_pDiaInfoDialog( 0 ),
 	  m_pPlayInfoDialog( 0 ),
 	  m_pHelpDialog( 0 ),
 	  m_pStatusUpdateTimer( 0 ),
@@ -256,7 +256,6 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
     g_pMainWindow = this;
 
     setObjectName("MinDiaMainWindow");
-
 
 	// ** prepare application for different languages...**
 	m_pTranslator = new QTranslator( this );
