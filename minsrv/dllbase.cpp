@@ -26,6 +26,41 @@
 
 // *************************************************************************
 
+#if defined(__linux__) || defined(__APPLE__)
+
+static char _GetDirectorySeparator()
+{
+#if defined(__linux__) || defined(__APPLE__)
+    return '/';
+#else
+    return '\\';
+#endif
+}
+
+// Hilfsfunktion fuer SplitPath()
+static void _InsertChar( char * sBuffer, char ch )
+{
+    int nLen = strlen( sBuffer );
+    sBuffer[ nLen ] = ch;
+    sBuffer[ nLen+1 ] = 0;
+}
+
+// Hilfsfunktion fuer SplitPath()
+// Transformation durchfuehren "abc" --> "cba"
+static void _RotateString( char * sBuffer )
+{
+    char sBuf[512];
+    int nLen = strlen( sBuffer );
+    for( int i=0; i<nLen; i++ )
+    {
+        sBuf[ nLen-i-1 ] = sBuffer[i];
+    }
+    sBuf[ nLen ] = 0;
+    strcpy( sBuffer, sBuf );
+}
+
+#endif
+
 static bool SplitPath( const char * sPath, string & sDrive, string & sDir, string & sFileName, string & sExt )
 {
 	char sDriveBuf[512];
