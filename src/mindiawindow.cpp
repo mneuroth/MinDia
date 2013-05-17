@@ -62,7 +62,7 @@ Bugs/TODOs:
 - ungenutzte SourceCode Dateien in old Verzeichnis verschieben
 - RS232 Kommunikation verbessern -> Verbesserung des RS232 Dialogs zur direkten Ansteuerung --> nicht disablen nach erstem erfolglosen Versuch…
 - encoding Text in rolleicom.cpp pruefen
-- CreateMovieDlg SourceCode aufraeumen
+- CreateMovieDlg und main SourceCode aufraeumen
 - Binaere Packete erzeugen (Innosetup, macdeploy)
 - Hilfe Dokument / Webseite fuer Bedienung erstellen
 - Hilfe Dialog verbessern --> schoenere Icons verwenden, Signals/Slots verbinden und realisieren, z.B. Suche

@@ -493,7 +493,7 @@ int main( int argc, char** argv )
     if( !bOk )
     {
         // PREFIX"/share/cliphist2" --> PREFIX from qmake PREFIX=/usr ==> is -DPREFIX=/usr option for compiler (define)
-        bOk = myappTranslator.load(QString(PREFIX)+QString("/share/mindia/mindia_")+sLanguage);
+        bOk = myappTranslator.load(QString(/*PREFIX*/"/usr")+QString("/share/mindia/mindia_")+sLanguage);
     }
 #else
     bOk = bOk;      // disable compiler warning for other platforms than Mac
@@ -544,10 +544,6 @@ int main( int argc, char** argv )
 
 	// ** done **
 
-	// ** need global Translator for the other dialogs...
-//	QTranslator * pTranslator = new QTranslator( &aWindow );
-//	myProcessLanguage( pTranslator, sLanguage, qApp );
-
     // ** load file if any filename is given as an argument
 //	if( !sFileName.isEmpty() )
 //	{
@@ -580,8 +576,6 @@ int main( int argc, char** argv )
 	delete pSrvManager;
 
 	g_pApplication = 0;
-
-//	delete pTranslator;
 
 	return iRet;
 }
