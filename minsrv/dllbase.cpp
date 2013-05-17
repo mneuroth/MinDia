@@ -4,20 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/minsrv/dllbase.cpp,v $
- *
- *  $Revision: 1.1.1.1 $
- *
- *	$Log: not supported by cvs2svn $
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -31,40 +23,8 @@
 #include <string.h>         // for: strlen()
 
 #include "dllbase.h"
-//#include "minutils.h"		// for: FileUtilityObj::SplitPath()
 
 // *************************************************************************
-
-static char _GetDirectorySeparator()
-{
-#if defined(__linux__) || defined(__APPLE__)
-	return '/';
-#else
-	return '\\';
-#endif
-}
-
-// Hilfsfunktion fuer SplitPath()
-static void _InsertChar( char * sBuffer, char ch )
-{
-	int nLen = strlen( sBuffer );
-	sBuffer[ nLen ] = ch;
-	sBuffer[ nLen+1 ] = 0;
-}
-
-// Hilfsfunktion fuer SplitPath()
-// Transformation durchfuehren "abc" --> "cba"
-static void _RotateString( char * sBuffer )
-{
-	char sBuf[512];
-	int nLen = strlen( sBuffer );
-	for( int i=0; i<nLen; i++ )
-	{
-		sBuf[ nLen-i-1 ] = sBuffer[i];
-	}
-	sBuf[ nLen ] = 0;
-	strcpy( sBuffer, sBuf );
-}
 
 static bool SplitPath( const char * sPath, string & sDrive, string & sDir, string & sFileName, string & sExt )
 {
@@ -248,7 +208,7 @@ bool minDllManager::LoadMinDll( const char * sFullDLLNameIn, minDll * & pDllHand
 			pDll = new minDll( hModuleHandle );
 			{
 				minString sDrive, sDirectory, sFileName, sExt;
-				/*FileUtilityObj::*/SplitPath( sFullDLLNameIn, sDrive, sDirectory, sFileName, sExt );
+                SplitPath( sFullDLLNameIn, sDrive, sDirectory, sFileName, sExt );
 				pDll->m_sModulName = sFileName;
 				pDll->m_sDllName = sFileName+sExt;
 				pDll->m_sDllPath = sDrive+sDirectory;

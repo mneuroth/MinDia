@@ -4,20 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/minsrv/minbase.cpp,v $
- *
- *  $Revision: 1.1.1.1 $
- *
- *	$Log: not supported by cvs2svn $
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -34,7 +26,7 @@
 
 minServiceManager *	minServiceManager::m_pGlobServiceManager = 0;
 
-const /*minString*/char * const_InvalidServiceStrg	= "INVALID SERVICE";
+const char * const_InvalidServiceStrg	= "INVALID SERVICE";
 
 // *************************************************************************
 
@@ -100,18 +92,10 @@ private:
 
 // *************************************************************************
 
-#ifdef _MSC_VER
-#pragma warning( disable : 4355 )		// warning C4355: this' : wird in Initialisierungslisten fuer Basisklasse verwendet
-#endif
-
 minServiceManager::minServiceManager()
 	: m_aDllManager( this )
 {
 }
-
-#ifdef _MSC_VER
-#pragma warning( enable : 4355 )		// warning C4355: this' : wird in Initialisierungslisten fuer Basisklasse verwendet
-#endif
 
 minServiceManager::~minServiceManager()
 {

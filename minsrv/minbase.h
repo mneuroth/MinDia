@@ -4,23 +4,12 @@
  *
  *	copyright            : (C) 2002 by Michael Neuroth
  *
- * ------------------------------------------------------------------------
- *
- *  $Source: /Users/min/Documents/home/cvsroot/mindia/minsrv/minbase.h,v $
- *
- *  $Revision: 1.2 $
- *
- *	$Log: not supported by cvs2svn $
- *	Revision 1.1.1.1  2003/08/15 16:38:21  min
- *	Initial checkin of MinDia Ver. 0.97.1
- *	
- *
  ***************************************************************************/
 /***************************************************************************
  *																		   *
  * This file is part of the MinDia package (program to make slide shows),  *
  *																		   *
- * Copyright (C) 2002 by Michael Neuroth.								   *
+ * Copyright (C) 2013 by Michael Neuroth.								   *
  *                                                                         *
  * This program is free software; you can redistribute it and/or modify    *
  * it under the terms of the GNU General Public License as published by    *
@@ -45,14 +34,6 @@
 
 #ifndef _MINBASE_H
 #define _MINBASE_H
-
-#ifdef _MSC_VER
-#pragma warning( disable : 4251 )
-// disable warning: class '...' benoetigt eine DLL-Schnittstelle, die von Clients von class 'minDllManager' verwendet wird
-#pragma warning( disable : 4786 )
-// disable warning: '...' : Bezeichner wurde auf '255' Zeichen in den Debug-Informationen reduziert
-// for stl-structs
-#endif
 
 #include <string>
 #include <list>
@@ -112,8 +93,8 @@ private:
 // *************************************************************************
 // *************************************************************************
 
-const long		const_InvalidServiceId		= -1;
-extern const /*minString*/char * const_InvalidServiceStrg;
+const long		    const_InvalidServiceId		= -1;
+extern const char * const_InvalidServiceStrg;
 
 
 // *************************************************************************
@@ -176,19 +157,6 @@ public:
 		m_bEnabled = true;
 		m_pService = pServiceIn;
 	}
-#ifdef __linux__  // Zuweisungsoperator angeben ist notwendig fuer GCC 2.7.2
-	minServiceData & operator=( const minServiceData & aOther )
-	{
-		if( this != &aOther )
-		{
-			m_bOwner = aOther.m_bOwner;
-			m_bEnabled = aOther.m_bEnabled;
-			m_pService = aOther.m_pService;
-			m_aClientContainer = aOther.m_aClientContainer;			
-		}
-		return *this;
-	}
-#endif
 
 	bool HasNoClients() const								{ return m_aClientContainer.size()==0; }
 	long GetNoOfClients() const								{ return m_aClientContainer.size(); }
