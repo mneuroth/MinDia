@@ -1,5 +1,6 @@
-QMAKE_PRL_BUILD_DIR = /Users/min/Documents/home/Entwicklung/projects/mindia_qt4/qt-qtserialport/src/serialport
+QMAKE_PRL_BUILD_DIR = /Users/min/Documents/home/Entwicklung/projects/mindia_qt4/qt-qtserialport/src/serialport/
 QMAKE_PRO_INPUT = serialport.pro
-QMAKE_PRL_TARGET = libQtSerialPort_debug.1.0.0.dylib
-QMAKE_PRL_CONFIG = include_source_dir lex yacc warn_on debug uic resources sdk rez qt warn_on app_bundle incremental global_init_link_order lib_version_first plugin_no_soname link_prl def_files_disabled exceptions no_mocdepend debug stl qt_framework x86_64 no_mocdepend x86_64 declarative_debug link_pkgconfig module create_prl objective_c x86_64 moc thread dll
+QMAKE_PRL_TARGET = libQtSerialPort_debug.a
+QMAKE_PRL_CONFIG = include_source_dir lex yacc warn_on debug uic resources sdk rez qt warn_on lib_version_first incremental plugin_no_soname link_prl app_bundle def_files_disabled exceptions no_mocdepend debug stl qt_framework x86_64 no_mocdepend link_pkgconfig module create_prl static objective_c x86_64 staticlib static moc thread
 QMAKE_PRL_VERSION = 1.0.0
+QMAKE_PRL_LIBS = -L/Library/Frameworks -F/Library/Frameworks -framework IOKit -framework CoreFoundation -framework QtCore  
