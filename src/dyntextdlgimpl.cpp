@@ -170,20 +170,20 @@ void DynamicTextDlgImpl::UpdateTextData()
 
 double DynamicTextDlgImpl::GetRelX() const
 {
-    return (double)m_pCanvasText->x()/(double)m_pCanvas->width();
+    return (double)m_pCanvasText->x()/(double)m_pClippingArea->rect().width();
 }
 
 double DynamicTextDlgImpl::GetRelY() const
 {
-    return (double)m_pCanvasText->y()/(double)m_pCanvas->height();
+    return (double)m_pCanvasText->y()/(double)m_pClippingArea->rect().height();
 }
 
 void DynamicTextDlgImpl::SetRelPos( double xRel, double yRel )
 {
 	if( xRel>=0 && yRel>=0 )
 	{
-        double x = xRel*m_pCanvas->width();
-        double y = yRel*m_pCanvas->height();
+        double x = xRel*m_pClippingArea->rect().width();
+        double y = yRel*m_pClippingArea->rect().height();
         m_pCanvasText->setPos( x, y );
 		m_pRelPos->setChecked( true );
 	}

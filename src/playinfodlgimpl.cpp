@@ -297,6 +297,8 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt
 
     m_pCanvasView->SetDlg(this);
 
+    SetCurrentImage( m_aActImage );
+
     connect( m_pScene, SIGNAL(sceneRectChanged(QRectF)), this, SLOT(sltSceneRectChanged(QRectF)) );
 }
 
@@ -994,7 +996,8 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
                 m_pCanvasView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
                 aScaledImage = aImage.scaled( aFrameRect.width()-BORDER, aFrameRect.height()-BORDER );
                 // Performance remark: 548x360 --> 1024x768 takes ca. 110ms
-			}
+                m_pScene->setSceneRect(0.0,0.0,(double)(aFrameRect.width()-BORDER), (double)(aFrameRect.height()-BORDER));
+            }
             else if( m_pScaleOptimal->isChecked() )
             {
                 m_pCanvasView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -1005,15 +1008,21 @@ QImage PlayInfoDlgImpl::DoScaleImage( const QImage & aImage )
                 int imgDy = aImage.height();
                 double screenRatio = (double)screenDx/(double)screenDy;
                 double imgRatio = (double)imgDx/(double)imgDy;
+                double dx,dy;
                 if( imgRatio>screenRatio )
                 {
                     // use screen dx for image dx and use image ratio to calculate new image dy
-                    aScaledImage = aImage.scaled( screenDx, (int)((double)screenDx/imgRatio) );
+                    dx = (double)screenDx;
+                    dy = (double)((double)screenDx/imgRatio);
                 }
                 else
                 {
-                    aScaledImage = aImage.scaled( (int)((double)screenDy*imgRatio), screenDy );
+                    dx = (double)((double)screenDy*imgRatio);
+                    dy = (double)screenDy;
                 }
+                // Bugfix: update scene rect because otherwise the text will not be positioned correctly
+                aScaledImage = aImage.scaled( (int)dx, (int)dy );
+                m_pScene->setSceneRect(0.0,0.0,dx,dy);
             }
 		}
 		else
