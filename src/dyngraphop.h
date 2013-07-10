@@ -451,7 +451,10 @@ public:
 
     void AddOperation( OperationT hOp );
     const OperationContainer & GetOperations() const;
-        
+
+    void setOrgFont(const QFont &font);
+    const QFont & orgFont() const;
+
     void Show();
     void Hide();
 
@@ -476,7 +479,7 @@ public:
 	// duplicate all attributes (color, font, size) from the other element
 	void SetAttributesFrom( DynText * pOtherItem );
 
-	void PaintForTime( QPainter & aPainter, double dTimeMS ) const;
+    void PaintForTime( QPainter & aPainter, double dTimeMS, double dScaleFactor ) const;
 	bool IsNextChanging( double dTimeMS, double dDeltaMS ) const;
 
     // *** implement GenericDataInterface ***
@@ -532,7 +535,7 @@ public:
 
 	void SetAttributesForAllItems( minHandle<DynText> hItem );
 
-	void PaintElementsForTime( QPainter & aPainter, double dTimeMS ) const;
+    void PaintElementsForTime( QPainter & aPainter, double dTimeMS, double dScaleFactor ) const;
 	bool IsNextElementChanging( double dTimeMS, double dDeltaMS ) const;
 
     void UpdateShowTimeForDia( const string & sUUID, double dDeltaMS );

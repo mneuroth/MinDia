@@ -66,6 +66,15 @@ Bugs/TODOs:
 - Binaere Packete erzeugen (Innosetup, macdeploy)
 - Hilfe Dokument / Webseite fuer Bedienung erstellen
 - Hilfe Dialog verbessern --> schoenere Icons verwenden, Signals/Slots verbinden und realisieren, z.B. Suche
+((- Text Anzeige mit Live Play Mark ist unterschiedlich zu Play: Position und Groesse falsch --> siehe unterschiedliche Verwendung von GetSlideForTime()
+((   im Show-Play wird ein DynText ein und ausgeschaltet, vorher jedoch die Position gesetzt und diese nicht mehr an die Größe der Ausgabe angepasst !
+((   dito mit Font-Größe
+((   Skalierung Font siehe DynamicTextDlgImpl::SetTextFont( )
+//- Ausschnitt Edit und Ausgabe (PlayInfo) unterschiedlich --> anscheinend ist Optimal initial nicht korrekt gesetzt --> nach manuellem umschalten ok
+- Ausgabegroesse der praesentation wird nicht korrekt angezeigt nach Aenderung
+((- Positionierung text waehrend play ist nicht korrekt
+//- Umschaltung im PlayInfoDialog notwendig bevor text Ausgabe und bild korrekt skaliert wird
+//- Bug: play, anschliessend ist Text nicht mehr korrekt --> text zu klein --> dyngraphop.cpp ==> font original groesse cachen
 
 - ggf. test ffmpeg button in export dialog
 - ggf. automatisch ffmpeg binary suchen (PATH suche)

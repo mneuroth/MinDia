@@ -1390,6 +1390,7 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
     int iIndex1 = -1;
     int iIndex2 = -1;
     int iFadeFactor = 0;
+
     if( GetIndexForTime( dTimeMS, iIndex1, iIndex2, iFadeFactor ) )
     {
         minHandle<DiaInfo> hDia1 = GetDiaAt( iIndex1 );
@@ -1437,8 +1438,10 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
                 aPainter.drawImage( 0, 0, aImage1 );
             }
 
+            // scale output font since 21.6.2013
+            double dScaleX = GetScaleFactorFor( iWidth, iHeight );
             // after the (backgound) image, draw the text and other elements
-            GetDynGraphicData().PaintElementsForTime( aPainter, dTimeMS );
+            GetDynGraphicData().PaintElementsForTime( aPainter, dTimeMS, dScaleX );
 
             aPainter.end();
             return aPixmap;

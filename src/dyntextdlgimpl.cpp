@@ -72,14 +72,16 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, c
 
     show();
 
+    QFont aFont = hItem->orgFont();
+
     m_pText->setText( QString( hItem->text() ) );
     m_pText->setFocus();
-    m_pFontName->setText( hItem->font().family() );
+    m_pFontName->setText( aFont.family() );
     QString sTemp;
-    sTemp = sTemp.setNum( hItem->font().pointSize() );
+    sTemp = sTemp.setNum( aFont.pointSize() );
     m_pFontSize->setText( sTemp );
 
-    SetTextFont( hItem->font() );
+    SetTextFont( aFont );
 
     QColor aColor = hItem->brush().color();
     SetTextColor( aColor );

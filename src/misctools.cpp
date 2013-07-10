@@ -484,3 +484,11 @@ ImageSize GetImageSizeTypeFromSize( const QSize & aSize )
 {
     return (ImageSize)aSize.width();
 }
+
+double GetScaleFactorFor( int iWidth, int iHeight )
+{
+    QSize aClippingAreaSize = GetRatioSizeForAvailableSize( QSize(iWidth,iHeight), GetCurrentImageRatio() );
+    QSize aOutputAreaSize = GetRatioSizeForAvailableSize( GetCurrentOutputSize(), GetCurrentImageRatio() );
+    double dScaleX = (double)aClippingAreaSize.width()/(double)aOutputAreaSize.width();
+    return dScaleX;
+}

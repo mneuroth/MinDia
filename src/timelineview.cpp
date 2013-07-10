@@ -1046,7 +1046,7 @@ void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
     	else if( iRet == 1 )
     	{
     		hItem->setText( aDlg.m_pText->text() );
-    		hItem->setFont( aDlg.GetFont() );
+            hItem->setOrgFont( aDlg.GetFont() );
     		if( aDlg.m_pRelPos->isChecked() )
     		{
     			hItem->SetRelativePos( aDlg.GetRelX(), aDlg.GetRelY() );

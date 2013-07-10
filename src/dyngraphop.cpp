@@ -41,6 +41,14 @@ const char * c_sHide = "Hide";
 const char * c_sShow = "Show";
 const char * c_sDelay = "Delay";
 
+static QFont ScaleFontSize( const QFont & aFontIn, double dScaleFactor )
+{
+    QFont aFont( aFontIn );
+    int iScaledFontSize = (int)((double)aFont.pointSize()*dScaleFactor);
+    aFont.setPointSize( iScaledFontSize );
+    return aFont;
+}
+
 //********************************************************************
 
 OpItem_ChangeColor::OpItem_ChangeColor( DynText * pItem, QColor aStartColor, QColor aStopColor, int iTimeInMS, const string & sClassName )
@@ -330,7 +338,7 @@ void OpItem_ChangeFontSize::Update()
 void OpItem_ChangeFontSize::Reset()
 {
 	OpItem_Base::Reset();
-    QFont aFont = m_pItem->font();
+    QFont aFont = m_pItem->orgFont();
     aFont.setPointSize( m_iStartSize );
     m_pItem->setFont( aFont );
 }
@@ -383,7 +391,7 @@ void OpItem_ChangeFontSize::sltOnTimer()
     if( m_iCount < m_dSteps )
 	{
         int iSize = m_aDelta.GetActValue(m_iCount);
-        QFont aFont = m_pItem->font();
+        QFont aFont = m_pItem->orgFont();
         aFont.setPointSize( iSize );
         m_pItem->setFont( aFont );
         m_iCount++;
@@ -412,7 +420,13 @@ void OpItem_SetRelPos::Update()
 {
     QGraphicsScene * pCanvas = m_pItem->scene();
 
-	if( pCanvas && m_dRelX>=0 && m_dRelY>=0 )
+    // get font scale factor for current output size
+    double dScaleFactor = GetScaleFactorFor( pCanvas->width(), pCanvas->height() );
+
+    // scale the font size
+    m_pItem->setFont( ScaleFontSize( m_pItem->orgFont(), dScaleFactor ) );
+
+    if( pCanvas && m_dRelX>=0 && m_dRelY>=0 )
 	{
 		int x = (int)pCanvas->width()*m_dRelX;
 		int y = (int)pCanvas->height()*m_dRelY;
@@ -1003,14 +1017,14 @@ void DynTextContainer::SetAttributesForAllItems( minHandle<DynText> hOtherItem )
 	Update();
 }
 
-void DynTextContainer::PaintElementsForTime( QPainter & aPainter, double dTimeMS ) const
+void DynTextContainer::PaintElementsForTime( QPainter & aPainter, double dTimeMS, double dScaleFactor ) const
 {
 	const_iterator aIter = begin();
 	while( aIter != end() )
 	{
 		/*IOContainer<DynText>::*/HandleType hItem = *aIter;
 
-		hItem->PaintForTime( aPainter, dTimeMS );
+        hItem->PaintForTime( aPainter, dTimeMS, dScaleFactor );
 
 		++aIter;
 	}
@@ -1132,6 +1146,16 @@ void DynText::SetCanvas( QGraphicsScene * pCanvas )
 
 	setFont( m_aInitFont );
     setBrush( QColor(m_aInitColor) );
+}
+
+void DynText::setOrgFont(const QFont &font)
+{
+    m_aInitFont = font;
+}
+
+const QFont & DynText::orgFont() const
+{
+    return m_aInitFont;
 }
 
 void DynText::Sync()
@@ -1357,7 +1381,7 @@ bool DynText::Read( istream & aStream )
 	aFU.ReadSeparator( aStream );
 	aStream >> iTemp;
     QFont aFont( ToQString( sTemp ), iTemp );
-	m_aInitFont = aFont;
+    setOrgFont( aFont );
 	setFont( aFont );
 	aFU.ReadSeparator( aStream );
 	aStream >> iRed;
@@ -1621,7 +1645,7 @@ void DynText::SetAttributesFrom( DynText * pOtherItem )
 	}
 }
 
-void DynText::PaintForTime( QPainter & aPainter, double dTimeMS ) const
+void DynText::PaintForTime( QPainter & aPainter, double dTimeMS, double dScaleFactor ) const
 {
 	double dStartTimeInMS; 
 	double dShowTimeInMS;
@@ -1633,12 +1657,16 @@ void DynText::PaintForTime( QPainter & aPainter, double dTimeMS ) const
 		double xRel, yRel;
 
         aPainter.setPen( QPen( brush().color() ) );
-		aPainter.setFont( font() );
+
+        // scale the font size
+        QFont aFont = ScaleFontSize( orgFont(), dScaleFactor );
+
+        aPainter.setFont( aFont );
 		if( GetRelativePos( xRel, yRel ) )
 		{
 			int x = xRel*aPainter.viewport().width();
 			int y = yRel*aPainter.viewport().height();
-            aPainter.drawText( x, y, ToQString( GetString() ) );
+            aPainter.drawText( x, y+aFont.pointSize(), ToQString( GetString() ) );
 		}
 		else
 		{

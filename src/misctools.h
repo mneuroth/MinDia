@@ -114,4 +114,6 @@ ImageSize GetImageSizeTypeFromSize( const QSize & aSize );
 // which fits perfectly into the given availabale size
 QSize GetRatioSizeForAvailableSize( QSize aAvailableSize, ImageRatio ratio );
 
+double GetScaleFactorFor( int iWidth, int iHeight );
+
 #endif

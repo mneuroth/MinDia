@@ -527,7 +527,7 @@ int PlayInfoDlgImpl::SetTextXY( int x, int y, const string & sText )
     pText->setText( ToQString(sText) );
     m_pScene->addItem(pText);
 
-	pText->setFont( m_aActFont );
+    pText->setFont( m_aActFont );
     pText->setBrush( QBrush( m_aActColor ) );
     pText->setPos( x, y );
 	pText->show();
