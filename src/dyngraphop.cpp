@@ -1124,7 +1124,7 @@ DynText::DynText( const string & sText, QGraphicsScene * /*pOwner*/ )
   m_yOld( -1 ),
   m_pSelectedHelper( 0 )
 {
-	Sync();
+    Sync();
 }
 
 DynText::~DynText()
@@ -1160,7 +1160,7 @@ const QFont & DynText::orgFont() const
 
 void DynText::Sync()
 {
-	m_aInitFont = font();
+    m_aInitFont = font();
     m_aInitColor = brush().color();
 }
 
@@ -1306,9 +1306,10 @@ bool DynText::Write( ostream & aStream ) const
 	aFU.WriteSeparator( aStream );
 	aStream << y();
 	aFU.WriteSeparator( aStream );
-    WriteString( aStream, ToStdString( font().family() ) );
+    QFont aFont = orgFont();
+    WriteString( aStream, ToStdString( aFont.family() ) );
 	aFU.WriteSeparator( aStream );
-	aStream << font().pointSize();
+    aStream << aFont.pointSize();
 	aFU.WriteSeparator( aStream );
     aStream << brush().color().red();
 	aFU.WriteSeparator( aStream );
@@ -1593,7 +1594,6 @@ void DynText::ChangeDefaultData( double dStartTimeInMS, double dShowTimeInMS )
 	hItem->SetShowAtTimeInMS( (int)dStartTimeInMS );
 	hItem = m_aOpContainer[ c_iHideStopIndex ];
 	hItem->SetDelayInMS( (int)(dStartTimeInMS + dShowTimeInMS) );
-	Sync();
 }
 
 void DynText::GetDefaultData( double & dStartTimeInMS, double & dShowTimeInMS ) const
