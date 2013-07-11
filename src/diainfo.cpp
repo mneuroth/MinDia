@@ -30,11 +30,6 @@
 using namespace std;
 
 // *******************************************************************
-
-const double c_dDefaultDissolveTime = 2.5;
-const double c_dDefaultTimer = 10.0;
-
-// *******************************************************************
 // *******************************************************************
 // *******************************************************************
 
@@ -46,7 +41,7 @@ const int DiaInfo::HORIZONTAL = 0;
 const int DiaInfo::VERTICAL = 1;
 
 
-DiaInfo::DiaInfo( const string & sId, const string & sImageFile, const string & sComment )
+DiaInfo::DiaInfo( const string & sId, const string & sImageFile, double dDissolveTime, double dShowTime, const string & sComment )
 {
     m_sUUID                 = ToStdString(QUuid::createUuid().toString());
 	m_sId					= sId;
@@ -60,8 +55,8 @@ DiaInfo::DiaInfo( const string & sId, const string & sImageFile, const string & 
     m_relDY                 = 1.0;
 
 	// ** fill disolve and timer wiht (default) data
-	AddOperation( TimeOperation( TimeOperation::DISSOLVE_IN, c_dDefaultDissolveTime ) );
-	AddOperation( TimeOperation( TimeOperation::SHOW, c_dDefaultTimer ) );
+    AddOperation( TimeOperation( TimeOperation::DISSOLVE_IN, dDissolveTime ) );
+    AddOperation( TimeOperation( TimeOperation::SHOW, dShowTime ) );
 
 	// ** init temp data
 	m_iPosition				= 0;

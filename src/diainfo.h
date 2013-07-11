@@ -36,6 +36,11 @@ using namespace std;
 #include "writexml.h"
 
 // *******************************************************************
+
+const double c_dDefaultDissolveTime = 2.5;
+const double c_dDefaultTimer = 5.0;
+
+// *******************************************************************
 /** Helperclass to handle a time operation for a dia.
   */
 class TimeOperation
@@ -88,7 +93,7 @@ public:
 class DiaInfo : public IDia
 {
 public:
-	DiaInfo( const string & sId = "", const string & sImageFile = "", const string & sComment = "" );
+    DiaInfo( const string & sId = "", const string & sImageFile = "",  double dDissolveTime = c_dDefaultDissolveTime, double dShowTime = c_dDefaultTimer, const string & sComment = "" );
 	virtual ~DiaInfo();
 
 	XmlTree	GetXMLTree() const;

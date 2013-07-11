@@ -75,6 +75,8 @@ public:
 
 	void SyncViewWithData();
 
+    void AddNewItemAfterSelected( double dDissolveTime, double dShowTime );
+
 public slots:
 	void sltNewItem();
 	void sltUpdateView();

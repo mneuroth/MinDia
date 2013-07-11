@@ -646,17 +646,26 @@ void HItemView::sltItemSelected( int /*iCount*/, int /*iFirstSelectedItemNo*/ )
 	// not needed yet !
 }
 
+void HItemView::AddNewItemAfterSelected( double dDissolveTime, double dShowTime )
+{
+    // ** restore the visible viewport after the operation
+    _RestoreContents aContents( this );
+
+    int iIndex = GetLastSelectedItemIndex();
+
+    AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID(), "", dDissolveTime, dShowTime ) ), iIndex+1, /*bInsert*/true );
+
+    // ** select the new created item
+    sltSelectItem( iIndex+1, 0 );
+}
+
+void GetDefaultTimes( double & dDissolveTime, double & dShowTime );
+
 void HItemView::sltNewItemAfterSelected()
 {
-	// ** restore the visible viewport after the operation
-	_RestoreContents aContents( this );
-
-	int iIndex = GetLastSelectedItemIndex();
-	
-	AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID() ) ), iIndex+1, /*bInsert*/true );
-
-	// ** select the new created item 
-    sltSelectItem( iIndex+1, 0 );
+   double dDissolveTime, dShowTime;
+   GetDefaultTimes( dDissolveTime, dShowTime );
+   AddNewItemAfterSelected( dDissolveTime, dShowTime );
 }
 
 void HItemView::sltDeleteSelectedItem()

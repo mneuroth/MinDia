@@ -71,10 +71,15 @@ Bugs/TODOs:
 ((   dito mit Font-Größe
 ((   Skalierung Font siehe DynamicTextDlgImpl::SetTextFont( )
 //- Ausschnitt Edit und Ausgabe (PlayInfo) unterschiedlich --> anscheinend ist Optimal initial nicht korrekt gesetzt --> nach manuellem umschalten ok
-- Ausgabegroesse der praesentation wird nicht korrekt angezeigt nach Aenderung
+- Ausgabegroesse der praesentation wird nicht korrekt angezeigt nach Aenderung --> ggf. muss playinfo dialog geschlossen und neu geoeffnet werden
 ((- Positionierung text waehrend play ist nicht korrekt
 //- Umschaltung im PlayInfoDialog notwendig bevor text Ausgabe und bild korrekt skaliert wird
 //- Bug: play, anschliessend ist Text nicht mehr korrekt --> text zu klein --> dyngraphop.cpp ==> font original groesse cachen
+//- Fontgroesse aendern funktioniert nicht !
+- Standard Standzeit eingebar machen
+- Effekt (manchmal): Speichern unter merkt nicht korrekt den letzten dateipfad
+- alle Fonts und Font-Groessen gleichzeitig aendern,
+- default font und fontgroesse aenderbar machen
 
 - ggf. test ffmpeg button in export dialog
 - ggf. automatisch ffmpeg binary suchen (PATH suche)
@@ -212,6 +217,12 @@ MinDiaWindow * GetMainWindow()
     return g_pMainWindow;
 }
 
+void GetDefaultTimes( double & dDissolveTime, double & dShowTime )
+{
+    dDissolveTime = GetMainWindow()->GetDefaultDissolveTime();
+    dShowTime = GetMainWindow()->GetDefaultShowTime();
+}
+
 DiaPresentation * GetCurrentPresentation()
 {
     return &(g_pMainWindow->GetDocument()->GetPresentation());
@@ -255,6 +266,7 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 	  m_iFirstSelectedItemNo( -1 ),
 	  m_sLanguage( sLanguage ),
 	  m_dDissolveTime( 2.5 ),
+      m_dShowTime( 5.0 ),
       m_bExpandImage( false ),
       m_bExitOnFinished( false ),
       m_iScreenX( 0 ),
@@ -346,6 +358,16 @@ DocumentAndControler * MinDiaWindow::GetDocument()
 QMenu * MinDiaWindow::GetPluginsMenuPtr()
 {
 	return m_pPlugins;
+}
+
+double MinDiaWindow::GetDefaultDissolveTime() const
+{
+    return m_dDissolveTime;
+}
+
+double MinDiaWindow::GetDefaultShowTime() const
+{
+    return m_dShowTime;
 }
 
 void MinDiaWindow::CreateMenus()
@@ -596,6 +618,9 @@ void MinDiaWindow::CreateMenus()
     m_pPlayEditFadeTimeAction = new QAction( tr( "D&efault dissolve time..." ), this );
     m_pPlayEditFadeTimeAction->setStatusTip( tr( "Edit default dissolve time" ) );
     connect( m_pPlayEditFadeTimeAction, SIGNAL( triggered() ), this, SLOT( sltEditFadeInTime() ) );
+    m_pPlayEditShowTimeAction = new QAction( tr( "Default &show time..." ), this );
+    m_pPlayEditShowTimeAction->setStatusTip( tr( "Edit default show time" ) );
+    connect( m_pPlayEditShowTimeAction, SIGNAL( triggered() ), this, SLOT( sltEditShowTime() ) );
     m_pPlayFadeInAction = new QAction( tr( "&Fade in test" ), this );
     m_pPlayFadeInAction->setStatusTip( tr( "Fade in test (select two dias to enable)" ) );
     m_pPlayFadeInAction->setShortcut(Qt::ALT+Qt::Key_F);
@@ -623,6 +648,7 @@ void MinDiaWindow::CreateMenus()
     m_pPlay->addAction( m_pPlayAddGraphicOpAction );
     m_pPlay->addSeparator();
     m_pPlay->addAction( m_pPlayEditFadeTimeAction );
+    m_pPlay->addAction( m_pPlayEditShowTimeAction );
     m_pPlay->addAction( m_pPlayFadeInAction );
     m_pPlay->addAction( m_pPlayFadeOutAction );
     m_pPlay->addSeparator();
@@ -1806,7 +1832,7 @@ void MinDiaWindow::sltNewItem()
 
 void MinDiaWindow::sltAddItem()
 {
-	m_pSlideView->sltNewItemAfterSelected();
+    m_pSlideView->AddNewItemAfterSelected( m_dDissolveTime, m_dShowTime );
 }
 
 void MinDiaWindow::sltFindItem()
@@ -1842,6 +1868,16 @@ void MinDiaWindow::sltUpdate()
 void MinDiaWindow::sltTest()
 {
     // for testing only
+}
+
+void MinDiaWindow::sltEditShowTime()
+{
+    bool ok;
+    double dValue = QInputDialog::getDouble(this,tr("Enter new default show time"),tr("default show time [s]:"),(double)m_dShowTime,-2147483647,2147483647,1,&ok,/*Qt::WindowFlags flags =*/0);
+    if( ok )
+    {
+        m_dShowTime = dValue;
+    }
 }
 
 void MinDiaWindow::sltEditFadeInTime()
@@ -2281,6 +2317,7 @@ void MinDiaWindow::SaveSettings()
     // settings could be found for Mac plattform: $home/Library/Preferences/de.mneuroth.mindia.plist
     
     aSettings.setValue("App/DefaultDissolveTime",m_dDissolveTime);
+    aSettings.setValue("App/DefaultShowTime",m_dShowTime);
     aSettings.setValue("App/DataFileName",m_sLastFileName);
     aSettings.setValue("App/HistoryFileNames",m_pControler->GetFileHistoryList());
     aSettings.setValue("App/WindowState",saveState());
@@ -2330,6 +2367,7 @@ void MinDiaWindow::LoadSettings()
     QSettings aSettings;
 
     m_dDissolveTime = aSettings.value("App/DefaultDissolveTime",m_dDissolveTime).toDouble();
+    m_dShowTime = aSettings.value("App/DefaultShowTime",m_dShowTime).toDouble();
     m_sLastFileName = aSettings.value("App/DataFileName",m_sLastFileName).toString();
     m_pControler->SetFileHistoryList(aSettings.value("App/HistoryFileNames",QVariant(QStringList())).toStringList());
     restoreState(aSettings.value("App/WindowState").toByteArray());

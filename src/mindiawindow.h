@@ -269,6 +269,7 @@ public slots:
 	void sltEditFadeInTime();
 	void sltFadeInTest();
 	void sltFadeOutTest();
+    void sltEditShowTime();
 
 	void sltModusIsSwitched();
 	void sltPlayFinished();
@@ -290,6 +291,10 @@ signals:
 	void sigDialogHelp( const QString & sHelpTag);
 	void sigStartPresentation();
 	void sigShowPlayInfos();
+
+public:
+    double GetDefaultDissolveTime() const;
+    double GetDefaultShowTime() const;
 
 protected:
 	// ** if document has changed, ask the user for saving the data
@@ -356,7 +361,8 @@ private:
 	QAction *		m_pPlayAddSoundCommentAction;
 	QAction *		m_pPlayAddGraphicOpAction;
 	QAction *		m_pPlayEditFadeTimeAction;
-	QAction *		m_pPlayFadeInAction;
+    QAction *		m_pPlayEditShowTimeAction;
+    QAction *		m_pPlayFadeInAction;
 	QAction *		m_pPlayFadeOutAction;
 
 	QAction *		m_pExtrasConfigAction;
@@ -418,6 +424,7 @@ private:
 	QString			m_sFindText;
 	QString			m_sLanguage;
 	double			m_dDissolveTime;			// in seconds
+    double          m_dShowTime;                // in seconds
 	bool			m_bAutoRun;
 	bool			m_bShowScreen;
 	bool			m_bExpandImage;
