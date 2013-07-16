@@ -75,6 +75,8 @@ enum ImageSize {
 
 QImage CreateWhiteImage( int iWidth = 1024, int iHeight = 768 );
 
+QImage CreateColorImage( const QColor & aColor, int iWidth = 1024, int iHeight = 768 );
+
 QImage GetImageFromFileName( const QString & sImageFileName );
 
 QImage CopyImageArea( const QImage & aImage, double relX, double relY, double relDX, double relDY );

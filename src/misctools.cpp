@@ -43,6 +43,8 @@ public:
 
     const QImage & Get( const QString & sImageFileName );
 
+    unsigned long GetCacheSize() const;
+
 private:
     void CheckCacheSpace();
 
@@ -57,6 +59,16 @@ QImageCache::QImageCache(int iMaxWidth = 1920, int iMaxHeight = 1080, int iMaxIt
       m_iMaxWidth(iMaxWidth),
       m_iMaxHeight(iMaxHeight)
 {
+}
+
+unsigned long QImageCache::GetCacheSize() const
+{
+    unsigned long ulSize = 0;
+    foreach (const QString & sKey, m_aMap.keys())
+    {
+        ulSize += m_aMap[sKey].first.byteCount();
+    }
+    return ulSize;
 }
 
 void QImageCache::CheckCacheSpace()
@@ -91,12 +103,13 @@ const QImage & QImageCache::Get( const QString & sImageFileName )
         // add a new image to the cache
         QImage aImage(sImageFileName);
         // scale to maximum image size (if needed)
-   // disable cache to improve quality !
-   //     if( aImage.width()>m_iMaxWidth || aImage.height()>m_iMaxHeight )
-   //     {
-   //         aImage = aImage.scaled(m_iMaxWidth,m_iMaxHeight,Qt::KeepAspectRatio);
-   //     }
-        if( !aImage.isNull() )
+// TODO: disable cache to improve quality ! --> necessary for zoom into images !
+        // limit size of image in cach --> otherwise 20 x 12MPixel images == 1GByte !
+        if( aImage.width()>m_iMaxWidth || aImage.height()>m_iMaxHeight )
+        {
+            aImage = aImage.scaled(m_iMaxWidth,m_iMaxHeight,Qt::KeepAspectRatio);
+        }
+        //if( !aImage.isNull() )
         {
             m_aMap[sImageFileName] = QPair<QImage,unsigned long>(aImage,1);
         }
@@ -119,24 +132,20 @@ QImageCache g_aImageCache;
 // help function to create a image with a white background
 QImage CreateWhiteImage( int iWidth, int iHeight )
 {
+    return CreateColorImage( QColor("white"), iWidth, iHeight );
+}
+
+QImage CreateColorImage( const QColor & aColor, int iWidth, int iHeight )
+{
     QImage aImage( iWidth, iHeight, /*32*/QImage::Format_RGB32 );
-    aImage.fill(255+255*256+255*256*256);
+    aImage.fill( aColor );
     return aImage;
 }
 
 QImage GetImageFromFileName( const QString & sImageFileName )
 {
     QImage aImage;
-
-    if( !sImageFileName.isEmpty() )
-    {
-        /*bool bOk =*/ ReadQImage( sImageFileName, aImage );
-    }
-    else
-    {
-        aImage = CreateWhiteImage();
-    }
-
+    ReadQImageOrEmpty( sImageFileName, aImage );
     return aImage;
 }
 
@@ -244,13 +253,20 @@ QImage CopyImageArea( const QImage & aImage, double relX, double relY, double re
 
 bool ReadQImage( const QString & sFileName, QImage & aImageOut )
 {
-    aImageOut = g_aImageCache.Get(sFileName);
+// TODO --> Performance Optimierung: ggf. inklusive image area cachen !? --> siehe CopyImageArea !
+    if( QColor::isValidColor(sFileName) )
+    {
+        aImageOut = CreateColorImage( QColor(sFileName) );
+    }
+    else
+    {
+        aImageOut = g_aImageCache.Get(sFileName);
+    }
 	return !aImageOut.isNull();
 }
 
 void ReadQImageOrEmpty( const QString & sFileName, QImage & aImageOut )
 {
-// TODO --> Performance Optimierung: ggf. inklusive image area cachen !
     if( !ReadQImage(sFileName,aImageOut) )
     {
         aImageOut = CreateWhiteImage();
