@@ -111,12 +111,11 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
     if( !m_pImageCache )
     {
         QImage aImage;
-        QImage aImageOrg;
 
-        bool bOk = ReadQImage( sImageFileName, aImageOrg );
+        QImage aImageOrg = ReadQImage( sImageFileName, c_iSlideWidth, c_iSlideHeight );
         m_sImageFileNameCache = sImageFileName;
 
-        if( bOk && (!aImageOrg.isNull()) )
+        if( !aImageOrg.isNull() )
         {
             if( m_hData->IsHorizontalFormat() )
             {

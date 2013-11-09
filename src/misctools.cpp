@@ -142,13 +142,6 @@ QImage CreateColorImage( const QColor & aColor, int iWidth, int iHeight )
     return aImage;
 }
 
-QImage GetImageFromFileName( const QString & sImageFileName )
-{
-    QImage aImage;
-    ReadQImageOrEmpty( sImageFileName, aImage );
-    return aImage;
-}
-
 static QSize GetSizeFor( ImageRatio ratio, QSize aSize = QSize(1920,1920) )
 {
     const int dxRef = aSize.width();
@@ -251,8 +244,9 @@ QImage CopyImageArea( const QImage & aImage, double relX, double relY, double re
     return aImage.copy( GetArea( aImage.size(), relX, relY, relDX, relDY, GetCurrentImageRatio() ) );
 }
 
-bool ReadQImage( const QString & sFileName, QImage & aImageOut )
+QImage ReadQImage( const QString & sFileName, int maxWidth, int maxHeight )
 {
+    QImage aImageOut;
 // TODO --> Performance Optimierung: ggf. inklusive image area cachen !? --> siehe CopyImageArea !
     if( QColor::isValidColor(sFileName) )
     {
@@ -262,15 +256,17 @@ bool ReadQImage( const QString & sFileName, QImage & aImageOut )
     {
         aImageOut = g_aImageCache.Get(sFileName);
     }
-	return !aImageOut.isNull();
+    return aImageOut;
 }
 
-void ReadQImageOrEmpty( const QString & sFileName, QImage & aImageOut )
+QImage ReadQImageOrEmpty( const QString & sFileName, int maxWidth, int maxHeight )
 {
-    if( !ReadQImage(sFileName,aImageOut) )
+    QImage aImageOut = ReadQImage(sFileName, maxWidth, maxHeight );
+    if( aImageOut.isNull() )
     {
-        aImageOut = CreateWhiteImage();
+        aImageOut = CreateWhiteImage( maxWidth, maxHeight );
     }
+    return aImageOut;
 }
 
 bool IsDiaDataFile( const QString & sFileName )

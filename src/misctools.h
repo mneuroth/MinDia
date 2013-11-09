@@ -77,13 +77,11 @@ QImage CreateWhiteImage( int iWidth = 1024, int iHeight = 768 );
 
 QImage CreateColorImage( const QColor & aColor, int iWidth = 1024, int iHeight = 768 );
 
-QImage GetImageFromFileName( const QString & sImageFileName );
-
 QImage CopyImageArea( const QImage & aImage, double relX, double relY, double relDX, double relDY );
 
-bool ReadQImage( const QString & sFileName, QImage & aImageOut );
+QImage ReadQImage( const QString & sFileName, int maxWidth, int maxHeight );
 
-void ReadQImageOrEmpty( const QString & sFileName, QImage & aImageOut );
+QImage ReadQImageOrEmpty( const QString & sFileName, int maxWidth = -1, int maxHeight = -1 );
 
 bool IsDiaDataFile( const QString & sFileName );
 
