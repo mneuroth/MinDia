@@ -66,7 +66,7 @@ void _FadeImage( QPainter * pPainter, int iFadeFactor, const QImage & aImagePrev
 
     pPainter->setRenderHint(QPainter::Antialiasing);
 
-    pPainter->setOpacity(1.0-dFactor);
+    pPainter->setOpacity(1.0/*-dFactor*/);
 
     pPainter->drawImage(QPoint(0,0),aImagePrevious);
     pPainter->setOpacity(dFactor);
