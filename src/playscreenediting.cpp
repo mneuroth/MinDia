@@ -67,8 +67,8 @@ void PlayScreenEditing::GetClippingData( double & relX, double & relY, double & 
 
 void PlayScreenEditing::Rescale()
 {
-    QImage aImage;
-    if( !ReadQImage( m_sImageFileName, aImage ) )
+    QImage aImage = ReadQImage( m_sImageFileName, this->width(), this->height() );
+    if( aImage.isNull() )
     {
         aImage = CreateWhiteImage( this->width(), this->height() );
     }
