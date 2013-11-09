@@ -20,9 +20,10 @@
 
 #include "hitemview.h"
 
-#include "diapresentation.h"
-
 #include "misctools.h"
+
+#include "diapresentation.h"
+#include "mindiawindow.h"
 
 #include <stdio.h>
 
@@ -134,10 +135,10 @@ HItemView::~HItemView()
 	delete m_pContextMenu;
 }
 
-void HItemView::sltNewItem()
+void HItemView::sltNewItem( double dDissolveTime, double dShowTime )
 {
 	// ** create a new dia item
-	AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID() ) ), /*means append*/-1, /*bInsert*/true );
+    AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID(), "", dDissolveTime, dShowTime ) ), /*means append*/-1, /*bInsert*/true );
 }
 
 void HItemView::sltUpdateView()
@@ -525,7 +526,9 @@ void HItemView::dropEvent( QDropEvent * pEvent )
 			for( int i=0; i<(int)aLst.count(); i++ )
 			{
                 sFileName = aLst.at( i ).toLocalFile();
-                AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID(), ToStdString(sFileName) ) ), iIndex+i, /*bInsert*/true );
+                double dDissolveTime = GetMainWindow()->GetDefaultDissolveTime();
+                double dShowTime = GetMainWindow()->GetDefaultShowTime();
+                AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID(), ToStdString(sFileName), dDissolveTime, dShowTime ) ), iIndex+i, /*bInsert*/true );
 			}
 
 			sltSelectItem( iIndex, 0 );

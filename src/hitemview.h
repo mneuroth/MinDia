@@ -78,7 +78,7 @@ public:
     void AddNewItemAfterSelected( double dDissolveTime, double dShowTime );
 
 public slots:
-	void sltNewItem();
+    void sltNewItem( double dDissolveTime, double dShowTime );
 	void sltUpdateView();
 	void sltUpdateSelected();
 	void sltDeleteAllSlectedItems();
