@@ -93,25 +93,6 @@ DiaPresentation::DiaPresentation( bool bEnableScript, DiaCallback * pCallback, c
 	m_aScriptEnv.SetEnabled( bEnableScript );
 }
 
-void DiaPresentation::SyncDataContainers()
-{
-    // synchronize all data for dynamic texts which are attached to a dia
-    // needed if a dia was moved
-    for( unsigned int i=0; i<m_aDiaContainer.size(); i++ )
-    {
-        double dStartTime = GetDiaAbsStartDissolveTime(i);
-        string sUUID = m_aDiaContainer[i]->GetUUID();
-
-        for( unsigned int j=0; j<(unsigned int)m_aDynTextContainer.size(); j++ )
-        {
-            if( sUUID == m_aDynTextContainer[j]->GetAttachedSlideUUID() )
-            {
-                m_aDynTextContainer[j]->UpdateData( dStartTime*1000.0 );
-            }
-        }
-    }
-}
-
 void DiaPresentation::Init()
 {
 	ResetPlay();
@@ -1398,8 +1379,7 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
 
         if( hDia1.IsOk() )
         {
-            QImage aImage1;
-            ReadQImageOrEmpty( ToQString( hDia1->GetImageFile() ), aImage1 );
+            QImage aImage1 = ReadQImageOrEmpty( ToQString( hDia1->GetImageFile() ), iWidth, iHeight );
             aImage1 = CopyImageArea( aImage1, hDia1->GetRelX(), hDia1->GetRelY(), hDia1->GetRelDX(), hDia1->GetRelDY() );
 
             if( bScale )
@@ -1427,8 +1407,7 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
 
             if( hDia2.IsOk() )
             {
-                QImage aImage2;
-                ReadQImageOrEmpty( ToQString( hDia2->GetImageFile() ), aImage2 );
+                QImage aImage2 = ReadQImageOrEmpty( ToQString( hDia2->GetImageFile() ), iWidth, iHeight );
                 aImage2 = CopyImageArea( aImage2, hDia2->GetRelX(), hDia2->GetRelY(), hDia2->GetRelDX(), hDia2->GetRelDY() );
                 aImage2 = aImage2.scaled( iWidth, iHeight );
                 _FadeImage(&aPainter,iFadeFactor,aImage1,aImage2);

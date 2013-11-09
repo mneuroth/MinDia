@@ -444,7 +444,6 @@ public:
     bool IsAttachedToSlide() const;
     string GetAttachedSlideUUID() const;
     void SetAttachedSlideUUID( const string & sUUID, double dRelativeTimeInMS );
-    void UpdateData( double dStartTimeOfAttachedDiaInMS );      // needs to be called after moving of image
 
 	bool Write( ostream & aStream ) const;
 	bool Read( istream & aStream );

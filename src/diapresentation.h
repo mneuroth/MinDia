@@ -96,8 +96,6 @@ class DiaPresentation
 public:
 	DiaPresentation( bool bEnableScript, DiaCallback * pCallback, const string & sName = g_sDefPresentationFileName, minLoggingInterface * pLogging = 0, IDiaOutputWindowInternal *	pOutputWindowProxy = 0 );
 
-    void SyncDataContainers();          // sync data containers after move of dia
-
 	void Clear();
 
 	bool IsChanged() const;

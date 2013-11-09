@@ -1214,17 +1214,6 @@ void DynText::SetAttachedSlideUUID( const string & sUUID, double dRelativeTimeIn
     m_dRelativeTimeInMS = dRelativeTimeInMS;
 }
 
-void DynText::UpdateData( double dStartTimeOfAttachedDiaInMS )
-{
-    if( IsAttachedToSlide() )
-    {
-        double dStartTimeInMS, dShowTimeInMS;
-        GetDefaultData( dStartTimeInMS, dShowTimeInMS );
-        dStartTimeInMS = dStartTimeOfAttachedDiaInMS + m_dRelativeTimeInMS;
-        ChangeDefaultData( dStartTimeInMS, dShowTimeInMS );
-    }
-}
-
 bool DynText::IsPosInElement( int x, int y ) const
 {
     QRectF aRect = boundingRect();

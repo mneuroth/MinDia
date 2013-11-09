@@ -381,8 +381,6 @@ void DocumentAndControler::sltImportDynGraphicData( const QString & sFileName )
 
 void DocumentAndControler::sltDataChanged()
 {
-    m_aPresentation.SyncDataContainers();
-
 	// ** pass signal to observer
 	emit sigDocumentChanged();
 }
