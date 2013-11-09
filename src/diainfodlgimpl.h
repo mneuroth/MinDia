@@ -66,6 +66,7 @@ public slots:
     virtual void sltDataChanged();
     virtual void sltCreateNewItem();
 	virtual void sltDeleteItem();
+    virtual void sltModifyColor();
 
 	virtual void sltTextChanged( const QString & sText );
 	virtual void sltTextChanged();
@@ -93,6 +94,7 @@ private:
 	HItem *				m_pItem;			// NO OWNER !!!
 	minHandle<DiaInfo>	m_hItem;
     PlayScreenEditing * m_pScreen;
+    QColor              m_aCurrentColor;
 
 	QDoubleValidator *	m_pDissolveValidator;
 	QDoubleValidator *	m_pTimerValidator;

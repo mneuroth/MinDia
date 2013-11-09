@@ -35,11 +35,15 @@
 #include <QCloseEvent>
 #include <QKeyEvent>
 #include <QFileDialog>
+#include <QColorDialog>
+#include <QImageReader>
 
 DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, Qt::WFlags fl )
 : QDialog( parent/*, name, modal*/, fl )
 {
     setupUi(this);
+
+    m_aCurrentColor = QColor("white");
 
     m_pItem = 0;
 	m_bDataChanged = false;
@@ -174,9 +178,10 @@ void DiaInfoDlgImpl::sltUpdateData( minHandle<DiaInfo> hData, bool bEnable )
 
 	if( hData.IsOk() )
 	{
-        QImage aImage;
-        ReadQImageOrEmpty( ToQString( hData->GetImageFile() ), aImage );
-        m_pImageSize->setText( QString("%1 x %2").arg(aImage.width()).arg(aImage.height()) );
+        // just get the size of the image
+        QImageReader aImageReader( ToQString( hData->GetImageFile() ) );
+        QSize aSize = aImageReader.size();  // read size without reading image content
+        m_pImageSize->setText( QString("%1 x %2").arg(aSize.width()).arg(aSize.height()) );
 
         m_pIDEdit->setText( ToQString(hData->GetId()) );
         m_pFileNameEdit->setText( ToQString(hData->GetImageFile()) );
@@ -368,6 +373,17 @@ void DiaInfoDlgImpl::sltModifyScript()
         {
             m_pScript->setPlainText( ToQString(sScript) );
         }
+    }
+}
+
+void DiaInfoDlgImpl::sltModifyColor()
+{
+    QColor aColor = QColorDialog::getColor( m_aCurrentColor, this );
+    if( aColor.isValid() )
+    {
+        m_aCurrentColor = aColor;
+        m_pFileNameEdit->setText(m_aCurrentColor.name());
+// TODO --> Aktualisierung der Image Anzeige im Dialog ...
     }
 }
 
