@@ -26,7 +26,6 @@ Bugs/TODOs:
 ((- Aenderung der Show-Zeit fuer DynamicText ermoeglichen
 //- Verschieben von Sound Dateien mit Sound Data Dialog (hoch, runter) funktioniert nicht ==> ggf. Dialog entfernen
 //- ggf. Presentation Data Dialog anzeigen, wenn neue Praesenetation angelegt wird
-
 ((- Sprachresource *.qm korrekt laden
 //- Frage: sind *.qm in .app noch notwendig obwohl *.qm auch als qt-resource enthalten ist ? --> nein
 //- ist Open for Edit notwendig? --> nein, nur wenn scripte enabled sind
@@ -42,22 +41,34 @@ Bugs/TODOs:
 //- Disablen fuer Spalten im CommentDialog realisieren --> fuer attached texts
 //- Live Play Mark Anzeige zeigt falsches Seitenverhaeltnis fuer Images an !
 //- Abbrechen Button fuer CommentDialog realisieren
-- Uebertragung von CommentDialog in Daten funktioniert nicht korrekt ? Aenderung im Dialog werden nicht uebernommen --> fehlt update ?
-    => anscheinend muss Feld verlassen werden bevor Aenderungen akzeptiert werden => Mac only ?
-- ggf. Seitenverhaeltniss fuer Leinwand/PlayInfoDlg entfernen, verwende Seitenverhaeltniss von Praesentation
 //- Uebersetung: Musik --> Ton
 //- Hilfe-Label Anspringen funktioniert fuer Mac nicht ? --> http://www.qtcentre.org/threads/34669-QTextBrowser-go-to-an-anchor
 //    --> F1 kommt nicht vom PlayInfo Dialog zur MainWindow --> wird sofort abgefischt vom MainWindow !!! --> andere Key Behandlungsreihenfolge
-
 //- Icon fuer Windows Version korrekt setzen...
 ((- Verzeichnisse fuer Bilder, Sound und Daten korrigieren --> nicht auf installationsverzeichnis gehen sondern auf userdaten (win)
 ((- *.qm Dateien in src.tar.gz aufnehmen
 ((- Sprachresourcen aktualisierens
+((- Quellcode aufrauemen
+((- Text Anzeige mit Live Play Mark ist unterschiedlich zu Play: Position und Groesse falsch --> siehe unterschiedliche Verwendung von GetSlideForTime()
+((   im Show-Play wird ein DynText ein und ausgeschaltet, vorher jedoch die Position gesetzt und diese nicht mehr an die Größe der Ausgabe angepasst !
+((   dito mit Font-Größe
+((   Skalierung Font siehe DynamicTextDlgImpl::SetTextFont( )
+//- Ausschnitt Edit und Ausgabe (PlayInfo) unterschiedlich --> anscheinend ist Optimal initial nicht korrekt gesetzt --> nach manuellem umschalten ok
+((- Positionierung text waehrend play ist nicht korrekt
+//- Umschaltung im PlayInfoDialog notwendig bevor text Ausgabe und bild korrekt skaliert wird
+//- Bug: play, anschliessend ist Text nicht mehr korrekt --> text zu klein --> dyngraphop.cpp ==> font original groesse cachen
+//- Fontgroesse aendern funktioniert nicht !
+//- Standard Standzeit eingebar machen
+((- Bug: wahrscheinlich existiert Memory Leak --> Speicher geht bei Praesentation auf ueber 1GB ! --> ist original Image groesse 48MB pro Bild !
+//- Bilder in Grundfarben auswaehlbar machen, z. B. schwarz, blau, etc.
+//- Bug: standard dissolve and show time fuer neue dias anwenden
+//- Bug: Praesentations Groesse aendern funktioniert nicht !
+
+Aufgaben vor Release:
 - Changes.txt fuer Version erstellen:
     port to Qt4, using phonon instead of external music player, using qserialport, removed script support (temporary)
     live play mark, vorschau in play info, suche auch in attached dyn text, attached dyn text
 - knownbugs.txt anlegen --> Zellen-Update Problem unter Mac beschreiben
-((- Quellcode aufrauemen
 - icons.xpm Datei aus source.zip loeschen --> dafuer neue icon *.png aufnehmen
 - ungenutzte SourceCode Dateien in old Verzeichnis verschieben
 - RS232 Kommunikation verbessern -> Verbesserung des RS232 Dialogs zur direkten Ansteuerung --> nicht disablen nach erstem erfolglosen Versuch…
@@ -66,20 +77,37 @@ Bugs/TODOs:
 - Binaere Packete erzeugen (Innosetup, macdeploy)
 - Hilfe Dokument / Webseite fuer Bedienung erstellen
 - Hilfe Dialog verbessern --> schoenere Icons verwenden, Signals/Slots verbinden und realisieren, z.B. Suche
-((- Text Anzeige mit Live Play Mark ist unterschiedlich zu Play: Position und Groesse falsch --> siehe unterschiedliche Verwendung von GetSlideForTime()
-((   im Show-Play wird ein DynText ein und ausgeschaltet, vorher jedoch die Position gesetzt und diese nicht mehr an die Größe der Ausgabe angepasst !
-((   dito mit Font-Größe
-((   Skalierung Font siehe DynamicTextDlgImpl::SetTextFont( )
-//- Ausschnitt Edit und Ausgabe (PlayInfo) unterschiedlich --> anscheinend ist Optimal initial nicht korrekt gesetzt --> nach manuellem umschalten ok
-- Ausgabegroesse der praesentation wird nicht korrekt angezeigt nach Aenderung --> ggf. muss playinfo dialog geschlossen und neu geoeffnet werden
-((- Positionierung text waehrend play ist nicht korrekt
-//- Umschaltung im PlayInfoDialog notwendig bevor text Ausgabe und bild korrekt skaliert wird
-//- Bug: play, anschliessend ist Text nicht mehr korrekt --> text zu klein --> dyngraphop.cpp ==> font original groesse cachen
-//- Fontgroesse aendern funktioniert nicht !
-- Standard Standzeit eingebar machen
-- Effekt (manchmal): Speichern unter merkt nicht korrekt den letzten dateipfad
+- Uebertragung von CommentDialog in Daten funktioniert nicht korrekt ? Aenderung im Dialog werden nicht uebernommen --> fehlt update ?
+    => anscheinend muss Feld verlassen werden bevor Aenderungen akzeptiert werden => Mac only ?
+- ggf. Seitenverhaeltniss fuer Leinwand/PlayInfoDlg entfernen, verwende Seitenverhaeltniss von Praesentation
+Bugs:
+- Bug: Fontsize und Fontcolor aendern funktioniert nicht richtig --> Groesse wird verkleinert wenn position geaendert wird
+- Bug: Fontsize/Art aendern ok, Position aendern ok --> alter Font ist wieder restauriert
+//- Bug: left mouse click auf timeline view bewirkt jump zum anfang der scroll line... ==> m_iSelectedItemNo == 0 show selected Image
+//- Bug: click auf Slide-Item in TimeLineView verschiebt scrollbar, falls scrollbar nicht ganz links ist !
+//- Bug: verschieben von Dynamic Text funktioniert nicht korrekt wenn Scrollbar nicht ganz links ist
+//- Bug: Selektieren Dia und Show/Dissolve aendern in TimeLineView funktioniert nicht wenn scrollbar nicht ganz links ist
+//- Bug: wenn dyn Text selektiert und bewegt wird, sollte dazu passendes Dia selektiert werden
+//- Bug: Dyn Texte koennen nicht gut von hinten nach vorne verschoben werden, wenn Scrollbar involviert ist
+((- Bug: wenn horizontale Scrollbar nicht ganz rechts (oder links) und Dia Show Time veraendert wird, wird Zeit maximiert ohne sich zu bewegen
+//- Bug: nicht immer das Dia zentrieren im Timeline window, falls nicht notwendig
+//- Bug: Texte an Bildern bleiben nicht kleben wenn show-time weiter vorne vergroessert wird
+- Bug: Performance schlecht, wenn in TimeLineView ein Item angeclickt wird !!! --> ggf. image cache optimieren !
+- Bug: Performance Problem CPU Auslastung nach einmaligem Play show --> unnoetige? Aufrufe von _FadeImage()
+- Bug: Fuer Play from Dia auch den Sound korrekt/passend abspielen (sound faengt immer von ganz vorne an)
+- Bug: Ausgabegroesse der Praesentation wird nicht korrekt angezeigt nach Aenderung --> ggf. muss playinfo dialog geschlossen und neu geoeffnet werden
+- Bug: Effekt (manchmal): Speichern unter merkt nicht korrekt den letzten dateipfad
+- Optimize: Performance für Image Cache verbessern --> thumbnails in .dia Datei speichern und grosses Bild ggf. nachladen
+Features:
 - alle Fonts und Font-Groessen gleichzeitig aendern,
 - default font und fontgroesse aenderbar machen
+- Alle dissolve und show zeiten gleichzeitig anpassen/aendern
+- Bilder cachen, ggf. Thumbnails in dia-Datei oder in globaler oder lokaler (pro dia-Datei) mindia-Image cache sqlite datenbank?
+- ggf. Raum nach letztem Dia vorsehen, damit man an das Ende der Praesentation drag&droppen kann... --> ggf. leer bild ans Ende einfuegen
+- Dia Dissolv und Show Time als CommentDlg aenderbar machen
+- ggf. Unterstuetzung von gedrehten Images
+- Synchronisiere Timeline mit HItem view besser implementieren
+- Menupunkt: Dia-Show an Musik anpassen
 
 - ggf. test ffmpeg button in export dialog
 - ggf. automatisch ffmpeg binary suchen (PATH suche)
@@ -132,7 +160,6 @@ http://sourceforge.net/projects/ffmpeg4android/
 */
 
 #include "mindiawindow.h"
-
 
 #include <QPixmap>
 #include <QCloseEvent>
@@ -1790,11 +1817,11 @@ void MinDiaWindow::sltItemSelected( int iCount, HItem * pFirstSelectedItem, int 
 		{
             minHandle<DiaInfo> hDiaInfo = pFirstSelectedItem->GetInfoData();
             QString sFileName = ToQString( hDiaInfo->GetImageFile() );
-            m_pPlayInfoDialog->sltSetImage( CopyImageArea( GetImageFromFileName( sFileName ), hDiaInfo->GetRelX(), hDiaInfo->GetRelY(), hDiaInfo->GetRelDX(), hDiaInfo->GetRelDY() ), bIsPlaying, iDissolveTimeInMS );
+            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName ), hDiaInfo->GetRelX(), hDiaInfo->GetRelY(), hDiaInfo->GetRelDX(), hDiaInfo->GetRelDY() ), bIsPlaying, iDissolveTimeInMS );
 		}
 		else
 		{
-            m_pPlayInfoDialog->sltSetImage( GetImageFromFileName( "" ), bIsPlaying, iDissolveTimeInMS );
+            m_pPlayInfoDialog->sltSetImage( ReadQImageOrEmpty( "" ), bIsPlaying, iDissolveTimeInMS );
 		}
 	}
 
@@ -1827,7 +1854,7 @@ void MinDiaWindow::sltSelectItem( int iIndex, int iDissolveTimeInMS )
 
 void MinDiaWindow::sltNewItem()
 {
-	m_pSlideView->sltNewItem();
+    m_pSlideView->sltNewItem( m_dDissolveTime, m_dShowTime );
 }
 
 void MinDiaWindow::sltAddItem()
@@ -1901,12 +1928,12 @@ void MinDiaWindow::sltFadeInTest()
 		{
             minHandle<DiaInfo> hDiaInfo1 = pItem1->GetInfoData();
             QString sFileName1 = ToQString( hDiaInfo1->GetImageFile() );
-            m_pPlayInfoDialog->sltSetImage( CopyImageArea( GetImageFromFileName( sFileName1 ), hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() ), /*bIsPlaying*/false, 0 );
+            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName1 ), hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() ), /*bIsPlaying*/false, 0 );
 
 			int iDissolveTimeInMS = (int)(m_dDissolveTime * 1000.0);
             minHandle<DiaInfo> hDiaInfo2 = pItem2->GetInfoData();
             QString sFileName2 = ToQString( hDiaInfo2->GetImageFile() );
-            m_pPlayInfoDialog->sltSetImage( CopyImageArea( GetImageFromFileName( sFileName2 ), hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() ), /*bIsPlaying*/true, iDissolveTimeInMS );
+            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName2 ), hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() ), /*bIsPlaying*/true, iDissolveTimeInMS );
 		}
 	}
 }
@@ -1922,12 +1949,12 @@ void MinDiaWindow::sltFadeOutTest()
 		{
             minHandle<DiaInfo> hDiaInfo1 = pItem1->GetInfoData();
             QString sFileName1 = ToQString( hDiaInfo1->GetImageFile() );
-            m_pPlayInfoDialog->sltSetImage( CopyImageArea( GetImageFromFileName( sFileName1 ), hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() ), /*bIsPlaying*/false, 0 );
+            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName1 ), hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() ), /*bIsPlaying*/false, 0 );
 
 			int iDissolveTimeInMS = (int)(m_dDissolveTime * 1000.0);
             minHandle<DiaInfo> hDiaInfo2 = pItem2->GetInfoData();
             QString sFileName2 = ToQString( hDiaInfo2->GetImageFile() );
-            m_pPlayInfoDialog->sltSetImage( CopyImageArea( GetImageFromFileName( sFileName2 ), hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() ), /*bIsPlaying*/true, iDissolveTimeInMS );
+            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName2 ), hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() ), /*bIsPlaying*/true, iDissolveTimeInMS );
 		}
 	}
 }
