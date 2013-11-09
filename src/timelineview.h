@@ -172,6 +172,8 @@ private:
 	int							m_iSelectedItemStartPos;
 	bool						m_bDissolveSelected;
 	bool						m_bTotalTimeConstant;
+    bool                        m_bSlideSelected;
+    bool                        m_bSelfTriggered;           // update event is triggered by this view and not by hitemview
 	minHandle<TimeLineItem>		m_hSelectedItem;
 	int							m_iSelectedItemNo;
 	bool						m_bMouseMovedWhilePressed;

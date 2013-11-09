@@ -101,6 +101,8 @@ TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget 
 	m_iSelectedItemNo 		= -1;
 	m_bDissolveSelected 	= false;
 	m_bTotalTimeConstant 	= false;
+    m_bSlideSelected        = false;
+    m_bSelfTriggered        = false;
 	m_bMouseMovedWhilePressed = false;
 	m_iSelectedDynTextIndex	= -1;
 
@@ -199,7 +201,7 @@ void TimeLineView::sltEditDynText()
     ShowModifyDynObjectDialog( iSelectedDynTextIndex );
 }
 
-void TimeLineView::sltDoUpdateView( bool /*bErase*/ )
+void TimeLineView::sltDoUpdateView( bool bErase )
 {
 	if( m_pDiaPres )
 	{
@@ -220,13 +222,14 @@ void TimeLineView::sltDoUpdateView( bool /*bErase*/ )
 		m_aItemContainer.erase( m_aItemContainer.begin(), m_aItemContainer.end() );
 		for( int i=0; i<m_pDiaPres->GetDiaCount(); i++ )
 		{
-			minHandle<TimeLineItem> hItem( new TimeLineItem( m_pCanvas, m_pDiaPres, i, g_dFactor, g_iRampSize, (m_iSelectedItemNo==i) ) );
+            minHandle<TimeLineItem> hItem( new TimeLineItem( m_pCanvas, m_pDiaPres, i, g_dFactor, g_iRampSize, (m_iSelectedItemNo==i) ) );
 			m_aItemContainer.push_back( hItem );
 
-			if( hItem->IsSelected() )
-			{
+            if( hItem->IsSelected() && !m_bSelfTriggered && !bErase )
+            {
 				// ** ensure that the selected item is visible
-                ensureVisible( hItem->GetPositionX(), hItem->GetPositionY(), hItem->GetPositionX()+hItem->GetLength(), hItem->GetHeight() );
+                //centerOn(hItem->GetPositionX(), hItem->GetPositionY());
+                ensureVisible(hItem->GetItem());
             }
 		}
 
@@ -311,7 +314,7 @@ void TimeLineView::SetPlayMark( double dActPlayTime )
         // ** shift viewport, to ensure that the new item is visible
         //int iMargin = 50;
         //ensureVisible( iActPos+20, 0, width()-iMargin, height()-iMargin );
-        ensureVisible( m_hPlayMark.GetPtr(), 0 );
+        //ensureVisible( m_hPlayMark.GetPtr(), 0 );
     }
 
     // ** clear last play mark, after stop
@@ -603,11 +606,14 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 
     if( (pEvent->button() == Qt::LeftButton) )
 	{
+        int iSelectedItemNo = -1;
+
         // ** allow modifiying of items only in edit-modus
 		if( m_pDiaPres->IsEdit() )
 		{
             // ** reset mousemove flag
 			m_bMouseMovedWhilePressed = false;
+            m_bSlideSelected = false;
 
 			int iCount = 0;
 			MyItemContainer::const_iterator aIter = m_aItemContainer.begin();
@@ -625,6 +631,7 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 					m_iSelectedItemNo = iCount;
 					m_bDissolveSelected = false;
 					m_bTotalTimeConstant = false;
+                    m_bSlideSelected = true;
 
 					setCursor( Qt::SizeHorCursor );
 
@@ -650,6 +657,7 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 					m_hSelectedItem = hItem;
 					m_iSelectedItemNo = iCount;
 					m_bDissolveSelected = true;
+                    m_bSlideSelected = true;
 
 					setCursor( Qt::SizeHorCursor );
 
@@ -660,11 +668,17 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 					// ** no, select only item
 
 					m_iSelectedItemNo = iCount;
+                    m_bSlideSelected = true;
 
 					// ** emit the signal for selected item when mouse button is released
 
 					return;
 				}
+                else if( hItem->IsSelected( x, 25 ) )
+                {
+                    // to selecte the slide of the selected/modified dynamic text
+                    iSelectedItemNo = iCount;
+                }
 
 				++iCount;
 				++aIter;
@@ -689,6 +703,8 @@ void TimeLineView::mousePressEvent( QMouseEvent * pEvent )
 			{
 				m_iSelectedDynTextIndex = iIndexOut;
                 m_iSelectedItemStartPos = x;
+                m_bSlideSelected = true;            // select slide at position of modified dynamic text
+                m_iSelectedItemNo = iSelectedItemNo;
 
 				setCursor( Qt::SizeHorCursor );
 			}
@@ -715,23 +731,28 @@ void TimeLineView::mouseReleaseEvent( QMouseEvent * /*pEvent*/ )
 	// ** allow modifiying of items only in edit-modus
 	if( m_pDiaPres->IsEdit() )
 	{
-
-		m_iSelectedItemStartPos = 0;
+        m_iSelectedItemStartPos = 0;
 		m_hSelectedItem = minHandle<TimeLineItem>();
 		m_iSelectedDynTextIndex = -1;
 
 		setCursor( Qt::ArrowCursor );
 
-		if( m_iSelectedItemNo >= 0 )
-		{
-			// ** signal the controler, that the selected item has to be changed
-			emit sigItemSelected( m_iSelectedItemNo, 0 );
-		}
-		else
-		{
-			// ** update view **
-			sltUpdateView();
-		}
+        // modify view only if a slide is really selected !
+        if( m_bSlideSelected )
+        {
+            if( m_iSelectedItemNo >= 0 )
+            {
+                m_bSelfTriggered = true;
+                // ** signal the controler, that the selected item has to be changed
+                emit sigItemSelected( m_iSelectedItemNo, 0 );
+                m_bSelfTriggered = false;
+            }
+            else
+            {
+                // ** update view **
+                sltUpdateView();
+            }
+        }
 
 		// ** update document only if data was changed with mouse move...
 		if( m_bMouseMovedWhilePressed )
@@ -853,7 +874,7 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
 			}
 
 			// ** update view **
-			sltUpdateView();
+            sltUpdateView();
 		}
 		else
 		{

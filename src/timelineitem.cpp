@@ -184,6 +184,11 @@ int TimeLineItem::GetPositionY() const
 	return iOffsetY;
 }
 
+QGraphicsItem * TimeLineItem::GetItem() const
+{
+    return m_pDissolveRamp;
+}
+
 int TimeLineItem::GetLength() const
 {
 	int iNextPosition = (int)(m_pDiaPres->GetDiaAbsStartDissolveTime( m_iSlideNo+1 )*m_dFactor);

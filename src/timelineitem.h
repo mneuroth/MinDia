@@ -24,6 +24,7 @@
 class QGraphicsScene;
 class QGraphicsPolygonItem;
 class QGraphicsSimpleTextItem;
+class QGraphicsItem;
 
 class DiaPresentation;
 
@@ -51,6 +52,8 @@ public:
 	int  GetPositionY() const;
     int	 GetLength() const;
     int	 GetHeight() const;
+
+    QGraphicsItem * GetItem() const;
 
 private:
 	// ** help methods **
