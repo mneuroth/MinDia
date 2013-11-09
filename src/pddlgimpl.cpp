@@ -160,17 +160,18 @@ void PresentationDataDlgImpl::closeEvent( QCloseEvent * pCloseEvent )
 void PresentationDataDlgImpl::showEvent( QShowEvent * /*pShowEvent*/ )
 {
 	TransferDataToControl();
-
+/*
     // get image width and height from presentation data
     unsigned long ulWidth, ulHeight;
     m_pData->GetImageSize( ulWidth, ulHeight );
 
     // update combobox with sizes
     int iCurrentIndex = m_pOutputSize->currentIndex();
-    m_pOutputSize->clear();
-    m_pOutputSize->addItems( GetSizeStrings( GetCurrentImageRatio() ) );
+//    m_pOutputSize->clear();
+//    m_pOutputSize->addItems( GetSizeStrings( GetCurrentImageRatio() ) );
     m_pOutputSize->setCurrentIndex( iCurrentIndex<0 ? 0 : iCurrentIndex );
     // update text input field for user width
+*/
     sltUserWidthChanged( m_pOutputWidth->text() );
 }
 
@@ -179,9 +180,25 @@ void PresentationDataDlgImpl::TransferDataToControl()
 	// ** init the data
 	if( m_pComment && m_pData )
 	{
+        m_pOutputSize->clear();
+        m_pOutputSize->addItems( GetSizeStrings( GetCurrentImageRatio() ) );
+
         QString sComment = ToQString(m_pData->GetComment());
 
 		m_pComment->setText( sComment );
+
+        unsigned long ulWidth, ulHeight;
+        m_pData->GetImageSize( ulWidth, ulHeight );
+        m_pOutputWidth->setText(QString::number(ulWidth));
+        m_pOutputHeight->setText(QString::number(ulHeight));
+
+        QString sSizeStrg = QString("%1:%2").arg(ulWidth).arg(ulHeight);
+
+        int iIndex = m_pOutputSize->findText( sSizeStrg );
+        if( iIndex>=0 )
+        {
+            m_pOutputSize->setCurrentIndex( iIndex );
+        }
 
         ImageRatio aImageRatio = m_pData->GetImageRatio();
 
@@ -238,13 +255,13 @@ void PresentationDataDlgImpl::TransferDataFromControl()
 // TODO --> ggf. message dialog anzeigen ob Aenderungen wirklich uebernommen werden sollen !?
             m_pData->SetImageRatio( aImageRatioNew );
 
-            unsigned long ulWidth, ulHeight;
-            ulWidth = (unsigned long)m_pOutputWidth->text().toInt();
-            ulHeight = (unsigned long)m_pOutputHeight->text().toInt();
-            m_pData->SetImageSize( ulWidth, ulHeight );
-
             bUpdate = true;
         }
+
+        unsigned long ulWidth, ulHeight;
+        ulWidth = (unsigned long)m_pOutputWidth->text().toInt();
+        ulHeight = (unsigned long)m_pOutputHeight->text().toInt();
+        m_pData->SetImageSize( ulWidth, ulHeight );
 
         if( bUpdate )
         {
