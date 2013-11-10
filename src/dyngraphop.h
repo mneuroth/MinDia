@@ -451,6 +451,7 @@ public:
     void AddOperation( OperationT hOp );
     const OperationContainer & GetOperations() const;
 
+    // the unscaled font
     void setOrgFont(const QFont &font);
     const QFont & orgFont() const;
 
