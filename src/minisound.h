@@ -21,20 +21,30 @@
 #ifndef _MINISOUND_H
 #define _MINISOUND_H
 
-#if defined(Q_OS_ANDROID)
-#undef _WITH_PHONON
-#else
-#define _WITH_PHONON
-#endif
-
 #include "soundinfo.h"
 
 #include <QDateTime>		// for QTime
 #include <QThread>
 #include <QString>
+
+#if defined(Q_OS_ANDROID)
+#undef _WITH_PHONON
+#else
+#if QT_VERSION < 0x050000
+#define _WITH_PHONON
+#else
+#undef _WITH_PHONON
+#define _WITH_MULTIMEDIA
+#endif
+#endif
+
 #ifdef _WITH_PHONON
-#include <phonon/AudioOutput>
+#include <phonon/AudioOutput>   // use Multimedia for Qt5
 #include <phonon/MediaObject>
+#endif
+
+#ifdef _WITH_MULTIMEDIA
+#include <QMediaPlayer>
 #endif
 
 // *******************************************************************
@@ -114,6 +124,9 @@ private:
     QString                         m_sSoundFile;
 #ifdef _WITH_PHONON
     Phonon::MediaObject *           m_pPlayer;
+#endif
+#ifdef _WITH_MULTIMEDIA
+    QMediaPlayer *                  m_pPlayer;
 #endif
 };
 

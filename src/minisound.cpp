@@ -51,11 +51,19 @@ miniSound::miniSound( const QString & sWavFileName )
 #ifdef _WITH_PHONON
   , m_pPlayer( 0 )
 #endif
+#ifdef _WITH_MULTIMEDIA
+, m_pPlayer( 0 )
+#endif
 {
 #ifdef _WITH_PHONON
     m_pPlayer = Phonon::createPlayer(Phonon::MusicCategory);
 
     connect(m_pPlayer,SIGNAL(totalTimeChanged(qint64)),this,SLOT(sltTotalTimeChanged(qint64)));
+#endif
+#ifdef _WITH_MULTIMEDIA
+    m_pPlayer = new QMediaPlayer();
+
+    connect(m_pPlayer, SIGNAL(durationChanged(qint64)), this, SLOT(sltTotalTimeChanged(qint64)));
 #endif
     SetWavFile( sWavFileName );
 }
@@ -67,6 +75,13 @@ miniSound::~miniSound()
 	CloseSound();
 
 #ifdef _WITH_PHONON
+    disconnect(m_pPlayer,SIGNAL(totalTimeChanged(qint64)),this,SLOT(sltTotalTimeChanged(qint64)));
+
+    delete m_pPlayer;
+#endif
+#ifdef _WITH_MULTIMEDIA
+    disconnect(m_pPlayer, SIGNAL(durationChanged(qint64)), this, SLOT(sltTotalTimeChanged(qint64)));
+
     delete m_pPlayer;
 #endif
 }
@@ -96,7 +111,9 @@ bool miniSound::SetWavFile( const QString & sWavFileName )
 #ifdef _WITH_PHONON
         m_pPlayer->setCurrentSource(Phonon::MediaSource(sWavFileName));
 #endif
-
+#ifdef _WITH_MULTIMEDIA
+        m_pPlayer->setMedia(QUrl::fromLocalFile(sWavFileName));
+#endif
         m_iOpenCount++;
 
         m_bReadError = false;
@@ -149,7 +166,11 @@ bool miniSound::IsPlaying() const
 #ifdef _WITH_PHONON
     return m_pPlayer->state()==Phonon::PlayingState;
 #else
+#ifdef _WITH_MULTIMEDIA
+    return m_pPlayer->state()==QMediaPlayer::PlayingState;
+#else
     return false;
+#endif
 #endif
 }
 
@@ -158,7 +179,11 @@ bool miniSound::IsPause() const
 #ifdef _WITH_PHONON
     return m_pPlayer->state()==Phonon::PausedState;
 #else
+#ifdef _WITH_MULTIMEDIA
+    return m_pPlayer->state()==QMediaPlayer::PausedState;
+#else
     return false;
+#endif
 #endif
 }
 
@@ -178,7 +203,11 @@ int  miniSound::GetTotalLengthInMS() const
 #ifdef _WITH_PHONON
         return m_pPlayer->totalTime();
 #else
+#ifdef _WITH_MULTIMEDIA
+        return m_pPlayer->duration();
+#else
         return 0;
+#endif
 #endif
     }
 }
@@ -228,7 +257,11 @@ int  miniSound::GetPositionInMSImpl() const
 #ifdef _WITH_PHONON
         return m_pPlayer->currentTime();
 #else
+#ifdef _WITH_MULTIMEDIA
+        return m_pPlayer->position();
+#else
         return 0;
+#endif
 #endif
     }
 }
@@ -251,7 +284,10 @@ bool miniSound::StartPlayImpl( int /*iStartPosInMs*/, int /*iStopPosInMs*/,
 #ifdef _WITH_PHONON
             m_pPlayer->play();
 #endif
-		}
+#ifdef _WITH_MULTIMEDIA
+            m_pPlayer->play();
+#endif
+        }
 
 		return true;
 	}
@@ -275,7 +311,10 @@ bool miniSound::Pause()
 #ifdef _WITH_PHONON
                 m_pPlayer->pause();
 #endif
-			}
+#ifdef _WITH_MULTIMEDIA
+                m_pPlayer->pause();
+#endif
+            }
 			else
 			{
 				m_iMciCmdId = _MCI_PAUSE;
@@ -304,7 +343,10 @@ bool miniSound::Continue()
 #ifdef _WITH_PHONON
                 m_pPlayer->play();
 #endif
-			}
+#ifdef _WITH_MULTIMEDIA
+                m_pPlayer->play();
+#endif
+            }
 			else
 			{
 				m_iMciCmdId = _MCI_CONTINUE;
@@ -336,7 +378,10 @@ bool miniSound::Stop()
 #ifdef _WITH_PHONON
                 m_pPlayer->stop();
 #endif
-			}
+#ifdef _WITH_MULTIMEDIA
+                m_pPlayer->stop();
+#endif
+            }
 			else
 			{
 				m_iMciCmdId = _MCI_STOP;
@@ -370,7 +415,10 @@ bool miniSound::CloseSound()
 #ifdef _WITH_PHONON
             m_pPlayer->stop();
 #endif
-			m_iOpenCount--;
+#ifdef _WITH_MULTIMEDIA
+            m_pPlayer->stop();
+#endif
+            m_iOpenCount--;
 		}
 		else
 		{
