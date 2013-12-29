@@ -2,9 +2,9 @@ TEMPLATE = subdirs
 #SUBDIRS  = minsrv \
 #           gendev \
 #           src
-SUBDIRS = qt-qtserialport\
-          src
+SUBDIRS = src
 
+lessThan(QT_MAJOR_VERSION, 5): SUBDIRS += qt-qtserialport
 
 OTHER_FILES += \
     android/AndroidManifest.xml \
