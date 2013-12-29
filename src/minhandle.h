@@ -127,11 +127,11 @@ public:
 		return !(*this == r);
 	}
 	// dummy Implementationen
-	bool operator<( const minHandle<MyClass> & r ) const
+    bool operator<( const minHandle<MyClass> & /*r*/ ) const
 	{
 		return false;
 	}
-	bool operator>( const minHandle<MyClass> & r ) const
+    bool operator>( const minHandle<MyClass> & /*r*/ ) const
 	{
 		return false;
 	}

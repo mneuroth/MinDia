@@ -38,7 +38,7 @@ class ComLoggingDialogImpl : public QDialog, Ui_ComLoggingDialog, public minLogg
 	Q_OBJECT
 
 public:
-    ComLoggingDialogImpl( QWidget* parent = 0, Qt::WFlags fl = 0 );
+    ComLoggingDialogImpl( QWidget* parent = 0, Qt::WindowFlags fl = 0 );
 	virtual ~ComLoggingDialogImpl();
 
 	// *** implements the minLoggingInterface ***

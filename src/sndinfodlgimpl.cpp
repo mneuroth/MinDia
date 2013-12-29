@@ -32,7 +32,7 @@
 // *******************************************************************
 // *******************************************************************
 
-SoundInfoDlgImpl::SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* parent, Qt::WFlags fl )
+SoundInfoDlgImpl::SoundInfoDlgImpl( SoundInfoContainer * pSoundData, QWidget* parent, Qt::WindowFlags fl )
 : QDialog( parent, fl ),
   m_pSoundData( pSoundData )
 {

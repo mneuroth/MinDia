@@ -37,7 +37,7 @@ class ConfigurationDlgImpl : public QDialog, Ui_ConfigurationDlg
 	Q_OBJECT
 
 public:
-    ConfigurationDlgImpl( DocumentAndControler * pControler, QWidget* parent = 0, Qt::WFlags fl = 0 );
+    ConfigurationDlgImpl( DocumentAndControler * pControler, QWidget* parent = 0, Qt::WindowFlags fl = 0 );
 	virtual ~ConfigurationDlgImpl();
 
 public slots:

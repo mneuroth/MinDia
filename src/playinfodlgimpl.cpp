@@ -254,7 +254,7 @@ QImage _FadeImage( const QImage & aImage1, const QImage & aImage2, int iFactor )
 
 // *******************************************************************
 
-PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt::WFlags fl )
+PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt::WindowFlags fl )
 : QDialog( parent, fl /*| Qt::WStyle_Maximize*/ ),
   m_pParent( parent ),
   m_iFadeInTimeInMS( 0 ),
@@ -849,7 +849,7 @@ void PlayInfoDlgImpl::sltSaveActImage( const QString & sImageFormat )
 
     if( !sFileName.isEmpty() )
 	{
-        /*bool bOk =*/ m_aActImage.save( sFileName, sImageFormat.toAscii().constData() );
+        /*bool bOk =*/ m_aActImage.save( sFileName, sImageFormat.toLatin1().constData() );
 	}
 }
 
@@ -1106,11 +1106,11 @@ void PlayInfoDlgImpl::SetExpandImage( bool bExpand )
 {
 	if( bExpand )
 	{
-		m_pScaleExpand->setChecked( TRUE );
+        m_pScaleExpand->setChecked( true );
 	}
 	else
 	{
-		m_pScaleOriginal->setChecked( TRUE );
+        m_pScaleOriginal->setChecked( true );
 	}
 }
 

@@ -38,7 +38,7 @@ class DynamicTextDlgImpl : public QDialog, public Ui_DynamicTextDlg, public Dyna
 	Q_OBJECT
 
 public:
-    DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, const QString & sUUID1, int iIndex2, const QString & sUUID2, QWidget * parent = 0, QWidget * pMain = 0, Qt::WFlags fl = 0 );
+    DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, const QString & sUUID1, int iIndex2, const QString & sUUID2, QWidget * parent = 0, QWidget * pMain = 0, Qt::WindowFlags fl = 0 );
 	virtual ~DynamicTextDlgImpl();
 
 	double GetRelX() const;

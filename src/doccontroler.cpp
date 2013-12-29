@@ -492,7 +492,7 @@ void DocumentAndControler::sltPlayPresentationAt( int iSelectedIndex )
 	if( bOk )
 	{
 		// ** and start timer imediately, to process the next/first slide
-        m_pTimer->setSingleShot(TRUE);
+        m_pTimer->setSingleShot(true);
         m_pTimer->start( 1 );
 	}
 
@@ -597,7 +597,7 @@ void DocumentAndControler::sltTimerEvent()
 
 		if( m_pTimer )
 		{
-            m_pTimer->setSingleShot(TRUE);
+            m_pTimer->setSingleShot(true);
             m_pTimer->start( iTimer );
 		}
 	}

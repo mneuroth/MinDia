@@ -39,7 +39,7 @@ class PresentationDataDlgImpl : public QDialog, public Ui_PresentationDataDlg
 	Q_OBJECT
 
 public:
-    PresentationDataDlgImpl( DiaPresentation * pData, QWidget* parent = 0, Qt::WFlags fl = 0 );
+    PresentationDataDlgImpl( DiaPresentation * pData, QWidget* parent = 0, Qt::WindowFlags fl = 0 );
 	virtual ~PresentationDataDlgImpl();
 
 public slots:

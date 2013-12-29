@@ -49,7 +49,7 @@ class minLoggingInterface;
 
 // *******************************************************************
 
-static const char * g_sDefPresentationFileName = "diapresentation.dia";
+extern const char * g_sDefPresentationFileName;
 
 // *******************************************************************
 // ** the possible event types for this application **
@@ -94,7 +94,7 @@ public:
 class DiaPresentation
 {
 public:
-	DiaPresentation( bool bEnableScript, DiaCallback * pCallback, const string & sName = g_sDefPresentationFileName, minLoggingInterface * pLogging = 0, IDiaOutputWindowInternal *	pOutputWindowProxy = 0 );
+    DiaPresentation( bool bEnableScript, DiaCallback * pCallback, const string & sName = g_sDefPresentationFileName, minLoggingInterface * pLogging = 0, IDiaOutputWindowInternal *	pOutputWindowProxy = 0 );
 
 	void Clear();
 

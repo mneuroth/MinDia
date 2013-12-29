@@ -76,7 +76,7 @@ http://de.wikipedia.org/wiki/Vorlage:Monitoraufl%C3%B6sungen
                                                     0
 */
 
-PresentationDataDlgImpl::PresentationDataDlgImpl( DiaPresentation * pData, QWidget* parent, Qt::WFlags fl )
+PresentationDataDlgImpl::PresentationDataDlgImpl( DiaPresentation * pData, QWidget* parent, Qt::WindowFlags fl )
   : QDialog(parent, fl),
     m_pData( pData )
 {

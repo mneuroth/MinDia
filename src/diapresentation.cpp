@@ -35,6 +35,8 @@
 #include <QFileInfo>
 #include <QDir>
 
+const char * g_sDefPresentationFileName = "diapresentation.dia";
+
 extern bool IsExecuteScriptAllowed();
 
 void _FadeImage( QPainter * pPainter, int iFadeFactor, const QImage & aImagePrevious, const QImage & aImage );
@@ -1223,7 +1225,7 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 		}
 
 
-        sprintf( sBuffer, QObject::tr( "no=%d/%d ** op=%s ** timer=%6.1lf s --> cmd=\"%s\"" ).toAscii().constData(), m_iActPos+1, GetDiaCount(), aOperation.GetOperationTypeName().c_str(), aOperation.GetOperationTime(), sCmd.toAscii().constData() );
+        sprintf( sBuffer, QObject::tr( "no=%d/%d ** op=%s ** timer=%6.1lf s --> cmd=\"%s\"" ).toLatin1().constData(), m_iActPos+1, GetDiaCount(), aOperation.GetOperationTypeName().c_str(), aOperation.GetOperationTime(), sCmd.toLatin1().constData() );
 
 		m_sStepInfo = sBuffer;
 

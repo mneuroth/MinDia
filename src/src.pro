@@ -6,7 +6,9 @@ TEMPLATE        = app
 #CONFIG          += qt warn_on release thread stl exceptions
 #for debug:
 CONFIG          += qt warn_on thread stl exceptions
-QT              = core gui phonon
+QT              = core gui
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets serialport multimedia printsupport
+lessThan(QT_MAJOR_VERSION, 5): QT += phonon
 QT              -=network
 QT              -=sql
 QT              -=svg
@@ -144,6 +146,7 @@ macx {
     QMAKE_INFO_PLIST = Info.plist
 }
 
+lessThan(QT_MAJOR_VERSION, 5) {
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/release/ -lqtserialport
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/debug/ -lqtserialportd
 else:unix:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/ -lQtSerialPort
@@ -151,6 +154,7 @@ else:unix:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/s
 
 INCLUDEPATH += $$PWD/../qt-qtserialport/include
 DEPENDPATH += $$PWD/../qt-qtserialport/src/serialport
+}
 
 #win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qt-qtserialport/src/serialport/release/libqtserialport.a
 #else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qt-qtserialport/src/serialport/debug/libqtserialportd.a

@@ -37,7 +37,7 @@ class CommentDlgImpl : public QDialog, Ui_CommentDlg
 	Q_OBJECT
 
 public:
-    CommentDlgImpl( GenericCommentContainer * pComments, QWidget* parent = 0, Qt::WFlags fl = 0 );
+    CommentDlgImpl( GenericCommentContainer * pComments, QWidget* parent = 0, Qt::WindowFlags fl = 0 );
 	virtual ~CommentDlgImpl();
 
 public slots:

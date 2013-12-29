@@ -36,7 +36,7 @@
 // *******************************************************************
 // *******************************************************************
 
-DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, const QString & sUUID1, int iIndex2, const QString & sUUID2, QWidget * parent, QWidget * pMain, Qt::WFlags fl )
+DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, const QString & sUUID1, int iIndex2, const QString & sUUID2, QWidget * parent, QWidget * pMain, Qt::WindowFlags fl )
 : QDialog( parent, fl ),
   m_hItem( hItem ),
   m_aInitFont( hItem->orgFont() )

@@ -33,13 +33,14 @@
 #include <QMap>
 #include <QPair>
 #include <QDir>
+#include <QMimeData>
 
 // *******************************************************************
 
 class QImageCache
 {
 public:
-    QImageCache(int iMaxWidth, int iMaxHeight, int iMaxItems);
+    QImageCache(int iMaxWidth = 1920, int iMaxHeight = 1080, int iMaxItems = 20);
 
     const QImage & Get( const QString & sImageFileName );
 
@@ -54,7 +55,7 @@ private:
     QImage                                      m_aEmptyImage;
 };
 
-QImageCache::QImageCache(int iMaxWidth = 1920, int iMaxHeight = 1080, int iMaxItems = 20)
+QImageCache::QImageCache(int iMaxWidth, int iMaxHeight, int iMaxItems)
     : m_iMaxItems(iMaxItems),
       m_iMaxWidth(iMaxWidth),
       m_iMaxHeight(iMaxHeight)
@@ -244,7 +245,7 @@ QImage CopyImageArea( const QImage & aImage, double relX, double relY, double re
     return aImage.copy( GetArea( aImage.size(), relX, relY, relDX, relDY, GetCurrentImageRatio() ) );
 }
 
-QImage ReadQImage( const QString & sFileName, int maxWidth, int maxHeight )
+QImage ReadQImage( const QString & sFileName, int /*maxWidth*/, int /*maxHeight*/ )
 {
     QImage aImageOut;
 // TODO --> Performance Optimierung: ggf. inklusive image area cachen !? --> siehe CopyImageArea !

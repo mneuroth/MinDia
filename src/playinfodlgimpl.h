@@ -84,7 +84,7 @@ class PlayInfoDlgImpl : public QDialog, Ui_PlayInfoDialog, public IDiaOutputWind
 	typedef vector< CanvasItem >		CanvasItemContainer;
 
 public:
-    PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt::WFlags fl = 0 );
+    PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt::WindowFlags fl = 0 );
 	virtual ~PlayInfoDlgImpl();
 
 	void UpdateStatus( bool bIsPlaying, bool bIsPause );
@@ -180,7 +180,7 @@ private:
 
     SimpleBitmapScene *     m_pScene;
 	QWidget *				m_pParent;			// no owner !
-	Qt::WFlags				m_flLastFlags;
+    Qt::WindowFlags			m_flLastFlags;
 	QPoint					m_aLastPos;
 
     QImage					m_aActImage;            // the actual image !

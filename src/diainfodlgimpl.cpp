@@ -38,7 +38,7 @@
 #include <QColorDialog>
 #include <QImageReader>
 
-DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, Qt::WFlags fl )
+DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, Qt::WindowFlags fl )
 : QDialog( parent/*, name, modal*/, fl )
 {
     setupUi(this);

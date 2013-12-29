@@ -62,7 +62,7 @@ QString MyCustomEvent::data() const
 
 // *******************************************************************
 
-ComLoggingDialogImpl::ComLoggingDialogImpl( QWidget* parent, Qt::WFlags fl )
+ComLoggingDialogImpl::ComLoggingDialogImpl( QWidget* parent, Qt::WindowFlags fl )
 : QDialog( parent, fl )
 {
     setupUi(this);

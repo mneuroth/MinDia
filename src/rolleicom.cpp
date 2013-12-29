@@ -367,12 +367,12 @@ void RolleiCom::RestoreSettings()
     m_sComPort = ToStdString(aSettings.value("RolleiCom/ComPort",QString()).toString());
     m_iBaudrate = aSettings.value("RolleiCom/BaudRate",9600).toInt();
     sTemp = aSettings.value("RolleiCom/ParityMode",QString()).toString();
-    if( GetParityModeFromStrg( (const char*)sTemp.toAscii(), iTempValue ) )
+    if( GetParityModeFromStrg( (const char*)sTemp.toLatin1(), iTempValue ) )
 	{
 		m_iParityMode = iTempValue;
 	}
     sTemp = aSettings.value("RolleiCom/StopBits",QString()).toString();
-    if( GetStopBitsFromStrg( (const char*)sTemp.toAscii(), iTempValue ) )
+    if( GetStopBitsFromStrg( (const char*)sTemp.toLatin1(), iTempValue ) )
 	{
 		m_iStopBits = iTempValue;
 	}

@@ -32,7 +32,7 @@
 #include <QKeyEvent>
 
 
-ProjectorControlDlgImpl::ProjectorControlDlgImpl( RolleiCom * pProjectorCom, DiaPresentation * pPresentation,  QWidget* parent, Qt::WFlags fl )
+ProjectorControlDlgImpl::ProjectorControlDlgImpl( RolleiCom * pProjectorCom, DiaPresentation * pPresentation,  QWidget* parent, Qt::WindowFlags fl )
 : QDialog(parent, fl)
 {
     setupUi(this);

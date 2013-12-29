@@ -81,8 +81,8 @@ Aufgaben vor Release:
     => anscheinend muss Feld verlassen werden bevor Aenderungen akzeptiert werden => Mac only ?
 - ggf. Seitenverhaeltniss fuer Leinwand/PlayInfoDlg entfernen, verwende Seitenverhaeltniss von Praesentation
 Bugs:
-- Bug: Fontsize und Fontcolor aendern funktioniert nicht richtig --> Groesse wird verkleinert wenn position geaendert wird
-- Bug: Fontsize/Art aendern ok, Position aendern ok --> alter Font ist wieder restauriert
+((- Bug: Fontsize und Fontcolor aendern funktioniert nicht richtig --> Groesse wird verkleinert wenn position geaendert wird
+((- Bug: Fontsize/Art aendern ok, Position aendern ok --> alter Font ist wieder restauriert
 //- Bug: left mouse click auf timeline view bewirkt jump zum anfang der scroll line... ==> m_iSelectedItemNo == 0 show selected Image
 //- Bug: click auf Slide-Item in TimeLineView verschiebt scrollbar, falls scrollbar nicht ganz links ist !
 //- Bug: verschieben von Dynamic Text funktioniert nicht korrekt wenn Scrollbar nicht ganz links ist
@@ -267,10 +267,10 @@ bool IsExecuteScriptAllowed()
 class AboutExtDlg : public QDialog, public Ui_AboutExtDlg
 {
 public:
-    AboutExtDlg( QWidget* parent, Qt::WFlags fl=0 );
+    AboutExtDlg( QWidget* parent, Qt::WindowFlags fl=0 );
 };
 
-AboutExtDlg::AboutExtDlg( QWidget* parent, Qt::WFlags fl )
+AboutExtDlg::AboutExtDlg( QWidget* parent, Qt::WindowFlags fl )
 : QDialog(parent, fl)
 {
     setupUi(this);
@@ -278,7 +278,7 @@ AboutExtDlg::AboutExtDlg( QWidget* parent, Qt::WFlags fl )
 
 // ***********************************************************************
 
-MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, bool bSimulation, int iProjectorType, QWidget* parent, Qt::WFlags f )
+MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, bool bSimulation, int iProjectorType, QWidget* parent, Qt::WindowFlags f )
     : QMainWindow( parent, f ),
 	  m_pLoggingDialog( 0 ),
 	  m_pProjectorControlDialog( 0 ),

@@ -32,7 +32,7 @@
 // *******************************************************************
 // *******************************************************************
 
-CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* parent, Qt::WFlags fl )
+CommentDlgImpl::CommentDlgImpl( GenericCommentContainer * pComments, QWidget* parent, Qt::WindowFlags fl )
 : QDialog( parent, fl ),
   m_pComments( pComments )
 {

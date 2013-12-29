@@ -26,7 +26,7 @@
 // *******************************************************************
 // *******************************************************************
 
-HelpDlgImpl::HelpDlgImpl( QWidget* parent, Qt::WFlags fl )
+HelpDlgImpl::HelpDlgImpl( QWidget* parent, Qt::WindowFlags fl )
 : QDialog( parent, fl )
 {
     setupUi(this);

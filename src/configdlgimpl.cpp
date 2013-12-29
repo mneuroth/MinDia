@@ -32,7 +32,7 @@
 #include <QCloseEvent>
 #include <QDir>
 
-ConfigurationDlgImpl::ConfigurationDlgImpl( DocumentAndControler * pControler, QWidget* parent, Qt::WFlags fl )
+ConfigurationDlgImpl::ConfigurationDlgImpl( DocumentAndControler * pControler, QWidget* parent, Qt::WindowFlags fl )
 : QDialog( parent, fl ),
   m_pControler( pControler )
 {
