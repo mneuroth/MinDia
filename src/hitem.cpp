@@ -112,7 +112,7 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
     {
         QImage aImage;
 
-        QImage aImageOrg = ReadQImage( sImageFileName, c_iSlideWidth, c_iSlideHeight );
+        QImage aImageOrg = ReadQImageOrEmpty( sImageFileName, c_iSlideWidth, c_iSlideHeight );
         m_sImageFileNameCache = sImageFileName;
 
         if( !aImageOrg.isNull() )
