@@ -528,7 +528,10 @@ void HItemView::dropEvent( QDropEvent * pEvent )
                 sFileName = aLst.at( i ).toLocalFile();
                 double dDissolveTime = GetMainWindow()->GetDefaultDissolveTime();
                 double dShowTime = GetMainWindow()->GetDefaultShowTime();
-                AddItemAt( minHandle<DiaInfo>( new DiaInfo( GetNextFreeID(), ToStdString(sFileName), dDissolveTime, dShowTime ) ), iIndex+i, /*bInsert*/true );
+                minHandle<DiaInfo> hNewDiaInfo( new DiaInfo( GetNextFreeID(), ToStdString(sFileName), dDissolveTime, dShowTime ) );
+                QImage aImg = ReadQImageOrEmpty( sFileName );
+                hNewDiaInfo->SetHorizontalFormat( aImg.width()>aImg.height() );
+                AddItemAt( hNewDiaInfo, iIndex+i, /*bInsert*/true );
 			}
 
 			sltSelectItem( iIndex, 0 );
@@ -760,6 +763,8 @@ bool HItemView::SetFromClipboardData( const QString & sData, bool bIsDrop )
             foreach( const QString & s, lstFileNames )
             {
                 minHandle<DiaInfo> hDia( new DiaInfo( GetNextFreeID(), ToStdString(s) ) );
+                QImage aImg = ReadQImageOrEmpty( s );
+                hDia->SetHorizontalFormat( aImg.width()>aImg.height() );
                 AddItemAt( hDia, i++, true );
             }
         }

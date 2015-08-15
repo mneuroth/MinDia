@@ -252,6 +252,15 @@ void QImageCache::PostMessage( const QString & sMessage ) const
     QApplication::postEvent( m_pTargetForMessages, pEvent );
 }
 
+static QImage ReadImageDetectingOrientation( const QString & sImageFileName )
+{
+    QImageReader aImgReader(sImageFileName);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+    aImgReader.setAutoTransform( true );
+#endif
+    return aImgReader.read();
+}
+
 bool QImageCache::Get( const QString & sImageFileName, int maxWidth, int maxHeight, QImage & aImage )
 {
     m_aLock.lock/*ForRead*/();
@@ -262,11 +271,14 @@ bool QImageCache::Get( const QString & sImageFileName, int maxWidth, int maxHeig
         // NO
         CheckCacheSpace();
         // add a new image to the cache
-        //QImage aImage(sImageFileName);
-        aImage.load(sImageFileName);
+
+        aImage = ReadImageDetectingOrientation(sImageFileName);
+
         // scale to maximum image size (if needed)
 // TODO: disable cache to improve quality ! --> necessary for zoom into images !
         // limit size of image in cach --> otherwise 20 x 12MPixel images == 1GByte !
+        //qDebug() << " size: " << aImage.width() << " " << aImage.height() << " max=" << m_iMaxWidth << " " << m_iMaxHeight << endl;
+// TODO --> qt does not support rotating of images (reading exif informations !) --> https://bugreports.qt.io/browse/QTBUG-37946
         if( aImage.width()>m_iMaxWidth || aImage.height()>m_iMaxHeight )
         {
             aImage = aImage.scaled(m_iMaxWidth,m_iMaxHeight,Qt::KeepAspectRatio);
@@ -287,7 +299,7 @@ bool QImageCache::Get( const QString & sImageFileName, int maxWidth, int maxHeig
     }
     else
     {
-//        qDebug() << "Image Cache --> Found !!! " << sImageFileName << " " << maxWidth << " " << maxHeight << endl;
+        //qDebug() << "Image Cache --> Found !!! " << sImageFileName << " " << maxWidth << " " << maxHeight << endl;
         // YES
         // increment access counter
         m_aMap[sImageFileName].second += 1;
@@ -295,7 +307,8 @@ bool QImageCache::Get( const QString & sImageFileName, int maxWidth, int maxHeig
   //      m_aLock.unlock();
         if( ret.width()<maxWidth || ret.height()<maxHeight || maxWidth<0 || maxHeight<0 )
         {
-            aImage = QImage(sImageFileName);
+            aImage = ReadImageDetectingOrientation(sImageFileName);
+
             if( aImage.isNull() )
             {
                 // copy thumbnail cache image if large image is not available !
