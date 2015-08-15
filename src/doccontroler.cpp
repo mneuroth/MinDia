@@ -116,6 +116,8 @@ DocumentAndControler::DocumentAndControler( bool bEnableScript,
 
 DocumentAndControler::~DocumentAndControler()
 {
+    StopBackgroundCache();
+
 	if( m_pTimer )
 	{
 		delete m_pTimer;
@@ -280,6 +282,8 @@ void DocumentAndControler::sltSaveAsDoc( const QString & sFileName )
 	sltSaveAsDoc( sFileName, bOk );
 }
 
+#define CACHE_EXTENSION     ".cache"
+
 void DocumentAndControler::sltLoadDoc( const QString & sFileName, bool & bOk, bool bExecuteScript )
 {
     fstream aFile( sFileName.toLocal8Bit(), ios::in );
@@ -299,8 +303,20 @@ void DocumentAndControler::sltLoadDoc( const QString & sFileName, bool & bOk, bo
 				//emit sigShowWarningMessage( tr( "Path of file has changed !" ) );
 			}
 
-            AddToFileHistory(sFileName);
-            
+            if( !LoadGlobalImageCache( sFileName+CACHE_EXTENSION ) )
+            {
+                emit sigShowStatusMessage( tr( "Can not read image cache for this presentation, creating cache..." ) );
+
+                // build cach for all images in background thread...
+                QStringList lstImageFileNames = m_aPresentation.GetAllImageFileNames();
+                InitCacheInBackground( lstImageFileNames, (QObject *)GetMainWindow() );
+            }
+            else
+            {
+                emit sigShowStatusMessage( tr( "Successfully read image cache for this presentation" ) );
+            }
+
+            AddToFileHistory(sFileName);            
 		}
 		catch( MinException & aException )
 		{
@@ -325,6 +341,11 @@ void DocumentAndControler::sltSaveDoc( bool & bOk )
 	if( bOk )
 	{
 		bOk = m_aPresentation.Write( aFile );
+
+        // ignore return value of saving cache, because cache is not so important as the .dia file !
+        QStringList lstImageFileNames = m_aPresentation.GetAllImageFileNames();
+        UpdateCache( lstImageFileNames, (QObject *)GetMainWindow() );
+        SaveGlobalImageCacheAs( ToQString( m_aPresentation.GetFullName()+CACHE_EXTENSION ) );
 	}
 
 	emit sigDocumentNameChanged();	// update changed mark in window-title

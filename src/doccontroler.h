@@ -145,11 +145,11 @@ public slots:
 	void sltEmptyEvent();
     void sltNewDoc();
 	void sltLoadDoc( const QString & sFileName, bool bExecuteEvent );
-	void sltSaveDoc();
-	void sltSaveAsDoc( const QString & sFileName );
-	void sltLoadDoc( const QString & sFileName, bool & bOk, bool bExecuteScript );
+    void sltLoadDoc( const QString & sFileName, bool & bOk, bool bExecuteScript );
+    void sltSaveDoc();
 	void sltSaveDoc( bool & bOk );
-	void sltSaveAsDoc( const QString & sFileName, bool & bOk );
+    void sltSaveAsDoc( const QString & sFileName );
+    void sltSaveAsDoc( const QString & sFileName, bool & bOk );
 	void sltSaveDocAsXML( const QString & sFileName );
 	void sltSaveDocAsXML( const QString & sFileName, bool & bOk );
 	void sltExportDynGraphicData( const QString & sFileName );
@@ -215,7 +215,7 @@ private:
 	// *** data ***
 	RolleiCom			m_aCom;					// the projector control
 	miniSound			m_aSoundPlayer;			// to play the sound for the presentation
-	DiaPresentation		m_aPresentation;		// this is the document !
+    DiaPresentation		m_aPresentation;		// this is the document !
 	minLoggingInterface * m_pLoggingChannel;	// No Owner !
 
 	QTimer *			m_pTimer;
