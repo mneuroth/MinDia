@@ -347,16 +347,16 @@ int main( int argc, char** argv )
 
 #if defined(Q_OS_ANDROID)
     //qApp->setStyle("plastique");        // motif cde windows windowsxp windowsvista mac plastique gtk cleanlooks
-    QFont f = qApp->font();
-    f.setBold(true);
-    f.setPixelSize(16);
+//    QFont f = qApp->font();
+//    f.setBold(true);
+//    f.setPixelSize(16);
     //    f.setPointSize(6);
-    qApp->setFont(f);
+//    qApp->setFont(f);
 
     //qApp->setStyleSheet("QTextEdit { background-color: yellow }");
     //qApp->setStyleSheet("QSvgWidget { background-color: yellow }");
     //qApp->setStyleSheet("QListWidget { background-color: yellow }");
-    qApp->setStyleSheet("QFontListView { background-color: black }");
+//    qApp->setStyleSheet("QFontListView { background-color: black }");
 #endif
 
     g_pApplication = &myApp;
@@ -500,10 +500,9 @@ int main( int argc, char** argv )
 #endif
     g_pApplication->installTranslator(&myappTranslator);
 
-
     MinDiaWindow aWindow( sLanguage, bIgnoreComSettings, bSimulation, iProjectorType );
 
-	// ** environment for dll starting... **
+    // ** environment for dll starting... **
 	minServiceManager * pSrvManager = new minServiceManager;
 	minServiceManager::SetGlobServiceManagerPtr( pSrvManager );
 
