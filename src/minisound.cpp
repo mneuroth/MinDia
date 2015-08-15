@@ -82,7 +82,9 @@ miniSound::~miniSound()
 #ifdef _WITH_MULTIMEDIA
     disconnect(m_pPlayer, SIGNAL(durationChanged(qint64)), this, SLOT(sltTotalTimeChanged(qint64)));
 
-    delete m_pPlayer;
+    //QMultimedia::AvailabilityStatus status = m_pPlayer->availability();
+    /*QMediaPlayer::State state =*/ m_pPlayer->state();
+//    delete m_pPlayer;     // TODO: this crashes the program
 #endif
 }
 
