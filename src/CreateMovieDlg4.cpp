@@ -139,7 +139,6 @@ CreateMovieDlg4::~CreateMovieDlg4()
 
 void CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
 {
-    return;
     if( sValue==g_sDefaultSize1 )
     {
         ui.m_pImageWidth->setText( sValue.split(":")[0] );
@@ -388,7 +387,7 @@ void CreateMovieDlg4::UpdateCmds()
     }
     sSoundFiles += "\" -c copy "+sTempSoundFile;
 
-    QString sSounds = QString( "-i %1 -t %2 " ).arg( sTempSoundFile ).arg( dPresentationLength );
+    QString sSounds = QString( "-i %1 -strict -2 -t %2 " ).arg( sTempSoundFile ).arg( dPresentationLength );
 
     sCmd = QString("%2 -y;\n%6%4ffmpeg -i %3%4%1%8 %7 -qscale 0 %3%4%5%8 -y").arg( sNoSound+sMovieOutput ).arg( sSoundFiles ).arg( sTempDir ).arg( sSeparator ).arg( sMovieOutput ).arg( sFfmpegDir ).arg( sSounds ).arg( sMovieExtension );
 
