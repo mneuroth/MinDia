@@ -23,13 +23,22 @@
 
 #include <QImage>
 #include <QString>
+#include <QStringList>
 #include <QSize>
+#include <QMap>
+#include <QPair>
+#include <QThread>
+#include <QEvent>
+#include <QMutex>
 
 #include <string>
 
 using namespace std;
 
 class QDropEvent;
+class QObject;
+
+class MinDiaWindow;
 
 // *******************************************************************
 enum ImageRatio {
@@ -77,9 +86,9 @@ QImage CreateWhiteImage( int iWidth = 1024, int iHeight = 768 );
 
 QImage CreateColorImage( const QColor & aColor, int iWidth = 1024, int iHeight = 768 );
 
-QImage CopyImageArea( const QImage & aImage, double relX, double relY, double relDX, double relDY );
+QImage CopyImageArea( const QImage & aImage, double relX = 0.0, double relY = 0.0, double relDX = 1.0, double relDY = 1.0 );
 
-QImage ReadQImage( const QString & sFileName, int maxWidth, int maxHeight );
+void CopyImageAreaAsyncAndPostResult( QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName, double relX = 0.0, double relY = 0.0, double relDX = 1.0, double relDY = 1.0 );
 
 QImage ReadQImageOrEmpty( const QString & sFileName, int maxWidth = -1, int maxHeight = -1 );
 
@@ -115,5 +124,122 @@ ImageSize GetImageSizeTypeFromSize( const QSize & aSize );
 QSize GetRatioSizeForAvailableSize( QSize aAvailableSize, ImageRatio ratio );
 
 double GetScaleFactorFor( int iWidth, int iHeight );
+
+MinDiaWindow * GetMainWindow();
+
+void InitCacheInBackground( const QStringList & lstImageFileNames, QObject * pTargetForMessages );
+void UpdateCache( const QStringList & lstImageFileNames, QObject * pTargetForMessages );
+void StopBackgroundCache();
+bool LoadGlobalImageCache( const QString & sCacheFileName );
+bool SaveGlobalImageCacheAs( const QString & sCacheFileName );
+
+// *************************************************************************************************
+
+const QEvent::Type c_iCustomEvent_Logging = (QEvent::Type)(QEvent::User+123);
+const QEvent::Type c_iCustomEvent_ShowStatus = (QEvent::Type)(QEvent::User+124);
+const QEvent::Type c_iCustomEvent_PostImage = (QEvent::Type)(QEvent::User+125);
+
+class QAsyncImageReader;
+
+// *************************************************************************************************
+struct ImageReaderData
+{
+    ImageReaderData()
+        : m_pAsyncImageReader( 0 ),
+          m_pImage( 0 ),
+          m_bIsPlaying( false ),
+          m_iDissolveTimeInMS( 0 )
+    {
+    }
+    ~ImageReaderData()
+    {
+    }
+    QAsyncImageReader * m_pAsyncImageReader;
+    QImage *            m_pImage;
+    bool                m_bIsPlaying;
+    int                 m_iDissolveTimeInMS;
+};
+
+// *************************************************************************************************
+template <class T>
+class MyCustomEvent : public QEvent
+{
+public:
+    MyCustomEvent( QEvent::Type aType )
+        : QEvent(aType)
+    {
+    }
+    void setData( const T & aValue )
+    {
+        m_aData = aValue;
+    }
+    T data() const
+    {
+        return m_aData;
+    }
+
+private:
+    T m_aData;
+};
+
+// *************************************************************************************************
+class QImageCache : public QThread
+{
+public:
+    QImageCache(int iMaxWidth = 1920, int iMaxHeight = 1080, int iMaxItems = -1/*means unlimited*/);
+    virtual ~QImageCache();
+
+    bool IsModified() const;
+
+    void Clean();
+    void DoStop();
+
+    void InitCacheInBackground( const QStringList & lstImageFileNames, QObject * pTargetForMessages );
+    void RemoveUnusedItems( const QStringList & lstImageFileNames, QObject * pTargetForMessages );
+
+    // returns true if image was already in cache
+    bool Get( const QString & sImageFileName, int maxWidth, int maxHeight, QImage & aImageOut );
+
+    unsigned long GetCacheSizeInBytes();
+
+    bool WriteCache( const QString & sCacheFileName );
+    bool ReadCache( const QString & sCacheFileName );
+
+    virtual void run();
+
+private:
+    void CheckCacheSpace();
+    void ClearAccessCounters();
+    void PostMessage( const QString & sMessage ) const;
+
+    int                                         m_iMaxItems;
+    int                                         m_iMaxWidth, m_iMaxHeight;
+    QMap<QString,QPair<QImage,int> >            m_aMap;     // string --> (QImage, ImageAccessCounter)
+    QStringList                                 m_lstImageFileNames;
+    QObject *                                   m_pTargetForMessages;       // not an owner !
+    bool                                        m_bStopThread;
+    bool                                        m_bModified;
+    QMutex                                      m_aLock;
+};
+
+// *************************************************************************************************
+class QAsyncImageReader : public QThread
+{
+public:
+    QAsyncImageReader( QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName, double relX, double relY, double relDX, double relDY );
+    virtual ~QAsyncImageReader();
+
+    void cancel();
+
+    virtual void run();
+
+private:
+    QObject *       m_pTarget;
+    QString         m_sImageFileName;
+    double          m_relX, m_relY, m_relDX, m_relDY;
+    bool            m_bIsPlaying;
+    int             m_iDissolveTimeInMS;
+    bool            m_bCancel;
+};
 
 #endif

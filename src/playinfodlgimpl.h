@@ -133,6 +133,8 @@ public:
 
     virtual QGraphicsScene *	GetCanvas();
 
+    virtual void customEvent(QEvent * pEvent);
+
 public slots:
 	virtual void sltCloseDialog();
 	virtual void sltCancelDialog();

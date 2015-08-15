@@ -808,18 +808,20 @@ void PlayInfoDlgImpl::sltFadeInImage( const QImage & aNewImage, int iFadeInTimeI
 
 void PlayInfoDlgImpl::sltFadeInTimer()
 {
-	m_pFadeInTimer->stop();
+    m_pFadeInTimer->stop();
     // process the next fade in step...
 
     // ** do fade in process only if dialog is visible !
     if( isVisible() )
     {
+        bool bStartTimer = true;
         int deltaSinceStart = m_aFadeTime.CurrentDelta();
         int iFadeInFactor = (int)((double)MAX_FADE_FACTOR*(double)deltaSinceStart/(double)m_iFadeInTimeInMS);
         if( iFadeInFactor > MAX_FADE_FACTOR )
         {
             // fade in is finished !
             m_aFadeTime.Stop();
+            bStartTimer = false;
 
             iFadeInFactor = 0;
 
@@ -836,7 +838,10 @@ void PlayInfoDlgImpl::sltFadeInTimer()
         }
         m_pScene->update();
 
-        m_pFadeInTimer->start( g_iTimerDelay );
+        if( bStartTimer )   // bugfix: 9.11.2014 --> stop hight CPU load after stopping of slide show
+        {
+            m_pFadeInTimer->start( g_iTimerDelay );
+        }
 	}
 }
 
@@ -1144,6 +1149,32 @@ void PlayInfoDlgImpl::SetImageRatio( ImageRatio ratio )
             ; // ignore
     }
     m_pScreenRatio->setCurrentIndex(m_pScreenRatio->findText(s));
+}
+
+void PlayInfoDlgImpl::customEvent(QEvent * pEvent)
+{
+    if( pEvent->type()==c_iCustomEvent_PostImage )
+    {
+        MyCustomEvent<ImageReaderData> * pCustomEvent = (MyCustomEvent<ImageReaderData> *)pEvent;
+        ImageReaderData aData = pCustomEvent->data();
+        if( aData.m_pAsyncImageReader )
+        {
+            while( aData.m_pAsyncImageReader->isRunning() )
+            {
+                QCoreApplication::processEvents();
+                QThread::usleep(1);
+            }
+            delete aData.m_pAsyncImageReader;
+            aData.m_pAsyncImageReader = 0;
+        }
+        if( aData.m_pImage )
+        {
+            sltSetImage( *(aData.m_pImage), aData.m_bIsPlaying, aData.m_iDissolveTimeInMS );
+            delete aData.m_pImage;
+            aData.m_pImage = 0;
+        }
+        pCustomEvent->setData( aData );
+    }
 }
 
 // *******************************************************************

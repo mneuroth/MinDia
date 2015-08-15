@@ -34,49 +34,187 @@
 #include <QPair>
 #include <QDir>
 #include <QMimeData>
+#include <QApplication>
+#include <QElapsedTimer>
 
 // *******************************************************************
 
-class QImageCache
-{
-public:
-    QImageCache(int iMaxWidth = 1920, int iMaxHeight = 1080, int iMaxItems = 20);
+// global_cache <-- show_cache
+// TODO: image cache fuer dia show auf platte speichern: *.dia.cache
+// TODO: image cache im hintergrund erzeugen, falls noch nicht da
+// TODO: image cache fuer kleine Bitmaps anlegen, falls grosse bmps benoetigt werden diese asynchron nachladen...
+// TODO: flush cache implementieren !!!
 
-    const QImage & Get( const QString & sImageFileName );
+static QImageCache g_aImageCache(256,256);
 
-    unsigned long GetCacheSize() const;
-
-private:
-    void CheckCacheSpace();
-
-    int                                         m_iMaxItems;
-    int                                         m_iMaxWidth, m_iMaxHeight;
-    QMap<QString,QPair<QImage,unsigned long> >  m_aMap;
-    QImage                                      m_aEmptyImage;
-};
+// *******************************************************************
 
 QImageCache::QImageCache(int iMaxWidth, int iMaxHeight, int iMaxItems)
     : m_iMaxItems(iMaxItems),
       m_iMaxWidth(iMaxWidth),
-      m_iMaxHeight(iMaxHeight)
+      m_iMaxHeight(iMaxHeight),
+      m_pTargetForMessages(0),
+      m_bStopThread(false),
+      m_bModified(false)
+      , m_aLock(QMutex::Recursive)
 {
 }
 
-unsigned long QImageCache::GetCacheSize() const
+QImageCache::~QImageCache()
+{
+}
+
+bool QImageCache::IsModified() const
+{
+    return m_bModified;
+}
+
+void QImageCache::Clean()
+{
+    m_aLock.lock/*ForWrite*/();
+    if( !m_aMap.isEmpty() )
+    {
+        m_aMap.clear();
+        m_bModified = true;
+    }
+    m_aLock.unlock();
+}
+
+void QImageCache::DoStop()
+{
+    if( isRunning() )
+    {
+        // stop the worker thread and wait for finished
+        m_bStopThread = true;
+        while( isRunning() )
+        {
+            msleep(10);
+        }
+    }
+}
+
+// TODO: ggf. create image cach trennen von image cach zugriff !!!
+void QImageCache::run()
+{
+    QImage aImage;
+    foreach( const QString sFileName, m_lstImageFileNames )
+    {
+        PostMessage( tr("reading ")+sFileName );
+        Get(sFileName,m_iMaxWidth,m_iMaxHeight,aImage);
+        if( m_bStopThread )
+        {
+            break;
+        }
+    }
+    //unsigned long sz = GetCacheSizeInBytes();
+    PostMessage( tr("image cache successfully created !") );
+}
+
+void QImageCache::InitCacheInBackground( const QStringList & lstImageFileNames, QObject * pTargetForMessages )
+{
+    m_pTargetForMessages = pTargetForMessages;
+    DoStop();
+    m_lstImageFileNames = lstImageFileNames;
+    m_bStopThread = false;
+    Clean();
+    start();
+}
+
+void QImageCache::RemoveUnusedItems( const QStringList & lstImageFileNames, QObject * pTargetForMessages )
+{
+    m_pTargetForMessages = pTargetForMessages;
+    QStringList lstRemoveKeys;
+    m_aLock.lock();
+    // first remove all unused images from current cache
+    foreach (const QString & sKey, m_aMap.keys())
+    {
+        if( !lstImageFileNames.contains(sKey) )
+        {
+            lstRemoveKeys.append( sKey );
+        }
+    }
+    foreach (const QString & sFileName, lstRemoveKeys)
+    {
+        m_aMap.remove( sFileName );
+        PostMessage( tr("Removed file from cache: ")+sFileName );
+    }
+    m_aLock.unlock();
+    // second add all new image files to cache
+    QImage aImage;
+    foreach (const QString & sFileName, lstImageFileNames)
+    {
+        if( !Get( sFileName,m_iMaxWidth,m_iMaxHeight,aImage) )
+        {
+            PostMessage( tr("Aded file to cache: ")+sFileName );
+        }
+    }
+}
+
+unsigned long QImageCache::GetCacheSizeInBytes()
 {
     unsigned long ulSize = 0;
+    m_aLock.lock/*ForRead*/();
     foreach (const QString & sKey, m_aMap.keys())
     {
         ulSize += m_aMap[sKey].first.byteCount();
     }
+    m_aLock.unlock();
     return ulSize;
+}
+
+bool QImageCache::WriteCache( const QString & sCacheFileName )
+{
+    QElapsedTimer aTimer;
+    aTimer.start();
+
+    bool ret = false;
+    QFile aFile( sCacheFileName );
+    if( aFile.open(QIODevice::WriteOnly) )
+    {
+        QDataStream out( &aFile );
+        m_aLock.lock/*ForRead*/();
+        out << m_iMaxItems;
+        out << m_iMaxWidth;
+        out << m_iMaxHeight;
+        out << m_aMap;
+        m_aLock.unlock();
+        ret = true;
+        m_bModified = false;
+    }
+//    qDebug() << "WriteCache() time=" << aTimer.elapsed() << endl;   // BadLiebenzell: ca. 1-2 sec lesen udn 14.5 sec schreiben !
+    return ret;
+}
+
+bool QImageCache::ReadCache( const QString & sCacheFileName )
+{
+    QElapsedTimer aTimer;
+    aTimer.start();
+
+    bool ret = false;
+    QFile aFile( sCacheFileName );
+    if( aFile.open(QIODevice::ReadOnly) )
+    {
+        QDataStream in( &aFile );
+        m_aLock.lock/*ForWrite*/();
+        in >> m_iMaxItems;
+        in >> m_iMaxWidth;
+        in >> m_iMaxHeight;
+        in >> m_aMap;
+        ClearAccessCounters();          // ignore access counters after read !
+        m_aLock.unlock();
+        ret = true;
+        m_bModified = false;
+    }
+//    qDebug() << "ReadCache() time=" << aTimer.elapsed() << endl;
+    return ret;
 }
 
 void QImageCache::CheckCacheSpace()
 {
     QString sFoundKey;
-    unsigned long ulCount = 0xFFFF;
-    if( m_aMap.size()>=m_iMaxItems )
+    int ulCount = -1;
+    m_aLock.lock/*ForRead*/();
+    if( (m_iMaxItems>=0) && (m_aMap.size()>=m_iMaxItems) )
     {
         // find image with lowest usage count and remove this item from cache
         foreach (const QString & sKey, m_aMap.keys())
@@ -89,20 +227,43 @@ void QImageCache::CheckCacheSpace()
         }
         if( sFoundKey.length()>0 )
         {
+//            m_aLock.lock/*ForWrite*/();
             m_aMap.remove(sFoundKey);
+//            m_aLock.unlock();
         }
     }
+    m_aLock.unlock();
 }
 
-const QImage & QImageCache::Get( const QString & sImageFileName )
+void QImageCache::ClearAccessCounters()
 {
+    m_aLock.lock/*ForRead*/();
+    foreach (const QString & sKey, m_aMap.keys())
+    {
+        m_aMap[sKey].second = 0;
+    }
+    m_aLock.unlock();
+}
+
+void QImageCache::PostMessage( const QString & sMessage ) const
+{
+    MyCustomEvent<QString> * pEvent = new MyCustomEvent<QString>( c_iCustomEvent_ShowStatus );
+    pEvent->setData( sMessage );
+    QApplication::postEvent( m_pTargetForMessages, pEvent );
+}
+
+bool QImageCache::Get( const QString & sImageFileName, int maxWidth, int maxHeight, QImage & aImage )
+{
+    m_aLock.lock/*ForRead*/();
     // exists an entry for the requested image ?
     if( !m_aMap.contains(sImageFileName) )
     {
+//        qDebug() << "Image Cache --> not found ! " << sImageFileName << endl;
         // NO
         CheckCacheSpace();
         // add a new image to the cache
-        QImage aImage(sImageFileName);
+        //QImage aImage(sImageFileName);
+        aImage.load(sImageFileName);
         // scale to maximum image size (if needed)
 // TODO: disable cache to improve quality ! --> necessary for zoom into images !
         // limit size of image in cach --> otherwise 20 x 12MPixel images == 1GByte !
@@ -112,21 +273,79 @@ const QImage & QImageCache::Get( const QString & sImageFileName )
         }
         //if( !aImage.isNull() )
         {
+
+//            m_aLock.lock/*ForWrite*/();
             m_aMap[sImageFileName] = QPair<QImage,unsigned long>(aImage,1);
+            m_bModified = true;
+//            m_aLock.unlock();
         }
-        return m_aMap[sImageFileName].first;
+        const QImage & ret = m_aMap[sImageFileName].first;
+//        m_aLock.unlock();
+        aImage = ret;
+        m_aLock.unlock();
+        return false;
     }
     else
     {
+//        qDebug() << "Image Cache --> Found !!! " << sImageFileName << " " << maxWidth << " " << maxHeight << endl;
         // YES
         // increment access counter
         m_aMap[sImageFileName].second += 1;
-        return m_aMap[sImageFileName].first;
+        const QImage & ret = m_aMap[sImageFileName].first;
+  //      m_aLock.unlock();
+        if( ret.width()<maxWidth || ret.height()<maxHeight || maxWidth<0 || maxHeight<0 )
+        {
+            aImage = QImage(sImageFileName);
+            if( aImage.isNull() )
+            {
+                // copy thumbnail cache image if large image is not available !
+                aImage = ret;
+            }
+            m_aLock.unlock();
+            return true;
+        }
+        aImage = ret;
+        m_aLock.unlock();
+        return true;
     }
-    return m_aEmptyImage;
+//    aImage = QImage();
+//    return false;
 }
 
-QImageCache g_aImageCache;
+// *******************************************************************
+
+void InitCacheInBackground( const QStringList & lstImageFileNames, QObject * pTargetForMessages )
+{
+    g_aImageCache.InitCacheInBackground( lstImageFileNames, pTargetForMessages );
+}
+
+void UpdateCache( const QStringList & lstImageFileNames, QObject * pTargetForMessages )
+{
+    g_aImageCache.RemoveUnusedItems( lstImageFileNames, pTargetForMessages );
+}
+
+void StopBackgroundCache()
+{
+    g_aImageCache.DoStop();
+}
+
+bool LoadGlobalImageCache( const QString & sCacheFileName )
+{
+    if( QFile::exists( sCacheFileName ) )
+    {
+        return g_aImageCache.ReadCache( sCacheFileName );
+    }
+    return false;
+}
+
+bool SaveGlobalImageCacheAs( const QString & sCacheFileName )
+{
+    if( g_aImageCache.IsModified() )
+    {
+        return g_aImageCache.WriteCache( sCacheFileName );
+    }
+    return false;
+}
 
 // *******************************************************************
 
@@ -245,24 +464,30 @@ QImage CopyImageArea( const QImage & aImage, double relX, double relY, double re
     return aImage.copy( GetArea( aImage.size(), relX, relY, relDX, relDY, GetCurrentImageRatio() ) );
 }
 
-QImage ReadQImage( const QString & sFileName, int /*maxWidth*/, int /*maxHeight*/ )
+QImage * CreateImageArea( const QString & sImageFileName, double relX, double relY, double relDX, double relDY )
+{
+    QImage aImage = ReadQImageOrEmpty( sImageFileName );
+    return new QImage( aImage.copy( GetArea( aImage.size(), relX, relY, relDX, relDY, GetCurrentImageRatio() ) ) );
+}
+
+void CopyImageAreaAsyncAndPostResult( QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName, double relX, double relY, double relDX, double relDY )
+{
+    QAsyncImageReader * pReader = new QAsyncImageReader( pTarget, bIsPlaying, iDissolveTimeInMS, sImageFileName, relX, relY, relDX, relDY );
+    pReader->start();
+    // delete pReader will be done in event handler where the message will be posted to, see run() method
+}
+
+QImage ReadQImageOrEmpty( const QString & sFileName, int maxWidth, int maxHeight )
 {
     QImage aImageOut;
-// TODO --> Performance Optimierung: ggf. inklusive image area cachen !? --> siehe CopyImageArea !
     if( QColor::isValidColor(sFileName) )
     {
         aImageOut = CreateColorImage( QColor(sFileName) );
     }
     else
     {
-        aImageOut = g_aImageCache.Get(sFileName);
+        g_aImageCache.Get(sFileName,maxWidth,maxHeight,aImageOut);
     }
-    return aImageOut;
-}
-
-QImage ReadQImageOrEmpty( const QString & sFileName, int maxWidth, int maxHeight )
-{
-    QImage aImageOut = ReadQImage(sFileName, maxWidth, maxHeight );
     if( aImageOut.isNull() )
     {
         aImageOut = CreateWhiteImage( maxWidth, maxHeight );
@@ -504,4 +729,52 @@ double GetScaleFactorFor( int iWidth, int iHeight )
     QSize aOutputAreaSize = GetRatioSizeForAvailableSize( GetCurrentOutputSize(), GetCurrentImageRatio() );
     double dScaleX = (double)aClippingAreaSize.width()/(double)aOutputAreaSize.width();
     return dScaleX;
+}
+
+// *******************************************************************
+
+QAsyncImageReader::QAsyncImageReader(QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName , double relX, double relY, double relDX, double relDY)
+    : m_pTarget( pTarget ),
+      m_sImageFileName( sImageFileName ),
+      m_relX( relX ),
+      m_relY( relY ),
+      m_relDX( relDX ),
+      m_relDY( relDY ),
+      m_bIsPlaying( bIsPlaying ),
+      m_iDissolveTimeInMS( iDissolveTimeInMS ),
+      m_bCancel( false )
+{
+}
+
+QAsyncImageReader::~QAsyncImageReader()
+{
+}
+
+void QAsyncImageReader::cancel()
+{
+    m_bCancel = true;
+}
+
+void QAsyncImageReader::run()
+{
+    m_bCancel = false;
+
+    QImage * pImage = CreateImageArea( m_sImageFileName, m_relX, m_relY, m_relDX, m_relDY );
+
+    MyCustomEvent<ImageReaderData> * pEvent = new MyCustomEvent<ImageReaderData>( c_iCustomEvent_PostImage );
+    ImageReaderData aData;
+    if( m_bCancel )
+    {
+        aData.m_pImage = 0;
+    }
+    else
+    {
+        aData.m_pImage = pImage;
+    }
+    aData.m_pAsyncImageReader = this;
+    aData.m_bIsPlaying = m_bIsPlaying;
+    aData.m_iDissolveTimeInMS = m_iDissolveTimeInMS;
+    pEvent->setData( aData );
+    // even post message if image reading was canceled, because otherwise we have a memory leak for QAsyncImageReader objects !
+    QApplication::postEvent( m_pTarget, pEvent );
 }
