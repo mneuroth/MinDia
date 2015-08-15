@@ -67,7 +67,6 @@ DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, Qt::Wi
 	m_pScript->setEnabled( false );
 
     m_pScreen = new PlayScreenEditing();
-    m_pClipping->setScene( m_pScreen );
 
     connect( this, SIGNAL( sigUpdateViews() ), parent, SLOT( sltDoUpdateAllViews() ) );
     connect( this, SIGNAL( sigDataChanged() ), parent, SLOT( sltDoDataChanged() ) );
@@ -80,6 +79,8 @@ DiaInfoDlgImpl::DiaInfoDlgImpl( QWidget* pEventConsumer, QWidget* parent, Qt::Wi
     connect( m_pScreen, SIGNAL(sigDataChanged()), this, SLOT(sltDataChanged()) );
 
     UpdateScreenEditData();
+
+    m_pClipping->setScene( m_pScreen );
 }
 
 DiaInfoDlgImpl::~DiaInfoDlgImpl()
