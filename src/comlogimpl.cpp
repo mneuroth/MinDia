@@ -27,39 +27,8 @@
 #include <QCloseEvent>
 #include <QApplication>
 
-const QEvent::Type c_iCustomEvent_Logging = (QEvent::Type)(QEvent::User+123);
-
 // *******************************************************************
 // *******************************************************************
-// *******************************************************************
-
-class MyCustomEvent : public QEvent
-{
-public:
-    MyCustomEvent( QEvent::Type aType );
-    void setData( const QString & sValue );
-    QString data() const;
-
-private:
-    QString m_sData;
-
-};
-
-MyCustomEvent::MyCustomEvent( QEvent::Type aType )
-    : QEvent(aType)
-{
-}
-
-void MyCustomEvent::setData( const QString & sValue )
-{
-    m_sData = sValue;
-}
-
-QString MyCustomEvent::data() const
-{
-    return m_sData;
-}
-
 // *******************************************************************
 
 ComLoggingDialogImpl::ComLoggingDialogImpl( QWidget* parent, Qt::WindowFlags fl )
@@ -77,7 +46,7 @@ ComLoggingDialogImpl::~ComLoggingDialogImpl()
 
 void ComLoggingDialogImpl::LogMsg( const string & sMsg )
 {
-    MyCustomEvent * pEvent = new MyCustomEvent( c_iCustomEvent_Logging );
+    MyCustomEvent<QString> * pEvent = new MyCustomEvent<QString>( c_iCustomEvent_Logging );
     pEvent->setData( ToQString(sMsg) );
     QApplication::postEvent( this, pEvent );
 /*
@@ -131,7 +100,7 @@ void ComLoggingDialogImpl::customEvent( QEvent * pEventIn )
 	{
 		case c_iCustomEvent_Logging:
 		{
-            MyCustomEvent * pEvent = (MyCustomEvent *)pEventIn;
+            MyCustomEvent<QString> * pEvent = (MyCustomEvent<QString> *)pEventIn;
 
             if( m_pOutput )
 			{
