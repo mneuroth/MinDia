@@ -45,7 +45,7 @@ void _FadeImage( QPainter * pPainter, int iFadeFactor, const QImage & aImagePrev
 // *******************************************************************
 // *******************************************************************
 
-const double c_dMinSlideChangeTime = 3.5;	// in seconds
+//const double c_dMinSlideChangeTime = 3.5;	// in seconds
 
 const int DiaPresentation::ACT_FILE_VERSION = 8;
 				// History: ver. 0 --> until 10.11.2001; change: SoundInfoContainer
@@ -338,7 +338,7 @@ bool DiaPresentation::Read( istream & aStream, bool bExecuteEventScript )
     }
     else
     {
-        SetImageRatio( RATIO_VARIABLE );
+        SetImageRatio( RATIO_IMAGE_RATIO );
     }
     if( iActFileVersion > 7 )				// since 29. 4.2013
     {
@@ -629,6 +629,17 @@ minHandle<DiaInfo> DiaPresentation::GetDiaAt( int iIndex ) const
 		return m_aDiaContainer[ iIndex ];
 	}
 	return 0;
+}
+
+QStringList DiaPresentation::GetAllImageFileNames() const
+{
+    QStringList ret;
+    vector<string> lstImageNames = m_aDiaContainer.GetAllImageFileNames();
+    foreach (const string & sImageFileName, lstImageNames)
+    {
+        ret.push_back( ToQString(sImageFileName) );
+    }
+    return ret;
 }
 
 bool DiaPresentation::RemoveDiaAt( int iIndex )
@@ -1564,6 +1575,19 @@ void DiaInfoContainer::MakeAbsolutePaths( const string & sDir )
 
         ++aIter;
     }
+}
+
+vector<string> DiaInfoContainer::GetAllImageFileNames() const
+{
+    vector<string> ret;
+    const_iterator aIter = begin();
+    while( aIter != end() )
+    {
+        ret.push_back((*aIter)->GetImageFile());
+
+        ++aIter;
+    }
+    return ret;
 }
 
 // *******************************************************************

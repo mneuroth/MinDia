@@ -34,6 +34,7 @@
 
 #include <QDateTime>		// for QTime
 #include <QMap>
+#include <QStringList>
 
 #include <iostream>
 #include <string>
@@ -73,6 +74,7 @@ public:
     const_iterator FindItemWithText( const string & sText, const_iterator aStartPosIterator /*= begin()*/, const DynTextContainer & aDynTextContainer ) const;
 	void MakeRelativePaths();
     void MakeAbsolutePaths( const string & sDir );
+    vector<string> GetAllImageFileNames() const;
 
 	void SyncPositionInfos();
 
@@ -123,6 +125,7 @@ public:
     double					GetDiaAbsFinishDissolveTime( int iIndex ) const;            // time when dia is not visible anymore --> finished fade out time
     bool					UpdateShowTimeForDia( int iIndex, double dDeltaTime );
 	bool					UpdateDissolveTimeForDia( int iIndex, double dDeltaTime );
+    QStringList             GetAllImageFileNames() const;
 
 	// ** handling of the presentation (play-modus) **
     double					GetTotalTime() const;               // in seconds
