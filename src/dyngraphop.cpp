@@ -1297,14 +1297,18 @@ bool DynText::Write( ostream & aStream ) const
 	aFU.WriteSeparator( aStream );
     QFont aFont = orgFont();
     WriteString( aStream, ToStdString( aFont.family() ) );
+    QColor aColor = brush().color();
 	aFU.WriteSeparator( aStream );
     aStream << aFont.pointSize();
 	aFU.WriteSeparator( aStream );
-    aStream << brush().color().red();
+    int r = aColor.red();
+    int g = aColor.green();
+    int b = aColor.blue();
+    aStream << r;
 	aFU.WriteSeparator( aStream );
-    aStream << brush().color().green();
+    aStream << g;
 	aFU.WriteSeparator( aStream );
-    aStream << brush().color().blue();
+    aStream << b;
 	aFU.WriteSeparator( aStream );
 	WriteOpContainer( aStream );
 	aFU.WriteStructEnd( aStream );
@@ -1572,7 +1576,7 @@ void DynText::CreateDefaultOperations( double dStartTimeInMS, double dShowTimeIn
 	Sync();
 }
 
-const int c_iHideStartIndex = 0;
+//const int c_iHideStartIndex = 0;
 const int c_iShowIndex = 1;
 const int c_iHideStopIndex = 2;
 const int c_iSetRelIndex = 3;
