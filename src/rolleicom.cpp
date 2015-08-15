@@ -54,6 +54,54 @@ const int c_iDelay = 15;        // original 10
 // *******************************************************************
 // *******************************************************************
 
+#ifdef Q_OS_ANDROID
+#define _DUMMY_SERIAL_PORT
+#endif
+
+#ifdef _DUMMY_SERIAL_PORT
+
+struct RolleiComHelperData
+{
+    RolleiComHelperData( const string & sComPort )
+    {
+    }
+    ~RolleiComHelperData()
+    {
+    }
+
+    bool SetComData( bool bIgnoreComSettings, int iBaudrate, int iParityMode, const string & sStopBitsStrg, int iDataBits, int iFlowMode )
+    {
+        return false;
+    }
+
+    bool IsOk() const
+    {
+        return false;
+    }
+
+    bool Write( const string & sMsg )
+    {
+        return false;
+    }
+
+    bool Read( string & sMsgOut/*, int iCount*/ )
+    {
+        return false;
+    }
+
+    void Delay( int iTimeInMS )
+    {
+        MySleep::msleep( iTimeInMS );
+    }
+
+    int GetLastErrorCode() const
+    {
+        return -1;
+    }
+};
+
+#else
+
 #include <QtSerialPort/qserialport.h>
 
 #define MAX_READ_TIMEOUT    50  /*ms*/
@@ -274,6 +322,8 @@ struct RolleiComHelperData
 
     QSerialPort * m_pPort;
 };
+
+#endif // _DUMMY_SERIAL_PORT
 
 // *******************************************************************
 // *******************************************************************
