@@ -305,7 +305,7 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 
     setObjectName("MinDiaMainWindow");
 
-	// ** prepare application for different languages...**
+    // ** prepare application for different languages...**
 	m_pTranslator = new QTranslator( this );
 
     QCoreApplication::setOrganizationName("mneuroth.de");       // mindia
@@ -314,7 +314,7 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 
     setWindowTitle( tr( "MinDia" ) );
 
-	// set application icon
+    // set application icon
     QPixmap aIcon(":/icons/mindia_new.png");
     setWindowIcon( aIcon );
 
@@ -325,7 +325,7 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
     m_pHelpDialog = new HelpDlgImpl( this );
 	m_pHelpDialog->move( 470, 5 );
 
-	m_pControler = new DocumentAndControler( /*bEnableScript*/true, bIgnoreComSettings, bSimulation, iProjectorType, this, this, m_pLoggingDialog );
+    m_pControler = new DocumentAndControler( /*bEnableScript*/true, bIgnoreComSettings, bSimulation, iProjectorType, this, this, m_pLoggingDialog );
     // bEnableScript will be changed in LoadSettings
 
     // set default value for last file name
@@ -347,8 +347,8 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
         sltLoadDoc( m_sLastFileName, /*bExecuteEvent*/IsExecuteScriptAllowed() );
     }
 
-	sltModusIsSwitched();
-	sltDoDocumentStateUpdate();
+    sltModusIsSwitched();
+    sltDoDocumentStateUpdate();
 }
 
 MinDiaWindow::~MinDiaWindow()
@@ -796,6 +796,11 @@ void MinDiaWindow::customEvent(QEvent * pEvent)
         miniSound & aSoundInfo = GetDocument()->GetSoundInfo();
         aSoundInfo.AsyncGetTotalLengthForFile(pSoundEvent->GetFileName(),pSoundEvent->GetRequester());
     }
+    if( pEvent->type()==c_iCustomEvent_ShowStatus )
+    {
+        MyCustomEvent<QString> * pCustomEvent = (MyCustomEvent<QString> *)pEvent;
+        sltShowStatusBarMessage( pCustomEvent->data() );
+    }
 }
 
 void MinDiaWindow::CreateChildWidgets()
@@ -921,6 +926,7 @@ void MinDiaWindow::sltShowModifyItem()
 		sltDoModifyItem();
 	}
 	m_pDiaInfoDialog->show();
+    m_pDiaInfoDialog->raise();  // see: http://stackoverflow.com/questions/6087887/bring-window-to-front-raise-show-activatewindow-don-t-work
 }
 
 void MinDiaWindow::sltDoSoundData()
@@ -1400,12 +1406,12 @@ void MinDiaWindow::sltCheckCloseApplication()
 
 void MinDiaWindow::sltUpdateEditMenu()
 {
-	bool bIsPlaying = m_pControler->IsPlayModus();
-	bool bIsPause = m_pControler->IsPauseModus();
-	bool bEdit = !(bIsPlaying || bIsPause);
+    bool bIsPlaying = m_pControler->IsPlayModus();
+    bool bIsPause = m_pControler->IsPauseModus();
+    bool bEdit = !(bIsPlaying || bIsPause);
 	bool bValue = bEdit;
 
-	m_pEditUndoAction->setEnabled( false );
+    m_pEditUndoAction->setEnabled( false );
 	m_pEditRedoAction->setEnabled( false );
 	m_pEditCutAction->setEnabled( bValue );
 	m_pEditCopyAction->setEnabled( bValue );
@@ -1417,7 +1423,7 @@ void MinDiaWindow::sltUpdateEditMenu()
 	m_pEditFindAction->setEnabled( bValue );
 	m_pEditFindNextAction->setEnabled( bValue );
 
-	if( bEdit )
+    if( bEdit )
 	{
 		if( IsValidClipboardData() )
 		{
@@ -1428,7 +1434,7 @@ void MinDiaWindow::sltUpdateEditMenu()
 			m_pEditPasteAction->setEnabled( false );
 		}
 
-		if( m_pSlideView->GetSelectedCount()>0 )
+        if( m_pSlideView->GetSelectedCount()>0 )
 		{
 			m_pEditCutAction->setEnabled( true );
 			m_pEditCopyAction->setEnabled( true );
@@ -1440,7 +1446,7 @@ void MinDiaWindow::sltUpdateEditMenu()
 			m_pEditCopyAction->setEnabled( false );
 			m_pEditDeleteAction->setEnabled( false );
 		}
-	}
+    }
 }
 
 void MinDiaWindow::sltUpdateFileMenu()
@@ -1809,7 +1815,7 @@ void MinDiaWindow::sltItemSelected( int iCount, HItem * pFirstSelectedItem, int 
 		}
 	}
 
-	if( m_pPlayInfoDialog )
+    if( m_pPlayInfoDialog && m_pPlayInfoDialog->isVisible() )   // do not update play info window if not visible !
 	{
 		bool bIsPlaying = m_pControler->IsPlayModus();
 
@@ -1817,11 +1823,16 @@ void MinDiaWindow::sltItemSelected( int iCount, HItem * pFirstSelectedItem, int 
 		{
             minHandle<DiaInfo> hDiaInfo = pFirstSelectedItem->GetInfoData();
             QString sFileName = ToQString( hDiaInfo->GetImageFile() );
-            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName ), hDiaInfo->GetRelX(), hDiaInfo->GetRelY(), hDiaInfo->GetRelDX(), hDiaInfo->GetRelDY() ), bIsPlaying, iDissolveTimeInMS );
+// TODO --> hier asynchron das Bild setzen
+// TODO --> ggf. read image thread killen wenn nachfolge Auftrag schon ansteht --> merke Asynchrones Objekt und rufe daran ggf. cancel auf ...
+// TODO --> oder read via Queue, d. h. serialisieren der asynchronen verarbeitung, damit sich nicht ueberholt werden kann
+            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, bIsPlaying, iDissolveTimeInMS, sFileName, hDiaInfo->GetRelX(), hDiaInfo->GetRelY(), hDiaInfo->GetRelDX(), hDiaInfo->GetRelDY() );
+//            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName ), hDiaInfo->GetRelX(), hDiaInfo->GetRelY(), hDiaInfo->GetRelDX(), hDiaInfo->GetRelDY() ), bIsPlaying, iDissolveTimeInMS );
 		}
 		else
 		{
-            m_pPlayInfoDialog->sltSetImage( ReadQImageOrEmpty( "" ), bIsPlaying, iDissolveTimeInMS );
+            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, bIsPlaying, iDissolveTimeInMS, "white" );
+//            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( "white" ) ), bIsPlaying, iDissolveTimeInMS );
 		}
 	}
 
@@ -1928,13 +1939,15 @@ void MinDiaWindow::sltFadeInTest()
 		{
             minHandle<DiaInfo> hDiaInfo1 = pItem1->GetInfoData();
             QString sFileName1 = ToQString( hDiaInfo1->GetImageFile() );
-            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName1 ), hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() ), /*bIsPlaying*/false, 0 );
+//            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName1 ), hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() ), /*bIsPlaying*/false, 0 );
+            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, /*bIsPlaying*/false, 0, sFileName1, hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() );
 
 			int iDissolveTimeInMS = (int)(m_dDissolveTime * 1000.0);
             minHandle<DiaInfo> hDiaInfo2 = pItem2->GetInfoData();
             QString sFileName2 = ToQString( hDiaInfo2->GetImageFile() );
-            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName2 ), hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() ), /*bIsPlaying*/true, iDissolveTimeInMS );
-		}
+//            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName2 ), hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() ), /*bIsPlaying*/true, iDissolveTimeInMS );
+            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, /*bIsPlaying*/true, iDissolveTimeInMS, sFileName2, hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() );
+        }
 	}
 }
 
@@ -1949,27 +1962,29 @@ void MinDiaWindow::sltFadeOutTest()
 		{
             minHandle<DiaInfo> hDiaInfo1 = pItem1->GetInfoData();
             QString sFileName1 = ToQString( hDiaInfo1->GetImageFile() );
-            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName1 ), hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() ), /*bIsPlaying*/false, 0 );
+//            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName1 ), hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() ), /*bIsPlaying*/false, 0 );
+            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, /*bIsPlaying*/false, 0, sFileName1, hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() );
 
 			int iDissolveTimeInMS = (int)(m_dDissolveTime * 1000.0);
             minHandle<DiaInfo> hDiaInfo2 = pItem2->GetInfoData();
             QString sFileName2 = ToQString( hDiaInfo2->GetImageFile() );
-            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName2 ), hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() ), /*bIsPlaying*/true, iDissolveTimeInMS );
-		}
+//            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName2 ), hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() ), /*bIsPlaying*/true, iDissolveTimeInMS );
+            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, /*bIsPlaying*/true, iDissolveTimeInMS, sFileName2, hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() );
+        }
 	}
 }
 
 void MinDiaWindow::sltModusIsSwitched()
 {
-	sltUpdateFileMenu();
-	sltUpdateEditMenu();
-	sltUpdatePlayMenu();
-	sltUpdateExtrasMenu();
+    sltUpdateFileMenu();
+    sltUpdateEditMenu();
+    sltUpdatePlayMenu();
+    sltUpdateExtrasMenu();
 	//sltUpdateScriptsMenu();
 
-	sltDoDocumentStateUpdate();
+    sltDoDocumentStateUpdate();
 
-	bool bIsPlaying = m_pControler->IsPlayModus();
+    bool bIsPlaying = m_pControler->IsPlayModus();
 	bool bIsPause = m_pControler->IsPauseModus();
 	//bool bIsEdit = m_pControler->IsEditModus();
 
@@ -1985,7 +2000,7 @@ void MinDiaWindow::sltModusIsSwitched()
 		}
 	}
 
-	// ** disable Dialog in play modus !
+    // ** disable Dialog in play modus !
 	if( m_pProjectorControlDialog && m_pProjectorControlDialog->isVisible() )
 	{
 		m_pProjectorControlDialog->sltCheckMode();
@@ -2056,13 +2071,15 @@ void MinDiaWindow::sltDeleteSelectedItems()
 	m_pSlideView->sltDeleteAllSlectedItems();
 }
 
+#include <QMimeData>
+
 bool MinDiaWindow::IsValidClipboardData()
 {
-	QClipboard * pClip = QApplication::clipboard();
+    QClipboard * pClip = QApplication::clipboard();
 
-	if( pClip )
+    if( pClip && pClip->mimeData() && pClip->mimeData()->hasText())
 	{
-		QString sData = pClip->text();
+        QString sData = pClip->text();
 
 		if( !sData.isNull() )
 		{
@@ -2075,10 +2092,10 @@ bool MinDiaWindow::IsValidClipboardData()
                 // ** you need at leas one valid item, to enable paste
                 return m_pSlideView->GetCountValidClipboardData( sData ) > 0;
             }
-		}
+        }
 	}
 
-	return false;
+    return false;
 }
 
 void MinDiaWindow::closeEvent( QCloseEvent * pCloseEvent )
