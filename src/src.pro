@@ -7,12 +7,19 @@ TEMPLATE        = app
 #for debug:
 CONFIG          += qt warn_on thread stl exceptions
 QT              = core gui
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets serialport multimedia printsupport
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia printsupport
 lessThan(QT_MAJOR_VERSION, 5): QT += phonon
-QT              -=network
-QT              -=sql
-QT              -=svg
-QT              -=script
+!android {
+QT              += serialport
+}
+else
+{
+}
+#QT              -=network
+#QT              -=sql
+#QT              -=svg
+#QT              -=script
+#QT              -=qml
 #CONFIG          -= debug
 
 win32:RC_FILE = mindia.rc
