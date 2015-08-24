@@ -27,6 +27,7 @@
 #include <QSize>
 #include <QMap>
 #include <QPair>
+#include <QQueue>
 #include <QThread>
 #include <QEvent>
 #include <QMutex>
@@ -223,23 +224,32 @@ private:
 };
 
 // *************************************************************************************************
-class QAsyncImageReader : public QThread
+struct ImageReaderStruct
+{
+    QObject *       m_pTarget;
+    QString         m_sImageFileName;
+    double          m_relX, m_relY, m_relDX, m_relDY;
+    bool            m_bIsPlaying;
+    int             m_iDissolveTimeInMS;
+};
+
+// *************************************************************************************************
+class QAsyncImageReaderThread : public QThread
 {
 public:
-    QAsyncImageReader( QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName, double relX, double relY, double relDX, double relDY );
-    virtual ~QAsyncImageReader();
+    QAsyncImageReaderThread();
+    virtual ~QAsyncImageReaderThread();
+
+    void push( QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName, double relX, double relY, double relDX, double relDY );
 
     void cancel();
 
     virtual void run();
 
 private:
-    QObject *       m_pTarget;
-    QString         m_sImageFileName;
-    double          m_relX, m_relY, m_relDX, m_relDY;
-    bool            m_bIsPlaying;
-    int             m_iDissolveTimeInMS;
-    bool            m_bCancel;
+    QQueue<ImageReaderStruct>   m_aQueue;
+    QMutex                      m_aLock;
+    bool                        m_bCancel;
 };
 
 #endif

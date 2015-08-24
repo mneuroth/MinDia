@@ -1157,16 +1157,6 @@ void PlayInfoDlgImpl::customEvent(QEvent * pEvent)
     {
         MyCustomEvent<ImageReaderData> * pCustomEvent = (MyCustomEvent<ImageReaderData> *)pEvent;
         ImageReaderData aData = pCustomEvent->data();
-        if( aData.m_pAsyncImageReader )
-        {
-            while( aData.m_pAsyncImageReader->isRunning() )
-            {
-                QCoreApplication::processEvents();
-                QThread::usleep(1);
-            }
-            delete aData.m_pAsyncImageReader;
-            aData.m_pAsyncImageReader = 0;
-        }
         if( aData.m_pImage )
         {
             sltSetImage( *(aData.m_pImage), aData.m_bIsPlaying, aData.m_iDissolveTimeInMS );
