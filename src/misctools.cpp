@@ -751,55 +751,6 @@ double GetScaleFactorFor( int iWidth, int iHeight )
 }
 
 // *******************************************************************
-/*
-QAsyncImageReader::QAsyncImageReader(QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName , double relX, double relY, double relDX, double relDY)
-    : m_pTarget( pTarget ),
-      m_sImageFileName( sImageFileName ),
-      m_relX( relX ),
-      m_relY( relY ),
-      m_relDX( relDX ),
-      m_relDY( relDY ),
-      m_bIsPlaying( bIsPlaying ),
-      m_iDissolveTimeInMS( iDissolveTimeInMS ),
-      m_bCancel( false )
-{
-}
-
-QAsyncImageReader::~QAsyncImageReader()
-{
-}
-
-void QAsyncImageReader::cancel()
-{
-    m_bCancel = true;
-}
-
-void QAsyncImageReader::run()
-{
-    m_bCancel = false;
-
-    QImage * pImage = CreateImageArea( m_sImageFileName, m_relX, m_relY, m_relDX, m_relDY );
-
-    MyCustomEvent<ImageReaderData> * pEvent = new MyCustomEvent<ImageReaderData>( c_iCustomEvent_PostImage );
-    ImageReaderData aData;
-    if( m_bCancel )
-    {
-        delete pImage;
-        aData.m_pImage = 0;
-    }
-    else
-    {
-        aData.m_pImage = pImage;
-    }
-    aData.m_pAsyncImageReader = this;
-    aData.m_bIsPlaying = m_bIsPlaying;
-    aData.m_iDissolveTimeInMS = m_iDissolveTimeInMS;
-    pEvent->setData( aData );
-    // even post message if image reading was canceled, because otherwise we have a memory leak for QAsyncImageReader objects !
-    QApplication::postEvent( m_pTarget, pEvent );
-}
-*/
-// *******************************************************************
 
 QAsyncImageReaderThread::QAsyncImageReaderThread()
     : m_bCancel( false )
@@ -822,7 +773,6 @@ void QAsyncImageReaderThread::push(QObject * pTarget, bool bIsPlaying, int iDiss
     aItem.m_relDY = relDY;
     aItem.m_bIsPlaying = bIsPlaying;
     aItem.m_iDissolveTimeInMS = iDissolveTimeInMS;
-//    aItem.m_bCancel = false;
 
     m_aLock.lock/*ForWrite*/();
     m_aQueue.enqueue( aItem );
@@ -839,14 +789,18 @@ void QAsyncImageReaderThread::run()
     while( !m_bCancel )
     {
         m_aLock.lock();
-        if( !m_aQueue.isEmpty() )
+        bool bIsEmpty = m_aQueue.isEmpty();
+        m_aLock.unlock();
+        if( !bIsEmpty )
         {
+            m_aLock.lock();
             // remove all but the last element
             while( m_aQueue.size()>1 )
             {
                 m_aQueue.dequeue();
             }
             ImageReaderStruct aItem = m_aQueue.dequeue();
+            m_aLock.unlock();
 
             QImage * pImage = CreateImageArea( aItem.m_sImageFileName, aItem.m_relX, aItem.m_relY, aItem.m_relDX, aItem.m_relDY );
 
@@ -860,8 +814,7 @@ void QAsyncImageReaderThread::run()
             // even post message if image reading was canceled, because otherwise we have a memory leak for QAsyncImageReader objects !
             QApplication::postEvent( aItem.m_pTarget, pEvent );
         }
-        m_aLock.unlock();
 
-        QThread::msleep(40);
+        QThread::msleep(1);
     }
 }
