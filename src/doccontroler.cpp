@@ -233,6 +233,9 @@ void DocumentAndControler::sltNewDoc()
 {
 	m_aPresentation.Clear();
 
+    emit sigShowStatusMessage( tr( "Reset image cache for new presentation!" ) );
+    InitCacheInBackground( QStringList(), (QObject *)GetMainWindow() );
+
 	emit sigDocumentNameChanged();
 	emit sigSyncAllViews();
 }
