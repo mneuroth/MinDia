@@ -1229,10 +1229,10 @@ void MinDiaWindow::sltAskNewDoc()
 	// ask user before deleting the actual document...
     if( m_pControler->IsChanged() )
     {
-        iRet = QMessageBox::warning( 0, tr( "MinDia - Question" ),
-                                        tr( "Really create a new document and lose all changes ?" ), 1, 2 );
+        iRet = QMessageBox::question( 0, tr( "MinDia - Question" ),
+                                         tr( "Really create a new document and lose all changes ?" ) );
     }
-    if( iRet == 1 )
+    if( iRet == QMessageBox::Yes )
 	{
 		m_pControler->sltNewDoc();
         sltDoPresentationData();
