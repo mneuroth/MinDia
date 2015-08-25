@@ -151,6 +151,13 @@ macx {
     #INSTALLS += utilities
     ICON = mindia_new.icns
     QMAKE_INFO_PLIST = Info.plist
+
+    # binary ffmpeg for mac --> http://ffmpegmac.net
+    files.path = Contents/MacOS/files
+    files.files += ../ffmpeg/mac/ffmpeg
+
+    QMAKE_BUNDLE_DATA += files
+    INSTALLS += files
 }
 
 lessThan(QT_MAJOR_VERSION, 5) {
