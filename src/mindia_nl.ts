@@ -9,37 +9,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="AboutExtDlg4.ui" line="33"/>
+        <location filename="AboutExtDlg4.ui" line="42"/>
         <source>&amp;About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="AboutExtDlg4.ui" line="48"/>
+        <location filename="AboutExtDlg4.ui" line="66"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-weight:600;&quot;&gt;MinDia&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;br /&gt;ver. 0.99.1 from 8.5.2013&lt;br /&gt;&lt;br /&gt;Copyright 2001-2013 by Michael Neuroth&lt;br /&gt;&lt;br /&gt;Homepage: &lt;/span&gt;&lt;a href=&quot;http://mindia.sourceforge.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://mindia.sourceforge.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;br /&gt;This program is intented to create, modify and run multimedia slide shows on a computer. &lt;br /&gt;&lt;br /&gt;The programm supports also the direct control of Rollei dia-projectors &lt;br /&gt;(&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-style:italic;&quot;&gt;Rolleivision 35 twin digital P&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-style:italic;&quot;&gt;Rollei twin MSC 3x0 P&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt;&quot;&gt;).&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="AboutExtDlg4.ui" line="61"/>
-        <source>A&amp;uthor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="AboutExtDlg4.ui" line="76"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt;&quot;&gt;Michael Neuroth, &lt;/span&gt;&lt;a href=&quot;mailto:mindia@users.sourceforge.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; text-decoration: underline; color:#0000ff;&quot;&gt;mindia@users.sourceforge.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="AboutExtDlg4.ui" line="88"/>
-        <source>C&amp;ontributions</source>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;.Lucida Grande UI&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-weight:600;&quot;&gt;MinDia&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;&lt;br /&gt;&lt;br /&gt;ver. 0.99.2 from 25.8.2015&lt;br /&gt;&lt;br /&gt;Copyright 2001-2015 by Michael Neuroth&lt;br /&gt;&lt;br /&gt;Homepage: &lt;/span&gt;&lt;a href=&quot;http://mindia.sourceforge.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;http://mindia.sourceforge.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;&lt;br /&gt;&lt;br /&gt;This program is intented to create, modify and run multimedia slide shows on a computer. &lt;br /&gt;&lt;br /&gt;The programm supports also the direct control of Rollei dia-projectors &lt;br /&gt;(&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-style:italic;&quot;&gt;Rolleivision 35 twin digital P&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-style:italic;&quot;&gt;Rollei twin MSC 3x0 P&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;).&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -47,25 +28,44 @@ p, li { white-space: pre-wrap; }
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt;&quot;&gt;MinDia would not existing without this software:&lt;/span&gt;&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt;&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Qt&lt;/span&gt; from Digia&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt;&quot;&gt;MinDia is using code from this projects:&lt;/span&gt;&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt;&quot; style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;qserialport&lt;/span&gt;: cross plattform support of com-port handling&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt;&quot;&gt;Other usefull programs to create a multimedia slide show:&lt;/span&gt;&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-weight:600;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;ffmpeg&lt;span style=&quot; font-weight:400;&quot;&gt;: tool to create movies&lt;/span&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;xsane&lt;/span&gt;: for scanning images&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Lucida Grande&apos;; font-size:13pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;.Lucida Grande UI&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;Michael Neuroth, &lt;/span&gt;&lt;a href=&quot;mailto:mindia@users.sourceforge.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;mindia@users.sourceforge.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="AboutExtDlg4.ui" line="123"/>
+        <location filename="AboutExtDlg4.ui" line="139"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;.Lucida Grande UI&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;MinDia would not existing without this software:&lt;/span&gt;&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:&apos;Lucida Grande&apos;;&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Qt&lt;/span&gt; from Digia&lt;/li&gt;&lt;/ul&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;MinDia is using code from this projects:&lt;/span&gt;&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:&apos;Lucida Grande&apos;;&quot; style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;qserialport&lt;/span&gt;: cross plattform support of com-port handling&lt;/li&gt;&lt;/ul&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;Other usefull programs to create a multimedia slide show:&lt;/span&gt;&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:&apos;Lucida Grande&apos;; font-weight:600;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;ffmpeg&lt;span style=&quot; font-weight:400;&quot;&gt;: tool to create movies&lt;/span&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:&apos;Lucida Grande&apos;;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;xsane&lt;/span&gt;: for scanning images&lt;/li&gt;&lt;/ul&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Lucida Grande&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="AboutExtDlg4.ui" line="79"/>
+        <source>A&amp;uthor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="AboutExtDlg4.ui" line="115"/>
+        <source>C&amp;ontributions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="AboutExtDlg4.ui" line="159"/>
         <source>&amp;License</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="AboutExtDlg4.ui" line="161"/>
+        <location filename="AboutExtDlg4.ui" line="206"/>
         <source>&amp;Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1121,7 +1121,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mindiawindow.cpp" line="474"/>
-        <location filename="mindiawindow.cpp" line="1387"/>
+        <location filename="mindiawindow.cpp" line="1419"/>
         <source>Export dynamic graphic data</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1132,7 +1132,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mindiawindow.cpp" line="477"/>
-        <location filename="mindiawindow.cpp" line="1397"/>
+        <location filename="mindiawindow.cpp" line="1429"/>
         <source>Import dynamic graphic data</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1305,421 +1305,437 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mindiawindow.cpp" line="581"/>
+        <location filename="mindiawindow.cpp" line="586"/>
         <source>Adjust all dia show times so that the presentation fits with the sound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mindiawindow.cpp" line="585"/>
-        <source>Re&amp;fresh</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mindiawindow.cpp" line="586"/>
-        <source>Refresh the view</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mindiawindow.cpp" line="589"/>
-        <source>&amp;Test</source>
+        <source>Adjust dia &amp;times...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mindiawindow.cpp" line="590"/>
+        <source>Re&amp;fresh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mindiawindow.cpp" line="591"/>
+        <source>Refresh the view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mindiawindow.cpp" line="594"/>
+        <source>&amp;Test</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mindiawindow.cpp" line="595"/>
         <source>For testing only !</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="616"/>
+        <location filename="mindiawindow.cpp" line="622"/>
         <source>Sta&amp;rt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="617"/>
+        <location filename="mindiawindow.cpp" line="623"/>
         <source>Start presentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="621"/>
+        <location filename="mindiawindow.cpp" line="627"/>
         <source>&amp;Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="622"/>
+        <location filename="mindiawindow.cpp" line="628"/>
         <source>Pause presentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="626"/>
+        <location filename="mindiawindow.cpp" line="632"/>
         <source>S&amp;top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="627"/>
+        <location filename="mindiawindow.cpp" line="633"/>
         <source>Stop presentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="632"/>
+        <location filename="mindiawindow.cpp" line="638"/>
         <source>Start &amp;from selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="633"/>
+        <location filename="mindiawindow.cpp" line="639"/>
         <source>Start from selected position (goto position and start)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="637"/>
+        <location filename="mindiawindow.cpp" line="643"/>
         <source>Start &amp;at selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="638"/>
+        <location filename="mindiawindow.cpp" line="644"/>
         <source>Start at selected position (just start at position)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="642"/>
+        <location filename="mindiawindow.cpp" line="648"/>
         <source>A&amp;dd sound comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="643"/>
+        <location filename="mindiawindow.cpp" line="649"/>
         <source>Add sound comment (play presentation to enable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="647"/>
+        <location filename="mindiawindow.cpp" line="653"/>
         <source>Add &amp;graphic operation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="648"/>
+        <location filename="mindiawindow.cpp" line="654"/>
         <source>Add graphic operation (play presentation to enable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="652"/>
+        <location filename="mindiawindow.cpp" line="658"/>
         <source>D&amp;efault dissolve time...</source>
         <oldsource>&amp;Default dissolve time...</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="653"/>
+        <location filename="mindiawindow.cpp" line="659"/>
         <source>Edit default dissolve time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="655"/>
+        <location filename="mindiawindow.cpp" line="661"/>
         <source>Default &amp;show time...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="656"/>
+        <location filename="mindiawindow.cpp" line="662"/>
         <source>Edit default show time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="658"/>
+        <location filename="mindiawindow.cpp" line="664"/>
         <source>&amp;Fade in test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="659"/>
+        <location filename="mindiawindow.cpp" line="665"/>
         <source>Fade in test (select two dias to enable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="662"/>
+        <location filename="mindiawindow.cpp" line="668"/>
         <source>Fade &amp;out test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="663"/>
+        <location filename="mindiawindow.cpp" line="669"/>
         <source>Fade out test (select two dias to enable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="666"/>
+        <location filename="mindiawindow.cpp" line="672"/>
         <source>Pla&amp;y screen...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="669"/>
+        <location filename="mindiawindow.cpp" line="675"/>
         <source>Show dialog to show the dia presentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="692"/>
+        <location filename="mindiawindow.cpp" line="698"/>
         <source>&amp;Configuration...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="693"/>
+        <location filename="mindiawindow.cpp" line="699"/>
         <source>Show dialog for projector configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="696"/>
+        <location filename="mindiawindow.cpp" line="702"/>
         <source>Co&amp;ntrol...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="697"/>
+        <location filename="mindiawindow.cpp" line="703"/>
         <source>Show dialog for projector control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="701"/>
+        <location filename="mindiawindow.cpp" line="707"/>
         <source>&amp;Logging...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="702"/>
+        <location filename="mindiawindow.cpp" line="708"/>
         <source>Show dialog for logging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="711"/>
+        <location filename="mindiawindow.cpp" line="717"/>
         <source>Presentation &amp;data...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="712"/>
+        <location filename="mindiawindow.cpp" line="718"/>
         <source>Show dialog to modify the presentation data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="718"/>
+        <location filename="mindiawindow.cpp" line="724"/>
         <source>So&amp;und data...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="719"/>
+        <location filename="mindiawindow.cpp" line="725"/>
         <source>Show dialog to modify the sound data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="722"/>
+        <location filename="mindiawindow.cpp" line="728"/>
         <source>Sou&amp;nd comments...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="723"/>
+        <location filename="mindiawindow.cpp" line="729"/>
         <source>Show dialog to modify sound comments (blue text in timeline view)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="726"/>
+        <location filename="mindiawindow.cpp" line="732"/>
         <source>&amp;Plot comments...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="727"/>
+        <location filename="mindiawindow.cpp" line="733"/>
         <source>Show dialog to modify the plot comments (internal comments for presentation, yellow text in timeline view)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="730"/>
+        <location filename="mindiawindow.cpp" line="736"/>
         <source>D&amp;yn. text...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="731"/>
+        <location filename="mindiawindow.cpp" line="737"/>
         <source>Show dialog to modify the dynamic texts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="746"/>
+        <location filename="mindiawindow.cpp" line="752"/>
         <source>&amp;About...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="747"/>
+        <location filename="mindiawindow.cpp" line="753"/>
         <source>Infos about this application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="750"/>
+        <location filename="mindiawindow.cpp" line="756"/>
         <source>About &amp;Qt...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="751"/>
+        <location filename="mindiawindow.cpp" line="757"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="753"/>
+        <location filename="mindiawindow.cpp" line="759"/>
         <source>&amp;Help...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="754"/>
+        <location filename="mindiawindow.cpp" line="760"/>
         <source>Help for this application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1154"/>
+        <location filename="mindiawindow.cpp" line="956"/>
+        <source>Adjust dia show time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mindiawindow.cpp" line="956"/>
+        <source>Enter scale factor:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mindiawindow.cpp" line="1186"/>
         <source>This program is released under the GPL Version 2:
 
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1244"/>
+        <location filename="mindiawindow.cpp" line="1276"/>
         <source>MinDia - Question</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1245"/>
+        <location filename="mindiawindow.cpp" line="1277"/>
         <source>Really create a new document and lose all changes ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1269"/>
+        <location filename="mindiawindow.cpp" line="1301"/>
         <source>Loading aborted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1275"/>
+        <location filename="mindiawindow.cpp" line="1307"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1282"/>
+        <location filename="mindiawindow.cpp" line="1314"/>
         <source>Open for edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1289"/>
+        <location filename="mindiawindow.cpp" line="1321"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1299"/>
+        <location filename="mindiawindow.cpp" line="1331"/>
         <source>Save was aborted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1331"/>
+        <location filename="mindiawindow.cpp" line="1363"/>
         <source>Sorry, printing not implemented yet !</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1338"/>
+        <location filename="mindiawindow.cpp" line="1370"/>
         <source>Not implemented yet !</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1343"/>
+        <location filename="mindiawindow.cpp" line="1375"/>
         <source>Export as XML</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1351"/>
+        <location filename="mindiawindow.cpp" line="1383"/>
         <source>Export to XML was aborted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1358"/>
+        <location filename="mindiawindow.cpp" line="1390"/>
         <source>Use scripts to export the presentation-data for other applications.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1409"/>
-        <location filename="mindiawindow.cpp" line="1579"/>
-        <location filename="mindiawindow.cpp" line="2123"/>
+        <location filename="mindiawindow.cpp" line="1441"/>
+        <location filename="mindiawindow.cpp" line="1611"/>
+        <location filename="mindiawindow.cpp" line="2155"/>
         <source>MinDia - Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1409"/>
+        <location filename="mindiawindow.cpp" line="1441"/>
         <source>Write changed data ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1409"/>
+        <location filename="mindiawindow.cpp" line="1441"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1409"/>
+        <location filename="mindiawindow.cpp" line="1441"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1574"/>
+        <location filename="mindiawindow.cpp" line="1606"/>
         <source>MinDia - Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1735"/>
+        <location filename="mindiawindow.cpp" line="1767"/>
         <source>play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1737"/>
+        <location filename="mindiawindow.cpp" line="1769"/>
         <source>total time: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1742"/>
+        <location filename="mindiawindow.cpp" line="1774"/>
         <source> min</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1746"/>
+        <location filename="mindiawindow.cpp" line="1778"/>
         <source> *** next: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1746"/>
+        <location filename="mindiawindow.cpp" line="1778"/>
         <source> s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1752"/>
+        <location filename="mindiawindow.cpp" line="1784"/>
         <source> *** count: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1869"/>
+        <location filename="mindiawindow.cpp" line="1901"/>
         <source>play mark %1 sec</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1891"/>
+        <location filename="mindiawindow.cpp" line="1923"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1891"/>
+        <location filename="mindiawindow.cpp" line="1923"/>
         <source>search for:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1926"/>
+        <location filename="mindiawindow.cpp" line="1958"/>
         <source>Enter new default show time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1926"/>
+        <location filename="mindiawindow.cpp" line="1958"/>
         <source>default show time [s]:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1936"/>
+        <location filename="mindiawindow.cpp" line="1968"/>
         <source>Enter new default dissolve time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="1936"/>
+        <location filename="mindiawindow.cpp" line="1968"/>
         <source>default dissolve time [s]:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mindiawindow.cpp" line="2123"/>
+        <location filename="mindiawindow.cpp" line="2155"/>
         <source>Can&apos;t close the application, because the presentation is still playing !</source>
         <translation type="unfinished"></translation>
     </message>
