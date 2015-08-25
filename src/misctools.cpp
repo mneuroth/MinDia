@@ -147,7 +147,7 @@ void QImageCache::RemoveUnusedItems( const QStringList & lstImageFileNames, QObj
     {
         if( !Get( sFileName,m_iMaxWidth,m_iMaxHeight,aImage) )
         {
-            PostMessage( tr("Aded file to cache: ")+sFileName );
+            PostMessage( tr("Added file to cache: ")+sFileName );
         }
     }
 }
