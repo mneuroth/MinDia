@@ -204,7 +204,9 @@ double DiaInfo::GetDissolveTime() const
 
 bool DiaInfo::SetDissolveTime( double dShowTime )
 {
-	for( int i=0; i<GetOperationCount(); i++ )
+    m_aObjectChanged.SetChanged();
+
+    for( int i=0; i<GetOperationCount(); i++ )
 	{
 		if( GetOperation( i ).GetOperationType()==TimeOperation::DISSOLVE_IN )
 		{
@@ -229,6 +231,8 @@ double DiaInfo::GetShowTime() const
 
 bool DiaInfo::SetShowTime( double dShowTime )
 {
+    m_aObjectChanged.SetChanged();
+
 	for( int i=0; i<GetOperationCount(); i++ )
 	{
 		if( GetOperation( i ).GetOperationType()==TimeOperation::SHOW )
