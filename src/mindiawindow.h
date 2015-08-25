@@ -189,7 +189,9 @@ public slots:
 	void sltPresentationEventsDialogClosed();
 	void sltConfigurationDialogClosed();
 	void sltDoModifyItem();
-	void sltShowModifyItem();
+    void sltAdjustDiaTimeToFitSound();
+    void sltAdjustDiaTime();
+    void sltShowModifyItem();
 	void sltDoConfiguration();
 	void sltDoPlayInfos();
 	void sltShowPlayStatus();
@@ -376,6 +378,8 @@ private:
 	QAction *		m_pExtrasDynGraphOpAction;
 	QAction *		m_pExtrasPlayStatusAction;
 	QAction *		m_pExtrasModifyItemAction;
+    QAction *		m_pExtrasAdjustTimesToFitMusicAction;
+    QAction *		m_pExtrasAdjustTimesAction;
 
 	QAction *		m_pEditUndoAction;
 	QAction *		m_pEditRedoAction;

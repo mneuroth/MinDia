@@ -99,6 +99,8 @@ Bugs:
 - Bug: Effekt (manchmal): Speichern unter merkt nicht korrekt den letzten dateipfad
 - Optimize: Performance für Image Cache verbessern --> thumbnails in .dia Datei speichern und grosses Bild ggf. nachladen
 Features:
+- Menupunkt / Skript um Praesentation an Sound anzupassen !
+- Menupunkt: Dia-Show an Musik anpassen
 - alle Fonts und Font-Groessen gleichzeitig aendern,
 - default font und fontgroesse aenderbar machen
 - Alle dissolve und show zeiten gleichzeitig anpassen/aendern
@@ -107,7 +109,6 @@ Features:
 - Dia Dissolv und Show Time als CommentDlg aenderbar machen
 - ggf. Unterstuetzung von gedrehten Images
 - Synchronisiere Timeline mit HItem view besser implementieren
-- Menupunkt: Dia-Show an Musik anpassen
 
 - ggf. test ffmpeg button in export dialog
 - ggf. automatisch ffmpeg binary suchen (PATH suche)
@@ -576,6 +577,16 @@ void MinDiaWindow::CreateMenus()
     m_pExtrasModifyItemAction->setCheckable(true);
     connect( m_pExtrasModifyItemAction, SIGNAL( triggered() ), this, SLOT( sltDoModifyItem() ) );
 
+    m_pExtrasAdjustTimesToFitMusicAction = new QAction( tr( "Ad&just dia times to fit sound..." ), this );
+    m_pExtrasAdjustTimesToFitMusicAction->setStatusTip( tr( "Adjust all dia show times so that the presentation fits with the sound" ) );
+    m_pExtrasAdjustTimesToFitMusicAction->setShortcut(Qt::CTRL+Qt::Key_J);
+    connect( m_pExtrasAdjustTimesToFitMusicAction, SIGNAL( triggered() ), this, SLOT( sltAdjustDiaTimeToFitSound() ) );
+
+    m_pExtrasAdjustTimesAction = new QAction( tr( "Adjust dia &times..." ), this );
+    m_pExtrasAdjustTimesAction->setStatusTip( tr( "Adjust all dia show times so that the presentation fits with the sound" ) );
+    m_pExtrasAdjustTimesAction->setShortcut(Qt::ALT+Qt::Key_J);
+    connect( m_pExtrasAdjustTimesAction, SIGNAL( triggered() ), this, SLOT( sltAdjustDiaTime() ) );
+
     m_pEditUpdateAction = new QAction( tr( "Re&fresh" ), this );
     m_pEditUpdateAction->setStatusTip( tr("Refresh the view") );
     m_pEditUpdateAction->setShortcut(Qt::Key_F5);
@@ -601,6 +612,8 @@ void MinDiaWindow::CreateMenus()
     m_pEdit->addAction( m_pEditDeleteAction );
     m_pEdit->addSeparator();
     m_pEdit->addAction( m_pExtrasModifyItemAction );
+    m_pEdit->addAction( m_pExtrasAdjustTimesAction );
+    m_pEdit->addAction( m_pExtrasAdjustTimesToFitMusicAction );
     m_pEdit->addSeparator();
     m_pEdit->addAction( m_pEditUpdateAction );
     //for Test only: m_pEdit->addAction( m_pEditTestAction );
@@ -902,7 +915,7 @@ void MinDiaWindow::sltDoModifyItem()
 			//delete m_pDiaInfoDialog;
 			//m_pDiaInfoDialog = 0;
 		}
-	}
+    }
 	else
 	{
 		if( !m_pDiaInfoDialog )
@@ -916,6 +929,37 @@ void MinDiaWindow::sltDoModifyItem()
 		// ** update the data for the selected item
 		sltItemSelected( m_iCount, m_pFirstSelectedItem, m_iFirstSelectedItemNo, 0 );
 	}
+}
+
+void MinDiaWindow::sltAdjustDiaTimeToFitSound()
+{
+    // hole gesamtdauer der musik
+    // hole gesamtdauer der praesentation
+    // berechne skalierungsfaktor
+    // aktualisiere alle dia stand- und ueberblend-zeiten mit dem skalierungsfaktor --> nur stand-zeit anpassen !
+    // aktualisiere view
+
+    double dPresentationTime = m_pControler->GetPresentation().GetTotalTime()*1000.0;   // in seconds
+    double dMusicTime = m_pControler->GetPresentation().GetSoundInfoData().GetTotalPlayLength();    // im milli seconds
+    if( dPresentationTime!=0.0 )
+    {
+        double dScaleFactor = dMusicTime / dPresentationTime;
+        m_pControler->GetPresentation().ScaleAllDiaShowTimes( dScaleFactor );
+        m_pControler->sltDataChanged();
+        sltUpdate();
+    }
+}
+
+void MinDiaWindow::sltAdjustDiaTime()
+{
+    bool ok = false;
+    double dScaleFactor = QInputDialog::getDouble( this, tr("Adjust dia show time"), tr("Enter scale factor:"), 1.0, 0.0, 1000.0, 2, &ok );
+    if( ok )
+    {
+        m_pControler->GetPresentation().ScaleAllDiaShowTimes( dScaleFactor );
+        m_pControler->sltDataChanged();
+        sltUpdate();
+    }
 }
 
 void MinDiaWindow::sltShowModifyItem()
