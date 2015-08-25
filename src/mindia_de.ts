@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="de_DE">
+<TS version="2.1" language="de_DE">
 <context>
     <name></name>
     <message>
@@ -1996,7 +1996,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ConfigurationDlgImpl</name>
     <message>
-        <location filename="configdlgimpl.cpp" line="+191"/>
+        <location filename="configdlgimpl.cpp" line="+189"/>
         <location line="+4"/>
         <source>none</source>
         <translation>keine</translation>
@@ -2208,7 +2208,7 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Schließen</translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.cpp" line="+189"/>
+        <location filename="CreateMovieDlg4.cpp" line="+188"/>
         <location line="+99"/>
         <source>Select directory</source>
         <oldsource>Open Directory</oldsource>
@@ -2264,27 +2264,32 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+39"/>
         <source>Filename:</source>
         <translation>Dateiname:</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-16"/>
         <source>Comment:</source>
         <translation>Kommentar:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+39"/>
         <source>&amp;...</source>
         <translation></translation>
     </message>
     <message>
         <location line="+10"/>
+        <source>Color...</source>
+        <translation>Farbe...</translation>
+    </message>
+    <message>
+        <location line="+27"/>
         <source>Dissolve [s]:</source>
         <translation>Überblendung [s]:</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+109"/>
         <source>Effects</source>
         <translation>Effekte</translation>
     </message>
@@ -2325,17 +2330,17 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+3"/>
-        <location line="+230"/>
+        <location line="+101"/>
         <source>Alt+N</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-213"/>
+        <location line="-84"/>
         <source>count:</source>
         <translation>Anzahl:</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="-264"/>
         <source>--&amp;&gt;</source>
         <translation></translation>
     </message>
@@ -2345,17 +2350,17 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+144"/>
         <source>Image clipping</source>
         <translation>Bildausschnitt</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-16"/>
         <source>Timer [s]:</source>
         <translation>Standzeit [s]:</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-26"/>
         <source>Format</source>
         <translation>Format</translation>
     </message>
@@ -2370,7 +2375,7 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;vertikal</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+38"/>
         <source>Scripts</source>
         <translation>Skripte</translation>
     </message>
@@ -2385,12 +2390,12 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Ändern...</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="-114"/>
         <source>Size [pixel]:</source>
         <translation>Größe [Bildpunkte]:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+217"/>
         <source>&amp;Apply</source>
         <translation>An&amp;wenden</translation>
     </message>
@@ -2433,15 +2438,19 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>DiaInfoDlgImpl</name>
     <message>
-        <location filename="diainfodlgimpl.cpp" line="+377"/>
+        <location filename="diainfodlgimpl.cpp" line="+393"/>
         <source>Select file</source>
         <oldsource>Select</oldsource>
         <translation>Datei auswählen</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>Images (*.jpg *.png *.bmp)</source>
-        <translation>Bilder (*.jpg *.png *.bmp)</translation>
+        <translation type="vanished">Bilder (*.jpg *.png *.bmp)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Images (*.jpg *.png *.bmp *.tiff)</source>
+        <translation>Bilder (*.jpg *.png *.bmp *.tiff)</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -2467,7 +2476,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>DocumentAndControler</name>
     <message>
-        <location filename="doccontroler.cpp" line="+247"/>
+        <location filename="doccontroler.cpp" line="+236"/>
+        <source>Reset image cache for new presentation!</source>
+        <translation>Bilder-Cache wird für neue Präsentation zurückgesetzt!</translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>Error reading file &quot;</source>
         <translation>Fehler beim Lesen der Datei &quot;</translation>
     </message>
@@ -2477,12 +2491,22 @@ p, li { white-space: pre-wrap; }
         <translation>Fehler beim Speichern der Datei &quot;</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+41"/>
+        <source>Can not read image cache for this presentation, creating cache...</source>
+        <translation>Bilder-Cache für diese Präsentation nicht gefunden, Cache wird erzeugt...</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Successfully read image cache for this presentation</source>
+        <translation>Bilder-Cache für diese Präsentation erfolgreich gelesen</translation>
+    </message>
+    <message>
+        <location line="+12"/>
         <source>Error reading file !</source>
         <translation>Fehler beim Lesen der Datei !</translation>
     </message>
     <message>
-        <location line="+213"/>
+        <location line="+216"/>
         <location line="+18"/>
         <source>Text not found !</source>
         <translation>Text nicht gefunden !</translation>
@@ -2501,82 +2525,87 @@ p, li { white-space: pre-wrap; }
         <translation>Text Daten</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <location line="+57"/>
+        <location line="+170"/>
+        <location line="+21"/>
         <source>attach to image</source>
         <translation>Verbinde mit Bild</translation>
     </message>
     <message>
-        <location line="-50"/>
+        <location line="-185"/>
         <source>Text:</source>
         <translation>Text:</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <location line="+107"/>
-        <source>0000; </source>
-        <translation></translation>
-    </message>
-    <message>
-        <location line="-100"/>
-        <location line="+7"/>
+        <location line="+171"/>
+        <location line="+21"/>
         <source>?</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-54"/>
         <source>y [%]:</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="-30"/>
         <source>0000000; </source>
         <translation></translation>
     </message>
     <message>
-        <location line="+10"/>
-        <location line="+63"/>
+        <location line="+70"/>
+        <location line="+21"/>
         <source>&lt;attached image id&gt;</source>
         <translation>&lt;verbundene Bild ID&gt;</translation>
     </message>
     <message>
-        <location line="-56"/>
+        <location line="-101"/>
         <source>Show time [ms]:</source>
         <translation>Standzeit [ms]:</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+20"/>
         <source>y:</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-49"/>
         <source>x [%]:</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+19"/>
-        <location line="+33"/>
-        <source>000; </source>
-        <translation></translation>
-    </message>
-    <message>
-        <location line="+23"/>
+        <location line="-20"/>
         <source>x:</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-23"/>
         <source>Show at [ms]:</source>
         <translation>Zeige bei [ms]:</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-10"/>
         <source>&amp;rel. pos</source>
         <translation>&amp;rel. Position</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+46"/>
+        <location line="+69"/>
+        <source>#####; </source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="-43"/>
+        <location line="+69"/>
+        <source>##.###; </source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="-66"/>
+        <source>.</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+128"/>
         <source>&amp;Delete</source>
         <translation>&amp;Löschen</translation>
     </message>
@@ -2637,70 +2666,108 @@ p, li { white-space: pre-wrap; }
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+18"/>
         <source>home</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+3"/>
+        <source>&amp;Home</source>
+        <translation>&amp;Startseite</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Home, Alt+H</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+10"/>
         <source>back</source>
         <translation>zurück</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+3"/>
+        <source>&amp;Back</source>
+        <translation>&amp;Zurück</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Left, Alt+B</source>
         <translation>Links, Alt+B</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+10"/>
         <source>forward</source>
         <translation>Vorwärts</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+3"/>
+        <source>&amp;Forward</source>
+        <translation>&amp;Vorwärts</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Right, Alt+F</source>
         <translation>Rechts, Alt+F</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Search text:</source>
         <translation>Suche Text:</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+16"/>
         <source>find text</source>
         <translation>finde Text</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+3"/>
+        <source>&amp;Search</source>
+        <translation>&amp;Suchen</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Alt+S</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+26"/>
         <source>close window</source>
         <translation>Schließe Fenster</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+3"/>
+        <source>&amp;Close</source>
+        <translation>S&amp;chließen</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Alt+C</source>
         <translation></translation>
     </message>
 </context>
 <context>
+    <name>HelpDlgImpl</name>
+    <message>
+        <location filename="helpdlgimpl.cpp" line="+45"/>
+        <source>MinDia - Warning</source>
+        <translation>MinDia - Warnung</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Text not found !</source>
+        <translation>Text nicht gefunden !</translation>
+    </message>
+</context>
+<context>
     <name>MinDiaWindow</name>
     <message>
-        <location filename="mindiawindow.cpp" line="+262"/>
+        <location filename="mindiawindow.cpp" line="+316"/>
         <source>MinDia</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+95"/>
+        <location line="+101"/>
         <source>&amp;File</source>
         <translation>&amp;Datei</translation>
     </message>
@@ -2839,23 +2906,23 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+1"/>
-        <location line="+906"/>
+        <location line="+913"/>
         <source>Export dynamic graphic data</source>
         <translation>Exportiere dynamische Grafik Daten</translation>
     </message>
     <message>
-        <location line="-904"/>
+        <location line="-911"/>
         <source>Import d&amp;yn. graphics...</source>
         <translation>Importiere d&amp;yn. Grafiken...</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+913"/>
+        <location line="+920"/>
         <source>Import dynamic graphic data</source>
         <translation>Importiere dynamische Grafik Daten</translation>
     </message>
     <message>
-        <location line="-911"/>
+        <location line="-918"/>
         <source>&amp;Print...</source>
         <translation>&amp;Drucken...</translation>
     </message>
@@ -3018,6 +3085,16 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+5"/>
+        <source>Ad&amp;just dia times to fit sound...</source>
+        <translation type="unfinished">&amp;Justiere Dia Zeiten zur Dauer der Musik</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Adjust all dia show times so that the presentation fits with the sound</source>
+        <translation>Justiere alle Zeiten für die Dias so dass die Länge der Präsentation mit der Länge der Musik übereinstimmt</translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Re&amp;fresh</source>
         <translation>A&amp;ktualisieren</translation>
     </message>
@@ -3037,7 +3114,7 @@ p, li { white-space: pre-wrap; }
         <translation>Nur zum Testen !</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Sta&amp;rt</source>
         <translation>Sta&amp;rt</translation>
     </message>
@@ -3119,6 +3196,16 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+2"/>
+        <source>Default &amp;show time...</source>
+        <translation>Standard &amp;Anzeige Zeit...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Edit default show time</source>
+        <translation>Ändere standard Anzeige Zeit</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>&amp;Fade in test</source>
         <translation>&amp;Überblenden Test</translation>
     </message>
@@ -3148,7 +3235,7 @@ p, li { white-space: pre-wrap; }
         <translation>Zeige Dialog zur Anzeige der Präsentation</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>&amp;Configuration...</source>
         <translation>&amp;Konfiguration...</translation>
     </message>
@@ -3248,7 +3335,7 @@ p, li { white-space: pre-wrap; }
         <translation>Über Qt</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+2"/>
         <source>&amp;Help...</source>
         <translation>&amp;Hilfe...</translation>
     </message>
@@ -3258,7 +3345,7 @@ p, li { white-space: pre-wrap; }
         <translation>Hilfe für diese Anwendung</translation>
     </message>
     <message>
-        <location line="+401"/>
+        <location line="+400"/>
         <source>This program is released under the GPL Version 2:
 
 </source>
@@ -3352,7 +3439,7 @@ p, li { white-space: pre-wrap; }
         <translation>MinDia -Fehler</translation>
     </message>
     <message>
-        <location line="+180"/>
+        <location line="+161"/>
         <source>play</source>
         <translation>abspielen</translation>
     </message>
@@ -3382,7 +3469,7 @@ p, li { white-space: pre-wrap; }
         <translation> *** Anzahl: </translation>
     </message>
     <message>
-        <location line="+113"/>
+        <location line="+117"/>
         <source>play mark %1 sec</source>
         <translation>Abspielposition %1 sek</translation>
     </message>
@@ -3398,6 +3485,16 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+35"/>
+        <source>Enter new default show time</source>
+        <translation>Neue standard Anzeige Zeit</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>default show time [s]:</source>
+        <translation>standard Anzeige Zeit [s]:</translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Enter new default dissolve time</source>
         <translation>Neue standard Überblendzeit setzen</translation>
     </message>
@@ -3407,7 +3504,7 @@ p, li { white-space: pre-wrap; }
         <translation>Standard Überblendzeit [s]:</translation>
     </message>
     <message>
-        <location line="+182"/>
+        <location line="+187"/>
         <source>Can&apos;t close the application, because the presentation is still playing !</source>
         <translation>Anwendung kann nicht geschlossen werden, weil ein die Präsentaion noch abgespielt wird !</translation>
     </message>
@@ -3420,18 +3517,18 @@ p, li { white-space: pre-wrap; }
         <translation>Speichere &amp;Bild...</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
         <source>Dissolve &amp;Start/Stop</source>
         <translation>Überblenden &amp;Start/Stop</translation>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+110"/>
+        <location line="+71"/>
         <source>&amp;Full screen</source>
         <translation>&amp;Vollbildschirm</translation>
     </message>
     <message>
-        <location line="-104"/>
+        <location line="-65"/>
         <source>Sta&amp;rt</source>
         <translation>Sta&amp;rt</translation>
     </message>
@@ -3451,7 +3548,7 @@ p, li { white-space: pre-wrap; }
         <translation>S&amp;chließen</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+49"/>
         <source>&amp;Normal</source>
         <translation>&amp;Normal</translation>
     </message>
@@ -3573,34 +3670,34 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>PlayInfoDlgImpl</name>
     <message>
-        <location filename="playinfodlgimpl.cpp" line="+1115"/>
+        <location filename="playinfodlgimpl.cpp" line="+853"/>
         <source>Save as</source>
         <translation>Speichern unter</translation>
     </message>
     <message>
-        <location line="+57"/>
-        <location line="+299"/>
+        <location line="+55"/>
+        <location line="+230"/>
         <source>image ratio</source>
         <translation>Bild Seitenverhältnis</translation>
     </message>
     <message>
-        <location line="-293"/>
+        <location line="-224"/>
         <location line="+16"/>
-        <location line="+274"/>
+        <location line="+205"/>
         <source>4:3</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-286"/>
+        <location line="-217"/>
         <location line="+8"/>
-        <location line="+275"/>
+        <location line="+206"/>
         <source>3:2</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-279"/>
+        <location line="-210"/>
         <location line="+12"/>
-        <location line="+264"/>
+        <location line="+195"/>
         <source>16:9</source>
         <translation></translation>
     </message>
@@ -3892,7 +3989,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ProjectorControlDlgImpl</name>
     <message>
-        <location filename="pcdlgimpl.cpp" line="+68"/>
+        <location filename="pcdlgimpl.cpp" line="+57"/>
         <location line="+13"/>
         <source>ok</source>
         <translation>ok</translation>
@@ -3930,9 +4027,33 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>QImageCache</name>
+    <message>
+        <location filename="misctools.cpp" line="+104"/>
+        <source>reading </source>
+        <translation>lesen </translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>image cache successfully created !</source>
+        <translation>Bilder-Cache erfolgreich angelegt !</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Removed file from cache: </source>
+        <translation>Entferne Datei aus dem Cache: </translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Added file to cache: </source>
+        <oldsource>Aded file to cache: </oldsource>
+        <translation>Datei zum Cache hinzugefügt: </translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
-        <location filename="CreateMovieDlg4.cpp" line="-200"/>
+        <location filename="CreateMovieDlg4.cpp" line="-199"/>
         <source>400:304</source>
         <translation></translation>
     </message>
@@ -3962,12 +4083,12 @@ p, li { white-space: pre-wrap; }
         <translation>Benutzerwert</translation>
     </message>
     <message>
-        <location filename="diapresentation.cpp" line="+1242"/>
+        <location filename="diapresentation.cpp" line="+1239"/>
         <source>no=%d/%d ** op=%s ** timer=%6.1lf s --&gt; cmd=&quot;%s&quot;</source>
         <translation>Nr=%d/%d ** Op=%s ** Timer=%6.1lf s --&gt; Cmd=&quot;%s&quot;</translation>
     </message>
     <message>
-        <location filename="doccontroler.cpp" line="+295"/>
+        <location filename="doccontroler.cpp" line="+292"/>
         <source>creating images for movie</source>
         <translation>Erzeuge Bilder für Film</translation>
     </message>
@@ -3977,7 +4098,7 @@ p, li { white-space: pre-wrap; }
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="dyngraphop.cpp" line="+1676"/>
+        <location filename="dyngraphop.cpp" line="+1688"/>
         <source>Dynamic texts</source>
         <translation>Dynamische Text</translation>
     </message>
@@ -4002,12 +4123,12 @@ p, li { white-space: pre-wrap; }
         <translation>verbundenes Dia</translation>
     </message>
     <message>
-        <location filename="hitem.cpp" line="+186"/>
+        <location filename="hitem.cpp" line="+184"/>
         <source>&lt;script&gt;</source>
         <translation>&lt;skript&gt;</translation>
     </message>
     <message>
-        <location filename="soundinfo.cpp" line="+453"/>
+        <location filename="soundinfo.cpp" line="+429"/>
         <source>Sound comments</source>
         <translation>Ton Kommentare</translation>
     </message>
@@ -4143,7 +4264,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>TimeLineView</name>
     <message>
-        <location filename="timelineview.cpp" line="+103"/>
+        <location filename="timelineview.cpp" line="+67"/>
         <source>Sound &amp;data...</source>
         <translation>Ton&amp;daten...</translation>
     </message>
@@ -4173,7 +4294,7 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Ändere dyn. Text...</translation>
     </message>
     <message>
-        <location line="+94"/>
+        <location line="+88"/>
         <source>Enter text</source>
         <translation>Texteingabe</translation>
     </message>
@@ -4183,7 +4304,7 @@ p, li { white-space: pre-wrap; }
         <translation>Text:</translation>
     </message>
     <message>
-        <location line="+703"/>
+        <location line="+723"/>
         <source>press mouse button and move to change show time of slide</source>
         <translation>Drücke Maus-Taste und bewege Maus um Anzeigezeit des Dias zu verändern</translation>
     </message>
@@ -4193,7 +4314,7 @@ p, li { white-space: pre-wrap; }
         <translation>Drücke Maus-Taste und bewege Maus um Überblendzeit des Dias zu verändern</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>double mose click or press ALT and left click with mouse to modify item</source>
         <translation>Doppel-Mausklick oder einfacher Mausklick bei gedrückter ALT Taste um Eintrag zu ändern</translation>
     </message>
