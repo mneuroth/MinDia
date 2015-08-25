@@ -1489,6 +1489,19 @@ bool DiaPresentation::GetIndexForTime( double dTimeMS, int & iIndex1, int & iInd
 	return false;
 }
 
+void DiaPresentation::ScaleAllDiaShowTimes( double dScaleFactor )
+{
+    int iMax = GetDiaCount();
+    for( int i=0; i<iMax; i++ )
+    {
+        minHandle<DiaInfo> hDia = GetDiaAt(i);
+        double dDissolve = hDia->GetDissolveTime();
+        double dShow = hDia->GetShowTime();
+        double dNewShow = (dDissolve+dShow)*dScaleFactor-dDissolve;
+        hDia->SetShowTime(dNewShow);
+    }
+}
+
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************

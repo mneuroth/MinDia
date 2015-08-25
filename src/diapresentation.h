@@ -112,6 +112,8 @@ public:
 	bool IsNextSlideChanging( double dTimeMS, double dDeltaMS ) const;
 	bool GetIndexForTime( double dTimeMS, int & iIndex1, int & iIndex2, int & iFadeFactor ) const;
 
+    void ScaleAllDiaShowTimes( double dScaleFactor );
+
 	// ** information about the presentation **
 	int						GetDiaCount() const;
     int                     CountUUIDs( const string & sUUID ) const;
