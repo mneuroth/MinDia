@@ -99,8 +99,11 @@ Bugs:
 - Bug: Effekt (manchmal): Speichern unter merkt nicht korrekt den letzten dateipfad
 - Optimize: Performance für Image Cache verbessern --> thumbnails in .dia Datei speichern und grosses Bild ggf. nachladen
 Features:
-- Menupunkt / Skript um Praesentation an Sound anzupassen !
-- Menupunkt: Dia-Show an Musik anpassen
+((- Menupunkt / Skript um Praesentation an Sound anzupassen !
+((- Menupunkt: Dia-Show an Musik anpassen
+- Ken Burns Effekt realisieren
+- korrektes skalieren der Zeichensaetze bei Aenderung der Aufloesung durchfuehren
+- korrektes skalieren der Dia-Ausgabe --> 3:2 auf 16:9 fuer Movie !
 - alle Fonts und Font-Groessen gleichzeitig aendern,
 - default font und fontgroesse aenderbar machen
 - Alle dissolve und show zeiten gleichzeitig anpassen/aendern

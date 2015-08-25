@@ -88,6 +88,7 @@ const QString g_sDefaultSize2 = QObject::tr("576:400");
 // 1440x1080 // HD1080 HDTV     4:3
 const QString g_sDefaultSize3 = QObject::tr("1280:720");        // 720p:  hd ready
 const QString g_sDefaultSize4 = QObject::tr("1920:1080");       // 1080p: full hd
+const QString g_sDefaultSize5 = QObject::tr("1920:1280");       // 3:2
 const QString g_sSizeOfFirstImage = QObject::tr("size of first image");
 const QString g_sUserValue = QObject::tr("user value");
 
@@ -119,8 +120,9 @@ CreateMovieDlg4::CreateMovieDlg4(DocumentAndControler * pDocControler, double dT
     ui.m_pImageRatio->insertItem( 1, g_sDefaultSize2 );
     ui.m_pImageRatio->insertItem( 2, g_sDefaultSize3 );
     ui.m_pImageRatio->insertItem( 3, g_sDefaultSize4 );
-    ui.m_pImageRatio->insertItem( 4, g_sUserValue );
-    ui.m_pImageRatio->insertItem( 5, g_sSizeOfFirstImage );
+    ui.m_pImageRatio->insertItem( 4, g_sDefaultSize5 );
+    ui.m_pImageRatio->insertItem( 5, g_sUserValue );
+    ui.m_pImageRatio->insertItem( 6, g_sSizeOfFirstImage );
 
     ui.m_pMovieExtension->addItem("avi");
     ui.m_pMovieExtension->addItem("mov");
@@ -161,6 +163,13 @@ void CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
         ui.m_pImageHeight->setEnabled( false );
     }
     else if( sValue==g_sDefaultSize4 )
+    {
+        ui.m_pImageWidth->setText( sValue.split(":")[0] );
+        ui.m_pImageHeight->setText( sValue.split(":")[1] );
+        ui.m_pImageWidth->setEnabled( false );
+        ui.m_pImageHeight->setEnabled( false );
+    }
+    else if( sValue==g_sDefaultSize5 )
     {
         ui.m_pImageWidth->setText( sValue.split(":")[0] );
         ui.m_pImageHeight->setText( sValue.split(":")[1] );
