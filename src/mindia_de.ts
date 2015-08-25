@@ -3086,7 +3086,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+5"/>
         <source>Ad&amp;just dia times to fit sound...</source>
-        <translation type="unfinished">&amp;Justiere Dia Zeiten zur Dauer der Musik</translation>
+        <translation>&amp;Justiere Dia Zeiten zur Dauer der Musik...</translation>
     </message>
     <message>
         <location line="+1"/>
