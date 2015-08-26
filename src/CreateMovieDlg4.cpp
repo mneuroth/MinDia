@@ -214,6 +214,16 @@ void CreateMovieDlg4::sltSelectOutputDirectory()
     }
 }
 
+QString CreateMovieDlg4::GetFfmpegDefaultPath() const
+{
+    return QCoreApplication::applicationDirPath()+QDir::separator()+"files";    // "/opt/local/bin";
+}
+
+void CreateMovieDlg4::sltSetFfmpegDefaultPath()
+{
+    ui.m_pMjpegtoolsDirectory->setText(GetFfmpegDefaultPath());
+}
+
 void CreateMovieDlg4::sltCreateImages()
 {
     sltDisable();
@@ -435,7 +445,6 @@ void CreateMovieDlg4::saveSettings()
     aSettings.setValue("CreateMovieDlg/MovieExtension",ui.m_pMovieExtension->currentIndex());
 }
 
-
 void CreateMovieDlg4::restoreSettings()
 {
     QSettings aSettings;
@@ -447,8 +456,7 @@ void CreateMovieDlg4::restoreSettings()
     QString sTempMovieName("movie");
     ui.m_pMovieFileName->setText(aSettings.value("CreateMovieDlg/OutputMovieName",sTempMovieName).toString());
     // ffmpeg will be delivered from installation as default...
-    QString sMjpegToolsDir = QCoreApplication::applicationDirPath()+QDir::separator()+"files";    // "/opt/local/bin";
-    ui.m_pMjpegtoolsDirectory->setText(aSettings.value("CreateMovieDlg/MjpegToolsDir",sMjpegToolsDir).toString());
+    ui.m_pMjpegtoolsDirectory->setText(aSettings.value("CreateMovieDlg/MjpegToolsDir",GetFfmpegDefaultPath()).toString());
     ui.m_pImagesPerSecond->setValue(aSettings.value("CreateMovieDlg/ImagesPerSeconds",10).toInt());
     ui.m_pImageRatio->setCurrentIndex(aSettings.value("CreateMovieDlg/ImageSizeItem",0).toInt());
     ui.m_pImageExtension->setCurrentIndex(aSettings.value("CreateMovieDlg/ImageExtension",0).toInt());

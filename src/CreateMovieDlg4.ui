@@ -240,19 +240,6 @@
             </property>
            </spacer>
           </item>
-          <item row="3" column="6" colspan="2">
-           <spacer name="horizontalSpacer_7">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
           <item row="1" column="5">
            <widget class="QComboBox" name="m_pMovieExtension"/>
           </item>
@@ -273,6 +260,13 @@
            <widget class="QPushButton" name="m_pSetToTemp">
             <property name="text">
              <string>set to TMP</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="7">
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>default</string>
             </property>
            </widget>
           </item>
@@ -545,8 +539,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>741</x>
-     <y>622</y>
+     <x>739</x>
+     <y>775</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -561,8 +555,8 @@
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>104</x>
-     <y>569</y>
+     <x>118</x>
+     <y>696</y>
     </hint>
     <hint type="destinationlabel">
      <x>147</x>
@@ -577,8 +571,8 @@
    <slot>sltCreateImages()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>696</x>
-     <y>247</y>
+     <x>707</x>
+     <y>296</y>
     </hint>
     <hint type="destinationlabel">
      <x>589</x>
@@ -609,8 +603,8 @@
    <slot>sltImageRatioSelected(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>446</x>
-     <y>192</y>
+     <x>413</x>
+     <y>224</y>
     </hint>
     <hint type="destinationlabel">
      <x>587</x>
@@ -625,8 +619,8 @@
    <slot>sltCreateAVI()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>570</x>
-     <y>354</y>
+     <x>707</x>
+     <y>497</y>
     </hint>
     <hint type="destinationlabel">
      <x>588</x>
@@ -641,8 +635,8 @@
    <slot>sltAddSound()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>570</x>
-     <y>462</y>
+     <x>707</x>
+     <y>697</y>
     </hint>
     <hint type="destinationlabel">
      <x>588</x>
@@ -657,8 +651,8 @@
    <slot>sltDeleteTempFiles()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>719</x>
-     <y>338</y>
+     <x>353</x>
+     <y>775</y>
     </hint>
     <hint type="destinationlabel">
      <x>588</x>
@@ -673,8 +667,8 @@
    <slot>sltMakeShow()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>719</x>
-     <y>309</y>
+     <x>198</x>
+     <y>775</y>
     </hint>
     <hint type="destinationlabel">
      <x>586</x>
@@ -689,8 +683,8 @@
    <slot>sltImagesPerSecondsChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>340</x>
-     <y>245</y>
+     <x>263</x>
+     <y>290</y>
     </hint>
     <hint type="destinationlabel">
      <x>588</x>
@@ -753,8 +747,8 @@
    <slot>sltImageRatioSelected(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>446</x>
-     <y>192</y>
+     <x>413</x>
+     <y>224</y>
     </hint>
     <hint type="destinationlabel">
      <x>751</x>
@@ -785,8 +779,8 @@
    <slot>sltOutputDirectoryChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>277</x>
-     <y>126</y>
+     <x>410</x>
+     <y>151</y>
     </hint>
     <hint type="destinationlabel">
      <x>751</x>
@@ -801,8 +795,8 @@
    <slot>sltMovieExtensionChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>550</x>
-     <y>94</y>
+     <x>535</x>
+     <y>119</y>
     </hint>
     <hint type="destinationlabel">
      <x>749</x>
@@ -817,12 +811,28 @@
    <slot>sltImageExtensionChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>549</x>
-     <y>72</y>
+     <x>535</x>
+     <y>88</y>
     </hint>
     <hint type="destinationlabel">
      <x>748</x>
      <y>12</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CreateMovieDlg4</receiver>
+   <slot>sltSetFfmpegDefaultPath()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>677</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>746</x>
+     <y>209</y>
     </hint>
    </hints>
   </connection>
@@ -844,5 +854,6 @@
   <slot>sltOutputDirectoryChanged(QString)</slot>
   <slot>sltMovieExtensionChanged(QString)</slot>
   <slot>sltImageExtensionChanged(QString)</slot>
+  <slot>sltSetFfmpegDefaultPath()</slot>
  </slots>
 </ui>

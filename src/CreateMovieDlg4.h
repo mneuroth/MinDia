@@ -45,6 +45,7 @@ public:
 
 public slots:
     int  sltImageRatioSelected( const QString & );
+    void sltSetFfmpegDefaultPath();
     void sltSelectOutputDirectory();
     void sltCreateImages();
     void sltCreateAVI();
@@ -72,6 +73,7 @@ private:
     void DeleteProcess();
     void UpdateCmds();
     void EnableDialog( bool value );
+    QString GetFfmpegDefaultPath() const;
 
     Ui::CreateMovieDlg4     ui;
 
