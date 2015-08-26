@@ -436,7 +436,7 @@ void CreateMovieDlg4::restoreSettings()
     QString sTempMovieName("movie");
     ui.m_pMovieFileName->setText(aSettings.value("CreateMovieDlg/OutputMovieName",sTempMovieName).toString());
     // ffmpeg will be delivered from installation as default...
-    QString sMjpegToolsDir = QCoreApplication::applicationDirPath();    // "/opt/local/bin";
+    QString sMjpegToolsDir = QCoreApplication::applicationDirPath()+QDir::separator()+"files";    // "/opt/local/bin";
     ui.m_pMjpegtoolsDirectory->setText(aSettings.value("CreateMovieDlg/MjpegToolsDir",sMjpegToolsDir).toString());
     ui.m_pImagesPerSecond->setValue(aSettings.value("CreateMovieDlg/ImagesPerSeconds",10).toInt());
     ui.m_pImageRatio->setCurrentIndex(aSettings.value("CreateMovieDlg/ImageSizeItem",0).toInt());
