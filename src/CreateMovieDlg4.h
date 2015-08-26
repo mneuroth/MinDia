@@ -35,14 +35,16 @@ class CreateMovieDlg4 : public QDialog
 	Q_OBJECT
 
 public:
-    CreateMovieDlg4(DocumentAndControler * pDocControler = 0, double dTotalTimeMS = 0.0, QWidget *parent = 0);
+    CreateMovieDlg4(DocumentAndControler * pDocControler, double dTotalTimeMS, QWidget *parent = 0);
     virtual ~CreateMovieDlg4();
 
     void saveSettings();
     void restoreSettings();
 
+    void setOutputSizeIfPossible( unsigned long ulWidth, unsigned long ulHeight );
+
 public slots:
-    void sltImageRatioSelected( const QString & );
+    int  sltImageRatioSelected( const QString & );
     void sltSelectOutputDirectory();
     void sltCreateImages();
     void sltCreateAVI();

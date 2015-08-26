@@ -43,7 +43,7 @@ class MinDiaWindow;
 
 // *******************************************************************
 enum ImageRatio {
-    RATIO_UNDEFINED,
+    RATIO_UNDEFINED, /* = 0 */
     RATIO_16_9,
     RATIO_3_2,
     RATIO_4_3,

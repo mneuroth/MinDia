@@ -102,8 +102,8 @@ Features:
 ((- Menupunkt / Skript um Praesentation an Sound anzupassen !
 ((- Menupunkt: Dia-Show an Musik anpassen
 - Ken Burns Effekt realisieren
-- korrektes skalieren der Zeichensaetze bei Aenderung der Aufloesung durchfuehren
-- korrektes skalieren der Dia-Ausgabe --> 3:2 auf 16:9 fuer Movie !
+((- korrektes skalieren der Zeichensaetze bei Aenderung der Aufloesung durchfuehren --> geht anscheinend schon !
+((- korrektes skalieren der Dia-Ausgabe --> 3:2 auf 16:9 fuer Movie !
 - alle Fonts und Font-Groessen gleichzeitig aendern,
 - default font und fontgroesse aenderbar machen
 - Alle dissolve und show zeiten gleichzeitig anpassen/aendern
@@ -1395,7 +1395,7 @@ void MinDiaWindow::sltExportDoc()
 
 void MinDiaWindow::sltExportAVI()
 {
-    CreateMovieDlg4 * pDlg = new CreateMovieDlg4(m_pControler, m_pControler->GetPresentation().GetTotalTime()*1000,this);
+    CreateMovieDlg4 * pDlg = new CreateMovieDlg4(m_pControler,m_pControler->GetPresentation().GetTotalTime()*1000,this);
 
     if( m_aCreateMovieDialogGeometry.count()>0 )
     {
@@ -1403,6 +1403,10 @@ void MinDiaWindow::sltExportAVI()
     }
 
     pDlg->restoreSettings();
+
+    unsigned long ulWidth, ulHeight;
+    m_pControler->GetPresentation().GetImageSize(ulWidth,ulHeight);
+    pDlg->setOutputSizeIfPossible(ulWidth,ulHeight);
 
 	int iRet = pDlg->exec();
 

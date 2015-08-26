@@ -139,14 +139,17 @@ CreateMovieDlg4::~CreateMovieDlg4()
     DeleteProcess();
 }
 
-void CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
+int CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
 {
+    int iImageRatioIndex = -1;
+
     if( sValue==g_sDefaultSize1 )
     {
         ui.m_pImageWidth->setText( sValue.split(":")[0] );
         ui.m_pImageHeight->setText( sValue.split(":")[1] );
         ui.m_pImageWidth->setEnabled( false );
         ui.m_pImageHeight->setEnabled( false );
+        iImageRatioIndex = 0;
     }
     else if( sValue==g_sDefaultSize2 )
     {
@@ -154,6 +157,7 @@ void CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
         ui.m_pImageHeight->setText( sValue.split(":")[1] );
         ui.m_pImageWidth->setEnabled( false );
         ui.m_pImageHeight->setEnabled( false );
+        iImageRatioIndex = 1;
     }
     else if( sValue==g_sDefaultSize3 )
     {
@@ -161,6 +165,7 @@ void CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
         ui.m_pImageHeight->setText( sValue.split(":")[1] );
         ui.m_pImageWidth->setEnabled( false );
         ui.m_pImageHeight->setEnabled( false );
+        iImageRatioIndex = 2;
     }
     else if( sValue==g_sDefaultSize4 )
     {
@@ -168,6 +173,7 @@ void CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
         ui.m_pImageHeight->setText( sValue.split(":")[1] );
         ui.m_pImageWidth->setEnabled( false );
         ui.m_pImageHeight->setEnabled( false );
+        iImageRatioIndex = 3;
     }
     else if( sValue==g_sDefaultSize5 )
     {
@@ -175,6 +181,7 @@ void CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
         ui.m_pImageHeight->setText( sValue.split(":")[1] );
         ui.m_pImageWidth->setEnabled( false );
         ui.m_pImageHeight->setEnabled( false );
+        iImageRatioIndex = 4;
     }
     else if( sValue==g_sUserValue )
     {
@@ -182,6 +189,7 @@ void CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
         ui.m_pImageHeight->setText( "" );
         ui.m_pImageWidth->setEnabled( true );
         ui.m_pImageHeight->setEnabled( true );
+        iImageRatioIndex = 5;
     }
     else if( sValue==g_sSizeOfFirstImage )
     {
@@ -189,7 +197,10 @@ void CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
         ui.m_pImageHeight->setText( "?" );
         ui.m_pImageWidth->setEnabled( false );
         ui.m_pImageHeight->setEnabled( false );
+        iImageRatioIndex = 6;
     }
+
+    return iImageRatioIndex;
 }
 
 void CreateMovieDlg4::sltSelectOutputDirectory()
@@ -444,6 +455,18 @@ void CreateMovieDlg4::restoreSettings()
     ui.m_pMovieExtension->setCurrentIndex(aSettings.value("CreateMovieDlg/MovieExtension",0).toInt());
 
     UpdateCmds();
+}
+
+void CreateMovieDlg4::setOutputSizeIfPossible( unsigned long ulWidth, unsigned long ulHeight )
+{
+    QString sSize = QString("%0:%1").arg(ulWidth).arg(ulHeight);
+
+    int iImageRatioIndex = sltImageRatioSelected(sSize);
+
+    if( iImageRatioIndex>=0 )
+    {
+        ui.m_pImageRatio->setCurrentIndex(iImageRatioIndex);
+    }
 }
 
 void CreateMovieDlg4::CreateProcess( bool bAutoDelete )
