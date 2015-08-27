@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>386</width>
-    <height>387</height>
+    <width>400</width>
+    <height>392</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -73,8 +73,14 @@
       </item>
       <item row="3" column="3">
        <widget class="QLineEdit" name="txtDY">
+        <property name="minimumSize">
+         <size>
+          <width>60</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="inputMask">
-         <string>0000; </string>
+         <string>0000</string>
         </property>
         <property name="text">
          <string>768</string>
@@ -97,8 +103,14 @@
       </item>
       <item row="3" column="2">
        <widget class="QLineEdit" name="txtDX">
+        <property name="minimumSize">
+         <size>
+          <width>60</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="inputMask">
-         <string>0000; </string>
+         <string>0000</string>
         </property>
         <property name="text">
          <string>1024</string>
@@ -147,7 +159,7 @@
          <bool>false</bool>
         </property>
         <property name="inputMask">
-         <string>0000; </string>
+         <string>0000</string>
         </property>
         <property name="text">
          <string>1920</string>
@@ -167,7 +179,7 @@
          <bool>false</bool>
         </property>
         <property name="inputMask">
-         <string>0000; </string>
+         <string>0000</string>
         </property>
         <property name="text">
          <string>1080</string>
@@ -178,12 +190,6 @@
        </widget>
       </item>
      </layout>
-     <zorder>m_pOutputSize</zorder>
-     <zorder>m_pOutputSize</zorder>
-     <zorder>label</zorder>
-     <zorder>m_pOutputWidth</zorder>
-     <zorder>label_2</zorder>
-     <zorder>m_pOutputHeight</zorder>
     </widget>
    </item>
    <item row="4" column="0">
