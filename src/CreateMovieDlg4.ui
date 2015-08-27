@@ -264,7 +264,7 @@
            </widget>
           </item>
           <item row="3" column="7">
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="m_pSetDefaultFfmpegDir">
             <property name="text">
              <string>default</string>
             </property>
@@ -821,7 +821,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton</sender>
+   <sender>m_pSetDefaultFfmpegDir</sender>
    <signal>clicked()</signal>
    <receiver>CreateMovieDlg4</receiver>
    <slot>sltSetFfmpegDefaultPath()</slot>

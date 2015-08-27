@@ -508,6 +508,7 @@ void CreateMovieDlg4::EnableDialog( bool value )
     ui.m_pImageExtension->setEnabled( value );
     ui.m_pMovieExtension->setEnabled( value );
     ui.m_pImageRatio->setEnabled( value );
+    ui.m_pSetDefaultFfmpegDir->setEnabled( value );
 }
 
 void CreateMovieDlg4::RunCommands( const QString & sCmds )
