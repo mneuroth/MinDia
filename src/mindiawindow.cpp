@@ -1275,7 +1275,7 @@ void MinDiaWindow::sltConfigurationDialogClosed()
 
 void MinDiaWindow::sltAskNewDoc()
 {
-    int iRet = 1;
+    int iRet = QMessageBox::Yes;
 	// ask user before deleting the actual document...
     if( m_pControler->IsChanged() )
     {
