@@ -86,9 +86,12 @@ const QString g_sDefaultSize2 = QObject::tr("576:400");
 // 720x576   // PAL (DV)
 // 960x720   // HD720 HDTV      4:3
 // 1440x1080 // HD1080 HDTV     4:3
+// 3840x2160 // 2160p QFHD UHD
+// 4096x2160 // 4K
 const QString g_sDefaultSize3 = QObject::tr("1280:720");        // 720p:  hd ready
 const QString g_sDefaultSize4 = QObject::tr("1920:1080");       // 1080p: full hd
 const QString g_sDefaultSize5 = QObject::tr("1920:1280");       // 3:2
+const QString g_sDefaultSize6 = QObject::tr("3840:2160");       // 4K
 const QString g_sSizeOfFirstImage = QObject::tr("size of first image");
 const QString g_sUserValue = QObject::tr("user value");
 
@@ -121,8 +124,9 @@ CreateMovieDlg4::CreateMovieDlg4(DocumentAndControler * pDocControler, double dT
     ui.m_pImageRatio->insertItem( 2, g_sDefaultSize3 );
     ui.m_pImageRatio->insertItem( 3, g_sDefaultSize4 );
     ui.m_pImageRatio->insertItem( 4, g_sDefaultSize5 );
-    ui.m_pImageRatio->insertItem( 5, g_sUserValue );
-    ui.m_pImageRatio->insertItem( 6, g_sSizeOfFirstImage );
+    ui.m_pImageRatio->insertItem( 5, g_sDefaultSize6 );
+    ui.m_pImageRatio->insertItem( 6, g_sUserValue );
+    ui.m_pImageRatio->insertItem( 7, g_sSizeOfFirstImage );
 
     ui.m_pMovieExtension->addItem("avi");
     ui.m_pMovieExtension->addItem("mov");
@@ -183,13 +187,21 @@ int CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
         ui.m_pImageHeight->setEnabled( false );
         iImageRatioIndex = 4;
     }
+    else if( sValue==g_sDefaultSize6 )
+    {
+        ui.m_pImageWidth->setText( sValue.split(":")[0] );
+        ui.m_pImageHeight->setText( sValue.split(":")[1] );
+        ui.m_pImageWidth->setEnabled( false );
+        ui.m_pImageHeight->setEnabled( false );
+        iImageRatioIndex = 5;
+    }
     else if( sValue==g_sUserValue )
     {
         ui.m_pImageWidth->setText( "" );
         ui.m_pImageHeight->setText( "" );
         ui.m_pImageWidth->setEnabled( true );
         ui.m_pImageHeight->setEnabled( true );
-        iImageRatioIndex = 5;
+        iImageRatioIndex = 6;
     }
     else if( sValue==g_sSizeOfFirstImage )
     {
@@ -197,7 +209,7 @@ int CreateMovieDlg4::sltImageRatioSelected( const QString & sValue )
         ui.m_pImageHeight->setText( "?" );
         ui.m_pImageWidth->setEnabled( false );
         ui.m_pImageHeight->setEnabled( false );
-        iImageRatioIndex = 6;
+        iImageRatioIndex = 7;
     }
 
     return iImageRatioIndex;

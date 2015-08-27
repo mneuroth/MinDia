@@ -724,6 +724,7 @@ QStringList GetSizeStrings( ImageRatio ratio )
     QStringList lstStrings;
 
     lstStrings.append( GetSizeString( GetSizeForSizeX( SIZEX_UNDEFINED, ratio ) ) );
+    lstStrings.append( GetSizeString( GetSizeForSizeX( SIZEX_3840, ratio ) ) );
     lstStrings.append( GetSizeString( GetSizeForSizeX( SIZEX_1920, ratio ) ) );
     lstStrings.append( GetSizeString( GetSizeForSizeX( SIZEX_1440, ratio ) ) );
     lstStrings.append( GetSizeString( GetSizeForSizeX( SIZEX_1280, ratio ) ) );
