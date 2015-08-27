@@ -219,7 +219,7 @@ void DynamicTextDlgImpl::sltRelPosToggled(bool bValue)
 
 void DynamicTextDlgImpl::sltSelectFontcolor()
 {
-	QColor aColor = QColorDialog::getColor ( QColor(), this, "colordialog" );
+    QColor aColor = QColorDialog::getColor( QColor(), this, "colordialog" );
 
 	if( aColor.isValid() )
 	{
