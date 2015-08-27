@@ -102,6 +102,7 @@ Features:
 ((- Menupunkt / Skript um Praesentation an Sound anzupassen !
 ((- Menupunkt: Dia-Show an Musik anpassen
 - Ken Burns Effekt realisieren
+- Einblenden/Ausblenden der DynText Elemente realisieren
 ((- korrektes skalieren der Zeichensaetze bei Aenderung der Aufloesung durchfuehren --> geht anscheinend schon !
 ((- korrektes skalieren der Dia-Ausgabe --> 3:2 auf 16:9 fuer Movie !
 - alle Fonts und Font-Groessen gleichzeitig aendern,
@@ -925,6 +926,7 @@ void MinDiaWindow::sltDoModifyItem()
 		{
 			m_pDiaInfoDialog = new DiaInfoDlgImpl( m_pSlideView, this );
 			m_pDiaInfoDialog->move( 450, 330 );
+            m_pDiaInfoDialog->setWindowFlags(m_pDiaInfoDialog->windowFlags() | Qt::WindowStaysOnTopHint);
 		}
 
 		m_pDiaInfoDialog->show();
@@ -1040,6 +1042,7 @@ void MinDiaWindow::CreatePlayInfoDlg()
     if( !m_pPlayInfoDialog )
     {
         m_pPlayInfoDialog = new PlayInfoDlgImpl( m_pControler, this );
+        m_pPlayInfoDialog->setWindowFlags(m_pPlayInfoDialog->windowFlags() | Qt::WindowStaysOnTopHint);
         m_pPlayInfoDialog->move( 10, 350 );
 
         if( m_aPlayInfoDialogGeometry.count()>0 )

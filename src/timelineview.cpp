@@ -1052,6 +1052,7 @@ void TimeLineView::ShowModifyDynObjectDialog( int iIndexOut )
         }
 
         DynamicTextDlgImpl aDlg( hItem, iIndex1>=0 ? iIndex1+1 : iIndex1, ToQString(sUUID1), iIndex2>=0 ? iIndex2+1 : iIndex2, ToQString(sUUID2), this, m_pParent );
+        aDlg.setWindowFlags(aDlg.windowFlags() | Qt::WindowStaysOnTopHint);
         aDlg.setModal(true);
     
     	int iRet = aDlg.exec();
