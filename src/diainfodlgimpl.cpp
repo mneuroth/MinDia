@@ -94,16 +94,20 @@ void DiaInfoDlgImpl::UpdateScreenEditData()
 {
     m_pScreen->setSceneRect( 0, 0, m_pClipping->width()-4, m_pClipping->height()-4 );
 
-    m_pScreen->SetBackgroundImage( m_pFileNameEdit->text() );
-
-    if( m_hItem.IsOk() )
+    // optimization: do not update if dialog is not visible !
+    if( isVisible() )
     {
-        double relX = m_hItem->GetRelX();
-        double relY = m_hItem->GetRelY();
-        double relDX = m_hItem->GetRelDX();
-        double relDY = m_hItem->GetRelDY();
+        m_pScreen->SetBackgroundImage( m_pFileNameEdit->text() );
 
-        m_pScreen->SetClippingData( relX, relY, relDX, relDY );
+        if( m_hItem.IsOk() )
+        {
+            double relX = m_hItem->GetRelX();
+            double relY = m_hItem->GetRelY();
+            double relDX = m_hItem->GetRelDX();
+            double relDY = m_hItem->GetRelDY();
+
+            m_pScreen->SetClippingData( relX, relY, relDX, relDY );
+        }
     }
 }
 
@@ -421,9 +425,9 @@ void DiaInfoDlgImpl::CheckIfDataChanged()
 	{
 		if( m_pItem )
 		{
-			int iRet = QMessageBox::warning( this, tr( "MinDia - Warning" ), tr( "Write changed data ?" ), tr( "Yes" ), tr( "No" ) );
-
-			if( iRet == 0 )
+            // 27.8.2015: do not ask to accept modification --> just apply changes !
+            //int iRet = QMessageBox::warning( this, tr( "MinDia - Warning" ), tr( "Write changed data ?" ), tr( "Yes" ), tr( "No" ) );
+            //if( iRet == 0 )
 			{
 				sltApplyData();
 			}

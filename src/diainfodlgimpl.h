@@ -50,6 +50,8 @@ public:
 
 	void CheckIfDataChanged();
 
+    void UpdateScreenEditData();
+
 public slots:
     virtual void sltDisableDialog( bool bCheckData );
     virtual void sltUpdateData( HItem * pFirstSelectedItem, bool bEnable );
@@ -88,8 +90,6 @@ protected:
     virtual void resizeEvent( QResizeEvent * pEvent );
 
 private:
-    void UpdateScreenEditData();
-
 	bool				m_bDataChanged;
 	HItem *				m_pItem;			// NO OWNER !!!
 	minHandle<DiaInfo>	m_hItem;
