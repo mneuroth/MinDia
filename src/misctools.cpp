@@ -307,7 +307,8 @@ bool QImageCache::Get( const QString & sImageFileName, int maxWidth, int maxHeig
         m_aMap[sImageFileName].second += 1;
         const QImage & ret = m_aMap[sImageFileName].first;
   //      m_aLock.unlock();
-        if( ret.width()<maxWidth || ret.height()<maxHeight || maxWidth<0 || maxHeight<0 )
+        // if at least one dimension fulfills the requirements it is assumed that we have a valid cached image
+        if( (ret.width()<maxWidth && ret.height()<maxHeight) || maxWidth<0 || maxHeight<0 )
         {
             aImage = ReadImageDetectingOrientation(sImageFileName);
 
