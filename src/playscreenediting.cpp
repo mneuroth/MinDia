@@ -67,6 +67,7 @@ void PlayScreenEditing::GetClippingData( double & relX, double & relY, double & 
 
 void PlayScreenEditing::Rescale()
 {
+// TODO --> noch mal bild gelesen !
     QImage aImage = ReadQImageOrEmpty( m_sImageFileName, this->width(), this->height() );
     QPixmap aPixmap;
     aPixmap.convertFromImage( aImage );

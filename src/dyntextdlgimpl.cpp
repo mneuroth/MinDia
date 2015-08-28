@@ -36,12 +36,14 @@
 // *******************************************************************
 // *******************************************************************
 
-DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, const QString & sUUID1, int iIndex2, const QString & sUUID2, QWidget * parent, QWidget * pMain, Qt::WindowFlags fl )
+DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, const QImage & aBackgroundImage, int iIndex1, const QString & sUUID1, int iIndex2, const QString & sUUID2, QWidget * parent, QWidget * pMain, Qt::WindowFlags fl )
 : QDialog( parent, fl ),
   m_hItem( hItem ),
   m_aInitFont( hItem->orgFont() )
 {
     setupUi(this);
+
+    m_aBackgroundPixmap.convertFromImage( aBackgroundImage );
 
 //	int x = m_pDrawingArea->width()-5;
 //	int y = m_pDrawingArea->height()-5;
@@ -56,6 +58,9 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, c
 
     m_pClippingArea = new QGraphicsRectItem();
 
+    m_pBackgroundImage = new QGraphicsPixmapItem( m_aBackgroundPixmap.scaled( m_pClippingArea->rect().width(), m_pClippingArea->rect().height(), Qt::KeepAspectRatio ) ); //m_pCanvas->addPixmap( m_aBackgroundPixmap.scaled( m_pClippingArea->rect().width(), m_pClippingArea->rect().height(), Qt::KeepAspectRatio ) );
+
+    m_pCanvas->addItem(m_pBackgroundImage);
     m_pCanvas->addItem(m_pCanvasText);
     m_pCanvas->addItem(m_pClippingArea);
 
@@ -305,6 +310,7 @@ void DynamicTextDlgImpl::resizeEvent( QResizeEvent * event )
     // update clipping area size
     QSize aClippingAreaSize = GetRatioSizeForAvailableSize( m_pDrawingArea->size(), GetCurrentImageRatio() );
     m_pClippingArea->setRect(0,0,aClippingAreaSize.width()-4,aClippingAreaSize.height()-4);
+    m_pBackgroundImage->setPixmap( m_aBackgroundPixmap.scaled( m_pClippingArea->rect().width(), m_pClippingArea->rect().height(), Qt::KeepAspectRatio ) ); //m_pCanvas->addPixmap( m_aBackgroundPixmap.scaled( m_pClippingArea->rect().width(), m_pClippingArea->rect().height(), Qt::KeepAspectRatio ) );
 }
 
 void DynamicTextDlgImpl::SetTextColor( const QColor & aColor )

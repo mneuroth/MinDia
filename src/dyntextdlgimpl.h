@@ -38,7 +38,7 @@ class DynamicTextDlgImpl : public QDialog, public Ui_DynamicTextDlg, public Dyna
 	Q_OBJECT
 
 public:
-    DynamicTextDlgImpl( minHandle<DynText> hItem, int iIndex1, const QString & sUUID1, int iIndex2, const QString & sUUID2, QWidget * parent = 0, QWidget * pMain = 0, Qt::WindowFlags fl = 0 );
+    DynamicTextDlgImpl( minHandle<DynText> hItem, const QImage & aBackgroundImage, int iIndex1, const QString & sUUID1, int iIndex2, const QString & sUUID2, QWidget * parent = 0, QWidget * pMain = 0, Qt::WindowFlags fl = 0 );
 	virtual ~DynamicTextDlgImpl();
 
 	double GetRelX() const;
@@ -76,9 +76,11 @@ protected:
 private:
     minHandle<DynText>         m_hItem;
     QFont                      m_aInitFont;
-    QGraphicsScene *           m_pCanvas;
+    QPixmap                    m_aBackgroundPixmap;
+    QGraphicsScene *           m_pCanvas;           // TODO --> ggf. PlayScreenEditing verwenden
     DynamicTextItem *          m_pCanvasText;
     QGraphicsRectItem *        m_pClippingArea;
+    QGraphicsPixmapItem *      m_pBackgroundImage;
 };
 
 #endif

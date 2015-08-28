@@ -97,6 +97,7 @@ void DiaInfoDlgImpl::UpdateScreenEditData()
     // optimization: do not update if dialog is not visible !
     if( isVisible() )
     {
+        // update the content !
         m_pScreen->SetBackgroundImage( m_pFileNameEdit->text() );
 
         if( m_hItem.IsOk() )
@@ -184,6 +185,7 @@ void DiaInfoDlgImpl::sltUpdateData( minHandle<DiaInfo> hData, bool bEnable )
 	if( hData.IsOk() )
 	{
         // just get the size of the image
+// TODO ---> wir kennen das image schon und koennten auch die groesse kennen ! --> optimierung hier muss ggf. nicht gelesen werden !
         QImageReader aImageReader( ToQString( hData->GetImageFile() ) );
         QSize aSize = aImageReader.size();  // read size without reading image content
         m_pImageSize->setText( QString("%1 x %2").arg(aSize.width()).arg(aSize.height()) );

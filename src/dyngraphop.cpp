@@ -41,6 +41,8 @@ const char * c_sHide = "Hide";
 const char * c_sShow = "Show";
 const char * c_sDelay = "Delay";
 
+#define DEFAULT_FONT_SIZE 72    // good for 1080p
+
 static QFont ScaleFontSize( const QFont & aFontIn, double dScaleFactor )
 {
     QFont aFont( aFontIn );
@@ -1565,7 +1567,7 @@ void DynText::CreateDefaultOperations( double dStartTimeInMS, double dShowTimeIn
 {
     setPos( 10, 10 );
     setBrush( QColor( 255, 0, 0 ) );
-	setFont( QFont( "Arial", 20 ) );
+    setFont( QFont( "Arial", DEFAULT_FONT_SIZE ) );
 	AddOperation( minHandle<OpItem_Base>( new OpItem_Hide( this, 0 ) ) );
 	//AddOperation( minHandle<OpItem_Base>( new OpItem_MoveTo( this, 0, 0, 100, 100, 10 ) ) );
 	//AddOperation( minHandle<OpItem_Base>( new OpItem_ChangeColor( this, QColor( 0, 0, 0 ), QColor( 255, 0, 0 ), 10 ) ) );

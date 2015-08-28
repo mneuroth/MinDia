@@ -99,6 +99,12 @@ Bugs:
 - Bug: Effekt (manchmal): Speichern unter merkt nicht korrekt den letzten dateipfad
 - Optimize: Performance für Image Cache verbessern --> thumbnails in .dia Datei speichern und grosses Bild ggf. nachladen
 Features:
+//- Default-Groesse Font verbessern --> immer auf 72 pixel setzen
+- Zentrieren der Cliping-Area implementieren --> -1 ?
+- Togglen der Farbe beim Clipping-Rect realisieren
+- zweites Clipping-Rect realisiern --> kenn burns
+- Geschwindigkeits-Optimierungen beim Film Erzeugen? Und Anzeige?
+//- Anzeige des Dias/Images bei Positionierung von Schrift
 ((- Menupunkt / Skript um Praesentation an Sound anzupassen !
 ((- Menupunkt: Dia-Show an Musik anpassen
 - Ken Burns Effekt realisieren

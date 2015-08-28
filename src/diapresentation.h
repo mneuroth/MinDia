@@ -108,7 +108,7 @@ public:
 	bool IsPause() const;
 	bool IsEdit() const;
 
-    QImage GetSlideForTime( double dTimeMS, int iWidth = -1, int iHeight = -1, bool bScale = true ) const;
+    QImage GetSlideForTime( double dTimeMS, int iWidth = -1, int iHeight = -1, bool bScale = true, bool bDrawDynItems = true ) const;
 	bool IsNextSlideChanging( double dTimeMS, double dDeltaMS ) const;
 	bool GetIndexForTime( double dTimeMS, int & iIndex1, int & iIndex2, int & iFadeFactor ) const;
 
