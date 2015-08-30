@@ -46,6 +46,7 @@
 // TODO: flush cache implementieren !!!
 
 static QImageCache g_aImageCache(256,256);
+static QImageCache g_aFullImageCache(999999,999999,3);
 
 static QAsyncImageReaderThread * g_pAsyncImageReaderThread = 0;
 
@@ -310,7 +311,15 @@ bool QImageCache::Get( const QString & sImageFileName, int maxWidth, int maxHeig
         // if at least one dimension fulfills the requirements it is assumed that we have a valid cached image
         if( (ret.width()<maxWidth && ret.height()<maxHeight) || maxWidth<0 || maxHeight<0 )
         {
-            aImage = ReadImageDetectingOrientation(sImageFileName);
+            // optimization: first try the full cache...
+            if( this!=&g_aFullImageCache )
+            {
+                g_aFullImageCache.Get(sImageFileName,maxWidth,maxHeight,aImage);
+            }
+            else
+            {
+                aImage = ReadImageDetectingOrientation(sImageFileName);
+            }
 
             if( aImage.isNull() )
             {
