@@ -79,6 +79,7 @@ const QString g_sDefaultSize2 = QObject::tr("576:400");
 // 640x480   // NTSC (VGA)      4:3
 // 800x600
 // 1024x768
+// 640x480   // 480p            4:3
 // 720x480   // NTSC (DV)       3:2
 // 768x576   // PAL (DVB)       4:3
 // 1024x576  // PAL-wide (DVB)  16:9
