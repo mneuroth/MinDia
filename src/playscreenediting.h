@@ -36,6 +36,8 @@ public:
 
     void SetClippingData( double relX, double relY, double relDX, double relDY );
     void GetClippingData( double & relX, double & relY, double & relDX, double & relDY );
+    void SetClippingEndData( double relX, double relY, double relDX, double relDY );
+    void GetClippingEndData( double & relX, double & relY, double & relDX, double & relDY );
 
     // implements GraphicsItemChangedCallback
     virtual void ItemModified( QGraphicsItem * pItem );
@@ -45,13 +47,15 @@ signals:
     
 public slots:
     void sltSceneRectChanged( const QRectF & rect );
+    void sltSetDarkRectangle( bool bValue );
 
 private:
     void Rescale();
 
     QString                       m_sImageFileName;
     QGraphicsPixmapItem *         m_pBackgroundImage;
-    GraphicsItemResizeableRect *  m_pClipRange;
+    GraphicsItemResizeableRect *  m_pClipRange;         // start clip range
+    GraphicsItemResizeableRect *  m_pClipRangeEnd;      // end clip range
 };
 
 #endif // PLAYSCREENEDITING_H
