@@ -100,9 +100,9 @@ Bugs:
 - Optimize: Performance für Image Cache verbessern --> thumbnails in .dia Datei speichern und grosses Bild ggf. nachladen
 Features:
 //- Default-Groesse Font verbessern --> immer auf 72 pixel setzen
-- Zentrieren der Cliping-Area implementieren --> -1 ?
-- Togglen der Farbe beim Clipping-Rect realisieren
-- zweites Clipping-Rect realisiern --> kenn burns
+- Zentrieren der Cliping-Area implementieren --> -1 dazu verwenden ?
+//- Togglen der Farbe beim Clipping-Rect realisieren
+- zweites Clipping-Rect realisiern --> kenn burns --> DiaPresentation::GetSlideForTime()
 - Geschwindigkeits-Optimierungen beim Film Erzeugen? Und Anzeige?
 //- Anzeige des Dias/Images bei Positionierung von Schrift
 ((- Menupunkt / Skript um Praesentation an Sound anzupassen !
@@ -344,6 +344,8 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 
     CreateChildWidgets();
     CreateMenus();
+
+    SetMessageSenderForCache( this );
 
     resize( 800, 600 );
 	move( 25, 25 );

@@ -45,21 +45,24 @@
 // TODO: image cache fuer kleine Bitmaps anlegen, falls grosse bmps benoetigt werden diese asynchron nachladen...
 // TODO: flush cache implementieren !!!
 
-static QImageCache g_aImageCache(256,256);
-static QImageCache g_aFullImageCache(999999,999999,3);
+#define MAX_IMAGE_SIZE  999999
+
+static QImageCache g_aFullImageCache(MAX_IMAGE_SIZE,MAX_IMAGE_SIZE,/*maxCacheItems=*/5);
+static QImageCache g_aImageCache(256,256,-1,&g_aFullImageCache);
 
 static QAsyncImageReaderThread * g_pAsyncImageReaderThread = 0;
 
 // *******************************************************************
 
-QImageCache::QImageCache(int iMaxWidth, int iMaxHeight, int iMaxItems)
+QImageCache::QImageCache(int iMaxWidth, int iMaxHeight, int iMaxItems, QImageCache * pResolveFullImages)
     : m_iMaxItems(iMaxItems),
       m_iMaxWidth(iMaxWidth),
       m_iMaxHeight(iMaxHeight),
       m_pTargetForMessages(0),
       m_bStopThread(false),
       m_bModified(false),
-      m_aLock(QMutex::Recursive)
+      m_aLock(QMutex::Recursive),
+      m_pResolveFullImages(pResolveFullImages)
 {
 }
 
@@ -96,14 +99,14 @@ void QImageCache::DoStop()
     }
 }
 
-// TODO: ggf. create image cach trennen von image cach zugriff !!!
+// thread worker method to create the image cache
 void QImageCache::run()
 {
-    QImage aImage;
+    QImage aTempImage;
     foreach( const QString sFileName, m_lstImageFileNames )
     {
         PostMessage( tr("reading ")+sFileName );
-        Get(sFileName,m_iMaxWidth,m_iMaxHeight,aImage);
+        GetRef(sFileName,aTempImage,m_iMaxWidth,m_iMaxHeight);
         if( m_bStopThread )
         {
             break;
@@ -111,6 +114,11 @@ void QImageCache::run()
     }
     //unsigned long sz = GetCacheSizeInBytes();
     PostMessage( tr("image cache successfully created !") );
+}
+
+void QImageCache::SetMessageSender( QObject * pTargetForMessages )
+{
+    m_pTargetForMessages = pTargetForMessages;
 }
 
 void QImageCache::InitCacheInBackground( const QStringList & lstImageFileNames, QObject * pTargetForMessages )
@@ -128,7 +136,7 @@ void QImageCache::RemoveUnusedItems( const QStringList & lstImageFileNames, QObj
     m_pTargetForMessages = pTargetForMessages;
     QStringList lstRemoveKeys;
     m_aLock.lock();
-    // first remove all unused images from current cache
+    // first: remove all unused images from current cache
     foreach (const QString & sKey, m_aMap.keys())
     {
         if( !lstImageFileNames.contains(sKey) )
@@ -142,11 +150,13 @@ void QImageCache::RemoveUnusedItems( const QStringList & lstImageFileNames, QObj
         PostMessage( tr("Removed file from cache: ")+sFileName );
     }
     m_aLock.unlock();
-    // second add all new image files to cache
-    QImage aImage;
+    // second: add all new image files to cache
+    QImage aTempImage;
     foreach (const QString & sFileName, lstImageFileNames)
     {
-        if( !Get( sFileName,m_iMaxWidth,m_iMaxHeight,aImage) )
+        bool bWasAdded = false;
+        GetRef( sFileName, aTempImage, bWasAdded, m_iMaxWidth, m_iMaxHeight );
+        if( bWasAdded )
         {
             PostMessage( tr("Added file to cache: ")+sFileName );
         }
@@ -167,8 +177,8 @@ unsigned long QImageCache::GetCacheSizeInBytes()
 
 bool QImageCache::WriteCache( const QString & sCacheFileName )
 {
-    QElapsedTimer aTimer;
-    aTimer.start();
+    //QElapsedTimer aTimer;
+    //aTimer.start();
 
     bool ret = false;
     QFile aFile( sCacheFileName );
@@ -184,14 +194,14 @@ bool QImageCache::WriteCache( const QString & sCacheFileName )
         ret = true;
         m_bModified = false;
     }
-//    qDebug() << "WriteCache() time=" << aTimer.elapsed() << endl;   // BadLiebenzell: ca. 1-2 sec lesen udn 14.5 sec schreiben !
+//    qDebug() << "WriteCache() time=" << aTimer.elapsed() << endl;   // BadLiebenzell: ca. 1-2 sec lesen und 14.5 sec schreiben !
     return ret;
 }
 
 bool QImageCache::ReadCache( const QString & sCacheFileName )
 {
-    QElapsedTimer aTimer;
-    aTimer.start();
+    //QElapsedTimer aTimer;
+    //aTimer.start();
 
     bool ret = false;
     QFile aFile( sCacheFileName );
@@ -212,27 +222,40 @@ bool QImageCache::ReadCache( const QString & sCacheFileName )
     return ret;
 }
 
+bool QImageCache::IsMaxSizeCache() const
+{
+    return m_iMaxHeight==MAX_IMAGE_SIZE && m_iMaxWidth==MAX_IMAGE_SIZE;
+}
+
 void QImageCache::CheckCacheSpace()
 {
-    QString sFoundKey;
-    int ulCount = -1;
+    QString sFoundKey = QString::null;
+    int ulCount = std::numeric_limits<int>::max();
     m_aLock.lock/*ForRead*/();
     if( (m_iMaxItems>=0) && (m_aMap.size()>=m_iMaxItems) )
     {
-        // find image with lowest usage count and remove this item from cache
+        // Cache-Strategy:
+        // find image with lowest usage count (and which was not the last image)
+        // and remove this item from cache
         foreach (const QString & sKey, m_aMap.keys())
         {
-            if( ulCount>m_aMap[sKey].second )
+            if( ulCount>m_aMap[sKey].second && !IsInLastImageFileNames( sKey ) )
             {
                 ulCount = m_aMap[sKey].second;
                 sFoundKey = sKey;
             }
         }
-        if( sFoundKey.length()>0 )
+        if( !sFoundKey.isNull() && m_aMap.contains(sFoundKey) )
         {
-//            m_aLock.lock/*ForWrite*/();
+            m_aLock.lock/*ForWrite*/();
             m_aMap.remove(sFoundKey);
-//            m_aLock.unlock();
+            m_aLock.unlock();
+
+            PostMessage( QString(tr("Removed image %0 from image cache.")).arg(sFoundKey) );
+        }
+        else
+        {
+            PostMessage( tr("WARNING: need to remove image from cache but can not !") );
         }
     }
     m_aLock.unlock();
@@ -255,6 +278,20 @@ void QImageCache::PostMessage( const QString & sMessage ) const
     QApplication::postEvent( m_pTargetForMessages, pEvent );
 }
 
+void QImageCache::PushToLastImageFileNames( const QString & sImageFileName )
+{
+    m_lstLastPushedImageFileNames.push_back( sImageFileName );
+    while( m_lstLastPushedImageFileNames.size()>MAX_SIZE_OF_LAST_IMAGE_FILE_QUEUE )
+    {
+        m_lstLastPushedImageFileNames.pop_front();
+    }
+}
+
+bool QImageCache::IsInLastImageFileNames( const QString & sImageFileName )
+{
+    return m_lstLastPushedImageFileNames.contains( sImageFileName );
+}
+
 static QImage ReadImageDetectingOrientation( const QString & sImageFileName )
 {
     QImageReader aImgReader(sImageFileName);
@@ -264,80 +301,156 @@ static QImage ReadImageDetectingOrientation( const QString & sImageFileName )
     return aImgReader.read();
 }
 
-bool QImageCache::Get( const QString & sImageFileName, int maxWidth, int maxHeight, QImage & aImage )
+const QImage & QImageCache::GetRef( const QString & sImageFileName, QImage & aTempImage, int maxWidth, int maxHeight )
+{
+    bool bWasAdded;
+    return GetRef( sImageFileName, aTempImage, bWasAdded, maxWidth, maxHeight );
+}
+
+const QImage & QImageCache::GetRef( const QString & sImageFileName, QImage & aTempImage, bool & bWasAdded, int maxWidth, int maxHeight )
 {
     m_aLock.lock/*ForRead*/();
-    // exists an entry for the requested image ?
-    if( !m_aMap.contains(sImageFileName) )
+    if( m_aMap.contains(sImageFileName) )
     {
-//        qDebug() << "Image Cache --> not found ! " << sImageFileName << endl;
-        // NO
-        CheckCacheSpace();
-        // add a new image to the cache
+        // increment access counter
+        m_aMap[sImageFileName].second += 1;
+        const QImage & ret = m_aMap[sImageFileName].first;
+        m_aLock.unlock();
 
-        aImage = ReadImageDetectingOrientation(sImageFileName);
+        bWasAdded = false;
+
+        // has the image in the cache a appropriate size?
+        // if at least one dimension fulfills the requirements it is assumed that we have a valid cached image
+        if( ((ret.width()<maxWidth && ret.height()<maxHeight) || maxWidth<0 || maxHeight<0) && !IsMaxSizeCache() )
+        {
+            // NO --> read full sized immage !
+
+            // optimization: first try the full cache...
+            if( m_pResolveFullImages )
+            {
+                // the full image cache ALWAYS reads the requested image !
+                return m_pResolveFullImages->GetRef(sImageFileName,aTempImage,maxWidth,maxHeight);
+            }
+            else
+            {
+                // if no cache for full size images is given --> read image
+                aTempImage = ReadImageDetectingOrientation(sImageFileName);
+                if( aTempImage.isNull() )
+                {
+                    // copy thumbnail cache image if large image is not available !
+                    aTempImage = ret;
+                }
+                return aTempImage;
+            }
+        }
+
+        return ret;
+    }
+    else
+    {
+        // add a new image to the cache
+        CheckCacheSpace();
+
+        bWasAdded = true;
+
+        QImage aImage = ReadImageDetectingOrientation(sImageFileName);
 
         // scale to maximum image size (if needed)
-// TODO: disable cache to improve quality ! --> necessary for zoom into images !
         // limit size of image in cach --> otherwise 20 x 12MPixel images == 1GByte !
-        //qDebug() << " size: " << aImage.width() << " " << aImage.height() << " max=" << m_iMaxWidth << " " << m_iMaxHeight << endl;
-// TODO --> qt does not support rotating of images (reading exif informations !) --> https://bugreports.qt.io/browse/QTBUG-37946
         if( aImage.width()>m_iMaxWidth || aImage.height()>m_iMaxHeight )
         {
             aImage = aImage.scaled(m_iMaxWidth,m_iMaxHeight,Qt::KeepAspectRatio);
         }
-        //if( !aImage.isNull() )
-        {
 
-//            m_aLock.lock/*ForWrite*/();
-            m_aMap[sImageFileName] = QPair<QImage,unsigned long>(aImage,1);
-            m_bModified = true;
-//            m_aLock.unlock();
-        }
-        const QImage & ret = m_aMap[sImageFileName].first;
-//        m_aLock.unlock();
-        aImage = ret;
-        m_aLock.unlock();
-        return false;
-    }
-    else
-    {
-        //qDebug() << "Image Cache --> Found !!! " << sImageFileName << " " << maxWidth << " " << maxHeight << endl;
-        // YES
-        // increment access counter
-        m_aMap[sImageFileName].second += 1;
-        const QImage & ret = m_aMap[sImageFileName].first;
-  //      m_aLock.unlock();
-        // if at least one dimension fulfills the requirements it is assumed that we have a valid cached image
-        if( (ret.width()<maxWidth && ret.height()<maxHeight) || maxWidth<0 || maxHeight<0 )
-        {
-            // optimization: first try the full cache...
-            if( this!=&g_aFullImageCache )
-            {
-                g_aFullImageCache.Get(sImageFileName,maxWidth,maxHeight,aImage);
-            }
-            else
-            {
-                aImage = ReadImageDetectingOrientation(sImageFileName);
-            }
+        m_aMap[sImageFileName] = QPair<QImage,unsigned long>(aImage,1);
+        PushToLastImageFileNames( sImageFileName );
+        m_bModified = true;
 
-            if( aImage.isNull() )
-            {
-                // copy thumbnail cache image if large image is not available !
-                aImage = ret;
-            }
-            m_aLock.unlock();
-            return true;
-        }
-        aImage = ret;
+        const QImage & ret = m_aMap[sImageFileName].first;
+
         m_aLock.unlock();
-        return true;
+        return ret;
     }
-//    aImage = QImage();
-//    return false;
 }
 
+//bool QImageCache::Get( const QString & sImageFileName, int maxWidth, int maxHeight, QImage & aImage )
+//{
+//    m_aLock.lock/*ForRead*/();
+//    // exists an entry for the requested image ?
+//    if( !m_aMap.contains(sImageFileName) )
+//    {
+//        // NO
+
+//        // add a new image to the cache
+//        CheckCacheSpace();
+
+//        aImage = ReadImageDetectingOrientation(sImageFileName);
+
+//        // scale to maximum image size (if needed)
+//        // limit size of image in cach --> otherwise 20 x 12MPixel images == 1GByte !
+//        if( aImage.width()>m_iMaxWidth || aImage.height()>m_iMaxHeight )
+//        {
+//            aImage = aImage.scaled(m_iMaxWidth,m_iMaxHeight,Qt::KeepAspectRatio);
+//        }
+
+//        m_aMap[sImageFileName] = QPair<QImage,unsigned long>(aImage,1);
+//        m_bModified = true;
+
+//        const QImage & ret = m_aMap[sImageFileName].first;
+
+//        aImage = ret;
+
+//        m_aLock.unlock();
+//        return false;
+//    }
+//    else
+//    {
+//        // YES
+
+//        // increment access counter
+//        m_aMap[sImageFileName].second += 1;
+//        const QImage & ret = m_aMap[sImageFileName].first;
+
+//        // has the image in the cache a appropriate size?
+//        // if at least one dimension fulfills the requirements it is assumed that we have a valid cached image
+//        if( (ret.width()<maxWidth && ret.height()<maxHeight) || maxWidth<0 || maxHeight<0 )
+//        {
+//            // NO --> read full sized immage !
+
+//            // optimization: first try the full cache...
+//            if( this!=&g_aFullImageCache )
+//            {
+//                g_aFullImageCache.Get(sImageFileName,maxWidth,maxHeight,aImage);
+//            }
+//            else
+//            {
+//                // here I am the full image cache !!!
+//                aImage = ReadImageDetectingOrientation(sImageFileName);
+//            }
+
+//            if( aImage.isNull() )
+//            {
+//                // copy thumbnail cache image if large image is not available !
+//                aImage = ret;
+//            }
+
+//            m_aLock.unlock();
+//            return true;
+//        }
+
+//        aImage = ret;
+//        m_aLock.unlock();
+//        return true;
+//    }
+//}
+
 // *******************************************************************
+
+void SetMessageSenderForCache( QObject * pTargetForMessages )
+{
+    g_aImageCache.SetMessageSender( pTargetForMessages );
+    g_aFullImageCache.SetMessageSender( pTargetForMessages );
+}
 
 void InitCacheInBackground( const QStringList & lstImageFileNames, QObject * pTargetForMessages )
 {
@@ -491,7 +604,8 @@ QImage CopyImageArea( const QImage & aImage, double relX, double relY, double re
 
 QImage * CreateImageArea( const QString & sImageFileName, double relX, double relY, double relDX, double relDY )
 {
-    QImage aImage = ReadQImageOrEmpty( sImageFileName );
+    QImage aTempImage;
+    const QImage & aImage = GetQImageOrEmptyReference( sImageFileName, aTempImage );
     return new QImage( aImage.copy( GetArea( aImage.size(), relX, relY, relDX, relDY, GetCurrentImageRatio() ) ) );
 }
 
@@ -506,16 +620,29 @@ void CopyImageAreaAsyncAndPostResult( QObject * pTarget, bool bIsPlaying, int iD
     g_pAsyncImageReaderThread->push( pTarget, bIsPlaying, iDissolveTimeInMS, sImageFileName, relX, relY, relDX, relDY );
 }
 
+const QImage & GetQImageOrEmptyReference( const QString & sFileName, QImage & aTempImage, int maxWidth, int maxHeight )
+{
+    if( QColor::isValidColor( sFileName ) )
+    {
+        aTempImage = CreateColorImage( QColor(sFileName) );
+        return aTempImage;
+    }
+    else
+    {
+        return g_aImageCache.GetRef( sFileName, aTempImage, maxWidth, maxHeight );
+    }
+}
+
 QImage ReadQImageOrEmpty( const QString & sFileName, int maxWidth, int maxHeight )
 {
     QImage aImageOut;
-    if( QColor::isValidColor(sFileName) )
+    if( QColor::isValidColor( sFileName ) )
     {
         aImageOut = CreateColorImage( QColor(sFileName) );
     }
     else
     {
-        g_aImageCache.Get(sFileName,maxWidth,maxHeight,aImageOut);
+        aImageOut = g_aImageCache.GetRef( sFileName, aImageOut, maxWidth, maxHeight );
     }
     if( aImageOut.isNull() )
     {

@@ -95,6 +95,7 @@ QImage CopyImageArea( const QImage & aImage, double relX = 0.0, double relY = 0.
 void CopyImageAreaAsyncAndPostResult( QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName, double relX = 0.0, double relY = 0.0, double relDX = 1.0, double relDY = 1.0 );
 
 QImage ReadQImageOrEmpty( const QString & sFileName, int maxWidth = -1, int maxHeight = -1 );
+const QImage & GetQImageOrEmptyReference( const QString & sFileName, QImage & aTempImage, int maxWidth = -1, int maxHeight = -1 );
 
 bool IsDiaDataFile( const QString & sFileName );
 
@@ -136,6 +137,7 @@ void UpdateCache( const QStringList & lstImageFileNames, QObject * pTargetForMes
 void StopBackgroundCache();
 bool LoadGlobalImageCache( const QString & sCacheFileName );
 bool SaveGlobalImageCacheAs( const QString & sCacheFileName );
+void SetMessageSenderForCache( QObject * pTargetForMessages );
 
 // *************************************************************************************************
 
@@ -190,7 +192,7 @@ private:
 class QImageCache : public QThread
 {
 public:
-    QImageCache(int iMaxWidth = 1920, int iMaxHeight = 1080, int iMaxItems = -1/*means unlimited*/);
+    QImageCache(int iMaxWidth = 1920, int iMaxHeight = 1080, int iMaxItems = -1/*means unlimited*/, QImageCache * pResolveFullImages = 0);
     virtual ~QImageCache();
 
     bool IsModified() const;
@@ -198,11 +200,14 @@ public:
     void Clean();
     void DoStop();
 
+    void SetMessageSender( QObject * pTargetForMessages );
     void InitCacheInBackground( const QStringList & lstImageFileNames, QObject * pTargetForMessages );
     void RemoveUnusedItems( const QStringList & lstImageFileNames, QObject * pTargetForMessages );
 
     // returns true if image was already in cache
-    bool Get( const QString & sImageFileName, int maxWidth, int maxHeight, QImage & aImageOut );
+    //bool Get( const QString & sImageFileName, int maxWidth, int maxHeight, QImage & aImageOut );
+    const QImage & GetRef( const QString & sImageFileName, QImage & aTempImage, bool & bWasAdded, int maxWidth, int maxHeight );
+    const QImage & GetRef( const QString & sImageFileName, QImage & aTempImage, int maxWidth, int maxHeight );
 
     unsigned long GetCacheSizeInBytes();
 
@@ -212,19 +217,26 @@ public:
     virtual void run();
 
 private:
+    bool IsMaxSizeCache() const;
     void CheckCacheSpace();
     void ClearAccessCounters();
     void PostMessage( const QString & sMessage ) const;
+    void PushToLastImageFileNames( const QString & sImageFileName );
+    bool IsInLastImageFileNames( const QString & sImageFileName );
 
     int                                         m_iMaxItems;
     int                                         m_iMaxWidth, m_iMaxHeight;
     QMap<QString,QPair<QImage,int> >            m_aMap;     // string --> (QImage, ImageAccessCounter)
     QStringList                                 m_lstImageFileNames;
+    QStringList                                 m_lstLastPushedImageFileNames;
     QObject *                                   m_pTargetForMessages;       // not an owner !
     bool                                        m_bStopThread;
     bool                                        m_bModified;
     QMutex                                      m_aLock;
+    QImageCache *                               m_pResolveFullImages;       // not an owner !
 };
+
+#define MAX_SIZE_OF_LAST_IMAGE_FILE_QUEUE   2
 
 // *************************************************************************************************
 struct ImageReaderStruct
