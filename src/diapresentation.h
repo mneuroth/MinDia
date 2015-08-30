@@ -131,7 +131,7 @@ public:
 
 	// ** handling of the presentation (play-modus) **
     double					GetTotalTime() const;               // in seconds
-	double					GetActPlayTime() /*const*/;
+    double					GetActPlayTime() const;
 	double					GetActSoundPlayTime() /*const*/;
 	double					GetCountDownTime() /*const*/;
 	// ** for the iteration over all the slids **

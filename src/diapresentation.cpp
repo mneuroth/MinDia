@@ -750,7 +750,7 @@ double DiaPresentation::GetTotalTime() const
 	return dTime;
 }
 
-double DiaPresentation::GetActPlayTime() /*const*/
+double DiaPresentation::GetActPlayTime() const
 {
 	if( !m_bIsPlaying )
 	{
@@ -1379,6 +1379,28 @@ bool DiaPresentation::ExistsExternalDevice()
 	return false;
 }
 
+static QImage ProcessNormalEffect( minHandle<DiaInfo> hDia, double actTime, int iWidth, int iHeight )
+{
+    QImage aImage1 = ReadQImageOrEmpty( ToQString( hDia->GetImageFile() ), iWidth, iHeight );
+    return CopyImageArea( aImage1, hDia->GetRelX(), hDia->GetRelY(), hDia->GetRelDX(), hDia->GetRelDY() );
+}
+
+static QImage ProcessKenBurnsEffect( minHandle<DiaInfo> hDia, double diaStartTime, double actTime, int iWidth, int iHeight )
+{
+    double dShowTime = hDia->GetShowTime()*1000.0;
+    double dx_dt = (hDia->GetRelXEnd()-hDia->GetRelX())/dShowTime;
+    double dy_dt = (hDia->GetRelYEnd()-hDia->GetRelY())/dShowTime;
+    double x = hDia->GetRelX() + dx_dt*(actTime-diaStartTime);
+    double y = hDia->GetRelY() + dy_dt*(actTime-diaStartTime);
+    double dwidth_dt = (hDia->GetRelDXEnd()-hDia->GetRelDX())/dShowTime;
+    double dheight_dt = (hDia->GetRelDYEnd()-hDia->GetRelDY())/dShowTime;
+    double dx = hDia->GetRelDX() + dwidth_dt*(actTime-diaStartTime);
+    double dy = hDia->GetRelDY() + dheight_dt*(actTime-diaStartTime);
+
+    QImage aImage1 = ReadQImageOrEmpty( ToQString( hDia->GetImageFile() ), iWidth, iHeight );
+    return CopyImageArea( aImage1, x, y, dx, dy );
+}
+
 QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight, bool bScale, bool bDrawDynItems ) const
 {
     int iIndex1 = -1;
@@ -1392,8 +1414,15 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
 
         if( hDia1.IsOk() )
         {
-            QImage aImage1 = ReadQImageOrEmpty( ToQString( hDia1->GetImageFile() ), iWidth, iHeight );
-            aImage1 = CopyImageArea( aImage1, hDia1->GetRelX(), hDia1->GetRelY(), hDia1->GetRelDX(), hDia1->GetRelDY() );
+            QImage aImage1;
+            if( hDia1->IsKenBurns() )
+            {
+                aImage1 = ProcessKenBurnsEffect( hDia1, GetDiaAbsStartShowTime( iIndex1 )*1000.0, dTimeMS, iWidth, iHeight );
+            }
+            else
+            {
+                aImage1 = ProcessNormalEffect( hDia1, dTimeMS, iWidth, iHeight );
+            }
 
             if( bScale )
             {
@@ -1420,8 +1449,15 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
 
             if( hDia2.IsOk() )
             {
-                QImage aImage2 = ReadQImageOrEmpty( ToQString( hDia2->GetImageFile() ), iWidth, iHeight );
-                aImage2 = CopyImageArea( aImage2, hDia2->GetRelX(), hDia2->GetRelY(), hDia2->GetRelDX(), hDia2->GetRelDY() );
+                QImage aImage2;
+                if( hDia2->IsKenBurns() )
+                {
+                    aImage2 = ProcessKenBurnsEffect( hDia2, GetDiaAbsStartShowTime( iIndex2 )*1000.0, dTimeMS, iWidth, iHeight );
+                }
+                else
+                {
+                    aImage2 = ProcessNormalEffect( hDia2, dTimeMS, iWidth, iHeight );
+                }
                 aImage2 = aImage2.scaled( iWidth, iHeight );
                 _FadeImage(&aPainter,iFadeFactor,aImage1,aImage2);
             }
