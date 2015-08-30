@@ -53,25 +53,27 @@ public:
     void UpdateScreenEditData();
 
 public slots:
-    virtual void sltDisableDialog( bool bCheckData );
-    virtual void sltUpdateData( HItem * pFirstSelectedItem, bool bEnable );
-    virtual void sltUpdateData( minHandle<DiaInfo> hFirstSelectedItem, bool bEnable );
-    virtual void sltApplyData();
-    virtual void sltApplyAndNext();
-    virtual void sltApplyAndPrev();
-	virtual void sltCloseDialog();
-	virtual void sltDialogCanceled();
-    virtual void sltPrevItem();
-    virtual void sltNextItem();
-    virtual void sltSelectFileName();
-	virtual void sltModifyScript();
-    virtual void sltDataChanged();
-    virtual void sltCreateNewItem();
-	virtual void sltDeleteItem();
-    virtual void sltModifyColor();
+    void sltDisableDialog( bool bCheckData );
+    void sltSetDarkRectangle( bool bValue );
+    void sltSetKenBurnsEffect( bool bValue );
+    void sltUpdateData( HItem * pFirstSelectedItem, bool bEnable );
+    void sltUpdateData( minHandle<DiaInfo> hFirstSelectedItem, bool bEnable );
+    void sltApplyData();
+    void sltApplyAndNext();
+    void sltApplyAndPrev();
+    void sltCloseDialog();
+    void sltDialogCanceled();
+    void sltPrevItem();
+    void sltNextItem();
+    void sltSelectFileName();
+    void sltModifyScript();
+    void sltDataChanged();
+    void sltCreateNewItem();
+    void sltDeleteItem();
+    void sltModifyColor();
 
-	virtual void sltTextChanged( const QString & sText );
-	virtual void sltTextChanged();
+    void sltTextChanged( const QString & sText );
+    void sltTextChanged();
 
 signals:
 	void sigUpdateViews();
@@ -102,4 +104,5 @@ private:
 };
 
 #endif
+
 

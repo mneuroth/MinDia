@@ -106,9 +106,46 @@ void DiaInfoDlgImpl::UpdateScreenEditData()
             double relY = m_hItem->GetRelY();
             double relDX = m_hItem->GetRelDX();
             double relDY = m_hItem->GetRelDY();
+            double relXEnd = m_hItem->GetRelXEnd();
+            double relYEnd = m_hItem->GetRelYEnd();
+            double relDXEnd = m_hItem->GetRelDXEnd();
+            double relDYEnd = m_hItem->GetRelDYEnd();
+            bool isKenBurns = m_hItem->IsKenBurns();
+
+            m_pKenBurns->setChecked( isKenBurns );
 
             m_pScreen->SetClippingData( relX, relY, relDX, relDY );
+            if( isKenBurns )
+            {
+                m_pScreen->SetClippingEndData( relXEnd, relYEnd, relDXEnd, relDYEnd );
+            }
+            else
+            {
+                m_pScreen->SetClippingEndData( -1, -1, relDXEnd, relDYEnd );
+            }
         }
+    }
+}
+
+void DiaInfoDlgImpl::sltSetDarkRectangle( bool bValue )
+{
+    m_pScreen->sltSetDarkRectangle( bValue );
+}
+
+void DiaInfoDlgImpl::sltSetKenBurnsEffect( bool bValue )
+{
+    double relXEnd = m_hItem->GetRelXEnd();
+    double relYEnd = m_hItem->GetRelYEnd();
+    double relDXEnd = m_hItem->GetRelDXEnd();
+    double relDYEnd = m_hItem->GetRelDYEnd();
+    m_hItem->SetKenBurns( bValue );
+    if( bValue )
+    {
+        m_pScreen->SetClippingEndData( relXEnd, relYEnd, relDXEnd, relDYEnd );
+    }
+    else
+    {
+        m_pScreen->SetClippingEndData( -1, -1, relDXEnd, relDYEnd );
     }
 }
 
@@ -283,11 +320,25 @@ void DiaInfoDlgImpl::sltApplyData()
 		}
 
         double relX, relY, relDX, relDY;
+        double relXEnd, relYEnd, relDXEnd, relDYEnd;
         m_pScreen->GetClippingData( relX, relY, relDX, relDY );
+        m_pScreen->GetClippingEndData( relXEnd, relYEnd, relDXEnd, relDYEnd );
         hData->SetRelX( relX );
         hData->SetRelY( relY );
         hData->SetRelDX( relDX );
         hData->SetRelDY( relDY );
+        if( relXEnd<0.0 && relYEnd<0.0 )
+        {
+            hData->SetKenBurns( false );
+        }
+        else
+        {
+            hData->SetKenBurns( true );
+            hData->SetRelXEnd( relXEnd );
+            hData->SetRelYEnd( relYEnd );
+            hData->SetRelDXEnd( relDXEnd );
+            hData->SetRelDYEnd( relDYEnd );
+        }
 
 		// ** data was writen, so (new) data is now unchanged !
 		SetDataChanged( false );
