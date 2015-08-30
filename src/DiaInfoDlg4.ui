@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>407</width>
-    <height>672</height>
+    <height>668</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -484,6 +484,23 @@
      </item>
     </layout>
    </item>
+   <item row="3" column="2">
+    <widget class="QCheckBox" name="m_pDarkRectangle">
+     <property name="text">
+      <string>dark</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3">
+    <widget class="QCheckBox" name="m_pKenBurns">
+     <property name="text">
+      <string>Ken Burns</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -514,8 +531,8 @@
    <slot>sltApplyData()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>58</x>
-     <y>616</y>
+     <x>71</x>
+     <y>612</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -531,7 +548,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>393</x>
-     <y>658</y>
+     <y>654</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -547,7 +564,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>310</x>
-     <y>658</y>
+     <y>654</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -563,7 +580,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>309</x>
-     <y>114</y>
+     <y>111</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -578,8 +595,8 @@
    <slot>sltPrevItem()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>262</x>
-     <y>40</y>
+     <x>309</x>
+     <y>39</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -595,7 +612,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>400</x>
-     <y>40</y>
+     <y>39</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -610,8 +627,8 @@
    <slot>sltCreateNewItem()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>58</x>
-     <y>658</y>
+     <x>71</x>
+     <y>654</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -626,8 +643,8 @@
    <slot>sltApplyAndNext()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>375</x>
-     <y>616</y>
+     <x>372</x>
+     <y>612</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -642,8 +659,8 @@
    <slot>sltApplyAndPrev()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>235</x>
-     <y>616</y>
+     <x>233</x>
+     <y>612</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -658,8 +675,8 @@
    <slot>sltModifyScript()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>73</x>
-     <y>464</y>
+     <x>100</x>
+     <y>460</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -675,7 +692,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>213</x>
-     <y>658</y>
+     <y>654</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -738,8 +755,8 @@
    <slot>sltTextChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>219</x>
-     <y>185</y>
+     <x>231</x>
+     <y>180</y>
     </hint>
     <hint type="destinationlabel">
      <x>22</x>
@@ -755,7 +772,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>231</x>
-     <y>223</y>
+     <y>218</y>
     </hint>
     <hint type="destinationlabel">
      <x>7</x>
@@ -779,6 +796,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>m_pDarkRectangle</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>DiaInfoDlg</receiver>
+   <slot>sltSetDarkRectangle(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>312</x>
+     <y>139</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>400</x>
+     <y>183</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pKenBurns</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>DiaInfoDlg</receiver>
+   <slot>sltSetKenBurnsEffect(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>351</x>
+     <y>131</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>402</x>
+     <y>236</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>sltModifyScript()</slot>
@@ -786,5 +835,7 @@
   <slot>sltTextChanged()</slot>
   <slot>sltDataChanged()</slot>
   <slot>sltModifyColor()</slot>
+  <slot>sltSetDarkRectangle(bool)</slot>
+  <slot>sltSetKenBurnsEffect(bool)</slot>
  </slots>
 </ui>

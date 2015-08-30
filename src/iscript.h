@@ -137,6 +137,19 @@ public:
     virtual bool            SetRelDX( double dVal ) = 0;
     virtual double          GetRelDY() const = 0;
     virtual bool            SetRelDY( double dVal ) = 0;
+
+    // for Ken Burns processing (new since 28.8.2015)
+    virtual bool            IsKenBurns() const = 0;
+    virtual void            SetKenBurns( bool enable ) = 0;
+
+    virtual double          GetRelXEnd() const = 0;
+    virtual bool            SetRelXEnd( double dVal ) = 0;
+    virtual double          GetRelYEnd() const = 0;
+    virtual bool            SetRelYEnd( double dVal ) = 0;
+    virtual double          GetRelDXEnd() const = 0;
+    virtual bool            SetRelDXEnd( double dVal ) = 0;
+    virtual double          GetRelDYEnd() const = 0;
+    virtual bool            SetRelDYEnd( double dVal ) = 0;
 };
 
 /** represents data for the dia-presentation (document). 
