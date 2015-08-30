@@ -148,7 +148,19 @@ public:
     virtual double  GetRelDY() const;
     virtual bool    SetRelDY( double dVal );
 
-	void			SetData( const string & sId,
+    virtual bool    IsKenBurns() const;
+    virtual void    SetKenBurns( bool enable );
+
+    virtual double  GetRelXEnd() const;
+    virtual bool    SetRelXEnd( double dVal );
+    virtual double  GetRelYEnd() const;
+    virtual bool    SetRelYEnd( double dVal );
+    virtual double  GetRelDXEnd() const;
+    virtual bool    SetRelDXEnd( double dVal );
+    virtual double  GetRelDYEnd() const;
+    virtual bool    SetRelDYEnd( double dVal );
+
+    void			SetData( const string & sId,
 							 const string & sImageFile = "",
 							 const string & sComment = "",
 							 const string & sScript = "" );
@@ -181,7 +193,12 @@ private:
     double                  m_relY;                 // dito
     double                  m_relDX;                // dito
     double                  m_relDY;                // dito
-	double					m_dIntensityInPercent;
+    bool                    m_bIsKenBurns;          // new since 28.8.2015
+    double                  m_relXEnd;              // new since 28.8.2015
+    double                  m_relYEnd;              // dito
+    double                  m_relDXEnd;             // dito
+    double                  m_relDYEnd;             // dito
+    double					m_dIntensityInPercent;
 	int						m_iFormat;				// 0 == horizontal, 1 == vertical
 	TimeOperationContainer	m_aTimeOpContainer;
 

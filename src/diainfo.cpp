@@ -33,9 +33,10 @@ using namespace std;
 // *******************************************************************
 // *******************************************************************
 
-const int DiaInfo::ACT_FILE_VERSION = 3;	// 0 until 29.3.2002, then m_sScript introduced
+const int DiaInfo::ACT_FILE_VERSION = 4;	// 0 until 29.3.2002, then m_sScript introduced
                                             // 1 until 31.3.2013, then m_sUUID introduced
                                             // 2 until 1.4.2013, then m_relX, m_relY, m_relDX, m_relDY introduced
+                                            // 3 until 28.8.2015, then m_relXEnd, m_relYEnd, m_relDXEnd, m_relDYEnd introduced
 
 const int DiaInfo::HORIZONTAL = 0;
 const int DiaInfo::VERTICAL = 1;
@@ -53,6 +54,11 @@ DiaInfo::DiaInfo( const string & sId, const string & sImageFile, double dDissolv
     m_relY                  = 0.0;
     m_relDX                 = 1.0;
     m_relDY                 = 1.0;
+    m_bIsKenBurns           = false;
+    m_relXEnd               = 0.0;     // means --> not used
+    m_relYEnd               = 0.0;     // means --> not used
+    m_relDXEnd              = 1.0;
+    m_relDYEnd              = 1.0;
 
 	// ** fill disolve and timer wiht (default) data
     AddOperation( TimeOperation( TimeOperation::DISSOLVE_IN, dDissolveTime ) );
@@ -319,7 +325,20 @@ bool DiaInfo::Read( istream & aStream )
         aStream >> m_relDY;
         aFU.ReadSeparator( aStream );
     }
-	m_aTimeOpContainer.Read( aStream );
+    if( iActFileVersion > 3 )
+    {
+        aStream >> m_bIsKenBurns;
+        aFU.ReadSeparator( aStream );
+        aStream >> m_relXEnd;
+        aFU.ReadSeparator( aStream );
+        aStream >> m_relYEnd;
+        aFU.ReadSeparator( aStream );
+        aStream >> m_relDXEnd;
+        aFU.ReadSeparator( aStream );
+        aStream >> m_relDYEnd;
+        aFU.ReadSeparator( aStream );
+    }
+    m_aTimeOpContainer.Read( aStream );
 	aFU.ReadStructEnd( aStream );
 
 	if( aStream.good() )
@@ -368,7 +387,20 @@ bool DiaInfo::Write( ostream & aStream ) const
         aStream << m_relDY;
         aFU.WriteSeparator( aStream );
     }
-	aStream << endl;
+    if( ACT_FILE_VERSION > 3 )
+    {
+        aStream << m_bIsKenBurns;
+        aFU.WriteSeparator( aStream );
+        aStream << m_relXEnd;
+        aFU.WriteSeparator( aStream );
+        aStream << m_relYEnd;
+        aFU.WriteSeparator( aStream );
+        aStream << m_relDXEnd;
+        aFU.WriteSeparator( aStream );
+        aStream << m_relDYEnd;
+        aFU.WriteSeparator( aStream );
+    }
+    aStream << endl;
 	m_aTimeOpContainer.Write( aStream );
 	aFU.WriteStructEnd( aStream );
 
@@ -471,6 +503,60 @@ bool DiaInfo::SetRelDX( double dVal )
 bool DiaInfo::SetRelDY( double dVal )
 {
     m_relDY = dVal;
+    return true;
+}
+
+bool DiaInfo::IsKenBurns() const
+{
+    return m_bIsKenBurns;
+}
+
+void DiaInfo::SetKenBurns( bool bEnable )
+{
+    m_bIsKenBurns = bEnable;
+}
+
+double DiaInfo::GetRelXEnd() const
+{
+    return m_relXEnd;
+}
+
+double DiaInfo::GetRelYEnd() const
+{
+    return m_relYEnd;
+}
+
+double DiaInfo::GetRelDXEnd() const
+{
+    return m_relDXEnd;
+}
+
+double DiaInfo::GetRelDYEnd() const
+{
+    return m_relDYEnd;
+}
+
+bool DiaInfo::SetRelXEnd( double dVal )
+{
+    m_relXEnd = dVal;
+    return true;
+}
+
+bool DiaInfo::SetRelYEnd( double dVal )
+{
+    m_relYEnd = dVal;
+    return true;
+}
+
+bool DiaInfo::SetRelDXEnd( double dVal )
+{
+    m_relDXEnd = dVal;
+    return true;
+}
+
+bool DiaInfo::SetRelDYEnd( double dVal )
+{
+    m_relDYEnd = dVal;
     return true;
 }
 
