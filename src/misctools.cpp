@@ -20,8 +20,6 @@
 
 #include "misctools.h"
 
-#include "mindiawindow.h"
-
 #include <math.h>
 
 #include <QImage>
@@ -36,6 +34,8 @@
 #include <QMimeData>
 #include <QApplication>
 #include <QElapsedTimer>
+
+#include "mindiawindow.h"
 
 // *******************************************************************
 
@@ -609,7 +609,7 @@ QImage * CreateImageArea( const QString & sImageFileName, double relX, double re
     return new QImage( aImage.copy( GetArea( aImage.size(), relX, relY, relDX, relDY, GetCurrentImageRatio() ) ) );
 }
 
-void CopyImageAreaAsyncAndPostResult( QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName, double relX, double relY, double relDX, double relDY )
+void CopyImageAreaAsyncAndPostResult( QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName, minHandle<DiaInfo> hDia )
 {
     if( g_pAsyncImageReaderThread==0 )
     {
@@ -617,7 +617,7 @@ void CopyImageAreaAsyncAndPostResult( QObject * pTarget, bool bIsPlaying, int iD
         g_pAsyncImageReaderThread->start();
     }
 
-    g_pAsyncImageReaderThread->push( pTarget, bIsPlaying, iDissolveTimeInMS, sImageFileName, relX, relY, relDX, relDY );
+    g_pAsyncImageReaderThread->push( pTarget, bIsPlaying, iDissolveTimeInMS, sImageFileName, hDia );
 }
 
 const QImage & GetQImageOrEmptyReference( const QString & sFileName, QImage & aTempImage, int maxWidth, int maxHeight )
@@ -899,16 +899,13 @@ QAsyncImageReaderThread::~QAsyncImageReaderThread()
 {
 }
 
-void QAsyncImageReaderThread::push(QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName , double relX, double relY, double relDX, double relDY)
+void QAsyncImageReaderThread::push(QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName, minHandle<DiaInfo> hDia)
 {
     ImageReaderStruct aItem;
 
     aItem.m_pTarget = pTarget;
     aItem.m_sImageFileName = sImageFileName;
-    aItem.m_relX = relX;
-    aItem.m_relY = relY;
-    aItem.m_relDX = relDX;
-    aItem.m_relDY = relDY;
+    aItem.m_hDia = hDia;
     aItem.m_bIsPlaying = bIsPlaying;
     aItem.m_iDissolveTimeInMS = iDissolveTimeInMS;
 
@@ -940,11 +937,18 @@ void QAsyncImageReaderThread::run()
             ImageReaderStruct aItem = m_aQueue.dequeue();
             m_aLock.unlock();
 
-            QImage * pImage = CreateImageArea( aItem.m_sImageFileName, aItem.m_relX, aItem.m_relY, aItem.m_relDX, aItem.m_relDY );
+            minHandle<DiaInfo> hDia = aItem.m_hDia;
+            bool bIsDiaOk = hDia.IsOk();
+            double relX = bIsDiaOk ? hDia->GetRelX() : 0.0;
+            double relY = bIsDiaOk ? hDia->GetRelY() : 0.0;
+            double relDX = bIsDiaOk ? hDia->GetRelDX() : 1.0;
+            double relDY = bIsDiaOk ? hDia->GetRelDY() : 1.0;;
+            QImage * pImage = CreateImageArea( aItem.m_sImageFileName, relX, relY, relDX, relDY );
 
             MyCustomEvent<ImageReaderData> * pEvent = new MyCustomEvent<ImageReaderData>( c_iCustomEvent_PostImage );
             ImageReaderData aData;
             aData.m_pImage = pImage;
+            aData.m_hDia = aItem.m_hDia;
             //aData.m_pAsyncImageReader = this;
             aData.m_bIsPlaying = aItem.m_bIsPlaying;
             aData.m_iDissolveTimeInMS = aItem.m_iDissolveTimeInMS;

@@ -53,7 +53,10 @@
 #define MAX_FADE_DELAY  1   // in ms
 #define MAX_FADE_FACTOR 255
 
+#define MAX_KEN_BURS_DELAY  1   // in ms
+
 static int g_iTimerDelay = MAX_FADE_DELAY;
+static int g_iKenBursTimerDelay = MAX_KEN_BURS_DELAY;
 
 // *******************************************************************
 // *******************************************************************
@@ -259,7 +262,8 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt
   m_pParent( parent ),
   m_iFadeInTimeInMS( 0 ),
   m_aFadeTime( 1 ),
-  m_pFadeInTimer( 0 )
+  m_pFadeInTimer( 0 ),
+  m_pKenBurnsTimer( 0 )
 {
     setupUi(this);
 
@@ -274,6 +278,9 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt
 
 	m_pFadeInTimer = new QTimer( this );
 	connect( m_pFadeInTimer, SIGNAL( timeout() ), this, SLOT( sltFadeInTimer() ) );
+
+    m_pKenBurnsTimer = new QTimer( this );
+    connect( m_pKenBurnsTimer, SIGNAL( timeout() ), this, SLOT( sltKenBurnsTimer() ) );
 
     connect( this, SIGNAL( sigDialogClosed() ), parent, SLOT( sltPlayInfoDialogClosed() ) );
     connect( this, SIGNAL( sigDocumentUpdate() ), parent, SLOT( sltDoDocumentStateUpdate() ) );
@@ -308,6 +315,9 @@ void PlayInfoDlgImpl::sltSceneRectChanged( const QRectF & /*rect*/ )
 
 PlayInfoDlgImpl::~PlayInfoDlgImpl()
 {
+    m_pKenBurnsTimer->stop();
+    delete m_pKenBurnsTimer;
+
 	m_pFadeInTimer->stop();
 	delete m_pFadeInTimer;
 
@@ -713,8 +723,10 @@ void PlayInfoDlgImpl::sltCancelDialog()
 	emit sigDialogClosed();
 }
 
-void PlayInfoDlgImpl::sltSetImage( const QImage & aImage, bool bIsPlaying, int iDissolveTimeInMS )
+void PlayInfoDlgImpl::sltSetImage( const QImage & aImage, bool bIsPlaying, int iDissolveTimeInMS, minHandle<DiaInfo> hDia )
 {
+    m_hDia = hDia;
+
     if( bIsPlaying )
     {
         // ** because of performace: first scaling (ca. 110ms), than fading (ca. 80ms) !!!
@@ -829,7 +841,6 @@ void PlayInfoDlgImpl::sltFadeInTimer()
 
             m_aPreviousImage = m_aActImage;
 
-            //sltSetImage( m_aFadeInImage );
             SetCurrentImage( m_aActImage );
         }
         else
@@ -842,7 +853,46 @@ void PlayInfoDlgImpl::sltFadeInTimer()
         {
             m_pFadeInTimer->start( g_iTimerDelay );
         }
+        else
+        {
+            // start Ken Burns effect if needed...
+            // sltKenBurnsImage() --> setup data & start timer
+            if( m_hDia->IsKenBurns() )
+            {
+                m_iKenBurnsEffectTimeInMS = 0;
+                m_aKenBurnsStartTime.start();
+                m_pKenBurnsTimer->start( g_iKenBursTimerDelay );
+            }
+        }
 	}
+}
+
+extern QImage ProcessKenBurnsEffect( minHandle<DiaInfo> hDia, double dCurrentKenBurnsTimeInMS, int iWidth, int iHeight );
+
+//#include <QDebug>
+
+void PlayInfoDlgImpl::sltKenBurnsTimer()
+{
+    m_pKenBurnsTimer->stop();
+
+    // process ken burns effect...
+
+    // ** do fade in process only if dialog is visible !
+    if( isVisible() )
+    {
+        QImage aImage = ProcessKenBurnsEffect( m_hDia, m_iKenBurnsEffectTimeInMS+m_aKenBurnsStartTime.elapsed(), -1, -1 );
+        SetCurrentImage( aImage, true );
+
+        // synchronize ken burns effect with real time
+        m_iKenBurnsEffectTimeInMS += m_aKenBurnsStartTime.elapsed();
+
+        if( m_iKenBurnsEffectTimeInMS < (int)(m_hDia->GetShowTime()*1000.0) )
+        {
+            m_pKenBurnsTimer->start( g_iKenBursTimerDelay );
+            m_aKenBurnsStartTime.restart();
+//            qDebug() << "ken burns timer " << m_iKenBurnsEffectTimeInMS << endl;
+        }
+    }
 }
 
 void PlayInfoDlgImpl::sltSaveActImage( const QString & sImageFormat )
@@ -1159,7 +1209,7 @@ void PlayInfoDlgImpl::customEvent(QEvent * pEvent)
         ImageReaderData aData = pCustomEvent->data();
         if( aData.m_pImage )
         {
-            sltSetImage( *(aData.m_pImage), aData.m_bIsPlaying, aData.m_iDissolveTimeInMS );
+            sltSetImage( *(aData.m_pImage), aData.m_bIsPlaying, aData.m_iDissolveTimeInMS, aData.m_hDia );
             delete aData.m_pImage;
             aData.m_pImage = 0;
         }

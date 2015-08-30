@@ -37,6 +37,7 @@
 #include <QKeyEvent>
 #include <QMenu>
 #include <QDialog>
+#include <QTime>
 
 class QGraphicsScene;
 class QAction;
@@ -147,10 +148,11 @@ public slots:
     virtual void sltPlay();
     virtual void sltFullScreen();
 
-    void sltSetImage( const QImage & aImage, bool bIsPlaying, int iDissolveTimeInMS );
+    void sltSetImage( const QImage & aImage, bool bIsPlaying, int iDissolveTimeInMS, minHandle<DiaInfo> hDia );
     void sltFadeInImage( const QImage & aNewImage, int iFadeInTimeInMS );
 
 	void sltFadeInTimer();
+    void sltKenBurnsTimer();
 
 	void sltSaveActImage( const QString & sImageFormat );
 
@@ -198,7 +200,12 @@ private:
 
 	TimeMeasurement			m_aFadeTime;		// to measure the time needed for one fade in step
 
+    minHandle<DiaInfo>      m_hDia;             // the current dia
+    QTime                   m_aKenBurnsStartTime;
+    int                     m_iKenBurnsEffectTimeInMS;
+
 	QTimer *				m_pFadeInTimer;
+    QTimer *                m_pKenBurnsTimer;
 };	
 
 #endif

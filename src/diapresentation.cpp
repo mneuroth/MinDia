@@ -1385,17 +1385,17 @@ static QImage ProcessNormalEffect( minHandle<DiaInfo> hDia, double actTime, int 
     return CopyImageArea( aImage1, hDia->GetRelX(), hDia->GetRelY(), hDia->GetRelDX(), hDia->GetRelDY() );
 }
 
-static QImage ProcessKenBurnsEffect( minHandle<DiaInfo> hDia, double diaStartTime, double actTime, int iWidth, int iHeight )
+QImage ProcessKenBurnsEffect( minHandle<DiaInfo> hDia, double dCurrentKenBurnsTimeInMS, int iWidth, int iHeight )
 {
     double dShowTime = hDia->GetShowTime()*1000.0;
     double dx_dt = (hDia->GetRelXEnd()-hDia->GetRelX())/dShowTime;
     double dy_dt = (hDia->GetRelYEnd()-hDia->GetRelY())/dShowTime;
-    double x = hDia->GetRelX() + dx_dt*(actTime-diaStartTime);
-    double y = hDia->GetRelY() + dy_dt*(actTime-diaStartTime);
+    double x = hDia->GetRelX() + dx_dt*dCurrentKenBurnsTimeInMS;
+    double y = hDia->GetRelY() + dy_dt*dCurrentKenBurnsTimeInMS;
     double dwidth_dt = (hDia->GetRelDXEnd()-hDia->GetRelDX())/dShowTime;
     double dheight_dt = (hDia->GetRelDYEnd()-hDia->GetRelDY())/dShowTime;
-    double dx = hDia->GetRelDX() + dwidth_dt*(actTime-diaStartTime);
-    double dy = hDia->GetRelDY() + dheight_dt*(actTime-diaStartTime);
+    double dx = hDia->GetRelDX() + dwidth_dt*dCurrentKenBurnsTimeInMS;
+    double dy = hDia->GetRelDY() + dheight_dt*dCurrentKenBurnsTimeInMS;
 
     QImage aImage1 = ReadQImageOrEmpty( ToQString( hDia->GetImageFile() ), iWidth, iHeight );
     return CopyImageArea( aImage1, x, y, dx, dy );
@@ -1417,7 +1417,7 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
             QImage aImage1;
             if( hDia1->IsKenBurns() )
             {
-                aImage1 = ProcessKenBurnsEffect( hDia1, GetDiaAbsStartShowTime( iIndex1 )*1000.0, dTimeMS, iWidth, iHeight );
+                aImage1 = ProcessKenBurnsEffect( hDia1, dTimeMS-GetDiaAbsStartShowTime( iIndex1 )*1000.0, iWidth, iHeight );
             }
             else
             {
@@ -1452,7 +1452,7 @@ QImage DiaPresentation::GetSlideForTime( double dTimeMS, int iWidth, int iHeight
                 QImage aImage2;
                 if( hDia2->IsKenBurns() )
                 {
-                    aImage2 = ProcessKenBurnsEffect( hDia2, GetDiaAbsStartShowTime( iIndex2 )*1000.0, dTimeMS, iWidth, iHeight );
+                    aImage2 = ProcessKenBurnsEffect( hDia2, dTimeMS-GetDiaAbsStartShowTime( iIndex2 )*1000.0, iWidth, iHeight );
                 }
                 else
                 {

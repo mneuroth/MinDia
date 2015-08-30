@@ -34,6 +34,9 @@
 
 #include <string>
 
+#include "minhandle.h"
+#include "diainfo.h"
+
 using namespace std;
 
 class QDropEvent;
@@ -92,7 +95,7 @@ QImage CreateColorImage( const QColor & aColor, int iWidth = 1024, int iHeight =
 
 QImage CopyImageArea( const QImage & aImage, double relX = 0.0, double relY = 0.0, double relDX = 1.0, double relDY = 1.0 );
 
-void CopyImageAreaAsyncAndPostResult( QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName, double relX = 0.0, double relY = 0.0, double relDX = 1.0, double relDY = 1.0 );
+void CopyImageAreaAsyncAndPostResult( QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName, minHandle<DiaInfo> hDia );
 
 QImage ReadQImageOrEmpty( const QString & sFileName, int maxWidth = -1, int maxHeight = -1 );
 const QImage & GetQImageOrEmptyReference( const QString & sFileName, QImage & aTempImage, int maxWidth = -1, int maxHeight = -1 );
@@ -160,8 +163,10 @@ struct ImageReaderData
     ~ImageReaderData()
     {
     }
+
     QAsyncImageReader * m_pAsyncImageReader;
     QImage *            m_pImage;
+    minHandle<DiaInfo>  m_hDia;
     bool                m_bIsPlaying;
     int                 m_iDissolveTimeInMS;
 };
@@ -241,11 +246,11 @@ private:
 // *************************************************************************************************
 struct ImageReaderStruct
 {
-    QObject *       m_pTarget;
-    QString         m_sImageFileName;
-    double          m_relX, m_relY, m_relDX, m_relDY;
-    bool            m_bIsPlaying;
-    int             m_iDissolveTimeInMS;
+    QObject *           m_pTarget;
+    QString             m_sImageFileName;
+    minHandle<DiaInfo>  m_hDia;
+    bool                m_bIsPlaying;
+    int                 m_iDissolveTimeInMS;
 };
 
 // *************************************************************************************************
@@ -255,7 +260,7 @@ public:
     QAsyncImageReaderThread();
     virtual ~QAsyncImageReaderThread();
 
-    void push( QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName, double relX, double relY, double relDX, double relDY );
+    void push( QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName, minHandle<DiaInfo> hDia );
 
     void cancel();
 
