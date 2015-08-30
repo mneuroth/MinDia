@@ -58,7 +58,7 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, const QImage &
 
     m_pClippingArea = new QGraphicsRectItem();
 
-    m_pBackgroundImage = new QGraphicsPixmapItem( m_aBackgroundPixmap.scaled( m_pClippingArea->rect().width(), m_pClippingArea->rect().height(), Qt::KeepAspectRatio ) ); //m_pCanvas->addPixmap( m_aBackgroundPixmap.scaled( m_pClippingArea->rect().width(), m_pClippingArea->rect().height(), Qt::KeepAspectRatio ) );
+    m_pBackgroundImage = new QGraphicsPixmapItem( m_aBackgroundPixmap.scaled( m_pClippingArea->rect().width(), m_pClippingArea->rect().height(), Qt::KeepAspectRatio ) );
 
     m_pCanvas->addItem(m_pBackgroundImage);
     m_pCanvas->addItem(m_pCanvasText);
