@@ -1885,16 +1885,11 @@ void MinDiaWindow::sltItemSelected( int iCount, HItem * pFirstSelectedItem, int 
 		{
             minHandle<DiaInfo> hDiaInfo = pFirstSelectedItem->GetInfoData();
             QString sFileName = ToQString( hDiaInfo->GetImageFile() );
-// TODO --> hier asynchron das Bild setzen
-// TODO --> ggf. read image thread killen wenn nachfolge Auftrag schon ansteht --> merke Asynchrones Objekt und rufe daran ggf. cancel auf ...
-// TODO --> oder read via Queue, d. h. serialisieren der asynchronen verarbeitung, damit sich nicht ueberholt werden kann
-            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, bIsPlaying, iDissolveTimeInMS, sFileName, hDiaInfo->GetRelX(), hDiaInfo->GetRelY(), hDiaInfo->GetRelDX(), hDiaInfo->GetRelDY() );
-//            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName ), hDiaInfo->GetRelX(), hDiaInfo->GetRelY(), hDiaInfo->GetRelDX(), hDiaInfo->GetRelDY() ), bIsPlaying, iDissolveTimeInMS );
+            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, bIsPlaying, iDissolveTimeInMS, sFileName, hDiaInfo );
 		}
 		else
 		{
-            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, bIsPlaying, iDissolveTimeInMS, "white" );
-//            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( "white" ) ), bIsPlaying, iDissolveTimeInMS );
+            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, bIsPlaying, iDissolveTimeInMS, "white",  minHandle<DiaInfo>( 0 ) );
 		}
 	}
 
@@ -2001,14 +1996,12 @@ void MinDiaWindow::sltFadeInTest()
 		{
             minHandle<DiaInfo> hDiaInfo1 = pItem1->GetInfoData();
             QString sFileName1 = ToQString( hDiaInfo1->GetImageFile() );
-//            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName1 ), hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() ), /*bIsPlaying*/false, 0 );
-            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, /*bIsPlaying*/false, 0, sFileName1, hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() );
+            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, /*bIsPlaying*/false, 0, sFileName1, hDiaInfo1 );
 
 			int iDissolveTimeInMS = (int)(m_dDissolveTime * 1000.0);
             minHandle<DiaInfo> hDiaInfo2 = pItem2->GetInfoData();
             QString sFileName2 = ToQString( hDiaInfo2->GetImageFile() );
-//            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName2 ), hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() ), /*bIsPlaying*/true, iDissolveTimeInMS );
-            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, /*bIsPlaying*/true, iDissolveTimeInMS, sFileName2, hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() );
+            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, /*bIsPlaying*/true, iDissolveTimeInMS, sFileName2, hDiaInfo2 );
         }
 	}
 }
@@ -2024,14 +2017,12 @@ void MinDiaWindow::sltFadeOutTest()
 		{
             minHandle<DiaInfo> hDiaInfo1 = pItem1->GetInfoData();
             QString sFileName1 = ToQString( hDiaInfo1->GetImageFile() );
-//            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName1 ), hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() ), /*bIsPlaying*/false, 0 );
-            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, /*bIsPlaying*/false, 0, sFileName1, hDiaInfo1->GetRelX(), hDiaInfo1->GetRelY(), hDiaInfo1->GetRelDX(), hDiaInfo1->GetRelDY() );
+            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, /*bIsPlaying*/false, 0, sFileName1, hDiaInfo1 );
 
 			int iDissolveTimeInMS = (int)(m_dDissolveTime * 1000.0);
             minHandle<DiaInfo> hDiaInfo2 = pItem2->GetInfoData();
             QString sFileName2 = ToQString( hDiaInfo2->GetImageFile() );
-//            m_pPlayInfoDialog->sltSetImage( CopyImageArea( ReadQImageOrEmpty( sFileName2 ), hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() ), /*bIsPlaying*/true, iDissolveTimeInMS );
-            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, /*bIsPlaying*/true, iDissolveTimeInMS, sFileName2, hDiaInfo2->GetRelX(), hDiaInfo2->GetRelY(), hDiaInfo2->GetRelDX(), hDiaInfo2->GetRelDY() );
+            CopyImageAreaAsyncAndPostResult( m_pPlayInfoDialog, /*bIsPlaying*/true, iDissolveTimeInMS, sFileName2, hDiaInfo2 );
         }
 	}
 }
