@@ -1141,7 +1141,7 @@ XmlTree	DynText::GetXMLTree() const
 
 void DynText::SetCanvas( QGraphicsScene * pCanvas )
 {
-    if( pCanvas )
+    if( pCanvas && scene()!=pCanvas )
     {
         pCanvas->addItem(this);         // produces "item has already been added to this scene" after second play !
     }
