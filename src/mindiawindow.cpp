@@ -101,13 +101,14 @@ Bugs:
 Features:
 //- Default-Groesse Font verbessern --> immer auf 72 pixel setzen
 - Zentrieren der Cliping-Area implementieren --> -1 dazu verwenden ?
+- ggf. Menupunkt um global Ken Burns Effekt bei live Dia-Show auszuschalten !
 //- Togglen der Farbe beim Clipping-Rect realisieren
-- zweites Clipping-Rect realisiern --> kenn burns --> DiaPresentation::GetSlideForTime()
-- Geschwindigkeits-Optimierungen beim Film Erzeugen? Und Anzeige?
+//- zweites Clipping-Rect realisiern --> kenn burns --> DiaPresentation::GetSlideForTime()
+//- Geschwindigkeits-Optimierungen beim Film Erzeugen? Und Anzeige?
 //- Anzeige des Dias/Images bei Positionierung von Schrift
 ((- Menupunkt / Skript um Praesentation an Sound anzupassen !
 ((- Menupunkt: Dia-Show an Musik anpassen
-- Ken Burns Effekt realisieren
+//- Ken Burns Effekt realisieren
 - Einblenden/Ausblenden der DynText Elemente realisieren
 ((- korrektes skalieren der Zeichensaetze bei Aenderung der Aufloesung durchfuehren --> geht anscheinend schon !
 ((- korrektes skalieren der Dia-Ausgabe --> 3:2 auf 16:9 fuer Movie !
