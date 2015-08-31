@@ -1388,6 +1388,16 @@ static QImage ProcessNormalEffect( minHandle<DiaInfo> hDia, double actTime, int 
 QImage ProcessKenBurnsEffect( minHandle<DiaInfo> hDia, double dCurrentKenBurnsTimeInMS, int iWidth, int iHeight )
 {
     double dShowTime = hDia->GetShowTime()*1000.0;
+    if( dCurrentKenBurnsTimeInMS>dShowTime )
+    {
+        // stop after show time, use last size for dissolving image
+        dCurrentKenBurnsTimeInMS = dShowTime;
+    }
+    if( dCurrentKenBurnsTimeInMS<0 )
+    {
+        // start always with 0 (otherwise the image may be outside the viewport area)
+        dCurrentKenBurnsTimeInMS = 0.0;
+    }
     double dx_dt = (hDia->GetRelXEnd()-hDia->GetRelX())/dShowTime;
     double dy_dt = (hDia->GetRelYEnd()-hDia->GetRelY())/dShowTime;
     double x = hDia->GetRelX() + dx_dt*dCurrentKenBurnsTimeInMS;
@@ -1492,7 +1502,7 @@ bool DiaPresentation::IsNextSlideChanging( double dTimeMS, double dDeltaMS ) con
 	GetIndexForTime( dTimeMS, iIndex1a, iIndex2a, iFadeFactora );
 	GetIndexForTime( dTimeMS-dDeltaMS, iIndex1b, iIndex2b, iFadeFactorb );
 
-    if( iIndex1a==iIndex1b && iIndex2a==iIndex2b && iFadeFactora==iFadeFactorb && !GetDynGraphicData().IsNextElementChanging(dTimeMS,dDeltaMS) )
+    if( iIndex1a==iIndex1b && iIndex2a==iIndex2b && iFadeFactora==iFadeFactorb && !GetDynGraphicData().IsNextElementChanging(dTimeMS,dDeltaMS) && !GetDiaAt(iIndex1a)->IsKenBurns() )
 	{
 		return false;
 	}
