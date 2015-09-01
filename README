@@ -1,4 +1,4 @@
-========================================================================
+	========================================================================
         Qt Application "MinDia"
 ========================================================================
 
@@ -9,12 +9,10 @@ and "Rolleivision twin msc 3x0 P".
 
 Have a look to the example files to see some features of the program.
 
-This program is written in C++ with the Qt framework. It runs on GNU/Linux
-(tested on SuSE 7.3 and 8.2) and Microsoft-Windows (tested on Windows98 and 
-WindowsXP). The Linux-Version prefered by the author, because it has
-some more features (fade-in and fade-out of sound-files). 
+This program is written in C++ with the Qt framework. It runs on GNU/Linux,
+MacOS and Microsoft-Windows.
 
-This application works fine with my dia projector, which is ten years old.
+This application works fine with my dia projector, which is twenty years old.
 But there is only limited testing done with the newer versions of the 
 Rollei-projectors.
 
