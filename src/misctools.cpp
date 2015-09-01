@@ -39,15 +39,11 @@
 
 // *******************************************************************
 
-// global_cache <-- show_cache
-// TODO: image cache fuer dia show auf platte speichern: *.dia.cache
-// TODO: image cache im hintergrund erzeugen, falls noch nicht da
-// TODO: image cache fuer kleine Bitmaps anlegen, falls grosse bmps benoetigt werden diese asynchron nachladen...
-// TODO: flush cache implementieren !!!
-
 #define MAX_IMAGE_SIZE  999999
 
+// small cache for full image
 static QImageCache g_aFullImageCache(MAX_IMAGE_SIZE,MAX_IMAGE_SIZE,/*maxCacheItems=*/5);
+// unlimited cache for thumbnail images
 static QImageCache g_aImageCache(256,256,-1,&g_aFullImageCache);
 
 static QAsyncImageReaderThread * g_pAsyncImageReaderThread = 0;

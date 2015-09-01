@@ -19,31 +19,32 @@
  ***************************************************************************/
 
 // see: http://ffmpeg.org/trac/ffmpeg/wiki/Create%20a%20video%20slideshow%20from%20images
-
 // http://stackoverflow.com/questions/11579952/add-multiple-audio-files-to-video-at-specific-points-using-ffmpeg
-
 // http://superuser.com/questions/409987/how-to-embed-multiple-audio-files-to-one-video-file-with-timeline-offset
 // http://ffmpeg.org/trac/ffmpeg/wiki/How%20to%20concatenate%20(join,%20merge)%20media%20files
 // http://zoid.cc/ffmpeg-audio-video/
 
-// https://docs.google.com/file/d/0BxRalAlWlsgjclFzOTVKLTBGUnM/edit?usp=drive_web&pli=1
-
 // concat files with ffpmeg: http://ffmpeg.org/trac/ffmpeg/wiki/How%20to%20concatenate%20(join,%20merge)%20media%20files
 // ffmpeg -f concat -i test.txt -c copy outffmpeg.mp3
 // ffmpeg -i "concat:WhistleTheme.mp3|01_WalkThroughTheWorld.mp3" -c copy outputff.mp3
-
 // ffmpeg -i video.mp4 -i sound.mp3 -qscale 0 videowithsound.mp4
 
 // audio beschneiden: ffmpeg -i output_audio.aac -ss 00:00:30:00 -acodec copy -t 00:00:30:10 output_audio_cut.aac
 // --> http://www.admindu.de/wordpress/?p=187
 // ffmpeg -i sound.mp3 -ss 0 -t 10 -acodec copy out.mp3     // beschneiden auf 10 sec laenge !
-
 // ffmpeg -i input.aac -f wav - | sox -t wav - -t wav - fade t 0 32 3 | ffmpeg -f wav -i - -acodec libfaac -ab 128k -ac 2 output.aac
-
 // http://randykarels.com/blog/batch-create-audio-clips-with-fades/
 
 // output formats: *.mpg, *.avi, *.mp4, *.mov, *.h264
 
+//http://stackoverflow.com/questions/5571566/give-input-to-ffmpeg-using-named-pipes
+//
+//ffmpeg -i \\.\pipe\vbam
+//ffmpeg -f video4linux2 -i /dev/video0 -i record.ssa -scodec ass foo.mkv
+//
+//http://stackoverflow.com/questions/3861948/how-do-i-read-a-fifo-named-pipe-line-by-line-from-a-c-qt-linux-app
+//
+//http://www.developer.nokia.com/Community/Wiki/Named_Pipes_Example
 
 #include "CreateMovieDlg4.h"
 
@@ -60,17 +61,14 @@
 
 #include "misctools.h"
 
-QApplication * GetApplication();
+extern QApplication * GetApplication();
 
 #if defined(Q_OS_WIN32)
 #define CMD_SHELL       "cmd.exe"
 #define CMD_SHELL_ARG   "/c"
-#define CMD_TEST        "dir >d:\\outdir.txt"
 #else
 #define CMD_SHELL       "sh"
 #define CMD_SHELL_ARG   "-c"
-//#define CMD_TEST        "pwd >/Users/min/Documents/home/Entwicklung/projects/mindia/MinDia.zip/examples/outpwd.txt" // ls -lrt >/Users/min/Documents/home/Entwicklung/projects/mindia/MinDia.zip/examples/outdir.txt"
-#define CMD_TEST        "/opt/local/bin/mpg123 -q /Users/min/Documents/home/Entwicklung/projects/mindia/MinDia.zip/examples/01_WalkThroughTheWorld.mp3" // ls -lrt >/Users/min/Documents/home/Entwicklung/projects/mindia/MinDia.zip/examples/outdir.txt"
 #endif
 
 // for resolutions see: http://de.wikipedia.org/wiki/Standard_Definition_Television
@@ -261,18 +259,6 @@ void CreateMovieDlg4::sltCreateImages()
         }
     }
 
-// TODO gulp: Optimierung: referenzen auf Images erzeugen, wenn sich bild nicht geaendert hat ! --> Optimierung bei Image schreiben !
-// TODO gulp: ggf. ffmpeg mit named pipes ansteuern
-
-//http://stackoverflow.com/questions/5571566/give-input-to-ffmpeg-using-named-pipes
-//
-//ffmpeg -i \\.\pipe\vbam
-//ffmpeg -f video4linux2 -i /dev/video0 -i record.ssa -scodec ass foo.mkv
-//
-//http://stackoverflow.com/questions/3861948/how-do-i-read-a-fifo-named-pipe-line-by-line-from-a-c-qt-linux-app
-//
-//http://www.developer.nokia.com/Community/Wiki/Named_Pipes_Example
-
     int iCount = m_pDocControler->CreateImagesForMovie( this,
               ToStdString( sDir ), ToStdString( sName ), ToStdString( QDir::separator() ), ToStdString( ui.m_pImageExtension->currentText() ),
               iWidth, iHeight,
@@ -316,7 +302,8 @@ void CreateMovieDlg4::sltDeleteTempFiles( bool bAsk )
 {
     QDir aTempDir(ui.m_pDirectoryName->text());
     QStringList lstAllFiles = aTempDir.entryList(QDir::Files);
-    if( lstAllFiles.length()>0 && (!bAsk || QMessageBox::question(this,tr("Question"),tr("Really delete all files in temporary directory?"),QMessageBox::Yes,QMessageBox::No)==QMessageBox::Yes) )
+    if( lstAllFiles.length()>0 &&
+        (!bAsk || QMessageBox::question(this,tr("Question"),tr("Really delete all files in temporary directory?"),QMessageBox::Yes,QMessageBox::No)==QMessageBox::Yes) )
     {
         foreach( const QString & sFileName, lstAllFiles )
         {

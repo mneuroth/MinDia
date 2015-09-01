@@ -25,9 +25,6 @@
 
 #include <QObject>
 
-#include <algorithm>
-#include <functional>
-
 #include <stdio.h>		// sprintf
 #include <stdlib.h>		// atoi
 
