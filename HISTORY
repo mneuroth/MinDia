@@ -4,16 +4,19 @@ change history of MinDia
 ------------------------------------------------------------------------------
 31. 8.2015  Version 0.99.2 released
 	
-			new features:
-			  * ported to Qt4 and Qt5
-			  * implemented Create-Movie-Dialog
-			  * supported Ken Burns effect
-			  * supported editing of clipping area for image
-			  * use Qt for output of sound	
-			  * supported platforms: MacOS, Windows, Linux, Android
-			  * disabled Python support
+            new features:
+              * ported to Qt4 and Qt5
+              * use Phonon (Qt) instead of external music player
+              * use qserialport for RS232 communication
+              * show live play mark
+              * preview in play info dialog
+              * implemented Create-Movie-Dialog
+              * supported Ken Burns effect
+              * supported editing of clipping area for image
+              * supported platforms: MacOS, Windows, Linux, Android
+              * disabled Python support (temporary)
             bugfixes and improvements:
-			  * lots of improvements, optimizations (image cache) and bugfixes
+              * lots of improvements, optimizations (image cache) and bugfixes
 
 ------------------------------------------------------------------------------
 22. 2.2004  Version 0.97.3 released

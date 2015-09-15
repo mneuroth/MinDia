@@ -69,7 +69,6 @@ mindiapyc/scriptdlgimpl.cpp
 mindiapyc/scriptdlgimpl.h
 mindiapyc/scriptfcn.cpp
 mindiapyc/scriptfcn.h
-qt-qtserialport/LGPL_EXCEPTION.txt	
 qt-qtserialport/LICENSE.FDL
 qt-qtserialport/LICENSE.GPL
 qt-qtserialport/LICENSE.LGPL
