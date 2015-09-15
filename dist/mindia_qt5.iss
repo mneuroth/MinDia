@@ -51,7 +51,7 @@ Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qtga.dll"; DestDir
 Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qtiff.dll"; DestDir: "{app}\imageformats"; Components: main
 Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qwbmp.dll"; DestDir: "{app}\imageformats"; Components: main
 Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qwebp.dll"; DestDir: "{app}\imageformats"; Components: main
-Source: "..\files\ffmpeg.exe"; DestDir: "{app}\files"; Components: main
+Source: "..\ffmpeg\windows\ffmpeg.exe"; DestDir: "{app}\files"; Components: main
 Source: "..\src\mindia_de.qm"; DestDir: "{app}"; Components: main
 Source: "..\src\mindia_nl.qm"; DestDir: "{app}"; Components: main
 Source: "..\README"; DestDir: "{app}"; Components: main
@@ -80,12 +80,12 @@ Name: "help\german"; Description: "German"; Types: full; Languages: en;
 Name: "help\netherland"; Description: "Dutch"; Types: full; Languages: en;
 
 Name: "main"; Description: "Hauptdateien"; Types: full compact custom; Flags: fixed; Languages: de;
-;Name: "script"; Description: "Skript Unterstützung"; Types: full; Languages: de;
+;Name: "script"; Description: "Skript Unterstï¿½tzung"; Types: full; Languages: de;
 ;Name: "examples"; Description: "Beispiele"; Types: full; Languages: de;
 Name: "help"; Description: "Hilfedateien"; Types: full; Languages: de;
 Name: "help\german"; Description: "deutsch"; Types: full; Languages: de;
 Name: "help\english"; Description: "englisch"; Types: full; Languages: de;
-Name: "help\netherland"; Description: "niederländisch"; Types: full; Languages: de;
+Name: "help\netherland"; Description: "niederlï¿½ndisch"; Types: full; Languages: de;
 
 ;[Types]
 ;Name: "full"; Description: "Full installation"
@@ -116,7 +116,7 @@ Type: files; Name: "{app}\scripts\*.pyc"
 
 [Tasks]
 Name: desktopicon; Description: "create a desktop icon"; Languages: en;
-Name: desktopicon; Description: "Icon auf der Arbeitsfläche anlegen"; Languages: de;
+Name: desktopicon; Description: "Icon auf der Arbeitsflï¿½che anlegen"; Languages: de;
 Name: desktopicon; Description: "Icon op de desktop anlegen"; Languages: nl;
 ; GroupDescription: "Additional icons:"
 ;Name: startmenu; Description: "Create an &entry in the startmenu"; GroupDescription: "Additional icons:"
