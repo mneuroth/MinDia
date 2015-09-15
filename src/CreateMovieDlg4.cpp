@@ -537,7 +537,7 @@ void CreateMovieDlg4::ProcessCommands( const QString & sCmdsIn )
 
             QString sProg = CMD_SHELL;
             QStringList aArgs;
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
             // see: http://stackoverflow.com/questions/12769321/qprocess-and-command-line-c-argument
             aArgs << CMD_SHELL_ARG;
             m_pProcess->setNativeArguments(sCmd);
