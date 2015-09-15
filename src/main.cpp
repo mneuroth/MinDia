@@ -244,7 +244,7 @@ public:
 
     void init(const QString & sFileName, MinDiaWindow * pWindow);
 
-#if defined( Q_WS_MACX )
+#if defined( Q_OS_MACX )
 protected:
     bool event(QEvent *event);
 #endif
@@ -278,7 +278,7 @@ void MindiaApp::init(const QString & sFileName, MinDiaWindow * pWindow)
     }
 }
 
-#if defined( Q_WS_MACX )
+#if defined( Q_OS_MACX )
 bool MindiaApp::event( QEvent * event )
 {
     if( event->type() == QEvent::FileOpen )

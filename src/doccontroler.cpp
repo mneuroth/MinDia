@@ -866,7 +866,7 @@ int DocumentAndControler::CreateImagesForMovie(
         QString sFileName;
         sFileName.sprintf( sFileNameOffset.c_str(), iCount );
         sBuffer = QString( "%1%2%3.%4" ).arg( ToQString( sOutputDirectory ) ).arg( ToQString( sDirSeparator ) ).arg( sFileName ).arg( ToQString(sImageExtension) );
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
         QString sLinkExt = ".lnk";
 #else
         QString sLinkExt;
@@ -883,7 +883,7 @@ int DocumentAndControler::CreateImagesForMovie(
         else
         {
             // use last generated file for new movie image
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
             // ffmpeg does not work with windows shortcuts *.lnk :-(
             /*bool ok =*/ QFile::copy( ToQString( sLastFileName ), sBuffer );
 #else
