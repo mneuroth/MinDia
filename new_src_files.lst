@@ -21,9 +21,6 @@ dist/mindia_static.iss
 dist/mindia_qt5.iss
 dist/rules
 do_file_list.sh
-dowzip.bat
-dowzipn.bat
-dozip.bat
 example.txt
 faq_de.html
 index.html
@@ -31,10 +28,8 @@ make_dist_deb.sh
 make_dist_mac.sh
 make_dist_win.bat
 make_src_tar.sh
-make_src_tar_visi.sh
 src_files.lst
 new_src_files.lst
-mcisendstring_test.txt
 mindia.desktop
 mindia.i
 mindia.ico
@@ -44,7 +39,6 @@ mindia.spec
 src/mindia_de.html
 src/mindia_en.html
 src/mindia_nl.html
-mindia_org.pro
 mkbindist.bat
 mkexamplegz.bat
 mkexamplezip.bat
