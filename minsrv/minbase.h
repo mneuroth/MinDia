@@ -39,7 +39,6 @@
 #include <list>
 #include <vector>
 #include <algorithm>
-#include <functional>
 #include <iostream>
 
 using namespace std;
@@ -162,7 +161,7 @@ public:
 	long GetNoOfClients() const								{ return m_aClientContainer.size(); }
 	bool AddClient( minClient * const pClient )				{ m_aClientContainer.push_back( pClient ); return true; }
 	bool RemoveClient( minClient * const pClient )			{ m_aClientContainer.remove( pClient ); return true; }
-	bool ClearAllClients()									{ for_each( m_aClientContainer.begin(), m_aClientContainer.end(), mem_fun( &minClient::ClearRep ) ); return true; }
+    bool ClearAllClients();
 
 	bool IsEnabled() const									{ return m_bEnabled; }
 	void SetEnabled( bool bVal )							{ m_bEnabled = bVal; }

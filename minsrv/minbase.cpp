@@ -366,6 +366,18 @@ const minString minServiceData::GetInfoString( const minString & sSeparatorStrg 
 	return sStrg;
 }
 
+bool minServiceData::ClearAllClients()
+{
+    ClientContainerT::iterator aIter = m_aClientContainer.begin();
+    while( aIter != m_aClientContainer.end() )
+    {
+        minClient * pClient = *aIter;
+        pClient->ClearRep();
+        ++aIter;
+    }
+    return true;
+}
+
 void minServiceData::Dump( ostream & aStream ) const
 {
 	aStream << "SERVICE: " << m_pService->GetServiceName().c_str() << " CLIENTS(" << m_aClientContainer.size() << "): ";
