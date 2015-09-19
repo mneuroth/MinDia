@@ -4,8 +4,6 @@ COPYING
 HISTORY
 INSTALL
 README
-TODO.txt
-_todo.txt
 acinclude.m4
 aclocal.m4
 autorun.bat
@@ -19,6 +17,7 @@ dist/copyright
 dist/mindia.spec
 dist/mindia_static.iss
 dist/mindia_qt5.iss
+dist/mindia_qt5msvc.iss
 dist/rules
 do_file_list.sh
 example.txt
