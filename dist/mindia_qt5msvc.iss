@@ -39,6 +39,9 @@ Source: "F:\Programme\Qt\5.5\msvc2013\bin\icuuc54.dll"; DestDir: "{app}"; Compon
 Source: "F:\Programme\Qt\5.5\msvc2013\plugins\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Components: main
 Source: "F:\Programme\Qt\5.5\msvc2013\plugins\printsupport\windowsprintersupport.dll"; DestDir: "{app}\printsupport"; Components: main
 Source: "F:\Programme\Qt\5.5\msvc2013\plugins\iconengines\qsvgicon.dll"; DestDir: "{app}\iconengines"; Components: main
+Source: "F:\Programme\Qt\5.5\msvc2013\plugins\mediaservice\dsengine.dll"; DestDir: "{app}\mediaservice"; Components: main
+Source: "F:\Programme\Qt\5.5\msvc2013\plugins\mediaservice\wmfengine.dll"; DestDir: "{app}\mediaservice"; Components: main
+Source: "F:\Programme\Qt\5.5\msvc2013\plugins\mediaservice\qtmedia_audioengine.dll"; DestDir: "{app}\mediaservice"; Components: main
 Source: "F:\Programme\Qt\5.5\msvc2013\plugins\imageformats\qdds.dll"; DestDir: "{app}\imageformats"; Components: main
 Source: "F:\Programme\Qt\5.5\msvc2013\plugins\imageformats\qgif.dll"; DestDir: "{app}\imageformats"; Components: main
 Source: "F:\Programme\Qt\5.5\msvc2013\plugins\imageformats\qicns.dll"; DestDir: "{app}\imageformats"; Components: main
@@ -51,7 +54,7 @@ Source: "F:\Programme\Qt\5.5\msvc2013\plugins\imageformats\qtga.dll"; DestDir: "
 Source: "F:\Programme\Qt\5.5\msvc2013\plugins\imageformats\qtiff.dll"; DestDir: "{app}\imageformats"; Components: main
 Source: "F:\Programme\Qt\5.5\msvc2013\plugins\imageformats\qwbmp.dll"; DestDir: "{app}\imageformats"; Components: main
 Source: "F:\Programme\Qt\5.5\msvc2013\plugins\imageformats\qwebp.dll"; DestDir: "{app}\imageformats"; Components: main
-Source: "..\files\ffmpeg.exe"; DestDir: "{app}\files"; Components: main    
+Source: "..\ffmpeg\windows\ffmpeg.exe"; DestDir: "{app}\files"; Components: main    
 Source: "..\src\mindia_de.qm"; DestDir: "{app}"; Components: main
 Source: "..\src\mindia_nl.qm"; DestDir: "{app}"; Components: main
 Source: "..\README"; DestDir: "{app}"; Components: main

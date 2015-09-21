@@ -39,6 +39,8 @@ Source: "F:\Programme\Qt\5.5\mingw492_32\bin\libwinpthread-1.dll"; DestDir: "{ap
 Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Components: main
 Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\printsupport\windowsprintersupport.dll"; DestDir: "{app}\printsupport"; Components: main
 Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\iconengines\qsvgicon.dll"; DestDir: "{app}\iconengines"; Components: main
+Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\mediaservice\dsengine.dll"; DestDir: "{app}\mediaservice"; Components: main
+Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\mediaservice\qtmedia_audioengine.dll"; DestDir: "{app}\mediaservice"; Components: main
 Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qdds.dll"; DestDir: "{app}\imageformats"; Components: main
 Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qgif.dll"; DestDir: "{app}\imageformats"; Components: main
 Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qicns.dll"; DestDir: "{app}\imageformats"; Components: main
