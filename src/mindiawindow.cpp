@@ -49,7 +49,6 @@
 #include <QPrintDialog>
 
 #include "iscript.h"
-#include "qtmtlock.h"
 #include "misctools.h"
 
 #include "configdlgimpl.h"
@@ -692,8 +691,6 @@ void MinDiaWindow::CreateChildWidgets()
 	m_pSlideView	= new HItemView( m_pTargetBox, iInitWidth, iInitHeight1, this, m_pControler, &m_pControler->GetPresentation() );
 	m_pTimeLineView	= new TimeLineView( m_pTargetBox, iInitWidth, iInitHeight2, this, m_pControler, &m_pControler->GetPresentation() );
 
-    // TODO --> ggf. optionale Anzeige als Text-Tabelle --> QTableView
-
 /*
 	m_pDiaPultView	= new IconItemView( m_pSourceBox, 200, iInitHeight1 );
 	m_pDiaPultView->setSizeHint( QSize( 100, 100 ) );
@@ -1229,7 +1226,6 @@ void MinDiaWindow::sltPrintDoc()
 
 void MinDiaWindow::sltImportXMLDoc()
 {
-    // TODO: not supported yet !
 	sltShowErrorMessage( tr( "Not implemented yet !" ) );
 }
 
@@ -1652,8 +1648,6 @@ void MinDiaWindow::sltStatusUpdateTimerEvent()
 	}
 
 	{
-		QtMTLock aMTLock;
-
 		m_pStatusBarTime->setText( sMsg );
         m_pStatusBarModus->setText( ToQString( m_pControler->GetPlayModusStrg() ) );
 
