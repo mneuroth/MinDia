@@ -22,7 +22,6 @@
 
 #include "appconfig.h"
 #include "misctools.h"
-#include "qtmtlock.h"
 
 #include <math.h>
 
@@ -426,8 +425,6 @@ bool PlayInfoDlgImpl::Hide()
 
 bool PlayInfoDlgImpl::Maximize()
 {
-    // TODO gulp: QtMTLock aMTLock;
-
 	FullScreen();
 
 	return true;
@@ -435,8 +432,6 @@ bool PlayInfoDlgImpl::Maximize()
 
 bool PlayInfoDlgImpl::Restore()
 {
-    // TODO gulp: QtMTLock aMTLock;
-
 	RestoreSize();
 
 	return true;
@@ -444,22 +439,16 @@ bool PlayInfoDlgImpl::Restore()
 
 int PlayInfoDlgImpl::GetWidth() const
 {
-    // TODO gulp: QtMTLock aMTLock;
-
 	return width();
 }
 
 int PlayInfoDlgImpl::GetHeight() const
 {
-    // TODO gulp: QtMTLock aMTLock;
-
 	return height();
 }
 
 bool PlayInfoDlgImpl::SetSize( int iWidth, int iHeight )
 {
-    // TODO gulp: QtMTLock aMTLock;
-
 	resize( iWidth, iHeight );
 
 	return true;
@@ -467,8 +456,6 @@ bool PlayInfoDlgImpl::SetSize( int iWidth, int iHeight )
 
 bool PlayInfoDlgImpl::SetPos( int iXPos, int iYPos )
 {
-    // TODO gulp: QtMTLock aMTLock;
-
 	move( iXPos, iYPos );
 
 	return true;
@@ -476,15 +463,11 @@ bool PlayInfoDlgImpl::SetPos( int iXPos, int iYPos )
 
 int PlayInfoDlgImpl::GetDrawWidth() const
 {
-    // TODO gulp: QtMTLock aMTLock;
-
     return m_pCanvasView->width();
 }
 
 int PlayInfoDlgImpl::GetDrawHeight() const
 {
-    // TODO gulp: QtMTLock aMTLock;
-
     return m_pCanvasView->height();
 }
 
@@ -492,11 +475,7 @@ bool PlayInfoDlgImpl::Clear()
 {
 	m_aItemContainer.erase( m_aItemContainer.begin(), m_aItemContainer.end() );
 
-	{
-        // TODO gulp: QtMTLock aMTLock;
-
-        m_pScene->update();
-	}
+    m_pScene->update();
 
 	return true;
 }
@@ -510,8 +489,6 @@ bool PlayInfoDlgImpl::SetColor( int iRed, int iGreen, int iBlue )
 
 bool PlayInfoDlgImpl::SetFont( const string & sFontName )
 {
-    // TODO gulp: QtMTLock aMTLock;
-
     m_aActFont.setFamily( ToQString(sFontName) );
 
 	return true;
@@ -519,8 +496,6 @@ bool PlayInfoDlgImpl::SetFont( const string & sFontName )
 
 bool PlayInfoDlgImpl::SetFontSize( int iSizeInPixel, bool bBold, bool bItalic )
 {
-    // TODO gulp: QtMTLock aMTLock;
-
 	m_aActFont.setPixelSize( iSizeInPixel );
 	m_aActFont.setBold( bBold );
 	m_aActFont.setItalic( bItalic );
@@ -530,8 +505,6 @@ bool PlayInfoDlgImpl::SetFontSize( int iSizeInPixel, bool bBold, bool bItalic )
 
 int PlayInfoDlgImpl::SetTextXY( int x, int y, const string & sText )
 {
-    // TODO gulp: QtMTLock aMTLock;
-
     QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
     pText->setText( ToQString(sText) );
     m_pScene->addItem(pText);
@@ -557,8 +530,6 @@ bool PlayInfoDlgImpl::MoveText( int iTextID, int x, int y )
 {
 	if( IsIndexOk( iTextID ) )
 	{
-        // TODO gulp: QtMTLock aMTLock;
-
 		CanvasItem aItem = m_aItemContainer[ iTextID ];
 
         aItem->setPos( x, y );
@@ -574,8 +545,6 @@ int PlayInfoDlgImpl::GetTextX( int iTextID ) const
 {
 	if( IsIndexOk( iTextID ) )
 	{
-        // TODO gulp: QtMTLock aMTLock;
-
 		CanvasItem aItem = m_aItemContainer[ iTextID ];
 
 		return (int)aItem->x();
@@ -587,8 +556,6 @@ int PlayInfoDlgImpl::GetTextY( int iTextID ) const
 {
 	if( IsIndexOk( iTextID ) )
 	{
-        // TODO gulp: QtMTLock aMTLock;
-
 		CanvasItem aItem = m_aItemContainer[ iTextID ];
 
 		return (int)aItem->y();
@@ -600,8 +567,6 @@ int PlayInfoDlgImpl::GetTextWidth( int iTextID ) const
 {
 	if( IsIndexOk( iTextID ) )
 	{
-        // TODO gulp: QtMTLock aMTLock;
-
 		CanvasItem aItem = m_aItemContainer[ iTextID ];
 
         QRectF aRect = aItem->boundingRect();
@@ -615,8 +580,6 @@ int PlayInfoDlgImpl::GetTextHeight( int iTextID ) const
 {
 	if( IsIndexOk( iTextID ) )
 	{
-        // TODO gulp: QtMTLock aMTLock;
-
 		CanvasItem aItem = m_aItemContainer[ iTextID ];
 
         QRectF aRect = aItem->boundingRect();
@@ -630,8 +593,6 @@ bool PlayInfoDlgImpl::SetTextColor( int iTextID, int iRed, int iGreen, int iBlue
 {
 	if( IsIndexOk( iTextID ) )
 	{
-        // TODO gulp: QtMTLock aMTLock;
-
 		CanvasItem aItem = m_aItemContainer[ iTextID ];
 
         QGraphicsSimpleTextItem * pText = (QGraphicsSimpleTextItem *)aItem.GetPtr();
@@ -652,8 +613,6 @@ IColor PlayInfoDlgImpl::GetTextColor( int iTextID ) const
 {
 	if( IsIndexOk( iTextID ) )
 	{
-        // TODO gulp: QtMTLock aMTLock;
-
 		CanvasItem aItem = m_aItemContainer[ iTextID ];
 
         QGraphicsSimpleTextItem * pText = (QGraphicsSimpleTextItem *)aItem.GetPtr();
@@ -686,12 +645,8 @@ bool PlayInfoDlgImpl::DeleteText( int iTextID )
 			}
 		}
 
-		{
-            // TODO gulp: QtMTLock aMTLock;
-
-			// ** everything is ok, update the view and return
-            m_pScene->update();
-		}
+        // ** everything is ok, update the view and return
+        m_pScene->update();
 
 		return true;
 

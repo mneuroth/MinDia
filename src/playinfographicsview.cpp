@@ -118,7 +118,6 @@ void PlayInfoContextMenu::sltShowMenu()
 {
     if( m_pMyDialog )
     {
-// TODO --> IsFullScreen() funktioniert anscheinend nicht korrekt ! --> Windows ? 4.7.3 ?, OK fuer Mac 4.8.1
         if( m_pMyDialog->IsFullScreen() )
         {
             m_pActionFullScreen->setText( tr("&Normal") );

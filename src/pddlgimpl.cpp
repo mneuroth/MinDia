@@ -252,7 +252,6 @@ void PresentationDataDlgImpl::TransferDataFromControl()
 
         if( aImageRatio != aImageRatioNew )
         {
-// TODO --> ggf. message dialog anzeigen ob Aenderungen wirklich uebernommen werden sollen !?
             m_pData->SetImageRatio( aImageRatioNew );
 
             bUpdate = true;

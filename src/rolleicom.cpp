@@ -248,14 +248,14 @@ struct RolleiComHelperData
                 aStopBits = QSerialPort::TwoStop;
             }
 
-// TODO working: problems with static linking: http://qt-project.org/forums/viewthread/26229 under Windows
+            // remark: problems with static linking: http://qt-project.org/forums/viewthread/26229 under Windows
             m_pPort->setBaudRate(aBaudRate);
             m_pPort->setDataBits(aDataBits);
             m_pPort->setParity(aParity);
             m_pPort->setFlowControl(aFlowType);
             m_pPort->setStopBits(aStopBits);
 
-//TODO: not supported for QSerialPort: m_pPort->setTimeout(1000);
+            // remark: not supported for QSerialPort: m_pPort->setTimeout(1000);
         }
         return true;
     }
