@@ -19,7 +19,6 @@
  ***************************************************************************/
 
 #include "comlogimpl.h"
-#include "qtmtlock.h"
 #include "misctools.h"
 
 #include <QEvent>
@@ -49,16 +48,6 @@ void ComLoggingDialogImpl::LogMsg( const string & sMsg )
     MyCustomEvent<QString> * pEvent = new MyCustomEvent<QString>( c_iCustomEvent_Logging );
     pEvent->setData( ToQString(sMsg) );
     QApplication::postEvent( this, pEvent );
-/*
-	if( m_pOutput )
-	{
-		QtMTLock aMTLock;
-
-		m_pOutput->insertLine( QString( sMsg ) );
-		// ** update the visible area, so that the last output is visible
-		m_pOutput->setCursorPosition( m_pOutput->numLines(), 1 );
-	}
-*/
 }
 
 void ComLoggingDialogImpl::sltCloseDialog()
@@ -104,8 +93,6 @@ void ComLoggingDialogImpl::customEvent( QEvent * pEventIn )
 
             if( m_pOutput )
 			{
-				QtMTLock aMTLock;
-
                 QString sMsg = pEvent->data();
 
                 m_pOutput->setPlainText( m_pOutput->toPlainText()+sMsg+"\n");

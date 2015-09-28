@@ -239,7 +239,6 @@ void CommentDlgImpl::TransferData( bool bToTable )
 				}
 			}
 
-			// min todo --> hier ggf. optimierte changed-Behandlung
 			m_pComments->SetChanged();
 
 			emit sigDocumentUpdate();

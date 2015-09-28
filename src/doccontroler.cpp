@@ -53,7 +53,6 @@
 #include "doccontroler.h"
 #include "minexception.h"
 #include "writexml.h"
-#include "qtmtlock.h"
 #include "misctools.h"
 
 #include <qpainter.h>
@@ -602,22 +601,14 @@ void DocumentAndControler::sltTimerEvent()
 		// ** yes --> stop the presentation
 		sltStopPresentation();
 
-		{
-			QtMTLock aMTLock;
-
-			sltUpdateStatusBar();
-		}
+        sltUpdateStatusBar();
 	}
 	else
 	{
 		// start timer for the next step
 		int iTimer = (int)(dTimerInSeconds*1000);	// s --> ms
 
-		{
-			QtMTLock aMTLock;
-
-			sltUpdateStatusBar();
-		}
+        sltUpdateStatusBar();
 
 		if( m_pTimer )
 		{
@@ -650,7 +641,15 @@ void DocumentAndControler::TriggerDissolveActDiaNo( int iNo, const string & sScr
 
 void DocumentAndControler::TriggerShowActDiaNo( int iNo, const string & sScript, const string & /*sFileNameOrScript*/, double /*dShowTime*/ )
 {
-	// cout << "*** nr=" << iNo << endl;
+    // trigger preload image of next dia into cache
+    if( iNo+1<GetPresentation().GetDiaCount() )
+    {
+        minHandle<DiaInfo> hNextDia = GetPresentation().GetDiaAt(iNo+1);
+        QString sFileName = ToQString( hNextDia->GetImageFile() );
+        CopyImageAreaAsyncAndPostResult(0,true,0,sFileName,0);
+    }
+
+    // cout << "*** nr=" << iNo << endl;
     if( sScript.length() > 0 )
 	{
         ExecuteScript( /*bDissolve*/false, sScript, iNo );

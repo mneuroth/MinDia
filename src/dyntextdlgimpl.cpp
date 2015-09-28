@@ -66,7 +66,7 @@ DynamicTextDlgImpl::DynamicTextDlgImpl( minHandle<DynText> hItem, const QImage &
 
     connect( this, SIGNAL( sigDialogHelp(QWidget *, const QString &) ), pMain, SLOT( sltShowModalHelp(QWidget *, const QString &) ) );
 
-// TODO --> datenaustausch wie bei anderen Dialoge realisieren !
+// TODO --> ggf. datenaustausch wie bei anderen Dialoge realisieren !
 //    connect( m_pCanvas, SIGNAL( changed(const QList<QRectF> & region) ), this, SLOT(sltUpdateData()) );
 //    connect( m_pCanvas, SIGNAL( sceneRectChanged( const QRectF & rect ) ), this, SLOT(sltUpdateData()) );
 
@@ -163,7 +163,6 @@ void DynamicTextDlgImpl::UpdateTextPosition()
 
 void DynamicTextDlgImpl::UpdateTextData()
 {
-// TODO --> klaeren ob ueberhaupt item aktualisiert werden soll, bevor ok gedrueckt wurde --> abbrechen funktioniert dann naemlich nicht mehr !
     if( m_pRelPos->isChecked() )
     {
         m_hItem->SetRelativePos( GetRelX(), GetRelY() );
