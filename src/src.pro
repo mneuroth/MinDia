@@ -58,7 +58,6 @@ HEADERS         = diainfodlgimpl.h \
                   diacallback.h \
                   minexception.h \
                   iscript.h \
-                  qtmtlock.h \
                   minhandle.h \
                   misctools.h \
                   appconfig.h \
@@ -100,7 +99,6 @@ SOURCES         = diainfodlgimpl.cpp \
                   mincmdproc.cpp \
                   timerjobproc.cpp \
                   dyngraphop.cpp \
-                  qtmtlock.cpp \
                   misctools.cpp \
                   appconfig.cpp \
                   main.cpp \
