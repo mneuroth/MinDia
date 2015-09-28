@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>752</width>
-    <height>788</height>
+    <width>717</width>
+    <height>767</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -320,6 +320,9 @@
             <property name="lineWrapMode">
              <enum>QTextEdit::NoWrap</enum>
             </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
            </widget>
           </item>
          </layout>
@@ -373,7 +376,7 @@
              <enum>QTextEdit::NoWrap</enum>
             </property>
             <property name="readOnly">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -458,6 +461,13 @@
        </property>
        <property name="shortcut">
         <string>Alt+D</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="m_pKill">
+       <property name="text">
+        <string>Kill</string>
        </property>
       </widget>
      </item>
@@ -836,6 +846,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>m_pKill</sender>
+   <signal>clicked()</signal>
+   <receiver>CreateMovieDlg4</receiver>
+   <slot>sltKillProcess()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>388</x>
+     <y>756</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>500</x>
+     <y>746</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>sltCreateImages()</slot>
@@ -855,5 +881,6 @@
   <slot>sltMovieExtensionChanged(QString)</slot>
   <slot>sltImageExtensionChanged(QString)</slot>
   <slot>sltSetFfmpegDefaultPath()</slot>
+  <slot>sltKillProcess()</slot>
  </slots>
 </ui>

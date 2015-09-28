@@ -51,6 +51,7 @@ public slots:
     void sltCreateAVI();
     void sltAddSound();
     void sltMakeShow();
+    void sltKillProcess();
     void sltDeleteTempFiles( bool bAsk = true );
     void sltChangeMjpegToolsDirectory();
     void sltSetToTemp();
@@ -70,6 +71,7 @@ private:
     void RunCommands( const QString & sCmds );
     void ProcessCommands( const QString & sCmdsIn );
     void CreateProcess( bool bAutoDelete );
+    void KillProcess();
     void DeleteProcess();
     void UpdateCmds();
     void EnableDialog( bool value );

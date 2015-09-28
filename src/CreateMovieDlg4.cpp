@@ -135,6 +135,8 @@ CreateMovieDlg4::CreateMovieDlg4(DocumentAndControler * pDocControler, double dT
     ui.m_pImageExtension->addItem("jpg");
     ui.m_pImageExtension->addItem("bmp");
     ui.m_pImageExtension->addItem("png");
+
+    ui.m_pKill->setEnabled(false);
 }
 
 CreateMovieDlg4::~CreateMovieDlg4()
@@ -288,6 +290,11 @@ void CreateMovieDlg4::sltMakeShow()
     sltAddSound();
 }
 
+void CreateMovieDlg4::sltKillProcess()
+{
+    KillProcess();
+}
+
 void CreateMovieDlg4::sltEnable()
 {
     EnableDialog( true );
@@ -395,11 +402,11 @@ void CreateMovieDlg4::UpdateCmds()
     QString sTempDir = ui.m_pDirectoryName->text();
     QString sNoSound = "nosound_";
     QString sTempSoundFile = sTempDir+sSeparator+"_temp_sound_.mp3";
-    QString sCmd = QString("%6%2ffmpeg -f image2 -i %1%2%8.%7 -r %5 %1%2%3%4").arg( sTempDir ).arg( sSeparator ).arg( sNoSound+sMovieOutput ).arg( sMovieExtension ).arg( sRate ).arg( sFfmpegDir ).arg( sImageExtension ).arg( sName );
+    QString sCmd = QString("\"%6%2ffmpeg\" -y -f image2 -i \"%1%2%8.%7\" -r %5 \"%1%2%3%4\"").arg( sTempDir ).arg( sSeparator ).arg( sNoSound+sMovieOutput ).arg( sMovieExtension ).arg( sRate ).arg( sFfmpegDir ).arg( sImageExtension ).arg( sName );
 
     ui.m_pGeneratorCmd->setText( sCmd );
 
-    QString sSoundFiles = QString( "%1%2ffmpeg -i \"concat:" ).arg( sFfmpegDir ).arg( sSeparator );
+    QString sSoundFiles = QString( "\"%1%2ffmpeg\" -i \"concat:" ).arg( sFfmpegDir ).arg( sSeparator );
     double dPresentationLength = m_pDocControler->GetPresentation().GetTotalTime();
     SoundInfoContainer aSoundContainer = m_pDocControler->GetPresentation().GetSoundInfoData();
     SoundInfoContainer::const_iterator aIter = aSoundContainer.begin();
@@ -407,7 +414,7 @@ void CreateMovieDlg4::UpdateCmds()
     while( aIter!=aSoundContainer.end() )
     {
         double dCurrentLength = (double)(*aIter)->GetTotalLength()/1000.0;
-        sSoundFiles += ToQString( (*aIter)->GetFileName() );
+        sSoundFiles += /*QString("\"") +*/ ToQString( (*aIter)->GetFileName() ) /*+ QString("\"")*/;
         aIter++;
         if( aIter != aSoundContainer.end() )
         {
@@ -415,11 +422,11 @@ void CreateMovieDlg4::UpdateCmds()
         }
         dCurrentPos += dCurrentLength;
     }
-    sSoundFiles += "\" -c copy "+sTempSoundFile;
+    sSoundFiles += "\" -c copy \""+sTempSoundFile + QString("\"");
 
-    QString sSounds = QString( "-i %1 -strict -2 -t %2 " ).arg( sTempSoundFile ).arg( dPresentationLength );
+    QString sSounds = QString( "-i \"%1\" -strict -2 -t %2 " ).arg( sTempSoundFile ).arg( dPresentationLength );
 
-    sCmd = QString("%2 -y;\n%6%4ffmpeg -i %3%4%1%8 %7 -qscale 0 %3%4%5%8 -y").arg( sNoSound+sMovieOutput ).arg( sSoundFiles ).arg( sTempDir ).arg( sSeparator ).arg( sMovieOutput ).arg( sFfmpegDir ).arg( sSounds ).arg( sMovieExtension );
+    sCmd = QString("%2 -y\n\"%6%4ffmpeg\" -i \"%3%4%1%8\" %7 -qscale 0 \"%3%4%5%8\" -y").arg( sNoSound+sMovieOutput ).arg( sSoundFiles ).arg( sTempDir ).arg( sSeparator ).arg( sMovieOutput ).arg( sFfmpegDir ).arg( sSounds ).arg( sMovieExtension );
 
     if( aSoundContainer.size()>0 )
     {
@@ -477,6 +484,14 @@ void CreateMovieDlg4::setOutputSizeIfPossible( unsigned long ulWidth, unsigned l
     }
 }
 
+void CreateMovieDlg4::KillProcess()
+{
+    if( m_pProcess )
+    {
+        m_pProcess->kill();
+    }
+}
+
 void CreateMovieDlg4::CreateProcess( bool bAutoDelete )
 {
     m_bAutoDeleteProcess = bAutoDelete;
@@ -518,19 +533,181 @@ void CreateMovieDlg4::RunCommands( const QString & sCmds )
     // switch to logging output tab page
     ui.tabWidgetOps->setCurrentIndex(1);
 
-    ProcessCommands( sCmds );
+    QStringList aCmdList = sCmds.split('\n');
+    foreach( const QString & sCmd, aCmdList )
+    {
+        ProcessCommands( sCmd );
+    }
 
     sltEnable();
 }
 
+static void addToken(QStringList & tokens, bool & isInSymbol, bool & isInString, QString & currentToken, const QString & currentTok)
+{
+    tokens.append(currentTok);
+    isInSymbol = false;
+    isInString = false;
+    currentToken = "";
+}
+
+static QStringList SplitStrings(const QString & code)
+{
+    QStringList tokens;
+    QString currentToken;
+    bool isInString = false;
+    bool isInSymbol = false;
+    bool wasLastBackslash = false;
+
+    //foreach (char ch in code)
+    for (int i = 0; i < code.size(); i++)
+    {
+        QChar ch = code[i];
+        if (ch.isSpace())
+        {
+            if (isInString)
+            {
+                currentToken += ch;
+            }
+            else if (isInSymbol)
+            {
+                addToken(tokens, isInSymbol, isInString, currentToken, currentToken);
+            }
+            else
+            {
+                // ignore
+            }
+            wasLastBackslash = false;
+        }
+        else if (ch == '\\')
+        {
+            if (wasLastBackslash)
+            {
+                currentToken += ch;
+                wasLastBackslash = false;
+            }
+            else
+            {
+                wasLastBackslash = true;
+            }
+        }
+        else if (ch == '(' || ch == ')')
+        {
+            if (isInString)
+            {
+                currentToken += ch;
+            }
+            else if (isInSymbol)
+            {
+                addToken(tokens, isInSymbol, isInString, currentToken, currentToken);
+                addToken(tokens, isInSymbol, isInString, currentToken, QString("") + ch);
+            }
+            else
+            {
+                addToken(tokens, isInSymbol, isInString, currentToken, QString("") + ch);
+            }
+            wasLastBackslash = false;
+        }
+        else if (ch == '\'' || ch == '`' || ch == ',')
+        {
+            if (isInString)
+            {
+                currentToken += ch;
+            }
+            else
+            {
+                if (code[i + 1] == '@')
+                {
+                    // process unquotesplicing
+                    QString s;
+                    s += ch;
+                    i++;
+                    s += code[i];
+                    addToken(tokens, isInSymbol, isInString, currentToken, s);
+                }
+                else
+                {
+                    addToken(tokens, isInSymbol, isInString, currentToken, QString("") + ch);
+                }
+            }
+            wasLastBackslash = false;
+        }
+        else if (ch == '"')
+        {
+            if (wasLastBackslash)
+            {
+                currentToken += ch;
+            }
+            else if (isInString)
+            {
+                // finish string
+                addToken(tokens, isInSymbol, isInString, currentToken, /*"\"" +*/ currentToken /*+ "\""*/);
+            }
+            else
+            {
+                // start string
+                isInString = true;
+                currentToken = "";
+            }
+            wasLastBackslash = false;
+        }
+        else
+        {
+            if (!isInSymbol && !isInString)
+            {
+                isInSymbol = true;
+            }
+            currentToken += ch;
+            wasLastBackslash = false;
+        }
+    }
+    if (currentToken != "")
+    {
+        addToken(tokens, isInSymbol, isInString, currentToken, currentToken);
+    }
+    return tokens;
+}
+
 void CreateMovieDlg4::ProcessCommands( const QString & sCmdsIn )
 {
-    QStringList aCmdList = sCmdsIn.split(';');
+    QStringList aLstArgs = SplitStrings(sCmdsIn);
+    QString sProgram = aLstArgs[0];
+    aLstArgs = aLstArgs.mid(1);
 
     if( m_pProcess==0 )
     {
+        ui.m_pKill->setEnabled(true);
+        ui.m_pOutput->append( sCmdsIn );
+
         CreateProcess( false );
 
+        m_pProcess->setProgram( sProgram );
+        m_pProcess->setArguments( aLstArgs );
+        m_pProcess->start();
+
+        while( m_pProcess->state()!=QProcess::NotRunning )
+        {
+            GetApplication()->processEvents();
+        }
+        m_pProcess->waitForFinished();
+
+        DeleteProcess();
+
+        ui.m_pKill->setEnabled(false);
+    }
+}
+
+/*
+void CreateMovieDlg4::ProcessCommands( const QString & sCmdsIn )
+{
+    QStringList aCmdList = sCmdsIn.split('\n');
+
+    if( m_pProcess==0 )
+    {
+        ui.m_pKill->setEnabled(true);
+
+        CreateProcess( false );
+
+// TODO --> ggf. argumente aufsplitten --> mit "strings mit spaces"
         foreach( const QString & sCmd, aCmdList)
         {
             ui.m_pOutput->append( sCmd );
@@ -554,7 +731,8 @@ void CreateMovieDlg4::ProcessCommands( const QString & sCmdsIn )
         }
 
         DeleteProcess();
+
+        ui.m_pKill->setEnabled(false);
     }
 }
-
-
+*/
