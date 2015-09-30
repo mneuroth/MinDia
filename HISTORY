@@ -2,14 +2,14 @@ change history of MinDia
 ========================
 
 ------------------------------------------------------------------------------
-31. 8.2015  Version 0.99.2 released
+30. 9.2015  Version 0.99.2 released
 	
             new features:
               * ported to Qt4 and Qt5
               * use Phonon (Qt) instead of external music player
               * use qserialport for RS232 communication
               * show live play mark
-              * preview in play info dialog
+              * preview in play info dialog (via mouse pointer)
               * implemented Create-Movie-Dialog
               * supported Ken Burns effect
               * supported editing of clipping area for image

@@ -2,6 +2,74 @@
 Internal TODO
 =============
 
+Aufgaben vor Release:
+- Changes.txt fuer Version erstellen:
+    port to Qt4, using phonon instead of external music player, using qserialport, removed script support (temporary)
+    live play mark, vorschau in play info, suche auch in attached dyn text, attached dyn text
+- knownbugs.txt anlegen --> Zellen-Update Problem unter Mac beschreiben; mingw und multimedia unter windows funktionieren nicht
+- icons.xpm Datei aus source.zip loeschen --> dafuer neue icon *.png aufnehmen
+- ungenutzte SourceCode Dateien in old Verzeichnis verschieben
+- RS232 Kommunikation verbessern -> Verbesserung des RS232 Dialogs zur direkten Ansteuerung --> nicht disablen nach erstem erfolglosen Versuch…
+- encoding Text in rolleicom.cpp pruefen
+- CreateMovieDlg und main SourceCode aufraeumen
+- Binaere Packete erzeugen (Innosetup, macdeploy)
+- Hilfe Dokument / Webseite fuer Bedienung erstellen
+- Hilfe Dialog verbessern --> schoenere Icons verwenden, Signals/Slots verbinden und realisieren, z.B. Suche
+- Uebertragung von CommentDialog in Daten funktioniert nicht korrekt ? Aenderung im Dialog werden nicht uebernommen --> fehlt update ?
+    => anscheinend muss Feld verlassen werden bevor Aenderungen akzeptiert werden => Mac only ?
+- ggf. Seitenverhaeltniss fuer Leinwand/PlayInfoDlg entfernen, verwende Seitenverhaeltniss von Praesentation
+Bugs:
+((- Bug: Fontsize und Fontcolor aendern funktioniert nicht richtig --> Groesse wird verkleinert wenn position geaendert wird
+((- Bug: Fontsize/Art aendern ok, Position aendern ok --> alter Font ist wieder restauriert
+//- Bug: left mouse click auf timeline view bewirkt jump zum anfang der scroll line... ==> m_iSelectedItemNo == 0 show selected Image
+//- Bug: click auf Slide-Item in TimeLineView verschiebt scrollbar, falls scrollbar nicht ganz links ist !
+//- Bug: verschieben von Dynamic Text funktioniert nicht korrekt wenn Scrollbar nicht ganz links ist
+//- Bug: Selektieren Dia und Show/Dissolve aendern in TimeLineView funktioniert nicht wenn scrollbar nicht ganz links ist
+//- Bug: wenn dyn Text selektiert und bewegt wird, sollte dazu passendes Dia selektiert werden
+//- Bug: Dyn Texte koennen nicht gut von hinten nach vorne verschoben werden, wenn Scrollbar involviert ist
+((- Bug: wenn horizontale Scrollbar nicht ganz rechts (oder links) und Dia Show Time veraendert wird, wird Zeit maximiert ohne sich zu bewegen
+//- Bug: nicht immer das Dia zentrieren im Timeline window, falls nicht notwendig
+//- Bug: Texte an Bildern bleiben nicht kleben wenn show-time weiter vorne vergroessert wird
+?- Bug: Performance schlecht, wenn in TimeLineView ein Item angeclickt wird !!! --> ggf. image cache optimieren !
+?- Bug: Performance Problem CPU Auslastung nach einmaligem Play show --> unnoetige? Aufrufe von _FadeImage()
+(- Bug: Fuer Play from Dia auch den Sound korrekt/passend abspielen (sound faengt immer von ganz vorne an)
+- Bug: Ausgabegroesse der Praesentation wird nicht korrekt angezeigt nach Aenderung --> ggf. muss playinfo dialog geschlossen und neu geoeffnet werden
+- Bug: Effekt (manchmal): Speichern unter merkt nicht korrekt den letzten dateipfad
+?- Optimize: Performance für Image Cache verbessern --> thumbnails in .dia Datei speichern und grosses Bild ggf. nachladen
+Features:
+//- Default-Groesse Font verbessern --> immer auf 72 pixel setzen
+(- Vorausschauendes Laden von grossen Bildern waehrend Praesentation realisieren --> lade immer naechstes Bild in eigenem Thread?
+- Menupunkt um global Ken Burns Effekt bei live Dia-Show auszuschalten !
+- Alle dissolve und show zeiten gleichzeitig anpassen/aendern
+- Einblenden/Ausblenden der DynText Elemente realisieren
+- alle Fonts und Font-Groessen gleichzeitig aendern,
+- default font und fontgroesse aenderbar machen
+- Zentrieren der Cliping-Area implementieren --> -1 dazu verwenden ?
+- Dia Dissolve und Show Time als CommentDlg aenderbar machen
+- ggf. Raum nach letztem Dia vorsehen, damit man an das Ende der Praesentation drag&droppen kann... --> ggf. leer bild ans Ende einfuegen
+((- Bilder Cache updaten --> erfolgt automatisch falls nicht gefunden, aktualisiert beim schreibem
+//- Togglen der Farbe beim Clipping-Rect realisieren
+//- zweites Clipping-Rect realisiern --> kenn burns --> DiaPresentation::GetSlideForTime()
+//- Geschwindigkeits-Optimierungen beim Film Erzeugen? Und Anzeige?
+//- Anzeige des Dias/Images bei Positionierung von Schrift
+((- Menupunkt / Skript um Praesentation an Sound anzupassen !
+((- Menupunkt: Dia-Show an Musik anpassen
+//- Ken Burns Effekt realisieren
+((- korrektes skalieren der Zeichensaetze bei Aenderung der Aufloesung durchfuehren --> geht anscheinend schon !
+((- korrektes skalieren der Dia-Ausgabe --> 3:2 auf 16:9 fuer Movie !
+((- Bilder cachen, ggf. Thumbnails in dia-Datei oder in globaler oder lokaler (pro dia-Datei) mindia-Image cache sqlite datenbank?
+((- ggf. Unterstuetzung von gedrehten Images
+(- Synchronisiere Timeline mit HItem view besser implementieren
+
+- ggf. test ffmpeg button in export dialog
+- ggf. automatisch ffmpeg binary suchen (PATH suche)
+- ggf. Geometrie-Zustand von anderen Dialogen ebenfalls sichern und restaurieren
+- ggf. Plot Comments Dialog / Menue entfernen ==> ist nicht an Dias geheftet
+- ggf. SoundInfo Markierungen an Sound-Dateien anheften
+- ggf. beim Shift+Click auf leeres Dia den Datei-Auswahl Dialog oeffnen um Image anzugeben
+- ggf. Show-Zeit fuer DynamicText via Maus-Move ermoeglichen
+- ggf. ImagePath in settings speicherun und restaurieren --> appconfig.h.GetImagePath()
+
 /*
 Bugs/TODOs:
 //- Ueberblend-Zeiten bei Dia 1 veraendert DynText Position bei Dia 2 und 3 !!!??? Dissolve <--> Timer
@@ -47,74 +115,6 @@ Bugs/TODOs:
 //- Bilder in Grundfarben auswaehlbar machen, z. B. schwarz, blau, etc.
 //- Bug: standard dissolve and show time fuer neue dias anwenden
 //- Bug: Praesentations Groesse aendern funktioniert nicht !
-
-Aufgaben vor Release:
-- Changes.txt fuer Version erstellen:
-    port to Qt4, using phonon instead of external music player, using qserialport, removed script support (temporary)
-    live play mark, vorschau in play info, suche auch in attached dyn text, attached dyn text
-- knownbugs.txt anlegen --> Zellen-Update Problem unter Mac beschreiben
-- icons.xpm Datei aus source.zip loeschen --> dafuer neue icon *.png aufnehmen
-- ungenutzte SourceCode Dateien in old Verzeichnis verschieben
-- RS232 Kommunikation verbessern -> Verbesserung des RS232 Dialogs zur direkten Ansteuerung --> nicht disablen nach erstem erfolglosen Versuch…
-- encoding Text in rolleicom.cpp pruefen
-- CreateMovieDlg und main SourceCode aufraeumen
-- Binaere Packete erzeugen (Innosetup, macdeploy)
-- Hilfe Dokument / Webseite fuer Bedienung erstellen
-- Hilfe Dialog verbessern --> schoenere Icons verwenden, Signals/Slots verbinden und realisieren, z.B. Suche
-- Uebertragung von CommentDialog in Daten funktioniert nicht korrekt ? Aenderung im Dialog werden nicht uebernommen --> fehlt update ?
-    => anscheinend muss Feld verlassen werden bevor Aenderungen akzeptiert werden => Mac only ?
-- ggf. Seitenverhaeltniss fuer Leinwand/PlayInfoDlg entfernen, verwende Seitenverhaeltniss von Praesentation
-Bugs:
-((- Bug: Fontsize und Fontcolor aendern funktioniert nicht richtig --> Groesse wird verkleinert wenn position geaendert wird
-((- Bug: Fontsize/Art aendern ok, Position aendern ok --> alter Font ist wieder restauriert
-//- Bug: left mouse click auf timeline view bewirkt jump zum anfang der scroll line... ==> m_iSelectedItemNo == 0 show selected Image
-//- Bug: click auf Slide-Item in TimeLineView verschiebt scrollbar, falls scrollbar nicht ganz links ist !
-//- Bug: verschieben von Dynamic Text funktioniert nicht korrekt wenn Scrollbar nicht ganz links ist
-//- Bug: Selektieren Dia und Show/Dissolve aendern in TimeLineView funktioniert nicht wenn scrollbar nicht ganz links ist
-//- Bug: wenn dyn Text selektiert und bewegt wird, sollte dazu passendes Dia selektiert werden
-//- Bug: Dyn Texte koennen nicht gut von hinten nach vorne verschoben werden, wenn Scrollbar involviert ist
-((- Bug: wenn horizontale Scrollbar nicht ganz rechts (oder links) und Dia Show Time veraendert wird, wird Zeit maximiert ohne sich zu bewegen
-//- Bug: nicht immer das Dia zentrieren im Timeline window, falls nicht notwendig
-//- Bug: Texte an Bildern bleiben nicht kleben wenn show-time weiter vorne vergroessert wird
-?- Bug: Performance schlecht, wenn in TimeLineView ein Item angeclickt wird !!! --> ggf. image cache optimieren !
-?- Bug: Performance Problem CPU Auslastung nach einmaligem Play show --> unnoetige? Aufrufe von _FadeImage()
-- Bug: Fuer Play from Dia auch den Sound korrekt/passend abspielen (sound faengt immer von ganz vorne an)
-- Bug: Ausgabegroesse der Praesentation wird nicht korrekt angezeigt nach Aenderung --> ggf. muss playinfo dialog geschlossen und neu geoeffnet werden
-- Bug: Effekt (manchmal): Speichern unter merkt nicht korrekt den letzten dateipfad
-?- Optimize: Performance für Image Cache verbessern --> thumbnails in .dia Datei speichern und grosses Bild ggf. nachladen
-Features:
-//- Default-Groesse Font verbessern --> immer auf 72 pixel setzen
-- Vorausschauendes Laden von grossen Bildern waehrend Praesentation realisieren --> lade immer naechstes Bild in eigenem Thread?
-- Menupunkt um global Ken Burns Effekt bei live Dia-Show auszuschalten !
-- Alle dissolve und show zeiten gleichzeitig anpassen/aendern
-- Einblenden/Ausblenden der DynText Elemente realisieren
-- alle Fonts und Font-Groessen gleichzeitig aendern,
-- default font und fontgroesse aenderbar machen
-- Zentrieren der Cliping-Area implementieren --> -1 dazu verwenden ?
-- Dia Dissolv und Show Time als CommentDlg aenderbar machen
-- ggf. Raum nach letztem Dia vorsehen, damit man an das Ende der Praesentation drag&droppen kann... --> ggf. leer bild ans Ende einfuegen
-((- Bilder Cache updaten --> erfolgt automatisch falls nicht gefunden, aktualisiert beim schreibem
-//- Togglen der Farbe beim Clipping-Rect realisieren
-//- zweites Clipping-Rect realisiern --> kenn burns --> DiaPresentation::GetSlideForTime()
-//- Geschwindigkeits-Optimierungen beim Film Erzeugen? Und Anzeige?
-//- Anzeige des Dias/Images bei Positionierung von Schrift
-((- Menupunkt / Skript um Praesentation an Sound anzupassen !
-((- Menupunkt: Dia-Show an Musik anpassen
-//- Ken Burns Effekt realisieren
-((- korrektes skalieren der Zeichensaetze bei Aenderung der Aufloesung durchfuehren --> geht anscheinend schon !
-((- korrektes skalieren der Dia-Ausgabe --> 3:2 auf 16:9 fuer Movie !
-((- Bilder cachen, ggf. Thumbnails in dia-Datei oder in globaler oder lokaler (pro dia-Datei) mindia-Image cache sqlite datenbank?
-((- ggf. Unterstuetzung von gedrehten Images
-(- Synchronisiere Timeline mit HItem view besser implementieren
-
-- ggf. test ffmpeg button in export dialog
-- ggf. automatisch ffmpeg binary suchen (PATH suche)
-- ggf. Geometrie-Zustand von anderen Dialogen ebenfalls sichern und restaurieren
-- ggf. Plot Comments Dialog / Menue entfernen ==> ist nicht an Dias geheftet
-- ggf. SoundInfo Markierungen an Sound-Dateien anheften
-- ggf. beim Shift+Click auf leeres Dia den Datei-Auswahl Dialog oeffnen um Image anzugeben
-- ggf. Show-Zeit fuer DynamicText via Maus-Move ermoeglichen
-- ggf. ImagePath in settings speicherun und restaurieren --> appconfig.h.GetImagePath()
 
 Mobile Version:
 - moeglichst viele Dialog obsolet machen
@@ -167,8 +167,8 @@ Porting to Qt4:
 //- Problem mit Rs232 Kommunikation: ggf. wird das CR/LF am Ende eines Kommandos nicht gelesen, bevor der naechste Befehl gelesen wird --> ggf. ein flush verwenden bevor CMD schreiben und Antwort lesen
 ((- File-Assoziationen fuer Mac realisieren
 ((- mp3 Unterstuetzung fue MAC verbessern --> mpg123 verwenden, QProcess verwenden
-- Filme erzeugen verbessern...
-- mpg123 und mjpegtools in application bundle und windows installer hinzufuegen, abhaengigkeit zu mpg123 und mjpegtools in .deb hinzufuegen
+((- Filme erzeugen verbessern...
+((- mpg123 und mjpegtools in application bundle und windows installer hinzufuegen, abhaengigkeit zu mpg123 und mjpegtools in .deb hinzufuegen
 - Diashow mit iSight Kamera aufnehmen (einfache Digitalisierunng) 
    (http://www.command-tab.com/2005/07/03/command-line-isight-tool/
     http://stackoverflow.com/questions/1576593/how-can-i-capture-isight-frames-with-python-in-snow-leopard
