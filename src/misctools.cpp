@@ -344,6 +344,21 @@ const QImage & QImageCache::GetRef( const QString & sImageFileName, QImage & aTe
     }
     else
     {
+        bWasAdded = Add( sImageFileName );
+
+        const QImage & ret = m_aMap[sImageFileName].first;
+
+        m_aLock.unlock();
+        return ret;
+    }
+}
+
+bool QImageCache::Add( const QString & sImageFileName )
+{
+    bool bWasAdded = false;
+    m_aLock.lock();
+    if( !m_aMap.contains(sImageFileName) )
+    {
         // add a new image to the cache
         CheckCacheSpace();
 
@@ -361,84 +376,10 @@ const QImage & QImageCache::GetRef( const QString & sImageFileName, QImage & aTe
         m_aMap[sImageFileName] = QPair<QImage,unsigned long>(aImage,1);
         PushToLastImageFileNames( sImageFileName );
         m_bModified = true;
-
-        const QImage & ret = m_aMap[sImageFileName].first;
-
-        m_aLock.unlock();
-        return ret;
     }
+    m_aLock.unlock();
+    return bWasAdded;
 }
-
-//bool QImageCache::Get( const QString & sImageFileName, int maxWidth, int maxHeight, QImage & aImage )
-//{
-//    m_aLock.lock/*ForRead*/();
-//    // exists an entry for the requested image ?
-//    if( !m_aMap.contains(sImageFileName) )
-//    {
-//        // NO
-
-//        // add a new image to the cache
-//        CheckCacheSpace();
-
-//        aImage = ReadImageDetectingOrientation(sImageFileName);
-
-//        // scale to maximum image size (if needed)
-//        // limit size of image in cach --> otherwise 20 x 12MPixel images == 1GByte !
-//        if( aImage.width()>m_iMaxWidth || aImage.height()>m_iMaxHeight )
-//        {
-//            aImage = aImage.scaled(m_iMaxWidth,m_iMaxHeight,Qt::KeepAspectRatio);
-//        }
-
-//        m_aMap[sImageFileName] = QPair<QImage,unsigned long>(aImage,1);
-//        m_bModified = true;
-
-//        const QImage & ret = m_aMap[sImageFileName].first;
-
-//        aImage = ret;
-
-//        m_aLock.unlock();
-//        return false;
-//    }
-//    else
-//    {
-//        // YES
-
-//        // increment access counter
-//        m_aMap[sImageFileName].second += 1;
-//        const QImage & ret = m_aMap[sImageFileName].first;
-
-//        // has the image in the cache a appropriate size?
-//        // if at least one dimension fulfills the requirements it is assumed that we have a valid cached image
-//        if( (ret.width()<maxWidth && ret.height()<maxHeight) || maxWidth<0 || maxHeight<0 )
-//        {
-//            // NO --> read full sized immage !
-
-//            // optimization: first try the full cache...
-//            if( this!=&g_aFullImageCache )
-//            {
-//                g_aFullImageCache.Get(sImageFileName,maxWidth,maxHeight,aImage);
-//            }
-//            else
-//            {
-//                // here I am the full image cache !!!
-//                aImage = ReadImageDetectingOrientation(sImageFileName);
-//            }
-
-//            if( aImage.isNull() )
-//            {
-//                // copy thumbnail cache image if large image is not available !
-//                aImage = ret;
-//            }
-
-//            m_aLock.unlock();
-//            return true;
-//        }
-
-//        aImage = ret;
-//        m_aLock.unlock();
-//        return true;
-//    }
-//}
 
 // *******************************************************************
 
@@ -479,6 +420,11 @@ bool SaveGlobalImageCacheAs( const QString & sCacheFileName )
         return g_aImageCache.WriteCache( sCacheFileName );
     }
     return false;
+}
+
+void AddToGlobalImageCache( const QString & sImageFileName )
+{
+    g_aFullImageCache.Add( sImageFileName );
 }
 
 // *******************************************************************
@@ -939,18 +885,25 @@ void QAsyncImageReaderThread::run()
             double relY = bIsDiaOk ? hDia->GetRelY() : 0.0;
             double relDX = bIsDiaOk ? hDia->GetRelDX() : 1.0;
             double relDY = bIsDiaOk ? hDia->GetRelDY() : 1.0;;
-            QImage * pImage = CreateImageArea( aItem.m_sImageFileName, relX, relY, relDX, relDY );
+            if( !bIsDiaOk )
+            {
+                AddToGlobalImageCache( aItem.m_sImageFileName );
+            }
+            else
+            {
+                QImage * pImage = CreateImageArea( aItem.m_sImageFileName, relX, relY, relDX, relDY );
 
-            MyCustomEvent<ImageReaderData> * pEvent = new MyCustomEvent<ImageReaderData>( c_iCustomEvent_PostImage );
-            ImageReaderData aData;
-            aData.m_pImage = pImage;
-            aData.m_hDia = aItem.m_hDia;
-            //aData.m_pAsyncImageReader = this;
-            aData.m_bIsPlaying = aItem.m_bIsPlaying;
-            aData.m_iDissolveTimeInMS = aItem.m_iDissolveTimeInMS;
-            pEvent->setData( aData );
-            // even post message if image reading was canceled, because otherwise we have a memory leak for QAsyncImageReader objects !
-            QApplication::postEvent( aItem.m_pTarget, pEvent );
+                MyCustomEvent<ImageReaderData> * pEvent = new MyCustomEvent<ImageReaderData>( c_iCustomEvent_PostImage );
+                ImageReaderData aData;
+                aData.m_pImage = pImage;
+                aData.m_hDia = aItem.m_hDia;
+                //aData.m_pAsyncImageReader = this;
+                aData.m_bIsPlaying = aItem.m_bIsPlaying;
+                aData.m_iDissolveTimeInMS = aItem.m_iDissolveTimeInMS;
+                pEvent->setData( aData );
+                // even post message if image reading was canceled, because otherwise we have a memory leak for QAsyncImageReader objects !
+                QApplication::postEvent( aItem.m_pTarget, pEvent );
+            }
         }
 
         QThread::msleep(1);

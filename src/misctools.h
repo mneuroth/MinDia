@@ -214,6 +214,8 @@ public:
     const QImage & GetRef( const QString & sImageFileName, QImage & aTempImage, bool & bWasAdded, int maxWidth, int maxHeight );
     const QImage & GetRef( const QString & sImageFileName, QImage & aTempImage, int maxWidth, int maxHeight );
 
+    bool Add( const QString & sImageFileName );
+
     unsigned long GetCacheSizeInBytes();
 
     bool WriteCache( const QString & sCacheFileName );
