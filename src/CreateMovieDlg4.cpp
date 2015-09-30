@@ -612,9 +612,9 @@ void CreateMovieDlg4::ProcessCommands( const QString & sCmdsIn )
 
         CreateProcess( false );
 
-        m_pProcess->setProgram( sProgram );
-        m_pProcess->setArguments( aLstArgs );
-        m_pProcess->start();
+        //m_pProcess->setProgram( sProgram );
+        //m_pProcess->setArguments( aLstArgs );
+        m_pProcess->start( sProgram, aLstArgs );
 
         while( m_pProcess->state()!=QProcess::NotRunning )
         {
