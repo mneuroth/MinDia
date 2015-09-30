@@ -63,14 +63,6 @@
 
 extern QApplication * GetApplication();
 
-#if defined(Q_OS_WIN32)
-#define CMD_SHELL       "cmd.exe"
-#define CMD_SHELL_ARG   "/c"
-#else
-#define CMD_SHELL       "sh"
-#define CMD_SHELL_ARG   "-c"
-#endif
-
 // for resolutions see: http://de.wikipedia.org/wiki/Standard_Definition_Television
 const QString g_sDefaultSize1 = QObject::tr("400:304");
 const QString g_sDefaultSize2 = QObject::tr("576:400");
@@ -393,13 +385,13 @@ void CreateMovieDlg4::sltProcessFinished( int /*exitCode*/, QProcess::ExitStatus
 void CreateMovieDlg4::UpdateCmds()
 {
     QString sName = ui.m_pImageNameOffset->text();
-    QString sMovieOutput = ui.m_pMovieFileName->text();
+    QString sMovieOutput = QDir::toNativeSeparators(ui.m_pMovieFileName->text());
     QString sMovieExtension = "."+ui.m_pMovieExtension->currentText();
     QString sSeparator = QDir::separator();
     QString sRate = QString("%1").arg( ui.m_pImagesPerSecond->value() );
-    QString sFfmpegDir = ui.m_pMjpegtoolsDirectory->text();
+    QString sFfmpegDir = QDir::toNativeSeparators(ui.m_pMjpegtoolsDirectory->text());
     QString sImageExtension = ui.m_pImageExtension->currentText();
-    QString sTempDir = ui.m_pDirectoryName->text();
+    QString sTempDir = QDir::toNativeSeparators(ui.m_pDirectoryName->text());
     QString sNoSound = "nosound_";
     QString sTempSoundFile = sTempDir+sSeparator+"_temp_sound_.mp3";
     QString sCmd = QString("\"%6%2ffmpeg\" -y -f image2 -i \"%1%2%8.%7\" -r %5 \"%1%2%3%4\"").arg( sTempDir ).arg( sSeparator ).arg( sNoSound+sMovieOutput ).arg( sMovieExtension ).arg( sRate ).arg( sFfmpegDir ).arg( sImageExtension ).arg( sName );
@@ -457,13 +449,13 @@ void CreateMovieDlg4::restoreSettings()
     QSettings aSettings;
 
     QString sTempImagePath = QDir::tempPath()+QDir::separator()+"mindia_movie";
-    ui.m_pDirectoryName->setText(aSettings.value("CreateMovieDlg/OutputDir",sTempImagePath).toString());
+    ui.m_pDirectoryName->setText(QDir::toNativeSeparators(aSettings.value("CreateMovieDlg/OutputDir",sTempImagePath).toString()));
     QString sTempImageName("image%05d");
     ui.m_pImageNameOffset->setText(aSettings.value("CreateMovieDlg/OutputName",sTempImageName).toString());
     QString sTempMovieName("movie");
     ui.m_pMovieFileName->setText(aSettings.value("CreateMovieDlg/OutputMovieName",sTempMovieName).toString());
     // ffmpeg will be delivered from installation as default...
-    ui.m_pMjpegtoolsDirectory->setText(aSettings.value("CreateMovieDlg/MjpegToolsDir",GetFfmpegDefaultPath()).toString());
+    ui.m_pMjpegtoolsDirectory->setText(QDir::toNativeSeparators(aSettings.value("CreateMovieDlg/MjpegToolsDir",GetFfmpegDefaultPath()).toString()));
     ui.m_pImagesPerSecond->setValue(aSettings.value("CreateMovieDlg/ImagesPerSeconds",10).toInt());
     ui.m_pImageRatio->setCurrentIndex(aSettings.value("CreateMovieDlg/ImageSizeItem",0).toInt());
     ui.m_pImageExtension->setCurrentIndex(aSettings.value("CreateMovieDlg/ImageExtension",0).toInt());
@@ -550,15 +542,15 @@ static void addToken(QStringList & tokens, bool & isInSymbol, bool & isInString,
     currentToken = "";
 }
 
-static QStringList SplitStrings(const QString & code)
+// "abcd def" "xyz" --> ["abcd def", "xyz]
+// " are not allowed inside the string
+static QStringList SplitQuotedStrings(const QString & code)
 {
     QStringList tokens;
     QString currentToken;
     bool isInString = false;
     bool isInSymbol = false;
-    bool wasLastBackslash = false;
 
-    //foreach (char ch in code)
     for (int i = 0; i < code.size(); i++)
     {
         QChar ch = code[i];
@@ -576,68 +568,10 @@ static QStringList SplitStrings(const QString & code)
             {
                 // ignore
             }
-            wasLastBackslash = false;
-        }
-        else if (ch == '\\')
-        {
-            if (wasLastBackslash)
-            {
-                currentToken += ch;
-                wasLastBackslash = false;
-            }
-            else
-            {
-                wasLastBackslash = true;
-            }
-        }
-        else if (ch == '(' || ch == ')')
-        {
-            if (isInString)
-            {
-                currentToken += ch;
-            }
-            else if (isInSymbol)
-            {
-                addToken(tokens, isInSymbol, isInString, currentToken, currentToken);
-                addToken(tokens, isInSymbol, isInString, currentToken, QString("") + ch);
-            }
-            else
-            {
-                addToken(tokens, isInSymbol, isInString, currentToken, QString("") + ch);
-            }
-            wasLastBackslash = false;
-        }
-        else if (ch == '\'' || ch == '`' || ch == ',')
-        {
-            if (isInString)
-            {
-                currentToken += ch;
-            }
-            else
-            {
-                if (code[i + 1] == '@')
-                {
-                    // process unquotesplicing
-                    QString s;
-                    s += ch;
-                    i++;
-                    s += code[i];
-                    addToken(tokens, isInSymbol, isInString, currentToken, s);
-                }
-                else
-                {
-                    addToken(tokens, isInSymbol, isInString, currentToken, QString("") + ch);
-                }
-            }
-            wasLastBackslash = false;
         }
         else if (ch == '"')
         {
-            if (wasLastBackslash)
-            {
-                currentToken += ch;
-            }
-            else if (isInString)
+            if (isInString)
             {
                 // finish string
                 addToken(tokens, isInSymbol, isInString, currentToken, /*"\"" +*/ currentToken /*+ "\""*/);
@@ -648,7 +582,6 @@ static QStringList SplitStrings(const QString & code)
                 isInString = true;
                 currentToken = "";
             }
-            wasLastBackslash = false;
         }
         else
         {
@@ -657,7 +590,6 @@ static QStringList SplitStrings(const QString & code)
                 isInSymbol = true;
             }
             currentToken += ch;
-            wasLastBackslash = false;
         }
     }
     if (currentToken != "")
@@ -669,7 +601,7 @@ static QStringList SplitStrings(const QString & code)
 
 void CreateMovieDlg4::ProcessCommands( const QString & sCmdsIn )
 {
-    QStringList aLstArgs = SplitStrings(sCmdsIn);
+    QStringList aLstArgs = SplitQuotedStrings(sCmdsIn);
     QString sProgram = aLstArgs[0];
     aLstArgs = aLstArgs.mid(1);
 
@@ -695,44 +627,3 @@ void CreateMovieDlg4::ProcessCommands( const QString & sCmdsIn )
         ui.m_pKill->setEnabled(false);
     }
 }
-
-/*
-void CreateMovieDlg4::ProcessCommands( const QString & sCmdsIn )
-{
-    QStringList aCmdList = sCmdsIn.split('\n');
-
-    if( m_pProcess==0 )
-    {
-        ui.m_pKill->setEnabled(true);
-
-        CreateProcess( false );
-
-// TODO --> ggf. argumente aufsplitten --> mit "strings mit spaces"
-        foreach( const QString & sCmd, aCmdList)
-        {
-            ui.m_pOutput->append( sCmd );
-
-            QString sProg = CMD_SHELL;
-            QStringList aArgs;
-#ifdef Q_OS_WIN
-            // see: http://stackoverflow.com/questions/12769321/qprocess-and-command-line-c-argument
-            aArgs << CMD_SHELL_ARG;
-            m_pProcess->setNativeArguments(sCmd);
-#else
-            aArgs << CMD_SHELL_ARG << sCmd;
-#endif
-            m_pProcess->start(sProg,aArgs);
-
-            while( m_pProcess->state()!=QProcess::NotRunning )
-            {
-                GetApplication()->processEvents();
-            }
-            m_pProcess->waitForFinished();
-        }
-
-        DeleteProcess();
-
-        ui.m_pKill->setEnabled(false);
-    }
-}
-*/
