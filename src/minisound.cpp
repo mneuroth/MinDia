@@ -28,6 +28,12 @@
 #include <QEvent>
 #include <QApplication>
 
+#if defined(Q_OS_WIN)
+#define DELAY 200   // windows seems to need more time as mac...
+#else
+#define DELAY 100
+#endif
+
 // *******************************************************************
 // *******************************************************************
 // *******************************************************************
@@ -268,7 +274,7 @@ int  miniSound::GetPositionInMSImpl() const
     }
 }
 
-bool miniSound::StartPlayImpl( int /*iStartPosInMs*/, int /*iStopPosInMs*/,
+bool miniSound::StartPlayImpl( int iStartPosInMs, int /*iStopPosInMs*/,
                                int /*iFadeInStartPosInMS*/, int /*iFadeInLengthInMS*/,
                                int /*iFadeOutStartPosInMS*/, int /*iFadeOutLengthInMS*/ )
 {
@@ -288,6 +294,9 @@ bool miniSound::StartPlayImpl( int /*iStartPosInMs*/, int /*iStopPosInMs*/,
 #endif
 #ifdef _WITH_MULTIMEDIA
             m_pPlayer->play();
+            // see: https://forum.qt.io/topic/7037/seeking-with-qmediaplayer
+            QThread::msleep( DELAY );
+            m_pPlayer->setPosition( (qint64)iStartPosInMs+DELAY );
 #endif
         }
 
