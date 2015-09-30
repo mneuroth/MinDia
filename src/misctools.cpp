@@ -373,7 +373,7 @@ bool QImageCache::Add( const QString & sImageFileName )
             aImage = aImage.scaled(m_iMaxWidth,m_iMaxHeight,Qt::KeepAspectRatio);
         }
 
-        m_aMap[sImageFileName] = QPair<QImage,unsigned long>(aImage,1);
+        m_aMap[sImageFileName] = QPair<QImage,int>(aImage,1);
         PushToLastImageFileNames( sImageFileName );
         m_bModified = true;
     }
