@@ -823,8 +823,6 @@ void PlayInfoDlgImpl::sltFadeInTimer()
 
 extern QImage ProcessKenBurnsEffect( minHandle<DiaInfo> hDia, double dCurrentKenBurnsTimeInMS, int iWidth, int iHeight );
 
-//#include <QDebug>
-
 void PlayInfoDlgImpl::sltKenBurnsTimer()
 {
     m_pKenBurnsTimer->stop();
