@@ -1788,13 +1788,13 @@ msgstr &quot;&quot;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;.Lucida Grande UI&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-weight:600;&quot;&gt;MinDia&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;&lt;br /&gt;&lt;br /&gt;ver. 0.99.2 from 31.8.2015&lt;br /&gt;&lt;br /&gt;Copyright 2001-2015 by Michael Neuroth&lt;br /&gt;&lt;br /&gt;Homepage: &lt;/span&gt;&lt;a href=&quot;http://mindia.sourceforge.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;http://mindia.sourceforge.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;&lt;br /&gt;&lt;br /&gt;This program is intented to create, modify and run multimedia slide shows on a computer. &lt;br /&gt;&lt;br /&gt;The programm supports also the direct control of Rollei dia-projectors &lt;br /&gt;(&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-style:italic;&quot;&gt;Rolleivision 35 twin digital P&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-style:italic;&quot;&gt;Rollei twin MSC 3x0 P&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;).&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-weight:600;&quot;&gt;MinDia&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;&lt;br /&gt;&lt;br /&gt;ver. 0.99.2 from 30.9.2015&lt;br /&gt;&lt;br /&gt;Copyright 2001-2015 by Michael Neuroth&lt;br /&gt;&lt;br /&gt;Homepage: &lt;/span&gt;&lt;a href=&quot;http://mindia.sourceforge.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;http://mindia.sourceforge.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;&lt;br /&gt;&lt;br /&gt;This program is intented to create, modify and run multimedia slide shows on a computer. &lt;br /&gt;&lt;br /&gt;The programm supports also the direct control of Rollei dia-projectors &lt;br /&gt;(&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-style:italic;&quot;&gt;Rolleivision 35 twin digital P&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-style:italic;&quot;&gt;Rollei twin MSC 3x0 P&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;).&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <oldsource>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;.Lucida Grande UI&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-weight:600;&quot;&gt;MinDia&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;&lt;br /&gt;&lt;br /&gt;ver. 0.99.2 from 25.8.2015&lt;br /&gt;&lt;br /&gt;Copyright 2001-2015 by Michael Neuroth&lt;br /&gt;&lt;br /&gt;Homepage: &lt;/span&gt;&lt;a href=&quot;http://mindia.sourceforge.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;http://mindia.sourceforge.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;&lt;br /&gt;&lt;br /&gt;This program is intented to create, modify and run multimedia slide shows on a computer. &lt;br /&gt;&lt;br /&gt;The programm supports also the direct control of Rollei dia-projectors &lt;br /&gt;(&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-style:italic;&quot;&gt;Rolleivision 35 twin digital P&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-style:italic;&quot;&gt;Rollei twin MSC 3x0 P&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;).&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-weight:600;&quot;&gt;MinDia&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;&lt;br /&gt;&lt;br /&gt;ver. 0.99.2 from 31.8.2015&lt;br /&gt;&lt;br /&gt;Copyright 2001-2015 by Michael Neuroth&lt;br /&gt;&lt;br /&gt;Homepage: &lt;/span&gt;&lt;a href=&quot;http://mindia.sourceforge.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;http://mindia.sourceforge.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;&lt;br /&gt;&lt;br /&gt;This program is intented to create, modify and run multimedia slide shows on a computer. &lt;br /&gt;&lt;br /&gt;The programm supports also the direct control of Rollei dia-projectors &lt;br /&gt;(&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-style:italic;&quot;&gt;Rolleivision 35 twin digital P&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-style:italic;&quot;&gt;Rollei twin MSC 3x0 P&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;).&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</oldsource>
         <translation></translation>
     </message>
@@ -2128,12 +2128,12 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+6"/>
-        <location line="+52"/>
+        <location line="+55"/>
         <source>Generator cmd:</source>
         <translation>Erzeuger Kommando:</translation>
     </message>
     <message>
-        <location line="-26"/>
+        <location line="-29"/>
         <source>Create &amp;Movie (2)</source>
         <translation>Erzeuge &amp;Film (2)</translation>
     </message>
@@ -2143,7 +2143,7 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Sound</source>
         <translation>Ton</translation>
     </message>
@@ -2173,18 +2173,18 @@ p, li { white-space: pre-wrap; }
         <translation>Ausgabe:</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+17"/>
         <source>&amp;Clear</source>
         <translation>&amp;Löschen</translation>
     </message>
     <message>
         <location line="+3"/>
-        <location line="+84"/>
+        <location line="+91"/>
         <source>Alt+C</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-52"/>
+        <location line="-59"/>
         <source>&amp;Make Show (1)+(2)+(3)</source>
         <translation>&amp;Erzeuge Präsentation (1)+(2)+(3)</translation>
     </message>
@@ -2204,6 +2204,11 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
+        <location line="+7"/>
+        <source>Kill</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
         <location line="+23"/>
         <source>&amp;Help</source>
         <translation>&amp;Hilfe</translation>
@@ -2219,20 +2224,20 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Schließen</translation>
     </message>
     <message>
-        <location filename="CreateMovieDlg4.cpp" line="+219"/>
-        <location line="+98"/>
+        <location filename="CreateMovieDlg4.cpp" line="+213"/>
+        <location line="+103"/>
         <source>Select directory</source>
         <oldsource>Open Directory</oldsource>
         <translation>Wähle Verzeichnis</translation>
     </message>
     <message>
-        <location line="-61"/>
-        <location line="+50"/>
+        <location line="-66"/>
+        <location line="+55"/>
         <source>Question</source>
         <translation>Frage</translation>
     </message>
     <message>
-        <location line="-50"/>
+        <location line="-55"/>
         <source>Temporary directory is not empty, remove all files in temporary directory?</source>
         <translation>Das temporäre Verzeichnis ist nicht leer, sollen alle Dateien im temporären Verzeichnis gelöscht werden?</translation>
     </message>
@@ -2247,7 +2252,7 @@ p, li { white-space: pre-wrap; }
         <translation> Bild</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <location line="+43"/>
         <source>Really delete all files in temporary directory?</source>
         <translation>Wirklich alle Dateien im tempärären Verzeichnis löschen?</translation>
     </message>
@@ -2459,7 +2464,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>DiaInfoDlgImpl</name>
     <message>
-        <location filename="diainfodlgimpl.cpp" line="+450"/>
+        <location filename="diainfodlgimpl.cpp" line="+449"/>
         <source>Select file</source>
         <oldsource>Select</oldsource>
         <translation>Datei auswählen</translation>
@@ -2493,7 +2498,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>DocumentAndControler</name>
     <message>
-        <location filename="doccontroler.cpp" line="+236"/>
+        <location filename="doccontroler.cpp" line="+235"/>
         <source>Reset image cache for new presentation!</source>
         <translation>Bilder-Cache wird für neue Präsentation zurückgesetzt!</translation>
     </message>
@@ -2781,7 +2786,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MinDiaWindow</name>
     <message>
-        <location filename="mindiawindow.cpp" line="+327"/>
+        <location filename="mindiawindow.cpp" line="+174"/>
         <source>MinDia</source>
         <translation></translation>
     </message>
@@ -2925,23 +2930,23 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+1"/>
-        <location line="+951"/>
+        <location line="+948"/>
         <source>Export dynamic graphic data</source>
         <translation>Exportiere dynamische Grafik Daten</translation>
     </message>
     <message>
-        <location line="-949"/>
+        <location line="-946"/>
         <source>Import d&amp;yn. graphics...</source>
         <translation>Importiere d&amp;yn. Grafiken...</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+958"/>
+        <location line="+955"/>
         <source>Import dynamic graphic data</source>
         <translation>Importiere dynamische Grafik Daten</translation>
     </message>
     <message>
-        <location line="-956"/>
+        <location line="-953"/>
         <source>&amp;Print...</source>
         <translation>&amp;Drucken...</translation>
     </message>
@@ -3370,7 +3375,7 @@ p, li { white-space: pre-wrap; }
         <translation>Hilfe für diese Anwendung</translation>
     </message>
     <message>
-        <location line="+197"/>
+        <location line="+195"/>
         <source>Adjust dia show time</source>
         <translation>Justiere Dia Anzeige Zeit</translation>
     </message>
@@ -3427,7 +3432,7 @@ p, li { white-space: pre-wrap; }
         <translation>Das Drucken ist leider noch nicht realisiert !</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
         <source>Not implemented yet !</source>
         <translation>Noch nicht realisiert !</translation>
     </message>
@@ -3449,12 +3454,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+55"/>
         <location line="+170"/>
-        <location line="+535"/>
+        <location line="+533"/>
         <source>MinDia - Warning</source>
         <translation>MinDia - Warnung</translation>
     </message>
     <message>
-        <location line="-705"/>
+        <location line="-703"/>
         <source>Write changed data ?</source>
         <translation>Schreibe geänderte Daten ?</translation>
     </message>
@@ -3504,7 +3509,7 @@ p, li { white-space: pre-wrap; }
         <translation> *** Anzahl: </translation>
     </message>
     <message>
-        <location line="+112"/>
+        <location line="+110"/>
         <source>play mark %1 sec</source>
         <translation>Abspielposition %1 sek</translation>
     </message>
@@ -3558,12 +3563,12 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+8"/>
-        <location line="+71"/>
+        <location line="+70"/>
         <source>&amp;Full screen</source>
         <translation>&amp;Vollbildschirm</translation>
     </message>
     <message>
-        <location line="-65"/>
+        <location line="-64"/>
         <source>Sta&amp;rt</source>
         <translation>Sta&amp;rt</translation>
     </message>
@@ -3583,7 +3588,7 @@ p, li { white-space: pre-wrap; }
         <translation>S&amp;chließen</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+48"/>
         <source>&amp;Normal</source>
         <translation>&amp;Normal</translation>
     </message>
@@ -3705,7 +3710,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>PlayInfoDlgImpl</name>
     <message>
-        <location filename="playinfodlgimpl.cpp" line="+903"/>
+        <location filename="playinfodlgimpl.cpp" line="+855"/>
         <source>Save as</source>
         <translation>Speichern unter</translation>
     </message>
@@ -4064,7 +4069,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>QImageCache</name>
     <message>
-        <location filename="misctools.cpp" line="+108"/>
+        <location filename="misctools.cpp" line="+104"/>
         <source>reading </source>
         <translation>lesen </translation>
     </message>
@@ -4098,7 +4103,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>QObject</name>
     <message>
-        <location filename="CreateMovieDlg4.cpp" line="-231"/>
+        <location filename="CreateMovieDlg4.cpp" line="-238"/>
         <source>400:304</source>
         <translation></translation>
     </message>
