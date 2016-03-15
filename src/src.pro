@@ -158,6 +158,10 @@ macx {
     INSTALLS += files
 }
 
+unix:!macx {
+    LIBS += -ldl
+}
+
 lessThan(QT_MAJOR_VERSION, 5) {
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/release/ -lqtserialport
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qt-qtserialport/src/serialport/debug/ -lqtserialportd
@@ -174,6 +178,3 @@ DEPENDPATH += $$PWD/../qt-qtserialport/src/serialport
 
 RESOURCES += \
     mindia.qrc
-
-
-
