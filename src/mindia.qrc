@@ -11,6 +11,12 @@
         <file>icons/savefile.png</file>
         <file>icons/stop.png</file>
         <file>icons/fullscreen.png</file>
+        <file>flaticons/folder.png</file>
+        <file>flaticons/painting-canvas.png</file>
+        <file>flaticons/play-button.png</file>
+        <file>flaticons/save.png</file>
+        <file>flaticons/signs.png</file>
+        <file>flaticons/square.png</file>
     </qresource>
     <qresource prefix="/translations">
         <file>qt_de.qm</file>

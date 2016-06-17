@@ -266,10 +266,17 @@ PlayInfoDlgImpl::PlayInfoDlgImpl( QObject * pShowControler, QWidget * parent, Qt
 {
     setupUi(this);
 
+#ifdef _OLD_ICONS
     QPixmap aPauseIcon( ":/icons/icons/pause.png" );
     QPixmap aStopIcon( ":/icons/icons/stop.png" );
     QPixmap aRunIcon( ":/icons/icons/run.png" );
     QPixmap aFullscreenIcon( ":/icons/icons/fullscreen.png" );
+#else
+    QPixmap aRunIcon( ":/icons/flaticons/play-button.png" );
+    QPixmap aPauseIcon( ":/icons/flaticons/signs.png" );
+    QPixmap aStopIcon( ":/icons/flaticons/square.png" );
+    QPixmap aFullscreenIcon(":/icons/flaticons/painting-canvas.png");    // for icons see nuvola in Develop/libs/nuvola
+#endif
 	m_pRun->setIcon( aRunIcon );	
 	m_pStop->setIcon( aStopIcon );
 	m_pPause->setIcon( aPauseIcon );

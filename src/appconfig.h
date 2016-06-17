@@ -21,6 +21,8 @@
 #ifndef _APPCONFIG_H
 #define _APPCONFIG_H
 
+#undef _OLD_ICONS
+
 #include <string>
 
 using namespace std;
