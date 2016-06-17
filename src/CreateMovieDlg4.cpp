@@ -63,6 +63,8 @@
 
 extern QApplication * GetApplication();
 
+#define _DEFAULT_FRAME_RATE 25
+
 // for resolutions see: http://de.wikipedia.org/wiki/Standard_Definition_Television
 const QString g_sDefaultSize1 = QObject::tr("400:304");
 const QString g_sDefaultSize2 = QObject::tr("576:400");
@@ -108,7 +110,7 @@ CreateMovieDlg4::CreateMovieDlg4(DocumentAndControler * pDocControler, double dT
 
     ui.m_pImagesPerSecond->setMinimum(1);
     ui.m_pImagesPerSecond->setMaximum(100);
-    ui.m_pImagesPerSecond->setValue(25);
+    ui.m_pImagesPerSecond->setValue(_DEFAULT_FRAME_RATE);
 
     ui.m_pImageRatio->insertItem( 0, g_sDefaultSize1 );
     ui.m_pImageRatio->insertItem( 1, g_sDefaultSize2 );
@@ -456,7 +458,7 @@ void CreateMovieDlg4::restoreSettings()
     ui.m_pMovieFileName->setText(aSettings.value("CreateMovieDlg/OutputMovieName",sTempMovieName).toString());
     // ffmpeg will be delivered from installation as default...
     ui.m_pMjpegtoolsDirectory->setText(QDir::toNativeSeparators(aSettings.value("CreateMovieDlg/MjpegToolsDir",GetFfmpegDefaultPath()).toString()));
-    ui.m_pImagesPerSecond->setValue(aSettings.value("CreateMovieDlg/ImagesPerSeconds",10).toInt());
+    ui.m_pImagesPerSecond->setValue(aSettings.value("CreateMovieDlg/ImagesPerSeconds",_DEFAULT_FRAME_RATE).toInt());
     ui.m_pImageRatio->setCurrentIndex(aSettings.value("CreateMovieDlg/ImageSizeItem",0).toInt());
     ui.m_pImageExtension->setCurrentIndex(aSettings.value("CreateMovieDlg/ImageExtension",0).toInt());
     ui.m_pMovieExtension->setCurrentIndex(aSettings.value("CreateMovieDlg/MovieExtension",0).toInt());
