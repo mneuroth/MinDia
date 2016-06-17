@@ -50,7 +50,7 @@ using namespace std;
 #define _StringBegin    '"'
 #define _StringEnd      '"'
 #define _Separator      ','
-#define _Equal			'='
+#define _EqualCh		'='
 #define _ContinueChar   'c'
 #define _BreakChar      'q'
 #define _SpecialChar	'\\'
@@ -80,14 +80,14 @@ public:
   bool ReadStringCharOrEnd(istream& IS, char & ch);
   bool ReadStringCharOrEndExt(istream& IS, char & ch);
   bool ReadSeparator(istream& IS)			{ return ReadToChar(IS,_Separator); }
-  bool ReadEqual(istream& IS)				{ return ReadToChar(IS,_Equal); }
+  bool ReadEqual(istream& IS)				{ return ReadToChar(IS,_EqualCh); }
   int PeekStringBegin(istream& IS)			{ return (PeekChar(IS)==_StringBegin); }
   int PeekControlBegin(istream& IS)			{ return (PeekChar(IS)==_ControlBegin); }
   int PeekControlEnd(istream& IS)			{ return (PeekChar(IS)==_ControlEnd); }
   int PeekStructBegin(istream& IS)			{ return (PeekChar(IS)==_StructBegin); }
   int PeekStructEnd(istream& IS)			{ return (PeekChar(IS)==_StructEnd); }
   int PeekSeparator(istream& IS)			{ return (PeekChar(IS)==_Separator); }
-  int PeekEqual(istream& IS)				{ return (PeekChar(IS)==_Equal); }
+  int PeekEqual(istream& IS)				{ return (PeekChar(IS)==_EqualCh); }
   int PeekTypeInfoBegin(istream& IS)		{ return (PeekChar(IS)==_TypeIdBegin); }
   int ReadSeparatorOrStructEnd(istream& IS);        // == 1 if Separator or StructEnd found, else = 0
   void WriteDataFileBegin(ostream& OS)		{ Write(OS,_DataFileBegin); }
@@ -103,7 +103,7 @@ public:
   void WriteStringBegin(ostream& OS)		{ Write(OS,_StringBegin); }
   void WriteStringEnd(ostream& OS)			{ Write(OS,_StringEnd); }
   void WriteSeparator(ostream& OS)			{ Write(OS,_Separator); }
-  void WriteEqual(ostream& OS)				{ Write(OS,_Equal); }
+  void WriteEqual(ostream& OS)				{ Write(OS,_EqualCh); }
   // Methoden zum ueberspringen von Bloecken:
   bool ReadBlockToStructEnd(istream& IS);
 /* other things... */
