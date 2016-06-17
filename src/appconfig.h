@@ -31,4 +31,7 @@ string GetImagePath();
 string GetMusicPath();
 string GetDataPath();
 
+double GetDisplayScaleFactor();
+int ScalePixel(int pixel);
+
 #endif

@@ -22,6 +22,7 @@
 
 #include "diainfo.h"
 
+#include "appconfig.h"
 #include "misctools.h"
 
 #include <QObject>
@@ -80,24 +81,24 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
     aPen.setWidth( 10 );
     pPainter->setPen( aPen );
     int iRound = 5;
-    pPainter->drawRoundRect( aRect.x()+iRound, aRect.y()+iRound, aRect.width()-2*iRound, aRect.height()-c_iOffset, iRound, iRound );
+    pPainter->drawRoundRect( aRect.x()+iRound, aRect.y()+iRound, aRect.width()-2*iRound, aRect.height()-ScalePixel(c_iOffset), iRound, iRound );
     iRound = 10;
 
     QBrush aBrush1( aGrey );
-    pPainter->fillRect( aRect.x()+iRound, aRect.y()+iRound, aRect.width()-2*iRound, aRect.height()-c_iOffset, aBrush1 );
+    pPainter->fillRect( aRect.x()+iRound, aRect.y()+iRound, aRect.width()-2*iRound, aRect.height()-ScalePixel(c_iOffset), aBrush1 );
     QPoint aSlideStartPoint;
     QRect aSlideRect;
     if( m_hData->IsHorizontalFormat() )
     {
-        aSlideStartPoint.setX( aRect.x()+c_iSlideOffsX );
-        aSlideStartPoint.setY( aRect.y()+c_iSlideOffsY2 );
-        aSlideRect.setRect( aSlideStartPoint.x(), aSlideStartPoint.y(), c_iSlideWidth, c_iSlideHeight );
+        aSlideStartPoint.setX( aRect.x()+ScalePixel(c_iSlideOffsX) );
+        aSlideStartPoint.setY( aRect.y()+ScalePixel(c_iSlideOffsY2) );
+        aSlideRect.setRect( aSlideStartPoint.x(), aSlideStartPoint.y(), ScalePixel(c_iSlideWidth), ScalePixel(c_iSlideHeight) );
     }
     else
     {
-        aSlideStartPoint.setX( aRect.x()+c_iSlideOffsY );
-        aSlideStartPoint.setY( aRect.y()+c_iSlideOffsX );
-        aSlideRect.setRect( aSlideStartPoint.x(), aSlideStartPoint.y(), c_iSlideHeight, c_iSlideWidth );
+        aSlideStartPoint.setX( aRect.x()+ScalePixel(c_iSlideOffsY) );
+        aSlideStartPoint.setY( aRect.y()+ScalePixel(c_iSlideOffsX) );
+        aSlideRect.setRect( aSlideStartPoint.x(), aSlideStartPoint.y(), ScalePixel(c_iSlideHeight), ScalePixel(c_iSlideWidth) );
     }
 
     QString sImageFileName = ToQString( m_hData->GetImageFile() );
@@ -112,18 +113,18 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
     {
         QImage aImage;
 
-        QImage aImageOrg = ReadQImageOrEmpty( sImageFileName, c_iSlideWidth, c_iSlideHeight );
+        QImage aImageOrg = ReadQImageOrEmpty( sImageFileName, ScalePixel(c_iSlideWidth), ScalePixel(c_iSlideHeight) );
         m_sImageFileNameCache = sImageFileName;
 
         if( !aImageOrg.isNull() )
         {
             if( m_hData->IsHorizontalFormat() )
             {
-                aImage = aImageOrg.scaled( c_iSlideWidth, c_iSlideHeight, Qt::KeepAspectRatio );
+                aImage = aImageOrg.scaled( ScalePixel(c_iSlideWidth), ScalePixel(c_iSlideHeight), Qt::KeepAspectRatio );
             }
             else
             {
-                aImage = aImageOrg.scaled( c_iSlideHeight, c_iSlideWidth, Qt::KeepAspectRatio );
+                aImage = aImageOrg.scaled( ScalePixel(c_iSlideHeight), ScalePixel(c_iSlideWidth), Qt::KeepAspectRatio );
             }
         }
         else
@@ -156,12 +157,12 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
     */
 
     // ** show text-data (id, comment, dissolve, timer, etc.)
-    QPoint aTextStartPoint( aRect.x()+2, aRect.y()+aRect.height()-c_iOffset+c_iDY );
+    QPoint aTextStartPoint( aRect.x()+2, aRect.y()+aRect.height()-ScalePixel(c_iOffset)+ScalePixel(c_iDY) );
     pPainter->setPen( aBlack );
     if( m_hData.IsOk() )
     {
         int iMaxWidth = aRect.width();
-        int iMaxHeight = c_iDY+5;
+        int iMaxHeight = ScalePixel(c_iDY)+5;
 
         QString sBuf;
         sBuf = QString("pos=%1").arg( m_hData->GetPosition()+1 );
@@ -169,11 +170,11 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
                            iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
                            sBuf );
         sBuf = QString("id=%1").arg( ToQString( m_hData->GetId() ) );
-        pPainter->drawText( aTextStartPoint.x(), aTextStartPoint.y()+c_iDY,
+        pPainter->drawText( aTextStartPoint.x(), aTextStartPoint.y()+ScalePixel(c_iDY),
                            iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
                            sBuf );
         sBuf = QString("comment=%1").arg( ToQString( m_hData->GetComment() ) );
-        pPainter->drawText( aTextStartPoint.x(), aTextStartPoint.y()+2*c_iDY,
+        pPainter->drawText( aTextStartPoint.x(), aTextStartPoint.y()+2*ScalePixel(c_iDY),
                            iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
                            sBuf );
 
@@ -183,11 +184,11 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
             sTemp += " ";
             sTemp += QObject::tr( "<script>" );
         }
-        pPainter->drawText( aSlideStartPoint.x(), aSlideStartPoint.y() /*+c_iDY*/,
-                           c_iSlideWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
+        pPainter->drawText( aSlideStartPoint.x(), aSlideStartPoint.y() /*+ScalePixel(c_iDY)*/,
+                           ScalePixel(c_iSlideWidth), iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
                            sTemp );
 
-        int iOffset = 3*c_iDY;
+        int iOffset = 3*ScalePixel(c_iDY);
         for( int i=0; i<m_hData->GetOperationCount(); i++ )
         {
             TimeOperation aOp = m_hData->GetOperation( i );
@@ -204,7 +205,7 @@ void HItem::paint( QPainter * pPainter, const QStyleOptionGraphicsItem * /*optio
             pPainter->drawText( aTextStartPoint.x(), aTextStartPoint.y()+iOffset,
                                iMaxWidth, iMaxHeight, Qt::AlignLeft | Qt::AlignTop,
                                sBuf);
-            iOffset += c_iDY;
+            iOffset += ScalePixel(c_iDY);
         }
     }
 

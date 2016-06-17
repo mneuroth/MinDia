@@ -22,6 +22,7 @@
 
 #include "misctools.h"
 
+#include "appconfig.h"
 #include "diapresentation.h"
 #include "mindiawindow.h"
 
@@ -106,8 +107,8 @@ HItemView::HItemView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMai
     setScene( m_pCanvas );
 
 	m_aNextItemPos		= QPoint( 0, 0 );
-	m_aItemShift		= QPoint( 180, 0 );
-    m_aDefaultItemSize	= QRect( 0, 0, m_aItemShift.x(), 240/*m_aSizeHint.height()*/ );
+    m_aItemShift		= QPoint( ScalePixel(180), 0 );
+    m_aDefaultItemSize	= QRect( 0, 0, m_aItemShift.x(), ScalePixel(240)/*m_aSizeHint.height()*/ );
 
 	m_pDiaPres			= pDoc;
 

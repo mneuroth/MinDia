@@ -20,6 +20,7 @@
 
 #include "timelineview.h"
 
+#include "appconfig.h"
 #include "timelineitem.h"
 #include "diapresentation.h"
 #include "dyntextdlgimpl.h"
@@ -110,12 +111,12 @@ TimeLineView::TimeLineView( QWidget * pParent, int iWidth, int iHeight, QWidget 
 	setFocusPolicy( Qt::ClickFocus );
 	viewport()->setMouseTracking( true );
 
-	m_hTimeAxis = minHandle<TimeLineAxis>( new TimeLineAxis( m_pCanvas, g_dFactor, g_iStartPosY ) );
+    m_hTimeAxis = minHandle<TimeLineAxis>( new TimeLineAxis( m_pCanvas, ScalePixel(g_dFactor), ScalePixel(g_iStartPosY) ) );
 
     m_hPlayMark = minHandle<QGraphicsLineItem>( new QGraphicsLineItem() );
     m_pCanvas->addItem(m_hPlayMark.GetPtr());
     m_hPlayMark->setPen( QColor( 255, 0, 0 ) );
-    m_hPlayMark->setLine( 0, 0, 0, g_iStartPosY );
+    m_hPlayMark->setLine( 0, 0, 0, ScalePixel(g_iStartPosY) );
 	m_hPlayMark->show();
 
 	sltUpdateView();
@@ -172,7 +173,7 @@ void TimeLineView::DoAddDynText( bool bAsAttached )
     if( ok && !sTxt.isEmpty() )
     {
         int x = m_aLastMousePos.x();
-        double dStartTimeInMS = x*1000/g_dFactor-m_pDiaPres->GetOffsetForSound()*1000;
+        double dStartTimeInMS = x*1000/ScalePixel(g_dFactor)-m_pDiaPres->GetOffsetForSound()*1000;
 
         // init default values for not attached dynamic text
         string sUUID;
@@ -207,7 +208,7 @@ void TimeLineView::sltDoUpdateView( bool bErase )
 	if( m_pDiaPres )
 	{
 		double dTotalTime = m_pDiaPres->GetTotalTime();
-		int iTotalLength = (int)(dTotalTime*g_dFactor);
+        int iTotalLength = (int)(dTotalTime*ScalePixel(g_dFactor));
 
 		// ** update the size of the view **
 		if( m_pCanvas->width()<iTotalLength )
@@ -223,7 +224,7 @@ void TimeLineView::sltDoUpdateView( bool bErase )
 		m_aItemContainer.erase( m_aItemContainer.begin(), m_aItemContainer.end() );
 		for( int i=0; i<m_pDiaPres->GetDiaCount(); i++ )
 		{
-            minHandle<TimeLineItem> hItem( new TimeLineItem( m_pCanvas, m_pDiaPres, i, g_dFactor, g_iRampSize, (m_iSelectedItemNo==i) ) );
+            minHandle<TimeLineItem> hItem( new TimeLineItem( m_pCanvas, m_pDiaPres, i, ScalePixel(g_dFactor), ScalePixel(g_iRampSize), (m_iSelectedItemNo==i) ) );
 			m_aItemContainer.push_back( hItem );
 
             if( hItem->IsSelected() && !m_bSelfTriggered && !bErase )
@@ -303,7 +304,7 @@ void TimeLineView::SetPlayMark( double dActPlayTime )
 {
     const int iDelta = 200;
 
-	int iActPos = (int)(dActPlayTime*g_dFactor);
+    int iActPos = (int)(dActPlayTime*ScalePixel(g_dFactor));
 
     m_hPlayMark->setPos( iActPos, 0 );
 
@@ -311,7 +312,7 @@ void TimeLineView::SetPlayMark( double dActPlayTime )
     if( iActPos >= 0 )
     {
         // Falls Probleme mit Repaint: ggf. komplette Timeline View aktualisieren...
-        update( iActPos-iDelta, y(), 2*iDelta+1, /*contentsHeight()*/g_iStartPosY );
+        update( iActPos-iDelta, y(), 2*iDelta+1, /*contentsHeight()*/ScalePixel(g_iStartPosY) );
         // ** shift viewport, to ensure that the new item is visible
         //int iMargin = 50;
         //ensureVisible( iActPos+20, 0, width()-iMargin, height()-iMargin );
@@ -347,16 +348,16 @@ void TimeLineView::ShowPlotComments()
 
 		if( (m_pDiaPres->GetDiaCount()>=iStopIndex) && (m_pDiaPres->GetDiaCount()>=iStartIndex) )
 		{
-			int iPos = (int)(m_pDiaPres->GetDiaAbsStartDissolveTime( iStartIndex )*g_dFactor);
+            int iPos = (int)(m_pDiaPres->GetDiaAbsStartDissolveTime( iStartIndex )*ScalePixel(g_dFactor));
 			// to position (exclusive) !
-			int iPos2 = (int)(m_pDiaPres->GetDiaAbsStartDissolveTime( iStopIndex )*g_dFactor);
+            int iPos2 = (int)(m_pDiaPres->GetDiaAbsStartDissolveTime( iStopIndex )*ScalePixel(g_dFactor));
 
             QGraphicsLineItem * pLine1 = new QGraphicsLineItem();
             m_pCanvas->addItem(pLine1);
             pLine1->setLine( 0, 0, 0, 20 );
 			//pLine1->setBrush( QBrush( aColor ) );
 			pLine1->setPen( QPen( aColor ) );
-            pLine1->setPos( iPos, g_iStartPosY+c_iOffset );
+            pLine1->setPos( iPos, ScalePixel(g_iStartPosY)+c_iOffset );
 			pLine1->show();
 
             QGraphicsLineItem * pLine2 = new QGraphicsLineItem();
@@ -364,7 +365,7 @@ void TimeLineView::ShowPlotComments()
             pLine2->setLine( 0, 0, 0, 20 );
 			//pLine2->setBrush( QBrush( aColor ) );
             pLine2->setPen( QPen( aColor ) );
-            pLine2->setPos( iPos2, g_iStartPosY+c_iOffset );
+            pLine2->setPos( iPos2, ScalePixel(g_iStartPosY)+c_iOffset );
 			pLine2->show();
 
             QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
@@ -373,14 +374,14 @@ void TimeLineView::ShowPlotComments()
 			sText = "<-- " + sText + " -->";
 			pText->setText( sText );
             pText->setBrush( aColor );
-            pText->setPos( iPos, g_iStartPosY+c_iOffset+c_iTextOffset );
+            pText->setPos( iPos, ScalePixel(g_iStartPosY)+c_iOffset+c_iTextOffset );
 			pText->show();
 
 			// ** shift the text into the middle of the two bars
             QRectF aRect = pText->boundingRect();
 			if( aRect.width() < iPos2-iPos )
 			{
-                pText->setPos( iPos + ((iPos2-iPos-aRect.width())/2), g_iStartPosY+c_iOffset+c_iTextOffset );
+                pText->setPos( iPos + ((iPos2-iPos-aRect.width())/2), ScalePixel(g_iStartPosY)+c_iOffset+c_iTextOffset );
 			}
 
 			m_aPlotCommentContainer.push_back( PlotCommentItem( 
@@ -401,10 +402,10 @@ void TimeLineView::ShowMusicComments()
 
 	const SoundCommentContainer & aCommentContainer = m_pDiaPres->GetSoundCommentData();
 	int iSize = aCommentContainer.size();
-	int iOffset = (int)(m_pDiaPres->GetOffsetForSound()*g_dFactor);
+    int iOffset = (int)(m_pDiaPres->GetOffsetForSound()*ScalePixel(g_dFactor));
 	for( int i=0; i<iSize; i++ )
 	{
-		int iPos = (int)(aCommentContainer[i]->GetTimePos()*0.001*g_dFactor);
+        int iPos = (int)(aCommentContainer[i]->GetTimePos()*0.001*ScalePixel(g_dFactor));
 		int iLength = 10 * (i % 2);		// 3
 
 		// ** connect the sound comments to the sound play time
@@ -415,7 +416,7 @@ void TimeLineView::ShowMusicComments()
         pLine->setLine( 0, 0, 0, 20+iLength );
 		//pLine->setBrush( QBrush( aColor ) );
 		pLine->setPen( QPen( aColor ) );
-        pLine->setPos( iPos, g_iStartPosY+c_iOffset );
+        pLine->setPos( iPos, ScalePixel(g_iStartPosY)+c_iOffset );
 		pLine->show();
 
         QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
@@ -423,7 +424,7 @@ void TimeLineView::ShowMusicComments()
         QString sText = ToQString( aCommentContainer[i]->GetComment() );
 		pText->setText( sText );
         pText->setBrush( aColor );
-        pText->setPos( iPos+2, g_iStartPosY+c_iOffset+10+iLength );
+        pText->setPos( iPos+2, ScalePixel(g_iStartPosY)+c_iOffset+10+iLength );
 		pText->show(); 
 
         m_aMusicCommentContainer.push_back( CommentItem( CommentItemHelper( minHandle<QGraphicsLineItem>( pLine ), minHandle<QGraphicsSimpleTextItem>( pText ) ), ItemInfoHelper( sText, -1 ) ) );
@@ -432,8 +433,8 @@ void TimeLineView::ShowMusicComments()
 
 void TimeLineView::ShowMusicTracks()
 {
-	const int c_iTrackHeight = 20;	// 60
-	const int c_iTrackOffset = 110;
+    const int c_iTrackHeight = ScalePixel(20);	// 60
+    const int c_iTrackOffset = ScalePixel(110);
 	//const int c_iTextOffset  = c_iTrackHeight;
 
 	m_aMusicContainer.erase( m_aMusicContainer.begin(), m_aMusicContainer.end() );
@@ -444,20 +445,20 @@ void TimeLineView::ShowMusicTracks()
 	//QColor aColor1( 100, 65, 170 );
 	QColor aColor2( 0, 0, 128 );
 
-	int iOffset = (int)(m_pDiaPres->GetOffsetForSound()*g_dFactor);
+    int iOffset = (int)(m_pDiaPres->GetOffsetForSound()*ScalePixel(g_dFactor));
 
 	const SoundInfoContainer & aSoundContainer = m_pDiaPres->GetSoundInfoData();
 	int iSize = aSoundContainer.size();
 	for( int i=0; i<iSize; i++ )
 	{
-		int iStartPos = (int)(aSoundContainer.GetAbsPlayPos(i)*0.001*g_dFactor);
-		int iDelta = (int)(aSoundContainer[i]->GetDelta()*0.001*g_dFactor);
+        int iStartPos = (int)(aSoundContainer.GetAbsPlayPos(i)*0.001*ScalePixel(g_dFactor));
+        int iDelta = (int)(aSoundContainer[i]->GetDelta()*0.001*ScalePixel(g_dFactor));
 
         QGraphicsRectItem * pRect = new QGraphicsRectItem();
         m_pCanvas->addItem(pRect);
         pRect->setRect( 0, 0, iDelta, c_iTrackHeight );
 		pRect->setBrush( QBrush( aColor1 ) );
-        pRect->setPos( iOffset+iStartPos, g_iStartPosY+c_iTrackHeight+c_iTrackOffset /*80*/ );
+        pRect->setPos( iOffset+iStartPos, ScalePixel(g_iStartPosY)+c_iTrackHeight+c_iTrackOffset /*80*/ );
 		pRect->show();
 
         QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
@@ -465,20 +466,20 @@ void TimeLineView::ShowMusicTracks()
         QString sText = ToQString( aSoundContainer[i]->GetFileName() );
 		pText->setText( sText );
         pText->setBrush( aColor2 );
-        pText->setPos( iOffset+iStartPos, g_iStartPosY+c_iTrackHeight+c_iTrackOffset+c_iTrackHeight /*140*/ );
+        pText->setPos( iOffset+iStartPos, ScalePixel(g_iStartPosY)+c_iTrackHeight+c_iTrackOffset+c_iTrackHeight /*140*/ );
 		pText->show();
 
 		// ** show fade in / fade out line
-		int iFadeInStart = (int)(aSoundContainer[i]->GetFadeInStartPos()*0.001*g_dFactor);
-		int iFadeInLength = (int)(aSoundContainer[i]->GetFadeInLength()*0.001*g_dFactor);
-		int iFadeOutStart = (int)(aSoundContainer[i]->GetFadeOutStartPos()*0.001*g_dFactor);
-		int iFadeOutLength = (int)(aSoundContainer[i]->GetFadeOutLength()*0.001*g_dFactor);
+        int iFadeInStart = (int)(aSoundContainer[i]->GetFadeInStartPos()*0.001*ScalePixel(g_dFactor));
+        int iFadeInLength = (int)(aSoundContainer[i]->GetFadeInLength()*0.001*ScalePixel(g_dFactor));
+        int iFadeOutStart = (int)(aSoundContainer[i]->GetFadeOutStartPos()*0.001*ScalePixel(g_dFactor));
+        int iFadeOutLength = (int)(aSoundContainer[i]->GetFadeOutLength()*0.001*ScalePixel(g_dFactor));
 
         QGraphicsLineItem * pLineFadeIn = new QGraphicsLineItem();
         m_pCanvas->addItem(pLineFadeIn);
         pLineFadeIn->setLine( 0, c_iTrackHeight, iFadeInLength, 0 );
 		//pLineFadeIn->setBrush( QBrush( aColor ) );
-        pLineFadeIn->setPos( iOffset+iStartPos+iFadeInStart, g_iStartPosY+c_iTrackHeight+c_iTrackOffset );
+        pLineFadeIn->setPos( iOffset+iStartPos+iFadeInStart, ScalePixel(g_iStartPosY)+c_iTrackHeight+c_iTrackOffset );
 		pLineFadeIn->show();
 		pLineFadeIn->setSelected( true );
         //pLineFadeIn->setZ( 128 );
@@ -487,7 +488,7 @@ void TimeLineView::ShowMusicTracks()
         m_pCanvas->addItem(pLineFadeOut);
         pLineFadeOut->setLine( 0, 0, iFadeOutLength, c_iTrackHeight );
 		//pLineFadeOut->setBrush( QBrush( aColor ) );
-        pLineFadeOut->setPos( iOffset+iStartPos+iFadeOutStart, g_iStartPosY+c_iTrackHeight+c_iTrackOffset );
+        pLineFadeOut->setPos( iOffset+iStartPos+iFadeOutStart, ScalePixel(g_iStartPosY)+c_iTrackHeight+c_iTrackOffset );
 		pLineFadeOut->show();
 		pLineFadeOut->setSelected( true );
         //pLineFadeOut->setZ( 128 );
@@ -518,13 +519,13 @@ void TimeLineView::ShowGraphicOperations()
 	//const DynGraphicOpContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicOpData();
 	const DynTextContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
 	int iSize = aDynGrOpContainer.size();
-	int iOffset = (int)(m_pDiaPres->GetOffsetForSound()*g_dFactor);
+    int iOffset = (int)(m_pDiaPres->GetOffsetForSound()*ScalePixel(g_dFactor));
 	for( int i=0; i<iSize; i++ )
 	{        
         double dStartTimeInMS, dShowTimeInMS;
         aDynGrOpContainer[i]->GetDefaultData( dStartTimeInMS, dShowTimeInMS );
-        int iPos = (int)(dStartTimeInMS*0.001*g_dFactor);
-        int iShowLength = (int)(dShowTimeInMS*0.001*g_dFactor);
+        int iPos = (int)(dStartTimeInMS*0.001*ScalePixel(g_dFactor));
+        int iShowLength = (int)(dShowTimeInMS*0.001*ScalePixel(g_dFactor));
 		int iLength = 10 * (i % 2);
 
 		// ** connect the sound comments to the sound play time
@@ -537,7 +538,7 @@ void TimeLineView::ShowGraphicOperations()
         pLine->setLine( 0, 0, 0, 20+iLength );
 		//pLine->setBrush( QBrush( aColor ) );
         pLine->setPen( QPen( bIsAttached ? aConnectedColor : aColor ) );
-        pLine->setPos( iPos, g_iStartPosY+c_iDynOpOffset );
+        pLine->setPos( iPos, ScalePixel(g_iStartPosY)+ScalePixel(c_iDynOpOffset) );
 		pLine->show();
 
         // Length of Text showing
@@ -546,7 +547,7 @@ void TimeLineView::ShowGraphicOperations()
         pLineLength->setLine( 0, 20+iLength, iShowLength, 20+iLength );
         //pLine->setBrush( QBrush( aColor ) );
         pLineLength->setPen( QPen( bIsAttached ? aConnectedColor : aColor ) );
-        pLineLength->setPos( iPos, g_iStartPosY+c_iDynOpOffset );
+        pLineLength->setPos( iPos, ScalePixel(g_iStartPosY)+ScalePixel(c_iDynOpOffset) );
         pLineLength->show();
 
         QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
@@ -559,7 +560,7 @@ void TimeLineView::ShowGraphicOperations()
 		}
 		pText->setText( sText.left( 4 )+sAddText );
         pText->setBrush( bIsAttached ? aConnectedColor : aColor );
-        pText->setPos( iPos+2, g_iStartPosY+c_iDynOpOffset+10+iLength );
+        pText->setPos( iPos+2, ScalePixel(g_iStartPosY)+ScalePixel(c_iDynOpOffset)+10+iLength );
 		pText->show(); 
 
         m_aDynGrapOpContainer.push_back( TextCommentItem( TextCommentItemHelper( DoubleLineItem( minHandle<QGraphicsLineItem>( pLine ), minHandle<QGraphicsLineItem>( pLineLength ) ), minHandle<QGraphicsSimpleTextItem>( pText ) ), ItemInfoHelper( sText, i ) ) );
@@ -796,7 +797,7 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
         int x = (int)pos.x();
         int y = (int)pos.y();
         QPoint point(x,y);
-        double dTime = (double)x*g_dFactor*0.01;    // in seconds
+        double dTime = (double)x*ScalePixel(g_dFactor)*0.01;    // in seconds
 
 		if( m_hSelectedItem.IsOk() )
 		{
@@ -804,7 +805,7 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
             double dDelta = (double)(x-m_iSelectedItemStartPos);
             m_iSelectedItemStartPos = x;
 
-			dDelta = dDelta / g_dFactor;
+            dDelta = dDelta / ScalePixel(g_dFactor);
 
 			if( m_bDissolveSelected )
 			{
@@ -837,7 +838,7 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
             double dDelta = (double)(x-m_iSelectedItemStartPos);
             m_iSelectedItemStartPos = x;
 
-			dDelta = dDelta / g_dFactor;
+            dDelta = dDelta / ScalePixel(g_dFactor);
 
 			DynTextContainer & aDynGrOpContainer = m_pDiaPres->GetDynGraphicData();
 

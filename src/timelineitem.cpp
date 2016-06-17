@@ -20,6 +20,8 @@
 
 #include "timelineitem.h"
 
+#include "appconfig.h"
+
 #include "diapresentation.h"
 
 #include <QGraphicsScene>
@@ -29,6 +31,12 @@
 // *******************************************************************
 
 const int g_iMouseAreaWidth = 5;
+
+static int GetMouseAreaWidth()
+{
+    return ScalePixel(g_iMouseAreaWidth);
+}
+
 
 TimeLineItem::TimeLineItem( QGraphicsScene * pCanvas, DiaPresentation * pDiaPres, int iSlideNo, double dFactor, int iRampSize, bool bIsSelected )
 : m_pCanvas( pCanvas ),
@@ -134,7 +142,7 @@ bool TimeLineItem::IsStopBorderSelected( int x, int y ) const
 {
     QRectF aRect = m_pDissolveRamp->boundingRect();
 
-    if( (x >= m_pDissolveRamp->x()+aRect.right()-g_iMouseAreaWidth) && (x <= m_pDissolveRamp->x()+aRect.right()) &&
+    if( (x >= m_pDissolveRamp->x()+aRect.right()-GetMouseAreaWidth()) && (x <= m_pDissolveRamp->x()+aRect.right()) &&
         (y >= m_pDissolveRamp->y()+aRect.top()) && (y <= m_pDissolveRamp->y()+aRect.bottom()) )
 	{
 		return true;
@@ -147,8 +155,8 @@ bool TimeLineItem::IsDissolveBorderSelected( int x, int y ) const
 {
     QRectF aRect = m_pDissolveRamp->boundingRect();
 
-    if( (x >= m_pDissolveRamp->x()+aRect.left()+m_iRampDelta-g_iMouseAreaWidth) &&
-        (x <= m_pDissolveRamp->x()+aRect.left()+m_iRampDelta+g_iMouseAreaWidth) &&
+    if( (x >= m_pDissolveRamp->x()+aRect.left()+m_iRampDelta-GetMouseAreaWidth()) &&
+        (x <= m_pDissolveRamp->x()+aRect.left()+m_iRampDelta+GetMouseAreaWidth()) &&
         (y >= m_pDissolveRamp->y()+aRect.top()) && (y <= m_pDissolveRamp->y()+aRect.bottom()) )
 	{
 		return true;

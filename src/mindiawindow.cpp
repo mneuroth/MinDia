@@ -47,7 +47,9 @@
 #include <QVBoxLayout>
 #include <QInputDialog>
 #include <QPrintDialog>
+#include <QDesktopWidget>
 
+#include "appconfig.h"
 #include "iscript.h"
 #include "misctools.h"
 
@@ -101,6 +103,18 @@ static MinDiaWindow * g_pMainWindow = 0;
 MinDiaWindow * GetMainWindow()
 {
     return g_pMainWindow;
+}
+
+double g_dDisplayScaleFactor = 2.0;
+
+double GetDisplayScaleFactor()
+{
+    return g_dDisplayScaleFactor;
+}
+
+int ScalePixel(int pixel)
+{
+    return (int)(((double)pixel)*GetDisplayScaleFactor());
 }
 
 void GetDefaultTimes( double & dDissolveTime, double & dShowTime )
@@ -262,16 +276,25 @@ void MinDiaWindow::CreateMenus()
 {
     // popuplate a menu with all actions
 
+#ifdef _OLD_ICONS
     QPixmap aOpenIcon( ":/icons/icons/openfile.png" );      // original in xmp file contained
     QPixmap aSaveIcon( ":/icons/icons/savefile.png" );
     QPixmap aRunIcon( ":/icons/icons/run.png" );
     QPixmap aPauseIcon( ":/icons/icons/pause.png" );
     QPixmap aStopIcon( ":/icons/icons/stop.png" );
     QPixmap aPlayInfoIcon(":/icons/icons/display.png");    // for icons see nuvola in Develop/libs/nuvola
+#else
+    QPixmap aOpenIcon( ":/icons/flaticons/folder.png" );      // original in xmp file contained
+    QPixmap aSaveIcon( ":/icons/flaticons/save.png" );
+    QPixmap aRunIcon( ":/icons/flaticons/play-button.png" );
+    QPixmap aPauseIcon( ":/icons/flaticons/signs.png" );
+    QPixmap aStopIcon( ":/icons/flaticons/square.png" );
+    QPixmap aPlayInfoIcon(":/icons/flaticons/painting-canvas.png");    // for icons see nuvola in Develop/libs/nuvola
+#endif
 
     QToolBar * pTools = addToolBar("MinDia");
     pTools->setObjectName("MinDiaToolBar");
-    pTools->setIconSize(QSize(14,14));
+    //pTools->setIconSize(QSize(14,14));
 
     // *** create toplevel menu items ***
     m_pFile		= new QMenu( tr( "&File" ), this );
