@@ -5,7 +5,7 @@
 
 [Setup]
 AppName=MinDia
-AppVerName=MinDia Version 0.99.2
+AppVerName=MinDia Version 0.99.3
 DefaultDirName={pf}\mindia
 DefaultGroupName=MinDia
 UninstallDisplayIcon={app}\mindia.exe
@@ -14,45 +14,45 @@ ShowLanguageDialog=yes
 DisableProgramGroupPage=no
 
 [Files]
-Source: "..\..\build-mindia-Desktop_Qt_5_5_0_MinGW_32bit2-Release\src\release\mindia.exe"; DestDir: "{app}"; Components: main
+Source: "..\..\build-mindia-Desktop_Qt_5_6_0_MinGW_32bit-Release\src\release\mindia.exe"; DestDir: "{app}"; Components: main
 ;Source: "release\minsrv.dll"; DestDir: "{app}"; Components: main
 ;Source: "release\gendev.dll"; DestDir: "{app}"; Components: main
 ;Source: "release\mindiapyc.dll"; DestDir: "{app}"; Components: script
 ;Source: "E:\home\Entwicklung\projects\OPEN\Python-2.2.2\PCbuild\python22.dll"; DestDir: "{app}"; Components: script
 ;Source: "E:\home\Entwicklung\projects\OPEN\Python-2.3.3\PCbuild\python23.dll"; DestDir: "{app}"; Components: script
-Source: "F:\Programme\Qt\5.5\mingw492_32\bin\Qt5Core.dll"; DestDir: "{app}"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\bin\Qt5Gui.dll"; DestDir: "{app}"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\bin\Qt5Widgets.dll"; DestDir: "{app}"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\bin\Qt5Svg.dll"; DestDir: "{app}"; Components: main
-;Source: "F:\Programme\Qt\5.5\mingw492_32\bin\Qt5Script.dll"; DestDir: "{app}"; Components: main
-;Source: "F:\Programme\Qt\5.5\mingw492_32\bin\Qt5ScriptTools.dll"; DestDir: "{app}"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\bin\Qt5Multimedia.dll"; DestDir: "{app}"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\bin\Qt5Network.dll"; DestDir: "{app}"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\bin\Qt5SerialPort.dll"; DestDir: "{app}"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\bin\Qt5PrintSupport.dll"; DestDir: "{app}"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\bin\icudt54.dll"; DestDir: "{app}"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\bin\icuin54.dll"; DestDir: "{app}"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\bin\icuuc54.dll"; DestDir: "{app}"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\bin\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\bin\libstdc++-6.dll"; DestDir: "{app}"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\bin\libwinpthread-1.dll"; DestDir: "{app}"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\printsupport\windowsprintersupport.dll"; DestDir: "{app}\printsupport"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\iconengines\qsvgicon.dll"; DestDir: "{app}\iconengines"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\mediaservice\dsengine.dll"; DestDir: "{app}\mediaservice"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\mediaservice\qtmedia_audioengine.dll"; DestDir: "{app}\mediaservice"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qdds.dll"; DestDir: "{app}\imageformats"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qgif.dll"; DestDir: "{app}\imageformats"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qicns.dll"; DestDir: "{app}\imageformats"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qico.dll"; DestDir: "{app}\imageformats"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qjp2.dll"; DestDir: "{app}\imageformats"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qjpeg.dll"; DestDir: "{app}\imageformats"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qmng.dll"; DestDir: "{app}\imageformats"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qsvg.dll"; DestDir: "{app}\imageformats"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qtga.dll"; DestDir: "{app}\imageformats"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qtiff.dll"; DestDir: "{app}\imageformats"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qwbmp.dll"; DestDir: "{app}\imageformats"; Components: main
-Source: "F:\Programme\Qt\5.5\mingw492_32\plugins\imageformats\qwebp.dll"; DestDir: "{app}\imageformats"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\bin\Qt5Core.dll"; DestDir: "{app}"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\bin\Qt5Gui.dll"; DestDir: "{app}"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\bin\Qt5Widgets.dll"; DestDir: "{app}"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\bin\Qt5Svg.dll"; DestDir: "{app}"; Components: main
+;Source: "C:\Qt\5.6\mingw49_32\bin\Qt5Script.dll"; DestDir: "{app}"; Components: main
+;Source: "C:\Qt\5.6\mingw49_32\bin\Qt5ScriptTools.dll"; DestDir: "{app}"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\bin\Qt5Multimedia.dll"; DestDir: "{app}"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\bin\Qt5Network.dll"; DestDir: "{app}"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\bin\Qt5SerialPort.dll"; DestDir: "{app}"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\bin\Qt5PrintSupport.dll"; DestDir: "{app}"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\bin\icudt54.dll"; DestDir: "{app}"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\bin\icuin54.dll"; DestDir: "{app}"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\bin\icuuc54.dll"; DestDir: "{app}"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\bin\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\bin\libstdc++-6.dll"; DestDir: "{app}"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\bin\libwinpthread-1.dll"; DestDir: "{app}"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\plugins\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\plugins\printsupport\windowsprintersupport.dll"; DestDir: "{app}\printsupport"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\plugins\iconengines\qsvgicon.dll"; DestDir: "{app}\iconengines"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\plugins\mediaservice\dsengine.dll"; DestDir: "{app}\mediaservice"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\plugins\mediaservice\qtmedia_audioengine.dll"; DestDir: "{app}\mediaservice"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\plugins\imageformats\qdds.dll"; DestDir: "{app}\imageformats"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\plugins\imageformats\qgif.dll"; DestDir: "{app}\imageformats"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\plugins\imageformats\qicns.dll"; DestDir: "{app}\imageformats"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\plugins\imageformats\qico.dll"; DestDir: "{app}\imageformats"; Components: main
+;Source: "C:\Qt\5.6\mingw49_32\plugins\imageformats\qjp2.dll"; DestDir: "{app}\imageformats"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\plugins\imageformats\qjpeg.dll"; DestDir: "{app}\imageformats"; Components: main
+;Source: "C:\Qt\5.6\mingw49_32\plugins\imageformats\qmng.dll"; DestDir: "{app}\imageformats"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\plugins\imageformats\qsvg.dll"; DestDir: "{app}\imageformats"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\plugins\imageformats\qtga.dll"; DestDir: "{app}\imageformats"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\plugins\imageformats\qtiff.dll"; DestDir: "{app}\imageformats"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\plugins\imageformats\qwbmp.dll"; DestDir: "{app}\imageformats"; Components: main
+Source: "C:\Qt\5.6\mingw49_32\plugins\imageformats\qwebp.dll"; DestDir: "{app}\imageformats"; Components: main
 Source: "..\ffmpeg\windows\ffmpeg.exe"; DestDir: "{app}\files"; Components: main
 Source: "..\src\mindia_de.qm"; DestDir: "{app}"; Components: main
 Source: "..\src\mindia_nl.qm"; DestDir: "{app}"; Components: main
@@ -62,7 +62,7 @@ Source: "..\HISTORY"; DestDir: "{app}"; Components: main
 Source: "..\COPYING"; DestDir: "{app}"; Components: main
 Source: "..\BUGS"; DestDir: "{app}"; Components: main
 Source: "..\AUTHORS"; DestDir: "{app}"; Components: main
-Source: "F:\Programme\Inno Setup 5\license.txt"; DestDir: "{app}"; Components: main
+Source: "C:\Program Files (x86)\Inno Setup 5\license.txt"; DestDir: "{app}"; Components: main
 Source: "..\src\mindia_en.html"; DestDir: "{app}"; Components: help\english
 Source: "..\src\mindia_de.html"; DestDir: "{app}"; Components: help\german
 Source: "..\src\mindia_nl.html"; DestDir: "{app}"; Components: help\netherland
