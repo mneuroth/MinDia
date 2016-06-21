@@ -797,7 +797,7 @@ void TimeLineView::mouseMoveEvent( QMouseEvent * pEvent )
         int x = (int)pos.x();
         int y = (int)pos.y();
         QPoint point(x,y);
-        double dTime = (double)x*ScalePixel(g_dFactor)*0.01;    // in seconds
+        double dTime = (double)x / (double)ScalePixel(g_dFactor);    // in seconds
 
 		if( m_hSelectedItem.IsOk() )
 		{
