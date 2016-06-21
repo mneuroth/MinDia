@@ -40,7 +40,10 @@ using namespace std;
 class DiaPresentation;
 class QMenu;
 
-#define _USER_EVENT_GET_SOUND_LENGTH			 QEvent::User+4
+#define _USER_EVENT_GET_SOUND_LENGTH                        (QEvent::User+4)
+#define _USER_EVENT_SOUND_THREAD_OPERATION_CLOSE_SOUND      (QEvent::User+5)
+#define _USER_EVENT_SOUND_THREAD_OPERATION_SET_WAVE_FILE    (QEvent::User+6)
+#define _USER_EVENT_SOUND_THREAD_OPERATION_START_IMPL       (QEvent::User+7)
 
 // *******************************************************************
 /**

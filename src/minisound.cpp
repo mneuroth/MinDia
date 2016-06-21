@@ -98,11 +98,11 @@ void miniSound::sltTotalTimeChanged(qint64 val)
 {
     m_iTotalTimeInMS = (int)val;
 
-    if( m_pRequester!=0 && m_iTotalTimeInMS>=0 )
+    if( val!=0 && m_pRequester!=0 && m_iTotalTimeInMS>=0 )
     {
         Stop();
 
-        GetSoundLengthEvent * pEvent = new GetSoundLengthEvent(m_sSoundFile,0);
+        GetSoundLengthEvent * pEvent = new GetSoundLengthEvent(m_sSoundFile,m_pRequester);
         pEvent->SetSoundLength(m_iTotalTimeInMS);
         QApplication::postEvent(m_pRequester,pEvent);
 
@@ -230,7 +230,7 @@ bool miniSound::Start( int iAbsStartTimeInMS )
 	// ** if there is more than one file, use thread for sound-playing
 	if( m_pSoundInfoContainer )
 	{
-		StartThread();
+        StartThread();
 
 		return true;
 	}
@@ -396,7 +396,7 @@ bool miniSound::Stop()
 			else
 			{
 				m_iMciCmdId = _MCI_STOP;
-			}
+            }
 		}
 
 		// important: stop the play-thread !!!
@@ -443,7 +443,7 @@ bool miniSound::CloseSound()
 
 bool miniSound::IsCallingThreadMciThread() const
 {
-    return ( QThread::currentThreadId() == m_ulMciThreadID );
+    return true; // ( QThread::currentThreadId() == m_ulMciThreadID );
 }
 
 bool miniSound::IsThreadRunning() const
@@ -476,6 +476,26 @@ void miniSound::StartThread()
     start();
 }
 
+void miniSound::PostCloseSound()
+{
+    MyCustomEvent<QString> * pEvent = new MyCustomEvent<QString>( (QEvent::Type)_USER_EVENT_SOUND_THREAD_OPERATION_CLOSE_SOUND );
+    QApplication::postEvent( (QObject *)GetMainWindow(), (QEvent *)pEvent );
+}
+
+void miniSound::PostSetWavFile( const QString & sFileName )
+{
+    MyCustomEvent<QString> * pEvent = new MyCustomEvent<QString>( (QEvent::Type)_USER_EVENT_SOUND_THREAD_OPERATION_SET_WAVE_FILE );
+    pEvent->setData( sFileName );
+    QApplication::postEvent( (QObject *)GetMainWindow(), (QEvent *)pEvent );
+}
+
+void miniSound::PostStartPlayImpl( int iStartPosInMs )
+{
+    MyCustomEvent<int> * pEvent = new MyCustomEvent<int>( (QEvent::Type)_USER_EVENT_SOUND_THREAD_OPERATION_START_IMPL );
+    pEvent->setData( iStartPosInMs );
+    QApplication::postEvent( (QObject *)GetMainWindow(), (QEvent *)pEvent );
+}
+
 void miniSound::run()
 {
 #ifdef _WITH_PHONON
@@ -484,7 +504,7 @@ void miniSound::run()
 
     bool bStopedInThread = false;
 
-	m_bStop = false;
+    m_bStop = false;
 	m_iMciCmdId = _MCI_NONE;		// bugfix: 25.1.2003
 
 	// to identify if the calling thread is the mci-thread
@@ -501,7 +521,7 @@ void miniSound::run()
 
         while( !m_bStop )
 		{
-			if( IsFileChangeNeeded( iNextRelStopPos, iOffsetTime ) )
+            if( IsFileChangeNeeded( iNextRelStopPos, iOffsetTime ) )
 			{
 				// ** we need the offset time for the first dia,
 				// ** because of the silent-mode handling
@@ -515,7 +535,7 @@ void miniSound::run()
 				{
 					// ** stop and close old wav-file
 					//Stop();
-					CloseSound();
+                    PostCloseSound();
 					bStopedInThread = true;
 				}
 
@@ -524,7 +544,7 @@ void miniSound::run()
 				{
 					// ** open new wav-file
 					minHandle<SoundInfo> hItem = *m_aIterator;
-                    SetWavFile( ToQString(hItem->GetFileName()) );
+                    PostSetWavFile( ToQString(hItem->GetFileName()) );
 
 					// ** calculate time values
 					m_iTotalTimeInMS += iDeltaTime;
@@ -535,15 +555,15 @@ void miniSound::run()
                         iNextRelStopPos = hItem->GetTotalLength(); //GetTotalLengthInMS();
                     }
 
-					iDeltaTime = iNextRelStopPos - hItem->GetStartPos();
+                    iDeltaTime = iNextRelStopPos - hItem->GetStartPos();
 
-					// ** and start playing
-					StartPlayImpl( hItem->GetStartPos()+iOffsetTime,
+                    // ** and start playing
+                    PostStartPlayImpl( hItem->GetStartPos()+iOffsetTime /*,
 								   hItem->GetStopPos(),
 								   hItem->GetFadeInStartPos(),
 								   hItem->GetFadeInLength(),
 								   hItem->GetFadeOutStartPos(),
-								   hItem->GetFadeOutLength() );
+                                   hItem->GetFadeOutLength()*/ );
 					bStopedInThread = false;
 					bIsFirstDia = false;
 
@@ -552,8 +572,8 @@ void miniSound::run()
                 else if( m_sSoundFile.length()>0 )
                 {
                     // hier zur Bestimmung der sound file length abspielen starten
-                    SetWavFile( m_sSoundFile );
-                    StartPlayImpl();
+                    PostSetWavFile( m_sSoundFile );
+                    PostStartPlayImpl();
                     bStopedInThread = false;
                     bIsFirstDia = false;
                     m_bStop = true;
@@ -566,6 +586,7 @@ void miniSound::run()
 
             QThread::msleep( 10 );
 
+// ggf. not needed ! because handled in main thread !!!
 			switch( m_iMciCmdId )
 			{
 				case _MCI_NONE:
@@ -596,7 +617,7 @@ void miniSound::run()
 
 	if( !bStopedInThread )
 	{
-		CloseSound();		// since 25.1.2003
+        PostCloseSound();		// since 25.1.2003
 	}
 
 	// ** if thread has finished, reset thread-id

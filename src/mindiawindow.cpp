@@ -692,6 +692,23 @@ void MinDiaWindow::customEvent(QEvent * pEvent)
         miniSound & aSoundInfo = GetDocument()->GetSoundInfo();
         aSoundInfo.AsyncGetTotalLengthForFile(pSoundEvent->GetFileName(),pSoundEvent->GetRequester());
     }
+    if( pEvent->type()==_USER_EVENT_SOUND_THREAD_OPERATION_CLOSE_SOUND )
+    {
+        miniSound & aSoundInfo = GetDocument()->GetSoundInfo();
+        aSoundInfo.CloseSound();
+    }
+    if( pEvent->type()==_USER_EVENT_SOUND_THREAD_OPERATION_SET_WAVE_FILE )
+    {
+        MyCustomEvent<QString> * pCustomEvent = (MyCustomEvent<QString> *)pEvent;
+        miniSound & aSoundInfo = GetDocument()->GetSoundInfo();
+        aSoundInfo.SetWavFile( pCustomEvent->data() );
+    }
+    if( pEvent->type()==_USER_EVENT_SOUND_THREAD_OPERATION_START_IMPL )
+    {
+        MyCustomEvent<int> * pCustomEvent = (MyCustomEvent<int> *)pEvent;
+        miniSound & aSoundInfo = GetDocument()->GetSoundInfo();
+        aSoundInfo.StartPlayImpl( pCustomEvent->data() );
+    }
     if( pEvent->type()==c_iCustomEvent_ShowStatus )
     {
         MyCustomEvent<QString> * pCustomEvent = (MyCustomEvent<QString> *)pEvent;

@@ -81,7 +81,12 @@ public:
 	bool Continue();
 	bool Stop();
 
-	void run();
+    bool CloseSound();
+    bool StartPlayImpl( int iStartPosInMs = -1, int iStopPosInMs = -1,
+                        int iFadeInStartPosInMS = -1, int iFadeInLengthInMS = 0,
+                        int iFadeOutStartPosInMS = -1, int iFadeOutLengthInMS = 0 );
+
+    void run();
 
 public slots:
     void sltTotalTimeChanged(qint64 val);
@@ -89,16 +94,16 @@ public slots:
 private:
 	// ** help methods **
 	int  GetPositionInMSImpl() const;
-	bool StartPlayImpl( int iStartPosInMs = -1, int iStopPosInMs = -1,
-						int iFadeInStartPosInMS = -1, int iFadeInLengthInMS = 0,
-						int iFadeOutStartPosInMS = -1, int iFadeOutLengthInMS = 0 );
-	bool CloseSound();
 
 	bool IsCallingThreadMciThread() const;
 	bool IsThreadRunning() const;
 	void StartThread();
 	void StopThread();
 	bool DoStopThread();
+
+    void PostCloseSound();
+    void PostSetWavFile( const QString & sFileName );
+    void PostStartPlayImpl( int iStartPosInMs = -1 );
 
 	bool IsFileChangeNeeded( int iNextRelStopPos, int iSilentOffset ) const;
 

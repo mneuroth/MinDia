@@ -31,7 +31,11 @@ string GetImagePath();
 string GetMusicPath();
 string GetDataPath();
 
+#define DEFAULT_RESOLUTION 96.0
+
 double GetDisplayScaleFactor();
+void SetDisplayScaleFactor(double factor);
+
 int ScalePixel(int pixel);
 
 #endif
