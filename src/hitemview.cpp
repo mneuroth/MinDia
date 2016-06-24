@@ -107,8 +107,7 @@ HItemView::HItemView( QWidget * pParent, int iWidth, int iHeight, QWidget * pMai
     setScene( m_pCanvas );
 
 	m_aNextItemPos		= QPoint( 0, 0 );
-    m_aItemShift		= QPoint( ScalePixel(180), 0 );
-    m_aDefaultItemSize	= QRect( 0, 0, m_aItemShift.x(), ScalePixel(240)/*m_aSizeHint.height()*/ );
+    UpdateForScalingFactor();
 
 	m_pDiaPres			= pDoc;
 
@@ -144,9 +143,12 @@ void HItemView::sltNewItem( double dDissolveTime, double dShowTime )
 
 void HItemView::sltUpdateView()
 {
-    m_pCanvas->update(m_pCanvas->sceneRect());
+    UpdateForScalingFactor();
+    UpdateAllItemsForScalingFactor();
+
+    m_pCanvas->update();
     // ** update view widget to show the new created item
-    update( x(), y(), width(), height() );
+    update();
 }
 
 void HItemView::sltUpdateSelected()
@@ -855,6 +857,28 @@ void HItemView::SyncViewWithData()
 	}
 
 	sltUpdateView();
+}
+
+void HItemView::UpdateForScalingFactor()
+{
+    m_aItemShift		= QPoint( ScalePixel(180), 0 );
+    m_aDefaultItemSize	= QRect( 0, 0, m_aItemShift.x(), ScalePixel(240)/*m_aSizeHint.height()*/ );
+}
+
+void HItemView::UpdateAllItemsForScalingFactor()
+{
+    QPoint  aPos( 0, 0 );
+
+    // update all items
+    for(int i = 0; i<m_aItemContainer.size(); i++)
+    {
+        QRect aRect( aPos.x(), aPos.y(), m_aDefaultItemSize.width(), m_aDefaultItemSize.height() );
+
+        aPos += m_aItemShift;
+
+        HItem * pItem = m_aItemContainer[i];
+        pItem->setRect( aRect );
+    }
 }
 
 void HItemView::ResetView()

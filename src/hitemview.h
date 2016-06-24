@@ -100,7 +100,9 @@ signals:
 
 private:
 	// *** helper methods ***
-	void ResetView();
+    void UpdateForScalingFactor();
+    void UpdateAllItemsForScalingFactor();
+    void ResetView();
 	void DeleteAllHItems();
 	bool IsValidIndex( int iIndex ) const;
 	void SelectItemDelta( int iDeltaIndex );

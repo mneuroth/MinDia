@@ -245,12 +245,17 @@ void TimeLineView::sltDoUpdateView( bool bErase )
 		ShowGraphicOperations();
 	}
 
-    update( x(), y(), /*contents*/width(), /*contents*/height()/*, bErase*/ );
+    //old: update( x(), y(), /*contents*/width(), /*contents*/height()/*, bErase*/ );
+    update();
 }
 
 void TimeLineView::sltUpdateView()
 {
-	sltDoUpdateView( /*bErase*/true );
+    // gulp ggf.
+//    UpdateForScalingFactor();
+//    UpdateAllItemsForScalingFactor();
+
+    sltDoUpdateView( /*bErase*/true );
 }
 
 void TimeLineView::sltUpdateSelected()
