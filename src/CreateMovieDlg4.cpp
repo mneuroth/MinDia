@@ -52,6 +52,7 @@
 #include <QDir>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QProcess>
 #include <QSettings>
 #include <QTextStream>
@@ -395,7 +396,7 @@ void CreateMovieDlg4::UpdateCmds()
     QString sImageExtension = ui.m_pImageExtension->currentText();
     QString sTempDir = QDir::toNativeSeparators(ui.m_pDirectoryName->text());
     QString sNoSound = "nosound_";
-    QString sTempSoundFile = sTempDir+sSeparator+"_temp_sound_.mp3";
+    QString sTempSoundFile = sTempDir+sSeparator+"_temp_sound_.";
     QString sCmd = QString("\"%6%2ffmpeg\" -y -f image2 -i \"%1%2%8.%7\" -r %5 \"%1%2%3%4\"").arg( sTempDir ).arg( sSeparator ).arg( sNoSound+sMovieOutput ).arg( sMovieExtension ).arg( sRate ).arg( sFfmpegDir ).arg( sImageExtension ).arg( sName );
 
     ui.m_pGeneratorCmd->setText( sCmd );
@@ -405,10 +406,17 @@ void CreateMovieDlg4::UpdateCmds()
     SoundInfoContainer aSoundContainer = m_pDocControler->GetPresentation().GetSoundInfoData();
     SoundInfoContainer::const_iterator aIter = aSoundContainer.begin();
     double dCurrentPos = 0.0;
+    QString sSoundFileExtension;
     while( aIter!=aSoundContainer.end() )
     {
         double dCurrentLength = (double)(*aIter)->GetTotalLength()/1000.0;
-        sSoundFiles += /*QString("\"") +*/ ToQString( (*aIter)->GetFileName() ) /*+ QString("\"")*/;
+        QString sFileName = ToQString( (*aIter)->GetFileName() );
+        QFileInfo aFileInfo(sFileName);
+        if( sSoundFileExtension.length()==0 )
+        {
+            sSoundFileExtension = aFileInfo.suffix();
+        }
+        sSoundFiles += /*QString("\"") +*/ sFileName /*+ QString("\"")*/;
         aIter++;
         if( aIter != aSoundContainer.end() )
         {
@@ -416,7 +424,12 @@ void CreateMovieDlg4::UpdateCmds()
         }
         dCurrentPos += dCurrentLength;
     }
-    sSoundFiles += "\" -c copy \""+sTempSoundFile + QString("\"");
+    if( sSoundFileExtension.length()==0 )
+    {
+        sSoundFileExtension = ".mp3";
+    }
+    sTempSoundFile += sSoundFileExtension;
+    sSoundFiles += "\" -c copy \"" + sTempSoundFile + QString("\"");
 
     QString sSounds = QString( "-i \"%1\" -strict -2 -t %2 " ).arg( sTempSoundFile ).arg( dPresentationLength );
 
