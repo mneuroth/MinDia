@@ -241,7 +241,7 @@ void QImageCache::CheckCacheSpace()
                 sFoundKey = sKey;
             }
         }
-        if( !sFoundKey.isNull() && m_aMap.contains(sFoundKey) )
+        if( /*!sFoundKey.isNull() &&*/ m_aMap.contains(sFoundKey) )
         {
             m_aLock.lock/*ForWrite*/();
             m_aMap.remove(sFoundKey);
