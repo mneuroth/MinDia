@@ -102,7 +102,7 @@ void QImageCache::run()
     foreach( const QString sFileName, m_lstImageFileNames )
     {
         PostMessage( tr("reading ")+sFileName );
-        GetRef(sFileName,aTempImage,m_iMaxWidth,m_iMaxHeight);
+        GetRef(sFileName,aTempImage,m_iMaxWidth,m_iMaxHeight,false);
         if( m_bStopThread )
         {
             break;
@@ -297,13 +297,13 @@ static QImage ReadImageDetectingOrientation( const QString & sImageFileName )
     return aImgReader.read();
 }
 
-const QImage & QImageCache::GetRef( const QString & sImageFileName, QImage & aTempImage, int maxWidth, int maxHeight )
+const QImage & QImageCache::GetRef( const QString & sImageFileName, QImage & aTempImage, int maxWidth, int maxHeight, bool bIsThumbnail )
 {
     bool bWasAdded;
-    return GetRef( sImageFileName, aTempImage, bWasAdded, maxWidth, maxHeight );
+    return GetRef( sImageFileName, aTempImage, bWasAdded, maxWidth, maxHeight, bIsThumbnail );
 }
 
-const QImage & QImageCache::GetRef( const QString & sImageFileName, QImage & aTempImage, bool & bWasAdded, int maxWidth, int maxHeight )
+const QImage & QImageCache::GetRef( const QString & sImageFileName, QImage & aTempImage, bool & bWasAdded, int maxWidth, int maxHeight, bool bIsThumbnail )
 {
     m_aLock.lock/*ForRead*/();
     if( m_aMap.contains(sImageFileName) )
@@ -315,9 +315,12 @@ const QImage & QImageCache::GetRef( const QString & sImageFileName, QImage & aTe
 
         bWasAdded = false;
 
+// TODO --> anpassen bei retina displays !
+        qDebug() << "GetRef " << bIsThumbnail << " " << maxWidth << " " << maxHeight << " is: " << ret.width() << " " << ret.height() << endl;
+
         // has the image in the cache a appropriate size?
         // if at least one dimension fulfills the requirements it is assumed that we have a valid cached image
-        if( ((ret.width()<maxWidth && ret.height()<maxHeight) || maxWidth<0 || maxHeight<0) && !IsMaxSizeCache() )
+        if( !bIsThumbnail && ((ret.width()<maxWidth && ret.height()<maxHeight) || maxWidth<0 || maxHeight<0) && !IsMaxSizeCache() )
         {
             // NO --> read full sized immage !
 
@@ -325,7 +328,7 @@ const QImage & QImageCache::GetRef( const QString & sImageFileName, QImage & aTe
             if( m_pResolveFullImages )
             {
                 // the full image cache ALWAYS reads the requested image !
-                return m_pResolveFullImages->GetRef(sImageFileName,aTempImage,maxWidth,maxHeight);
+                return m_pResolveFullImages->GetRef(sImageFileName,aTempImage,maxWidth,maxHeight,bIsThumbnail);
             }
             else
             {
@@ -562,7 +565,7 @@ void CopyImageAreaAsyncAndPostResult( QObject * pTarget, bool bIsPlaying, int iD
     g_pAsyncImageReaderThread->push( pTarget, bIsPlaying, iDissolveTimeInMS, sImageFileName, hDia );
 }
 
-const QImage & GetQImageOrEmptyReference( const QString & sFileName, QImage & aTempImage, int maxWidth, int maxHeight )
+const QImage & GetQImageOrEmptyReference( const QString & sFileName, QImage & aTempImage, int maxWidth, int maxHeight, bool bIsThumbnail )
 {
     if( QColor::isValidColor( sFileName ) )
     {
@@ -571,11 +574,11 @@ const QImage & GetQImageOrEmptyReference( const QString & sFileName, QImage & aT
     }
     else
     {
-        return g_aImageCache.GetRef( sFileName, aTempImage, maxWidth, maxHeight );
+        return g_aImageCache.GetRef( sFileName, aTempImage, maxWidth, maxHeight, bIsThumbnail );
     }
 }
 
-QImage ReadQImageOrEmpty( const QString & sFileName, int maxWidth, int maxHeight )
+QImage ReadQImageOrEmpty( const QString & sFileName, int maxWidth, int maxHeight, bool bIsThumbnail )
 {
     QImage aImageOut;
     if( QColor::isValidColor( sFileName ) )
@@ -584,7 +587,7 @@ QImage ReadQImageOrEmpty( const QString & sFileName, int maxWidth, int maxHeight
     }
     else
     {
-        aImageOut = g_aImageCache.GetRef( sFileName, aImageOut, maxWidth, maxHeight );
+        aImageOut = g_aImageCache.GetRef( sFileName, aImageOut, maxWidth, maxHeight, bIsThumbnail );
     }
     if( aImageOut.isNull() )
     {

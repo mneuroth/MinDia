@@ -97,8 +97,8 @@ QImage CopyImageArea( const QImage & aImage, double relX = 0.0, double relY = 0.
 
 void CopyImageAreaAsyncAndPostResult( QObject * pTarget, bool bIsPlaying, int iDissolveTimeInMS, const QString & sImageFileName, minHandle<DiaInfo> hDia );
 
-QImage ReadQImageOrEmpty( const QString & sFileName, int maxWidth = -1, int maxHeight = -1 );
-const QImage & GetQImageOrEmptyReference( const QString & sFileName, QImage & aTempImage, int maxWidth = -1, int maxHeight = -1 );
+QImage ReadQImageOrEmpty( const QString & sFileName, int maxWidth = -1, int maxHeight = -1, bool bIsThumbnail = false );
+const QImage & GetQImageOrEmptyReference( const QString & sFileName, QImage & aTempImage, int maxWidth = -1, int maxHeight = -1, bool bIsThumbnail = false );
 
 bool IsDiaDataFile( const QString & sFileName );
 
@@ -211,8 +211,7 @@ public:
 
     // returns true if image was already in cache
     //bool Get( const QString & sImageFileName, int maxWidth, int maxHeight, QImage & aImageOut );
-    const QImage & GetRef( const QString & sImageFileName, QImage & aTempImage, bool & bWasAdded, int maxWidth, int maxHeight );
-    const QImage & GetRef( const QString & sImageFileName, QImage & aTempImage, int maxWidth, int maxHeight );
+    const QImage & GetRef( const QString & sImageFileName, QImage & aTempImage, int maxWidth, int maxHeight, bool bIsThumbnail );
 
     bool Add( const QString & sImageFileName );
 
@@ -224,6 +223,8 @@ public:
     virtual void run();
 
 private:
+    const QImage & GetRef( const QString & sImageFileName, QImage & aTempImage, bool & bWasAdded, int maxWidth, int maxHeight, bool bIsThumbnail );
+
     bool IsMaxSizeCache() const;
     void CheckCacheSpace();
     void ClearAccessCounters();
