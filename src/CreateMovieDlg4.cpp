@@ -407,6 +407,7 @@ void CreateMovieDlg4::UpdateCmds()
     SoundInfoContainer::const_iterator aIter = aSoundContainer.begin();
     double dCurrentPos = 0.0;
     QString sSoundFileExtension;
+    QString sFiles;
     while( aIter!=aSoundContainer.end() )
     {
         double dCurrentLength = (double)(*aIter)->GetTotalLength()/1000.0;
@@ -416,11 +417,11 @@ void CreateMovieDlg4::UpdateCmds()
         {
             sSoundFileExtension = aFileInfo.suffix();
         }
-        sSoundFiles += /*QString("\"") +*/ sFileName /*+ QString("\"")*/;
+        sFiles += /*QString("\"") +*/ sFileName /*+ QString("\"")*/;
         aIter++;
         if( aIter != aSoundContainer.end() )
         {
-            sSoundFiles += "|";
+            sFiles += "|";
         }
         dCurrentPos += dCurrentLength;
     }
@@ -428,12 +429,25 @@ void CreateMovieDlg4::UpdateCmds()
     {
         sSoundFileExtension = ".mp3";
     }
+
+    // get offset for fade in of first image before music can start
+    double dSilenceTime = m_pDocControler->GetPresentation().GetDiaAbsStartShowTime(0);
+    QString sSilenceTempName;
+    sSilenceTempName += sTempDir + sSeparator + "silence." + sSoundFileExtension;
+    QString sSilence = QString( "\"%1%2ffmpeg\" -f lavfi -i anullsrc=r=44100:cl=mono -t %3 -q:a 9 -acodec libmp3lame %4\n" ).arg( sFfmpegDir ).arg( sSeparator ).arg( dSilenceTime ).arg( sSilenceTempName );
+    if( sFiles.length()>0 )
+    {
+        sSilenceTempName += "|";
+    }
+    sFiles = sSilenceTempName + sFiles;
+
     sTempSoundFile += sSoundFileExtension;
+    sSoundFiles += sFiles;
     sSoundFiles += "\" -c copy \"" + sTempSoundFile + QString("\"");
 
     QString sSounds = QString( "-i \"%1\" -strict -2 -t %2 " ).arg( sTempSoundFile ).arg( dPresentationLength );
 
-    sCmd = QString("%2 -y\n\"%6%4ffmpeg\" -i \"%3%4%1%8\" %7 -qscale 0 \"%3%4%5%8\" -y").arg( sNoSound+sMovieOutput ).arg( sSoundFiles ).arg( sTempDir ).arg( sSeparator ).arg( sMovieOutput ).arg( sFfmpegDir ).arg( sSounds ).arg( sMovieExtension );
+    sCmd = sSilence + QString("%2 -y\n\"%6%4ffmpeg\" -i \"%3%4%1%8\" %7 -qscale 0 \"%3%4%5%8\" -y").arg( sNoSound+sMovieOutput ).arg( sSoundFiles ).arg( sTempDir ).arg( sSeparator ).arg( sMovieOutput ).arg( sFfmpegDir ).arg( sSounds ).arg( sMovieExtension );
 
     if( aSoundContainer.size()>0 )
     {
