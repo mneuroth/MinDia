@@ -533,8 +533,8 @@ void TimeLineView::ShowGraphicOperations()
         int iShowLength = (int)(dShowTimeInMS*0.001*ScalePixel(g_dFactor));
 		int iLength = 10 * (i % 2);
 
-		// ** connect the sound comments to the sound play time
-		iPos += iOffset;
+        //// ** connect the sound comments to the sound play time
+        //iPos += iOffset;
 
         bool bIsAttached = aDynGrOpContainer[i]->IsAttachedToSlide();
 
