@@ -98,6 +98,8 @@ void miniSound::sltTotalTimeChanged(qint64 val)
 {
     m_iTotalTimeInMS = (int)val;
 
+    qDebug() << "TOTAL time: " << val << endl;
+
     if( val!=0 && m_pRequester!=0 && m_iTotalTimeInMS>=0 )
     {
         Stop();
