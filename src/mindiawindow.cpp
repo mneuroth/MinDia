@@ -48,6 +48,8 @@
 #include <QInputDialog>
 #include <QPrintDialog>
 #include <QDesktopWidget>
+#include <QWindow>
+#include <QScreen>
 
 #include "appconfig.h"
 #include "iscript.h"
@@ -103,13 +105,6 @@ static MinDiaWindow * g_pMainWindow = 0;
 MinDiaWindow * GetMainWindow()
 {
     return g_pMainWindow;
-}
-
-double g_dDisplayScaleFactor = 2.0;
-
-double GetDisplayScaleFactor()
-{
-    return g_dDisplayScaleFactor;
 }
 
 int ScalePixel(int pixel)
@@ -224,6 +219,11 @@ MinDiaWindow::MinDiaWindow( const QString & sLanguage, bool bIgnoreComSettings, 
 
     sltModusIsSwitched();
     sltDoDocumentStateUpdate();
+
+    QWindow * pWindow = windowHandle();
+    qDebug() << ">>> IS window = " << isWindow() << endl;
+    qDebug() << ">>> window = " << window() << endl;
+    qDebug() << ">>> windowHandle = " << pWindow << endl;
 }
 
 MinDiaWindow::~MinDiaWindow()
@@ -1605,6 +1605,15 @@ void MinDiaWindow::sltDoSyncAllViews()
 	m_pTimeLineView->SyncViewWithData();
 }
 
+void MinDiaWindow::sltScreenChanged(QScreen * pScreen)
+{
+    // gulp
+    qDebug() << "#### ScreenChanged !!!" << endl;
+    SetDisplayScaleFactor( pScreen->physicalDotsPerInch()/DEFAULT_RESOLUTION );
+    sltDoUpdateAllViews();
+//    RedrawAfterScaleFactorChanged();
+}
+
 void MinDiaWindow::sltStartAutoStartTimer( bool bAutoRun, bool bShowScreen, bool bExpandImage, bool bExitOnFinished, int iScreenX, int iScreenY, int iPosX, int iPosY )
 {
 	m_pAutoStartTimer = new QTimer( this );
@@ -2061,6 +2070,27 @@ void MinDiaWindow::keyPressEvent( QKeyEvent * pEvent )
 		QMainWindow::keyPressEvent( pEvent );
 	}
 }
+
+void MinDiaWindow::showEvent( QShowEvent *event )
+{
+// gulp
+    QWindow * pWindow = windowHandle();
+    qDebug() << "IS window = " << isWindow() << endl;
+    qDebug() << "window = " << window() << endl;
+    if(pWindow!=0 && !m_aScreenChanged)
+    {
+        SetDisplayScaleFactor( pWindow->screen()->physicalDotsPerInch()/DEFAULT_RESOLUTION );
+        qDebug() << "WINDOW ddd " << pWindow->screen()->physicalDotsPerInch() << " " << GetDisplayScaleFactor() << endl;
+        m_aScreenChanged = connect(pWindow, SIGNAL(screenChanged(QScreen*)), this, SLOT(sltScreenChanged(QScreen*)));
+    }
+    else
+    {
+        qDebug() << "NO WINDOW xxx !" << endl;
+    }
+
+    QMainWindow::showEvent(event);
+}
+
 
 bool MinDiaWindow::IsValid() const
 {

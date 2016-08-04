@@ -435,7 +435,7 @@ void TimeLineView::ShowMusicComments()
         m_aMusicCommentContainer.push_back( CommentItem( CommentItemHelper( minHandle<QGraphicsLineItem>( pLine ), minHandle<QGraphicsSimpleTextItem>( pText ) ), ItemInfoHelper( sText, -1 ) ) );
 	}
 }
-
+#include <qdebug.h>
 void TimeLineView::ShowMusicTracks()
 {
     const int c_iTrackHeight = ScalePixel(20);	// 60
@@ -467,12 +467,14 @@ void TimeLineView::ShowMusicTracks()
 		pRect->show();
 
         QGraphicsSimpleTextItem * pText = new QGraphicsSimpleTextItem();
+// TODO gulp --> hier ggf. font groesse andern, wenn sich screen aendert !
         m_pCanvas->addItem(pText);
         QString sText = ToQString( aSoundContainer[i]->GetFileName() );
 		pText->setText( sText );
         pText->setBrush( aColor2 );
         pText->setPos( iOffset+iStartPos, ScalePixel(g_iStartPosY)+c_iTrackHeight+c_iTrackOffset+c_iTrackHeight /*140*/ );
 		pText->show();
+qDebug() << "xxx " << pText->font().toString() << " " << c_iTrackHeight << endl;
 
 		// ** show fade in / fade out line
         int iFadeInStart = (int)(aSoundContainer[i]->GetFadeInStartPos()*0.001*ScalePixel(g_dFactor));

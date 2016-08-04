@@ -25,7 +25,11 @@
 #include <QLocale>
 #include <QLibraryInfo>
 #include <QDir>
+#include <QWindow>
+#include <QDesktopWidget>
+#include <QScreen>
 
+#include "appconfig.h"
 #include "mindiawindow.h"
 #include "doccontroler.h"
 #include "misctools.h"
@@ -53,6 +57,18 @@
 #define _IMAGES_DIR		"images"
 #define _MUSIC_DIR		"music"
 #define _DATA_DIR		"data"
+
+double g_dDisplayScaleFactor = 2.0;
+
+double GetDisplayScaleFactor()
+{
+    return g_dDisplayScaleFactor;
+}
+
+void SetDisplayScaleFactor(double factor)
+{
+    g_dDisplayScaleFactor = factor*0.8;
+}
 
 // *************************************************************************
 
@@ -344,6 +360,9 @@ int main( int argc, char** argv )
 //    QApplication::setGraphicsSystem("opengl");  // raster, native, opengl
 
     MindiaApp myApp( argc, argv );
+
+    QDesktopWidget * pDesktop = QApplication::desktop();
+    SetDisplayScaleFactor( pDesktop->screen()->windowHandle()->screen()->physicalDotsPerInch()/DEFAULT_RESOLUTION );
 
 #if defined(Q_OS_ANDROID)
     //qApp->setStyle("plastique");        // motif cde windows windowsxp windowsvista mac plastique gtk cleanlooks

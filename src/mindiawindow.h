@@ -248,6 +248,7 @@ public slots:
 	void sltDoDataChanged();
 	void sltDoUpdateAllViews();
 	void sltDoSyncAllViews();
+    void sltScreenChanged(QScreen * pScreen);
 
 	void sltStartAutoStartTimer( bool bAutoRun, bool bShowScreen, bool bExpandImage, bool bExitOnFinished, int iScreenX, int iScreenY, int iPosX, int iPosY );
 	void sltAutoStartTimerEvent();
@@ -302,6 +303,7 @@ protected:
 	// ** if document has changed, ask the user for saving the data
 	virtual void closeEvent( QCloseEvent * pCloseEvent );
 	virtual void keyPressEvent( QKeyEvent * pEvent );
+    virtual void showEvent( QShowEvent *event );
 
 private:
 	// *** some helper methods ***
@@ -410,6 +412,8 @@ private:
 	QAction *		m_pFileImportDynGraphAction;
 	QAction *		m_pFilePrintAction;
 	QAction *		m_pFileExitAction;
+
+    QMetaObject::Connection      m_aScreenChanged;
 
 	QTranslator *	m_pTranslator;
 

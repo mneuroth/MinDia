@@ -223,6 +223,7 @@ void DiaInfoDlgImpl::sltUpdateData( minHandle<DiaInfo> hData, bool bEnable )
 	{
         // just get the size of the image
         QImage aTempImage;
+// TODO --> warum dauert der Bildaufbau und das weiter navigieren so lange ?
         aTempImage = GetQImageOrEmptyReference( ToQString( hData->GetImageFile() ), aTempImage );
         QSize aSize = aTempImage.size();
         m_pImageSize->setText( QString("%1 x %2").arg(aSize.width()).arg(aSize.height()) );

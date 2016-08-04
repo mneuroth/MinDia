@@ -22,6 +22,8 @@ else
 #QT              -=qml
 #CONFIG          -= debug
 
+#CONFIG += c++11
+
 win32:RC_FILE = mindia.rc
 
 HEADERS         = diainfodlgimpl.h \
