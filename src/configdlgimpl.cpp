@@ -145,16 +145,16 @@ void ConfigurationDlgImpl::TransferDataToControl()
     aDeviceLst.append(QString("COM7"));
     aDeviceLst.append(QString("COM8"));
     aDeviceLst.append(QString("COM9"));
-#elif defined( Q_OS_UNIX )
-    // scan /dev directory for RS232 devices for unix plattforms
-    QDir aDevDir("/dev","ttyS*;ttyUSB*",QDir::Name|QDir::IgnoreCase,QDir::AllEntries|QDir::System);
+#elif defined( Q_OS_MAC )
+    QDir aDevDir("/dev","ttys*;tty.usb*",QDir::Name|QDir::IgnoreCase,QDir::AllEntries|QDir::System);
     QStringList aDeviceLst = aDevDir.entryList();
     for( int i=0; i<aDeviceLst.size(); i++ )
     {
         aDeviceLst[i] = "/dev/"+aDeviceLst[i];
     }
-#elif defined( Q_OS_MAC )
-    QDir aDevDir("/dev","ttys*;tty.usb*",QDir::Name|QDir::IgnoreCase,QDir::AllEntries|QDir::System);
+#elif defined( Q_OS_UNIX )
+    // scan /dev directory for RS232 devices for unix plattforms
+    QDir aDevDir("/dev","ttyS*;ttyUSB*",QDir::Name|QDir::IgnoreCase,QDir::AllEntries|QDir::System);
     QStringList aDeviceLst = aDevDir.entryList();
     for( int i=0; i<aDeviceLst.size(); i++ )
     {
