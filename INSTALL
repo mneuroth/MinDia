@@ -6,7 +6,7 @@ for all supported platforms.
 
   a) Mac OS X (for Qt 4.x and Qt 5.x), tested: Mac OS X 10.9
   b) Linux Desktop (for Qt 4.x and Qt 5.x), tested: Ubuntu 12.04
-  c) Windows Desktop (for Qt 4.x and Qt 5.x, mingw, MS-VC++), tested: Windows 8
+  c) Windows Desktop (for Qt 4.x and Qt 5.x, mingw, MS-VC++), tested: Windows 10
   d) Android (Qt 5.x)
 
 This release supports only Qt4 and Qt5.

@@ -6,6 +6,8 @@ SUBDIRS = src
 
 lessThan(QT_MAJOR_VERSION, 5): SUBDIRS += qt-qtserialport
 
+#CONFIG += c++11
+
 OTHER_FILES += \
     android/AndroidManifest.xml \
     android/res/drawable-hdpi/icon.png \

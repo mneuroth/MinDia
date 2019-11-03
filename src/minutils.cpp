@@ -47,7 +47,7 @@ const int MAX_STRING_LENGTH =	8192;
     {
       char ch;
 
-      while ( ((ch=IS.peek())==_Space) || (ch==_Tab) || (ch==_CR) || (ch==_LF) )
+      while ( ((ch=IS.peek())==_Space) || (ch==_Tab) || (ch==_CRx) || (ch==_LF) )
         { ch = IS.get(); };
       return ch;
     }

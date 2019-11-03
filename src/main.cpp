@@ -359,6 +359,11 @@ int main( int argc, char** argv )
 
 //    QApplication::setGraphicsSystem("opengl");  // raster, native, opengl
 
+#if QT_VERSION >= 0x050600
+    // see: http://stackoverflow.com/questions/24367355/automatic-rescaling-of-an-application-on-high-dpi-windows-platform
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
+
     MindiaApp myApp( argc, argv );
 
     QDesktopWidget * pDesktop = QApplication::desktop();

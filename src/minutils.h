@@ -35,7 +35,7 @@ using namespace std;
 #define _NullChar		'\x0'                /*   every definition starts with _ */
 #define _Space			32
 #define _Tab			8
-#define _CR				13
+#define _CRx				13
 #define _LF				10
 #define _DataFileBegin  '@'
 #define _DataFileEnd    '@'

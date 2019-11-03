@@ -98,7 +98,7 @@ void miniSound::sltTotalTimeChanged(qint64 val)
 {
     m_iTotalTimeInMS = (int)val;
 
-    qDebug() << "TOTAL time: " << val << endl;
+    qDebug() << "TOTAL time: " << val << " " << m_pPlayer->duration() << " " << m_pPlayer->position() << m_pPlayer->mediaStatus() << " " << m_pPlayer->state() << endl;
 
     if( val!=0 && m_pRequester!=0 && m_iTotalTimeInMS>=0 )
     {
@@ -122,6 +122,7 @@ bool miniSound::SetWavFile( const QString & sWavFileName )
         m_pPlayer->setCurrentSource(Phonon::MediaSource(sWavFileName));
 #endif
 #ifdef _WITH_MULTIMEDIA
+        qDebug() << "SET wav file: " << m_pPlayer->duration() << " " << m_pPlayer->position() << m_pPlayer->mediaStatus() << " " << m_pPlayer->state() << endl;
         m_pPlayer->setMedia(QUrl::fromLocalFile(sWavFileName));
 #endif
         m_iOpenCount++;
@@ -152,7 +153,7 @@ void miniSound::AsyncGetTotalLengthForFile( const QString & sWavFileName, QWidge
         m_pRequester = pRequester;
         SetWavFile( sWavFileName );
         // ggf. sound ausschalten
-        Start(999999999);     // get the length for the last sound file (new files will always appended !)
+     //   Start(0/*999999999*/);     // get the length for the last sound file (new files will always appended !)
     }
 }
 
