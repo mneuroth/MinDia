@@ -59,16 +59,20 @@ build_script:
   - qmake mindia.pro
   - '%make%'
   - dir
+  - cd src
+  - dir 
   - cd release
   - dir  
   # *** create installer for deployment ***
-  - mkdir ..\dist\packages\de.mneuroth.mindia\data
-  - copy mindia.exe ..\dist\packages\de.mneuroth.mindia\data
-  - cd ..\dist\packages\de.mneuroth.mindia\data
+  - mkdir ..\..\dist\packages\de.mneuroth.mindia\data
+  - copy mindia.exe ..\..\dist\packages\de.mneuroth.mindia\data
+  - cd ..\..\dist\packages\de.mneuroth.mindia\data
   - dir 
   - windeployqt --release --no-system-d3d-compiler mindia.exe
-  - cd ..\..\..\dist
+  - dir 
+  - cd ..\..\..\..\dist
   - binarycreator -c config\config.xml -p packages mindia_installer_%cname%_qt%qtver%.exe
+  - dir
   - appveyor PushArtifact mindia_installer_%cname%_qt%qtver%.exe
   - dir 
  
