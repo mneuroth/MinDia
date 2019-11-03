@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>MinDia</Name>
+    <Version>0.99.3</Version>
+    <Title>Dia show application</Title>
+    <Publisher>Michael Neuroth</Publisher>
+    <StartMenuDir>MinDia</StartMenuDir>
+    <TargetDir>@HomeDir@/MinDia</TargetDir>
+</Installer>
