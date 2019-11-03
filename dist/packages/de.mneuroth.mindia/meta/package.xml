@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>MinDia</DisplayName>
+    <Description>Install MinDia application.</Description>
+    <Version>0.99.3-1</Version>
+    <ReleaseDate>2019-11-03</ReleaseDate>
+    <Licenses>
+        <License name="GPL" file="license.txt" />
+    </Licenses>
+    <Default>script</Default>
+    <Script>installscript.qs</Script>
+    <!--
+    <UserInterfaces>
+        <UserInterface>page.ui</UserInterface>
+    </UserInterfaces>
+    -->
+</Package>
