@@ -52,7 +52,7 @@ matrix:
       deploy:
         provider: releases
         api_key:
-          secure: lv82qy0ak6yBSyFOKrPcRSZlLe9jFI5Rixx1yTUtDg3GVwEqrWdqrm+xDhAaa10v1iwHO7BReox9YYFdp4jAkMuvBefKRGJorg1AnhhbOTApqNVtsclXeum428+pv5TXZJaiTyzwPFhZz+OmTAsuC+b1KlWI/fjkaQ44g+QJntlxgW+vExF3VWlcr2d79hEGvgidHlqY9YiRjTAyxIQGP1zOrwDeYlu3seFM0QwL75oLtysPRx8bBWluRyuEFOMfVDjhRTE7TCUlW27GLAnoErpXeBnhHPDEaQoJQlRXp66ArSYYRpGoxmbilSlPYj+bu3pbe3ltN2B8q4QcZpHCxgdOKNRGXWAQYwvANxIFXW4IEBcnqzgvuiq6VXbLdBhQyb2O5XMo0XXv/d695OyNdFu6TcqLa3TFAV1zE4ijmLAt9djzAKnIbMwxq+uaR+ZKU9xMgiABG/YT511Ho5VOHdS+Nx7fjOhfARLVvG54rfSbbl5B+kcW/Qp1lfHy85Eb1axnP9v9uNW3/jBUzoMJewxG4TavlhgVEiYRNgR8mwtwDAyHSJ+Xon1GCSM9J6MDYklQhWc2kx+z1kp75YWrbVhYn9IZK8/+TLhOG6kiGPsZ8MP53GjkQCV4stE4CBxj1YdJZNT9U9x+a9JTqVmhJwsHDMxKaX4uGdMqLaArjJo=
+          secure: Q2eQN4Ohy8n1HpQYR0LoCExYUGE62lcYJvmhBowsSYbiYQlvkD47Tq2+zTkent+QmVWyPuZi3f876Dr3gck/6FiKHAu1Rwqt5VBwW8H+DYs1eQWw7uTyDNsUiJMRmUUBSyqKnrCGqJgC2iP3XT+ZKAstIUzr7vz2jgubGTr+hGAgtEgiSRCCg/OhCtx7duebeRS/EjJHYT2aPr9jXSXJpoJ527s7G7D5oMnTjjIY7DoP/hW77v/OxVe4dF8lR3asK1NbuI/kCLxHng/gtfV19k4E+H1csmaTtl/Df21NztQU5r/6eizLpTdp4G6vPrOmIvAN0WAbF0Sr4Bxg5FbiJCTyJUb7BHngoglCHbepIuHULl3QD6/09dEPnqPDR/IoqiTG4CjOesUSesMQSJ67vc4slKESjNpPdQKJmUg3KG0wzxwFTUPoIBLJ9mEsTL33lsI2JzjuCpJw+dXkVt6W7Cn/xc+QvJsxgUccM0fkwIlX/51aUItSrASw5vvyYRBsB949ubI3wN+hYmc8HLOoBQL76VSYvcs9G8uZxWT2kVCzHD2Qgehk/EqV/IDrlcUYAFZZzSaB8FAUKTXYsCbaOeVTTE5bVnvsk/zMMh5Inrp9UwtLUU6DKDnzW3GL9n9NFaIMnVXEETmK/SgxHbNfqk2LblvZoV7GiAJTcjpuu5Y= 
         file: $MINDIA_DEPLOY_ROOT/mindia.dmg
         skip_cleanup: true
         on:
