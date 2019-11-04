@@ -5,6 +5,7 @@ matrix:
       dist: xenial
       language: cpp
       compiler: gcc
+      name: Linux gcc
       addons:
         apt:
           sources:
@@ -18,6 +19,8 @@ matrix:
       services:
       - xvfb
       script:
+      - qmake -v
+      - ls -lrt
       - qmake -r mindia.pro
       - make -j 4
       - cd src
@@ -27,11 +30,14 @@ matrix:
     - os: osx
       language: cpp
       compiler: clang
+      name: Mac OSX clang
       before_install:
       - brew update
       - brew install qt
       - export PATH=/usr/local/opt/qt/bin:$PATH
       script:
+      - qmake -v
+      - ls -lrt
       - qmake -r mindia.pro
       - make -j 4
       - cd src
