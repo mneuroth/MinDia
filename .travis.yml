@@ -14,7 +14,7 @@ matrix:
           - g++-6
           - qt5-default
           - qtmultimedia5-dev
-          - qtserialport5-dev
+          - libqt5serialport5-dev
           - qtbase5-private-dev
           - qttools5-dev-tools
           - libxcb-keysyms1-dev
