@@ -146,7 +146,7 @@ void ConfigurationDlgImpl::TransferDataToControl()
     aDeviceLst.append(QString("COM8"));
     aDeviceLst.append(QString("COM9"));
 #elif defined( Q_OS_MAC )
-    QDir aDevDir("/dev","ttys*;tty.usb*",QDir::Name|QDir::IgnoreCase,QDir::AllEntries|QDir::System);
+    QDir aDevDir("/dev","ttys*;tty.usb*;tty.uart*;uart*",QDir::Name|QDir::IgnoreCase,QDir::AllEntries|QDir::System);
     QStringList aDeviceLst = aDevDir.entryList();
     for( int i=0; i<aDeviceLst.size(); i++ )
     {
