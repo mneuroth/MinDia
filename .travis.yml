@@ -58,36 +58,6 @@ matrix:
         on:
           tags: true
       
-    - os: osx
-      language: cpp
-      compiler: clang
-      name: Mac OSX clang Qt 5.11.3
-      before_install:
-      - brew update
-      - brew install qt@5.11.3
-      - export PATH=/usr/local/opt/qt/bin:$PATH
-      script:
-      - qmake -v
-      - ls -lrt
-      - qmake -r mindia.pro
-      - make -j 4
-      - cd src
-      - ls -lrt
-      #- ./mindia.app/Contents/MacOS/mindia --selftest 
-      - macdeployqt mindia.app/ -dmg
-      - ls -lrt
-      - cp mindia.dmg mindia_5_11_3.dmg
-      - pwd
-      - export MINDIA_DEPLOY_ROOT=`pwd`
-      deploy:
-        provider: releases
-        api_key:
-          secure: Q2eQN4Ohy8n1HpQYR0LoCExYUGE62lcYJvmhBowsSYbiYQlvkD47Tq2+zTkent+QmVWyPuZi3f876Dr3gck/6FiKHAu1Rwqt5VBwW8H+DYs1eQWw7uTyDNsUiJMRmUUBSyqKnrCGqJgC2iP3XT+ZKAstIUzr7vz2jgubGTr+hGAgtEgiSRCCg/OhCtx7duebeRS/EjJHYT2aPr9jXSXJpoJ527s7G7D5oMnTjjIY7DoP/hW77v/OxVe4dF8lR3asK1NbuI/kCLxHng/gtfV19k4E+H1csmaTtl/Df21NztQU5r/6eizLpTdp4G6vPrOmIvAN0WAbF0Sr4Bxg5FbiJCTyJUb7BHngoglCHbepIuHULl3QD6/09dEPnqPDR/IoqiTG4CjOesUSesMQSJ67vc4slKESjNpPdQKJmUg3KG0wzxwFTUPoIBLJ9mEsTL33lsI2JzjuCpJw+dXkVt6W7Cn/xc+QvJsxgUccM0fkwIlX/51aUItSrASw5vvyYRBsB949ubI3wN+hYmc8HLOoBQL76VSYvcs9G8uZxWT2kVCzHD2Qgehk/EqV/IDrlcUYAFZZzSaB8FAUKTXYsCbaOeVTTE5bVnvsk/zMMh5Inrp9UwtLUU6DKDnzW3GL9n9NFaIMnVXEETmK/SgxHbNfqk2LblvZoV7GiAJTcjpuu5Y= 
-        file: $MINDIA_DEPLOY_ROOT/mindia_5.11.3.dmg
-        skip_cleanup: true
-        on:
-          tags: true
-      
 install:
 - "[ $CXX = g++ ] && export CXX=g++-6 || true"
 - "[ $CXX = clang++ ] && export CXX=clang++-3.8 || true"
