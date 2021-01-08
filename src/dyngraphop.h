@@ -24,6 +24,7 @@
 #include <qobject.h>
 #include <qcolor.h>
 #include <qtimer.h>
+#include <qelapsedtimer.h>
 #include <qpainter.h>
 #include <QGraphicsSimpleTextItem>
 #include <QGraphicsRectItem>
@@ -229,7 +230,7 @@ protected:
 	int				m_iTimeout;
 
 	QTimer *		m_aTimer;
-	QTime			m_aTime;
+    QElapsedTimer	m_aTime;
 
 	DynText *		m_pItem;		// NOT an owner !
 };

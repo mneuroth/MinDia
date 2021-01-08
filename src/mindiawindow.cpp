@@ -51,6 +51,8 @@
 #include <QWindow>
 #include <QScreen>
 
+#include <QDebug>
+
 #include "appconfig.h"
 #include "iscript.h"
 #include "misctools.h"
@@ -689,25 +691,33 @@ void MinDiaWindow::customEvent(QEvent * pEvent)
     if( pEvent->type()==_USER_EVENT_GET_SOUND_LENGTH )
     {
         GetSoundLengthEvent * pSoundEvent = (GetSoundLengthEvent *)pEvent;
-        miniSound & aSoundInfo = GetDocument()->GetSoundInfo();
-        aSoundInfo.AsyncGetTotalLengthForFile(pSoundEvent->GetFileName(),pSoundEvent->GetRequester());
+        miniSound * pSoundInfo = GetDocument()->GetSoundInfoPtr();
+        if( pSoundInfo!=0 ) {
+            pSoundInfo->AsyncGetTotalLengthForFile(pSoundEvent->GetFileName(),pSoundEvent->GetRequester());
+        }
     }
     if( pEvent->type()==_USER_EVENT_SOUND_THREAD_OPERATION_CLOSE_SOUND )
     {
-        miniSound & aSoundInfo = GetDocument()->GetSoundInfo();
-        aSoundInfo.CloseSound();
+        miniSound * pSoundInfo = GetDocument()->GetSoundInfoPtr();
+        if( pSoundInfo!=0 ) {
+            pSoundInfo->CloseSound();
+        }
     }
     if( pEvent->type()==_USER_EVENT_SOUND_THREAD_OPERATION_SET_WAVE_FILE )
     {
         MyCustomEvent<QString> * pCustomEvent = (MyCustomEvent<QString> *)pEvent;
-        miniSound & aSoundInfo = GetDocument()->GetSoundInfo();
-        aSoundInfo.SetWavFile( pCustomEvent->data() );
+        miniSound * pSoundInfo = GetDocument()->GetSoundInfoPtr();
+        if( pSoundInfo!=0 ) {
+            pSoundInfo->SetWavFile( pCustomEvent->data() );
+        }
     }
     if( pEvent->type()==_USER_EVENT_SOUND_THREAD_OPERATION_START_IMPL )
     {
         MyCustomEvent<int> * pCustomEvent = (MyCustomEvent<int> *)pEvent;
-        miniSound & aSoundInfo = GetDocument()->GetSoundInfo();
-        aSoundInfo.StartPlayImpl( pCustomEvent->data() );
+        miniSound * pSoundInfo = GetDocument()->GetSoundInfoPtr();
+        if( pSoundInfo!=0 ) {
+            pSoundInfo->StartPlayImpl( pCustomEvent->data() );
+        }
     }
     if( pEvent->type()==c_iCustomEvent_ShowStatus )
     {
@@ -1271,7 +1281,7 @@ void MinDiaWindow::sltImportXMLDoc()
 
 void MinDiaWindow::sltExportXMLDoc()
 {
-    QString sFileName = QFileDialog::getSaveFileName( this, tr( "Export as XML" ), QString::null, /*QString::null*/"*.xml" );
+    QString sFileName = QFileDialog::getSaveFileName( this, tr( "Export as XML" ), QString(), /*QString()*/"*.xml" );
 
     if( !sFileName.isEmpty() )
 	{
@@ -1319,7 +1329,7 @@ void MinDiaWindow::sltExportAVI()
 
 void MinDiaWindow::sltExportDynGraphData()
 {
-    QString sFileName = QFileDialog::getSaveFileName( this, tr( "Export dynamic graphic data" ), QString::null, /*QString::null*/"*.dat" );
+    QString sFileName = QFileDialog::getSaveFileName( this, tr( "Export dynamic graphic data" ), QString(), /*QString()*/"*.dat" );
 
     if( !sFileName.isEmpty() )
 	{
@@ -1329,7 +1339,7 @@ void MinDiaWindow::sltExportDynGraphData()
 
 void MinDiaWindow::sltImportDynGraphData()
 {
-    QString sFileName = QFileDialog::getOpenFileName( this, tr( "Import dynamic graphic data" ), QString::null, /*QString::null*/"*.dat" );
+    QString sFileName = QFileDialog::getOpenFileName( this, tr( "Import dynamic graphic data" ), QString(), /*QString()*/"*.dat" );
 
     if( !sFileName.isEmpty() )
 	{
@@ -1469,7 +1479,7 @@ void MinDiaWindow::sltUpdateLastFilesMenu()
 		// ** show filename with number 
 		QString s;
 
-		s.sprintf( "&%d ", iMax-i );
+        s.asprintf( "&%d ", iMax-i );
         s += aFileHistory[i];
 
         QAction * pAction = new QAction(s,this);
@@ -1665,10 +1675,10 @@ void MinDiaWindow::sltStatusUpdateTimerEvent()
 	aTotalTime = aTotalTime.addMSecs( (int)(m_pControler->GetPresentation().GetTotalTime()*1000) );
 
 	double dCountDown = m_pControler->GetPresentation().GetCountDownTime();
-	sCountDown.sprintf( "%.1f", dCountDown );
+    sCountDown.asprintf( "%.1f", dCountDown );
 
-	sPlay.sprintf( "%d:%02d", aPlayTime.minute(), aPlayTime.second() );
-	sTotal.sprintf( "%d:%02d", aTotalTime.minute(), aTotalTime.second() );
+    sPlay.asprintf( "%d:%02d", aPlayTime.minute(), aPlayTime.second() );
+    sTotal.asprintf( "%d:%02d", aTotalTime.minute(), aTotalTime.second() );
 
 	bool bIsPlaying = m_pControler->IsPlayModus();
 	bool bIsPause = m_pControler->IsPauseModus();

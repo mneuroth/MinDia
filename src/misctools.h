@@ -89,6 +89,8 @@ enum ImageSize {
 
 // *******************************************************************
 
+void msSleepMindia(unsigned long sleepInMs);
+
 QImage CreateWhiteImage( int iWidth = 1024, int iHeight = 768 );
 
 QImage CreateColorImage( const QColor & aColor, int iWidth = 1024, int iHeight = 768 );

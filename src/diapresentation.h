@@ -32,7 +32,7 @@
 #include "igendev.h"
 #include "misctools.h"
 
-#include <QDateTime>		// for QTime
+#include <QElapsedTimer>
 #include <QMap>
 #include <QStringList>
 
@@ -233,8 +233,8 @@ private:
 	int						m_iActSubPos;
 	int						m_iStartPos;
 	string					m_sStepInfo;
-	QTime					m_aCountDown;
-	QTime 					m_aPlayTime;
+    QElapsedTimer			m_aCountDown;
+    QElapsedTimer   		m_aPlayTime;
     ImageRatio              m_aImageRatio;
     unsigned long           m_ulOutputWidth;
     unsigned long           m_ulOutputHeight;

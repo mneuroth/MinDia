@@ -795,8 +795,8 @@ void DiaPresentation::ResetPlay()
 	m_iStartPos = 0;
 	m_iActSubPos = 0;
 	m_sStepInfo = "reset";
-	m_aPlayTime = QTime();
-	m_aCountDown = QTime();
+    m_aPlayTime = QElapsedTimer();
+    m_aCountDown = QElapsedTimer();
 }
 
 bool DiaPresentation::StartPlay( int iStartPos )
@@ -1064,7 +1064,7 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 		}
 
 		// ** now start the count-down timer (again)
-		m_aCountDown = QTime();
+        //m_aCountDown = QTime();
 		m_aCountDown.start();
 
 		// ** #################################################################
@@ -1077,7 +1077,7 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 			//int iStepTime = (int)(dStepTime*10);		// in 1/10 seconds
 
 			// ** change dia
-			sCmd.sprintf( "BV" );
+            sCmd.asprintf( "BV" );
 
 			// ** the first slide of the presentation is handled specially
 			// ** (init projector and first dissolve time is synchronious!)
@@ -1193,7 +1193,7 @@ bool DiaPresentation::NextStep( double & dNextStepTimeOut )
 				int iNextStepTime = (int)(dNextStepTime*10);		// in 1/10 seconds
 
 				// ** set disolve-time for the next slide
-				sCmd.sprintf( "SD:%03d", iNextStepTime );
+                sCmd.asprintf( "SD:%03d", iNextStepTime );
 
 				// ** when act. slide is visible, set the dissolve time for the next slide !
 				if( m_pProjectorCom && !bWasContinued )

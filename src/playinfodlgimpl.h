@@ -37,7 +37,7 @@
 #include <QKeyEvent>
 #include <QMenu>
 #include <QDialog>
-#include <QTime>
+#include <QElapsedTimer>
 
 class QGraphicsScene;
 class QAction;
@@ -67,11 +67,11 @@ private:
 	void	Update();
 
 	// ** data **
-	QTime	m_aStartTime;
-	QTime	m_aStopTime;
-	int		m_iMeasurementCount;
-	int		m_iSum;
-	int		m_iDefaultTimeInMS;
+    QElapsedTimer	m_aStartTime;
+    QElapsedTimer	m_aStopTime;
+    int             m_iMeasurementCount;
+    int             m_iSum;
+    int             m_iDefaultTimeInMS;
 };
 
 // *******************************************************************
@@ -201,7 +201,7 @@ private:
 	TimeMeasurement			m_aFadeTime;		// to measure the time needed for one fade in step
 
     minHandle<DiaInfo>      m_hDia;             // the current dia
-    QTime                   m_aKenBurnsStartTime;
+    QElapsedTimer           m_aKenBurnsStartTime;
     int                     m_iKenBurnsEffectTimeInMS;
 
 	QTimer *				m_pFadeInTimer;

@@ -89,7 +89,9 @@ DocumentAndControler::DocumentAndControler( bool bEnableScript,
   m_pOutputWindowProxy( pOutputWindowProxy )
 {
 	m_aPresentation.SetProjectorCom( &m_aCom );
-	m_aPresentation.SetSoundPlayer( &m_aSoundPlayer );
+#ifndef Q_OS_WASM
+    m_aPresentation.SetSoundPlayer( &m_aSoundPlayer );
+#endif
 
 	// *** connect signals to slots ***
     connect( this, SIGNAL( sigShowStatusMessage(const QString &) ), pMainWindow, SLOT( sltShowStatusBarMessage(const QString &) ) );
@@ -218,9 +220,13 @@ DiaPresentation & DocumentAndControler::GetPresentation()
 	return m_aPresentation;
 }
 
-miniSound & DocumentAndControler::GetSoundInfo()
+miniSound * DocumentAndControler::GetSoundInfoPtr()
 {
-    return m_aSoundPlayer;
+#ifdef Q_OS_WASM
+    return 0;
+#else
+    return &m_aSoundPlayer;
+#endif
 }
 
 RolleiCom & DocumentAndControler::GetDiaCom()
@@ -863,7 +869,7 @@ int DocumentAndControler::CreateImagesForMovie(
     {
         QString sBuffer;
         QString sFileName;
-        sFileName.sprintf( sFileNameOffset.c_str(), iCount );
+        sFileName.asprintf( sFileNameOffset.c_str(), iCount );
         sBuffer = QString( "%1%2%3.%4" ).arg( ToQString( sOutputDirectory ) ).arg( ToQString( sDirSeparator ) ).arg( sFileName ).arg( ToQString(sImageExtension) );
 #ifdef Q_OS_WIN
         QString sLinkExt = ".lnk";

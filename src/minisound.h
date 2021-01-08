@@ -23,7 +23,7 @@
 
 #include "soundinfo.h"
 
-#include <QDateTime>		// for QTime
+#include <QElapsedTimer>
 #include <QThread>
 #include <QString>
 
@@ -36,6 +36,10 @@
 #undef _WITH_PHONON
 #define _WITH_MULTIMEDIA
 #endif
+#endif
+
+#if defined(Q_OS_WASM)
+#undef _WITH_MULTIMEDIA
 #endif
 
 #ifdef _WITH_PHONON
@@ -117,7 +121,7 @@ private:
 	bool							m_bSilentPause;
 	int								m_iOpenCount;
 	int								m_iSilentTimer;
-	QTime							m_aSilentStartTime;
+    QElapsedTimer   				m_aSilentStartTime;
 	bool							m_bStop;
 	int								m_iTotalTimeInMS;
 	int								m_iAbsStartTimeInMS;

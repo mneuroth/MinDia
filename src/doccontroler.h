@@ -105,7 +105,7 @@ public:
 
 	DiaPresentation &	GetPresentation();
 
-    miniSound &         GetSoundInfo();
+    miniSound *         GetSoundInfoPtr();
 
 	// returns the number of created images
     int CreateImagesForMovie( QWidget * pOwner, const string & sOutputDirectory, const string & sFileNameOffset, const string & sDirSeparator, const string & sImageExtension,
@@ -214,7 +214,9 @@ private:
 
 	// *** data ***
 	RolleiCom			m_aCom;					// the projector control
-	miniSound			m_aSoundPlayer;			// to play the sound for the presentation
+#ifndef Q_OS_WASM
+    miniSound			m_aSoundPlayer;			// to play the sound for the presentation
+#endif
     DiaPresentation		m_aPresentation;		// this is the document !
 	minLoggingInterface * m_pLoggingChannel;	// No Owner !
 

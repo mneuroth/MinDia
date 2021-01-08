@@ -526,15 +526,17 @@ int main( int argc, char** argv )
 
     MinDiaWindow aWindow( sLanguage, bIgnoreComSettings, bSimulation, iProjectorType );
 
+#ifndef Q_OS_WASM
     // ** environment for dll starting... **
-	minServiceManager * pSrvManager = new minServiceManager;
-	minServiceManager::SetGlobServiceManagerPtr( pSrvManager );
+    minServiceManager * pSrvManager = new minServiceManager;
+    minServiceManager::SetGlobServiceManagerPtr( pSrvManager );
 
-	IMinDiaScriptFcnImpl * pMinDiaScriptFcn = new IMinDiaScriptFcnImpl( "mindia_for_py", &aWindow, argc, argv );
-	pSrvManager->RegisterService( pMinDiaScriptFcn, /*bOwnerIn*/true );
+    IMinDiaScriptFcnImpl * pMinDiaScriptFcn = new IMinDiaScriptFcnImpl( "mindia_for_py", &aWindow, argc, argv );
+    pSrvManager->RegisterService( pMinDiaScriptFcn, /*bOwnerIn*/true );
 
     IGeneralScriptFcnImpl * pGenScriptFcn = new IGeneralScriptFcnImpl( ToStdString(sLanguage), "mindia_for_py", &aWindow );
-	pSrvManager->RegisterService( pGenScriptFcn, /*bOwnerIn*/true );
+    pSrvManager->RegisterService( pGenScriptFcn, /*bOwnerIn*/true );
+#endif
 
     /*
     minDll * pNewDll = 0;
@@ -592,11 +594,13 @@ int main( int argc, char** argv )
 	}
     */
 
-	int iRet = myApp.exec();
+    int iRet = myApp.exec();
 
-	pSrvManager->GetDllManager().UnLoadAll();
+#ifndef Q_OS_WASM
+    pSrvManager->GetDllManager().UnLoadAll();
 
-	delete pSrvManager;
+    delete pSrvManager;
+#endif
 
 	g_pApplication = 0;
 

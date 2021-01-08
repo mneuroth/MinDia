@@ -27,8 +27,6 @@
 
 #include <string>
 
-#include <QThread>
-
 using namespace std;
 
 // *******************************************************************

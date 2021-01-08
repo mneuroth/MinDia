@@ -26,11 +26,11 @@
 
 // *************************************************************************
 
-#if defined(__linux__) || defined(__APPLE__)
+#if defined(__linux__) || defined(__APPLE__) || defined(__EMSCRIPTEN__)
 
 static char _GetDirectorySeparator()
 {
-#if defined(__linux__) || defined(__APPLE__)
+#if defined(__linux__) || defined(__APPLE__) || defined(__EMSCRIPTEN__)
     return '/';
 #else
     return '\\';
@@ -67,7 +67,7 @@ static bool SplitPath( const char * sPath, string & sDrive, string & sDir, strin
 	char sDirBuf[512];
 	char sNameBuf[512];
 	char sExtBuf[512];
-#if defined(__linux__) || defined(__APPLE__)
+#if defined(__linux__) || defined(__APPLE__) || defined(__EMSCRIPTEN__)
 	// Simuliere _splitpath fuer Linux...
 	strcpy( sDriveBuf, "" );
 	strcpy( sDirBuf, "" );
@@ -144,7 +144,7 @@ typedef PFN minGenDllProcT;
 typedef PFN minGenDllProcT;
 #endif
 
-#if defined(__linux__) || defined(__APPLE__)
+#if defined(__linux__) || defined(__APPLE__) || defined(__EMSCRIPTEN__)
 #define _LINUX
 #include <dlfcn.h>
 typedef void (*minGenDllProcT)();
@@ -152,10 +152,11 @@ typedef void (*minGenDllProcT)();
 
 inline long minLoadLibrary( const char * sDllName )
 {
-#ifdef _WIN32
-	return (long)LoadLibrary( (WCHAR*)sDllName );
-#endif
-#ifdef _OS2
+#if defined(__EMSCRIPTEN__)
+    return 0;
+#elif defined(_WIN32)
+    return (long)LoadLibrary( (WCHAR*)sDllName );
+#elif defined(_OS2)
 	// 3.2.2000: DLL-Name immer ohne .dll Extention angeben... (Modul-Name !!!)
 	char sDriveBuf[12];
 	char sDirBuf[512];
@@ -166,49 +167,56 @@ inline long minLoadLibrary( const char * sDllName )
 	APIRET rc = DosLoadModule( 0, 0, /*sDllName*/sNameBuf, &hModule );
 	//cout << "Load Lib " << sDllName << " == " << sNameBuf << " nRet=" << rc << endl;
 	return (long)hModule;
-#endif
-#ifdef _LINUX
+#elif defined(_LINUX)
 	return (long)dlopen( sDllName, RTLD_LAZY );
+#elif
+    return 0;
 #endif
 }
 
 inline bool minFreeLibrary( long hDllModule )
 {
-#ifdef _WIN32
+#if defined(__EMSCRIPTEN__)
+    return false;
+#elif defined(_WIN32)
 	return FreeLibrary( (HMODULE)hDllModule );
-#endif
-#ifdef _OS2
+#elif defined(_OS2)
 	return DosFreeModule( (HMODULE)hDllModule )==0;
-#endif
-#ifdef _LINUX
+#elif defined(_LINUX)
 	return dlclose( (void *)hDllModule );
+#else
+    return false;
 #endif
 }
 
 inline minGenDllProcT minGetProcAddress( long hDllModule, const char * sProcName )
 {
-#ifdef _WIN32
-	return GetProcAddress( (HMODULE)hDllModule, sProcName );
-#endif
-#ifdef _OS2
+#if defined(__EMSCRIPTEN__)
+    return 0;
+#elif defined(_WIN32)
+    return GetProcAddress( (HMODULE)hDllModule, sProcName );
+#elif defined(_OS2)
 	minGenDllProcT pProc = 0;
 	APIRET rc = DosQueryProcAddr( (HMODULE)hDllModule, 0L, sProcName, &pProc );
 	return pProc;
-#endif
-#ifdef _LINUX
+#elif defined(_LINUX)
 	return (minGenDllProcT)dlsym( (void *)hDllModule, sProcName );
+#else
+    return 0;
 #endif
 }
 
 inline minString GetDirectorySeparator()
 {
-#ifdef _WIN32
+#if defined(__EMSCRIPTEN__)
+  return "/";
+#elif defined(_WIN32)
   return "\\";
-#endif
-#ifdef _OS2
+#elif defined(_OS2)
   return "\\";
-#endif
-#ifdef _LINUX
+#elif defined(_LINUX)
+  return "/";
+#else
   return "/";
 #endif
 }

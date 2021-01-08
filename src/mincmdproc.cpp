@@ -20,9 +20,8 @@
 
 #include "mincmdproc.h"
 
+#include "misctools.h"
 #include "rolleicom.h"
-
-#include <QThread>
 
 // *******************************************************************
 // *******************************************************************
@@ -39,7 +38,7 @@ minCmdProcessor::minCmdProcessor( RolleiCom * pProjector )
 minCmdProcessor::~minCmdProcessor()
 {
 	Stop();
-    QThread::msleep( 100 );
+    msSleepMindia( 100 );
 }
 
 bool minCmdProcessor::IsBusy() const
@@ -134,7 +133,7 @@ void minCmdProcessor::run()
 		}
 		else
 		{
-            QThread::msleep( 10 );
+            msSleepMindia( 10 );
 		}
 	}
 

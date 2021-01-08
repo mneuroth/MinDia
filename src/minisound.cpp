@@ -28,6 +28,8 @@
 #include <QEvent>
 #include <QApplication>
 
+#include <QDebug>
+
 #if defined(Q_OS_WIN)
 #define DELAY 200   // windows seems to need more time as mac...
 #else
@@ -98,7 +100,9 @@ void miniSound::sltTotalTimeChanged(qint64 val)
 {
     m_iTotalTimeInMS = (int)val;
 
+#ifdef _WITH_MULTIMEDIA
     qDebug() << "TOTAL time: " << val << " " << m_pPlayer->duration() << " " << m_pPlayer->position() << m_pPlayer->mediaStatus() << " " << m_pPlayer->state() << endl;
+#endif
 
     if( val!=0 && m_pRequester!=0 && m_iTotalTimeInMS>=0 )
     {
@@ -138,7 +142,7 @@ bool miniSound::SetWavFile( const QString & sWavFileName )
 
 	if( IsSilent() )
 	{
-		m_aSilentStartTime = QTime();
+        m_aSilentStartTime.start(); // = QTime();
 		m_iSilentTimer = 0;
 		m_bReadError = false;
 	}
@@ -298,7 +302,7 @@ bool miniSound::StartPlayImpl( int iStartPosInMs, int /*iStopPosInMs*/,
 #ifdef _WITH_MULTIMEDIA
             m_pPlayer->play();
             // see: https://forum.qt.io/topic/7037/seeking-with-qmediaplayer
-            QThread::msleep( DELAY );
+            msSleepMindia( DELAY );
             m_pPlayer->setPosition( (qint64)iStartPosInMs+DELAY );
 #endif
         }
@@ -461,7 +465,7 @@ void miniSound::StopThread()
 		m_bStop = true;
 
 		// ** give the thread some time to stop ...
-        QThread::msleep( 100 );
+        msSleepMindia( 100 );
 	}
 }
 
@@ -473,7 +477,7 @@ void miniSound::StartThread()
 	// wait for the stoped thread 
     while( m_ulMciThreadID != 0 )
 	{
-        QThread::msleep( 1 );
+        msSleepMindia( 1 );
 	}
 
     start();
@@ -587,7 +591,7 @@ void miniSound::run()
 				}
 			}
 
-            QThread::msleep( 10 );
+            msSleepMindia( 10 );
 
 // ggf. not needed ! because handled in main thread !!!
 			switch( m_iMciCmdId )

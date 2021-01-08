@@ -35,6 +35,12 @@
 #include <QApplication>
 #include <QElapsedTimer>
 
+#ifndef Q_OS_WASM
+#include <QThread>
+#else
+#include <emscripten.h>
+#endif
+
 #include "mindiawindow.h"
 
 // *******************************************************************
@@ -90,7 +96,7 @@ void QImageCache::DoStop()
         m_bStopThread = true;
         while( isRunning() )
         {
-            msleep(10);
+            msSleepMindia(10);
         }
     }
 }
@@ -124,7 +130,11 @@ void QImageCache::InitCacheInBackground( const QStringList & lstImageFileNames, 
     m_lstImageFileNames = lstImageFileNames;
     m_bStopThread = false;
     Clean();
+#ifndef Q_OS_WASM
     start();
+#else
+    run();
+#endif
 }
 
 void QImageCache::RemoveUnusedItems( const QStringList & lstImageFileNames, QObject * pTargetForMessages )
@@ -165,7 +175,7 @@ unsigned long QImageCache::GetCacheSizeInBytes()
     m_aLock.lock/*ForRead*/();
     foreach (const QString & sKey, m_aMap.keys())
     {
-        ulSize += m_aMap[sKey].first.byteCount();
+        ulSize += m_aMap[sKey].first.sizeInBytes();
     }
     m_aLock.unlock();
     return ulSize;
@@ -225,7 +235,7 @@ bool QImageCache::IsMaxSizeCache() const
 
 void QImageCache::CheckCacheSpace()
 {
-    QString sFoundKey = QString::null;
+    QString sFoundKey = QString();
     int ulCount = std::numeric_limits<int>::max();
     m_aLock.lock/*ForRead*/();
     if( (m_iMaxItems>=0) && (m_aMap.size()>=m_iMaxItems) )
@@ -316,7 +326,9 @@ const QImage & QImageCache::GetRef( const QString & sImageFileName, QImage & aTe
         bWasAdded = false;
 
 // TODO --> anpassen bei retina displays !
+#ifdef _WITH_MULTIMEDIA
         qDebug() << "GetRef " << bIsThumbnail << " " << maxWidth << " " << maxHeight << " is: " << ret.width() << " " << ret.height() << endl;
+#endif
 
         // has the image in the cache a appropriate size?
         // if at least one dimension fulfills the requirements it is assumed that we have a valid cached image
@@ -559,7 +571,11 @@ void CopyImageAreaAsyncAndPostResult( QObject * pTarget, bool bIsPlaying, int iD
     if( g_pAsyncImageReaderThread==0 )
     {
         g_pAsyncImageReaderThread = new QAsyncImageReaderThread();
+#ifndef Q_OS_WASM
         g_pAsyncImageReaderThread->start();
+#else
+        g_pAsyncImageReaderThread->run();
+#endif
     }
 
     g_pAsyncImageReaderThread->push( pTarget, bIsPlaying, iDissolveTimeInMS, sImageFileName, hDia );
@@ -909,6 +925,15 @@ void QAsyncImageReaderThread::run()
             }
         }
 
-        QThread::msleep(1);
+        msSleepMindia(1);
     }
+}
+
+void msSleepMindia(unsigned long sleepInMs)
+{
+#ifndef Q_OS_WASM
+    QThread::msleep((unsigned long)sleepInMs);
+#else
+    emscripten_sleep(sleepInMs);
+#endif
 }

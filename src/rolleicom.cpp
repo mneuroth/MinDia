@@ -31,16 +31,6 @@
 using namespace std;
 
 #include <QSettings>
-#include <QThread>
-
-class MySleep : public QThread
-{
-public:
-    static void msleep(int ms)
-    {
-        QThread::msleep((unsigned long)ms);
-    }
-};
 
 #define BUFFER_MAX 255
 
@@ -91,7 +81,7 @@ struct RolleiComHelperData
 
     void Delay( int iTimeInMS )
     {
-        MySleep::msleep( iTimeInMS );
+        msSleepMindia( iTimeInMS );
     }
 
     int GetLastErrorCode() const
@@ -102,7 +92,9 @@ struct RolleiComHelperData
 
 #else
 
+#ifndef Q_OS_WASM
 #include <QtSerialPort/qserialport.h>
+#endif
 
 #define MAX_READ_TIMEOUT    50  /*ms*/
 
@@ -132,15 +124,19 @@ struct RolleiComHelperData
 
     bool Open( const string & sComPort )
     {
+#ifndef Q_OS_WASM
         m_pPort = new QSerialPort(ToQString(sComPort),0);
         m_pPort->open(QIODevice::ReadWrite);
+#endif
         return IsOk();
     }
     bool Close()
     {
+#ifndef Q_OS_WASM
         m_pPort->close();
         delete m_pPort;
         m_pPort = 0;
+#endif
         return true;
     }
 
@@ -148,6 +144,7 @@ struct RolleiComHelperData
     {
         if( !bIgnoreComSettings )
         {
+#ifndef Q_OS_WASM
             QSerialPort::BaudRate aBaudRate;
 
             switch( iBaudrate )
@@ -254,7 +251,7 @@ struct RolleiComHelperData
             m_pPort->setParity(aParity);
             m_pPort->setFlowControl(aFlowType);
             m_pPort->setStopBits(aStopBits);
-
+#endif
             // remark: not supported for QSerialPort: m_pPort->setTimeout(1000);
         }
         return true;
@@ -262,15 +259,23 @@ struct RolleiComHelperData
 
     bool IsOk() const
     {
+#ifndef Q_OS_WASM
         return ( m_pPort && m_pPort->isOpen() );
+#else
+        return false;
+#endif
     }
 
     bool Write( const string & sMsg )
     {
         if( IsOk() )
         {
+#ifndef Q_OS_WASM
             int iRet = m_pPort->write(sMsg.c_str());
             return iRet!=0;
+#else
+            return false;
+#endif
         }
         return false;
     }
@@ -286,6 +291,7 @@ struct RolleiComHelperData
             int iReadTimeout = 0;
             while( !IsCommandReceived(sMsgOut) && /*NotTimeoutSinceLastSuccessfullRead==*/iReadTimeout<MAX_READ_TIMEOUT )
             {
+#ifndef Q_OS_WASM
                 /*bool ok =*/ m_pPort->waitForReadyRead(c_iDelay);
 
                 // ** if we are here, there is something to read !
@@ -304,6 +310,7 @@ struct RolleiComHelperData
                     Delay(c_iDelay);
                     //old: m_iLastError = errno;
                 }
+#endif
             }
             return IsCommandReceived(sMsgOut);
         }
@@ -312,7 +319,7 @@ struct RolleiComHelperData
 
     void Delay( int iTimeInMS )
     {
-        MySleep::msleep( iTimeInMS );
+        msSleepMindia( iTimeInMS );
     }
 
     int GetLastErrorCode() const
@@ -320,7 +327,9 @@ struct RolleiComHelperData
         return -1;
     }
 
+#ifndef Q_OS_WASM
     QSerialPort * m_pPort;
+#endif
 };
 
 #endif // _DUMMY_SERIAL_PORT
@@ -444,8 +453,10 @@ void RolleiCom::Start( const string & sComPort, int iBaudrate, int iParityMode, 
 	UpdateComPort();
 
 	// ** start handler for asynchonious communication to projector
+#ifndef Q_OS_WASM
 	m_pCmdProcessor = new minCmdProcessor( this );
 	m_pCmdProcessor->Start();
+#endif
 }
 
 void RolleiCom::UpdateComPort()
@@ -1107,7 +1118,7 @@ char RolleiCom::GetStatus( bool /*bSync*/ )
 				// osc 2003-08-29 begin: fix character set problems
 				//bool bOk = m_pData->Write( "�" );
 				string sStatusCmd ;
-				sStatusCmd += 225;
+                sStatusCmd += (unsigned char)225;
 				bool bOk = m_pData->Write( sStatusCmd );
 				// osc 2003-08-29 end
 				if( bOk )

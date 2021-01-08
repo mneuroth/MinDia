@@ -9,8 +9,8 @@ CONFIG          += qt warn_on thread stl exceptions
 QT              = core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia printsupport
 lessThan(QT_MAJOR_VERSION, 5): QT += phonon
-!android {
-QT              += serialport
+linux || win32 || macos {
+    QT              += serialport
 }
 else
 {
@@ -21,6 +21,10 @@ else
 #QT              -=script
 #QT              -=qml
 #CONFIG          -= debug
+
+wasm {
+    QMAKE_CXXFLAGS += "-s ASYNCIFY=1 -s ASSERTIONS=1"
+}
 
 #CONFIG += c++11
 

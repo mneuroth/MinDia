@@ -870,7 +870,7 @@ void HItemView::UpdateAllItemsForScalingFactor()
     QPoint  aPos( 0, 0 );
 
     // update all items
-    for(int i = 0; i<m_aItemContainer.size(); i++)
+    for(size_t i = 0; i<m_aItemContainer.size(); i++)
     {
         QRect aRect( aPos.x(), aPos.y(), m_aDefaultItemSize.width(), m_aDefaultItemSize.height() );
 

@@ -1195,12 +1195,12 @@ void TimeMeasurement::Reset()
 
 void TimeMeasurement::Start()
 {
-	m_aStartTime = QTime::currentTime();
+    m_aStartTime.start(); // = QTime::currentTime();
 }
 
 void TimeMeasurement::Stop()
 {
-	m_aStopTime = QTime::currentTime();
+    m_aStopTime.start(); // = QTime::currentTime();
 
 	Update();
 }
