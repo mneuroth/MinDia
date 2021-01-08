@@ -175,7 +175,11 @@ unsigned long QImageCache::GetCacheSizeInBytes()
     m_aLock.lock/*ForRead*/();
     foreach (const QString & sKey, m_aMap.keys())
     {
+#if QT_VERSION < QT_VERSION_CHECK(5, 10, 0)
+        ulSize += m_aMap[sKey].first.byteCount();
+#else
         ulSize += m_aMap[sKey].first.sizeInBytes();
+#endif
     }
     m_aLock.unlock();
     return ulSize;
