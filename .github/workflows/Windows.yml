@@ -60,3 +60,5 @@ jobs:
         nmake
         dir
         dir src
+        dir src\release
+        dir src\debug
