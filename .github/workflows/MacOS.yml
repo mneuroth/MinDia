@@ -47,7 +47,7 @@ jobs:
         ls -lrt
         make
         ls -lrt
-		cd src
+        cd src
         ls -lrt
 
         which macdeployqt
