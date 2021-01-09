@@ -103,6 +103,7 @@ jobs:
         zip mindia_wasm_5_15_2.zip mindia.js mindia.wasm mindia.html qtlogo.svg qtloader.js
         ls -lrt
         unzip -v mindia_wasm_5_15_2.zip
+        cp mindia_wasm_5_15_2.zip ..
         pwd
     # this step is added for the release    
     - name: Upload Release Asset
@@ -176,6 +177,7 @@ jobs:
         zip mindia_wasm_5_14_2.zip mindia.js mindia.wasm mindia.html qtlogo.svg qtloader.js
         ls -lrt
         unzip -v mindia_wasm_5_14_2.zip
+        cp mindia_wasm_5_14_2.zip ..
         pwd
     # this step is added for the release    
     - name: Upload Release Asset
