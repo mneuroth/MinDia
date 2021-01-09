@@ -1,0 +1,62 @@
+name: Windows CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  windows_5_15_2_msc_build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: ilammy/msvc-dev-cmd@v1
+    #- uses: edgarrc/action-7z@v1.0.4
+    - uses: jurplel/install-qt-action@v2
+      with:
+        # Directory to install Qt
+        dir: # optional
+        # Version of Qt to install
+        version: '5.15.2'
+        # Host platform
+        host: # optional
+        # Target platform for build
+        target: 'desktop'
+        # Architecture for Windows/Android
+        arch: 'win64_msvc2019_64'
+        # Whether or not to install Qt dependencies on Linux
+        install-deps: 'true'
+        # Additional Qt modules to install
+        modules: 'qtscript qtscripttools'
+        # Force a Qt mirror in case the default is not working
+        mirror: # optional
+        # Whether or not to actually download Qt
+        cached: # optional, default is false
+        # Version of aqtinstall to use in case of issues
+        aqtversion: # optional, default is ==0.8
+        # Version of py7zr to use in case of issues
+        py7zrversion: # optional, default is ==0.6
+        # Any extra arguments to append to the back
+        extra: # optional
+        tools: 'tools_ifw,4.0.1-202012091044,qt.tools.ifw.40'
+    - name: Install 7Zip PowerShell Module
+      shell: powershell
+      run: Install-Module 7Zip4PowerShell -Force -Verbose
+    - name: Install Qt and compile
+      run: |
+        cd 
+        dir
+        d:
+        dir 
+        dir d:\a
+        cl
+        where qmake
+        qmake -r mindia.pro
+        dir
+        nmake
+        dir
+        

@@ -1,0 +1,188 @@
+name: WASM CI
+
+on:
+  push:
+    branches: [ master ]
+    tags:
+    - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+  pull_request:
+    branches: [ master ]
+
+jobs:
+    
+  create_release:
+
+    name: Prepare release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      
+    steps:
+    - name: Checkout code
+      if: contains(github.ref, 'release')
+      uses: actions/checkout@v2
+    - name: Create Release
+      if: contains(github.ref, 'release')
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    - name: Output Release URL File
+      if: contains(github.ref, 'release')
+      run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
+    - name: Save Release URL File for publish
+      if: contains(github.ref, 'release')
+      uses: actions/upload-artifact@v1
+      with:
+        name: release_url
+        path: release_url.txt        
+
+  linux_wasm_5_15_2:
+  
+    runs-on: ubuntu-latest
+    needs: create_release
+      
+    steps:
+    - uses: actions/checkout@v2
+    - uses: mymindstorm/setup-emsdk@v7
+    - uses: jurplel/install-qt-action@v2
+      with:
+        # Directory to install Qt
+        dir: # optional
+        # Version of Qt to install
+        version: '5.15.2'
+        # Host platform
+        host: # optional
+        # Target platform for build
+        target: 'desktop'
+        # Architecture for Windows/Android
+        arch: 'wasm_32' # optional
+        # Whether or not to install Qt dependencies on Linux
+        install-deps: 'true'
+        # Additional Qt modules to install
+        modules: 'qtscript qtscripttools' # qtcharts, qtdatavis3d, qtpurchasing, qtvirtualkeyboard, qtwebengine, qtnetworkauth, qtwebglplugin, qtscript, debug_info
+        # Force a Qt mirror in case the default is not working
+        mirror: # optional
+        # Whether or not to actually download Qt
+        cached: # optional, default is false
+        # Version of aqtinstall to use in case of issues
+        aqtversion: # optional, default is ==0.8
+        # Version of py7zr to use in case of issues
+        py7zrversion: # optional, default is ==0.6
+        # Any extra arguments to append to the back
+        extra: # optional
+    - name: Install Qt and compile
+      run: |
+        em++ --version
+        which em++
+        echo $PATH
+        #emsdk install sdk-fastcomp-1.39.8-64bit
+        #emsdk activate sdk-fastcomp-1.39.8-64bit
+        emsdk install 1.39.8
+        emsdk activate --embedded 1.39.8
+        echo $PATH
+        echo $EMSDK
+        . $EMSDK/emsdk_env.sh
+        em++ --version
+        which em++
+        ls -lrt
+        which qmake
+        qmake -v
+        ../Qt/5.15.2/wasm_32/bin/qmake -v
+        ../Qt/5.15.2/wasm_32/bin/qmake -r mindia.pro
+        ls -lrt
+        make
+        ls -lrt
+        zip mindia_wasm_5_15_2.zip mindia.js mindia.wasm mindia.html qtlogo.svg qtloader.js
+        ls -lrt
+        unzip -v mindia_wasm_5_15_2.zip
+        pwd
+    # this step is added for the release    
+    - name: Upload Release Asset
+      if: contains(github.ref, 'release')
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+        asset_path: mindia_wasm_5_15_2.zip
+        asset_name: mindia_wasm_5_15_2.zip
+        asset_content_type: application/zip
+               
+  linux_wasm_5_14_2:
+  
+    runs-on: ubuntu-latest
+    needs: create_release
+      
+    steps:
+    - uses: actions/checkout@v2
+    - uses: mymindstorm/setup-emsdk@v7
+    - uses: jurplel/install-qt-action@v2
+      with:
+        # Directory to install Qt
+        dir: # optional
+        # Version of Qt to install
+        version: '5.14.2'
+        # Host platform
+        host: # optional
+        # Target platform for build
+        target: 'desktop'
+        # Architecture for Windows/Android
+        arch: 'wasm_32' # optional
+        # Whether or not to install Qt dependencies on Linux
+        install-deps: 'true'
+        # Additional Qt modules to install
+        modules: 'qtscript qtscripttools' # qtcharts, qtdatavis3d, qtpurchasing, qtvirtualkeyboard, qtwebengine, qtnetworkauth, qtwebglplugin, qtscript, debug_info
+        # Force a Qt mirror in case the default is not working
+        mirror: # optional
+        # Whether or not to actually download Qt
+        cached: # optional, default is false
+        # Version of aqtinstall to use in case of issues
+        aqtversion: # optional, default is ==0.8
+        # Version of py7zr to use in case of issues
+        py7zrversion: # optional, default is ==0.6
+        # Any extra arguments to append to the back
+        extra: # optional
+    - name: Install Qt and compile
+      run: |
+        em++ --version
+        which em++
+        echo $PATH
+        emsdk install sdk-fastcomp-1.38.27-64bit
+        emsdk activate sdk-fastcomp-1.38.27-64bit
+        echo $PATH
+        echo $EMSDK
+        . $EMSDK/emsdk_env.sh
+        em++ --version
+        which em++
+        ls -lrt
+        which qmake
+        qmake -v
+        ../Qt/5.14.2/wasm_32/bin/qmake -v
+        ../Qt/5.14.2/wasm_32/bin/qmake -r mindia.pro
+        ls -lrt
+        make
+        ls -lrt
+        zip mindia_wasm_5_14_2.zip mindia.js mindia.wasm mindia.html qtlogo.svg qtloader.js
+        ls -lrt
+        unzip -v mindia_wasm_5_14_2.zip
+        pwd
+    # this step is added for the release    
+    - name: Upload Release Asset
+      if: contains(github.ref, 'release')
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+        asset_path: mindia_wasm_5_14_2.zip
+        asset_name: mindia_wasm_5_14_2.zip
+        asset_content_type: application/zip
+                              
