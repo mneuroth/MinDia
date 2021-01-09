@@ -47,6 +47,8 @@ jobs:
         ls -lrt
         make
         ls -lrt
+		cd src
+        ls -lrt
 
         which macdeployqt
         macdeployqt mindia.app -dmg -qmldir=. -verbose=2

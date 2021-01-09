@@ -98,6 +98,8 @@ jobs:
         ls -lrt
         make
         ls -lrt
+		cd src
+        ls -lrt
         zip mindia_wasm_5_15_2.zip mindia.js mindia.wasm mindia.html qtlogo.svg qtloader.js
         ls -lrt
         unzip -v mindia_wasm_5_15_2.zip
@@ -166,6 +168,8 @@ jobs:
         qmake -v
         ../Qt/5.14.2/wasm_32/bin/qmake -v
         ../Qt/5.14.2/wasm_32/bin/qmake -r mindia.pro
+        ls -lrt
+		cd src
         ls -lrt
         make
         ls -lrt

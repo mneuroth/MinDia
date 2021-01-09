@@ -59,4 +59,5 @@ jobs:
         dir
         nmake
         dir
-        
+        dir src
+		
