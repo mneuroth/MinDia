@@ -21,7 +21,7 @@ or the [source code repository](https://github.com/mneuroth/MinDia)
 
 ### Supported platforms  
 This program is written in C++ with the Qt framework. It runs on GNU/Linux, 
-Mac OSX and Windows. 
+Mac OSX, Windows and WASM. The application runs even in a [browser via Webassembly](https://mneuroth.github.io/MinDiaWASM/).
 * Windows [![Build status](https://ci.appveyor.com/api/projects/status/s700taf5bv7dwt5f?svg=true)](https://ci.appveyor.com/project/mneuroth/MinDia)
 * MacOS and Linux [![Build Status](https://travis-ci.org/mneuroth/MinDia.svg?branch=master)](https://travis-ci.org/mneuroth/MinDia) 
 
