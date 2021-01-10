@@ -55,6 +55,12 @@
 #include <QString>
 #include <QStringList>
 
+//#ifdef Q_OS_WASM
+//#undef _WITH_QTHREAD
+//#else
+//#define _WITH_QTHREAD
+//#endif
+
 // *******************************************************************
 
 extern const string g_sLastFilesKey;
@@ -214,7 +220,7 @@ private:
 
 	// *** data ***
 	RolleiCom			m_aCom;					// the projector control
-#ifndef Q_OS_WASM
+#ifdef _WITH_QTHREAD
     miniSound			m_aSoundPlayer;			// to play the sound for the presentation
 #endif
     DiaPresentation		m_aPresentation;		// this is the document !

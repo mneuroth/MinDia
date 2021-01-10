@@ -15,6 +15,7 @@ linux || win32 || macos {
 else
 {
 }
+DEFINES += _WITH_QTHREAD
 #QT              -=network
 #QT              -=sql
 #QT              -=svg

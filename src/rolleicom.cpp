@@ -453,7 +453,7 @@ void RolleiCom::Start( const string & sComPort, int iBaudrate, int iParityMode, 
 	UpdateComPort();
 
 	// ** start handler for asynchonious communication to projector
-#ifndef Q_OS_WASM
+#ifdef _WITH_QTHREAD
 	m_pCmdProcessor = new minCmdProcessor( this );
 	m_pCmdProcessor->Start();
 #endif

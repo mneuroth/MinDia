@@ -89,7 +89,7 @@ DocumentAndControler::DocumentAndControler( bool bEnableScript,
   m_pOutputWindowProxy( pOutputWindowProxy )
 {
 	m_aPresentation.SetProjectorCom( &m_aCom );
-#ifndef Q_OS_WASM
+#ifdef _WITH_QTHREAD
     m_aPresentation.SetSoundPlayer( &m_aSoundPlayer );
 #endif
 
@@ -222,7 +222,7 @@ DiaPresentation & DocumentAndControler::GetPresentation()
 
 miniSound * DocumentAndControler::GetSoundInfoPtr()
 {
-#ifdef Q_OS_WASM
+#ifndef _WITH_QTHREAD
     return 0;
 #else
     return &m_aSoundPlayer;

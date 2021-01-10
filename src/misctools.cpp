@@ -130,7 +130,7 @@ void QImageCache::InitCacheInBackground( const QStringList & lstImageFileNames, 
     m_lstImageFileNames = lstImageFileNames;
     m_bStopThread = false;
     Clean();
-#ifndef Q_OS_WASM
+#ifdef _WITH_QTHREAD
     start();
 #else
     run();
@@ -575,7 +575,7 @@ void CopyImageAreaAsyncAndPostResult( QObject * pTarget, bool bIsPlaying, int iD
     if( g_pAsyncImageReaderThread==0 )
     {
         g_pAsyncImageReaderThread = new QAsyncImageReaderThread();
-#ifndef Q_OS_WASM
+#ifdef _WITH_QTHREAD
         g_pAsyncImageReaderThread->start();
 #else
         g_pAsyncImageReaderThread->run();
